@@ -24,3 +24,6 @@ an alteration in a gene that is present for the first time in one family member 
 4. affect splicing
 
 5. stop codon loss
+
+
+Haploinsufficiency is the phenomenon where a diploid organism has only a single functional copy of a gene (with the other copy inactivated by mutation) and the single functional copy of the gene does not produce enough gene product (typically a protein) to bring about a wild-type condition, leading to an abnormal or diseased state.
