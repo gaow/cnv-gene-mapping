@@ -13856,11 +13856,11 @@ $( document ).ready(function(){
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;data/refGene.txt.gz&quot;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> 
-                         <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> 
-                         <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
+                         <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> 
+                         <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;tx_name&quot;</span><span class="p">,</span> <span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
 
 <span class="n">gene_df</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">))</span>
-<span class="n">gene_df</span> <span class="o">=</span> <span class="n">gene_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;tx_start&quot;</span><span class="p">:</span> <span class="s2">&quot;gene_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">:</span> <span class="s2">&quot;gene_end&quot;</span><span class="p">})</span>
+<span class="c1">#gene_df = gene_df.rename(columns={&quot;tx_start&quot;: &quot;gene_start&quot;, &quot;tx_end&quot;: &quot;gene_end&quot;})</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">gene_df</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
 </pre></div>
 
@@ -13874,17 +13874,17 @@ $( document ).ready(function(){
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>    chrom  gene_start   gene_end     gene_name
-0    chr1       11873      14409       DDX11L1
-1    chr1       14361      29370        WASH7P
-2    chrX     2527305    2575270        CD99P1
-3    chrY     2477305    2506370        CD99P1
-4    chr5   180650262  180662808        TRIM41
-5   chr12    51236700   51281663      TMPRSS12
-6    chr1      134772     140566     LOC729737
-7    chr1      323891     328581  LOC100132287
-10   chr2    71680752   71913893          DYSF
-11  chr19    54573200   54584634         TARM1
+<pre>         tx_name  chrom   tx_start     tx_end     gene_name
+0      NR_046018   chr1      11873      14409       DDX11L1
+1      NR_024540   chr1      14361      29370        WASH7P
+2      NR_033380   chrX    2527305    2575270        CD99P1
+3      NR_033381   chrY    2477305    2506370        CD99P1
+4      NM_201627   chr5  180650262  180662808        TRIM41
+5      NM_182559  chr12   51236700   51281663      TMPRSS12
+6      NR_039983   chr1     134772     140566     LOC729737
+7      NR_028322   chr1     323891     328581  LOC100132287
+10  NM_001130980   chr2   71680752   71913893          DYSF
+11  NM_001135686  chr19   54573200   54584634         TARM1
 </pre>
 </div>
 </div>
@@ -13972,19 +13972,20 @@ $( document ).ready(function(){
 <span class="n">cnv_counts</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">cnvbed_df</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    SELECT cnv.chrom, cnv.cnv_start, cnv.cnv_end, gene.gene_name</span>
+<span class="s2">    SELECT cnv.chrom, cnv.cnv_start, cnv.cnv_end, gene.tx_name, gene.gene_name</span>
 <span class="s2">    FROM value cnv LEFT JOIN gene_df gene</span>
 <span class="s2">    WHERE cnv.chrom == gene.chrom </span>
 <span class="s2">    AND (</span>
-<span class="s2">    (cnv.cnv_start &gt;= gene.gene_start AND cnv.cnv_start &lt;= gene.gene_end)</span>
+<span class="s2">    (cnv.cnv_start &gt;= gene.tx_start AND cnv.cnv_start &lt;= gene.tx_end)</span>
 <span class="s2">    OR</span>
-<span class="s2">    (cnv.cnv_end &gt;= gene.gene_start AND cnv.cnv_end &lt;= gene.gene_end)</span>
+<span class="s2">    (cnv.cnv_end &gt;= gene.tx_start AND cnv.cnv_end &lt;= gene.tx_end)</span>
 <span class="s2">    OR</span>
-<span class="s2">    (cnv.cnv_start &lt;= gene.gene_start AND cnv.cnv_end &gt;= gene.gene_end)</span>
+<span class="s2">    (cnv.cnv_start &lt;= gene.tx_start AND cnv.cnv_end &gt;= gene.tx_end)</span>
 <span class="s2">    )</span>
 <span class="s2">    &quot;&quot;&quot;</span>
-    <span class="n">cnv_in_gene</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span>
-        <span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_start&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">))</span>
+    <span class="c1"># drop_duplicates(): make sure the case that CNV spread multiple transcripts </span>
+    <span class="c1"># but only one gene to be counted only once</span>
+    <span class="n">cnv_in_gene</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_start&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">))</span>
     <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    SELECT chrom, gene_name, count(gene_name), cnv_start, cnv_end</span>
 <span class="s2">    FROM value</span>
@@ -14027,17 +14028,17 @@ $( document ).ready(function(){
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   chrom  cnv_start   cnv_end  gene_name
-0   chr6    1795443   2004110       GMDS
-2   chr6    5190273   5339000  LYRM4-AS1
-3   chr6    5190273   5339000      LYRM4
-7   chr6    5190273   5339000      FARS2
-9   chr6    5192635   5339000  LYRM4-AS1
-10  chr6    5192635   5339000      LYRM4
-14  chr6    5192635   5339000      FARS2
-16  chr6   20862098  21032454     CDKAL1
-17  chr6   21995255  22107280     CASC15
-18  chr6   38010229  38176605     ZFAND3
+<pre>    chrom  cnv_start  cnv_end       tx_name     gene_name
+0   chr11     653463  1058258     NM_001004         RPLP2
+1   chr11     653463  1058258  NM_001025234        TSPAN4
+4   chr11     653463  1058258  NM_001039490         CD151
+5   chr11     653463  1058258  NM_001042463        TMEM80
+6   chr11     653463  1058258  NM_001142675         CHID1
+7   chr11     653463  1058258  NM_001191060      SLC25A22
+10  chr11     653463  1058258  NM_001286606       CRACR2B
+11  chr11     653463  1058258  NM_001293167         PANO1
+12  chr11     653463  1058258  NM_001318824         PDDC1
+13  chr11     653463  1058258  NM_001323425  LOC101927503
 </pre>
 </div>
 </div>
@@ -17168,19 +17169,6 @@ BRU1IiIiYhdU1IiIiIhdUFEjIiIidkFFjYiIiNiF/wecmnO72zDMLAAAAABJRU5ErkJggg==
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-</div>
-</div>
-</div>
-
 </div>
     </div>
   </div>
