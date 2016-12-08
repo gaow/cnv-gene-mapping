@@ -10,7 +10,7 @@ input:  'analysis/*.ipynb', group_by=1
 output: _input[0].replace('.ipynb', '.html').replace('analysis', 'website')
 
 run:
-	jupyter nbconvert --to html --output ${_output!a} ${_input!a} --template toc
+	jupyter nbconvert --to html --output ${_output!a} ${_input!a} --template toc2
 
 [convert_pipeline]
 input:  'analysis/*.sos', group_by=1
