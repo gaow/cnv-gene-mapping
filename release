@@ -7,39 +7,30 @@
 
 [convert_analysis]
 input:  'analysis/*.ipynb', group_by=1
-output: _input[0].replace('.ipynb', '.html').replace('analysis', 'website')
+output: _input[0].replace('.ipynb', '.html').replace('analysis', 'docs')
 
 run:
 	jupyter nbconvert --to html --output ${_output!a} ${_input!a} --template toc2
 
 [convert_pipeline]
 input:  'analysis/*.sos', group_by=1
-output: _input[0].replace('.sos', '.html').replace('analysis', 'website')
+output: _input[0].replace('.sos', '.html').replace('analysis', 'docs')
 
 run:
 	sos convert ${_input} ${_output} --raw ${_input!b}
 
 [publish]
 
-# prepare
-run: workdir='.'
-	git checkout master
-	# remove gh-pages branch if exists
-	if [ "`git branch --list gh-pages`" ]; then
-		git branch -D gh-pages
-	fi
-
 # convert ipynb to HTML
 sos_run('convert_analysis')
+if len(glob.glob('analysis/*.sos')) > 0:
+   sos_run('convert_pipeline')
 
 # push subtree to gh-pages
 run: workdir='.'
-	git add --all website/*
-	git commit . --no-verify -m 'Publish website'
+	git add --all docs/*
+	git commit docs/* --no-verify -m 'Publish website'
 	git push --no-verify
-	git subtree split --prefix website -b gh-pages
-	git push --no-verify -f origin gh-pages:gh-pages
-	git branch -D gh-pages
 
 [default]
 run:
