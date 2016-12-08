@@ -5,16 +5,16 @@
 #
 # 1. website to github.io
 
-[convert_documentation]
-input:  '*.ipynb', group_by=1
-output: os.path.join('../website', _input[0].replace('.ipynb', '.html'))
+[convert_analysis]
+input:  'analysis/*.ipynb', group_by=1
+output: _input[0].replace('.ipynb', '.html').replace('analysis', 'website')
 
 run:
 	jupyter nbconvert --to html --output ${_output!a} ${_input!a} --template toc2
 
 [convert_pipeline]
-input:  '*.sos', group_by=1
-output: os.path.join('../website', _input[0].replace('.sos', '.html'))
+input:  'analysis/*.sos', group_by=1
+output: _input[0].replace('.sos', '.html').replace('analysis', 'website')
 
 run:
 	sos convert ${_input} ${_output} --raw ${_input!b}
@@ -30,11 +30,10 @@ run: workdir='..'
 	fi
 
 # convert ipynb to HTML
-sos_run('convert_documentation')
-sos_run('convert_pipeline')
+sos_run('convert_analysis')
 
 # push subtree to gh-pages
-run: workdir='..'
+run: workdir='.'
 	git add --all website/*
 	git commit . --no-verify -m 'Publish website'
 	git push --no-verify
