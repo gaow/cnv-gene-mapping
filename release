@@ -42,4 +42,10 @@ run: workdir='.'
 	git branch -D gh-pages
 
 [default]
+run:
+	jt -t grade3 -T -N -f ptmono -nfs 12 -tfs 12 -tf droidsans -nf droidsans
+	
 sos_run('publish')
+
+run:
+	jt -r
