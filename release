@@ -22,7 +22,7 @@ run:
 [publish]
 
 # prepare
-run: workdir='..'
+run: workdir='.'
 	git checkout master
 	# remove gh-pages branch if exists
 	if [ "`git branch --list gh-pages`" ]; then
