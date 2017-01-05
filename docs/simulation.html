@@ -11751,8 +11751,8 @@ div#running .row.list_header {
 }
 div#cluster_list > div.list_item.row,
 div#cluster_list > div.list_item.row:hover {
- background: #f8f8f8;
- background-color: #f8f8f8;
+ background: #fafafa;
+ background-color: #fafafa;
 }
 div#clusters.tab-pane.active {
  font-size: 11.0pt;
@@ -11775,14 +11775,14 @@ div#clusters.tab-pane.active {
  color: #303030;
 }
 #running .panel-group .panel .panel-body .list_container .list_item {
- background: #f8f8f8;
- background-color: #f8f8f8;
+ background: #fafafa;
+ background-color: #fafafa;
  padding: 2px;
  border-bottom: 2px solid rgba(180,180,180,.30);
 }
 #running .panel-group .panel .panel-body .list_container .list_item:hover {
- background: #f8f8f8;
- background-color: #f8f8f8;
+ background: #fafafa;
+ background-color: #fafafa;
 }
 #running .panel-group .panel .panel-body {
  padding: 2px;
@@ -12010,9 +12010,15 @@ body > #header .header-bar {
 .navbar-default {
  background-color: #ffffff;
  margin-bottom: 0px;
+ margin-top: 5px;
 }
 .navbar {
  border: none;
+}
+div.navbar-text,
+.navbar-text {
+ margin-top: 6px !important;
+ margin-bottom: 0px;
 }
 .navbar-default {
  font-family: "Droid Sans", sans-serif;
@@ -12028,7 +12034,7 @@ body > #header .header-bar {
  color: #303030;
  display: block;
  line-height: 1.5em;
- padding-top: 8px;
+ padding-top: 9px;
  padding-bottom: 6px;
 }
 .navbar-default .navbar-nav > li > a:hover,
@@ -12047,9 +12053,20 @@ body > #header .header-bar {
  line-height: 1.5em;
 }
 .edit_mode .modal_indicator:before {
- font-size: 12pt;
+ font-size: 15pt;
  color: #2c85f7;
  content: "\f040";
+ padding-top: 5px;
+ padding-bottom: 0px;
+ vertical-align: bottom;
+}
+.command_mode .modal_indicator:before {
+ font-size: 17pt;
+ color: #2c85f7;
+ content: "\f1f9";
+ padding-top: 5px;
+ padding-bottom: 0px;
+ vertical-align: bottom;
 }
 .item_icon {
  color: #126dce;
@@ -12077,7 +12094,7 @@ body > #header .header-bar {
  color: #ff7823;
  background: #ffffff;
  background-color: #ffffff;
- font-size: 14.5pt;
+ font-size: 16pt;
  border-left: 2px solid #ff7823;
  padding-bottom: 2px;
 }
@@ -12085,9 +12102,23 @@ body > #header .header-bar {
  color: #ff7823;
  background: #ffffff;
  background-color: #ffffff;
- font-size: 14.5pt;
+ font-size: 16pt;
  padding-left: 5px;
  padding-right: 5px;
+ margin-top: 10px;
+ vertical-align: text-bottom;
+ padding-bottom: 0px;
+}
+#kernel_indicator .kernel_indicator_name {
+ color: #ff7823;
+ background: #ffffff;
+ background-color: #ffffff;
+ font-size: 15.5pt;
+ padding-left: 5px;
+ padding-right: 5px;
+ margin-top: 10px;
+ vertical-align: text-bottom;
+ padding-bottom: 0px;
 }
 div.notification_widget.info,
 .notification_widget.info,
@@ -12271,7 +12302,7 @@ div.kse-dropdown > .dropdown-menu,
  border-color: #e4e4e4;
  background-image: none;
  box-shadow: none !important;
- border-radius: 2px;
+ border-radius: 1px;
 }
 .item_buttons > .btn,
 .item_buttons > .btn-group,
@@ -12279,7 +12310,7 @@ div.kse-dropdown > .dropdown-menu,
  margin-left: 5px;
  background: #eeeeee;
  background-color: #eeeeee;
- border: 2px solid #eeeeee;
+ border: 1px solid #eeeeee;
 }
 .item_buttons > .btn:hover,
 .item_buttons > .btn-group:hover,
@@ -12287,7 +12318,7 @@ div.kse-dropdown > .dropdown-menu,
  margin-left: 5px;
  background: #e9e9e9;
  background-color: #e9e9e9;
- border: 2px solid #e9e9e9;
+ border: 1px solid #e9e9e9;
 }
 .btn-group > .btn-mini,
 .btn-sm,
@@ -12308,10 +12339,10 @@ div.kse-dropdown > .dropdown-menu,
  text-shadow: none;
  display: inline-table;
 }
-.alternate_upload .btn-upload {
- display: none;
+.btn-group > .btn:first-child {
+ margin-left: 3px;
 }
-.alternate_upload input.fileinput {
+.alternate_upload .btn-upload {
  display: none;
 }
 button.close {
@@ -12389,7 +12420,7 @@ fieldset[disabled] .btn-default.focus {
 .input-group-btn:first-child > .btn-group {
  background: #eeeeee;
  background-color: #eeeeee;
- border: 1px solid #e9e9e9;
+ border: 1px solid #ebebeb;
  margin: 2px;
  font-size: inherit;
 }
@@ -12404,7 +12435,7 @@ fieldset[disabled] .btn-default.focus {
 div.modal .btn-group > .btn:first-child {
  background: #eeeeee;
  background-color: #eeeeee;
- border: 1px solid #e9e9e9;
+ border: 1px solid #ebebeb;
  margin-top: 0px !important;
  margin-left: 0px;
  margin-bottom: 2px;
@@ -12461,7 +12492,7 @@ div.modal-footer > button:hover {
 .modal-footer {
  padding: 10px;
  text-align: right;
- background-color: #f8f8f8;
+ background-color: #fafafa;
  border-top: 1px solid rgba(180,180,180,.30);
 }
 .alert-info {
@@ -12475,8 +12506,8 @@ div.modal-footer > button:hover {
 }
 .modal-backdrop,
 .modal-backdrop.in {
- opacity: 0.75;
- background-color: #eeeeee;
+ opacity: 0.85;
+ background-color: #d6d6d6;
 }
 div.panel,
 div.panel-default,
@@ -12484,7 +12515,7 @@ div.panel-default,
 .panel-default {
  font-family: "Droid Sans", sans-serif;
  font-size: 11.0pt;
- background-color: #f8f8f8;
+ background-color: #fafafa;
  color: #303030;
  margin-bottom: 14px;
  border: 0;
@@ -12523,7 +12554,7 @@ div.form-control,
 }
 .form-group.list-group-item {
  color: #303030;
- background-color: #f8f8f8;
+ background-color: #fafafa;
  border-color: rgba(180,180,180,.30);
  margin-bottom: 0px;
 }
@@ -12533,7 +12564,7 @@ select,
 textarea {
  background-color: #ffffff;
  font-weight: normal;
- border: 2px solid rgba(180,180,180,.30);
+ border: 1px solid rgba(180,180,180,.30);
 }
 select.form-control.select-xs {
  height: auto;
@@ -12548,14 +12579,14 @@ div.output.output_scroll {
 }
 ::-webkit-scrollbar {
  width: 14px;
- height: 10px;
+ height: 20px;
  background-color: #d0d0d0;
  border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb {
  background-color: #ffffff;
  background-image: -webkit-gradient(linear,40% 0%,75% 86%,from(#ff6b0f ),color-stop(0.5,#ff8b42 ),to(#ff6b0f ));
- min-height: 60px;
+ min-height: 100px;
  border-radius: 2px;
 }
 div.input_area {
@@ -12833,7 +12864,7 @@ div.text_cell_render pre {
  color: #353535;
  background: #efefef;
  background-color: #efefef;
- border: 2px #e7e7e7  solid;
+ border: 2px #e7e7e7 solid;
  max-width: 86%;
  border-radius: 2px;
  padding: 5px;
@@ -13027,10 +13058,15 @@ a.anchor-link:link {
  visibility: none;
  color: #126dce;
 }
-div#nbextensions-configurator-container.container {
- width: 980px;
- margin-right: 0;
- margin-left: 0;
+.navbar-text {
+ margin-top: 4px;
+ margin-bottom: 0px;
+}
+div#nbextensions-configurator-container.container,
+#nbextensions-configurator-container.container {
+ width: 100%;
+ margin-right: auto;
+ margin-left: auto;
 }
 div.nbext-selector > nav > .nav > li > a {
  font-family: "Droid Sans", sans-serif;
@@ -13222,7 +13258,7 @@ video {
 body > div.modal.cmd-palette.typeahead-field {
  display: table;
  border-collapse: separate;
- background-color: #f8f8f8;
+ background-color: #fafafa;
 }
 .typeahead-container button {
  font-family: "Droid Sans", sans-serif;
@@ -13277,8 +13313,8 @@ body > div.modal.cmd-palette.typeahead-field {
 .typeahead-list > li > a:focus,
 .typeahead-list > li > a:hover {
  color: #2f2f2f;
- background-color: #f8f8f8;
- border-color: #f8f8f8;
+ background-color: #fafafa;
+ border-color: #fafafa;
 }
 .command-shortcut:before {
  content: "(command)";
@@ -13564,6 +13600,25 @@ div.cell.text_cell .cm-s-default span.cm-variable-3 {
 .cm-s-default .cm-selected {
  background: #e0e1e3;
 }
+.completions {
+ position: absolute;
+ z-index: 110;
+ overflow: hidden;
+ border: medium solid #ff7823;
+ line-height: 1;
+}
+.completions select {
+ background: #efefef;
+ outline: none;
+ border: none;
+ padding: 0px;
+ margin: 0px;
+ overflow: auto;
+ font-family: "PT Mono", monospace;
+ font-size: 11pt;
+ color: #303030;
+ width: auto;
+}
 div#maintoolbar {
  margin-left: 8px !important;
 }
@@ -13725,22 +13780,202 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Simulation-steps">Simulation steps<a class="anchor-link" href="#Simulation-steps">&#182;</a></h2><ol>
-<li>Sample risk genes: sample 1000 genes of 20Kbp</li>
-<li>Sample relative risk for risk genes: γi ~ Gamma(5,1)</li>
-<li>Assign relative risk for all CNVs</li>
-<li>Sample case-control data: χcnv(case)~Bin(CNV.count, RRcnv / (RRcnv+1))</li>
-</ol>
+<h1 id="Simulation-of-Exome-wide-CNV-data-for-case-control-samples">Simulation of Exome-wide CNV data for case control samples<a class="anchor-link" href="#Simulation-of-Exome-wide-CNV-data-for-case-control-samples">&#182;</a></h1><h2 id="Simulation-outline">Simulation outline<a class="anchor-link" href="#Simulation-outline">&#182;</a></h2><p>For given type of CNV (e.g. duplication) we first simulate all the variants across exome, 
+then assign these simulated CNVs to genes. For case samples we expect an enrichment in causal
+genes and the enrichment should be quantified by relative risk of a CNV's contribution to disease
+when presented in causal gene vs. non causal gene.</p>
+<h2 id="Parameters">Parameters<a class="anchor-link" href="#Parameters">&#182;</a></h2><p>We define causal CNV as CNV in causal gene, and denote it as CCNV. Likewise we have NCNV for non-causal CNV.</p>
+<table>
+<thead><tr>
+<th style="text-align:center">Parameter</th>
+<th style="text-align:center">Description</th>
+<th style="text-align:center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$\lambda$</td>
+<td style="text-align:center">Average number of CNV per exome</td>
+<td style="text-align:center">100 for dup, 20 for del (<em>FIXME: reference required</em>)</td>
+</tr>
+<tr>
+<td style="text-align:center">$p_L$</td>
+<td style="text-align:center">Parameter for Geometric distribution that models length of CNV</td>
+<td style="text-align:center">To be fitted from data</td>
+</tr>
+<tr>
+<td style="text-align:center">$\gamma$</td>
+<td style="text-align:center">Odds ratio of CCNV</td>
+<td style="text-align:center">To draw from distribution Gamma(5, 1)</td>
+</tr>
+<tr>
+<td style="text-align:center">$p_0$</td>
+<td style="text-align:center">Pr(case &#124; NCNV)</td>
+<td style="text-align:center">To be calculated below</td>
+</tr>
+<tr>
+<td style="text-align:center">$p_1$</td>
+<td style="text-align:center">Pr(case &#124; CCNV)</td>
+<td style="text-align:center">To be calculated from $p_0$ and $\gamma$</td>
+</tr>
+<tr>
+<td style="text-align:center">$N_0, N_1$</td>
+<td style="text-align:center">Case / Ctrl sample size</td>
+<td style="text-align:center">Various numbers</td>
+</tr>
+<tr>
+<td style="text-align:center">$q$</td>
+<td style="text-align:center">Proportion of causal gene</td>
+<td style="text-align:center">(<em>FIXME: reference required</em>)</td>
+</tr>
+<tr>
+<td style="text-align:center">$k$</td>
+<td style="text-align:center">The prevalence of diease</td>
+<td style="text-align:center">(<em>FIXME: reference required</em>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Simulation-steps">Simulation steps<a class="anchor-link" href="#Simulation-steps">&#182;</a></h2><p>The steps below simulates exome data for single individual case or control for one type of CNV. 
+The steps are to be repeated multiple times to simulate all samples and all types of CNV.</p>
+<h3 id="Step-1:-simulate-number-of-CNV-per-exome">Step 1: simulate number of CNV per exome<a class="anchor-link" href="#Step-1:-simulate-number-of-CNV-per-exome">&#182;</a></h3><p>Simply drawn from Pois($\lambda$)</p>
+<h3 id="Step-2:-get-the-length-of-each-of-these-CNV-simulated">Step 2: get the length of each of these CNV simulated<a class="anchor-link" href="#Step-2:-get-the-length-of-each-of-these-CNV-simulated">&#182;</a></h3><p>First, an empirical distribution of CNV is to be obtained from real data.</p>
+<p>Then the parameter for the geometric distribution is to be fitted from the empirical distribution.</p>
+<p>Finally for each CNV, draw the length of it from the geometric distribution thus obtained.</p>
+<h3 id="Step-3:-get-gene-label-for-each-CNV">Step 3: get gene label for each CNV<a class="anchor-link" href="#Step-3:-get-gene-label-for-each-CNV">&#182;</a></h3><p>First, put all genes into 2 groups: causal gene and non-causal gene. This can be random for starters, or be based on annotation from real data for refined simulations.</p>
+<p>Then for each CNV, calculate its probability that it belongs to causal / non-causal gene group given its sample disease status, ie.:</p>
+$$Pr(CCNV|\text{case}) = \frac{p_1 \times q}{k}$$$$Pr(NCNV|\text{case}) = 1 - Pr(CCNV|\text{case})$$<p>Given $k$ and $q$ it remains that $p_1$ is to be cauculated. By definition of $k$ and law of total probability:
+$$k=p_0 \times (1 - q) + p_1 \times q$$
+and by difiniation of odds ratio:
+$$\gamma = \frac{\frac{p_1}{1-p_1}}{\frac{p_0}{1-p_0}}$$</p>
+<p>Drawing $\gamma$ from a Gamma distribution and looking up $p_0$ from literature (or make it up) we can calculate $p_1 = f(\gamma, p_0)$. Then from the 2 equations above it is possible to solve for $p_0$ and calculate $p_1$. So we will obtain Pr(CCNV|case) and Pr(NCNV|case). For controls, Pr(CCNV|ctrl) = Pr(CCNV) = $q$ and Pr(NCNV|ctrl) = Pr(NCNV) = $1-q$.</p>
+<p>Finally we can use a Bernouli random number generator to determine if a CNV will fall into the causal gene group for given sample with known status. Once the group is determined, we will randomly assign the CNV to a gene in the group.</p>
+<h3 id="Step-4:-get-position-of-a-CNV">Step 4: get position of a CNV<a class="anchor-link" href="#Step-4:-get-position-of-a-CNV">&#182;</a></h3><p>For Step 2 we know the lenght of the CNV and Step 3 the gene the CNV belongs to. Now we should place the CNV in the genome such that it has reasonable overlap with this gene. The start position of the CNV should therefore lie in between $(T_s - L, T_e)$ where $T_s$ and $T_e$ are start and end positions of the gene and $L$ is the length of the CNV.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pandasql</span> <span class="k">import</span> <span class="n">sqldf</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;data/refGene.txt.gz&quot;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> 
+                         <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> 
+                         <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;tx_name&quot;</span><span class="p">,</span> <span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
+<span class="c1">#gene_df = ref_gene.drop_duplicates(subset=(&quot;chrom&quot;, &quot;tx_start&quot;, &quot;tx_end&quot;, &quot;gene_name&quot;))</span>
+<span class="n">gene_df</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">))</span>
+<span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">select chrom, gene_name, min(tx_start), max(tx_end)</span>
+<span class="s1">from gene_df</span>
+<span class="s1">group by chrom, gene_name</span>
+<span class="s1">&#39;&#39;&#39;</span>
+<span class="n">gene_table</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">gene_table</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>      chrom     gene_name  min(tx_start)  max(tx_end)
+0      chr1       A3GALT2       33772366     33786699
+1      chr1       AADACL3       12776117     12788726
+2      chr1       AADACL4       12704565     12727097
+3      chr1         ABCA4       94458393     94586705
+4      chr1        ABCB10      229652328    229694442
+5      chr1         ABCD3       94883932     94984219
+6      chr1          ABL2      179068461    179198819
+7      chr1         ACADM       76190031     76229363
+8      chr1         ACAP3        1227763      1243269
+9      chr1         ACBD3      226332379    226374423
+10     chr1         ACBD6      180257351    180472022
+11     chr1         ACKR1      159173802    159176290
+12     chr1        ACOT11       55013806     55100417
+13     chr1         ACOT7        6324331      6453826
+14     chr1          ACP6      147119167    147142665
+15     chr1         ACTA1      229566992    229569843
+16     chr1      ACTG1P20       27650364     27653016
+17     chr1       ACTG1P4      104112025    104114008
+18     chr1         ACTL8       18081807     18153558
+19     chr1         ACTN2      236849753    236927927
+20     chr1        ACTRT2        2938045      2939467
+21     chr1        ADAM15      155023747    155035252
+22     chr1        ADAM30      120436155    120439147
+23     chr1       ADAMTS4      161159518    161168843
+24     chr1      ADAMTSL4      150521844    150533412
+25     chr1  ADAMTSL4-AS1      150533370    150547028
+26     chr1          ADAR      154554533    154600456
+27     chr1        ADCY10      167778624    167883464
+28     chr1        ADGRB2       32192705     32229664
+29     chr1        ADGRL2       82165454     82458422
+...     ...           ...            ...          ...
+28363  chrY        TTTY16        7567397      7569288
+28364  chrY       TTTY17A       26631478     27330920
+28365  chrY       TTTY17B       24997730     24998862
+28366  chrY        TTTY18        8551410      8551919
+28367  chrY        TTTY19        8572512      8573324
+28368  chrY         TTTY2        6274284      9596085
+28369  chrY        TTTY20        9167488      9172441
+28370  chrY        TTTY21        6311474      9558905
+28371  chrY        TTTY22        9638761      9650854
+28372  chrY        TTTY23        6110486      9749571
+28373  chrY        TTTY3B       26082873     27879535
+28374  chrY        TTTY4C       25082601     27246039
+28375  chrY         TTTY5       24442944     24445023
+28376  chrY         TTTY6       24291111     24587606
+28377  chrY        TTTY6B       24291133     24587584
+28378  chrY         TTTY7        6317508      9552871
+28379  chrY         TTTY8        6339071      9531308
+28380  chrY        TTTY9B       20743091     20901083
+28381  chrY        TXLNGY       21729243     21769056
+28382  chrY         USP9Y       14813159     14972768
+28383  chrY           UTY       15360258     15592550
+28384  chrY         VAMP7       59213948     59276439
+28385  chrY           VCY       16097651     16168838
+28386  chrY         VCY1B       16097651     16168838
+28387  chrY        WASIR1       59347234     59349501
+28388  chrY          XGY2        2620336      2643037
+28389  chrY          XKRY       19880859     20298915
+28390  chrY         ZBED1        2354454      2369008
+28391  chrY           ZFY        2803111      2850547
+28392  chrY       ZFY-AS1        2834859      2870667
+
+[28393 rows x 4 columns]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> 
+<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
 </div>
