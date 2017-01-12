@@ -13801,13 +13801,18 @@ $$\gamma = \frac{\frac{p_1}{1-p_1}}{\frac{p_0}{1-p_0}}$$</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pandasql</span> <span class="k">import</span> <span class="n">sqldf</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
 
 </div>
@@ -13918,49 +13923,37 @@ $$\gamma = \frac{\frac{p_1}{1-p_1}}{\frac{p_0}{1-p_0}}$$</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># literature needs to be added</span>
-<span class="n">n1</span> <span class="o">=</span> <span class="mi">20</span> <span class="c1"># to be obtained from literature</span>
-<span class="n">n2</span> <span class="o">=</span> <span class="mi">100</span> <span class="c1"># to be obtained from literature</span>
-<span class="n">p1</span> <span class="o">=</span> <span class="mf">0.0001</span> <span class="c1"># to be obtained from real data</span>
-<span class="n">p2</span> <span class="o">=</span> <span class="mf">0.00005</span>  <span class="c1"># to be obtained from real data</span>
-<span class="n">n_delcase</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="n">n_delctrl</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="n">n_dupcase</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="n">n_dupctrl</span> <span class="o">=</span> <span class="mi">1000</span>
-
-<span class="k">def</span> <span class="nf">delCNV</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">p1</span><span class="p">):</span>
-    <span class="n">n_del</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">n1</span><span class="p">)</span>
-    <span class="n">len_delcnv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">geometric</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">p1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_del</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">len_delcnv</span>
-
-<span class="k">def</span> <span class="nf">dupCNV</span><span class="p">(</span><span class="n">n2</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
-    <span class="n">n_dup</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>
-    <span class="n">len_dupcnv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">geometric</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">p2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_dup</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">len_dupcnv</span>
-
-<span class="k">def</span> <span class="nf">genegroup</span><span class="p">(</span><span class="n">gene</span><span class="p">,</span> <span class="p">):</span>
-    <span class="n">causal</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">noncausal</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">set</span><span class="p">((</span><span class="s2">&quot;causal&quot;</span><span class="p">,</span> <span class="s2">&quot;noncausal&quot;</span><span class="p">)),</span> <span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;data/ISC-r1.CNV.bed&quot;</span>
+<span class="n">cnvbed</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;chr&quot;</span><span class="p">):</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;name=&quot;</span><span class="p">)</span>
+        <span class="n">cnvbed</span><span class="p">[</span><span class="n">dataset</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">continue</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">cnvbed</span><span class="p">[</span><span class="n">dataset</span><span class="p">]:</span>
+        <span class="n">cnvbed</span><span class="p">[</span><span class="n">dataset</span><span class="p">][</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">cnvbed</span><span class="p">[</span><span class="n">dataset</span><span class="p">][</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">])))</span>
     
-</pre></div>
+<span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">cnvbed</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">chrom</span> <span class="ow">in</span> <span class="n">cnvbed</span><span class="p">[</span><span class="n">dataset</span><span class="p">]:</span>
+        <span class="n">cnvbed</span><span class="p">[</span><span class="n">dataset</span><span class="p">][</span><span class="n">chrom</span><span class="p">]</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
 
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[60]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n1</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">a</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">geometric</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">p2</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_del</span><span class="p">)</span>
-<span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">set</span><span class="p">((</span><span class="s2">&quot;causal&quot;</span><span class="p">,</span> <span class="s2">&quot;noncansal&quot;</span><span class="p">)),</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">cnvbed_df</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">cnvbed</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">cnvbed_df</span><span class="p">[</span><span class="n">dataset</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;chrom&quot;</span><span class="p">:[],</span> <span class="s2">&quot;cnv_start&quot;</span><span class="p">:[],</span> <span class="s2">&quot;cnv_end&quot;</span><span class="p">:[]}</span>
+    <span class="k">for</span> <span class="n">chrom</span> <span class="ow">in</span> <span class="n">cnvbed</span><span class="p">[</span><span class="n">dataset</span><span class="p">]:</span>
+        <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">cnvbed</span><span class="p">[</span><span class="n">dataset</span><span class="p">][</span><span class="n">chrom</span><span class="p">]))</span> 
+        <span class="n">cnvbed_df</span><span class="p">[</span><span class="n">dataset</span><span class="p">][</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">chrom</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">start</span><span class="p">))</span>
+        <span class="n">cnvbed_df</span><span class="p">[</span><span class="n">dataset</span><span class="p">][</span><span class="s2">&quot;cnv_start&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+        <span class="n">cnvbed_df</span><span class="p">[</span><span class="n">dataset</span><span class="p">][</span><span class="s2">&quot;cnv_end&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
+    <span class="n">cnvbed_df</span><span class="p">[</span><span class="n">dataset</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">cnvbed_df</span><span class="p">[</span><span class="n">dataset</span><span class="p">])</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span>
+                                            <span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_start&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_end&quot;</span><span class="p">))</span>
+<span class="c1">#print (cnvbed_df)</span>
 </pre></div>
 
 </div>
@@ -13971,11 +13964,797 @@ $$\gamma = \frac{\frac{p_1}{1-p_1}}{\frac{p_0}{1-p_0}}$$</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[60]:</div>
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>{&#39;dupControls&#39;:       chrom    cnv_end  cnv_start
+0     chr15   18466954   18276341
+1     chr15   20852215   20686315
+2     chr15   22385580   22276386
+3     chr15   22731138   22452625
+4     chr15   24306175   23401208
+5     chr15   26196280   25683151
+6     chr15   26500068   26161489
+7     chr15   27807930   27654134
+8     chr15   28386993   28278679
+9     chr15   28875255   28310387
+10    chr15   28837372   28402011
+11    chr15   30298848   28654463
+12    chr15   28875770   28675248
+13    chr15   28875770   28700879
+17    chr15   28875770   28707916
+18    chr15   29013705   28707916
+19    chr15   28875255   28707999
+20    chr15   30231489   29727846
+21    chr15   30231489   29786937
+22    chr15   30231489   29796277
+25    chr15   30298848   29796277
+26    chr15   30337473   29796277
+27    chr15   30491746   29796277
+28    chr15   30231489   29798781
+34    chr15   30231489   29801634
+37    chr15   30231489   29806023
+38    chr15   30314149   29806023
+39    chr15   30491746   29806023
+40    chr15   30466988   29860007
+41    chr15   30259229   30156089
+...     ...        ...        ...
+1840   chr6  102154146  101187148
+1841   chr6  107653353  107515812
+1842   chr6  111751218  111373478
+1843   chr6  114662385  114560891
+1844   chr6  116636386  115918822
+1845   chr6  117437722  117088658
+1846   chr6  119006718  118808582
+1847   chr6  119146176  118949014
+1848   chr6  119139803  118959772
+1849   chr6  125612738  124643111
+1850   chr6  132476846  132002535
+1851   chr6  136092899  135884671
+1852   chr6  141104764  141002052
+1853   chr6  141110925  141009985
+1854   chr6  149009608  148637551
+1855   chr6  161532679  161324615
+1857   chr6  161784719  161662697
+1858   chr6  162812889  162621388
+1859   chr6  162884689  162692185
+1861   chr6  162876751  162692218
+1862   chr6  162884689  162692218
+1864   chr6  163027196  162692218
+1865   chr6  162884689  162695115
+1866   chr6  162882926  162697721
+1867   chr6  162884689  162697721
+1868   chr6  163010453  162819340
+1869   chr6  167735663  167583674
+1870   chr6  168735739  168096294
+1871   chr6  170029516  169796138
+1872   chr6  170968638  170741852
+
+[1577 rows x 3 columns], &#39;delCases&#39;:       chrom    cnv_end  cnv_start
+0      chr8     624074     519791
+1      chr8    2374302    2059448
+2      chr8    4293237    3691292
+3      chr8    4064167    3945357
+4      chr8    4299811    4121980
+5      chr8    4424231    4298186
+6      chr8    5771640    5419859
+7      chr8    6653153    6535379
+8      chr8    6949822    6810044
+9      chr8    7242521    6973306
+10     chr8    7322484    7017400
+11     chr8    7225430    7027263
+12     chr8    7254776    7141477
+13     chr8    8010057    7836168
+14     chr8   10248859    8129730
+15     chr8    8487829    8355227
+17     chr8   13829803   13684044
+18     chr8   15368931   15247840
+19     chr8   16104298   15969572
+20     chr8   16541246   16411806
+21     chr8   16570504   16460780
+23     chr8   16570504   16462611
+24     chr8   43905866   43561230
+25     chr8   43881578   43695459
+26     chr8   48467743   47261663
+27     chr8   48633599   48481876
+28     chr8   50716940   50568879
+29     chr8   50714538   50570760
+30     chr8   86870619   86708302
+31     chr8   88160316   87992412
+...     ...        ...        ...
+1343  chr13   41475823   41304401
+1344  chr13   47030736   46926146
+1345  chr13   54367889   54041427
+1346  chr13   54369058   54041427
+1347  chr13   54807632   54409565
+1348  chr13   54876242   54766214
+1349  chr13   54949741   54813141
+1351  chr13   55156193   55048955
+1352  chr13   59578376   59326045
+1353  chr13   60718664   59919770
+1354  chr13   63331311   63021922
+1355  chr13   63271230   63160271
+1356  chr13   63271230   63162066
+1357  chr13   63275962   63162066
+1358  chr13   63271230   63169527
+1359  chr13   63835484   63317074
+1360  chr13   63532990   63420162
+1361  chr13   65384431   65262258
+1362  chr13   70147400   69492797
+1363  chr13   71956693   71724275
+1364  chr13   83537059   83375462
+1365  chr13   83574804   83438859
+1366  chr13   83576919   83450892
+1367  chr13   89682273   89223966
+1368  chr13   93183812   93050618
+1369  chr13   95396113   95263753
+1370  chr13   95980588   95818706
+1371  chr13  103054162  102927174
+1372  chr13  113366491  113051168
+1373  chr13  113654850  113525792
+
+[1161 rows x 3 columns], &#39;delControls&#39;:       chrom    cnv_end  cnv_start
+0      chr8     198835      21254
+1      chr8     360238     148062
+2      chr8    5619787    5487493
+3      chr8    5733421    5553924
+4      chr8    7242521    7141477
+5      chr8    7973266    7847301
+6      chr8   13828233   13684765
+7      chr8   16567301   16463608
+8      chr8   16843048   16577305
+9      chr8   19936462   19816422
+10     chr8   23095815   22993167
+11     chr8   58220210   57887858
+12     chr8   58142982   58030428
+13     chr8   58482396   58211265
+14     chr8   63019492   62893756
+15     chr8   83654524   83148893
+16     chr8   83661441   83480032
+17     chr8  112787975  111199370
+18     chr8  112088827  111847449
+19     chr8  112619792  112513333
+21     chr8  125079088  124964709
+22     chr8  125081482  124964990
+23     chr8  135861756  135606356
+24     chr8  143673205  143504191
+25     chr7     211150      71798
+26     chr7    2870353    2692019
+27     chr7    3406259    3253742
+28     chr7    3444561    3266831
+29     chr7    4308039    4128311
+30     chr7    4381488    4268035
+...     ...        ...        ...
+1240  chr13   25356480   25217611
+1241  chr13   41471832   41304469
+1242  chr13   46380662   46194218
+1243  chr13   54261419   53917368
+1244  chr13   54838170   54731729
+1245  chr13   59557797   59344334
+1246  chr13   63271230   63140922
+1247  chr13   63271230   63148444
+1248  chr13   63275962   63152827
+1249  chr13   63271230   63152857
+1250  chr13   63271230   63160271
+1253  chr13   63271230   63169527
+1254  chr13   63835484   63317192
+1255  chr13   63832161   63317620
+1256  chr13   63835484   63322140
+1257  chr13   67702814   67213108
+1258  chr13   71957013   71723150
+1259  chr13   80998046   80807408
+1262  chr13   80998046   80808915
+1263  chr13   80998046   80866100
+1264  chr13   83575253   83438620
+1265  chr13   83574804   83438859
+1266  chr13   83581981   83479121
+1267  chr13   84240572   83957601
+1268  chr13   86095683   85966964
+1269  chr13   86182086   85966964
+1270  chr13   86510245   86259257
+1271  chr13   88163839   88018410
+1272  chr13   89682273   89223966
+1276  chr13   91099863   90860332
+
+[1049 rows x 3 columns], &#39;dupCases&#39;:       chrom    cnv_end  cnv_start
+0      chr8     295236     180568
+1      chr8     320847     180568
+2      chr8     482951     190451
+3      chr8     320847     204809
+4      chr8    2600208    2189117
+5      chr8    2570606    2309171
+6      chr8    2570606    2318174
+9      chr8    2569887    2326916
+15     chr8    2578047    2326916
+17     chr8    2570080    2327058
+18     chr8    2570606    2327058
+22     chr8    2570606    2334910
+23     chr8    2569887    2334924
+24     chr8    2578047    2335314
+25     chr8    2569887    2374301
+26     chr8    2569887    2398830
+27     chr8    2554591    2412304
+28     chr8    3032638    2780953
+29     chr8    6290920    6115399
+31     chr8    7157885    6638788
+32     chr8    8183342    7814540
+33     chr8    8011034    7864332
+34     chr8    8625000    8448555
+35     chr8   11944820   10415815
+36     chr8   10842426   10629211
+37     chr8   11923320   11676287
+38     chr8   12035475   11676287
+39     chr8   12242626   11704905
+40     chr8   13639603   13452357
+41     chr8   13664796   13543770
+...     ...        ...        ...
+2198  chr13   32285710   32151146
+2199  chr13   41441548   40996032
+2200  chr13   42617773   42393686
+2201  chr13   54573938   54455952
+2202  chr13   56479873   56060553
+2203  chr13   56441208   56080643
+2204  chr13   56833950   56664712
+2205  chr13   56786969   56671720
+2206  chr13   57969175   57853173
+2207  chr13   61897825   61409136
+2208  chr13   62389356   62202882
+2209  chr13   63303324   63199605
+2210  chr13   64255513   63199605
+2211  chr13   64471467   64288974
+2212  chr13   66939868   66778315
+2213  chr13   69614622   69480009
+2214  chr13   73065497   72837382
+2215  chr13   78938399   78671282
+2216  chr13   81504616   81140713
+2217  chr13   82982849   82849602
+2218  chr13   83801717   83597146
+2219  chr13   86680013   86534961
+2220  chr13   96256699   95702829
+2221  chr13  105786966  105514596
+2222  chr13  112582837  112123690
+2223  chr13  112904310  112541419
+2224  chr13  113654850  113543086
+2225  chr13  113878424  113767110
+2226  chr13  114072663  113899022
+2227  chr13  114072663  113941987
+
+[1936 rows x 3 columns]}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cnv_length</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">cnvbed_df</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    SELECT cnv_end-cnv_start</span>
+<span class="s2">    FROM value</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">cnv_length</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    <span class="n">cnv_length</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">cnv_length</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;cnv_end-cnv_start&quot;</span><span class="p">:</span> <span class="s2">&quot;cnv_length&quot;</span><span class="p">})</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="n">cnv_length</span><span class="p">[</span><span class="s2">&quot;delControls&quot;</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">cnv_length</span><span class="p">[</span><span class="s2">&quot;delControls&quot;</span><span class="p">]))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">cnv_length</span><span class="p">[</span><span class="s2">&quot;delControls&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">800</span><span class="p">])</span>
+<span class="c1">#plt.plot(cnv_length[&quot;delControls&quot;])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>      cnv_length
+0         177581
+1         212176
+2         132294
+3         179497
+4         101044
+5         125965
+6         143468
+7         103693
+8         265743
+9         120040
+10        102648
+11        332352
+12        112554
+13        271131
+14        125736
+15        505631
+16        181409
+17       1588605
+18        241378
+19        106459
+20        114379
+21        116492
+22        255400
+23        169014
+24        139352
+25        178334
+26        152517
+27        177730
+28        179728
+29        113453
+...          ...
+1019      138869
+1020      167363
+1021      186444
+1022      344051
+1023      106441
+1024      213463
+1025      130308
+1026      122786
+1027      123135
+1028      118373
+1029      110959
+1030      101703
+1031      518292
+1032      514541
+1033      513344
+1034      489706
+1035      233863
+1036      190638
+1037      189131
+1038      131946
+1039      136633
+1040      135945
+1041      102860
+1042      282971
+1043      128719
+1044      215122
+1045      250988
+1046      145429
+1047      458307
+1048      239531
+
+[1049 rows x 1 columns]
+cnv_length    7731161
+dtype: int64
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[77]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&#39;causal&#39;]</pre>
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f6e5af4bf28&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+gg==
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n1</span> <span class="o">=</span> <span class="mi">20</span> <span class="c1"># to be obtained from literature</span>
+<span class="n">n2</span> <span class="o">=</span> <span class="mi">100</span> <span class="c1"># to be obtained from literature</span>
+<span class="n">p_del</span> <span class="o">=</span> <span class="mf">0.00006</span> <span class="c1"># to be obtained from real data</span>
+<span class="n">p_dup</span> <span class="o">=</span> <span class="mf">0.00004</span> <span class="c1"># to be obtained from real data</span>
+<span class="n">n_delcase</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">n_delctrl</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">n_dupcase</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">n_dupctrl</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">n_del</span> <span class="o">=</span> <span class="n">n_delcase</span><span class="o">+</span><span class="n">n_delctrl</span>
+<span class="n">n_dup</span> <span class="o">=</span> <span class="n">n_dupcase</span><span class="o">+</span><span class="n">n_dupctrl</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mf">0.001</span> <span class="c1"># prevalence of the disease</span>
+<span class="n">q</span> <span class="o">=</span> <span class="mf">0.002</span> <span class="c1"># q: Proportion of causal gene</span>
+<span class="n">shape</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">delCNV</span><span class="p">(</span><span class="n">n1</span><span class="p">):</span>
+    <span class="n">n_del</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">n1</span><span class="p">)</span>
+    <span class="n">len_delcnv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">geometric</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">p_del</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_del</span><span class="p">)</span><span class="o">+</span><span class="mi">10000</span>
+    <span class="k">return</span> <span class="n">len_delcnv</span>
+
+<span class="k">def</span> <span class="nf">dupCNV</span><span class="p">(</span><span class="n">n2</span><span class="p">):</span>
+    <span class="n">n_dup</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">n2</span><span class="p">)</span>
+    <span class="n">len_dupcnv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">geometric</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">p_dup</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_dup</span><span class="p">)</span><span class="o">+</span><span class="mi">10000</span>
+    <span class="k">return</span> <span class="n">len_dupcnv</span>
+
+<span class="k">def</span> <span class="nf">genegroup</span><span class="p">(</span><span class="n">genelist</span><span class="p">):</span>
+    <span class="n">cslgene</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">genelist</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">q</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">genelist</span><span class="p">)))</span>
+    <span class="n">noncslgene</span> <span class="o">=</span> <span class="n">genelist</span> <span class="o">-</span> <span class="n">cslgene</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">cslgene</span><span class="p">,</span> <span class="n">noncslgene</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">calp</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">k</span><span class="p">):</span>
+    <span class="c1"># p1: Pr(case | CCNV), p0: Pr(case | NCNV)</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">q</span><span class="o">*</span><span class="n">rv</span><span class="o">-</span><span class="n">q</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">k</span><span class="o">-</span><span class="n">k</span><span class="o">*</span><span class="n">rv</span><span class="o">-</span><span class="n">q</span><span class="o">*</span><span class="n">rv</span><span class="o">+</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">k</span><span class="o">*</span><span class="n">rv</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span><span class="o">+</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">c</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span><span class="o">*</span><span class="n">a</span>
+    <span class="n">p_ccnv_case</span> <span class="o">=</span> <span class="n">p1</span><span class="o">*</span><span class="n">q</span><span class="o">/</span><span class="n">k</span>
+    <span class="n">p_ncnv_case</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">p_ccnv_case</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">p_ccnv_case</span><span class="p">,</span> <span class="n">p_ncnv_case</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[109]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n1</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="c1">#a=np.random.geometric(p=p2, size=n_delcase)+10000</span>
+<span class="c1">#print (a)</span>
+<span class="c1">#random.sample(set((&quot;causal&quot;, &quot;noncansal&quot;)), 1)</span>
+<span class="n">shape</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">n</span><span class="o">=</span><span class="mi">100</span>
+<span class="n">rv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">rv</span><span class="p">)</span>
+<span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">4.2</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>4.6291596905291135
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[109]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2.04939015319192</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[85]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">int</span><span class="p">(</span><span class="mf">28.664</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[85]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>28</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">cnvg</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="mf">0.001</span> <span class="c1"># prevalence of the disease</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="mf">0.002</span> <span class="c1"># q: Proportion of causal gene</span>
+    <span class="c1"># p1: Pr(case | CCNV), p0: Pr(case | NCNV)</span>
+    <span class="c1">#p_ccnv_case = p1*q/k</span>
+    <span class="c1">#p_ncnv_case = 1 - p_ccnv_case</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">r</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">*</span><span class="n">r</span><span class="o">-</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">k</span><span class="o">-</span><span class="n">k</span><span class="o">*</span><span class="n">r</span><span class="o">-</span><span class="n">q</span><span class="o">*</span><span class="n">r</span><span class="o">+</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">k</span><span class="o">*</span><span class="n">r</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span><span class="o">+</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">c</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span><span class="o">*</span><span class="n">a</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+<span class="n">cnvg</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>6.612728041719316
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.01141365284394943</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="mf">0.001</span> <span class="c1"># prevalence of the disease</span>
+<span class="n">q</span> <span class="o">=</span> <span class="mf">0.002</span> <span class="c1"># q: Proportion of causal gene</span>
+<span class="n">r</span><span class="o">=</span><span class="mf">1.6</span>
+<span class="n">a</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">q</span><span class="o">*</span><span class="n">r</span><span class="o">-</span><span class="n">q</span><span class="p">)</span>
+<span class="n">a</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[5]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.0012000000000000001</pre>
 </div>
 
 </div>
