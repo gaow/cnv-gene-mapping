@@ -1,42 +1,55 @@
 #!/usr/bin/env sos-runner
 #fileformat=SOS1.0
 
-# This script releases notebooks and pipelines:
-#
-# 1. website to github.io
+parameter: web_url = 'http://gaow.github.io/cnv-gene-mapping'
 
-[convert_analysis]
-input:  'analysis/*.ipynb', group_by=1
-output: _input[0].replace('.ipynb', '.html').replace('analysis/', 'docs/')
-
+[getFileNames]
 run:
-	jupyter nbconvert --to html --output ${_output!a} ${_input!a} --template toc2
+	python docs/js/findnames.py
 
-[convert_pipeline]
-input:  'analysis/*.sos', group_by=1
-output: _input[0].replace('.sos', '.html').replace('analysis/', 'docs/')
+[convert-documentation]
+input:  './analysis/*.ipynb', group_by=1
+depends: './analysis/toc_doc.tpl'
+output: _input[0].replace('/analysis/', '/docs/doc/documentation/').replace('.ipynb', '.html')
 
-run:
-	sos convert ${_input} ${_output} --raw ${_input!b}
+run:	
+	cd analysis
+	sos convert ${_input!a} ${_output!a} --template toc_doc
+  perl -0777 -pi -e 'BEGIN{undef $/;}  s/<style type=\"text\/css\">(.+?)<\/style>//smg' ${_output!a}
 
-[publish]
+[convert-writeup]
+input:  './writeup/*.ipynb', group_by=1
+depends: './writeup/toc_wrt.tpl'
+output: _input[0].replace('/writeup/', '/docs/doc/writeup/').replace('.ipynb', '.html')
+
+run: 
+	cd writeup
+	sos convert ${_input!a} ${_output!a}  --template toc_wrt
+  perl -0777 -pi -e 'BEGIN{undef $/;}  s/<style type=\"text\/css\">(.+?)<\/style>//smg' ${_output!a}
+
+[convert-homepage]
+input:  './*.ipynb', group_by=1
+depends: './writeup/homepage.tpl'
+output: "./docs/${_input!bn}.html"
+
+run: 
+	sos convert ${_input!a} ${_output!a} --template writeup/homepage.tpl
+
+[update-website]
 
 # convert ipynb to HTML
-sos_run('convert_analysis')
-if len(glob.glob('analysis/*.sos')) > 0:
-   sos_run('convert_pipeline')
+sos_run('getFileNames')
+sos_run('convert-documentation')
+sos_run('convert-writeup')
+sos_run('convert-homepage')
 
-# push subtree to gh-pages
-run: workdir='.'
-	git add --all docs/*
-	git commit docs/* --no-verify -m 'Publish website'
+# push changes to website
+parameter: msg = "Update website"
+
+run: workdir='..'
+	git add --all docs/doc/* docs/*.html
+	git commit docs/*.html docs/doc/* --no-verify -m '${msg}'
 	git push --no-verify
 
 [default]
-run:
-	jt -t grade3 -T -N -f ptmono -nfs 12 -tfs 12 -tf droidsans -nf droidsans
-	
-sos_run('publish')
-
-run:
-	jt -r
+sos_run('update-website')

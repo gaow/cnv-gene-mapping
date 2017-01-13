@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8" />
+<title>Toy_from_saasCNV</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+
+
+
+
+
+<!-- Custom stylesheet, it must be in the same directory as the html file -->
+<link rel="stylesheet" href="custom.css">
+
+<!-- Loading mathjax macro -->
+<!-- Load mathjax -->
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- MathJax configuration -->
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        // Center justify equations in code and markdown cells. Elsewhere
+        // we use CSS to left justify single line equations in code cells.
+        displayAlign: 'center',
+        "HTML-CSS": {
+            styles: {'.MathJax_Display': {"margin": 0}},
+            linebreaks: { automatic: true }
+        }
+    });
+    </script>
+    <!-- End of mathjax configuration --></head>
+
+ <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+<style>  /* defined here in case the main.css below cannot be loaded */
+.lev1 {margin-left: 80px}
+.lev2 {margin-left: 100px}
+.lev3 {margin-left: 120px}
+.lev4 {margin-left: 140px}
+.lev5 {margin-left: 160px}
+.lev6 {margin-left: 180px}
+</style>
+
+<link rel="stylesheet" type="text/css" href="../../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../../css/toc2.css">
+
+<script src="../../js/toc2.js"></script>
+<script src="../../js/docs.js"></script>
+
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["STIX","TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+$( document ).ready(function(){
+
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false, 
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+
+            // fire the main function with these parameters
+
+
+            table_of_contents(cfg,st);
+
+            var file=documentationDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=documentation;
+            var pos=documentation.indexOf(file);
+        
+            for (var a=pos;a>=0;a--){
+                  var name=docs[a]
+                  $('<li><a href="'+name+'.html">'+name.replace(/_/g," ")+'</a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+
+
+            $('<li id="indexHome"><a href="../../documentation.html"><b>Documentation Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            for (var a=pos+1;a<docs.length;a++){
+                  var name=docs[a]
+                  $(".toc #toc-level0").append('<li><a href="'+name+'.html">'+name.replace(/_/g," ")+'</a></li>');
+            }
+            $("#toc-header").hide();
+
+    });
+</script>
+<body>
+  <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The figures are generated using R package saasCNV <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4652904/">source of SAAS-CNV</a> and dataset <a href="https://zhangz05.u.hpc.mssm.edu/saasCNV/data/">source of dataset</a>.</p>
+<p><code>analysis/vcfdata.R</code> [R code]
+(<a href="https://github.com/gaow/cnv-gene-mapping/blob/da154eeee7cae1f5194d28b4019d3b6402fd1cd6/analysis/vcfdata.R">https://github.com/gaow/cnv-gene-mapping/blob/da154eeee7cae1f5194d28b4019d3b6402fd1cd6/analysis/vcfdata.R</a>)</p>
+<h2 id="Result">Result<a class="anchor-link" href="#Result">&#182;</a></h2><h3 id="Figure-1">Figure 1<a class="anchor-link" href="#Figure-1">&#182;</a></h3><p>Visualize genome-wide SCNA Profile in 2D cluster plot, log2mBAF vs log2ratio.</p>
+<table>
+<thead><tr>
+<th style="text-align:center">Term</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">log2mBAF</td>
+<td>log2(mBAF of tumor / mBAF of normal)</td>
+</tr>
+<tr>
+<td style="text-align:center">mBAF</td>
+<td>BAF if BAF&gt;=0.5, and = 1-BAF otherwise, or  = \</td>
+<td>BAF − 0.5\</td>
+<td>+0.5</td>
+</tr>
+<tr>
+<td style="text-align:center">log2ratio</td>
+<td>log2(total RD of tumor / total RD of normal)</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://github.com/gaow/cnv-gene-mapping/wiki/media/diagnosis.png" alt=""></p>
+<h3 id="Figure-2">Figure 2<a class="anchor-link" href="#Figure-2">&#182;</a></h3><p>Visualize genome-wide SCNA profile. On the top panel, the log2ratio signal is plotted against chromosomal position. On the panels below, the log2mBAF, tumor mBAF, and normal mBAF signals  plotted against chromosomal position.</p>
+<p><img src="https://github.com/gaow/cnv-gene-mapping/wiki/media/genome-wideplot.png" alt=""></p>
+
+</div>
+</div>
+</div>
+    </div>
+  </div>
+</body>
+
+ 
+
+
+</html>
