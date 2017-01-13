@@ -7,5 +7,5 @@ var writeupDict={"e-application-below-follows-from-templates-on-[this-site](http
 -1":"dbGaP_Proposal",".|datasets|paper|source|NO.-of-cases-vs-controls|status
 -1":"CNV_Dataset_List"}
 var images=[]
-var documentation=[]
-var writeup=[]
+var documentation=["Toy_from_saasCNV", "enrichment_analysis_of_CNV_in_schizophrenia", "simulation"]
+var writeup=["CNV_Dataset_List", "dbGaP_Proposal"]
