@@ -67,7 +67,7 @@ $( document ).ready(function(){
 
             table_of_contents(cfg,st);
 
-            var file=documentationDict[$("h1:first").attr("id")];
+            var file=analysisDict[$("h1:first").attr("id")];
             $("#toc-level0 a").css("color","#126dce");
             $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
             var docs=documentation;
@@ -80,7 +80,7 @@ $( document ).ready(function(){
             $('a[href="'+file+'.html'+'"]').css("color","#126dce");
 
 
-            $('<li id="indexHome"><a href="../../documentation.html"><b>Documentation Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            $('<li id="indexHome"><a href="../../documentation.html"><b>Analysis Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
             for (var a=pos+1;a<docs.length;a++){
                   var name=docs[a]
                   $(".toc #toc-level0").append('<li><a href="'+name+'.html">'+name.replace(/_/g," ")+'</a></li>');

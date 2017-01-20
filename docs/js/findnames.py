@@ -10,10 +10,11 @@ def fileDict(docFile,folder):
 		name=file.replace(".ipynb","").split("/")[-1]
 		with open(file) as json_data:
  			d=json.load(json_data)
- 			title=d["cells"][0]["source"][0].replace(" ","-")[2:]+"-1"
+ 			title=d["cells"][0]["source"][0].replace(" ","-")[2:].strip()+"-1"
  		# title=d["cells"]
 		docString+='"'+title+'":"'+name+'",'
-	docString=docString[:-1]
+	if not docString.endswith('{'):
+		docString=docString[:-1]
 	docString+="}"
 	# print (docString)
 	docFile.write(docString+"\n")
