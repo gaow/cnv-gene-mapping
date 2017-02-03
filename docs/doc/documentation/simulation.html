@@ -188,23 +188,6 @@ when presented in causal gene vs. non causal gene.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="Simulation-steps">Simulation steps<a class="anchor-link" href="#Simulation-steps">&#182;</a></h2><p>The steps below simulates exome data for single individual case or control for one type of CNV. 
-The steps are to be repeated multiple times to simulate all samples and all types of CNV.</p>
-<h3 id="Step-1:-simulate-number-of-CNV-per-exome">Step 1: simulate number of CNV per exome<a class="anchor-link" href="#Step-1:-simulate-number-of-CNV-per-exome">&#182;</a></h3><p>Simply drawn from Pois($\lambda$)</p>
-<h3 id="Step-2:-get-the-length-of-each-of-these-CNV-simulated">Step 2: get the length of each of these CNV simulated<a class="anchor-link" href="#Step-2:-get-the-length-of-each-of-these-CNV-simulated">&#182;</a></h3><p>First, an empirical distribution of the length of CNV is to be obtained from real data.</p>
-<p>Then the parameter for the geometric distribution is to be fitted from the empirical distribution.</p>
-<p>Finally for each CNV, draw the length of it from the geometric distribution thus obtained.</p>
-<h3 id="Step-3:-get-gene-label-for-each-CNV">Step 3: get gene label for each CNV<a class="anchor-link" href="#Step-3:-get-gene-label-for-each-CNV">&#182;</a></h3><p>First, put all genes into 2 groups: causal gene and non-causal gene. This can be random for starters, or be based on annotation from real data for refined simulations.</p>
-<p>Then for each CNV, calculate its probability that it belongs to causal / non-causal gene group given its sample disease status, ie.:</p>
-$$Pr(CCNV|\text{case}) = \frac{p_1 \times q}{k}$$$$Pr(NCNV|\text{case}) = 1 - Pr(CCNV|\text{case})$$<p>Given $k$ and $q$ it remains that $p_1$ is to be cauculated. By definition of $k$ and law of total probability:
-$$k=p_0 \times (1 - q) + p_1 \times q$$
-and by difiniation of odds ratio:
-$$\gamma = \frac{\frac{p_1}{1-p_1}}{\frac{p_0}{1-p_0}}$$</p>
-<p>Drawing $\gamma$ from a Gamma distribution and looking up $p_0$ from literature (or make it up) we can calculate $p_1 = f(\gamma, p_0)$. Then from the 2 equations above it is possible to solve for $p_1$ and then calculate $Pr(CCNV|\text{case})$ and $Pr(NCNV|\text{case})$. For controls, Pr(CCNV|ctrl) = Pr(CCNV) = $q$ and Pr(NCNV|ctrl) = Pr(NCNV) = $1-q$.</p>
-<p>Finally we can use a Bernouli random number generator to determine if a CNV will fall into the causal gene group for given sample with known status. Once the group is determined, we will randomly assign the CNV to a gene in the group.</p>
-<p>For case, a CNV overlaps with a causal gene follows Bernoulli ( Pr(CCNV|case) );</p>
-<p>For control, a CNV overlaps with a causal gene follows Bernoulli ( Pr(CCNV|control) ).</p>
-<h3 id="Step-4:-get-position-of-a-CNV">Step 4: get position of a CNV<a class="anchor-link" href="#Step-4:-get-position-of-a-CNV">&#182;</a></h3><p>For Step 2 we know the lenght of the CNV and Step 3 the gene the CNV belongs to. Now we should place the CNV in the genome such that it has reasonable overlap with this gene. The start position of the CNV should therefore lie in between $(T_s - L, T_e)$ where $T_s$ and $T_e$ are start and end positions of the gene and $L$ is the length of the CNV.</p>
 
 </div>
 </div>
@@ -219,8 +202,9 @@ $$\gamma = \frac{\frac{p_1}{1-p_1}}{\frac{p_0}{1-p_0}}$$</p>
 <h3 id="Step-2:-Get-the-length-of-each-of-these-CNV-simulated">Step 2: Get the length of each of these CNV simulated<a class="anchor-link" href="#Step-2:-Get-the-length-of-each-of-these-CNV-simulated">&#182;</a></h3><p>First, separate genome to 10K blocks and find how many CNV overlap (for real data), draw histogram and create a table. Define any block containing 2 or more CNVs as a hotspot.</p>
 <p>Second, mimic the distribution of the length of CNV: fit a mixture of geometric, a prop is long tail, a prop is short and a prop is normal.</p>
 <p>Finally for each CNV, draw the length of it from the distribution obtained, and set the start point according to the histogram of CNV start point among 10K blocks, and set the length according to mixed geometric.</p>
-<h3 id="Step-3:-Get-the-position-and-length-of-a-CNV">Step 3: Get the position and length of a CNV<a class="anchor-link" href="#Step-3:-Get-the-position-and-length-of-a-CNV">&#182;</a></h3><p>Suppose $p$ is baseline probability of the disease (prevalence), and $r_0$ is the baseline odds $\frac{p}{1-p}$.</p>
-<p>If a CNV is causal, the probability of the sample to be case is $p_1$, then $r_1 = r_0*R = \frac{p_1}{1-p_1}$</p>
+<h3 id="Step-3:-Get-the-probability-of-a-sample-being-case-give-all-CNVs">Step 3: Get the probability of a sample being case give all CNVs<a class="anchor-link" href="#Step-3:-Get-the-probability-of-a-sample-being-case-give-all-CNVs">&#182;</a></h3><p>Suppose $p$ is baseline probability of the disease (prevalence), and $r_0$ is the baseline odds $\frac{p}{1-p}$.</p>
+<p>Given simulated CNVs in a sample, the probability for the sample to be case is $p_1$, then the odds ratio for case is $r_1 = r_0 \times R = \frac{p_1}{1-p_1}$, $R$ is the combined relative risks of the all CNVs involved in a sample. Each $R_i$ for causal CNVs is to be sampled from Gamma(1,5), $R = \prod_{i=1}^{\#CNV} R_i$. For noncausal CNV, the $R_i$ is 1. Then $P(case|all CNV) = p_1 = \frac{r_0*R}{1+r_0*R}$, and $P(ctrl|all CNV) = 1-p_1$.</p>
+<p>Since $p_1$ is small, about $\frac{1}{p} * n$ trials are to be simulated in order to obtain $n$ cases. However, $n$ controls are easy to obtain.</p>
 <h3 id="Step-4:-Check-if-CNVs-overlap-with-causal-gene">Step 4: Check if CNVs overlap with causal gene<a class="anchor-link" href="#Step-4:-Check-if-CNVs-overlap-with-causal-gene">&#182;</a></h3><p>Causal/noncausal gene positions are supposed to be determined by literature. But we can simulate randomly for starters.</p>
 
 </div>
@@ -576,7 +560,7 @@ gg==
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">n1</span> <span class="o">=</span> <span class="mi">20</span> <span class="c1"># to be obtained from literature</span>
-<span class="n">n2</span> <span class="o">=</span> <span class="mi">100</span> <span class="c1"># to be obtained from literature</span>
+<span class="n">n2</span> <span class="o">=</span> <span class="mi">80</span> <span class="c1"># to be obtained from literature</span>
 <span class="n">p_del</span> <span class="o">=</span> <span class="mf">0.00006</span> <span class="c1"># to be obtained from real data</span>
 <span class="n">p_dup</span> <span class="o">=</span> <span class="mf">0.00004</span> <span class="c1"># to be obtained from real data</span>
 <span class="n">n_delcase</span> <span class="o">=</span> <span class="mi">1000</span>
