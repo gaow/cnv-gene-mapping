@@ -437,17 +437,17 @@ $( document ).ready(function(){
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   chrom  cnv_start  cnv_end       tx_name  gene_name
-0   chr8     519791   624074  NM_001303100     ERICH1
-2   chr8    2059448  2374302     NM_003970      MYOM2
-3   chr8    3691292  4293237     NM_033225      CSMD1
-4   chr8    3945357  4064167     NM_033225      CSMD1
-5   chr8    4121980  4299811     NM_033225      CSMD1
-6   chr8    4298186  4424231     NM_033225      CSMD1
-7   chr8    6535379  6653153     NM_018361     AGPAT5
-8   chr8    6535379  6653153     NR_039803   MIR4659A
-9   chr8    6535379  6653153     NR_039807   MIR4659B
-10  chr8    6535379  6653153     NR_125386  MCPH1-AS1
+<pre>  chrom  cnv_start  cnv_end       tx_name gene_name
+0  chr5      68532   191461     NM_052909  PLEKHG4B
+1  chr5      72568  3599658  NM_001003841   SLC6A19
+2  chr5      72568  3599658  NM_001009877      BRD9
+3  chr5      72568  3599658     NM_001044    SLC6A3
+4  chr5      72568  3599658  NM_001080478   LRRC14B
+5  chr5      72568  3599658  NM_001134222      IRX2
+6  chr5      72568  3599658  NM_001166260    TRIP13
+7  chr5      72568  3599658  NM_001193376      TERT
+8  chr5      72568  3599658  NM_001242412      AHRR
+9  chr5      72568  3599658  NM_001278633      IRX4
 </pre>
 </div>
 </div>
@@ -666,9 +666,24 @@ $( document ).ready(function(){
 <span class="n">top_gene_list_del</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">res_del</span><span class="p">[:</span><span class="mi">100</span><span class="p">]]</span>
 <span class="n">top_or_del</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">or_del</span><span class="p">[:</span><span class="mi">100</span><span class="p">]]</span>
 <span class="n">top_or_gene_del</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">or_del</span><span class="p">[:</span><span class="mi">100</span><span class="p">]]</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">top_gene_list_del</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;RAB2B&#39;, &#39;CHD8&#39;, &#39;TOX4&#39;, &#39;SNORD8&#39;, &#39;METTL3&#39;, &#39;SALL2&#39;, &#39;SNORD9&#39;, &#39;SUPT16H&#39;, &#39;RPGRIP1&#39;, &#39;MIR3180-3&#39;, &#39;MIR3670-1&#39;, &#39;NOMO2&#39;, &#39;MIR6511A4&#39;, &#39;NPIPA8&#39;, &#39;FSIP2&#39;, &#39;FSIP2-AS1&#39;, &#39;LOC101927196&#39;, &#39;ATP6V1E1&#39;, &#39;BCL2L13&#39;, &#39;BID&#39;, &#39;CECR1&#39;, &#39;CECR2&#39;, &#39;CECR3&#39;, &#39;CECR5&#39;, &#39;CECR5-AS1&#39;, &#39;CECR6&#39;, &#39;CECR7&#39;, &#39;FLJ41941&#39;, &#39;GAB4&#39;, &#39;IL17RA&#39;, &#39;LINC00528&#39;, &#39;LOC100996342&#39;, &#39;LOC100996415&#39;, &#39;LOC101929372&#39;, &#39;LOC105379550&#39;, &#39;MICAL3&#39;, &#39;MIR3198-1&#39;, &#39;MIR648&#39;, &#39;PEX26&#39;, &#39;SLC25A18&#39;, &#39;TUBA8&#39;, &#39;USP18&#39;, &#39;FAM72C&#39;, &#39;FAM72D&#39;, &#39;LINC01138&#39;, &#39;NBPF8&#39;, &#39;PPIAL4G&#39;, &#39;MIR6770-2&#39;, &#39;MIR3179-1&#39;, &#39;MIR3180-2&#39;, &#39;MACROD2&#39;, &#39;FAM189A1&#39;, &#39;LOC100130111&#39;, &#39;MACROD2-AS1&#39;, &#39;LINC00623&#39;, &#39;LINC00869&#39;, &#39;PPIAL4C&#39;, &#39;MIR3680-2&#39;, &#39;ABCC6P1&#39;, &#39;HNRNPC&#39;, &#39;APBA2&#39;, &#39;C22orf39&#39;, &#39;CDC45&#39;, &#39;CLDN5&#39;, &#39;CLTCL1&#39;, &#39;DGCR14&#39;, &#39;DGCR2&#39;, &#39;GNB1L&#39;, &#39;GOLGA6L7P&#39;, &#39;GOLGA8M&#39;, &#39;GP1BB&#39;, &#39;GSC2&#39;, &#39;HIRA&#39;, &#39;LINC00895&#39;, &#39;LINC01311&#39;, &#39;LOC100289656&#39;, &#39;MRPL40&#39;, &#39;NPIPB4&#39;, &#39;NSMCE3&#39;, &#39;PDCD6IPP2&#39;, &#39;SEPT5&#39;, &#39;SEPT5-GP1BB&#39;, &#39;SLC25A1&#39;, &#39;TBX1&#39;, &#39;TSSK2&#39;, &#39;UFD1L&#39;, &#39;WHAMMP2&#39;, &#39;HSFY1P1&#39;, &#39;PFN1P2&#39;, &#39;XKR3&#39;, &#39;OR4A47&#39;, &#39;C5orf17&#39;, &#39;CNTN4&#39;, &#39;EXOC4&#39;, &#39;LINC00540&#39;, &#39;LOC101927967&#39;, &#39;LRRC4C&#39;, &#39;SMG1P2&#39;, &#39;SPRY2&#39;, &#39;LOC100288162&#39;]
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -687,7 +702,7 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">res_dup</span> <span class="o">=</span> <span class="p">[(</span><span class="n">pvalue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupcase_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupctrl_gene&quot;</span><span class="p">],</span> 
@@ -704,9 +719,24 @@ $( document ).ready(function(){
 <span class="n">top_gene_list_dup</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">res_dup</span><span class="p">[:</span><span class="mi">100</span><span class="p">]]</span>
 <span class="n">top_or_2side_dup</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">or_dup</span><span class="p">[:</span><span class="mi">100</span><span class="p">]]</span>
 <span class="n">top_or_gene_dup</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">or_dup</span><span class="p">[:</span><span class="mi">100</span><span class="p">]]</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">top_gene_list_dup</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;CHN2&#39;, &#39;ESYT2&#39;, &#39;KIF26B&#39;, &#39;RPGRIP1&#39;, &#39;C22orf39&#39;, &#39;CDAN1&#39;, &#39;CDC45&#39;, &#39;CLDN5&#39;, &#39;GNB1L&#39;, &#39;GP1BB&#39;, &#39;HIRA&#39;, &#39;LINC00895&#39;, &#39;MRPL40&#39;, &#39;SEPT5&#39;, &#39;SEPT5-GP1BB&#39;, &#39;STARD9&#39;, &#39;TBX1&#39;, &#39;TTBK2&#39;, &#39;UFD1L&#39;, &#39;LOC283177&#39;, &#39;AGAP6&#39;, &#39;COL18A1&#39;, &#39;COL18A1-AS1&#39;, &#39;FAM21EP&#39;, &#39;LOC440910&#39;, &#39;MIR6815&#39;, &#39;POTEE&#39;, &#39;SLC19A1&#39;, &#39;TIMM23B&#39;, &#39;VAV2&#39;, &#39;WASHC2A&#39;, &#39;PTPRN2&#39;, &#39;ANO2&#39;, &#39;CCNDBP1&#39;, &#39;COLEC12&#39;, &#39;EPB42&#39;, &#39;FAM118A&#39;, &#39;FAM160A1&#39;, &#39;FBLN1&#39;, &#39;KIAA0930&#39;, &#39;LINC01589&#39;, &#39;LOC100996325&#39;, &#39;LOC728613&#39;, &#39;LRRIQ3&#39;, &#39;MACROD2&#39;, &#39;MIR1249&#39;, &#39;NUP153&#39;, &#39;NUP50&#39;, &#39;NUP50-AS1&#39;, &#39;PRSS48&#39;, &#39;RAP1GAP2&#39;, &#39;RBM47&#39;, &#39;RIBC2&#39;, &#39;SH3D19&#39;, &#39;SMC1B&#39;, &#39;TGM5&#39;, &#39;TMEM62&#39;, &#39;UPK3A&#39;, &#39;VWF&#39;, &#39;DGKH&#39;, &#39;KIF13A&#39;, &#39;LINC01266&#39;, &#39;VWA8&#39;, &#39;VWA8-AS1&#39;, &#39;CRYM-AS1&#39;, &#39;SNX29P1&#39;, &#39;KCNJ12&#39;, &#39;KCNJ18&#39;, &#39;BNC1&#39;, &#39;LOC105375545&#39;, &#39;MIR128-2&#39;, &#39;AGAP7P&#39;, &#39;BTBD11&#39;, &#39;C3orf67&#39;, &#39;CHD8&#39;, &#39;COL18A1-AS2&#39;, &#39;FAM110C&#39;, &#39;GMDS&#39;, &#39;HIRIP3&#39;, &#39;INO80E&#39;, &#39;LINC01022&#39;, &#39;MARK3&#39;, &#39;MIR5707&#39;, &#39;MSMB&#39;, &#39;NCAPG2&#39;, &#39;NCOA4&#39;, &#39;PAK5&#39;, &#39;PLEKHB2&#39;, &#39;PWP1&#39;, &#39;RAB2B&#39;, &#39;RNF103-CHMP3&#39;, &#39;SNORD8&#39;, &#39;SNORD9&#39;, &#39;SUPT16H&#39;, &#39;TIMM23&#39;, &#39;ZCCHC14&#39;, &#39;C17orf51&#39;, &#39;COX20&#39;, &#39;DLG1&#39;, &#39;EFCAB2&#39;]
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -4902,6 +4932,34 @@ BRU1IiIiYhdU1IiIiIhdUFEjIiIidkFFjYiIiNiF/wecmnO72zDMLAAAAABJRU5ErkJggg==
 >
 </div>
 
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> jupyter nbconvert --to script enrichment_analysis_of_CNV_in_schizophrenia.ipynb
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[NbConvertApp] Converting notebook enrichment_analysis_of_CNV_in_schizophrenia.ipynb to script
+[NbConvertApp] Writing 11744 bytes to enrichment_analysis_of_CNV_in_schizophrenia.py
+</pre>
+</div>
 </div>
 
 </div>
