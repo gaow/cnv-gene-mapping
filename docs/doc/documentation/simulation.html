@@ -248,7 +248,7 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
@@ -314,9 +314,8 @@ when presented in causal gene vs. non causal gene.</p>
         <span class="n">start_pos</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">end_pos</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">counts</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">end_pos</span> <span class="o">-</span> <span class="n">start_pos</span><span class="p">)</span> <span class="o">/</span> <span class="n">block_size</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> 
-                                <span class="nb">range</span> <span class="o">=</span> <span class="p">(</span><span class="n">start_pos</span><span class="p">,</span> <span class="n">end_pos</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">counts</span><span class="p">,</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">]</span>    
-    <span class="c1">#</span>
+                                    <span class="nb">range</span> <span class="o">=</span> <span class="p">(</span><span class="n">start_pos</span><span class="p">,</span> <span class="n">end_pos</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">counts</span><span class="p">,</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bins</span><span class="p">]</span>
     <span class="n">block_counts</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">chrom</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;chrom&#39;</span><span class="p">]):</span>
         <span class="n">counts</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">count_by_blocks</span><span class="p">(</span><span class="n">chrom</span><span class="p">)</span>
@@ -365,7 +364,7 @@ when presented in causal gene vs. non causal gene.</p>
     <span class="k">return</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_start&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_terminate&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">))</span>
 
 <span class="k">def</span> <span class="nf">get_causal_genes</span><span class="p">(</span><span class="n">causal_genes</span><span class="p">,</span> <span class="n">sample_genes</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;get causal genes&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;get causal genes for each simulated sample&#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">causal_genes</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sample_genes</span><span class="p">]</span>
 
 <span class="k">def</span> <span class="nf">get_ccnv</span><span class="p">():</span>
@@ -437,7 +436,8 @@ when presented in causal gene vs. non causal gene.</p>
     <span class="n">status</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">case_data</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">ctrl_data</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">debug</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;niter&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span> <span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="n">args</span><span class="p">}</span>
+    <span class="n">debug</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;niter&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span> <span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="n">args</span><span class="p">,</span> 
+            <span class="s1">&#39;number of causal genes&#39;</span><span class="p">:</span> <span class="p">[]}</span>
     
     <span class="k">while</span><span class="p">(</span><span class="n">status</span><span class="p">):</span>
         <span class="n">sample_len</span> <span class="o">=</span> <span class="n">sample_cnv_length</span><span class="p">(</span><span class="n">cnv_length</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;avg_cnv_per_individual&#39;</span><span class="p">])</span>
@@ -446,6 +446,7 @@ when presented in causal gene vs. non causal gene.</p>
         <span class="n">samples</span> <span class="o">=</span> <span class="n">annotate_samples</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">refgene</span><span class="p">)</span>
         <span class="n">causal_genes_in_sample</span> <span class="o">=</span> <span class="n">get_causal_genes</span><span class="p">(</span><span class="n">causal_genes</span><span class="p">,</span> <span class="n">samples</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
         <span class="n">p</span> <span class="o">=</span> <span class="n">p_case</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;prevalence&#39;</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">causal_genes_in_sample</span><span class="p">),</span> <span class="n">args</span><span class="p">)</span>
+        <span class="n">debug</span><span class="p">[</span><span class="s1">&#39;number of causal genes&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">causal_genes_in_sample</span><span class="p">))</span>
         <span class="c1">#debug[&#39;p&#39;].append(p)</span>
         <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">p</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">case_data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;n_case&#39;</span><span class="p">]:</span>
             <span class="c1"># sample data is a case</span>
@@ -853,7 +854,7 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sample_len_del</span> <span class="o">=</span> <span class="n">sample_cnv_length</span><span class="p">(</span><span class="n">del_length</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sample_len_del</span> <span class="o">=</span> <span class="n">sample_cnv_length</span><span class="p">(</span><span class="n">del_length</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;avg_cnv_per_individual&#39;</span><span class="p">])</span>
 <span class="c1">#print(sample_len_del)</span>
 </pre></div>
 
@@ -905,7 +906,7 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Annotate data with gene names</span>
@@ -920,7 +921,7 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># get causal genes in data</span>
@@ -940,7 +941,7 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>3
+<pre>0
 </pre>
 </div>
 </div>
@@ -960,7 +961,7 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#k = 0.005 # prevalence of the disease</span>
@@ -982,8 +983,8 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>3
-0.00834107960707
+<pre>0
+0.005
 </pre>
 </div>
 </div>
@@ -1003,7 +1004,7 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># main procedure</span>
@@ -1024,13 +1025,27 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">sample_dup</span><span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">sample_del</span><span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">])</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>{&#39;p&#39;: [0.005, 0.036453664738856993, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.033185177981134573, 0.005, 0.61512511889111976, 0.99157449741243464, 0.70849558231031984, 0.80659342862667449, 0.258001061611212, 0.005, 0.92504052221192867, 0.99991613857200889, 0.98673090142668474, 0.98730165586773422], &#39;time&#39;: [&#39;2017-02-20 17:56:06.808061&#39;, &#39;2017-02-20 17:56:32.312463&#39;], &#39;args&#39;: {&#39;block_size&#39;: 100000, &#39;prevalence&#39;: 0.005, &#39;avg_cnv_per_individual&#39;: 5, &#39;n_ctrl&#39;: 10, &#39;odds_ratio_params&#39;: {&#39;shape&#39;: 3, &#39;scale&#39;: 1}, &#39;n_case&#39;: 10}, &#39;niter&#39;: 67, &#39;number of causal genes&#39;: [0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1, 0, 6, 0, 3, 4, 0, 0, 0, 10, 1, 0, 0, 0, 0, 9, 3, 1, 0, 3, 0, 0, 0, 1, 0, 0, 0, 9, 0, 0, 0, 5, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 9, 0, 9, 0, 1, 2, 0, 15, 8, 0, 1, 0, 7]}
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
