@@ -248,7 +248,7 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
@@ -376,7 +376,7 @@ when presented in causal gene vs. non causal gene.</p>
     <span class="k">if</span> <span class="n">num_causal_genes_in_sample</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">p</span>
     <span class="n">baseline_odds</span> <span class="o">=</span> <span class="n">p</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">sim_args</span><span class="p">[</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">sim_args</span><span class="p">[</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s2">&quot;shape&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">sim_args</span><span class="p">[</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">odds_ratio</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">odds_ratio</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">sim_args</span><span class="p">[</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s1">&#39;shape&#39;</span><span class="p">],</span> 
@@ -387,29 +387,29 @@ when presented in causal gene vs. non causal gene.</p>
     <span class="n">odds</span> <span class="o">=</span> <span class="n">baseline_odds</span> <span class="o">*</span> <span class="n">odds_ratio</span>
     <span class="k">return</span> <span class="n">odds</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">odds</span><span class="p">)</span>
 
-<span class="k">class</span> <span class="nc">Environment</span><span class="p">:</span>
+<span class="k">class</span> <span class="nc">Environment</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;block_size&#39;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
-                     <span class="s1">&#39;avg_cnv_per_individual&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-                     <span class="s1">&#39;n_case&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-                     <span class="s1">&#39;n_ctrl&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-                     <span class="c1"># set Gamma shape to be 3 instead of 5</span>
-                     <span class="c1"># &#39;odds_ratio_params&#39; : None # for H_0</span>
-                     <span class="s1">&#39;odds_ratio_params&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
-                     <span class="s1">&#39;prevalence&#39;</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>
-                     <span class="s1">&#39;n_causal_gene&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-                     <span class="s1">&#39;refgene_file&#39;</span><span class="p">:</span> <span class="s1">&#39;data/refGene.txt.gz&#39;</span>
-                    <span class="p">}</span>
-    
+        <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;block_size&#39;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
+                      <span class="s1">&#39;avg_cnv_per_individual&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                      <span class="s1">&#39;n_case&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+                      <span class="s1">&#39;n_ctrl&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+                       <span class="c1"># set Gamma shape to be 3 instead of 5</span>
+                       <span class="c1"># &#39;odds_ratio_params&#39; : None # for H_0</span>
+                      <span class="s1">&#39;odds_ratio_params&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+                      <span class="s1">&#39;prevalence&#39;</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>
+                      <span class="s1">&#39;n_causal_gene&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+                      <span class="s1">&#39;refgene_file&#39;</span><span class="p">:</span> <span class="s1">&#39;data/refGene.txt.gz&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;cnv_file&#39;</span><span class="p">:</span> <span class="s1">&#39;data/ISC-r1.CNV.bed&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;case_dataset&#39;</span><span class="p">:</span> <span class="s1">&#39;delCases&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;ctrl_dataset&#39;</span><span class="p">:</span> <span class="s1">&#39;delControls&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="s1">&#39;del_sample&#39;</span> 
+                     <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
         <span class="c1">## select causal genes randomly, instead of the first 100 in enrichment analysis</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ref_gene_name</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;refgene_file&quot;</span><span class="p">])[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">causal_genes</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;causal_genes_del&quot;</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ref_gene_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;n_causal_gene&#39;</span><span class="p">]),</span>
-            <span class="s2">&quot;causal_genes_dup&quot;</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ref_gene_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;n_causal_gene&#39;</span><span class="p">])</span>
-        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ref_gene_name</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;refgene_file&quot;</span><span class="p">])[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">causal_genes</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ref_gene_name</span><span class="p">,</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;n_causal_gene&#39;</span><span class="p">])</span>
 
-<span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
-<span class="nb">print</span> <span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">)</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 
 <span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="n">refgene</span><span class="p">,</span> <span class="n">cnv_data</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">causal_genes</span><span class="p">):</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">cnv_data</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_start&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_end&quot;</span><span class="p">))</span>
@@ -418,7 +418,7 @@ when presented in causal gene vs. non causal gene.</p>
     <span class="n">status</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">case_data</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">ctrl_data</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">debug</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;niter&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span> <span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="n">args</span><span class="p">,</span> <span class="s1">&#39;causal genes&#39;</span><span class="p">:</span> <span class="n">causal_genes</span><span class="p">,</span> 
+    <span class="n">debug</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;niter&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span> <span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> <span class="s1">&#39;causal genes&#39;</span><span class="p">:</span> <span class="n">causal_genes</span><span class="p">,</span> 
             <span class="s1">&#39;number of causal genes&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;number of genes overlap CNV&#39;</span><span class="p">:</span> <span class="p">[]}</span>
     
     <span class="k">while</span><span class="p">(</span><span class="n">status</span><span class="p">):</span>
@@ -454,16 +454,13 @@ when presented in causal gene vs. non causal gene.</p>
 
 <span class="c1"># putting all together</span>
 
-<span class="k">def</span> <span class="nf">run_simulation</span><span class="p">(</span><span class="n">refgene_file</span><span class="p">,</span> <span class="n">cnv_file</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">causal_genes</span><span class="p">,</span> <span class="n">simulation_id</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="p">):</span>
-    <span class="n">ref_gene</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="n">refgene_file</span><span class="p">)</span>
-    <span class="n">cnv_data</span> <span class="o">=</span> <span class="n">load_cnv_data</span><span class="p">(</span><span class="n">cnv_file</span><span class="p">)</span>
-    <span class="n">sample_del</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">ref_gene</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delCases&#39;</span><span class="p">],</span> <span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delControls&#39;</span><span class="p">]]),</span>
-                          <span class="n">args</span><span class="p">,</span> <span class="n">causal_genes</span><span class="p">[</span><span class="s2">&quot;causal_genes_del&quot;</span><span class="p">])</span>
-    <span class="n">sample_dup</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">ref_gene</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;dupCases&#39;</span><span class="p">],</span> <span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;dupControls&#39;</span><span class="p">]]),</span>
-                          <span class="n">args</span><span class="p">,</span> <span class="n">causal_genes</span><span class="p">[</span><span class="s2">&quot;causal_genes_dup&quot;</span><span class="p">])</span>
-    <span class="n">save_data</span><span class="p">(</span><span class="n">sample_dup</span><span class="p">,</span> <span class="s1">&#39;dup_sample_</span><span class="si">{}</span><span class="s1">.pkl&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">simulation_id</span><span class="p">))</span>
-    <span class="n">save_data</span><span class="p">(</span><span class="n">sample_del</span><span class="p">,</span> <span class="s1">&#39;del_sample_</span><span class="si">{}</span><span class="s1">.pkl&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">simulation_id</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">sample_dup</span><span class="p">,</span> <span class="n">sample_del</span>
+<span class="k">def</span> <span class="nf">run_simulation</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">simulation_id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="n">ref_gene</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;refgene_file&#39;</span><span class="p">])</span>
+    <span class="n">cnv_data</span> <span class="o">=</span> <span class="n">load_cnv_data</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;cnv_file&#39;</span><span class="p">])</span>
+    <span class="n">sample_data</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">ref_gene</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cnv_data</span><span class="p">[</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;case_dataset&#39;</span><span class="p">]],</span> <span class="n">cnv_data</span><span class="p">[</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;ctrl_dataset&#39;</span><span class="p">]]]),</span>
+                          <span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">)</span>
+    <span class="n">save_data</span><span class="p">(</span><span class="n">sample_data</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">.data.pkl&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">],</span> <span class="n">simulation_id</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">sample_data</span>
 
 
 <span class="k">def</span> <span class="nf">get_gene_table</span><span class="p">(</span><span class="n">gene_df</span><span class="p">):</span>
@@ -504,6 +501,19 @@ when presented in causal gene vs. non causal gene.</p>
     <span class="n">stats_table</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;top_logp_2side&quot;</span><span class="p">:</span> <span class="n">top_logp_2side</span><span class="p">,</span> <span class="s2">&quot;top_logp_gene&quot;</span><span class="p">:</span> <span class="n">top_logp_gene</span><span class="p">,</span> 
             <span class="s2">&quot;top_OR_2side&quot;</span><span class="p">:</span> <span class="n">top_OR_2side</span><span class="p">,</span> <span class="s2">&quot;top_OR_gene&quot;</span><span class="p">:</span> <span class="n">top_OR_gene</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">stats_table</span>
+
+<span class="k">def</span> <span class="nf">get_stats_from_input</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">sort_data</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;input data saving from run_simulate step: sample_dup and sample_del separately&#39;&#39;&#39;</span>
+    <span class="n">input_data</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+    <span class="n">sample_gene_table</span> <span class="o">=</span> <span class="n">get_gene_table</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+    <span class="n">sample_stats_table</span> <span class="o">=</span> <span class="n">get_stats</span><span class="p">(</span><span class="n">del_sample_gene</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="n">sort_data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sample_stats_table</span>
+
+<span class="k">def</span> <span class="nf">run_stats</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">output_data</span><span class="p">):</span>
+    <span class="n">stats_table</span> <span class="o">=</span> <span class="n">get_stats_from_input</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">sort_data</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">stats_table</span><span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;simulation_args&#39;</span><span class="p">:</span> <span class="n">input_data</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">]}</span>
+    <span class="n">save_data</span><span class="p">(</span><span class="n">stats_table</span><span class="p">,</span> <span class="n">output_data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">stats_table</span>
 </pre></div>
 
 </div>
@@ -516,7 +526,7 @@ when presented in causal gene vs. non causal gene.</p>
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;causal_genes_del&#39;: [&#39;IGF2&#39;, &#39;MYL12B&#39;, &#39;SNAPC5&#39;, &#39;GABRA3&#39;, &#39;LINC00977&#39;, &#39;LINC00243&#39;, &#39;PABPC1L2B-AS1&#39;, &#39;EXOSC3&#39;, &#39;IBA57-AS1&#39;, &#39;DMGDH&#39;, &#39;FAAH2&#39;, &#39;SMG7-AS1&#39;, &#39;ZNF619&#39;, &#39;CCDC152&#39;, &#39;TACSTD2&#39;, &#39;AP3M1&#39;, &#39;NOTCH1&#39;, &#39;LOC441155&#39;, &#39;PMP2&#39;, &#39;LRRC6&#39;, &#39;CDH16&#39;, &#39;LOC100506393&#39;, &#39;TTC28-AS1&#39;, &#39;SEPT9&#39;, &#39;LOC100129046&#39;, &#39;NFIA-AS1&#39;, &#39;MVB12B&#39;, &#39;TSPAN4&#39;, &#39;RDM1&#39;, &#39;TMEM51&#39;, &#39;ANKRD33B&#39;, &#39;FGF19&#39;, &#39;LOC100129434&#39;, &#39;LOC101928303&#39;, &#39;SDHAF4&#39;, &#39;FFAR2&#39;, &#39;SPC24&#39;, &#39;CBX3&#39;, &#39;PRKAG2&#39;, &#39;SMAP2&#39;, &#39;LOC145694&#39;, &#39;POLK&#39;, &#39;SUV39H1&#39;, &#39;TPD52L3&#39;, &#39;TNKS2-AS1&#39;, &#39;LOC730183&#39;, &#39;ICAM3&#39;, &#39;OR2B3&#39;, &#39;SSH1&#39;, &#39;STAT5A&#39;, &#39;GPANK1&#39;, &#39;EIF3J&#39;, &#39;MEF2C&#39;, &#39;CX3CR1&#39;, &#39;MIR4288&#39;, &#39;LOC200772&#39;, &#39;SPACA6&#39;, &#39;UBE2QL1&#39;, &#39;IFIT2&#39;, &#39;SOX3&#39;, &#39;MIR21&#39;, &#39;DCDC2&#39;, &#39;MOCS1&#39;, &#39;TP73&#39;, &#39;ZFHX2&#39;, &#39;TUB-AS1&#39;, &#39;KIAA1522&#39;, &#39;MYT1L&#39;, &#39;JMJD1C&#39;, &#39;EPC1&#39;, &#39;CEP44&#39;, &#39;IKZF1&#39;, &#39;KRTAP10-6&#39;, &#39;RWDD2B&#39;, &#39;C6orf10&#39;, &#39;HCAR3&#39;, &#39;CASP5&#39;, &#39;WIPF3&#39;, &#39;CLN6&#39;, &#39;MTHFD2P1&#39;, &#39;TRMT61B&#39;, &#39;ZNF418&#39;, &#39;CH17-340M24.3&#39;, &#39;IVNS1ABP&#39;, &#39;SHROOM4&#39;, &#39;LSM2&#39;, &#39;NUP107&#39;, &#39;LOC101927418&#39;, &#39;USP17L6P&#39;, &#39;SYNE1&#39;, &#39;SNORD134&#39;, &#39;HSD17B1&#39;, &#39;SLC25A16&#39;, &#39;RSPH10B2&#39;, &#39;UNC13C&#39;, &#39;ZNRD1&#39;, &#39;MIR1270&#39;, &#39;CEBPG&#39;, &#39;LOC101927278&#39;, &#39;LOC285766&#39;], &#39;causal_genes_dup&#39;: [&#39;LINC01623&#39;, &#39;MRPL13&#39;, &#39;DHRS4L1&#39;, &#39;DENND2A&#39;, &#39;NIPSNAP1&#39;, &#39;INSL5&#39;, &#39;GSPT1&#39;, &#39;DIAPH3&#39;, &#39;PLEKHG5&#39;, &#39;FAM45BP&#39;, &#39;TSC22D1&#39;, &#39;GALNTL6&#39;, &#39;SLC1A3&#39;, &#39;NPC2&#39;, &#39;B4GALT1-AS1&#39;, &#39;HSPA1L&#39;, &#39;TRMT10B&#39;, &#39;WIPI2&#39;, &#39;RABL6&#39;, &#39;CXCL8&#39;, &#39;OSBP2&#39;, &#39;KLRC3&#39;, &#39;NBPF4&#39;, &#39;TOP1P2&#39;, &#39;ALPP&#39;, &#39;MUC22&#39;, &#39;TRIM41&#39;, &#39;GAS5-AS1&#39;, &#39;LINC00544&#39;, &#39;IKZF3&#39;, &#39;C12orf74&#39;, &#39;SSC5D&#39;, &#39;HIST1H2BA&#39;, &#39;LOC100288842&#39;, &#39;IFNA5&#39;, &#39;UBQLNL&#39;, &#39;ZNF384&#39;, &#39;NPIPA2&#39;, &#39;GPX5&#39;, &#39;AP1G2&#39;, &#39;COLGALT1&#39;, &#39;OR2W1&#39;, &#39;C1orf195&#39;, &#39;LOC101929058&#39;, &#39;VN1R5&#39;, &#39;LMBRD1&#39;, &#39;LOC100129973&#39;, &#39;LINC00881&#39;, &#39;TMSB4Y&#39;, &#39;CLCA4&#39;, &#39;C20orf196&#39;, &#39;SLC29A2&#39;, &#39;PROX1&#39;, &#39;SHOC2&#39;, &#39;RAP1A&#39;, &#39;RERE&#39;, &#39;HLF&#39;, &#39;ZNF763&#39;, &#39;FASTKD3&#39;, &#39;MIR518A1&#39;, &#39;GCH1&#39;, &#39;PRKACB&#39;, &#39;GATB&#39;, &#39;MEOX2&#39;, &#39;ARMC12&#39;, &#39;C4B_2&#39;, &#39;MIR23B&#39;, &#39;SV2A&#39;, &#39;RBFOX1&#39;, &#39;MTHFD2L&#39;, &#39;APOLD1&#39;, &#39;PDHB&#39;, &#39;CES2&#39;, &#39;GSN-AS1&#39;, &#39;LOC101928053&#39;, &#39;INTS2&#39;, &#39;SERINC4&#39;, &#39;RNASE6&#39;, &#39;NFRKB&#39;, &#39;CASC8&#39;, &#39;POTEKP&#39;, &#39;MYOC&#39;, &#39;TTLL10&#39;, &#39;DUSP4&#39;, &#39;C3orf35&#39;, &#39;LIMA1&#39;, &#39;CEP85&#39;, &#39;VCAN-AS1&#39;, &#39;RASA4B&#39;, &#39;DHRSX&#39;, &#39;CDC42&#39;, &#39;SLC25A33&#39;, &#39;PPT2&#39;, &#39;CSNK1G3&#39;, &#39;TMEM231&#39;, &#39;MLH1&#39;, &#39;LCE2D&#39;, &#39;EIF4B&#39;, &#39;C18orf61&#39;, &#39;CEP44&#39;]}
+<pre>{&#39;causal_genes_del&#39;: [&#39;C14orf105&#39;, &#39;LDB3&#39;, &#39;NR1I2&#39;, &#39;SMARCA1&#39;, &#39;C12orf54&#39;, &#39;GLRA4&#39;, &#39;MUC19&#39;, &#39;TINAG&#39;, &#39;TBC1D3F&#39;, &#39;PDX1&#39;, &#39;NPS&#39;, &#39;NBEAL1&#39;, &#39;GABARAPL3&#39;, &#39;PLXNB1&#39;, &#39;IFIT2&#39;, &#39;MIR3180-1&#39;, &#39;ZNF502&#39;, &#39;LOC105371899&#39;, &#39;HINT2&#39;, &#39;PROCR&#39;, &#39;DCTN6&#39;, &#39;CERS4&#39;, &#39;SLC25A38&#39;, &#39;KRT75&#39;, &#39;MIR548I3&#39;, &#39;IMP4&#39;, &#39;VSTM5&#39;, &#39;PIP5KL1&#39;, &#39;LOC100507201&#39;, &#39;PLS3-AS1&#39;, &#39;GYPE&#39;, &#39;TADA3&#39;, &#39;LINC01361&#39;, &#39;SLC25A20&#39;, &#39;CKMT1A&#39;, &#39;CACFD1&#39;, &#39;DCLK3&#39;, &#39;RBPMS2&#39;, &#39;MYRF&#39;, &#39;CHD5&#39;, &#39;LOC101927619&#39;, &#39;BRDTP1&#39;, &#39;IQCG&#39;, &#39;CEP57&#39;, &#39;AMER3&#39;, &#39;MIR128-1&#39;, &#39;CSRP2&#39;, &#39;LIG1&#39;, &#39;SNAR-B2&#39;, &#39;DHX30&#39;, &#39;EVC2&#39;, &#39;HN1L&#39;, &#39;KRTAP8-1&#39;, &#39;POMK&#39;, &#39;LINC01483&#39;, &#39;BECN1&#39;, &#39;DOC2A&#39;, &#39;WTH3DI&#39;, &#39;NFKBID&#39;, &#39;LOC101927142&#39;, &#39;DGKI&#39;, &#39;MS4A7&#39;, &#39;ST6GAL1&#39;, &#39;C17orf98&#39;, &#39;OSM&#39;, &#39;IPO11&#39;, &#39;GAPDH&#39;, &#39;KIF15&#39;, &#39;PDIA6&#39;, &#39;CORO1B&#39;, &#39;LOC101928311&#39;, &#39;NXPE4&#39;, &#39;NUP160&#39;, &#39;SACS&#39;, &#39;TUBA3D&#39;, &#39;GPATCH8&#39;, &#39;RBMY2FP&#39;, &#39;TRIB3&#39;, &#39;GLP2R&#39;, &#39;STPG3&#39;, &#39;RFPL2&#39;, &#39;PCYOX1&#39;, &#39;TSHR&#39;, &#39;LINC00668&#39;, &#39;FRMD6-AS2&#39;, &#39;STEAP2&#39;, &#39;MIR764&#39;, &#39;NXF1&#39;, &#39;HMOX2&#39;, &#39;KLHDC10&#39;, &#39;FAM122C&#39;, &#39;PROM1&#39;, &#39;OSMR&#39;, &#39;PMEL&#39;, &#39;LOC105374366&#39;, &#39;LINC01551&#39;, &#39;LINC00293&#39;, &#39;LSM4&#39;, &#39;LOC101928583&#39;, &#39;SDHB&#39;], &#39;causal_genes_dup&#39;: [&#39;LY6G5B&#39;, &#39;LY6G6F&#39;, &#39;RGPD6&#39;, &#39;ALOX12&#39;, &#39;LRRC37B&#39;, &#39;MAN2B1&#39;, &#39;FLOT1&#39;, &#39;FAM91A1&#39;, &#39;LOC145845&#39;, &#39;LRR1&#39;, &#39;DDR1&#39;, &#39;CCL19&#39;, &#39;DEPDC1&#39;, &#39;SNORD115-39&#39;, &#39;SNORA59B&#39;, &#39;TMEM30CP&#39;, &#39;TAP1&#39;, &#39;DPM2&#39;, &#39;ANGPTL2&#39;, &#39;CT47A10&#39;, &#39;MRPL39&#39;, &#39;LOC392232&#39;, &#39;TRIM46&#39;, &#39;TUBB6&#39;, &#39;PGPEP1&#39;, &#39;MPC1&#39;, &#39;AVPI1&#39;, &#39;CDC42BPG&#39;, &#39;LOC101929006&#39;, &#39;IGSF6&#39;, &#39;CTSC&#39;, &#39;SNCA&#39;, &#39;NALCN-AS1&#39;, &#39;LOC105372695&#39;, &#39;MIR5681A&#39;, &#39;RNASEH2A&#39;, &#39;AGTR1&#39;, &#39;DUSP10&#39;, &#39;PDS5B&#39;, &#39;ZNF117&#39;, &#39;FAHD2B&#39;, &#39;THSD4&#39;, &#39;MIR4434&#39;, &#39;ADIG&#39;, &#39;LINC00904&#39;, &#39;FN1&#39;, &#39;FAM64A&#39;, &#39;TMEM74&#39;, &#39;MIR26B&#39;, &#39;TUBA1A&#39;, &#39;GRM3&#39;, &#39;CX3CL1&#39;, &#39;ASPHD1&#39;, &#39;CHMP4B&#39;, &#39;KRT18&#39;, &#39;OR5AC2&#39;, &#39;ZNF141&#39;, &#39;FHL3&#39;, &#39;LTBP3&#39;, &#39;UBAC1&#39;, &#39;MTHFD2L&#39;, &#39;ATP6V1G2-DDX39B&#39;, &#39;OSBPL7&#39;, &#39;DENND1A&#39;, &#39;TCAF1&#39;, &#39;LOC400661&#39;, &#39;NCR3&#39;, &#39;PRKRIP1&#39;, &#39;MIR509-3&#39;, &#39;TNXB&#39;, &#39;DOK5&#39;, &#39;AMD1&#39;, &#39;HCCS&#39;, &#39;LOC108783645&#39;, &#39;FBXO43&#39;, &#39;SNAP47&#39;, &#39;PFKFB4&#39;, &#39;ACTL10&#39;, &#39;CAPZB&#39;, &#39;LOC100132686&#39;, &#39;GRM1&#39;, &#39;FER&#39;, &#39;MIR3612&#39;, &#39;METTL11B&#39;, &#39;OR2W5&#39;, &#39;ELMSAN1&#39;, &#39;SLC25A51P1&#39;, &#39;LHX8&#39;, &#39;LINC01481&#39;, &#39;CAV1&#39;, &#39;NT5DC2&#39;, &#39;DGCR5&#39;, &#39;NEBL-AS1&#39;, &#39;DGKB&#39;, &#39;CACNG4&#39;, &#39;TSR3&#39;, &#39;GUSBP9&#39;, &#39;NEUROD2&#39;, &#39;DMD&#39;, &#39;CEP63&#39;]}
 </pre>
 </div>
 </div>
@@ -1126,7 +1136,7 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sample_len_del</span> <span class="o">=</span> <span class="n">sample_cnv_length</span><span class="p">(</span><span class="n">del_length</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;avg_cnv_per_individual&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sample_len_del</span> <span class="o">=</span> <span class="n">sample_cnv_length</span><span class="p">(</span><span class="n">del_length</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;avg_cnv_per_individual&#39;</span><span class="p">])</span>
 <span class="c1">#print(sample_len_del)</span>
 </pre></div>
 
@@ -1197,8 +1207,8 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># get causal genes in data</span>
-<span class="n">del_causal_genes_in_sample</span> <span class="o">=</span> <span class="n">get_causal_genes</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">[</span><span class="s2">&quot;causal_genes_del&quot;</span><span class="p">],</span> <span class="n">samples</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-<span class="n">dup_causal_genes_in_sample</span> <span class="o">=</span> <span class="n">get_causal_genes</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">[</span><span class="s2">&quot;causal_genes_dup&quot;</span><span class="p">],</span> <span class="n">samples</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">del_causal_genes_in_sample</span> <span class="o">=</span> <span class="n">get_causal_genes</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">[</span><span class="s2">&quot;causal_genes_del&quot;</span><span class="p">],</span> <span class="n">samples</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">dup_causal_genes_in_sample</span> <span class="o">=</span> <span class="n">get_causal_genes</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">[</span><span class="s2">&quot;causal_genes_dup&quot;</span><span class="p">],</span> <span class="n">samples</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 <span class="c1">#print (samples[&#39;gene_name&#39;].tolist())</span>
 <span class="nb">print</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">del_causal_genes_in_sample</span><span class="p">))</span>
 </pre></div>
@@ -1241,7 +1251,7 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 
 <span class="n">num_causal_genes_in_sample</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">del_causal_genes_in_sample</span><span class="p">)</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">num_causal_genes_in_sample</span><span class="p">)</span>
-<span class="n">p</span> <span class="o">=</span> <span class="n">p_case</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;prevalence&quot;</span><span class="p">],</span> <span class="n">num_causal_genes_in_sample</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">p_case</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;prevalence&quot;</span><span class="p">],</span> <span class="n">num_causal_genes_in_sample</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 
@@ -1283,7 +1293,7 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 <span class="n">genes</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="s2">&quot;data/refGene.txt.gz&quot;</span><span class="p">)</span>
 <span class="n">empirical_data</span> <span class="o">=</span> <span class="n">load_cnv_data</span><span class="p">(</span><span class="s2">&quot;data/ISC-r1.CNV.bed&quot;</span><span class="p">)</span>
 <span class="n">sample_dup</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">genes</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">empirical_data</span><span class="p">[</span><span class="s1">&#39;dupCases&#39;</span><span class="p">],</span> <span class="n">empirical_data</span><span class="p">[</span><span class="s1">&#39;dupControls&#39;</span><span class="p">]]),</span> 
-                      <span class="n">env</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">[</span><span class="s2">&quot;causal_genes_dup&quot;</span><span class="p">])</span>
+                      <span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">[</span><span class="s2">&quot;causal_genes_dup&quot;</span><span class="p">])</span>
 <span class="n">save_data</span><span class="p">(</span><span class="n">sample_dup</span><span class="p">,</span> <span class="s1">&#39;dup_sample_test.pkl&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -1299,7 +1309,7 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># main procedure for deletion</span>
 <span class="n">sample_del</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">genes</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">empirical_data</span><span class="p">[</span><span class="s1">&#39;delCases&#39;</span><span class="p">],</span> <span class="n">empirical_data</span><span class="p">[</span><span class="s1">&#39;delControls&#39;</span><span class="p">]]),</span> 
-                      <span class="n">env</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">[</span><span class="s2">&quot;causal_genes_del&quot;</span><span class="p">])</span>
+                      <span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">[</span><span class="s2">&quot;causal_genes_del&quot;</span><span class="p">])</span>
 <span class="n">save_data</span><span class="p">(</span><span class="n">sample_del</span><span class="p">,</span> <span class="s1">&#39;del_sample_test.pkl&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -1310,403 +1320,14 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">sample_del</span><span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">])</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;niter&#39;: 2179, &#39;p&#39;: [0.005, 0.005, 0.01637228952080292, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.05139928456458686, 0.005, 0.032342724721722962, 0.005, 0.005, 0.005, 0.019095688883837642, 0.005], &#39;args&#39;: {&#39;odds_ratio_params&#39;: {&#39;shape&#39;: 5, &#39;scale&#39;: 1}, &#39;refgene_file&#39;: &#39;data/refGene.txt.gz&#39;, &#39;n_case&#39;: 10, &#39;prevalence&#39;: 0.005, &#39;n_causal_gene&#39;: 100, &#39;avg_cnv_per_individual&#39;: 5, &#39;block_size&#39;: 100000, &#39;n_ctrl&#39;: 10}, &#39;time&#39;: [&#39;2017-03-17 16:20:16.559097&#39;, &#39;2017-03-17 16:34:10.183416&#39;], &#39;number of genes overlap CNV&#39;: [10, 3, 8, 5, 12, 6, 2, 12, 12, 17, 11, 11, 10, 42, 16, 13, 5, 17, 11, 17, 21, 4, 3, 5, 14, 3, 7, 23, 25, 4, 7, 4, 19, 12, 8, 20, 10, 6, 21, 1, 4, 9, 17, 1, 8, 32, 15, 4, 6, 2, 7, 116, 1, 8, 1, 13, 10, 8, 32, 2, 13, 35, 9, 6, 5, 25, 67, 2, 30, 18, 0, 6, 8, 12, 26, 45, 10, 1, 52, 6, 9, 23, 2, 14, 16, 17, 8, 16, 27, 2, 6, 12, 11, 56, 18, 21, 9, 3, 5, 23, 29, 7, 23, 4, 28, 3, 27, 42, 4, 4, 9, 4, 14, 4, 7, 9, 2, 33, 39, 6, 40, 3, 10, 11, 10, 14, 5, 2, 9, 7, 23, 21, 11, 7, 5, 12, 12, 5, 5, 21, 38, 2, 17, 7, 18, 5, 12, 6, 27, 7, 3, 7, 27, 28, 21, 14, 1, 2, 3, 16, 55, 18, 15, 4, 34, 22, 6, 6, 3, 34, 50, 26, 25, 49, 16, 9, 27, 16, 14, 3, 10, 34, 7, 3, 22, 19, 35, 1, 15, 19, 11, 8, 22, 28, 56, 21, 6, 4, 6, 22, 16, 9, 15, 6, 11, 16, 2, 19, 5, 6, 6, 9, 32, 20, 10, 20, 6, 22, 13, 7, 47, 10, 2, 27, 5, 10, 15, 21, 15, 4, 25, 22, 10, 0, 31, 9, 15, 8, 7, 2, 3, 9, 6, 9, 15, 9, 53, 7, 13, 8, 10, 11, 13, 10, 1, 23, 10, 9, 12, 15, 12, 10, 26, 21, 3, 25, 16, 5, 2, 44, 11, 14, 38, 15, 8, 11, 25, 11, 18, 15, 28, 8, 12, 13, 21, 33, 11, 8, 17, 9, 2, 17, 16, 85, 10, 7, 5, 10, 3, 6, 22, 6, 5, 0, 4, 19, 13, 4, 6, 2, 5, 22, 9, 6, 3, 11, 23, 19, 10, 8, 4, 16, 2, 11, 16, 27, 10, 9, 17, 1, 9, 23, 14, 5, 3, 3, 20, 32, 9, 6, 14, 7, 5, 25, 15, 28, 15, 13, 6, 33, 21, 1, 20, 55, 29, 6, 44, 11, 12, 12, 14, 29, 16, 0, 24, 3, 9, 2, 18, 14, 9, 7, 24, 11, 44, 2, 16, 10, 11, 47, 11, 1, 17, 5, 8, 12, 2, 14, 41, 1, 14, 10, 3, 21, 8, 16, 19, 9, 6, 3, 7, 6, 11, 30, 5, 13, 0, 11, 34, 17, 18, 29, 1, 25, 24, 12, 12, 4, 10, 3, 33, 2, 6, 9, 10, 15, 5, 6, 0, 8, 2, 20, 10, 4, 3, 1, 16, 13, 19, 9, 17, 2, 36, 19, 11, 2, 16, 3, 1, 24, 1, 12, 20, 29, 29, 38, 7, 10, 6, 41, 36, 9, 28, 1, 5, 25, 12, 18, 4, 12, 11, 8, 20, 3, 7, 16, 33, 19, 4, 9, 29, 8, 8, 20, 8, 2, 14, 12, 2, 18, 10, 8, 11, 17, 6, 3, 5, 0, 12, 5, 9, 14, 8, 14, 37, 18, 12, 12, 32, 30, 20, 43, 2, 40, 17, 3, 2, 21, 2, 42, 37, 9, 2, 1, 34, 37, 21, 18, 6, 13, 3, 5, 8, 2, 13, 11, 8, 16, 73, 25, 0, 24, 18, 34, 5, 2, 59, 32, 13, 0, 7, 13, 5, 3, 6, 12, 3, 9, 5, 18, 26, 1, 14, 8, 1, 67, 22, 13, 8, 121, 8, 5, 15, 19, 27, 10, 10, 0, 37, 19, 30, 20, 13, 10, 49, 6, 12, 7, 7, 13, 1, 11, 10, 13, 17, 9, 2, 21, 1, 12, 3, 7, 108, 8, 2, 37, 9, 38, 2, 23, 0, 20, 18, 20, 31, 14, 4, 27, 39, 5, 7, 10, 82, 16, 8, 3, 9, 5, 17, 21, 14, 20, 9, 21, 16, 35, 28, 8, 10, 12, 7, 13, 8, 14, 10, 35, 32, 4, 10, 11, 5, 3, 4, 10, 15, 20, 12, 19, 9, 30, 23, 3, 14, 19, 13, 39, 4, 44, 13, 30, 22, 10, 11, 19, 14, 10, 11, 1, 25, 27, 9, 13, 0, 23, 16, 17, 18, 4, 18, 24, 6, 12, 41, 8, 20, 9, 5, 16, 7, 8, 18, 25, 14, 8, 18, 15, 3, 10, 15, 7, 21, 9, 11, 17, 10, 29, 27, 23, 8, 6, 0, 10, 9, 3, 37, 9, 6, 70, 6, 17, 10, 19, 16, 22, 8, 2, 9, 30, 21, 15, 37, 60, 18, 14, 10, 27, 13, 12, 18, 11, 54, 10, 13, 51, 4, 6, 26, 13, 43, 14, 4, 12, 25, 5, 2, 7, 21, 33, 7, 15, 6, 1, 23, 5, 10, 9, 4, 10, 8, 21, 20, 6, 11, 10, 6, 25, 14, 5, 21, 0, 2, 2, 17, 10, 7, 1, 13, 11, 6, 4, 9, 24, 8, 12, 25, 4, 4, 16, 5, 25, 26, 14, 78, 19, 23, 13, 20, 11, 25, 12, 4, 22, 42, 2, 6, 12, 11, 10, 6, 9, 30, 107, 49, 15, 7, 4, 3, 0, 12, 5, 17, 35, 10, 8, 8, 22, 5, 9, 4, 10, 15, 5, 13, 13, 13, 0, 1, 5, 25, 1, 25, 19, 10, 35, 24, 18, 14, 37, 19, 9, 10, 14, 27, 8, 2, 13, 4, 2, 13, 30, 24, 6, 8, 8, 12, 5, 39, 26, 4, 19, 7, 6, 19, 28, 14, 11, 53, 10, 3, 10, 17, 3, 2, 14, 6, 41, 15, 42, 5, 14, 7, 18, 5, 7, 4, 19, 33, 13, 6, 6, 31, 7, 8, 17, 4, 18, 18, 6, 10, 15, 11, 10, 13, 1, 9, 27, 32, 4, 0, 5, 3, 6, 3, 6, 4, 4, 2, 9, 16, 31, 14, 7, 9, 31, 74, 12, 17, 10, 25, 8, 23, 17, 8, 5, 7, 3, 3, 11, 8, 44, 7, 13, 4, 8, 2, 22, 5, 38, 6, 7, 15, 1, 8, 18, 30, 13, 13, 3, 10, 30, 26, 8, 21, 5, 4, 52, 8, 4, 5, 17, 16, 11, 12, 5, 30, 3, 11, 32, 0, 20, 28, 8, 43, 19, 2, 24, 26, 12, 14, 27, 21, 7, 7, 47, 14, 5, 15, 2, 40, 3, 4, 28, 28, 7, 4, 13, 12, 8, 43, 6, 5, 18, 26, 4, 4, 6, 1, 21, 8, 6, 17, 10, 6, 25, 7, 36, 1, 66, 27, 6, 9, 36, 5, 9, 3, 35, 5, 10, 36, 9, 33, 2, 13, 6, 3, 5, 19, 19, 12, 16, 37, 2, 6, 28, 8, 6, 12, 10, 3, 14, 14, 8, 16, 7, 51, 24, 131, 11, 108, 1, 44, 6, 6, 2, 2, 12, 6, 25, 8, 9, 6, 25, 9, 24, 4, 11, 17, 11, 17, 3, 13, 17, 3, 7, 28, 8, 6, 89, 19, 12, 7, 5, 14, 13, 28, 27, 3, 12, 5, 6, 9, 2, 9, 15, 22, 5, 23, 14, 20, 4, 31, 15, 7, 9, 47, 6, 4, 4, 20, 7, 10, 1, 6, 6, 13, 4, 24, 12, 9, 16, 4, 4, 7, 14, 5, 4, 17, 9, 31, 22, 3, 22, 18, 16, 31, 23, 22, 25, 14, 74, 72, 10, 14, 20, 15, 4, 13, 26, 46, 9, 0, 2, 9, 36, 23, 0, 49, 4, 8, 9, 10, 5, 10, 8, 9, 14, 27, 20, 2, 3, 7, 0, 6, 25, 45, 2, 39, 21, 13, 0, 3, 5, 8, 11, 8, 8, 9, 27, 5, 9, 4, 9, 15, 0, 21, 22, 12, 3, 5, 26, 29, 12, 17, 1, 15, 17, 23, 15, 10, 10, 27, 9, 2, 0, 19, 10, 40, 31, 16, 15, 8, 6, 16, 15, 14, 11, 6, 9, 10, 12, 33, 15, 8, 12, 65, 12, 23, 11, 12, 18, 5, 2, 2, 3, 2, 10, 4, 24, 19, 30, 1, 61, 53, 8, 14, 21, 17, 40, 20, 5, 21, 25, 9, 4, 2, 10, 23, 4, 5, 11, 31, 15, 11, 17, 17, 24, 22, 6, 6, 33, 17, 62, 11, 17, 10, 10, 7, 6, 3, 30, 22, 63, 5, 17, 13, 8, 11, 14, 5, 24, 1, 48, 2, 7, 2, 20, 12, 15, 7, 4, 30, 65, 20, 22, 12, 11, 15, 14, 14, 23, 14, 5, 62, 5, 32, 11, 22, 11, 17, 19, 19, 7, 10, 11, 20, 17, 19, 34, 28, 5, 3, 29, 5, 31, 7, 12, 15, 36, 18, 17, 17, 5, 8, 22, 10, 4, 11, 19, 1, 15, 1, 5, 3, 6, 16, 20, 4, 3, 32, 11, 15, 3, 22, 7, 20, 9, 17, 0, 7, 14, 9, 8, 14, 4, 8, 20, 25, 34, 2, 35, 38, 9, 93, 11, 37, 33, 19, 15, 17, 14, 5, 5, 2, 41, 37, 12, 2, 11, 11, 8, 12, 35, 17, 15, 10, 25, 12, 13, 7, 24, 24, 10, 8, 10, 34, 32, 10, 21, 12, 22, 18, 8, 5, 0, 12, 17, 5, 17, 31, 12, 6, 6, 7, 27, 6, 10, 6, 0, 1, 3, 4, 17, 54, 5, 20, 15, 16, 21, 2, 2, 16, 12, 15, 3, 5, 0, 12, 18, 16, 17, 1, 5, 17, 19, 6, 8, 16, 0, 13, 4, 43, 15, 36, 51, 36, 7, 3, 4, 4, 7, 7, 54, 35, 1, 5, 3, 20, 3, 7, 14, 11, 27, 5, 16, 0, 6, 8, 13, 55, 59, 25, 28, 45, 16, 63, 1, 16, 11, 10, 13, 9, 6, 9, 13, 19, 11, 18, 12, 4, 11, 23, 7, 1, 35, 17, 4, 8, 3, 10, 25, 33, 16, 19, 7, 11, 34, 6, 15, 8, 0, 15, 14, 1, 28, 16, 19, 23, 12, 32, 3, 4, 6, 33, 1, 13, 33, 29, 6, 26, 11, 22, 20, 43, 40, 9, 4, 32, 39, 15, 16, 9, 47, 1, 17, 6, 0, 38, 11, 30, 1, 10, 6, 23, 5, 5, 35, 6, 15, 29, 11, 73, 53, 36, 8, 11, 14, 36, 19, 2, 7, 2, 17, 6, 23, 26, 13, 15, 14, 3, 7, 22, 12, 11, 27, 2, 0, 18, 12, 10, 27, 4, 27, 2, 4, 10, 18, 22, 58, 12, 10, 16, 5, 1, 12, 7, 12, 11, 16, 15, 15, 8, 9, 9, 41, 29, 14, 24, 4, 9, 26, 3, 17, 5, 14, 6, 18, 4, 7, 31, 7, 15, 10, 6, 12, 3, 4, 24, 12, 5, 54, 6, 7, 0, 1, 19, 13, 16, 12, 0, 4, 6, 11, 19, 14, 23, 19, 5, 3, 31, 33, 6, 14, 0, 23, 11, 11, 8, 45, 8, 18, 14, 21, 1, 15, 9, 9, 23, 20, 67, 21, 14, 6, 21, 12, 5, 2, 24, 10, 27, 24, 5, 1, 10, 8, 14, 8, 15, 33, 3, 19, 8, 0, 2, 25, 10, 10, 33, 16, 6, 9, 8, 16, 23, 28, 1, 9, 10, 27, 13, 14, 37, 11, 14, 18, 8, 25, 11, 13, 20, 7, 17, 0, 12, 6, 76, 9, 52, 17, 10, 12, 23, 16, 1, 3, 1, 7, 5, 17, 21, 7, 2, 4, 18, 15, 8, 16, 11, 6, 16, 5, 13, 13, 11, 4, 2, 5, 7, 5, 21, 15, 4, 16, 28, 7, 8, 2, 11, 5, 15, 15, 16, 5, 24, 65, 6, 21, 13, 18, 3, 11, 0, 2, 14, 19, 2, 14, 20, 29, 0, 2, 13, 37, 11, 5, 6, 28, 5, 8, 32, 5, 37, 5, 14, 25, 14, 19, 28, 1, 29, 14, 5, 8, 3, 11, 11, 19, 4, 6, 6, 10, 27, 17, 20, 3, 32, 6, 3, 48, 65, 57, 0, 3, 26, 3, 8, 13, 39, 3, 11, 15, 12, 28, 45, 3, 5, 18, 19, 34, 9, 3, 9, 3, 21, 4, 12, 9, 11, 12, 56, 11, 9, 34, 6, 5, 18, 13, 16, 16, 7, 8, 59, 3, 5, 13, 1, 26, 21, 7, 2, 29, 20, 11, 21, 1, 0, 5, 12, 4, 14, 2, 3, 12, 7, 11, 39, 19, 12, 21, 6, 4, 23, 4, 6, 21, 3, 11, 7, 4, 0, 0, 9, 94, 25, 15, 7, 33, 3, 10, 7, 55, 5, 6, 2, 6, 5, 2, 13, 3, 14, 20, 1, 10, 24, 5, 10, 6, 29, 14, 23, 10, 6, 8, 1, 19, 6, 10, 8, 22, 4, 4, 15, 14, 5, 23, 7, 8, 8, 6, 27, 36, 6, 3, 5, 2, 7, 23, 4, 21, 14, 19, 26, 6, 4, 31, 22, 7, 38, 16, 25, 15, 10, 15, 14, 23, 2, 8, 11, 6, 4, 9, 10, 3, 8, 16, 10, 50, 17, 20, 10, 17, 6, 14, 17, 8, 2, 19, 3, 21, 10, 14, 40, 4, 25, 36, 30, 22, 4, 16, 10, 8, 53, 10, 3, 17, 19, 6, 11, 37, 7, 20, 11, 58, 16, 11, 1, 16, 7, 109, 4, 25, 30, 33, 26, 27, 3, 12, 13, 20, 7, 4, 10, 29, 13, 20, 40, 9, 62, 23, 0, 16, 5, 16, 15, 13, 9, 8, 9, 7, 24, 5, 31, 29, 5, 6, 18, 68, 20, 3, 10], &#39;number of causal genes&#39;: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">del_sample</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;del_sample_10.pkl&quot;</span><span class="p">)</span>
-<span class="c1">#print (del_sample)</span>
 <span class="n">dup_sample</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;dup_sample_test.pkl&quot;</span><span class="p">)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="n">del_sample</span><span class="p">)</span>
-<span class="c1">#print (del_sample[&quot;debug&quot;])</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;debug&#39;: {&#39;time&#39;: [&#39;2017-02-15 17:08:40.264546&#39;, &#39;2017-02-15 17:12:02.825971&#39;], &#39;niter&#39;: 486, &#39;p&#39;: [0.0031827860090428259, 0.005, 0.005, 0.005, 0.6505453911614798, 0.6505453911614798, 0.005, 0.005, 0.005, 0.0012097981272952473, 0.005, 0.3059097618667132, 0.12949580737958902, 0.99980784055682226, 0.29990580276138701, 0.90773760590677455, 0.093813950282095451, 0.92771648876231616, 0.78969771042764036, 0.98576137226751137]}, &#39;ctrl&#39;: [   chrom  cnv_start  cnv_terminate       tx_name gene_name
-0   chr1  144667554      144777217  NM_001277444     NBPF9
-1   chr1  144667554      144777217  NM_001278267    NBPF20
-2   chr1  144667554      144777217     NR_102405     NBPF8
-3  chr20   14641937       14744164     NM_080676   MACROD2
-4   chr7   16521180       16688543  NM_001159767      BZW2
-5   chr7   16521180       16688543  NM_001195280    LRRC72
-6   chr7   16521180       16688543     NM_020319    ANKMY2,    chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0  chr17   14065130       14306148  NM_001007530        CDRT15
-1  chr17   14065130       14306148     NM_001303         COX10
-2  chr17   14065130       14306148     NM_006041      HS3ST3B1
-3  chr17   14065130       14306148     NR_026880      MGC12916
-4   chr9    9753083       10141263     NM_002839         PTPRD
-5   chr9    9753083       10141263     NR_135135  LOC105375972,   chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0  chr4  184451596      184734567  NM_001307922         RWDD4
-1  chr4  184451596      184734567     NM_021942      TRAPPC11
-2  chr4  184451596      184734567     NR_132761         STOX2
-3  chr7   64090390       64222942  NM_001282360        ZNF107
-5  chr7   64090390       64222942     NR_106898       MIR6839
-6  chr9   66951854       67213452     NR_046175     LOC286297
-7  chr9   66951854       67213452     NR_135597  LOC101928195
-8  chr9   66951854       67213452     NR_136299  LOC101929583,   chrom  cnv_start  cnv_terminate       tx_name gene_name
-0  chr2  110170598      110285729  NM_001099289    SH3RF3,     chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0   chr16   18310092       18626032  NM_001004060         NOMO2
-1   chr16   18310092       18626032  NM_001282511        NPIPA8
-2   chr16   18310092       18626032     NR_003569       ABCC6P1
-3   chr16   18310092       18626032     NR_036140     MIR3179-1
-4   chr16   18310092       18626032     NR_036142     MIR3180-2
-5   chr16   18310092       18626032     NR_036144     MIR3180-3
-6   chr16   18310092       18626032     NR_037442     MIR3670-1
-7   chr16   18310092       18626032     NR_103772  LOC100288162
-8   chr16   18310092       18626032     NR_106971     MIR6511A4
-9   chr16   18310092       18626032     NR_107060     MIR6770-2
-10  chr19   23483077       23671874  NM_001300951         ZNF91
-11  chr19   23483077       23671874     NR_126448     LINC01224
-12   chr2   97222696       97365821  NM_001115016        KANSL3
-13   chr2   97222696       97365821  NM_001293083        FER1L5
-15  chr22   17190826       17384226     NM_175878          XKR3
-16  chr22   17190826       17384226     NR_003607       HSFY1P1
-17  chr22   17190826       17384226     NR_134584  LOC101929350
-18   chr5   99750562      100120786     NM_198507       FAM174A
-19   chr9   17213967       17327690  NM_001114395         CNTLN
-21   chr9   28485051       28666246  NM_001258282        LINGO2,    chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0   chr1   59122152       59247716  NM_001085487         MYSM1
-1   chr1   59122152       59247716     NM_002228           JUN
-2  chr16    9239672        9514580     NR_135195  LOC101927009
-3   chr5   17755111       18128814     NR_134286     LOC646241
-5   chr9   38979516       39481048  NM_001085452     SPATA31A1
-6   chr9   38979516       39481048     NM_033655       CNTNAP3
-7   chr9   38979516       39481048     NR_003528       ZNF658B
-8   chr9   38979516       39481048     NR_026803       FAM74A1,    chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0  chr15  100148197      100340151  NM_001130928         MEF2A
-1  chr15  100148197      100340151  NM_001284417        LYSMD4
-4  chr15  100148197      100340151     NR_003260       DNM1P46
-5   chr5  120468285      120673360     NR_104999  LOC102467226,     chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0   chr11   84026444       84168448  NM_001142699          DLG2
-3    chr6  140398583      140577469     NR_037441       MIR3668
-4    chr6  140398583      140577469     NR_121622  LOC100507477
-5    chr7      92986         445101  NM_001195127  WI2-2373I1.2
-6    chr7      92986         445101     NM_020223        FAM20C
-7    chr7      92986         445101     NR_033960     LOC442497
-8    chr7      92986         445101     NR_108065  LOC100507642
-9    chr7      92986         445101     NR_134324  LOC105375115
-10   chr7      92986         445101     NR_134325  LOC102723672
-11   chr8    2085029        2205515     NM_003970         MYOM2,     chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0    chr1  143571054      143802683  NM_001123068       PPIAL4G
-1    chr1  143571054      143802683     NR_104014     LINC01138
-2    chr1  143571054      143802683     NR_106967       MIR6077
-3    chr1  143571054      143802683     NR_111930  LOC100132057
-4   chr16   76613708       76754529     NR_110934  LOC101928203
-5    chr3  131309362      131420231  NM_001289112         CPNE4
-8    chr4  169217215      169470464  NM_001012967        DDX60L
-9    chr4  169217215      169470464  NM_001166108         PALLD
-11   chr4  169217215      169470464     NM_017631         DDX60
-12   chr9    9899553       10011673     NM_002839         PTPRD
-13   chr9   39063324       39319497     NM_033655       CNTNAP3,     chrom  cnv_start  cnv_terminate       tx_name   gene_name
-0   chr10    6717900        6864464     NR_038291   LINC00707
-1   chr10    6717900        6864464     NR_108074   LINC00706
-2   chr10    6717900        6864464     NR_138480       LINP1
-3   chr10   89019988       89693832  NM_001126049        KLLN
-4   chr10   89019988       89693832  NM_001178118      MINPP1
-5   chr10   89019988       89693832  NM_001304718        PTEN
-6   chr10   89019988       89693832  NM_001321968       ATAD1
-7   chr10   89019988       89693832     NM_004670      PAPSS2
-9   chr10   89019988       89693832     NR_024397  NUTM2A-AS1
-10  chr10   89019988       89693832     NR_028492      CFL1P1
-11  chr10   89019988       89693832     NR_029408   LINC00863
-12  chr10   89019988       89693832     NR_039825     MIR4678
-13  chr10   89019988       89693832     NR_046091   LINC00864
-14  chr10   89019988       89693832     NR_075100      NUTM2D
-16  chr15   85632159       85969831  NM_001243137       PDE8A
-17  chr15   85632159       85969831  NM_001310153    GOLGA6L3
-18  chr15   85632159       85969831     NM_006738      AKAP13
-20  chr15   85632159       85969831     NR_049748   LOC642423
-21  chr15   85632159       85969831     NR_106993     MIR7706
-22   chr8   92701825       92992805  NM_001198628     RUNX1T1
-28   chr8  100616588      101356709  NM_001029860      FBXO43
-29   chr8  100616588      101356709  NM_001280539      RNF19A
-30   chr8  100616588      101356709  NM_001286692       RGS22
-32   chr8  100616588      101356709     NM_003114       SPAG1
-33   chr8  100616588      101356709     NM_004374       COX6C
-34   chr8  100616588      101356709     NM_005034      POLR2K
-36   chr8  100616588      101356709     NM_017890      VPS13B
-39   chr8  100616588      101356709     NR_031675    MIR1273A], &#39;case&#39;: [    chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0   chr16   18310092       18626032  NM_001004060         NOMO2
-1   chr16   18310092       18626032  NM_001282511        NPIPA8
-2   chr16   18310092       18626032     NR_003569       ABCC6P1
-3   chr16   18310092       18626032     NR_036140     MIR3179-1
-4   chr16   18310092       18626032     NR_036142     MIR3180-2
-5   chr16   18310092       18626032     NR_036144     MIR3180-3
-6   chr16   18310092       18626032     NR_037442     MIR3670-1
-7   chr16   18310092       18626032     NR_103772  LOC100288162
-8   chr16   18310092       18626032     NR_106971     MIR6511A4
-9   chr16   18310092       18626032     NR_107060     MIR6770-2
-10  chr19   23483077       23671874  NM_001300951         ZNF91
-11  chr19   23483077       23671874     NR_126448     LINC01224
-12   chr2   97222696       97365821  NM_001115016        KANSL3
-13   chr2   97222696       97365821  NM_001293083        FER1L5
-15  chr22   17190826       17384226     NM_175878          XKR3
-16  chr22   17190826       17384226     NR_003607       HSFY1P1
-17  chr22   17190826       17384226     NR_134584  LOC101929350
-18   chr5   99750562      100120786     NM_198507       FAM174A
-19   chr9   17213967       17327690  NM_001114395         CNTLN
-21   chr9   28485051       28666246  NM_001258282        LINGO2,     chrom  cnv_start  cnv_terminate       tx_name    gene_name
-0   chr14   21863231       21976521  NM_001163380        RAB2B
-1   chr14   21863231       21976521  NM_001170629         CHD8
-2   chr14   21863231       21976521  NM_001303523         TOX4
-3   chr14   21863231       21976521     NM_019852       METTL3
-6   chr14   21863231       21976521     NR_002916       SNORD8
-7    chr2   62143754       62845111  NM_001319075       B3GNT2
-8    chr2   62143754       62845111  NM_001321781       COMMD1
-11   chr2   62143754       62845111     NM_198276       TMEM17
-12   chr2   62143754       62845111     NR_049824      MIR5192
-13  chr20   14850950       14963305     NM_080676      MACROD2
-14  chr20   14850950       14963305     NR_037841  MACROD2-AS1
-16   chr4  128464688      128569289     NM_015693         INTU,     chrom  cnv_start  cnv_terminate       tx_name  gene_name
-0   chr14   21570255       21886181  NM_001004731     OR5AU1
-1   chr14   21570255       21886181  NM_001102454     ZNF219
-2   chr14   21570255       21886181  NM_001146683    TMEM253
-3   chr14   21570255       21886181  NM_001170629       CHD8
-4   chr14   21570255       21886181     NM_007192    SUPT16H
-5   chr14   21570255       21886181     NM_020366    RPGRIP1
-7   chr14   21570255       21886181     NM_031314     HNRNPC
-8   chr14   21570255       21886181     NR_002916     SNORD8
-9   chr14   21570255       21886181     NR_003029     SNORD9
-10  chr14   21570255       21886181     NR_038970  LINC00641
-12  chr20   14632361       14782997     NM_080676    MACROD2,     chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0   chr15   52920719       53426420  NM_001286495       FAM214A
-1   chr15   52920719       53426420     NM_004498       ONECUT1
-4   chr19   24270992       24583679  NM_001278661        ZNF254
-7   chr19   24270992       24583679     NR_003603      HAVCR1P1
-8    chr2   49091906       49199120     NM_181446          FSHR
-9   chr22   17205248       19683384  NM_001035247         UFD1L
-10  chr22   17205248       19683384  NM_001037814          GAB4
-11  chr22   17205248       19683384  NM_001122731        MICAL3
-12  chr22   17205248       19683384  NM_001127649         PEX26
-14  chr22   17205248       19683384  NM_001163079         CECR6
-15  chr22   17205248       19683384  NM_001166242      C22orf39
-16  chr22   17205248       19683384  NM_001178010         CDC45
-17  chr22   17205248       19683384  NM_001184781         DGCR2
-18  chr22   17205248       19683384  NM_001193414         TUBA8
-19  chr22   17205248       19683384  NM_001195226         PRODH
-21  chr22   17205248       19683384  NM_001244567           BID
-24  chr22   17205248       19683384  NM_001256534       SLC25A1
-25  chr22   17205248       19683384  NM_001270733       BCL2L13
-26  chr22   17205248       19683384  NM_001282227         CECR1
-28  chr22   17205248       19683384  NM_001288707  LOC101929372
-29  chr22   17205248       19683384  NM_001289905        IL17RA
-30  chr22   17205248       19683384  NM_001290046         CECR2
-32  chr22   17205248       19683384  NM_001303484      SLC25A18
-33  chr22   17205248       19683384  NM_001318151        MRPL40
-35  chr22   17205248       19683384     NM_001696      ATP6V1E1
-36  chr22   17205248       19683384     NM_001835        CLTCL1
-37  chr22   17205248       19683384     NM_003277         CLDN5
-38  chr22   17205248       19683384     NM_003325          HIRA
-40  chr22   17205248       19683384     NM_005315          GSC2
-41  chr22   17205248       19683384     NM_005675         DGCR6
-..    ...        ...            ...           ...           ...
-47  chr22   17205248       19683384     NM_017829         CECR5
-48  chr22   17205248       19683384     NM_022719        DGCR14
-51  chr22   17205248       19683384     NM_053006         TSSK2
-53  chr22   17205248       19683384     NM_175878          XKR3
-55  chr22   17205248       19683384     NR_002733         DGCR5
-56  chr22   17205248       19683384     NR_003267         GGT3P
-57  chr22   17205248       19683384     NR_003607       HSFY1P1
-58  chr22   17205248       19683384     NR_015352         CECR7
-59  chr22   17205248       19683384     NR_024157        DGCR11
-60  chr22   17205248       19683384     NR_024159         DGCR9
-61  chr22   17205248       19683384     NR_024381     LINC00895
-62  chr22   17205248       19683384     NR_024417      FLJ41941
-63  chr22   17205248       19683384     NR_024482     CECR5-AS1
-64  chr22   17205248       19683384     NR_026651        DGCR10
-65  chr22   17205248       19683384     NR_030378        MIR648
-66  chr22   17205248       19683384     NR_036168     MIR3198-1
-67  chr22   17205248       19683384     NR_038398         CECR3
-69  chr22   17205248       19683384     NR_103718     LINC00528
-70  chr22   17205248       19683384     NR_103767     LINC01311
-71  chr22   17205248       19683384     NR_103793  LOC100996342
-73  chr22   17205248       19683384     NR_134584  LOC101929350
-74  chr22   17205248       19683384     NR_135922  LOC102725072
-75  chr22   17205248       19683384     NR_136561     LOC642643
-76  chr22   17205248       19683384     NR_136570  LOC100996415
-77  chr22   17205248       19683384     NR_136571  LOC100996432
-78  chr22   17205248       19683384     NR_136574  LOC105379550
-79   chr7  110772204      110903395  NM_001244606        IMMP2L
-81   chr7  133268767      133866174     NM_021807         EXOC4
-82   chr7  133268767      133866174     NM_144648         LRGUK
-83   chr7  133268767      133866174     NR_120513  LOC101928861
-
-[61 rows x 5 columns],     chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0    chr1   12785738       12964624  NM_001009611       PRAMEF4
-1    chr1   12785738       12964624  NM_001013631      HNRNPCL1
-2    chr1   12785738       12964624  NM_001080830      PRAMEF12
-3    chr1   12785738       12964624  NM_001103170       AADACL3
-4    chr1   12785738       12964624  NM_001146181      HNRNPCL3
-5    chr1   12785738       12964624  NM_001146344      PRAMEF11
-6    chr1   12785738       12964624  NM_001294139       PRAMEF1
-7    chr1   12785738       12964624  NM_001302551      HNRNPCL4
-9    chr1   12785738       12964624     NM_023014       PRAMEF2
-10   chr1   12785738       12964624     NM_152290      C1orf158
-11  chr15   28578067       30103766  NM_001130414         APBA2
-12  chr15   28578067       30103766  NM_001282468       GOLGA8M
-13  chr15   28578067       30103766  NM_001301025          TJP1
-16  chr15   28578067       30103766     NM_015307      FAM189A1
-17  chr15   28578067       30103766     NM_138704        NSMCE3
-18  chr15   28578067       30103766     NR_026589       WHAMMP2
-19  chr15   28578067       30103766     NR_033351       GOLGA8F
-21  chr15   28578067       30103766     NR_033353       GOLGA8G
-23  chr15   28578067       30103766     NR_036443       HERC2P9
-24  chr15   28578067       30103766     NR_036475  LOC100289656
-25  chr15   28578067       30103766     NR_037599     PDCD6IPP2
-26  chr15   28578067       30103766     NR_039734     MIR4509-3
-28  chr15   28578067       30103766     NR_047567     GOLGA6L7P
-29  chr15   28578067       30103766     NR_135221  LOC100130111,     chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0   chr10   88994091       89453873  NM_001099338        NUTM2A
-1   chr10   88994091       89453873  NM_001178118        MINPP1
-2   chr10   88994091       89453873     NM_004670        PAPSS2
-4   chr10   88994091       89453873     NR_024397    NUTM2A-AS1
-5   chr10   88994091       89453873     NR_029408     LINC00863
-6   chr10   88994091       89453873     NR_039825       MIR4678
-7   chr10   88994091       89453873     NR_046091     LINC00864
-8   chr10   88994091       89453873     NR_075100        NUTM2D
-10  chr14   21612548       22105756  NM_001004731        OR5AU1
-11  chr14   21612548       22105756  NM_001005465        OR10G3
-12  chr14   21612548       22105756  NM_001005466        OR10G2
-13  chr14   21612548       22105756  NM_001163380         RAB2B
-14  chr14   21612548       22105756  NM_001170629          CHD8
-15  chr14   21612548       22105756  NM_001303523          TOX4
-16  chr14   21612548       22105756     NM_007192       SUPT16H
-17  chr14   21612548       22105756     NM_019852        METTL3
-18  chr14   21612548       22105756     NM_020366       RPGRIP1
-20  chr14   21612548       22105756     NM_031314        HNRNPC
-22  chr14   21612548       22105756     NR_002916        SNORD8
-23  chr14   21612548       22105756     NR_003029        SNORD9
-24  chr14   21612548       22105756     NR_038970     LINC00641
-26  chr14   21612548       22105756     NR_111966         SALL2
-28  chr18   63487994       63594435  NM_001317214          CDH7
-31   chr3   41373408       41505550  NM_001322500          ULK4
-33   chr5  152224465      152373245     NR_109877     LINC01470
-34   chr9   67118396       67425328     NR_002817        AQP7P1
-35   chr9   67118396       67425328     NR_136300  LOC102724580,     chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0    chr1  143730296      144205711  NM_001123068       PPIAL4G
-1    chr1  143730296      144205711  NM_001278267        NBPF20
-2    chr1  143730296      144205711  NM_001287385        FAM72C
-3    chr1  143730296      144205711  NM_001345942        FAM72D
-7    chr1  143730296      144205711     NR_104014     LINC01138
-9   chr19     119893         222226     NR_028324     LINC01002
-10   chr2   78788443       78908902     NR_136312  LOC105374820
-11   chr2  107716282      107874911     NR_049853      MIR548AU
-12   chr3    1409251        1540739  NM_001289081         CNTN6
-13   chr5   23823388       25007203  NM_001317222         CDH10
-15   chr5   23823388       25007203     NR_037896     LOC340107
-16   chr5   23823388       25007203     NR_131245       C5orf17,     chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0    chr1  143118834      143412839     NR_110761  LOC102723769
-1   chr14   21820759       21999008  NM_001163380         RAB2B
-2   chr14   21820759       21999008  NM_001170629          CHD8
-3   chr14   21820759       21999008  NM_001303523          TOX4
-4   chr14   21820759       21999008     NM_007192       SUPT16H
-5   chr14   21820759       21999008     NM_019852        METTL3
-8   chr14   21820759       21999008     NR_002916        SNORD8
-9   chr14   21820759       21999008     NR_003029        SNORD9
-10  chr14   21820759       21999008     NR_111966         SALL2
-12  chr19   47770106       47956321  NM_001009813         MEIS3
-13  chr19   47770106       47956321  NM_001271749         C5AR2
-17  chr19   47770106       47956321     NM_001736         C5AR1
-18  chr19   47770106       47956321     NM_014681         DHX34
-19  chr19   47770106       47956321     NM_015063        SLC8A2
-20  chr19   47770106       47956321     NM_015603         CCDC9
-22  chr19   47770106       47956321     NM_178511        INAFM1
-24   chr3   41335135       41495505  NM_001322500          ULK4
-26   chr4   69278935       69393314     NM_014058     TMPRSS11E
-27   chr8    8138629        8259088  NM_001080826         PRAG1
-28   chr9   39010430       39140437     NM_033655       CNTNAP3,     chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0   chr14   21792414       22008410  NM_001163380         RAB2B
-1   chr14   21792414       22008410  NM_001170629          CHD8
-2   chr14   21792414       22008410  NM_001303523          TOX4
-3   chr14   21792414       22008410     NM_007192       SUPT16H
-4   chr14   21792414       22008410     NM_019852        METTL3
-5   chr14   21792414       22008410     NM_020366       RPGRIP1
-8   chr14   21792414       22008410     NR_002916        SNORD8
-9   chr14   21792414       22008410     NR_003029        SNORD9
-10  chr14   21792414       22008410     NR_111966         SALL2
-12  chr15   28121156       28229049     NM_000275          OCA2
-14  chr16   69976119       70259090  NM_001136214       CLEC18A
-16  chr16   69976119       70259090     NM_017990          PDPR
-17  chr16   69976119       70259090     NM_173619       CLEC18C
-19  chr16   69976119       70259090     NR_003610       PDXDC2P
-20  chr16   69976119       70259090     NR_033959        SMG1P7
-21  chr16   69976119       70259090     NR_036265     MIR1972-2
-22  chr16   69976119       70259090     NR_126007     LOC400541
-23  chr16   69976119       70259090     NR_135173  LOC105371328
-24   chr2  186587467      187498343  NM_001144999         ITGAV
-26   chr2  186587467      187498343     NM_018471        ZC3H15
-27   chr2  186587467      187498343     NM_173651         FSIP2
-28   chr2  186587467      187498343     NR_110214  LOC101927196
-31   chr2  186587467      187498343     NR_110218     LINC01473
-32   chr2  186587467      187498343     NR_144453     FSIP2-AS1
-34   chr6  162194980      162441643     NM_013988         PARK2,     chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0   chr16   68611330       69129549  NM_001317184          CDH1
-1   chr16   68611330       69129549  NM_001317195          CDH3
-2   chr16   68611330       69129549     NM_024562        TANGO6
-3   chr16   68611330       69129549     NR_106988     MIR7641-2
-4    chr2   52166979       52295296     NR_135237     LOC730100
-5   chr22   19052016       19831042     NM_000407         GP1BB
-6   chr22   19052016       19831042  NM_001009939         SEPT5
-7   chr22   19052016       19831042  NM_001035247         UFD1L
-8   chr22   19052016       19831042  NM_001166242      C22orf39
-9   chr22   19052016       19831042  NM_001178010         CDC45
-10  chr22   19052016       19831042  NM_001184781         DGCR2
-11  chr22   19052016       19831042  NM_001256534       SLC25A1
-12  chr22   19052016       19831042  NM_001318151        MRPL40
-14  chr22   19052016       19831042     NM_001835        CLTCL1
-16  chr22   19052016       19831042     NM_003277         CLDN5
-17  chr22   19052016       19831042     NM_003325          HIRA
-19  chr22   19052016       19831042     NM_005315          GSC2
-21  chr22   19052016       19831042     NM_005992          TBX1
-22  chr22   19052016       19831042     NM_022719        DGCR14
-23  chr22   19052016       19831042     NM_053004         GNB1L
-24  chr22   19052016       19831042     NM_053006         TSSK2
-28  chr22   19052016       19831042     NR_024381     LINC00895
-29  chr22   19052016       19831042     NR_037611   SEPT5-GP1BB
-31  chr22   19052016       19831042     NR_103767     LINC01311
-32   chr9   41893636       42043452     NR_003670        FGF7P3
-33   chr9   41893636       42043452     NR_015363         GLIDR
-36   chr9   41893636       42043452     NR_126048  LOC102724238
-37   chr9   41893636       42043452     NR_126049     LOC554249]}
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -1748,37 +1369,10 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">del_stats_table</span> <span class="o">=</span> <span class="n">get_stats</span><span class="p">(</span><span class="n">del_sample_gene</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">dup_stats_table</span> <span class="o">=</span> <span class="n">get_stats</span><span class="p">(</span><span class="n">dup_sample_gene</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dup_stats_table</span> <span class="o">=</span> <span class="n">get_stats</span><span class="p">(</span><span class="n">dup_sample_gene</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="n">dup_stats_table</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;top_OR_gene&#39;: [&#39;LOC101926964&#39;, &#39;NFIA&#39;, &#39;NFIA-AS1&#39;, &#39;NFIA-AS2&#39;, &#39;BBIP1&#39;, &#39;C10orf113&#39;, &#39;CCNYL2&#39;, &#39;DIP2C&#39;, &#39;LINC00839&#39;, &#39;LOC441666&#39;, &#39;MIR4680&#39;, &#39;MIR7641-2&#39;, &#39;NEBL&#39;, &#39;NEBL-AS1&#39;, &#39;PDCD4&#39;, &#39;PDCD4-AS1&#39;, &#39;RBM20&#39;, &#39;RPL13AP6&#39;, &#39;SHOC2&#39;, &#39;ZMYND11&#39;, &#39;ARHGAP42&#39;, &#39;LOC100128386&#39;, &#39;PGR&#39;, &#39;TMEM133&#39;, &#39;LIN7A&#39;, &#39;LINC01490&#39;, &#39;MIR617&#39;, &#39;MIR618&#39;, &#39;MYF5&#39;, &#39;MYF6&#39;, &#39;PTPRQ&#39;, &#39;LINC01065&#39;, &#39;OLFM4&#39;, &#39;LRRC9&#39;, &#39;PCNX4&#39;, &#39;LINC01169&#39;, &#39;LYSMD4&#39;, &#39;MEF2A&#39;, &#39;SMAD6&#39;, &#39;LOC100190986&#39;, &#39;NPIPB3&#39;, &#39;SNX29P1&#39;, &#39;ATP5A1&#39;, &#39;C18orf25&#39;, &#39;CDH7&#39;, &#39;DSC1&#39;, &#39;DSC2&#39;, &#39;DSC3&#39;, &#39;DSCAS&#39;, &#39;EPG5&#39;, &#39;HAUS1&#39;, &#39;PSTPIP2&#39;, &#39;SIGLEC15&#39;, &#39;SLC14A1&#39;, &#39;SLC14A2&#39;, &#39;SLC14A2-AS1&#39;, &#39;C2orf80&#39;, &#39;CCNYL1&#39;, &#39;CREB1&#39;, &#39;CRYGA&#39;, &#39;CRYGB&#39;, &#39;CRYGC&#39;, &#39;CRYGD&#39;, &#39;DYSF&#39;, &#39;FZD5&#39;, &#39;IDH1&#39;, &#39;IDH1-AS1&#39;, &#39;KLF7&#39;, &#39;LINC01116&#39;, &#39;LINC01117&#39;, &#39;LOC100507443&#39;, &#39;LOC101927865&#39;, &#39;LOC102724714&#39;, &#39;METTL21A&#39;, &#39;MIR1246&#39;, &#39;MIR1302-4&#39;, &#39;MIR2355&#39;, &#39;MIR4438&#39;, &#39;MIR4775&#39;, &#39;MIR7845&#39;, &#39;PIKFYVE&#39;, &#39;PLEKHM3&#39;, &#39;SATB2&#39;, &#39;SPAG16&#39;, &#39;ZNF638&#39;, &#39;ACOX2&#39;, &#39;ARPP21&#39;, &#39;CLSTN2&#39;, &#39;DRD3&#39;, &#39;FAM107A&#39;, &#39;FAM3D&#39;, &#39;FAM3D-AS1&#39;, &#39;MIR128-2&#39;, &#39;MIR568&#39;, &#39;NMNAT3&#39;, &#39;STAC&#39;, &#39;TIGIT&#39;, &#39;TM4SF4&#39;, &#39;WWTR1&#39;, &#39;ZBTB20&#39;], &#39;top_logp_2side&#39;: [0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444, 0.44839710345771444], &#39;top_OR_2side&#39;: [inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf, inf], &#39;top_logp_gene&#39;: [&#39;LOC101926964&#39;, &#39;NFIA&#39;, &#39;NFIA-AS1&#39;, &#39;NFIA-AS2&#39;, &#39;BBIP1&#39;, &#39;C10orf113&#39;, &#39;CCNYL2&#39;, &#39;DIP2C&#39;, &#39;LINC00839&#39;, &#39;LOC441666&#39;, &#39;MIR4680&#39;, &#39;MIR7641-2&#39;, &#39;NEBL&#39;, &#39;NEBL-AS1&#39;, &#39;PDCD4&#39;, &#39;PDCD4-AS1&#39;, &#39;RBM20&#39;, &#39;RPL13AP6&#39;, &#39;SHOC2&#39;, &#39;ZMYND11&#39;, &#39;ARHGAP42&#39;, &#39;LOC100128386&#39;, &#39;PGR&#39;, &#39;TMEM133&#39;, &#39;LIN7A&#39;, &#39;LINC01490&#39;, &#39;MIR617&#39;, &#39;MIR618&#39;, &#39;MYF5&#39;, &#39;MYF6&#39;, &#39;PTPRQ&#39;, &#39;LINC01065&#39;, &#39;OLFM4&#39;, &#39;LRRC9&#39;, &#39;PCNX4&#39;, &#39;LINC01169&#39;, &#39;LYSMD4&#39;, &#39;MEF2A&#39;, &#39;SMAD6&#39;, &#39;LOC100190986&#39;, &#39;NPIPB3&#39;, &#39;SNX29P1&#39;, &#39;ATP5A1&#39;, &#39;C18orf25&#39;, &#39;CDH7&#39;, &#39;DSC1&#39;, &#39;DSC2&#39;, &#39;DSC3&#39;, &#39;DSCAS&#39;, &#39;EPG5&#39;, &#39;HAUS1&#39;, &#39;PSTPIP2&#39;, &#39;SIGLEC15&#39;, &#39;SLC14A1&#39;, &#39;SLC14A2&#39;, &#39;SLC14A2-AS1&#39;, &#39;C2orf80&#39;, &#39;CCNYL1&#39;, &#39;CREB1&#39;, &#39;CRYGA&#39;, &#39;CRYGB&#39;, &#39;CRYGC&#39;, &#39;CRYGD&#39;, &#39;DYSF&#39;, &#39;FZD5&#39;, &#39;IDH1&#39;, &#39;IDH1-AS1&#39;, &#39;KLF7&#39;, &#39;LINC01116&#39;, &#39;LINC01117&#39;, &#39;LOC100507443&#39;, &#39;LOC101927865&#39;, &#39;LOC102724714&#39;, &#39;METTL21A&#39;, &#39;MIR1246&#39;, &#39;MIR1302-4&#39;, &#39;MIR2355&#39;, &#39;MIR4438&#39;, &#39;MIR4775&#39;, &#39;MIR7845&#39;, &#39;PIKFYVE&#39;, &#39;PLEKHM3&#39;, &#39;SATB2&#39;, &#39;SPAG16&#39;, &#39;ZNF638&#39;, &#39;ACOX2&#39;, &#39;ARPP21&#39;, &#39;CLSTN2&#39;, &#39;DRD3&#39;, &#39;FAM107A&#39;, &#39;FAM3D&#39;, &#39;FAM3D-AS1&#39;, &#39;MIR128-2&#39;, &#39;MIR568&#39;, &#39;NMNAT3&#39;, &#39;STAC&#39;, &#39;TIGIT&#39;, &#39;TM4SF4&#39;, &#39;WWTR1&#39;, &#39;ZBTB20&#39;]}
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -4720,7 +4314,7 @@ iIiIXdNkRkREROyaJjMiIiJi1zSZEREREbumyYyIiIjYtf8H71E0eOpZFSIAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> jupyter nbconvert --to script simulation.ipynb
@@ -4738,7 +4332,7 @@ iIiIXdNkRkREROyaJjMiIiJi1zSZEREREbumyYyIiIjYtf8H71E0eOpZFSIAAAAASUVORK5CYII=
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>[NbConvertApp] Converting notebook simulation.ipynb to script
-[NbConvertApp] Writing 24370 bytes to simulation.py
+[NbConvertApp] Writing 23157 bytes to simulation.py
 </pre>
 </div>
 </div>
