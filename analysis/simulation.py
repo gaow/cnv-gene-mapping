@@ -130,26 +130,27 @@ def p_case(p, num_causal_genes_in_sample, sim_args):
     odds = baseline_odds * odds_ratio
     return odds / (1 + odds)
 
-class Environment:
+class Environment(dict):
     def __init__(self):
-        self.args = {'block_size': 100000,
-                     'avg_cnv_per_individual': 5,
-                     'n_case': 10,
-                     'n_ctrl': 10,
-                     # set Gamma shape to be 3 instead of 5
-                     # 'odds_ratio_params' : None # for H_0
-                     'odds_ratio_params': {'shape': 5, 'scale': 1},
-                     'prevalence': 0.005,
-                     'n_causal_gene': 100,
-                     'refgene_file': 'data/refGene.txt.gz'
-                    }
-    
+        parameters = {'block_size': 100000,
+                      'avg_cnv_per_individual': 5,
+                      'n_case': 10,
+                      'n_ctrl': 10,
+                       # set Gamma shape to be 3 instead of 5
+                       # 'odds_ratio_params' : None # for H_0
+                      'odds_ratio_params': {'shape': 5, 'scale': 1},
+                      'prevalence': 0.005,
+                      'n_causal_gene': 100,
+                      'refgene_file': 'data/refGene.txt.gz',
+                      'cnv_file': 'data/ISC-r1.CNV.bed',
+                      'case_dataset': 'delCases',
+                      'ctrl_dataset': 'delControls',
+                      'output': 'del_sample' 
+                     }
+        self.update(parameters)
         ## select causal genes randomly, instead of the first 100 in enrichment analysis
-        self.ref_gene_name = load_reference_gene(self.args["refgene_file"])["gene_name"].tolist()
-        self.causal_genes = {
-            "causal_genes_del": random.sample(self.ref_gene_name, self.args['n_causal_gene']),
-            "causal_genes_dup": random.sample(self.ref_gene_name, self.args['n_causal_gene'])
-        }
+        self.ref_gene_name = load_reference_gene(parameters["refgene_file"])["gene_name"].tolist()
+        self.causal_genes = random.sample(self.ref_gene_name, parameters['n_causal_gene'])
 
 
 def simulate(refgene, cnv_data, args, causal_genes):
@@ -159,7 +160,7 @@ def simulate(refgene, cnv_data, args, causal_genes):
     status = 1
     case_data = []
     ctrl_data = []
-    debug = {'p': [], 'niter': 0, 'time': [str(datetime.now()), None], 'args': args, 'causal genes': causal_genes, 
+    debug = {'p': [], 'niter': 0, 'time': [str(datetime.now()), None], 'args': dict(args), 'causal genes': causal_genes, 
             'number of causal genes': [], 'number of genes overlap CNV': []}
     
     while(status):
@@ -194,16 +195,13 @@ def load_data(filename):
     return pickle.load(open(filename, "rb"))
 
 
-def run_simulation(refgene_file, cnv_file, args, causal_genes, simulation_id = 0):
-    ref_gene = load_reference_gene(refgene_file)
-    cnv_data = load_cnv_data(cnv_file)
-    sample_del = simulate(ref_gene, pd.concat([cnv_data['delCases'], cnv_data['delControls']]),
-                          args, causal_genes["causal_genes_del"])
-    sample_dup = simulate(ref_gene, pd.concat([cnv_data['dupCases'], cnv_data['dupControls']]),
-                          args, causal_genes["causal_genes_dup"])
-    save_data(sample_dup, 'dup_sample_{}.pkl'.format(simulation_id))
-    save_data(sample_del, 'del_sample_{}.pkl'.format(simulation_id))
-    return sample_dup, sample_del
+def run_simulation(args, simulation_id = 0):
+    ref_gene = load_reference_gene(args['refgene_file'])
+    cnv_data = load_cnv_data(args['cnv_file'])
+    sample_data = simulate(ref_gene, pd.concat([cnv_data[args['case_dataset']], cnv_data[args['ctrl_dataset']]]),
+                          args, args.causal_genes)
+    save_data(sample_data, '{}_{}.data.pkl'.format(args['output'], simulation_id))
+    return sample_data
 
 
 def get_gene_table(gene_df):
@@ -252,12 +250,11 @@ def get_stats_from_input(input_data, sort_data = 0):
     sample_stats_table = get_stats(del_sample_gene, num=100, sort = sort_data)
     return sample_stats_table
 
-def run_stats(sample_dup, sample_del, simulation_id = 0):
-    dup_stats_table = get_stats_from_input(sample_dup, sort_data=0)
-    del_stats_table = get_stats_from_input(sample_del, sort_data=0)
-    save_data(dup_stats_table, 'dup_stats_table_{}.pkl'.format(simulation_id))
-    save_data(del_stats_table, 'del_stats_table_{}.pkl'.format(simulation_id))
-    return dup_stats_table, del_stats_table
+def run_stats(input_data, output_data):
+    stats_table = get_stats_from_input(input_data, sort_data=0)
+    stats_table['debug'] = {'simulation_args': input_data['args']}
+    save_data(stats_table, output_data)
+    return stats_table
 
 
 
