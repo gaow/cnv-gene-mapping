@@ -57,13 +57,13 @@ def count_cnv_by_block(df, block_size):
         start_pos = min(data)
         end_pos = max(data)
         counts, bins = np.histogram(data, bins = int((end_pos - start_pos) / block_size) + 1, 
-                                range = (start_pos, end_pos))
-        return counts, [int(x) for x in bins]    
-    #
+                                    range = (start_pos, end_pos))
+        return counts, [int(x) for x in bins]
     block_counts = []
     for chrom in set(df['chrom']):
         counts, bins = count_by_blocks(chrom)
-        block_counts.extend([((chrom, x), y) for x, y in zip(bins, counts)])
+        # most blocks contain 0 CNV start. Add 0.5 to each block, so that CNV could start within any block.
+        block_counts.extend([((chrom, x), y+0.5) for x, y in zip(bins, counts)])
     return block_counts
 
 def fit_truncated_gaussian_mix(x, k = 10):
@@ -104,11 +104,11 @@ def annotate_samples(samples, gene_df):
         (cnv.cnv_start <= gene.tx_start AND cnv.cnv_terminate >= gene.tx_end)
         )
         """
-        # drop_duplicates(): make sure the case that CNV spread multiple txs but one gene to be counted only once
+        # drop_duplicates(): make sure the case that CNV spread multiple txs but each gene to be counted only once
     return sqldf(query).drop_duplicates(subset=("chrom", "cnv_start", "cnv_terminate", "gene_name"))
 
 def get_causal_genes(causal_genes, sample_genes):
-    '''get causal genes'''
+    '''get causal genes for each simulated sample'''
     return [x for x in causal_genes if x in sample_genes]
 
 def get_ccnv():
@@ -119,9 +119,14 @@ def p_case(p, num_causal_genes_in_sample, sim_args):
     if num_causal_genes_in_sample == 0:
         return p
     baseline_odds = p / (1 - p)
-    odds_ratio = np.prod([np.random.gamma(sim_args["odds_ratio_params"]['shape'], 
-                                          sim_args["odds_ratio_params"]['scale']) 
-                          for x in range(num_causal_genes_in_sample)])
+    if sim_args["odds_ratio_params"]["shape"] is None or sim_args["odds_ratio_params"]["scale"] is None:
+        odds_ratio = 1
+    else:
+        odds_ratio = np.prod([np.random.gamma(sim_args["odds_ratio_params"]['shape'], 
+                                              sim_args["odds_ratio_params"]['scale']) 
+                              for x in range(num_causal_genes_in_sample)])
+    # obtain the power of fisher test by setting odds ratio to 1
+    # odds_ratio = 1
     odds = baseline_odds * odds_ratio
     return odds / (1 + odds)
 
@@ -132,44 +137,19 @@ class Environment:
                      'n_case': 10,
                      'n_ctrl': 10,
                      # set Gamma shape to be 3 instead of 5
-                     'odds_ratio_params': {'shape': 3, 'scale': 1},
-                     'prevalence': 0.005
+                     # 'odds_ratio_params' : None # for H_0
+                     'odds_ratio_params': {'shape': 5, 'scale': 1},
+                     'prevalence': 0.005,
+                     'n_causal_gene': 100,
+                     'refgene_file': 'data/refGene.txt.gz'
                     }
-        
+    
+        ## select causal genes randomly, instead of the first 100 in enrichment analysis
+        self.ref_gene_name = load_reference_gene(self.args["refgene_file"])["gene_name"].tolist()
         self.causal_genes = {
-            "causal_genes_del": ['RAB2B', 'CHD8', 'TOX4', 'SNORD8', 'METTL3', 'SALL2', 'SNORD9', 'SUPT16H', 
-                                 'RPGRIP1', 'MIR3180-3', 'MIR3670-1', 'NOMO2', 'MIR6511A4', 'NPIPA8', 'FSIP2', 
-                                 'FSIP2-AS1', 'LOC101927196', 'ATP6V1E1', 'BCL2L13', 'BID', 'CECR1', 'CECR2', 
-                                 'CECR3', 'CECR5', 'CECR5-AS1', 'CECR6', 'CECR7', 'FLJ41941', 'GAB4', 'IL17RA', 
-                                 'LINC00528', 'LOC100996342', 'LOC100996415', 'LOC101929372', 'LOC105379550', 
-                                 'MICAL3', 'MIR3198-1', 'MIR648', 'PEX26', 'SLC25A18', 'TUBA8', 'USP18', 'FAM72C', 
-                                 'FAM72D', 'LINC01138', 'NBPF8', 'PPIAL4G', 'MIR6770-2', 'MIR3179-1', 'MIR3180-2', 
-                                 'MACROD2', 'FAM189A1', 'LOC100130111', 'MACROD2-AS1', 'LINC00623', 'LINC00869', 
-                                 'PPIAL4C', 'MIR3680-2', 'ABCC6P1', 'HNRNPC', 'APBA2', 'C22orf39', 'CDC45', 'CLDN5',
-                                 'CLTCL1', 'DGCR14', 'DGCR2', 'GNB1L', 'GOLGA6L7P', 'GOLGA8M', 'GP1BB', 'GSC2', 
-                                 'HIRA', 'LINC00895', 'LINC01311', 'LOC100289656', 'MRPL40', 'NPIPB4', 'NSMCE3', 
-                                 'PDCD6IPP2', 'SEPT5', 'SEPT5-GP1BB', 'SLC25A1', 'TBX1', 'TSSK2', 'UFD1L', 
-                                 'WHAMMP2', 'HSFY1P1', 'PFN1P2', 'XKR3', 'OR4A47', 'C5orf17', 'CNTN4', 'EXOC4', 
-                                 'LINC00540', 'LOC101927967', 'LRRC4C', 'SMG1P2', 'SPRY2', 'LOC100288162'],
-            "causal_genes_dup": ['CHN2', 'ESYT2', 'KIF26B', 'RPGRIP1', 'C22orf39', 'CDAN1', 'CDC45', 'CLDN5', 
-                                 'GNB1L', 'GP1BB', 'HIRA', 'LINC00895', 'MRPL40', 'SEPT5', 'SEPT5-GP1BB', 'STARD9', 
-                                 'TBX1', 'TTBK2', 'UFD1L', 'LOC283177', 'AGAP6', 'COL18A1', 'COL18A1-AS1', 
-                                 'FAM21EP', 'LOC440910', 'MIR6815', 'POTEE', 'SLC19A1', 'TIMM23B', 'VAV2', 
-                                 'WASHC2A', 'PTPRN2', 'ANO2', 'CCNDBP1', 'COLEC12', 'EPB42', 'FAM118A', 'FAM160A1', 
-                                 'FBLN1', 'KIAA0930', 'LINC01589', 'LOC100996325', 'LOC728613', 'LRRIQ3', 'MACROD2', 
-                                 'MIR1249', 'NUP153', 'NUP50', 'NUP50-AS1', 'PRSS48', 'RAP1GAP2', 'RBM47', 'RIBC2', 
-                                 'SH3D19', 'SMC1B', 'TGM5', 'TMEM62', 'UPK3A', 'VWF', 'DGKH', 'KIF13A', 'LINC01266', 
-                                 'VWA8', 'VWA8-AS1', 'CRYM-AS1', 'SNX29P1', 'KCNJ12', 'KCNJ18', 'BNC1', 
-                                 'LOC105375545', 'MIR128-2', 'AGAP7P', 'BTBD11', 'C3orf67', 'CHD8', 'COL18A1-AS2', 
-                                 'FAM110C', 'GMDS', 'HIRIP3', 'INO80E', 'LINC01022', 'MARK3', 'MIR5707', 'MSMB', 
-                                 'NCAPG2', 'NCOA4', 'PAK5', 'PLEKHB2', 'PWP1', 'RAB2B', 'RNF103-CHMP3', 'SNORD8', 
-                                 'SNORD9', 'SUPT16H', 'TIMM23', 'ZCCHC14', 'C17orf51', 'COX20', 'DLG1', 'EFCAB2']
+            "causal_genes_del": random.sample(self.ref_gene_name, self.args['n_causal_gene']),
+            "causal_genes_dup": random.sample(self.ref_gene_name, self.args['n_causal_gene'])
         }
-
-    def print(self, do_not_print = False):
-        if not do_not_print:
-            print("Number of causal deletion genes {}".format(len(self.causal_genes)))
-        self.a_new_one = 'hello'
 
 
 def simulate(refgene, cnv_data, args, causal_genes):
@@ -179,7 +159,8 @@ def simulate(refgene, cnv_data, args, causal_genes):
     status = 1
     case_data = []
     ctrl_data = []
-    debug = {'p': [], 'niter': 0, 'time': [str(datetime.now()), None], 'args': args}
+    debug = {'p': [], 'niter': 0, 'time': [str(datetime.now()), None], 'args': args, 'causal genes': causal_genes, 
+            'number of causal genes': [], 'number of genes overlap CNV': []}
     
     while(status):
         sample_len = sample_cnv_length(cnv_length, args['avg_cnv_per_individual'])
@@ -188,6 +169,10 @@ def simulate(refgene, cnv_data, args, causal_genes):
         samples = annotate_samples(samples, refgene)
         causal_genes_in_sample = get_causal_genes(causal_genes, samples['gene_name'].tolist())
         p = p_case(args['prevalence'], len(causal_genes_in_sample), args)
+        # add the number of causal genes overlapped with simulated CNVs for each simulated sample
+        debug['number of causal genes'].append(len(causal_genes_in_sample))
+        # add the number of genes overlapped with simulated CNVs, both causal and non-causal genes
+        debug['number of genes overlap CNV'].append(len( set(samples['gene_name'].tolist()) ))
         #debug['p'].append(p)
         if random.random() < p and len(case_data) < args['n_case']:
             # sample data is a case
@@ -209,7 +194,7 @@ def load_data(filename):
     return pickle.load(open(filename, "rb"))
 
 
-def run_simulation(refgene_file, cnv_file, args, causal_genes, simulation_id = '0'):
+def run_simulation(refgene_file, cnv_file, args, causal_genes, simulation_id = 0):
     ref_gene = load_reference_gene(refgene_file)
     cnv_data = load_cnv_data(cnv_file)
     sample_del = simulate(ref_gene, pd.concat([cnv_data['delCases'], cnv_data['delControls']]),
@@ -259,6 +244,20 @@ def get_stats(gene_table, num, sort = 0):
     stats_table = {"top_logp_2side": top_logp_2side, "top_logp_gene": top_logp_gene, 
             "top_OR_2side": top_OR_2side, "top_OR_gene": top_OR_gene}
     return stats_table
+
+def get_stats_from_input(input_data, sort_data = 0):
+    '''input data saving from run_simulate step: sample_dup and sample_del separately'''
+    input_data = load_data(input_data)
+    sample_gene_table = get_gene_table(input_data)
+    sample_stats_table = get_stats(del_sample_gene, num=100, sort = sort_data)
+    return sample_stats_table
+
+def run_stats(sample_dup, sample_del, simulation_id = 0):
+    dup_stats_table = get_stats_from_input(sample_dup, sort_data=0)
+    del_stats_table = get_stats_from_input(sample_del, sort_data=0)
+    save_data(dup_stats_table, 'dup_stats_table_{}.pkl'.format(simulation_id))
+    save_data(del_stats_table, 'del_stats_table_{}.pkl'.format(simulation_id))
+    return dup_stats_table, del_stats_table
 
 
 
