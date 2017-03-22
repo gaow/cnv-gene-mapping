@@ -231,18 +231,19 @@ def get_gene_table(gene_df):
 def get_stats(gene_table, num, sort = 0):
     stats_table = [(pvalue(row["n_case_gene"], row["n_ctrl_gene"], row["n_case_nogene"], row["n_ctrl_nogene"]), 
                 row["gene_name"]) for idx, row in gene_table.iterrows()]
+    top_pvalue = [x[0].two_tail for x in stats_table]
     oddsratio_table = [(stats.fisher_exact([[row["n_case_gene"], row["n_ctrl_gene"]], 
                                             [row["n_case_nogene"], row["n_ctrl_nogene"]]])[0], row["gene_name"]) 
                        for idx, row in gene_table.iterrows()]
     if not sort == 0:
         stats_table = sorted(stats_table, reverse=True, key = lambda x: -np.log10(x[0].two_tail))
         oddsratio_table = sorted(oddsratio_table, reverse=True, key=lambda x: x[0] if np.isfinite(x[0]) else -x[0])
-    top_logp_2side = [-np.log10(x[0].two_tail) for x in stats_table[:num]]
-    top_logp_gene = [x[1] for x in stats_table[:num]]
-    top_OR_2side = [x[0] for x in oddsratio_table[:num]]
-    top_OR_gene = [x[1] for x in oddsratio_table[:num]]
-    stats_table = {"top_logp_2side": top_logp_2side, "top_logp_gene": top_logp_gene, 
-            "top_OR_2side": top_OR_2side, "top_OR_gene": top_OR_gene}
+    top_logp_2side = [-np.log10(x[0].two_tail) for x in stats_table]
+    top_logp_gene = [x[1] for x in stats_table]
+    top_OR_2side = [x[0] for x in oddsratio_table]
+    top_OR_gene = [x[1] for x in oddsratio_table]
+    stats_table = {"top_pvalue": top_pvalue, "top_logp_2side": top_logp_2side, 
+                   "top_logp_gene": top_logp_gene, "top_OR_2side": top_OR_2side, "top_OR_gene": top_OR_gene}
     return stats_table
 
 def get_stats_from_input(input_data, sort_data = 0):
