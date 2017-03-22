@@ -151,6 +151,7 @@ class Environment(dict):
         ## select causal genes randomly, instead of the first 100 in enrichment analysis
         self.ref_gene_name = load_reference_gene(parameters["refgene_file"])["gene_name"].tolist()
         self.causal_genes = random.sample(self.ref_gene_name, parameters['n_causal_gene'])
+        self.seed = 999
 
 
 def simulate(refgene, cnv_data, args, causal_genes):
@@ -196,6 +197,7 @@ def load_data(filename):
 
 
 def run_simulation(args, simulation_id = 0):
+    np.random.seed(args.seed)
     ref_gene = load_reference_gene(args['refgene_file'])
     cnv_data = load_cnv_data(args['cnv_file'])
     sample_data = simulate(ref_gene, pd.concat([cnv_data[args['case_dataset']], cnv_data[args['ctrl_dataset']]]),
