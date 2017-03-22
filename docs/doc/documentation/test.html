@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8" />
+<title>test</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+
+
+
+
+
+<!-- Custom stylesheet, it must be in the same directory as the html file -->
+<link rel="stylesheet" href="custom.css">
+
+<!-- Loading mathjax macro -->
+<!-- Load mathjax -->
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- MathJax configuration -->
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        // Center justify equations in code and markdown cells. Elsewhere
+        // we use CSS to left justify single line equations in code cells.
+        displayAlign: 'center',
+        "HTML-CSS": {
+            styles: {'.MathJax_Display': {"margin": 0}},
+            linebreaks: { automatic: true }
+        }
+    });
+    </script>
+    <!-- End of mathjax configuration --></head>
+
+ <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+<style>  /* defined here in case the main.css below cannot be loaded */
+.lev1 {margin-left: 80px}
+.lev2 {margin-left: 100px}
+.lev3 {margin-left: 120px}
+.lev4 {margin-left: 140px}
+.lev5 {margin-left: 160px}
+.lev6 {margin-left: 180px}
+</style>
+
+<link rel="stylesheet" type="text/css" href="../../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../../css/toc2.css">
+
+<script src="../../js/toc2.js"></script>
+<script src="../../js/docs.js"></script>
+
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["STIX","TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+$( document ).ready(function(){
+
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false, 
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+
+            // fire the main function with these parameters
+
+
+            table_of_contents(cfg,st);
+
+            var file=analysisDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=documentation;
+            var pos=documentation.indexOf(file);
+        
+            for (var a=pos;a>=0;a--){
+                  var name=docs[a]
+                  $('<li><a href="'+name+'.html">'+name.replace(/_/g," ")+'</a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+
+
+            $('<li id="indexHome"><a href="../../documentation.html"><b>Analysis Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            for (var a=pos+1;a<docs.length;a++){
+                  var name=docs[a]
+                  $(".toc #toc-level0").append('<li><a href="'+name+'.html">'+name.replace(/_/g," ")+'</a></li>');
+            }
+            $("#toc-header").hide();
+
+    });
+</script>
+<body>
+  <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">simulation</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">del_sample</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;data/del_sim_0.data.pkl&quot;</span><span class="p">)</span>
+<span class="c1">#print (del_sample)</span>
+<span class="n">del_sample_gene</span> <span class="o">=</span> <span class="n">get_gene_table</span><span class="p">(</span><span class="n">del_sample</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">del_sample_gene</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;IKBKE&#39;, &#39;RASSF5&#39;, &#39;INPP1&#39;, &#39;MFSD6&#39;, &#39;LOC101928569&#39;, &#39;NREP&#39;, &#39;STARD4-AS1&#39;, &#39;ANKRD6&#39;, &#39;RRAGD&#39;, &#39;ASL&#39;, &#39;CCT6P1&#39;, &#39;CCT6P3&#39;, &#39;CRCP&#39;, &#39;ERV3-1&#39;, &#39;GUSB&#39;, &#39;INTS4P2&#39;, &#39;LOC441242&#39;, &#39;SNORA22&#39;, &#39;TPST1&#39;, &#39;VKORC1L1&#39;, &#39;ZNF117&#39;, &#39;ZNF138&#39;, &#39;ZNF273&#39;, &#39;ZNF92&#39;, &#39;LOC105375972&#39;, &#39;PTPRD&#39;, &#39;ACBD6&#39;, &#39;ACTRT2&#39;, &#39;BECN2&#39;, &#39;BSDC1&#39;, &#39;CHD1L&#39;, &#39;CHML&#39;, &#39;CLCA1&#39;, &#39;CLCA2&#39;, &#39;CLCA4&#39;, &#39;COL11A1&#39;, &#39;COL24A1&#39;, &#39;DIRAS3&#39;, &#39;EIF2D&#39;, &#39;EXO1&#39;, &#39;FAM229A&#39;, &#39;FH&#39;, &#39;FLVCR1&#39;, &#39;FLVCR1-AS1&#39;, &#39;FMO5&#39;, &#39;GNG12-AS1&#39;, &#39;IFNLR1&#39;, &#39;IL22RA1&#39;, &#39;KMO&#39;, &#39;LAMTOR2&#39;, &#39;LDLRAP1&#39;, &#39;LINC00982&#39;, &#39;LMNA&#39;, &#39;LOC105378828&#39;, &#39;LOC284632&#39;, &#39;MAP1LC3C&#39;, &#39;MEX3A&#39;, &#39;MIR3121&#39;, &#39;MIR4251&#39;, &#39;MIR6769B&#39;, &#39;MIR7856&#39;, &#39;MYOM3&#39;, &#39;NBPF18P&#39;, &#39;NSL1&#39;, &#39;ODF2L&#39;, &#39;OPN3&#39;, &#39;OVAAL&#39;, &#39;PDIA3P1&#39;, &#39;PRDM16&#39;, &#39;PRKAB2&#39;, &#39;RAB25&#39;, &#39;S100A10&#39;, &#39;S100A11&#39;, &#39;SEMA4A&#39;, &#39;SPATA45&#39;, &#39;SRGAP2&#39;, &#39;SRGAP2D&#39;, &#39;TATDN3&#39;, &#39;THEM4&#39;, &#39;TMEM57&#39;, &#39;TSSK3&#39;, &#39;UBQLN4&#39;, &#39;WDR64&#39;, &#39;WLS&#39;, &#39;XPR1&#39;, &#39;ZBTB8A&#39;, &#39;ZBTB8B&#39;, &#39;AGAP11&#39;, &#39;AGAP5&#39;, &#39;ALOX5&#39;, &#39;ARHGAP12&#39;, &#39;BAMBI&#39;, &#39;BMS1P4&#39;, &#39;C10orf126&#39;, &#39;CAMK2G&#39;, &#39;CCDC3&#39;, &#39;CCNYL2&#39;, &#39;CDH23&#39;, &#39;CDH23-AS1&#39;, &#39;CHCHD1&#39;, &#39;CTNNA3&#39;, &#39;EPC1&#39;, &#39;FAM171A1&#39;, &#39;FAM25A&#39;, &#39;FAM35A&#39;, &#39;FGFR2&#39;, &#39;FUT11&#39;, &#39;GLUD1&#39;, &#39;GLUD1P3&#39;, &#39;KIF5B&#39;, &#39;LINC00837&#39;, &#39;LINC00839&#39;, &#39;LINC01164&#39;, &#39;LINC01517&#39;, &#39;LOC102724323&#39;, &#39;LRRC27&#39;, &#39;MARCH8&#39;, &#39;MCM10&#39;, &#39;MYOZ1&#39;, &#39;NDST2&#39;, &#39;NUTM2A&#39;, &#39;NUTM2A-AS1&#39;, &#39;OPTN&#39;, &#39;PCDH15&#39;, &#39;PWWP2B&#39;, &#39;SEC24C&#39;, &#39;STK32C&#39;, &#39;SYNPO2L&#39;, &#39;USP54&#39;, &#39;WAC&#39;, &#39;WDR11&#39;, &#39;WDR11-AS1&#39;, &#39;ZFAND4&#39;, &#39;ZSWIM8&#39;, &#39;ZSWIM8-AS1&#39;, &#39;ADM&#39;, &#39;AMPD3&#39;, &#39;ARHGEF17&#39;, &#39;C2CD3&#39;, &#39;CAND1.11&#39;, &#39;COA4&#39;, &#39;DNAJB13&#39;, &#39;FAM168A&#39;, &#39;FCHSD2&#39;, &#39;FOLH1&#39;, &#39;KCNE3&#39;, &#39;LIPT2&#39;, &#39;LOC100287896&#39;, &#39;LOC101928580&#39;, &#39;LOC105376633&#39;, &#39;MIR548AL&#39;, &#39;MRPL48&#39;, &#39;MS4A2&#39;, &#39;MS4A3&#39;, &#39;OOSP2&#39;, &#39;P2RY2&#39;, &#39;P2RY6&#39;, &#39;P4HA3&#39;, &#39;PAAF1&#39;, &#39;PGM2L1&#39;, &#39;PLEKHB1&#39;, &#39;POLD3&#39;, &#39;PPME1&#39;, &#39;RAB6A&#39;, &#39;RELT&#39;, &#39;SBF2&#39;, &#39;SHANK2&#39;, &#39;UCP2&#39;, &#39;UCP3&#39;, &#39;A2M&#39;, &#39;A2M-AS1&#39;, &#39;A2MP1&#39;, &#39;AACS&#39;, &#39;ANKS1B&#39;, &#39;BRI3BP&#39;, &#39;COL2A1&#39;, &#39;CPM&#39;, &#39;DHX37&#39;, &#39;ETV6&#39;, &#39;GPR182&#39;, &#39;GRIN2B&#39;, &#39;KLRG1&#39;, &#39;LINC00477&#39;, &#39;LINC00612&#39;, &#39;MIR1244-4&#39;, &#39;MYO1A&#39;, &#39;NAB2&#39;, &#39;NEMP1&#39;, &#39;PEBP1&#39;, &#39;PFKM&#39;, &#39;PZP&#39;, &#39;RDH16&#39;, &#39;RFC5&#39;, &#39;SENP1&#39;, &#39;SOX5&#39;, &#39;TAC3&#39;, &#39;TAOK3&#39;, &#39;THRIL&#39;, &#39;TMEM106C&#39;, &#39;VDR&#39;, &#39;VSIG10&#39;, &#39;WSB2&#39;, &#39;ZBTB39&#39;, &#39;ANKRD20A9P&#39;, &#39;ELF1&#39;, &#39;GTF2F2&#39;, &#39;KCTD4&#39;, &#39;LINC00408&#39;, &#39;LINC00445&#39;, &#39;LINC00448&#39;, &#39;LINC00560&#39;, &#39;LINC01065&#39;, &#39;LOC101929259&#39;, &#39;LOC105370369&#39;, &#39;MIR621&#39;, &#39;MRPS31&#39;, &#39;MYCBP2&#39;, &#39;NBEA&#39;, &#39;RNF219-AS1&#39;, &#39;SLC25A15&#39;, &#39;SUGT1P3&#39;, &#39;TDRD3&#39;, &#39;TEX29&#39;, &#39;TPTE2P5&#39;, &#39;ADAM20&#39;, &#39;ADAM20P1&#39;, &#39;ADAM21&#39;, &#39;C14orf39&#39;, &#39;CCDC175&#39;, &#39;CMTM5&#39;, &#39;COX16&#39;, &#39;DAAM1&#39;, &#39;EFS&#39;, &#39;FOXG1&#39;, &#39;FOXG1-AS1&#39;, &#39;FRMD6&#39;, &#39;FRMD6-AS1&#39;, &#39;FRMD6-AS2&#39;, &#39;GPR135&#39;, &#39;IL25&#39;, &#39;JKAMP&#39;, &#39;KCNH5&#39;, &#39;L3HYPDH&#39;, &#39;LINC00639&#39;, &#39;LINC00640&#39;, &#39;LINC01551&#39;, &#39;LOC101927690&#39;, &#39;LOC101928075&#39;, &#39;LOC105370424&#39;, &#39;LOC105370457&#39;, &#39;LOC145474&#39;, &#39;MDGA2&#39;, &#39;MED6&#39;, &#39;MHRT&#39;, &#39;MIR208A&#39;, &#39;MIR208B&#39;, &#39;MYH6&#39;, &#39;MYH7&#39;, &#39;NGDN&#39;, &#39;OTX2&#39;, &#39;OTX2-AS1&#39;, &#39;PRKCH&#39;, &#39;RTN1&#39;, &#39;SIPA1L1&#39;, &#39;SIX6&#39;, &#39;SNORD56B&#39;, &#39;SYNJ2BP&#39;, &#39;SYNJ2BP-COX16&#39;, &#39;TMEM260&#39;, &#39;TMEM30B&#39;, &#39;TTC9&#39;, &#39;AGBL1&#39;, &#39;CEP152&#39;, &#39;FBN1&#39;, &#39;MCTP2&#39;, &#39;THSD4&#39;, &#39;ADAD2&#39;, &#39;ADCY7&#39;, &#39;CDH13&#39;, &#39;COG8&#39;, &#39;CYB5B&#39;, &#39;DNAAF1&#39;, &#39;HERC2P4&#39;, &#39;HYDIN&#39;, &#39;KCNG4&#39;, &#39;LINC01571&#39;, &#39;LOC102723753&#39;, &#39;MIR1538&#39;, &#39;NFAT5&#39;, &#39;NIP7&#39;, &#39;PAPD5&#39;, &#39;PDF&#39;, &#39;SNTB2&#39;, &#39;TAF1C&#39;, &#39;TERF2&#39;, &#39;TMED6&#39;, &#39;VPS4A&#39;, &#39;ARHGAP44&#39;, &#39;CCT6B&#39;, &#39;CFAP52&#39;, &#39;DYNLL2&#39;, &#39;EFCAB5&#39;, &#39;ELAC2&#39;, &#39;LIG3&#39;, &#39;LINC00670&#39;, &#39;LOC100128006&#39;, &#39;LOC101927666&#39;, &#39;LOC101928418&#39;, &#39;MIR1269B&#39;, &#39;MIR3184&#39;, &#39;MIR423&#39;, &#39;MYOCD&#39;, &#39;NSRP1&#39;, &#39;RAD51L3-RFFL&#39;, &#39;RFFL&#39;, &#39;SRSF1&#39;, &#39;STX8&#39;, &#39;VEZF1&#39;, &#39;ZNF830&#39;, &#39;AFG3L2&#39;, &#39;ALPK2&#39;, &#39;CHMP1B&#39;, &#39;GNAL&#39;, &#39;IMPA2&#39;, &#39;LOC101927322&#39;, &#39;LOC643542&#39;, &#39;MALT1&#39;, &#39;MC2R&#39;, &#39;MC5R&#39;, &#39;MPPE1&#39;, &#39;SNORA108&#39;, &#39;TUBB6&#39;, &#39;ZNF519&#39;, &#39;BIRC8&#39;, &#39;C19orf18&#39;, &#39;CACNG6&#39;, &#39;CACNG7&#39;, &#39;CACNG8&#39;, &#39;CCL25&#39;, &#39;CEACAM21&#39;, &#39;CNOT3&#39;, &#39;DPRX&#39;, &#39;ERVV-1&#39;, &#39;ERVV-2&#39;, &#39;FAM90A27P&#39;, &#39;FBN3&#39;, &#39;FPR1&#39;, &#39;FPR2&#39;, &#39;FPR3&#39;, &#39;HAS1&#39;, &#39;LAIR1&#39;, &#39;LENG1&#39;, &#39;LILRA3&#39;, &#39;LILRA4&#39;, &#39;LILRA5&#39;, &#39;LILRA6&#39;, &#39;LILRB2&#39;, &#39;LILRB3&#39;, &#39;LILRB5&#39;, &#39;LINC01480&#39;, &#39;LINC01530&#39;, &#39;LOC100128398&#39;, &#39;LOC284379&#39;, &#39;MBOAT7&#39;, &#39;MIR125A&#39;, &#39;MIR1283-1&#39;, &#39;MIR1283-2&#39;, &#39;MIR1323&#39;, &#39;MIR371A&#39;, &#39;MIR371B&#39;, &#39;MIR372&#39;, &#39;MIR373&#39;, &#39;MIR4752&#39;, &#39;MIR498&#39;, &#39;MIR512-1&#39;, &#39;MIR512-2&#39;, &#39;MIR515-1&#39;, &#39;MIR516A1&#39;, &#39;MIR516A2&#39;, &#39;MIR516B1&#39;, &#39;MIR516B2&#39;, &#39;MIR517A&#39;, &#39;MIR517B&#39;, &#39;MIR517C&#39;, &#39;MIR518A1&#39;, &#39;MIR518A2&#39;, &#39;MIR518B&#39;, &#39;MIR518C&#39;, &#39;MIR518D&#39;, &#39;MIR518E&#39;, &#39;MIR518F&#39;, &#39;MIR519A1&#39;, &#39;MIR519A2&#39;, &#39;MIR519B&#39;, &#39;MIR519C&#39;, &#39;MIR519D&#39;, &#39;MIR519E&#39;, &#39;MIR520A&#39;, &#39;MIR520B&#39;, &#39;MIR520C&#39;, &#39;MIR520D&#39;, &#39;MIR520E&#39;, &#39;MIR520F&#39;, &#39;MIR520G&#39;, &#39;MIR520H&#39;, &#39;MIR521-1&#39;, &#39;MIR521-2&#39;, &#39;MIR522&#39;, &#39;MIR523&#39;, &#39;MIR524&#39;, &#39;MIR525&#39;, &#39;MIR526A1&#39;, &#39;MIR526A2&#39;, &#39;MIR526B&#39;, &#39;MIR527&#39;, &#39;MIR935&#39;, &#39;MIR99B&#39;, &#39;MIRLET7E&#39;, &#39;MYADM&#39;, &#39;NDUFA3&#39;, &#39;NLRP12&#39;, &#39;OSCAR&#39;, &#39;PCAT19&#39;, &#39;PRKCG&#39;, &#39;PRPF31&#39;, &#39;RPS9&#39;, &#39;SIGLEC12&#39;, &#39;SIGLEC14&#39;, &#39;SIGLEC5&#39;, &#39;SIGLEC6&#39;, &#39;SPACA6&#39;, &#39;SPACA6P-AS&#39;, &#39;TARM1&#39;, &#39;TFPT&#39;, &#39;TMC4&#39;, &#39;TPM3P9&#39;, &#39;TSEN34&#39;, &#39;VN1R2&#39;, &#39;VN1R4&#39;, &#39;VSTM1&#39;, &#39;ZNF135&#39;, &#39;ZNF160&#39;, &#39;ZNF175&#39;, &#39;ZNF256&#39;, &#39;ZNF274&#39;, &#39;ZNF28&#39;, &#39;ZNF320&#39;, &#39;ZNF321P&#39;, &#39;ZNF329&#39;, &#39;ZNF331&#39;, &#39;ZNF347&#39;, &#39;ZNF415&#39;, &#39;ZNF418&#39;, &#39;ZNF468&#39;, &#39;ZNF525&#39;, &#39;ZNF600&#39;, &#39;ZNF606&#39;, &#39;ZNF665&#39;, &#39;ZNF677&#39;, &#39;ZNF702P&#39;, &#39;ZNF761&#39;, &#39;ZNF765&#39;, &#39;ZNF813&#39;, &#39;ZNF816&#39;, &#39;ZNF816-ZNF321P&#39;, &#39;ZNF818P&#39;, &#39;ZNF845&#39;, &#39;ZNF888&#39;, &#39;ZSCAN1&#39;, &#39;ZSCAN18&#39;, &#39;BIN1&#39;, &#39;C1GALT1C1L&#39;, &#39;COX7A2L&#39;, &#39;DIRC3&#39;, &#39;DNMT3A&#39;, &#39;DTNB&#39;, &#39;EFR3B&#39;, &#39;EHD3&#39;, &#39;EML4&#39;, &#39;EN1&#39;, &#39;HAAO&#39;, &#39;HIBCH&#39;, &#39;KCNG3&#39;, &#39;LINC01090&#39;, &#39;LINC01126&#39;, &#39;LINC01381&#39;, &#39;LOC102723854&#39;, &#39;MIR1301&#39;, &#39;MIR4265&#39;, &#39;MOGAT1&#39;, &#39;MTA3&#39;, &#39;NEMP2&#39;, &#39;NRXN1&#39;, &#39;OXER1&#39;, &#39;PARD3B&#39;, &#39;PDE1A&#39;, &#39;PLEKHH2&#39;, &#39;POMC&#39;, &#39;SH3RF3&#39;, &#39;SH3RF3-AS1&#39;, &#39;TET3&#39;, &#39;THADA&#39;, &#39;XDH&#39;, &#39;ZFP36L2&#39;, &#39;KCNK15&#39;, &#39;KCNK15-AS1&#39;, &#39;MACROD2&#39;, &#39;PABPC1L&#39;, &#39;PLCB4&#39;, &#39;PTPRT&#39;, &#39;RIMS4&#39;, &#39;SNORD17&#39;, &#39;SNX5&#39;, &#39;STK4&#39;, &#39;STK4-AS1&#39;, &#39;TOMM34&#39;, &#39;WISP2&#39;, &#39;YWHAB&#39;, &#39;ANKRD30BP2&#39;, &#39;MIR3156-3&#39;, &#39;ADORA2A-AS1&#39;, &#39;GUCD1&#39;, &#39;LOC101927859&#39;, &#39;LOC729461&#39;, &#39;PIWIL3&#39;, &#39;SGSM1&#39;, &#39;SNRPD3&#39;, &#39;TOP1P2&#39;, &#39;UPB1&#39;, &#39;ACAD11&#39;, &#39;ACKR4&#39;, &#39;CACNA2D2&#39;, &#39;CYB561D2&#39;, &#39;DNAJC13&#39;, &#39;FBLN2&#39;, &#39;FBXL2&#39;, &#39;GPR160&#39;, &#39;HDAC11&#39;, &#39;HDAC11-AS1&#39;, &#39;HYAL1&#39;, &#39;HYAL2&#39;, &#39;HYAL3&#39;, &#39;LINC00694&#39;, &#39;LINC01208&#39;, &#39;LOC100128164&#39;, &#39;LOC100506319&#39;, &#39;LOC100507291&#39;, &#39;MAP4&#39;, &#39;MIR7977&#39;, &#39;NAT6&#39;, &#39;NMNAT3&#39;, &#39;NPHP3-ACAD11&#39;, &#39;NPRL2&#39;, &#39;NUP210&#39;, &#39;P3H2&#39;, &#39;P3H2-AS1&#39;, &#39;RASSF1&#39;, &#39;RASSF1-AS1&#39;, &#39;SEC62&#39;, &#39;SERPINI2&#39;, &#39;SPATA16&#39;, &#39;SUSD5&#39;, &#39;TCAIM&#39;, &#39;TMEM115&#39;, &#39;TP63&#39;, &#39;TUSC2&#39;, &#39;WDR49&#39;, &#39;ZKSCAN7&#39;, &#39;ZMYND10&#39;, &#39;ZNF197&#39;, &#39;ZNF197-AS1&#39;, &#39;ZNF445&#39;, &#39;ZNF660&#39;, &#39;ZNF852&#39;, &#39;ANXA3&#39;, &#39;ATP8A1&#39;, &#39;CASP3&#39;, &#39;CCNG2&#39;, &#39;CNOT6L&#39;, &#39;CXCL13&#39;, &#39;F11-AS1&#39;, &#39;FAT1&#39;, &#39;FRAS1&#39;, &#39;HERC3&#39;, &#39;HERC5&#39;, &#39;HSPA4L&#39;, &#39;ING2&#39;, &#39;IRF2&#39;, &#39;LINC00290&#39;, &#39;LINC01094&#39;, &#39;LOC101929134&#39;, &#39;LOC389247&#39;, &#39;LVCAT8&#39;, &#39;MRPL1&#39;, &#39;MTNR1A&#39;, &#39;PLK4&#39;, &#39;PRIMPOL&#39;, &#39;PYURF&#39;, &#39;RWDD4&#39;, &#39;SHISA3&#39;, &#39;STOX2&#39;, &#39;TMPRSS11E&#39;, &#39;TRAPPC11&#39;, &#39;UGT2B17&#39;, &#39;BRD8&#39;, &#39;C5orf17&#39;, &#39;CAMK4&#39;, &#39;COL4A3BP&#39;, &#39;DNAH5&#39;, &#39;DTWD2&#39;, &#39;FAM13B&#39;, &#39;GAPT&#39;, &#39;HMGCR&#39;, &#39;LINC01194&#39;, &#39;LINC01411&#39;, &#39;LOC100130172&#39;, &#39;LOC100288254&#39;, &#39;LOC101928600&#39;, &#39;LOC646241&#39;, &#39;MIR548AE2&#39;, &#39;NME5&#39;, &#39;NREP-AS1&#39;, &#39;PLK2&#39;, &#39;RAB3C&#39;, &#39;SH3PXD2B&#39;, &#39;STARD4&#39;, &#39;TMEM232&#39;, &#39;UBTD2&#39;, &#39;WNT8A&#39;, &#39;ARID1B&#39;, &#39;ARMC12&#39;, &#39;BEND3&#39;, &#39;C6orf203&#39;, &#39;CAGE1&#39;, &#39;CAP2&#39;, &#39;CLPS&#39;, &#39;CLPSL1&#39;, &#39;CLPSL2&#39;, &#39;DEK&#39;, &#39;FAM162B&#39;, &#39;FBXL4&#39;, &#39;FKBP5&#39;, &#39;GCLC&#39;, &#39;KDM1B&#39;, &#39;KLHL31&#39;, &#39;KPNA5&#39;, &#39;LHFPL5&#39;, &#39;LINC00326&#39;, &#39;LINC01564&#39;, &#39;LOC100422737&#39;, &#39;LOC101927136&#39;, &#39;LOC101928491&#39;, &#39;LOC101929057&#39;, &#39;LOC285847&#39;, &#39;LYRM2&#39;, &#39;MANEA&#39;, &#39;MANEA-AS1&#39;, &#39;MDN1&#39;, &#39;MIR548AI&#39;, &#39;MIR5690&#39;, &#39;MIR587&#39;, &#39;NHLRC1&#39;, &#39;PDSS2&#39;, &#39;POU3F2&#39;, &#39;QRSL1&#39;, &#39;RIMS1&#39;, &#39;RIOK1&#39;, &#39;RREB1&#39;, &#39;SSR1&#39;, &#39;STXBP5-AS1&#39;, &#39;TPMT&#39;, &#39;UBE2J1&#39;, &#39;UST&#39;, &#39;ZNF204P&#39;, &#39;ZNF391&#39;, &#39;ZUFSP&#39;, &#39;AMPH&#39;, &#39;BMPER&#39;, &#39;DKFZp434L192&#39;, &#39;DPP6&#39;, &#39;DTX2&#39;, &#39;FDPSP2&#39;, &#39;FERD3L&#39;, &#39;FOXP2&#39;, &#39;GS1-124K5.11&#39;, &#39;GS1-124K5.4&#39;, &#39;HSPB1&#39;, &#39;IMMP2L&#39;, &#39;KCTD7&#39;, &#39;LINC00174&#39;, &#39;LOC100133091&#39;, &#39;LOC100240728&#39;, &#39;LOC100996437&#39;, &#39;LOC101928401&#39;, &#39;LOC650226&#39;, &#39;LRRN3&#39;, &#39;MAGI2&#39;, &#39;MIR3666&#39;, &#39;MIR6839&#39;, &#39;MPP6&#39;, &#39;NPTX2&#39;, &#39;RABGEF1&#39;, &#39;RPL13AP17&#39;, &#39;SRRM3&#39;, &#39;SSC4D&#39;, &#39;TFEC&#39;, &#39;TWIST1&#39;, &#39;UPK3B&#39;, &#39;YWHAG&#39;, &#39;ZNF107&#39;, &#39;ZP3&#39;, &#39;ASAP1&#39;, &#39;ASAP1-IT1&#39;, &#39;ASAP1-IT2&#39;, &#39;CPA6&#39;, &#39;DCSTAMP&#39;, &#39;DOCK5&#39;, &#39;DPYS&#39;, &#39;ENY2&#39;, &#39;EXT1&#39;, &#39;FAM49B&#39;, &#39;FBXO43&#39;, &#39;GINS4&#39;, &#39;GNRH1&#39;, &#39;GOLGA7&#39;, &#39;KCTD9&#39;, &#39;LOC102723729&#39;, &#39;LOC102724708&#39;, &#39;LRP12&#39;, &#39;MIR5194&#39;, &#39;MIR548I3&#39;, &#39;MIR6876&#39;, &#39;NUDCD1&#39;, &#39;PKHD1L1&#39;, &#39;POLR2K&#39;, &#39;RIMS2&#39;, &#39;RNF19A&#39;, &#39;SAMD12&#39;, &#39;SPAG1&#39;, &#39;TMEM74&#39;, &#39;ZFAT&#39;, &#39;AKAP2&#39;, &#39;C9orf135&#39;, &#39;CNTNAP3&#39;, &#39;DEC1&#39;, &#39;EPB41L4B&#39;, &#39;ERCC6L2&#39;, &#39;FGF7P3&#39;, &#39;GAS1&#39;, &#39;GAS1RR&#39;, &#39;GLIDR&#39;, &#39;GPR21&#39;, &#39;LINC00092&#39;, &#39;LINC00476&#39;, &#39;LINGO2&#39;, &#39;LOC100507346&#39;, &#39;LOC101928748&#39;, &#39;LOC102724238&#39;, &#39;LOC440173&#39;, &#39;LOC554249&#39;, &#39;MIR3927&#39;, &#39;PALM2&#39;, &#39;PALM2-AKAP2&#39;, &#39;PDCD1LG2&#39;, &#39;PTCH1&#39;, &#39;PTPN3&#39;, &#39;RABGAP1&#39;, &#39;RIC1&#39;, &#39;TNC&#39;, &#39;TNFSF8&#39;, &#39;BRINP3&#39;, &#39;TM9SF2&#39;, &#39;C18orf61&#39;, &#39;CIDEA&#39;, &#39;PRELID3A&#39;, &#39;CTNND2&#39;, &#39;AJAP1&#39;, &#39;AMIGO1&#39;, &#39;AMPD2&#39;, &#39;ATXN7L2&#39;, &#39;CACNA1E&#39;, &#39;CR1&#39;, &#39;CR1L&#39;, &#39;CR2&#39;, &#39;CRB1&#39;, &#39;CYB561D1&#39;, &#39;DDX20&#39;, &#39;ELF3&#39;, &#39;ELK4&#39;, &#39;EPS8L3&#39;, &#39;FAM212B&#39;, &#39;FAM212B-AS1&#39;, &#39;GNAI3&#39;, &#39;GNAT2&#39;, &#39;GPR37L1&#39;, &#39;GPR61&#39;, &#39;GRIK3&#39;, &#39;GSTM1&#39;, &#39;GSTM2&#39;, &#39;GSTM3&#39;, &#39;GSTM4&#39;, &#39;GSTM5&#39;, &#39;KCND3&#39;, &#39;KCND3-IT1&#39;, &#39;LINC01160&#39;, &#39;LOC101928718&#39;, &#39;LOC101928979&#39;, &#39;LOC284581&#39;, &#39;LRRC7&#39;, &#39;MIR197&#39;, &#39;MIR6740&#39;, &#39;NBPF10&#39;, &#39;NBPF20&#39;, &#39;NBPF25P&#39;, &#39;NBPF9&#39;, &#39;NUCKS1&#39;, &#39;PAPPA2&#39;, &#39;PLPPR4&#39;, &#39;PM20D1&#39;, &#39;PSMA5&#39;, &#39;RAB29&#39;, &#39;RAP1A&#39;, &#39;RFWD2&#39;, &#39;RNPEP&#39;, &#39;SELENOF&#39;, &#39;SLC26A9&#39;, &#39;SLC41A1&#39;, &#39;SLC45A3&#39;, &#39;SORT1&#39;, &#39;SSBP3&#39;, &#39;SYPL2&#39;, &#39;TIMM17A&#39;, &#39;ZBTB41&#39;, &#39;ARHGAP21&#39;, &#39;ARMS2&#39;, &#39;BTBD16&#39;, &#39;CCDC6&#39;, &#39;DHTKD1&#39;, &#39;DOCK1&#39;, &#39;EBF3&#39;, &#39;FAM175B&#39;, &#39;FAM53B&#39;, &#39;FAM53B-AS1&#39;, &#39;HTRA1&#39;, &#39;KIAA1217&#39;, &#39;LINC00959&#39;, &#39;LOC105378349&#39;, &#39;LOC105755953&#39;, &#39;METTL10&#39;, &#39;MGMT&#39;, &#39;MIR3941&#39;, &#39;MIR4297&#39;, &#39;MIR548AK&#39;, &#39;MRLN&#39;, &#39;PLEKHA1&#39;, &#39;PRTFDC1&#39;, &#39;SEC61A2&#39;, &#39;SLC16A9&#39;, &#39;TACC2&#39;, &#39;UNC5B&#39;, &#39;UNC5B-AS1&#39;, &#39;UPF2&#39;, &#39;ACAD8&#39;, &#39;ACCS&#39;, &#39;ACCSL&#39;, &#39;ALKBH3&#39;, &#39;ALKBH3-AS1&#39;, &#39;B3GAT1&#39;, &#39;C11orf40&#39;, &#39;C11orf96&#39;, &#39;EMSY&#39;, &#39;EXT2&#39;, &#39;GLB1L2&#39;, &#39;GLB1L3&#39;, &#39;GUCY2EP&#39;, &#39;IGSF9B&#39;, &#39;JAM3&#39;, &#39;LOC100128239&#39;, &#39;LOC101928443&#39;, &#39;LOC646522&#39;, &#39;LRRC32&#39;, &#39;LRRC4C&#39;, &#39;MIR4697&#39;, &#39;MIR4697HG&#39;, &#39;NCAPD3&#39;, &#39;OR52I1&#39;, &#39;OR52I2&#39;, &#39;OR52M1&#39;, &#39;SEC14L1P1&#39;, &#39;SPATA19&#39;, &#39;THYN1&#39;, &#39;TRIM68&#39;, &#39;VPS26B&#39;, &#39;A2ML1&#39;, &#39;ABCD2&#39;, &#39;APOF&#39;, &#39;C12orf40&#39;, &#39;CAND1&#39;, &#39;CNPY2&#39;, &#39;CPNE8&#39;, &#39;DYRK2&#39;, &#39;GLS2&#39;, &#39;GRIP1&#39;, &#39;HELB&#39;, &#39;IL23A&#39;, &#39;KIF21A&#39;, &#39;LOC100507175&#39;, &#39;LOC101927464&#39;, &#39;LOC102724421&#39;, &#39;LRIG3&#39;, &#39;M6PR&#39;, &#39;MGAT4C&#39;, &#39;MIP&#39;, &#39;MIR4495&#39;, &#39;MIR6880&#39;, &#39;MRS2P2&#39;, &#39;NCOR2&#39;, &#39;PAN2&#39;, &#39;PHC1&#39;, &#39;RBMS2&#39;, &#39;RFLNA&#39;, &#39;SNORA105C&#39;, &#39;SPRYD4&#39;, &#39;STAT2&#39;, &#39;TBC1D15&#39;, &#39;TIMELESS&#39;, &#39;TPH2&#39;, &#39;ZNF664-FAM101A&#39;, &#39;CLYBL&#39;, &#39;CLYBL-AS1&#39;, &#39;CLYBL-AS2&#39;, &#39;DOCK9&#39;, &#39;DOCK9-AS2&#39;, &#39;FKSG29&#39;, &#39;GPR18&#39;, &#39;GPR183&#39;, &#39;LINC00449&#39;, &#39;LINC01039&#39;, &#39;LINC01232&#39;, &#39;LOC101927437&#39;, &#39;MIR3169&#39;, &#39;MIR4306&#39;, &#39;MIR623&#39;, &#39;UBAC2&#39;, &#39;UBAC2-AS1&#39;, &#39;PPM1A&#39;, &#39;PRKD1&#39;, &#39;ANKDD1A&#39;, &#39;C15orf39&#39;, &#39;CILP&#39;, &#39;CLPX&#39;, &#39;COMMD4&#39;, &#39;GOLGA2P11&#39;, &#39;GOLGA6C&#39;, &#39;GOLGA6D&#39;, &#39;GOLGA6L2&#39;, &#39;LOC105376731&#39;, &#39;MAN2C1&#39;, &#39;MIR631&#39;, &#39;MIR8067&#39;, &#39;NEIL1&#39;, &#39;NPAP1&#39;, &#39;PARP16&#39;, &#39;PIF1&#39;, &#39;PLEKHO2&#39;, &#39;PWRN1&#39;, &#39;ABCC1&#39;, &#39;ACSM1&#39;, &#39;ACSM3&#39;, &#39;ANKS4B&#39;, &#39;ARHGAP17&#39;, &#39;BANP&#39;, &#39;C16orf52&#39;, &#39;CA5A&#39;, &#39;CDR2&#39;, &#39;CLN3&#39;, &#39;CRYM&#39;, &#39;CRYM-AS1&#39;, &#39;DCUN1D3&#39;, &#39;DNAH3&#39;, &#39;EEF2K&#39;, &#39;EIF3C&#39;, &#39;EIF3CL&#39;, &#39;ERI2&#39;, &#39;FLJ30679&#39;, &#39;FOPNL&#39;, &#39;FOXC2&#39;, &#39;FOXC2-AS1&#39;, &#39;FOXL1&#39;, &#39;IGSF6&#39;, &#39;IRX3&#39;, &#39;LOC100190986&#39;, &#39;LOC100996345&#39;, &#39;LOC101927814&#39;, &#39;LOC101928614&#39;, &#39;LOC102724344&#39;, &#39;LOC400553&#39;, &#39;LOC81691&#39;, &#39;LYRM1&#39;, &#39;METTL9&#39;, &#39;MIR3680-2&#39;, &#39;MIR6862-2&#39;, &#39;MTHFSD&#39;, &#39;NPIPB3&#39;, &#39;NPIPB4&#39;, &#39;OTOA&#39;, &#39;PDZD9&#39;, &#39;POLR3E&#39;, &#39;RRN3P1&#39;, &#39;SLC5A11&#39;, &#39;SLC7A5P2&#39;, &#39;SMG1P3&#39;, &#39;SNX29P1&#39;, &#39;THUMPD1&#39;, &#39;TMEM159&#39;, &#39;TNRC6A&#39;, &#39;UQCRC2&#39;, &#39;VWA3A&#39;, &#39;ZP2&#39;, &#39;ACAP1&#39;, &#39;ARHGEF15&#39;, &#39;ARL4D&#39;, &#39;BRCA1&#39;, &#39;C17orf74&#39;, &#39;CHRNB1&#39;, &#39;CLDN7&#39;, &#39;CTC1&#39;, &#39;CTDNEP1&#39;, &#39;DHX8&#39;, &#39;EIF5A&#39;, &#39;ELP5&#39;, &#39;ETV4&#39;, &#39;FAM83G&#39;, &#39;FGF11&#39;, &#39;FLJ45513&#39;, &#39;GABARAP&#39;, &#39;GALK1&#39;, &#39;GPS2&#39;, &#39;GRAP&#39;, &#39;ITGB4&#39;, &#39;KAT7&#39;, &#39;KCTD11&#39;, &#39;KRT13&#39;, &#39;KRT15&#39;, &#39;KRT19&#39;, &#39;KRT31&#39;, &#39;KRT32&#39;, &#39;KRT33A&#39;, &#39;KRT33B&#39;, &#39;KRT34&#39;, &#39;KRT35&#39;, &#39;KRT36&#39;, &#39;KRT37&#39;, &#39;KRT38&#39;, &#39;KRT39&#39;, &#39;KRT40&#39;, &#39;KRTAP1-1&#39;, &#39;KRTAP1-3&#39;, &#39;KRTAP1-4&#39;, &#39;KRTAP1-5&#39;, &#39;KRTAP16-1&#39;, &#39;KRTAP17-1&#39;, &#39;KRTAP2-1&#39;, &#39;KRTAP2-2&#39;, &#39;KRTAP2-3&#39;, &#39;KRTAP2-4&#39;, &#39;KRTAP29-1&#39;, &#39;KRTAP3-1&#39;, &#39;KRTAP3-2&#39;, &#39;KRTAP3-3&#39;, &#39;KRTAP4-1&#39;, &#39;KRTAP4-11&#39;, &#39;KRTAP4-12&#39;, &#39;KRTAP4-2&#39;, &#39;KRTAP4-3&#39;, &#39;KRTAP4-4&#39;, &#39;KRTAP4-5&#39;, &#39;KRTAP4-6&#39;, &#39;KRTAP4-7&#39;, &#39;KRTAP4-8&#39;, &#39;KRTAP4-9&#39;, &#39;KRTAP9-1&#39;, &#39;KRTAP9-2&#39;, &#39;KRTAP9-3&#39;, &#39;KRTAP9-4&#39;, &#39;KRTAP9-6&#39;, &#39;KRTAP9-7&#39;, &#39;KRTAP9-8&#39;, &#39;KRTAP9-9&#39;, &#39;LINC00324&#39;, &#39;LINC00854&#39;, &#39;LINC00910&#39;, &#39;LINC00974&#39;, &#39;LOC100505782&#39;, &#39;LOC101929767&#39;, &#39;MEOX1&#39;, &#39;MIR2117&#39;, &#39;MIR6510&#39;, &#39;NBR1&#39;, &#39;NBR2&#39;, &#39;NEURL4&#39;, &#39;NLGN2&#39;, &#39;PFAS&#39;, &#39;PHF23&#39;, &#39;PLSCR3&#39;, &#39;POLR2A&#39;, &#39;PRKCA&#39;, &#39;PRPSAP2&#39;, &#39;RANGRF&#39;, &#39;RECQL5&#39;, &#39;RND2&#39;, &#39;SAP30BP&#39;, &#39;SLC25A35&#39;, &#39;SLC2A4&#39;, &#39;SLC35G6&#39;, &#39;SLC5A10&#39;, &#39;SPEM1&#39;, &#39;TAC4&#39;, &#39;TMEM102&#39;, &#39;TMEM106A&#39;, &#39;TMEM256&#39;, &#39;TMEM256-PLSCR3&#39;, &#39;TMEM95&#39;, &#39;TNK1&#39;, &#39;VAT1&#39;, &#39;YBX2&#39;, &#39;ZBTB4&#39;, &#39;ANKRD20A5P&#39;, &#39;ANKRD30B&#39;, &#39;ANKRD62&#39;, &#39;CEP192&#39;, &#39;CEP76&#39;, &#39;CXADRP3&#39;, &#39;CYP4F35P&#39;, &#39;DCC&#39;, &#39;DTNA&#39;, &#39;FAM210A&#39;, &#39;FHOD3&#39;, &#39;LDLRAD4&#39;, &#39;LDLRAD4-AS1&#39;, &#39;LINC00907&#39;, &#39;LINC01443&#39;, &#39;LINC01444&#39;, &#39;LOC100996324&#39;, &#39;LOC101927809&#39;, &#39;LOC105371998&#39;, &#39;MIR3156-2&#39;, &#39;MIR4526&#39;, &#39;MIR5190&#39;, &#39;MOCOS&#39;, &#39;POTEC&#39;, &#39;PSMG2&#39;, &#39;PTPN2&#39;, &#39;RNMT&#39;, &#39;SEH1L&#39;, &#39;SPIRE1&#39;, &#39;ARMC6&#39;, &#39;BORCS8&#39;, &#39;BORCS8-MEF2B&#39;, &#39;BSG&#39;, &#39;C19orf68&#39;, &#39;CARD8&#39;, &#39;CARD8-AS1&#39;, &#39;CDC34&#39;, &#39;CERS1&#39;, &#39;COPE&#39;, &#39;DDX49&#39;, &#39;GDF1&#39;, &#39;GZMM&#39;, &#39;HCN2&#39;, &#39;HOMER3&#39;, &#39;LIG1&#39;, &#39;LOC102724360&#39;, &#39;MADCAM1&#39;, &#39;MEF2B&#39;, &#39;NCAN&#39;, &#39;NR2C2AP&#39;, &#39;ODF3L2&#39;, &#39;PLA2G4C&#39;, &#39;RFXANK&#39;, &#39;SHC2&#39;, &#39;SLC25A42&#39;, &#39;SUGP2&#39;, &#39;TMEM161A&#39;, &#39;TPGS1&#39;, &#39;ZNF114&#39;, &#39;ADD2&#39;, &#39;ANKRD20A8P&#39;, &#39;ATIC&#39;, &#39;CCT4&#39;, &#39;CERS6&#39;, &#39;CLEC4F&#39;, &#39;COMMD1&#39;, &#39;CWC22&#39;, &#39;FAM161A&#39;, &#39;FIGLA&#39;, &#39;FN1&#39;, &#39;LINC00607&#39;, &#39;LOC101927431&#39;, &#39;LOC102724849&#39;, &#39;LOC442028&#39;, &#39;LRP1B&#39;, &#39;LRRTM4&#39;, &#39;SPAG16&#39;, &#39;TEKT4&#39;, &#39;ZEB2&#39;, &#39;LOC339568&#39;, &#39;DSCAM&#39;, &#39;LINC00317&#39;, &#39;LINC01425&#39;, &#39;MIR4760&#39;, &#39;AIFM3&#39;, &#39;ARVCF&#39;, &#39;BCRP2&#39;, &#39;C22orf29&#39;, &#39;C22orf39&#39;, &#39;CCDC188&#39;, &#39;CDC45&#39;, &#39;CLDN5&#39;, &#39;CLTCL1&#39;, &#39;COMT&#39;, &#39;CRKL&#39;, &#39;DGCR14&#39;, &#39;DGCR2&#39;, &#39;DGCR8&#39;, &#39;FAM230B&#39;, &#39;GNB1L&#39;, &#39;GP1BB&#39;, &#39;GSC2&#39;, &#39;HIRA&#39;, &#39;LINC00895&#39;, &#39;LINC00896&#39;, &#39;LINC01311&#39;, &#39;LOC100996335&#39;, &#39;LOC101928891&#39;, &#39;LOC102724728&#39;, &#39;LOC284865&#39;, &#39;LRRC74B&#39;, &#39;LZTR1&#39;, &#39;MIR1306&#39;, &#39;MIR185&#39;, &#39;MIR3618&#39;, &#39;MIR4761&#39;, &#39;MIR649&#39;, &#39;MIR6816&#39;, &#39;MRPL40&#39;, &#39;P2RX6&#39;, &#39;P2RX6P&#39;, &#39;POM121L8P&#39;, &#39;RANBP1&#39;, &#39;RIMBP3B&#39;, &#39;RIMBP3C&#39;, &#39;SEPT5&#39;, &#39;SEPT5-GP1BB&#39;, &#39;SLC25A1&#39;, &#39;SLC7A4&#39;, &#39;TANGO2&#39;, &#39;TBX1&#39;, &#39;THAP7&#39;, &#39;THAP7-AS1&#39;, &#39;TRMT2A&#39;, &#39;TSSK2&#39;, &#39;TUBA3FP&#39;, &#39;TXNRD2&#39;, &#39;UFD1L&#39;, &#39;ZDHHC8&#39;, &#39;ADCY5&#39;, &#39;BBX&#39;, &#39;CADM2&#39;, &#39;CBLB&#39;, &#39;CDCP1&#39;, &#39;CLEC3B&#39;, &#39;CNOT10&#39;, &#39;ECT2&#39;, &#39;EPHB1&#39;, &#39;EXOSC7&#39;, &#39;FLNB&#39;, &#39;FLNB-AS1&#39;, &#39;GADL1&#39;, &#39;GRM7-AS3&#39;, &#39;HACD2&#39;, &#39;MB21D2&#39;, &#39;MIR3714&#39;, &#39;MIR564&#39;, &#39;MIR5688&#39;, &#39;NCEH1&#39;, &#39;NLGN1&#39;, &#39;PLCL2&#39;, &#39;ROBO2&#39;, &#39;SLC25A36&#39;, &#39;SLC6A1&#39;, &#39;SLC6A1-AS1&#39;, &#39;SLC6A11&#39;, &#39;TGM4&#39;, &#39;TMEM42&#39;, &#39;TNFSF10&#39;, &#39;ZDHHC3&#39;, &#39;ATOH1&#39;, &#39;BMPR1B&#39;, &#39;BMPR1B-AS1&#39;, &#39;CCDC96&#39;, &#39;CCSER1&#39;, &#39;CENPC&#39;, &#39;CRIPAK&#39;, &#39;FLJ36777&#39;, &#39;GLRB&#39;, &#39;GRIA2&#39;, &#39;GRID2&#39;, &#39;GRPEL1&#39;, &#39;HSD17B11&#39;, &#39;KCNIP4&#39;, &#39;LINC01179&#39;, &#39;LOC100129931&#39;, &#39;LOC100133461&#39;, &#39;LOC100506272&#39;, &#39;LOC101927237&#39;, &#39;LOC101928131&#39;, &#39;LOC101929019&#39;, &#39;LOC101929468&#39;, &#39;LOC339975&#39;, &#39;NKX1-1&#39;, &#39;NUDT9&#39;, &#39;PACRGL&#39;, &#39;PDGFC&#39;, &#39;PDLIM5&#39;, &#39;SPOCK3&#39;, &#39;STAP1&#39;, &#39;TADA2B&#39;, &#39;TBC1D14&#39;, &#39;TTC29&#39;, &#39;UBA6&#39;, &#39;UVSSA&#39;, &#39;AHRR&#39;, &#39;CCDC127&#39;, &#39;CEP120&#39;, &#39;CEP72&#39;, &#39;CRHBP&#39;, &#39;EXOC3&#39;, &#39;EXOC3-AS1&#39;, &#39;F2R&#39;, &#39;F2RL1&#39;, &#39;GRAMD3&#39;, &#39;HRAT5&#39;, &#39;IQGAP2&#39;, &#39;LOC100288152&#39;, &#39;LOC100996325&#39;, &#39;LOC101927488&#39;, &#39;LOC101929681&#39;, &#39;LOC102467226&#39;, &#39;LOC729506&#39;, &#39;LRRC14B&#39;, &#39;MIR4456&#39;, &#39;NCRUPAR&#39;, &#39;PDCD6&#39;, &#39;PLEKHG4B&#39;, &#39;PP7080&#39;, &#39;PRDM6&#39;, &#39;S100Z&#39;, &#39;SDHA&#39;, &#39;SLC9A3&#39;, &#39;TPPP&#39;, &#39;ADAT2&#39;, &#39;ADGB&#39;, &#39;AIG1&#39;, &#39;CASC15&#39;, &#39;COL10A1&#39;, &#39;DNAH8&#39;, &#39;FRK&#39;, &#39;FUCA2&#39;, &#39;GABRR1&#39;, &#39;GABRR2&#39;, &#39;GLP1R&#39;, &#39;GRM1&#39;, &#39;KCNK16&#39;, &#39;KCNK17&#39;, &#39;KCNK5&#39;, &#39;KIF6&#39;, &#39;LINC01277&#39;, &#39;LOC100131047&#39;, &#39;LOC101928661&#39;, &#39;LOC105377962&#39;, &#39;NKAIN2&#39;, &#39;NT5DC1&#39;, &#39;PARK2&#39;, &#39;PEX3&#39;, &#39;PM20D2&#39;, &#39;RAB32&#39;, &#39;SAYSD1&#39;, &#39;SRSF12&#39;, &#39;TPI1P3&#39;, &#39;ACHE&#39;, &#39;AGK&#39;, &#39;ANKIB1&#39;, &#39;AP1S1&#39;, &#39;C7orf77&#39;, &#39;CD36&#39;, &#39;CLEC5A&#39;, &#39;CYP51A1-AS1&#39;, &#39;DNAH11&#39;, &#39;GPR37&#39;, &#39;HDAC9&#39;, &#39;ISPD&#39;, &#39;ITGB8&#39;, &#39;JHDM1D-AS1&#39;, &#39;KDM7A&#39;, &#39;KIAA1147&#39;, &#39;KRIT1&#39;, &#39;LINC01392&#39;, &#39;LOC100128885&#39;, &#39;LOC100506098&#39;, &#39;LOC101927668&#39;, &#39;LOC101927769&#39;, &#39;LOC101927811&#39;, &#39;LOC102724094&#39;, &#39;MACC1&#39;, &#39;MACC1-AS1&#39;, &#39;MGAM&#39;, &#39;MIR4653&#39;, &#39;MIR6875&#39;, &#39;MOGAT3&#39;, &#39;MUC12&#39;, &#39;MUC17&#39;, &#39;MUC3A&#39;, &#39;NAT16&#39;, &#39;OR9A4&#39;, &#39;POT1&#39;, &#39;POT1-AS1&#39;, &#39;PRSS37&#39;, &#39;SDK1&#39;, &#39;SERPINE1&#39;, &#39;SLC12A9&#39;, &#39;SLC37A3&#39;, &#39;SOSTDC1&#39;, &#39;SRRT&#39;, &#39;SSBP1&#39;, &#39;TAS2R3&#39;, &#39;TAS2R38&#39;, &#39;TAS2R4&#39;, &#39;TAS2R5&#39;, &#39;THSD7A&#39;, &#39;TRIM56&#39;, &#39;TRIP6&#39;, &#39;UFSP1&#39;, &#39;VGF&#39;, &#39;VWC2&#39;, &#39;WEE2&#39;, &#39;WEE2-AS1&#39;, &#39;AP3M2&#39;, &#39;CHMP7&#39;, &#39;EFR3A&#39;, &#39;FAM84B&#39;, &#39;GPR20&#39;, &#39;HHLA1&#39;, &#39;KCNK9&#39;, &#39;LAPTM4B&#39;, &#39;LINC01288&#39;, &#39;LINC01300&#39;, &#39;LOC101929897&#39;, &#39;LOC105375787&#39;, &#39;LOC389641&#39;, &#39;LOXL2&#39;, &#39;MATN2&#39;, &#39;MIR1302-7&#39;, &#39;MIR7705&#39;, &#39;MROH5&#39;, &#39;OC90&#39;, &#39;PABPC1&#39;, &#39;PLAT&#39;, &#39;PTP4A3&#39;, &#39;R3HCC1&#39;, &#39;SLC45A4&#39;, &#39;SNTG1&#39;, &#39;TNFRSF10A&#39;, &#39;TNFRSF10D&#39;, &#39;TRAPPC9&#39;, &#39;AUH&#39;, &#39;DAB2IP&#39;, &#39;GGTA1P&#39;, &#39;IARS&#39;, &#39;LINC00475&#39;, &#39;LINC00484&#39;, &#39;LOC100128076&#39;, &#39;LOC100129316&#39;, &#39;MIR873&#39;, &#39;MIR876&#39;, &#39;NMRK1&#39;, &#39;OSTF1&#39;, &#39;SPTLC1&#39;, &#39;TRPM3&#39;]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">del_stats_table</span> <span class="o">=</span> <span class="n">get_stats</span><span class="p">(</span><span class="n">del_sample_gene</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">del_stats_table</span><span class="p">[</span><span class="s2">&quot;top_logp_gene&quot;</span><span class="p">],</span> <span class="n">del_stats_table</span><span class="p">[</span><span class="s2">&quot;top_logp_2side&quot;</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;IKBKE&#39;, &#39;RASSF5&#39;, &#39;INPP1&#39;, &#39;MFSD6&#39;, &#39;LOC101928569&#39;, &#39;NREP&#39;, &#39;STARD4-AS1&#39;, &#39;ANKRD6&#39;, &#39;RRAGD&#39;, &#39;ASL&#39;, &#39;CCT6P1&#39;, &#39;CCT6P3&#39;, &#39;CRCP&#39;, &#39;ERV3-1&#39;, &#39;GUSB&#39;, &#39;INTS4P2&#39;, &#39;LOC441242&#39;, &#39;SNORA22&#39;, &#39;TPST1&#39;, &#39;VKORC1L1&#39;, &#39;ZNF117&#39;, &#39;ZNF138&#39;, &#39;ZNF273&#39;, &#39;ZNF92&#39;, &#39;LOC105375972&#39;, &#39;PTPRD&#39;, &#39;ACBD6&#39;, &#39;ACTRT2&#39;, &#39;BECN2&#39;, &#39;BSDC1&#39;, &#39;CHD1L&#39;, &#39;CHML&#39;, &#39;CLCA1&#39;, &#39;CLCA2&#39;, &#39;CLCA4&#39;, &#39;COL11A1&#39;, &#39;COL24A1&#39;, &#39;DIRAS3&#39;, &#39;EIF2D&#39;, &#39;EXO1&#39;, &#39;FAM229A&#39;, &#39;FH&#39;, &#39;FLVCR1&#39;, &#39;FLVCR1-AS1&#39;, &#39;FMO5&#39;, &#39;GNG12-AS1&#39;, &#39;IFNLR1&#39;, &#39;IL22RA1&#39;, &#39;KMO&#39;, &#39;LAMTOR2&#39;, &#39;LDLRAP1&#39;, &#39;LINC00982&#39;, &#39;LMNA&#39;, &#39;LOC105378828&#39;, &#39;LOC284632&#39;, &#39;MAP1LC3C&#39;, &#39;MEX3A&#39;, &#39;MIR3121&#39;, &#39;MIR4251&#39;, &#39;MIR6769B&#39;, &#39;MIR7856&#39;, &#39;MYOM3&#39;, &#39;NBPF18P&#39;, &#39;NSL1&#39;, &#39;ODF2L&#39;, &#39;OPN3&#39;, &#39;OVAAL&#39;, &#39;PDIA3P1&#39;, &#39;PRDM16&#39;, &#39;PRKAB2&#39;, &#39;RAB25&#39;, &#39;S100A10&#39;, &#39;S100A11&#39;, &#39;SEMA4A&#39;, &#39;SPATA45&#39;, &#39;SRGAP2&#39;, &#39;SRGAP2D&#39;, &#39;TATDN3&#39;, &#39;THEM4&#39;, &#39;TMEM57&#39;, &#39;TSSK3&#39;, &#39;UBQLN4&#39;, &#39;WDR64&#39;, &#39;WLS&#39;, &#39;XPR1&#39;, &#39;ZBTB8A&#39;, &#39;ZBTB8B&#39;, &#39;AGAP11&#39;, &#39;AGAP5&#39;, &#39;ALOX5&#39;, &#39;ARHGAP12&#39;, &#39;BAMBI&#39;, &#39;BMS1P4&#39;, &#39;C10orf126&#39;, &#39;CAMK2G&#39;, &#39;CCDC3&#39;, &#39;CCNYL2&#39;, &#39;CDH23&#39;, &#39;CDH23-AS1&#39;, &#39;CHCHD1&#39;] [0.30129959574879828, 0.30129959574879828, 0.30129959574879828, 0.30129959574879828, 0.30129959574879828, 0.30129959574879828, 0.30129959574879828, 0.30129959574879828, 0.30129959574879828, 2.1215204264172833e-14, 2.1215204264172833e-14, 2.1215204264172833e-14, 2.1215204264172833e-14, 2.1215204264172833e-14, 2.1215204264172833e-14, 2.1215204264172833e-14, 2.1215204264172833e-14, 2.1215204264172833e-14, 2.1215204264172833e-14, 2.1215204264172833e-14, 2.1215204264172833e-14, 2.1215204264172833e-14, 2.1215204264172833e-14, 2.1215204264172833e-14, 0.30129959574879828, 0.30129959574879828, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, 2.4956794834406241e-13, -0.0, -0.0, 2.4956794834406241e-13, -0.0, -0.0, -0.0, 2.4956794834406241e-13, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, 2.4956794834406241e-13, -0.0, -0.0, 2.4956794834406241e-13, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, 2.4956794834406241e-13, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0, -0.0]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">del_stats_table</span> <span class="o">=</span> <span class="n">get_stats</span><span class="p">(</span><span class="n">del_sample_gene</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">del_stats_table</span><span class="p">[</span><span class="s2">&quot;top_logp_gene&quot;</span><span class="p">],</span> <span class="n">del_stats_table</span><span class="p">[</span><span class="s2">&quot;top_logp_2side&quot;</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;BRINP3&#39;, &#39;TM9SF2&#39;, &#39;C18orf61&#39;, &#39;CIDEA&#39;, &#39;PRELID3A&#39;, &#39;CTNND2&#39;, &#39;AJAP1&#39;, &#39;AMIGO1&#39;, &#39;AMPD2&#39;, &#39;ATXN7L2&#39;, &#39;CACNA1E&#39;, &#39;CR1&#39;, &#39;CR1L&#39;, &#39;CR2&#39;, &#39;CRB1&#39;, &#39;CYB561D1&#39;, &#39;DDX20&#39;, &#39;ELF3&#39;, &#39;ELK4&#39;, &#39;EPS8L3&#39;, &#39;FAM212B&#39;, &#39;FAM212B-AS1&#39;, &#39;GNAI3&#39;, &#39;GNAT2&#39;, &#39;GPR37L1&#39;, &#39;GPR61&#39;, &#39;GRIK3&#39;, &#39;GSTM1&#39;, &#39;GSTM2&#39;, &#39;GSTM3&#39;, &#39;GSTM4&#39;, &#39;GSTM5&#39;, &#39;KCND3&#39;, &#39;KCND3-IT1&#39;, &#39;LINC01160&#39;, &#39;LOC101928718&#39;, &#39;LOC101928979&#39;, &#39;LOC284581&#39;, &#39;LRRC7&#39;, &#39;MIR197&#39;, &#39;MIR6740&#39;, &#39;NBPF10&#39;, &#39;NBPF20&#39;, &#39;NBPF25P&#39;, &#39;NBPF9&#39;, &#39;NUCKS1&#39;, &#39;PAPPA2&#39;, &#39;PLPPR4&#39;, &#39;PM20D1&#39;, &#39;PSMA5&#39;, &#39;RAB29&#39;, &#39;RAP1A&#39;, &#39;RFWD2&#39;, &#39;RNPEP&#39;, &#39;SELENOF&#39;, &#39;SLC26A9&#39;, &#39;SLC41A1&#39;, &#39;SLC45A3&#39;, &#39;SORT1&#39;, &#39;SSBP3&#39;, &#39;SYPL2&#39;, &#39;TIMM17A&#39;, &#39;ZBTB41&#39;, &#39;ARHGAP21&#39;, &#39;ARMS2&#39;, &#39;BTBD16&#39;, &#39;CCDC6&#39;, &#39;DHTKD1&#39;, &#39;DOCK1&#39;, &#39;EBF3&#39;, &#39;FAM175B&#39;, &#39;FAM53B&#39;, &#39;FAM53B-AS1&#39;, &#39;HTRA1&#39;, &#39;KIAA1217&#39;, &#39;LINC00959&#39;, &#39;LOC105378349&#39;, &#39;LOC105755953&#39;, &#39;METTL10&#39;, &#39;MGMT&#39;, &#39;MIR3941&#39;, &#39;MIR4297&#39;, &#39;MIR548AK&#39;, &#39;MRLN&#39;, &#39;PLEKHA1&#39;, &#39;PRTFDC1&#39;, &#39;SEC61A2&#39;, &#39;SLC16A9&#39;, &#39;TACC2&#39;, &#39;UNC5B&#39;, &#39;UNC5B-AS1&#39;, &#39;UPF2&#39;, &#39;ACAD8&#39;, &#39;ACCS&#39;, &#39;ACCSL&#39;, &#39;ALKBH3&#39;, &#39;ALKBH3-AS1&#39;, &#39;B3GAT1&#39;, &#39;C11orf40&#39;, &#39;C11orf96&#39;] [0.60507653494868918, 0.60507653494868918, 0.60507653494868918, 0.60507653494868918, 0.60507653494868918, 0.60507653494868918, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963, 0.30240044325689963]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+    </div>
+  </div>
+</body>
+</html>
