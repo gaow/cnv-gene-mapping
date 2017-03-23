@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>simulation_pipeline</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>simulation_pipeline</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
@@ -154,20 +152,21 @@ $( document ).ready(function(){
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="nb">set</span> <span class="o">-</span><span class="n">j</span> <span class="mi">4</span>
-<span class="o">%</span><span class="kp">run</span> <span class="n">simulate</span>
-<span class="p">[</span><span class="n">simulate</span><span class="p">:</span> <span class="kp">shared</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;simulated_data&#39;</span><span class="p">:</span> <span class="s1">&#39;output&#39;</span><span class="p">}]</span>
+<span class="o">%</span><span class="kp">run</span> <span class="n">varbvs</span>
+<span class="p">[</span><span class="n">varbvs_1</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s2">&quot;pandasql&quot;</span><span class="p">),</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s1">&#39;fisher&#39;</span><span class="p">),</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s1">&#39;plotly&#39;</span><span class="p">)</span>
 <span class="kn">parameter:</span> <span class="n">gamma</span> <span class="o">=</span> <span class="p">[(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
 <span class="kn">parameter:</span> <span class="n">sample_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">]</span>
 <span class="kn">parameter:</span> <span class="n">n_causal_gene</span> <span class="o">=</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
 <span class="kn">parameter:</span> <span class="n">seed</span> <span class="o">=</span> <span class="p">[</span><span class="mi">999</span><span class="p">]</span>
 <span class="kn">parameter:</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;data/del_sim&#39;</span>
 <span class="kn">input:</span> <span class="kp">for_each</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">,</span> <span class="s1">&#39;sample_size&#39;</span><span class="p">,</span> <span class="s1">&#39;n_causal_gene&#39;</span><span class="p">,</span> <span class="s1">&#39;seed&#39;</span><span class="p">]</span>
-<span class="kn">output:</span> <span class="s2">&quot;${name}_</span><span class="si">%s</span><span class="s2">.pkl&quot;</span> <span class="o">%</span> <span class="s2">&quot;scale{}_shape{}_N{}_M{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;${_gamma[0]}&quot;</span><span class="p">,</span> <span class="s2">&quot;${_gamma[1]}&quot;</span><span class="p">,</span> <span class="s2">&quot;${_sample_size}&quot;</span><span class="p">,</span> <span class="s2">&quot;${_n_causal_gene}&quot;</span><span class="p">,</span> <span class="s2">&quot;${_seed}&quot;</span><span class="p">)</span>
+<span class="kn">output:</span> <span class="s2">&quot;${name}_</span><span class="si">%s</span><span class="s2">.pkl&quot;</span> <span class="o">%</span> <span class="s2">&quot;scale{}_shape{}_N{}_M{}_{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;${_gamma[0]}&quot;</span><span class="p">,</span> <span class="s2">&quot;${_gamma[1]}&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="s2">&quot;${_sample_size}&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;${_n_causal_gene}&quot;</span><span class="p">,</span> <span class="s2">&quot;${_seed}&quot;</span><span class="p">)</span>
 <span class="kn">task:</span>
 <span class="kn">python:</span>
 <span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/GIT/cnv-gene-mapping/analysis&#39;</span><span class="p">))</span>
-<span class="kn">from</span> <span class="nn">simulation</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+<span class="kn">from</span> <span class="nn">simulation</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">run_simulation</span> 
 <span class="n">args</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 <span class="n">args</span><span class="p">[</span><span class="s1">&#39;odds_ratio_params&#39;</span><span class="p">][</span><span class="s1">&#39;shape&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_gamma</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>
 <span class="n">args</span><span class="p">[</span><span class="s1">&#39;odds_ratio_params&#39;</span><span class="p">][</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_gamma</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
@@ -175,20 +174,20 @@ $( document ).ready(function(){
 <span class="n">args</span><span class="p">[</span><span class="s1">&#39;n_causal_gene&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_n_causal_gene</span><span class="p">}</span>
 <span class="n">args</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">name</span><span class="err">!</span><span class="n">r</span><span class="p">}</span>
 <span class="n">args</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_seed</span><span class="p">}</span>
-<span class="n">run_simulation</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">_index</span><span class="p">})</span>
+<span class="n">run_simulation</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s2">&quot;scale{}_shape{}_N{}_M{}_{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_gamma</span><span class="p">[</span><span class="mi">0</span><span class="p">]},</span> <span class="err">$</span><span class="p">{</span><span class="n">_gamma</span><span class="p">[</span><span class="mi">1</span><span class="p">]},</span> <span class="err">$</span><span class="p">{</span><span class="n">_sample_size</span><span class="p">}</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">_n_causal_gene</span><span class="p">},</span> <span class="err">$</span><span class="p">{</span><span class="n">_seed</span><span class="p">}))</span>
 
-<span class="p">[</span><span class="n">varbvs_1</span><span class="p">]</span>
-<span class="kn">depends:</span> <span class="n">sos_variable</span><span class="p">(</span><span class="s2">&quot;simulated_data&quot;</span><span class="p">),</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s2">&quot;feather&quot;</span><span class="p">)</span>
-<span class="kn">input:</span> <span class="n">simulated_data</span><span class="p">,</span> <span class="kp">group_by</span> <span class="o">=</span> <span class="s1">&#39;single&#39;</span>
+<span class="p">[</span><span class="n">varbvs_2</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s2">&quot;feather&quot;</span><span class="p">)</span>
+<span class="kn">input:</span> <span class="kp">group_by</span> <span class="o">=</span> <span class="s1">&#39;single&#39;</span>
 <span class="kn">output:</span> <span class="s2">&quot;${_input!n}.feather&quot;</span>
 <span class="kn">task:</span>
 <span class="kn">python:</span>
-<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+<span class="kn">import</span> <span class="nn">pickle</span><span class="o">,</span> <span class="nn">feather</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">feather</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/GIT/cnv-gene-mapping/analysis&#39;</span><span class="p">))</span>
-<span class="kn">from</span> <span class="nn">simulation</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">simulation</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">load_reference_gene</span> 
 <span class="n">args</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 <span class="c1">#</span>
 <span class="n">dat</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="err">!</span><span class="n">r</span><span class="p">},</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
@@ -201,241 +200,17 @@ $( document ).ready(function(){
 <span class="c1"># save to disk</span>
 <span class="n">feather</span><span class="o">.</span><span class="n">write_dataframe</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">regression_data</span><span class="p">),</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
 
-<span class="p">[</span><span class="n">varbvs_2</span><span class="p">]</span>
+<span class="p">[</span><span class="n">varbvs_3</span><span class="p">]</span>
 <span class="kn">depends:</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;varbvs&quot;</span><span class="p">),</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;feather&quot;</span><span class="p">)</span>
 <span class="kn">input:</span> <span class="kp">group_by</span> <span class="o">=</span> <span class="s2">&quot;single&quot;</span>
 <span class="kn">output:</span> <span class="s2">&quot;${_input!n}.varbvs.rds&quot;</span>
 <span class="kn">task:</span>
 <span class="kn">R:</span>
-<span class="n">dat</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">feather</span><span class="p">::</span><span class="n">read_feather</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="nb">input</span><span class="err">!</span><span class="n">r</span><span class="p">}))</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">feather</span><span class="p">::</span><span class="n">read_feather</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="err">!</span><span class="n">r</span><span class="p">}))</span>
 <span class="c1"># FIXME: need to check if the usage is correct</span>
 <span class="n">fit</span> <span class="o">=</span> <span class="n">varbvs</span><span class="p">::</span><span class="n">varbvs</span><span class="p">(</span><span class="n">dat</span><span class="p">[,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">dat</span><span class="p">[,</span><span class="mi">1</span><span class="p">],</span> <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;binomial&quot;</span><span class="p">,</span> <span class="n">logodds</span> <span class="o">=</span> <span class="n">seq</span><span class="p">(</span><span class="o">-</span><span class="mf">3.5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">sa</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="n">F</span><span class="p">)</span>
-<span class="n">saveRDS</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Set sos options to &#34;-j 4&#34;
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="e88151fc6fbc45fa3068fb4160e3f299" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
-                            <td style="border: 0px"><pre>e88151fc6fbc45fa3068fb4160e3f299</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="04d4faa702537e7bb1fd6a85d8b7ecc4" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
-                            <td style="border: 0px"><pre>04d4faa702537e7bb1fd6a85d8b7ecc4</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="105e6f0f40abaee394ad86b5c64d6bc9" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
-                            <td style="border: 0px"><pre>105e6f0f40abaee394ad86b5c64d6bc9</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="29ff60815ce0c1e7be526ecb26bdd0c0" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
-                            <td style="border: 0px"><pre>29ff60815ce0c1e7be526ecb26bdd0c0</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="a9877f74aabdd9ac7d68f4cde9e055dd" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
-                            <td style="border: 0px"><pre>a9877f74aabdd9ac7d68f4cde9e055dd</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="7cfa584dd037ebac85d03a06b1ef0c24" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
-                            <td style="border: 0px"><pre>7cfa584dd037ebac85d03a06b1ef0c24</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="52abb89e170a3d4f3275138401189147" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
-                            <td style="border: 0px"><pre>52abb89e170a3d4f3275138401189147</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="aa104a0388f91ee81ae29c81150defac" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
-                            <td style="border: 0px"><pre>aa104a0388f91ee81ae29c81150defac</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="8d44261a06e35f40e8a8b444efbd8a39" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
-                            <td style="border: 0px"><pre>8d44261a06e35f40e8a8b444efbd8a39</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="4fe8f9cb53afa3e5dbd7ec91b6defbac" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
-                            <td style="border: 0px"><pre>4fe8f9cb53afa3e5dbd7ec91b6defbac</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="4b6355d7280ef82317510c9c990045a7" class="fa fa-2x fa-fw fa-square-o"></i> </td>
-                            <td style="border: 0px"><pre>4b6355d7280ef82317510c9c990045a7</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="40c9843a45e3e8bd4ddc84d478643305" class="fa fa-2x fa-fw fa-square-o"></i> </td>
-                            <td style="border: 0px"><pre>40c9843a45e3e8bd4ddc84d478643305</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="1669a8018dbd3c4b9335fcf27b9f2b5c" class="fa fa-2x fa-fw fa-square-o"></i> </td>
-                            <td style="border: 0px"><pre>1669a8018dbd3c4b9335fcf27b9f2b5c</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="39b22431d867cd8fcedd18a44d741f37" class="fa fa-2x fa-fw fa-square-o"></i> </td>
-                            <td style="border: 0px"><pre>39b22431d867cd8fcedd18a44d741f37</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="eef15edc907ac42d402112a83566a92d" class="fa fa-2x fa-fw fa-square-o"></i> </td>
-                            <td style="border: 0px"><pre>eef15edc907ac42d402112a83566a92d</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="32b2dafb601dd01f4efefa5a76cb596e" class="fa fa-2x fa-fw fa-square-o"></i> </td>
-                            <td style="border: 0px"><pre>32b2dafb601dd01f4efefa5a76cb596e</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="49b3160710cf87ef095133f3af2fbeb3" class="fa fa-2x fa-fw fa-square-o"></i> </td>
-                            <td style="border: 0px"><pre>49b3160710cf87ef095133f3af2fbeb3</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-
-<div class="output_html rendered_html output_subarea ">
-<table style="border: 0px"><tr style="border: 0px">
-                            <td style="border: 0px"><i id="9e133a517e0c71c86f6683fcf216cc60" class="fa fa-2x fa-fw fa-square-o"></i> </td>
-                            <td style="border: 0px"><pre>9e133a517e0c71c86f6683fcf216cc60</pre></td>
-                            </tr></table>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span>
+<span class="n">fit</span><span class="err">$</span><span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
+<span class="n">saveRDS</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
 </pre></div>
 
 </div>
@@ -446,4 +221,8 @@ $( document ).ready(function(){
     </div>
   </div>
 </body>
+
+ 
+
+
 </html>
