@@ -21,7 +21,7 @@ def fileDict(docFile,folder):
 
 def findImages(docFile):
 	docString="var images=["
-	for file in glob.glob(path+"/img/*"):
+	for file in glob.glob(path+"docs/img/*"):
 		name=file.split("/")[-1]
 		docString+='"'+name+'",'
 	docString=docString.rstrip(',') + ']'
