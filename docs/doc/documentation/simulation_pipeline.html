@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8" />
+<title>simulation_pipeline</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+
+
+
+
+
+<!-- Custom stylesheet, it must be in the same directory as the html file -->
+<link rel="stylesheet" href="custom.css">
+
+<!-- Loading mathjax macro -->
+<!-- Load mathjax -->
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- MathJax configuration -->
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        // Center justify equations in code and markdown cells. Elsewhere
+        // we use CSS to left justify single line equations in code cells.
+        displayAlign: 'center',
+        "HTML-CSS": {
+            styles: {'.MathJax_Display': {"margin": 0}},
+            linebreaks: { automatic: true }
+        }
+    });
+    </script>
+    <!-- End of mathjax configuration --></head>
+
+ <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+<style>  /* defined here in case the main.css below cannot be loaded */
+.lev1 {margin-left: 80px}
+.lev2 {margin-left: 100px}
+.lev3 {margin-left: 120px}
+.lev4 {margin-left: 140px}
+.lev5 {margin-left: 160px}
+.lev6 {margin-left: 180px}
+</style>
+
+<link rel="stylesheet" type="text/css" href="../../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../../css/toc2.css">
+
+<script src="../../js/toc2.js"></script>
+<script src="../../js/docs.js"></script>
+
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["STIX","TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+$( document ).ready(function(){
+
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false, 
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+
+            // fire the main function with these parameters
+
+
+            table_of_contents(cfg,st);
+
+            var file=analysisDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=documentation;
+            var pos=documentation.indexOf(file);
+        
+            for (var a=pos;a>=0;a--){
+                  var name=docs[a]
+                  $('<li><a href="'+name+'.html">'+name.replace(/_/g," ")+'</a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+
+
+            $('<li id="indexHome"><a href="../../documentation.html"><b>Analysis Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            for (var a=pos+1;a<docs.length;a++){
+                  var name=docs[a]
+                  $(".toc #toc-level0").append('<li><a href="'+name+'.html">'+name.replace(/_/g," ")+'</a></li>');
+            }
+            $("#toc-header").hide();
+
+    });
+</script>
+<body>
+  <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Simulation-pipeline">Simulation pipeline<a class="anchor-link" href="#Simulation-pipeline">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is the pipeline versions of simulation and data analysis of gene-based CNV analysis methods.</p>
+<h2 id="Large-scale-Bayesian-variable-selection">Large scale Bayesian variable selection<a class="anchor-link" href="#Large-scale-Bayesian-variable-selection">&#182;</a></h2><p>This pipeline implements simulation and data analysis using Carbonetto &amp; Stephens 2012.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="nb">set</span> <span class="o">-</span><span class="n">j</span> <span class="mi">4</span>
+<span class="o">%</span><span class="kp">run</span> <span class="n">simulate</span>
+<span class="p">[</span><span class="n">simulate</span><span class="p">:</span> <span class="kp">shared</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;simulated_data&#39;</span><span class="p">:</span> <span class="s1">&#39;output&#39;</span><span class="p">}]</span>
+<span class="kn">parameter:</span> <span class="n">gamma</span> <span class="o">=</span> <span class="p">[(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="kn">parameter:</span> <span class="n">sample_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">]</span>
+<span class="kn">parameter:</span> <span class="n">n_causal_gene</span> <span class="o">=</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
+<span class="kn">parameter:</span> <span class="n">seed</span> <span class="o">=</span> <span class="p">[</span><span class="mi">999</span><span class="p">]</span>
+<span class="kn">parameter:</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;data/del_sim&#39;</span>
+<span class="kn">input:</span> <span class="kp">for_each</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">,</span> <span class="s1">&#39;sample_size&#39;</span><span class="p">,</span> <span class="s1">&#39;n_causal_gene&#39;</span><span class="p">,</span> <span class="s1">&#39;seed&#39;</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="s2">&quot;${name}_</span><span class="si">%s</span><span class="s2">.pkl&quot;</span> <span class="o">%</span> <span class="s2">&quot;scale{}_shape{}_N{}_M{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;${_gamma[0]}&quot;</span><span class="p">,</span> <span class="s2">&quot;${_gamma[1]}&quot;</span><span class="p">,</span> <span class="s2">&quot;${_sample_size}&quot;</span><span class="p">,</span> <span class="s2">&quot;${_n_causal_gene}&quot;</span><span class="p">,</span> <span class="s2">&quot;${_seed}&quot;</span><span class="p">)</span>
+<span class="kn">task:</span>
+<span class="kn">python:</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/GIT/cnv-gene-mapping/analysis&#39;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">simulation</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+<span class="n">args</span><span class="p">[</span><span class="s1">&#39;odds_ratio_params&#39;</span><span class="p">][</span><span class="s1">&#39;shape&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_gamma</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>
+<span class="n">args</span><span class="p">[</span><span class="s1">&#39;odds_ratio_params&#39;</span><span class="p">][</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_gamma</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+<span class="n">args</span><span class="p">[</span><span class="s1">&#39;n_case&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;n_ctrl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_sample_size</span><span class="p">}</span>
+<span class="n">args</span><span class="p">[</span><span class="s1">&#39;n_causal_gene&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_n_causal_gene</span><span class="p">}</span>
+<span class="n">args</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">name</span><span class="err">!</span><span class="n">r</span><span class="p">}</span>
+<span class="n">args</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_seed</span><span class="p">}</span>
+<span class="n">run_simulation</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">_index</span><span class="p">})</span>
+
+<span class="p">[</span><span class="n">varbvs_1</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">sos_variable</span><span class="p">(</span><span class="s2">&quot;simulated_data&quot;</span><span class="p">),</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s2">&quot;feather&quot;</span><span class="p">)</span>
+<span class="kn">input:</span> <span class="n">simulated_data</span><span class="p">,</span> <span class="kp">group_by</span> <span class="o">=</span> <span class="s1">&#39;single&#39;</span>
+<span class="kn">output:</span> <span class="s2">&quot;${_input!n}.feather&quot;</span>
+<span class="kn">task:</span>
+<span class="kn">python:</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">feather</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/GIT/cnv-gene-mapping/analysis&#39;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">simulation</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+<span class="c1">#</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="err">!</span><span class="n">r</span><span class="p">},</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+<span class="n">ref</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;refgene_file&quot;</span><span class="p">])</span>
+<span class="c1"># create regression data</span>
+<span class="n">genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">])</span>
+<span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">genes</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]])</span>
+<span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">regression_data</span><span class="p">))</span>
+<span class="n">regression_data</span> <span class="o">=</span> <span class="n">regression_data</span><span class="p">[:,</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">((</span><span class="n">regression_data</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="mi">0</span><span class="p">))]</span>
+<span class="c1"># save to disk</span>
+<span class="n">feather</span><span class="o">.</span><span class="n">write_dataframe</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">regression_data</span><span class="p">),</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
+
+<span class="p">[</span><span class="n">varbvs_2</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;varbvs&quot;</span><span class="p">),</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;feather&quot;</span><span class="p">)</span>
+<span class="kn">input:</span> <span class="kp">group_by</span> <span class="o">=</span> <span class="s2">&quot;single&quot;</span>
+<span class="kn">output:</span> <span class="s2">&quot;${_input!n}.varbvs.rds&quot;</span>
+<span class="kn">task:</span>
+<span class="kn">R:</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">feather</span><span class="p">::</span><span class="n">read_feather</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="nb">input</span><span class="err">!</span><span class="n">r</span><span class="p">}))</span>
+<span class="c1"># FIXME: need to check if the usage is correct</span>
+<span class="n">fit</span> <span class="o">=</span> <span class="n">varbvs</span><span class="p">::</span><span class="n">varbvs</span><span class="p">(</span><span class="n">dat</span><span class="p">[,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">dat</span><span class="p">[,</span><span class="mi">1</span><span class="p">],</span> <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;binomial&quot;</span><span class="p">,</span> <span class="n">logodds</span> <span class="o">=</span> <span class="n">seq</span><span class="p">(</span><span class="o">-</span><span class="mf">3.5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">sa</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="n">F</span><span class="p">)</span>
+<span class="n">saveRDS</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Set sos options to &#34;-j 4&#34;
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="e88151fc6fbc45fa3068fb4160e3f299" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
+                            <td style="border: 0px"><pre>e88151fc6fbc45fa3068fb4160e3f299</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="04d4faa702537e7bb1fd6a85d8b7ecc4" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
+                            <td style="border: 0px"><pre>04d4faa702537e7bb1fd6a85d8b7ecc4</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="105e6f0f40abaee394ad86b5c64d6bc9" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
+                            <td style="border: 0px"><pre>105e6f0f40abaee394ad86b5c64d6bc9</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="29ff60815ce0c1e7be526ecb26bdd0c0" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
+                            <td style="border: 0px"><pre>29ff60815ce0c1e7be526ecb26bdd0c0</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="a9877f74aabdd9ac7d68f4cde9e055dd" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
+                            <td style="border: 0px"><pre>a9877f74aabdd9ac7d68f4cde9e055dd</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="7cfa584dd037ebac85d03a06b1ef0c24" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
+                            <td style="border: 0px"><pre>7cfa584dd037ebac85d03a06b1ef0c24</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="52abb89e170a3d4f3275138401189147" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
+                            <td style="border: 0px"><pre>52abb89e170a3d4f3275138401189147</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="aa104a0388f91ee81ae29c81150defac" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
+                            <td style="border: 0px"><pre>aa104a0388f91ee81ae29c81150defac</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="8d44261a06e35f40e8a8b444efbd8a39" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
+                            <td style="border: 0px"><pre>8d44261a06e35f40e8a8b444efbd8a39</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="4fe8f9cb53afa3e5dbd7ec91b6defbac" class="fa fa-2x fa-fw fa-spinner fa-pulse fa-spin"></i> </td>
+                            <td style="border: 0px"><pre>4fe8f9cb53afa3e5dbd7ec91b6defbac</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="4b6355d7280ef82317510c9c990045a7" class="fa fa-2x fa-fw fa-square-o"></i> </td>
+                            <td style="border: 0px"><pre>4b6355d7280ef82317510c9c990045a7</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="40c9843a45e3e8bd4ddc84d478643305" class="fa fa-2x fa-fw fa-square-o"></i> </td>
+                            <td style="border: 0px"><pre>40c9843a45e3e8bd4ddc84d478643305</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="1669a8018dbd3c4b9335fcf27b9f2b5c" class="fa fa-2x fa-fw fa-square-o"></i> </td>
+                            <td style="border: 0px"><pre>1669a8018dbd3c4b9335fcf27b9f2b5c</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="39b22431d867cd8fcedd18a44d741f37" class="fa fa-2x fa-fw fa-square-o"></i> </td>
+                            <td style="border: 0px"><pre>39b22431d867cd8fcedd18a44d741f37</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="eef15edc907ac42d402112a83566a92d" class="fa fa-2x fa-fw fa-square-o"></i> </td>
+                            <td style="border: 0px"><pre>eef15edc907ac42d402112a83566a92d</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="32b2dafb601dd01f4efefa5a76cb596e" class="fa fa-2x fa-fw fa-square-o"></i> </td>
+                            <td style="border: 0px"><pre>32b2dafb601dd01f4efefa5a76cb596e</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="49b3160710cf87ef095133f3af2fbeb3" class="fa fa-2x fa-fw fa-square-o"></i> </td>
+                            <td style="border: 0px"><pre>49b3160710cf87ef095133f3af2fbeb3</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+
+<div class="output_html rendered_html output_subarea ">
+<table style="border: 0px"><tr style="border: 0px">
+                            <td style="border: 0px"><i id="9e133a517e0c71c86f6683fcf216cc60" class="fa fa-2x fa-fw fa-square-o"></i> </td>
+                            <td style="border: 0px"><pre>9e133a517e0c71c86f6683fcf216cc60</pre></td>
+                            </tr></table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+    </div>
+  </div>
+</body>
+</html>
