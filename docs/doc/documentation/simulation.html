@@ -258,7 +258,7 @@ when presented in causal gene vs. non causal gene.</p>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">sklearn.mixture</span> <span class="k">import</span> <span class="n">GaussianMixture</span>
@@ -487,21 +487,24 @@ when presented in causal gene vs. non causal gene.</p>
     <span class="n">gene_table</span> <span class="o">=</span> <span class="n">gene_table</span><span class="p">[[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">,</span> <span class="s2">&quot;n_case_gene&quot;</span><span class="p">,</span> <span class="s2">&quot;n_ctrl_gene&quot;</span><span class="p">,</span> <span class="s2">&quot;n_case_nogene&quot;</span><span class="p">,</span> <span class="s2">&quot;n_ctrl_nogene&quot;</span><span class="p">]]</span>
     <span class="k">return</span> <span class="n">gene_table</span>
 
-<span class="k">def</span> <span class="nf">get_stats</span><span class="p">(</span><span class="n">gene_table</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_stats</span><span class="p">(</span><span class="n">gene_table</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="c1"># from website https://pypi.python.org/pypi/fisher/</span>
     <span class="n">stats_table</span> <span class="o">=</span> <span class="p">[(</span><span class="n">pvalue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_case_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_ctrl_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_case_nogene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_ctrl_nogene&quot;</span><span class="p">]),</span> 
                 <span class="n">row</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">gene_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
+    <span class="n">p_value</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">two_tail</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stats_table</span><span class="p">]</span>
     <span class="n">oddsratio_table</span> <span class="o">=</span> <span class="p">[(</span><span class="n">stats</span><span class="o">.</span><span class="n">fisher_exact</span><span class="p">([[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_case_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_ctrl_gene&quot;</span><span class="p">]],</span> 
                                             <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_case_nogene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_ctrl_nogene&quot;</span><span class="p">]]])[</span><span class="mi">0</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span> 
                        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">gene_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">sort</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">stats_table</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">stats_table</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">two_tail</span><span class="p">))</span>
         <span class="n">oddsratio_table</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">oddsratio_table</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">else</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">top_logp_2side</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">two_tail</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stats_table</span><span class="p">[:</span><span class="n">num</span><span class="p">]]</span>
-    <span class="n">top_logp_gene</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stats_table</span><span class="p">[:</span><span class="n">num</span><span class="p">]]</span>
-    <span class="n">top_OR_2side</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">oddsratio_table</span><span class="p">[:</span><span class="n">num</span><span class="p">]]</span>
-    <span class="n">top_OR_gene</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">oddsratio_table</span><span class="p">[:</span><span class="n">num</span><span class="p">]]</span>
-    <span class="n">stats_table</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;top_logp_2side&quot;</span><span class="p">:</span> <span class="n">top_logp_2side</span><span class="p">,</span> <span class="s2">&quot;top_logp_gene&quot;</span><span class="p">:</span> <span class="n">top_logp_gene</span><span class="p">,</span> 
-            <span class="s2">&quot;top_OR_2side&quot;</span><span class="p">:</span> <span class="n">top_OR_2side</span><span class="p">,</span> <span class="s2">&quot;top_OR_gene&quot;</span><span class="p">:</span> <span class="n">top_OR_gene</span><span class="p">}</span>
+    
+    <span class="n">logp_2side</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">two_tail</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stats_table</span><span class="p">]</span>
+    <span class="n">logp_gene</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stats_table</span><span class="p">]</span>
+    <span class="n">OR_2side</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">oddsratio_table</span><span class="p">]</span>
+    <span class="n">OR_gene</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">oddsratio_table</span><span class="p">]</span>
+    <span class="n">stats_table</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;p_value&quot;</span><span class="p">:</span> <span class="n">p_value</span><span class="p">,</span> <span class="s2">&quot;logp_2side&quot;</span><span class="p">:</span> <span class="n">logp_2side</span><span class="p">,</span> <span class="s2">&quot;logp_gene&quot;</span><span class="p">:</span> <span class="n">logp_gene</span><span class="p">,</span> 
+                   <span class="s2">&quot;OR_2side&quot;</span><span class="p">:</span> <span class="n">OR_2side</span><span class="p">,</span> <span class="s2">&quot;OR_gene&quot;</span><span class="p">:</span> <span class="n">OR_gene</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">stats_table</span>
 
 <span class="k">def</span> <span class="nf">get_stats_from_input</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">sort_data</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
@@ -519,20 +522,6 @@ when presented in causal gene vs. non causal gene.</p>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;causal_genes_del&#39;: [&#39;C14orf105&#39;, &#39;LDB3&#39;, &#39;NR1I2&#39;, &#39;SMARCA1&#39;, &#39;C12orf54&#39;, &#39;GLRA4&#39;, &#39;MUC19&#39;, &#39;TINAG&#39;, &#39;TBC1D3F&#39;, &#39;PDX1&#39;, &#39;NPS&#39;, &#39;NBEAL1&#39;, &#39;GABARAPL3&#39;, &#39;PLXNB1&#39;, &#39;IFIT2&#39;, &#39;MIR3180-1&#39;, &#39;ZNF502&#39;, &#39;LOC105371899&#39;, &#39;HINT2&#39;, &#39;PROCR&#39;, &#39;DCTN6&#39;, &#39;CERS4&#39;, &#39;SLC25A38&#39;, &#39;KRT75&#39;, &#39;MIR548I3&#39;, &#39;IMP4&#39;, &#39;VSTM5&#39;, &#39;PIP5KL1&#39;, &#39;LOC100507201&#39;, &#39;PLS3-AS1&#39;, &#39;GYPE&#39;, &#39;TADA3&#39;, &#39;LINC01361&#39;, &#39;SLC25A20&#39;, &#39;CKMT1A&#39;, &#39;CACFD1&#39;, &#39;DCLK3&#39;, &#39;RBPMS2&#39;, &#39;MYRF&#39;, &#39;CHD5&#39;, &#39;LOC101927619&#39;, &#39;BRDTP1&#39;, &#39;IQCG&#39;, &#39;CEP57&#39;, &#39;AMER3&#39;, &#39;MIR128-1&#39;, &#39;CSRP2&#39;, &#39;LIG1&#39;, &#39;SNAR-B2&#39;, &#39;DHX30&#39;, &#39;EVC2&#39;, &#39;HN1L&#39;, &#39;KRTAP8-1&#39;, &#39;POMK&#39;, &#39;LINC01483&#39;, &#39;BECN1&#39;, &#39;DOC2A&#39;, &#39;WTH3DI&#39;, &#39;NFKBID&#39;, &#39;LOC101927142&#39;, &#39;DGKI&#39;, &#39;MS4A7&#39;, &#39;ST6GAL1&#39;, &#39;C17orf98&#39;, &#39;OSM&#39;, &#39;IPO11&#39;, &#39;GAPDH&#39;, &#39;KIF15&#39;, &#39;PDIA6&#39;, &#39;CORO1B&#39;, &#39;LOC101928311&#39;, &#39;NXPE4&#39;, &#39;NUP160&#39;, &#39;SACS&#39;, &#39;TUBA3D&#39;, &#39;GPATCH8&#39;, &#39;RBMY2FP&#39;, &#39;TRIB3&#39;, &#39;GLP2R&#39;, &#39;STPG3&#39;, &#39;RFPL2&#39;, &#39;PCYOX1&#39;, &#39;TSHR&#39;, &#39;LINC00668&#39;, &#39;FRMD6-AS2&#39;, &#39;STEAP2&#39;, &#39;MIR764&#39;, &#39;NXF1&#39;, &#39;HMOX2&#39;, &#39;KLHDC10&#39;, &#39;FAM122C&#39;, &#39;PROM1&#39;, &#39;OSMR&#39;, &#39;PMEL&#39;, &#39;LOC105374366&#39;, &#39;LINC01551&#39;, &#39;LINC00293&#39;, &#39;LSM4&#39;, &#39;LOC101928583&#39;, &#39;SDHB&#39;], &#39;causal_genes_dup&#39;: [&#39;LY6G5B&#39;, &#39;LY6G6F&#39;, &#39;RGPD6&#39;, &#39;ALOX12&#39;, &#39;LRRC37B&#39;, &#39;MAN2B1&#39;, &#39;FLOT1&#39;, &#39;FAM91A1&#39;, &#39;LOC145845&#39;, &#39;LRR1&#39;, &#39;DDR1&#39;, &#39;CCL19&#39;, &#39;DEPDC1&#39;, &#39;SNORD115-39&#39;, &#39;SNORA59B&#39;, &#39;TMEM30CP&#39;, &#39;TAP1&#39;, &#39;DPM2&#39;, &#39;ANGPTL2&#39;, &#39;CT47A10&#39;, &#39;MRPL39&#39;, &#39;LOC392232&#39;, &#39;TRIM46&#39;, &#39;TUBB6&#39;, &#39;PGPEP1&#39;, &#39;MPC1&#39;, &#39;AVPI1&#39;, &#39;CDC42BPG&#39;, &#39;LOC101929006&#39;, &#39;IGSF6&#39;, &#39;CTSC&#39;, &#39;SNCA&#39;, &#39;NALCN-AS1&#39;, &#39;LOC105372695&#39;, &#39;MIR5681A&#39;, &#39;RNASEH2A&#39;, &#39;AGTR1&#39;, &#39;DUSP10&#39;, &#39;PDS5B&#39;, &#39;ZNF117&#39;, &#39;FAHD2B&#39;, &#39;THSD4&#39;, &#39;MIR4434&#39;, &#39;ADIG&#39;, &#39;LINC00904&#39;, &#39;FN1&#39;, &#39;FAM64A&#39;, &#39;TMEM74&#39;, &#39;MIR26B&#39;, &#39;TUBA1A&#39;, &#39;GRM3&#39;, &#39;CX3CL1&#39;, &#39;ASPHD1&#39;, &#39;CHMP4B&#39;, &#39;KRT18&#39;, &#39;OR5AC2&#39;, &#39;ZNF141&#39;, &#39;FHL3&#39;, &#39;LTBP3&#39;, &#39;UBAC1&#39;, &#39;MTHFD2L&#39;, &#39;ATP6V1G2-DDX39B&#39;, &#39;OSBPL7&#39;, &#39;DENND1A&#39;, &#39;TCAF1&#39;, &#39;LOC400661&#39;, &#39;NCR3&#39;, &#39;PRKRIP1&#39;, &#39;MIR509-3&#39;, &#39;TNXB&#39;, &#39;DOK5&#39;, &#39;AMD1&#39;, &#39;HCCS&#39;, &#39;LOC108783645&#39;, &#39;FBXO43&#39;, &#39;SNAP47&#39;, &#39;PFKFB4&#39;, &#39;ACTL10&#39;, &#39;CAPZB&#39;, &#39;LOC100132686&#39;, &#39;GRM1&#39;, &#39;FER&#39;, &#39;MIR3612&#39;, &#39;METTL11B&#39;, &#39;OR2W5&#39;, &#39;ELMSAN1&#39;, &#39;SLC25A51P1&#39;, &#39;LHX8&#39;, &#39;LINC01481&#39;, &#39;CAV1&#39;, &#39;NT5DC2&#39;, &#39;DGCR5&#39;, &#39;NEBL-AS1&#39;, &#39;DGKB&#39;, &#39;CACNG4&#39;, &#39;TSR3&#39;, &#39;GUSBP9&#39;, &#39;NEUROD2&#39;, &#39;DMD&#39;, &#39;CEP63&#39;]}
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -4316,7 +4305,7 @@ iIiIXdNkRkREROyaJjMiIiJi1zSZEREREbumyYyIiIjYtf8H71E0eOpZFSIAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> jupyter nbconvert --to script simulation.ipynb
@@ -4334,11 +4323,24 @@ iIiIXdNkRkREROyaJjMiIiJi1zSZEREREbumyYyIiIjYtf8H71E0eOpZFSIAAAAASUVORK5CYII=
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>[NbConvertApp] Converting notebook simulation.ipynb to script
-[NbConvertApp] Writing 23211 bytes to simulation.py
+[NbConvertApp] Writing 23212 bytes to simulation.py
 </pre>
 </div>
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+</div>
 </div>
 </div>
 

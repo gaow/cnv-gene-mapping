@@ -142,7 +142,8 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This is the pipeline version of simulation and data analysis of gene-based CNV analysis methods.</p>
+<p>This is the pipeline versions of simulation and data analysis of gene-based CNV analysis methods.</p>
+<h2 id="Large-scale-Bayesian-variable-selection">Large scale Bayesian variable selection<a class="anchor-link" href="#Large-scale-Bayesian-variable-selection">&#182;</a></h2><p>This pipeline implements simulation and data analysis using Carbonetto &amp; Stephens 2012.</p>
 
 </div>
 </div>
@@ -154,7 +155,7 @@ $( document ).ready(function(){
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="nb">set</span> <span class="o">-</span><span class="n">j</span> <span class="mi">4</span>
 <span class="o">%</span><span class="kp">run</span> <span class="n">simulate</span>
-<span class="p">[</span><span class="n">simulate</span><span class="p">:</span> <span class="kp">shared</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;simulate_data&#39;</span><span class="p">:</span> <span class="s1">&#39;output&#39;</span><span class="p">}]</span>
+<span class="p">[</span><span class="n">simulate</span><span class="p">:</span> <span class="kp">shared</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;simulated_data&#39;</span><span class="p">:</span> <span class="s1">&#39;output&#39;</span><span class="p">}]</span>
 <span class="kn">parameter:</span> <span class="n">gamma</span> <span class="o">=</span> <span class="p">[(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
 <span class="kn">parameter:</span> <span class="n">sample_size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">500</span><span class="p">]</span>
 <span class="kn">parameter:</span> <span class="n">n_causal_gene</span> <span class="o">=</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
@@ -175,6 +176,41 @@ $( document ).ready(function(){
 <span class="n">args</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">name</span><span class="err">!</span><span class="n">r</span><span class="p">}</span>
 <span class="n">args</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_seed</span><span class="p">}</span>
 <span class="n">run_simulation</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">_index</span><span class="p">})</span>
+
+<span class="p">[</span><span class="n">varbvs_1</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">sos_variable</span><span class="p">(</span><span class="s2">&quot;simulated_data&quot;</span><span class="p">),</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s2">&quot;feather&quot;</span><span class="p">)</span>
+<span class="kn">input:</span> <span class="n">simulated_data</span><span class="p">,</span> <span class="kp">group_by</span> <span class="o">=</span> <span class="s1">&#39;single&#39;</span>
+<span class="kn">output:</span> <span class="s2">&quot;${_input!n}.feather&quot;</span>
+<span class="kn">task:</span>
+<span class="kn">python:</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">feather</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~/GIT/cnv-gene-mapping/analysis&#39;</span><span class="p">))</span>
+<span class="kn">from</span> <span class="nn">simulation</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+<span class="c1">#</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="err">!</span><span class="n">r</span><span class="p">},</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+<span class="n">ref</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;refgene_file&quot;</span><span class="p">])</span>
+<span class="c1"># create regression data</span>
+<span class="n">genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">])</span>
+<span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">genes</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]])</span>
+<span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">regression_data</span><span class="p">))</span>
+<span class="n">regression_data</span> <span class="o">=</span> <span class="n">regression_data</span><span class="p">[:,</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">((</span><span class="n">regression_data</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="mi">0</span><span class="p">))]</span>
+<span class="c1"># save to disk</span>
+<span class="n">feather</span><span class="o">.</span><span class="n">write_dataframe</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">regression_data</span><span class="p">),</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
+
+<span class="p">[</span><span class="n">varbvs_2</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;varbvs&quot;</span><span class="p">),</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;feather&quot;</span><span class="p">)</span>
+<span class="kn">input:</span> <span class="kp">group_by</span> <span class="o">=</span> <span class="s2">&quot;single&quot;</span>
+<span class="kn">output:</span> <span class="s2">&quot;${_input!n}.varbvs.rds&quot;</span>
+<span class="kn">task:</span>
+<span class="kn">R:</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">feather</span><span class="p">::</span><span class="n">read_feather</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="nb">input</span><span class="err">!</span><span class="n">r</span><span class="p">}))</span>
+<span class="c1"># FIXME: need to check if the usage is correct</span>
+<span class="n">fit</span> <span class="o">=</span> <span class="n">varbvs</span><span class="p">::</span><span class="n">varbvs</span><span class="p">(</span><span class="n">dat</span><span class="p">[,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">dat</span><span class="p">[,</span><span class="mi">1</span><span class="p">],</span> <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;binomial&quot;</span><span class="p">,</span> <span class="n">logodds</span> <span class="o">=</span> <span class="n">seq</span><span class="p">(</span><span class="o">-</span><span class="mf">3.5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">sa</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="n">F</span><span class="p">)</span>
+<span class="n">saveRDS</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
 </pre></div>
 
 </div>
