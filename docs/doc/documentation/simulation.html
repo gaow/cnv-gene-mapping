@@ -391,8 +391,8 @@ when presented in causal gene vs. non causal gene.</p>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;block_size&#39;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
                       <span class="s1">&#39;avg_cnv_per_individual&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-                      <span class="s1">&#39;n_case&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-                      <span class="s1">&#39;n_ctrl&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+                      <span class="s1">&#39;n_case&#39;</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span>
+                      <span class="s1">&#39;n_ctrl&#39;</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span>
                        <span class="c1"># set Gamma shape to be 3 instead of 5</span>
                        <span class="c1"># &#39;odds_ratio_params&#39; : None # for H_0</span>
                       <span class="s1">&#39;odds_ratio_params&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
@@ -1301,9 +1301,9 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># main procedure for duplication</span>
 <span class="n">genes</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="s2">&quot;data/refGene.txt.gz&quot;</span><span class="p">)</span>
 <span class="n">empirical_data</span> <span class="o">=</span> <span class="n">load_cnv_data</span><span class="p">(</span><span class="s2">&quot;data/ISC-r1.CNV.bed&quot;</span><span class="p">)</span>
-<span class="n">sample_dup</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">genes</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">empirical_data</span><span class="p">[</span><span class="s1">&#39;dupCases&#39;</span><span class="p">],</span> <span class="n">empirical_data</span><span class="p">[</span><span class="s1">&#39;dupControls&#39;</span><span class="p">]]),</span> 
-                      <span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">[</span><span class="s2">&quot;causal_genes_dup&quot;</span><span class="p">])</span>
-<span class="n">save_data</span><span class="p">(</span><span class="n">sample_dup</span><span class="p">,</span> <span class="s1">&#39;dup_sample_test.pkl&#39;</span><span class="p">)</span>
+<span class="c1"># sample_dup = simulate(genes, pd.concat([empirical_data[&#39;dupCases&#39;], empirical_data[&#39;dupControls&#39;]]), </span>
+<span class="c1">#                       args, args.causal_genes[&quot;causal_genes_dup&quot;])</span>
+<span class="c1"># save_data(sample_dup, &#39;dup_sample_test.pkl&#39;)</span>
 </pre></div>
 
 </div>
@@ -1313,13 +1313,13 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># main procedure for deletion</span>
 <span class="n">sample_del</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">genes</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">empirical_data</span><span class="p">[</span><span class="s1">&#39;delCases&#39;</span><span class="p">],</span> <span class="n">empirical_data</span><span class="p">[</span><span class="s1">&#39;delControls&#39;</span><span class="p">]]),</span> 
-                      <span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">[</span><span class="s2">&quot;causal_genes_del&quot;</span><span class="p">])</span>
-<span class="n">save_data</span><span class="p">(</span><span class="n">sample_del</span><span class="p">,</span> <span class="s1">&#39;del_sample_test.pkl&#39;</span><span class="p">)</span>
+                      <span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">)</span>
+<span class="n">save_data</span><span class="p">(</span><span class="n">sample_del</span><span class="p">,</span> <span class="s1">&#39;del_sample_test_4000.pkl&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -4323,7 +4323,7 @@ iIiIXdNkRkREROyaJjMiIiJi1zSZEREREbumyYyIiIjYtf8H71E0eOpZFSIAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> jupyter nbconvert --to script simulation.ipynb
@@ -4341,7 +4341,7 @@ iIiIXdNkRkREROyaJjMiIiJi1zSZEREREbumyYyIiIjYtf8H71E0eOpZFSIAAAAASUVORK5CYII=
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>[NbConvertApp] Converting notebook simulation.ipynb to script
-[NbConvertApp] Writing 23540 bytes to simulation.py
+[NbConvertApp] Writing 23535 bytes to simulation.py
 </pre>
 </div>
 </div>
