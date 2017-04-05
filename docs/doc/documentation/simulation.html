@@ -419,8 +419,9 @@ when presented in causal gene vs. non causal gene.</p>
     <span class="n">status</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">case_data</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">ctrl_data</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">debug</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;niter&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span> <span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> <span class="s1">&#39;causal genes&#39;</span><span class="p">:</span> <span class="n">causal_genes</span><span class="p">,</span> 
-            <span class="s1">&#39;number of causal genes&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;number of genes overlap CNV&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+    <span class="n">debug</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;niter&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span> <span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> 
+             <span class="s1">&#39;causal genes&#39;</span><span class="p">:</span> <span class="n">causal_genes</span><span class="p">,</span> <span class="s1">&#39;number of causal genes&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;number of genes overlap CNV&#39;</span><span class="p">:</span> <span class="p">[],</span>
+             <span class="s1">&#39;simulated CNV length in case&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;simulated CNV length in ctrl&#39;</span><span class="p">:</span> <span class="p">[]}</span>
     
     <span class="k">while</span><span class="p">(</span><span class="n">status</span><span class="p">):</span>
         <span class="n">sample_len</span> <span class="o">=</span> <span class="n">sample_cnv_length</span><span class="p">(</span><span class="n">cnv_length</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;avg_cnv_per_individual&#39;</span><span class="p">])</span>
@@ -438,9 +439,12 @@ when presented in causal gene vs. non causal gene.</p>
             <span class="c1"># sample data is a case</span>
             <span class="n">case_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
             <span class="n">debug</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="n">debug</span><span class="p">[</span><span class="s1">&#39;simulated CNV length in case&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">sample_len</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">p</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">ctrl_data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;n_ctrl&#39;</span><span class="p">]:</span>
+            <span class="c1"># sample data is a control</span>
             <span class="n">ctrl_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
             <span class="n">debug</span><span class="p">[</span><span class="s1">&#39;p&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="n">debug</span><span class="p">[</span><span class="s1">&#39;simulated CNV length in ctrl&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">sample_len</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">case_data</span><span class="p">)</span> <span class="o">==</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;n_case&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">ctrl_data</span><span class="p">)</span> <span class="o">==</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;n_ctrl&#39;</span><span class="p">]:</span>
             <span class="n">status</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">debug</span><span class="p">[</span><span class="s1">&#39;niter&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -528,7 +532,7 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Load reference gene database</span>
@@ -553,7 +557,7 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cnvbed_df</span> <span class="o">=</span> <span class="n">load_cnv_data</span><span class="p">(</span><span class="s2">&quot;data/ISC-r1.CNV.bed&quot;</span><span class="p">)</span>
@@ -570,257 +574,257 @@ when presented in causal gene vs. non causal gene.</p>
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;dupControls&#39;:       chrom    cnv_end  cnv_start
-0     chr13   18097313   17924949
-1     chr13   18158566   17924949
-2     chr13   18155569   17960319
-3     chr13   18158566   17962898
-4     chr13   18160113   17965661
-5     chr13   18160113   17994936
-6     chr13   18162828   17994936
-7     chr13   19249785   19147212
-8     chr13   22404649   22246937
-10    chr13   22404649   22248255
-13    chr13   23839720   22417930
-14    chr13   28017720   27764862
-15    chr13   30789162   30624099
-16    chr13   31664818   31449445
-17    chr13   42688376   42372228
-18    chr13   42632709   42378205
-19    chr13   42632709   42442291
-20    chr13   42737495   42452940
-21    chr13   42615801   42456672
-22    chr13   51992801   51779367
-23    chr13   56773770   56661148
-24    chr13   56876669   56749814
-25    chr13   63215831   63071949
-26    chr13   64806000   64649291
-27    chr13   75934396   75614788
-28    chr13   85844272   85718370
-29    chr13   86909450   86669278
-30    chr13   89601756   89396906
-31    chr13   89960671   89776657
-32    chr13   92290646   91068745
+<pre>{&#39;delCases&#39;:       chrom    cnv_end  cnv_start
+0     chr19     318090      40793
+1     chr19   10493593   10231490
+2     chr19   20350179   20213206
+3     chr19   22788957   21878081
+4     chr19   23793209   23677370
+5     chr19   23968930   23823055
+6     chr19   33399885   33184559
+7     chr19   34877253   34619105
+8     chr19   47935511   47828599
+9     chr19   47956191   47830895
+10    chr19   58037134   57862446
+11    chr19   59844601   59721259
+12    chr19   59849150   59721259
+13    chr19   60070512   59942897
+14     chr4     166522      58821
+15     chr4     712308     511830
+16     chr4    8738298    8586366
+17     chr4    8738298    8586709
+18     chr4    9155615    9046959
+19     chr4    9174185    9046959
+20     chr4    9177664    9046959
+22     chr4    9262583    9046959
+23     chr4    9263034    9046959
+24     chr4    9174136    9048572
+26     chr4    9177664    9052835
+27     chr4   11876033   11775897
+28     chr4   11948682   11838410
+29     chr4   12783628   12671014
+30     chr4   16467467   16195988
+31     chr4   18863181   18692392
 ...     ...        ...        ...
-1840   chr1  165948596  165058981
-1841   chr1  168211600  167594150
-1842   chr1  172492410  172161868
-1843   chr1  172494680  172161868
-1844   chr1  177227328  177012635
-1845   chr1  177227328  177017230
-1846   chr1  180924076  180654781
-1847   chr1  180924076  180655419
-1848   chr1  191456649  191355803
-1849   chr1  198264458  198052425
-1850   chr1  201584996  201431157
-1851   chr1  208889857  208356492
-1852   chr1  213762423  213582082
-1853   chr1  213756747  213586730
-1854   chr1  221139130  221009434
-1855   chr1  224713909  224490655
-1856   chr1  228115018  228007236
-1857   chr1  228119444  228019276
-1858   chr1  228122853  228019276
-1859   chr1  228120054  228019304
-1863   chr1  231828117  231700087
-1864   chr1  232054938  231734611
-1865   chr1  231980963  231755948
-1866   chr1  235826812  234972647
-1867   chr1  235883091  235681728
-1868   chr1  235890724  235681728
-1869   chr1  239237107  239111030
-1870   chr1  242607590  242505402
-1871   chr1  243437156  243283195
-1872   chr1  245198706  244835536
-
-[1577 rows x 3 columns], &#39;delCases&#39;:       chrom    cnv_end  cnv_start
-0     chr13   18090680   17924949
-1     chr13   18138689   17957494
-2     chr13   20001455   19695328
-3     chr13   23385272   23120688
-4     chr13   31571043   31418583
-5     chr13   41182289   40319632
-6     chr13   41475823   41304401
-7     chr13   47030736   46926146
-8     chr13   54367889   54041427
-9     chr13   54369058   54041427
-10    chr13   54807632   54409565
-11    chr13   54876242   54766214
-12    chr13   54949741   54813141
-14    chr13   55156193   55048955
-15    chr13   59578376   59326045
-16    chr13   60718664   59919770
-17    chr13   63331311   63021922
-18    chr13   63271230   63160271
-19    chr13   63271230   63162066
-20    chr13   63275962   63162066
-21    chr13   63271230   63169527
-22    chr13   63835484   63317074
-23    chr13   63532990   63420162
-24    chr13   65384431   65262258
-25    chr13   70147400   69492797
-26    chr13   71956693   71724275
-27    chr13   83537059   83375462
-28    chr13   83574804   83438859
-29    chr13   83576919   83450892
-30    chr13   89682273   89223966
-...     ...        ...        ...
-1322   chr1  146059433  145306080
-1323   chr1  177598003  177002536
-1324   chr1  186037003  185929106
-1325   chr1  186127811  185957741
-1326   chr1  186314422  186163039
-1327   chr1  187394496  187063228
-1328   chr1  187415975  187181008
-1329   chr1  188233315  187833739
-1330   chr1  188321386  188005210
-1331   chr1  189013078  188873494
-1332   chr1  190209858  189875399
-1333   chr1  191053917  190903879
-1334   chr1  215900005  215793461
-1335   chr1  233899075  233734710
-1336   chr1  237760510  237497018
-1337   chr1  241871132  241726240
-1338   chr1  242841998  242672913
-1339   chr1  242841959  242690574
-1340   chr1  243611548  243481866
-1341   chr1  243681506  243503997
-1342   chr1  244365755  244261872
-1343   chr1  245116198  245009441
-1348   chr1  245120310  245009441
-1352   chr1  245123164  245009441
-1356   chr1  245134986  245009441
-1363   chr1  245162371  245009441
-1364   chr1  245123164  245013856
-1368   chr1  245134986  245013856
-1372   chr1  245120310  245014606
-1373   chr1  245134986  245014606
+1328  chr10   67749180   67625233
+1329  chr10   67853199   67725533
+1330  chr10   67866549   67725533
+1331  chr10   68154852   67838185
+1332  chr10   68017544   67871675
+1333  chr10   68167186   67944973
+1334  chr10   68169079   67945774
+1335  chr10   68076591   67969885
+1336  chr10   68149475   67981580
+1337  chr10   68229361   68000628
+1338  chr10   68139446   68037680
+1339  chr10   68177220   68070424
+1340  chr10   81593475   81449105
+1341  chr10   81586301   81475459
+1342  chr10   81587121   81475459
+1343  chr10   81587760   81475459
+1345  chr10   81588070   81475459
+1347  chr10   81593475   81475459
+1359  chr10   81607601   81475459
+1360  chr10   81593475   81486935
+1362  chr10   83189835   83045275
+1363  chr10   89102874   88987279
+1365  chr10   89107281   88987279
+1367  chr10   96623003   96434206
+1368  chr10  100893437  100699542
+1369  chr10  110354648  110124699
+1370  chr10  111323779  111195021
+1371  chr10  111323630  111197664
+1372  chr10  120744322  120582005
+1373  chr10  128559817  128361810
 
 [1161 rows x 3 columns], &#39;dupCases&#39;:       chrom    cnv_end  cnv_start
-0     chr13   18160113   17924949
-1     chr13   18385784   17924949
-2     chr13   18209242   17960319
-3     chr13   18159301   17962898
-4     chr13   18160113   17962898
-5     chr13   18155569   17980357
-7     chr13   18267593   18095916
-8     chr13   18212580   18110262
-9     chr13   19269072   19058549
-10    chr13   19940168   19625298
-11    chr13   20588868   20420017
-12    chr13   21464152   21077186
-13    chr13   22423366   22246937
-14    chr13   22404649   22248255
-16    chr13   23821102   22404648
-17    chr13   23834988   22417930
-18    chr13   22762863   22595921
-19    chr13   24863985   24189876
-20    chr13   30783813   30628888
-21    chr13   31588448   31463539
-22    chr13   32285710   32151146
-23    chr13   41441548   40996032
-24    chr13   42617773   42393686
-25    chr13   54573938   54455952
-26    chr13   56479873   56060553
-27    chr13   56441208   56080643
-28    chr13   56833950   56664712
-29    chr13   56786969   56671720
-30    chr13   57969175   57853173
-31    chr13   61897825   61409136
+0     chr19    1231660     846638
+1     chr19    2475686    2274013
+2     chr19    2940976    2802678
+3     chr19    5453719    5343629
+4     chr19    5819236    5627542
+5     chr19    7059064    6843781
+6     chr19    7054543    6847380
+12    chr19    7057724    6847380
+13    chr19    7059445    6847380
+14    chr19    7065196    6847380
+15    chr19    6973156    6863072
+16    chr19    8366535    7933954
+17    chr19   10485796   10299376
+18    chr19   10860451   10611738
+19    chr19   11223580   11111139
+20    chr19   11922385   11772788
+21    chr19   12645820   12489058
+22    chr19   14159634   13761432
+23    chr19   16581261   16292361
+24    chr19   16608417   16500299
+25    chr19   18203869   18037250
+26    chr19   18521054   18394642
+27    chr19   19922126   19544830
+28    chr19   20778156   20621431
+35    chr19   20764844   20622809
+37    chr19   20764844   20627327
+38    chr19   20777552   20627327
+39    chr19   20778156   20627730
+40    chr19   20764844   20639114
+41    chr19   20777552   20639114
 ...     ...        ...        ...
-2191   chr1  191223726  191019149
-2192   chr1  195455619  195349228
-2193   chr1  196751793  196504056
-2194   chr1  205378531  205171694
-2195   chr1  213853429  213692267
-2196   chr1  228119444  228013674
-2197   chr1  228122853  228013674
-2198   chr1  228119444  228019276
-2199   chr1  228120054  228019304
-2206   chr1  231980963  231755948
-2207   chr1  233138439  232996844
-2208   chr1  234052842  233903154
-2209   chr1  235095328  234884585
-2210   chr1  235890724  235686094
-2211   chr1  239968013  239831882
-2212   chr1  242656218  242340285
-2213   chr1  243406364  243155657
-2214   chr1  243463178  243304632
-2215   chr1  245112538  244394142
-2216   chr1  245063489  244397138
-2217   chr1  244760763  244577882
-2218   chr1  245063489  244835536
-2219   chr1  245198706  244835536
-2220   chr1  245014607  244837170
-2221   chr1  245431595  244918913
-2222   chr1  245431595  245112145
-2223   chr1  245431595  245154026
-2224   chr1  245431595  245192100
-2225   chr1  245431595  245277458
-2227   chr1  245431595  245309435
+2198  chr10   81607601   81475459
+2199  chr10   81975772   81570697
+2200  chr10   81912710   81586268
+2201  chr10   84396330   84208644
+2202  chr10   92979270   92528813
+2203  chr10  103321635  103112807
+2204  chr10  105935833  105822145
+2205  chr10  106347840  105863321
+2206  chr10  106602416  106447428
+2207  chr10  106733026  106610088
+2208  chr10  106862097  106704432
+2209  chr10  107144539  107026591
+2210  chr10  107306583  107086561
+2211  chr10  107297421  107100981
+2212  chr10  107307852  107100981
+2213  chr10  107308294  107100981
+2214  chr10  110108337  107277953
+2215  chr10  110536821  110427940
+2216  chr10  112546757  112224209
+2217  chr10  116578051  115760137
+2218  chr10  117370519  117213595
+2219  chr10  123803750  123539198
+2220  chr10  128723593  128549112
+2221  chr10  132877124  131538937
+2222  chr10  133340388  132792504
+2223  chr10  133099297  132902663
+2224  chr10  134737614  134618899
+2225  chr10  135393952  135213790
+2226  chr10  135393952  135240018
+2227  chr10  135393952  135247545
 
-[1936 rows x 3 columns], &#39;delControls&#39;:       chrom    cnv_end  cnv_start
-0     chr13   18138689   17957494
-1     chr13   18216639   17957494
-2     chr13   18216639   18064576
-3     chr13   18267593   18104084
-4     chr13   18217636   18110262
-5     chr13   18281275   18162827
-6     chr13   20002356   19696240
-8     chr13   23826454   22417930
-9     chr13   23826454   22422682
-10    chr13   23432113   22554658
-11    chr13   25356480   25217611
-12    chr13   41471832   41304469
-13    chr13   46380662   46194218
-14    chr13   54261419   53917368
-15    chr13   54838170   54731729
-16    chr13   59557797   59344334
-17    chr13   63271230   63140922
-18    chr13   63271230   63148444
-19    chr13   63275962   63152827
-20    chr13   63271230   63152857
-21    chr13   63271230   63160271
-24    chr13   63271230   63169527
-25    chr13   63835484   63317192
-26    chr13   63832161   63317620
-27    chr13   63835484   63322140
-28    chr13   67702814   67213108
-29    chr13   71957013   71723150
-30    chr13   80998046   80807408
-33    chr13   80998046   80808915
-34    chr13   80998046   80866100
+[1936 rows x 3 columns], &#39;dupControls&#39;:       chrom    cnv_end  cnv_start
+0     chr19    2533155    2411262
+1     chr19    7054543    6841130
+2     chr19    7054982    6841150
+4     chr19    7057724    6841150
+6     chr19    7057724    6843781
+7     chr19    7054543    6847380
+9     chr19    7059445    6847380
+10    chr19   11922385   11776185
+12    chr19   20101309   19478134
+13    chr19   20335656   19884866
+14    chr19   20734345   20621431
+15    chr19   20778156   20621431
+29    chr19   20748903   20622809
+30    chr19   20777552   20627327
+31    chr19   20778156   20627730
+35    chr19   20777552   20639114
+36    chr19   20777552   20643736
+37    chr19   23718549   23616825
+38    chr19   38866101   38624360
+39    chr19   48746899   48538078
+40    chr19   55277701   55124592
+41    chr19   55805730   55330310
+42    chr19   56879615   56540781
+43    chr19   57309215   56975322
+44    chr19   57309319   56975466
+45    chr19   59217333   58798706
+46    chr19   59960029   59649917
+47    chr19   60139653   59655364
+48    chr19   60031546   59929058
+54    chr19   60227328   60121070
 ...     ...        ...        ...
-1230   chr1  143281109  142753086
-1231   chr1  144946096  143570789
-1232   chr1  145441468  145044248
-1233   chr1  145985047  145116190
-1234   chr1  145440781  145293382
-1235   chr1  145530126  145293382
-1236   chr1  145416504  145306080
-1237   chr1  152532158  152404447
-1238   chr1  153167441  153019194
-1239   chr1  163036069  162770625
-1240   chr1  165440196  165181156
-1242   chr1  171422375  171281334
-1243   chr1  181588605  181385198
-1244   chr1  186254721  186007764
-1245   chr1  190187533  190045070
-1246   chr1  193481519  193328314
-1247   chr1  220134995  220006908
-1248   chr1  224804206  224703949
-1249   chr1  242925788  241466337
-1250   chr1  242966685  242678730
-1251   chr1  245116198  245009441
-1253   chr1  245120310  245009441
-1255   chr1  245123164  245009441
-1260   chr1  245134986  245009441
-1270   chr1  245116198  245013856
-1271   chr1  245123164  245013856
-1273   chr1  245134986  245014606
-1275   chr1  245140122  245035657
-1276   chr1  245158296  245058074
-1277   chr1  245192101  245058074
+1839   chr5   68617146   68504814
+1840   chr5   76189691   75866793
+1841   chr5   77969027   77607951
+1842   chr5   78305491   77629551
+1843   chr5   78527793   78342184
+1844   chr5   82130284   81950335
+1845   chr5   95378941   95237403
+1846   chr5  100863225  100624601
+1847   chr5  101002523  100874094
+1848   chr5  101801915  101650312
+1849   chr5  102368453  102161446
+1850   chr5  104876705  103893570
+1851   chr5  105285739  105177808
+1852   chr5  105537044  105392417
+1853   chr5  116154005  115252589
+1854   chr5  116475345  116360763
+1855   chr5  117217532  117066048
+1856   chr5  122383128  122075211
+1857   chr5  126748436  126233923
+1858   chr5  127132474  126738855
+1859   chr5  146709675  146149704
+1860   chr5  146729597  146508795
+1861   chr5  160774441  160067406
+1862   chr5  162633359  162164425
+1863   chr5  178863917  178662194
+1864   chr5  179803798  179629799
+1865   chr5  180219363  179987794
+1866   chr5  180148873  180048423
+1871   chr5  180170773  180048423
+1872   chr5  180171122  180068839
+
+[1577 rows x 3 columns], &#39;delControls&#39;:       chrom    cnv_end  cnv_start
+0     chr19    1458711     846638
+1     chr19    1469202    1074378
+2     chr19    1934477    1742099
+3     chr19    2219056    1872882
+4     chr19    9492209    9348592
+5     chr19    9495499    9348592
+6     chr19   21713916   21440503
+7     chr19   21864074   21657837
+8     chr19   23862995   23412725
+9     chr19   24375153   24252658
+10    chr19   33400163   33186598
+11    chr19   33924202   33686098
+12    chr19   34681779   34572455
+13    chr19   47947058   47830895
+14    chr19   47960464   47830895
+15    chr19   57641493   57536064
+16    chr19   59844601   59721259
+17     chr4     220238      77113
+18     chr4    4240901    3934713
+19     chr4    9147528    9046959
+20     chr4    9162357    9046959
+21     chr4    9174185    9046959
+22     chr4    9174185    9048572
+25     chr4    9177664    9048572
+26     chr4    9174136    9052835
+27     chr4    9162357    9057460
+28     chr4   11948682   11838297
+29     chr4   11948682   11841929
+30     chr4   12783628   12580799
+31     chr4   18892765   18776398
+...     ...        ...        ...
+1227  chr10   67971752   67871675
+1228  chr10   68078649   67871675
+1229  chr10   68119975   67975943
+1230  chr10   68139446   68037680
+1232  chr10   68201849   68039128
+1233  chr10   68557334   68376219
+1234  chr10   68830019   68622864
+1235  chr10   81593475   81434084
+1236  chr10   81975345   81434084
+1237  chr10   81593475   81449105
+1238  chr10   81586301   81475459
+1239  chr10   81587121   81475459
+1242  chr10   81587760   81475459
+1244  chr10   81588070   81475459
+1250  chr10   81593475   81475459
+1260  chr10   81607601   81475459
+1262  chr10   83189835   83045275
+1263  chr10   84175521   83980248
+1264  chr10   89093029   88987279
+1265  chr10   89102874   88987279
+1267  chr10   89107281   88987279
+1269  chr10  100893437  100699542
+1270  chr10  110263393  110067126
+1271  chr10  111033397  110916347
+1272  chr10  111323630  111194594
+1273  chr10  117439541  117331154
+1274  chr10  128559817  128361810
+1275  chr10  134163327  134028972
+1276  chr10  135393952  135278735
+1277  chr10  135395586  135289131
 
 [1049 rows x 3 columns]}
 </pre>
@@ -873,7 +877,7 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># length of CNVs, and fit mixed geometric distribution</span>
@@ -893,7 +897,7 @@ when presented in causal gene vs. non causal gene.</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1124,14 +1128,28 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sample_len_del</span> <span class="o">=</span> <span class="n">sample_cnv_length</span><span class="p">(</span><span class="n">del_length</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;avg_cnv_per_individual&#39;</span><span class="p">])</span>
-<span class="c1">#print(sample_len_del)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sample_len_del</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[199253 165731]
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -4305,7 +4323,7 @@ iIiIXdNkRkREROyaJjMiIiJi1zSZEREREbumyYyIiIjYtf8H71E0eOpZFSIAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> jupyter nbconvert --to script simulation.ipynb
@@ -4323,7 +4341,7 @@ iIiIXdNkRkREROyaJjMiIiJi1zSZEREREbumyYyIiIjYtf8H71E0eOpZFSIAAAAASUVORK5CYII=
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>[NbConvertApp] Converting notebook simulation.ipynb to script
-[NbConvertApp] Writing 23212 bytes to simulation.py
+[NbConvertApp] Writing 23540 bytes to simulation.py
 </pre>
 </div>
 </div>
