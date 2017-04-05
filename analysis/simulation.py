@@ -5,7 +5,7 @@ from pandasql import sqldf
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import scipy
+import scipy as sp
 from scipy import stats
 import math
 from sklearn.mixture import GaussianMixture
@@ -134,13 +134,13 @@ class Environment(dict):
     def __init__(self):
         parameters = {'block_size': 100000,
                       'avg_cnv_per_individual': 5,
-                      'n_case': 10,
-                      'n_ctrl': 10,
+                      'n_case': 2000,
+                      'n_ctrl': 2000,
                        # set Gamma shape to be 3 instead of 5
                        # 'odds_ratio_params' : None # for H_0
                       'odds_ratio_params': {'shape': 5, 'scale': 1},
                       'prevalence': 0.005,
-                      'n_causal_gene': 100,
+                      'n_causal_gene': 200,
                       'refgene_file': 'data/refGene.txt.gz',
                       'cnv_file': 'data/ISC-r1.CNV.bed',
                       'case_dataset': 'delCases',
@@ -161,8 +161,9 @@ def simulate(refgene, cnv_data, args, causal_genes):
     status = 1
     case_data = []
     ctrl_data = []
-    debug = {'p': [], 'niter': 0, 'time': [str(datetime.now()), None], 'args': dict(args), 'causal genes': causal_genes, 
-            'number of causal genes': [], 'number of genes overlap CNV': []}
+    debug = {'p': [], 'niter': 0, 'time': [str(datetime.now()), None], 'args': dict(args), 
+             'causal genes': causal_genes, 'number of causal genes': [], 'number of genes overlap CNV': [],
+             'simulated CNV length in case': [], 'simulated CNV length in ctrl': []}
     
     while(status):
         sample_len = sample_cnv_length(cnv_length, args['avg_cnv_per_individual'])
@@ -180,9 +181,12 @@ def simulate(refgene, cnv_data, args, causal_genes):
             # sample data is a case
             case_data.append(samples)
             debug['p'].append(p)
+            debug['simulated CNV length in case'].extend(sample_len)
         if random.random() > p and len(ctrl_data) < args['n_ctrl']:
+            # sample data is a control
             ctrl_data.append(samples)
             debug['p'].append(p)
+            debug['simulated CNV length in ctrl'].extend(sample_len)
         if len(case_data) == args['n_case'] and len(ctrl_data) == args['n_ctrl']:
             status = 0
         debug['niter'] += 1
@@ -229,6 +233,7 @@ def get_gene_table(gene_df):
     return gene_table
 
 def get_stats(gene_table, sort = 0):
+    # from website https://pypi.python.org/pypi/fisher/
     stats_table = [(pvalue(row["n_case_gene"], row["n_ctrl_gene"], row["n_case_nogene"], row["n_ctrl_nogene"]), 
                 row["gene_name"]) for idx, row in gene_table.iterrows()]
     p_value = [x[0].two_tail for x in stats_table]
@@ -238,6 +243,7 @@ def get_stats(gene_table, sort = 0):
     if not sort == 0:
         stats_table = sorted(stats_table, reverse=True, key = lambda x: -np.log10(x[0].two_tail))
         oddsratio_table = sorted(oddsratio_table, reverse=True, key=lambda x: x[0] if np.isfinite(x[0]) else -x[0])
+    
     logp_2side = [-np.log10(x[0].two_tail) for x in stats_table]
     logp_gene = [x[1] for x in stats_table]
     OR_2side = [x[0] for x in oddsratio_table]
