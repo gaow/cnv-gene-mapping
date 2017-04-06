@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8" />
+<title>varbvs</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+
+
+
+
+
+<!-- Custom stylesheet, it must be in the same directory as the html file -->
+<link rel="stylesheet" href="custom.css">
+
+<!-- Loading mathjax macro -->
+<!-- Load mathjax -->
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- MathJax configuration -->
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        // Center justify equations in code and markdown cells. Elsewhere
+        // we use CSS to left justify single line equations in code cells.
+        displayAlign: 'center',
+        "HTML-CSS": {
+            styles: {'.MathJax_Display': {"margin": 0}},
+            linebreaks: { automatic: true }
+        }
+    });
+    </script>
+    <!-- End of mathjax configuration --></head>
+
+ <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+<style>  /* defined here in case the main.css below cannot be loaded */
+.lev1 {margin-left: 80px}
+.lev2 {margin-left: 100px}
+.lev3 {margin-left: 120px}
+.lev4 {margin-left: 140px}
+.lev5 {margin-left: 160px}
+.lev6 {margin-left: 180px}
+</style>
+
+<link rel="stylesheet" type="text/css" href="../../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../../css/toc2.css">
+
+<script src="../../js/toc2.js"></script>
+<script src="../../js/docs.js"></script>
+
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["STIX","TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+$( document ).ready(function(){
+
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false, 
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+
+            // fire the main function with these parameters
+
+
+            table_of_contents(cfg,st);
+
+            var file=analysisDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=documentation;
+            var pos=documentation.indexOf(file);
+        
+            for (var a=pos;a>=0;a--){
+                  var name=docs[a]
+                  $('<li><a href="'+name+'.html">'+name.replace(/_/g," ")+'</a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+
+
+            $('<li id="indexHome"><a href="../../documentation.html"><b>Analysis Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            for (var a=pos+1;a<docs.length;a++){
+                  var name=docs[a]
+                  $(".toc #toc-level0").append('<li><a href="'+name+'.html">'+name.replace(/_/g," ")+'</a></li>');
+            }
+            $("#toc-header").hide();
+
+    });
+</script>
+<body>
+  <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># install package &quot;varbvs&quot; and load data</span>
+<span class="kn">library</span><span class="p">(</span>varbvs<span class="p">)</span>
+data<span class="p">(</span>leukemia<span class="p">)</span>
+fit <span class="o">&lt;-</span> varbvs<span class="p">(</span>leukemia<span class="o">$</span>x<span class="p">,</span> <span class="kc">NULL</span><span class="p">,</span> leukemia<span class="o">$</span>y<span class="p">,</span> family <span class="o">=</span> <span class="s">&quot;binomial&quot;</span><span class="p">,</span> logodds <span class="o">=</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-3.5</span><span class="p">,</span><span class="m">-1</span><span class="p">,</span><span class="m">0.1</span><span class="p">),</span>sa <span class="o">=</span> <span class="m">1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Welcome to           --       *                              *               
+VARBVS version 2.0.3 --       |              |               |               
+large-scale Bayesian --       ||           | |    |          || |     |   |  
+variable selection   -- |     || | |    |  | ||  ||        |||| ||    |   || 
+****************************************************************************
+Copyright (C) 2012-2017 Peter Carbonetto.
+See http://www.gnu.org/licenses/gpl.html for the full license.
+Fitting variational approximation for Bayesian variable selection model.
+family:     binomial   num. hyperparameter settings: 26 
+samples:    72         convergence tolerance         1.0e-04
+variables:  3571       iid variable selection prior: yes 
+covariates: 0          fit prior var. of coefs (sa): no 
+intercept:  yes        fit approx. factors (eta):    yes 
+Finding best initialization for 26 combinations of hyperparameters.
+-iteration-   variational    max.   incl variance params
+outer inner   lower bound  change   vars   sigma      sa
+ 
+Computing marginal likelihood for 26 combinations of hyperparameters.
+-iteration-   variational    max.   incl variance params
+outer inner   lower bound  change   vars   sigma      sa
+ 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># read rds file</span>
+new <span class="o">&lt;-</span> <span class="kp">readRDS</span><span class="p">(</span><span class="s">&quot;data/del_sim_scale5_shape1_N1000_M50_999.varbvs.rds&quot;</span><span class="p">)</span>
+get_summary <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>datalist<span class="p">){</span>
+    <span class="kr">for</span> <span class="p">(</span>data <span class="kr">in</span> datalist<span class="p">){</span>
+        newdat <span class="o">=</span> <span class="kp">readRDS</span><span class="p">(</span>data<span class="p">)</span>
+        print <span class="p">(</span>newdat<span class="o">$</span><span class="kp">summary</span><span class="o">$</span>top.vars<span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+get_summary<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/del_sim_scale3_shape1_N200_M50_999.varbvs.rds&quot;</span><span class="p">,</span> <span class="s">&quot;data/del_sim_scale5_shape1_N1000_M100_999.varbvs.rds&quot;</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>  index   variable        prob PVE       coef  Pr(coef.&gt;0.95)
+1  1795   KIAA2026 0.007015727  NA  0.8556895 [-0.632,+2.325]
+2  1870     RANBP6 0.007015708  NA  0.8556871 [-0.635,+2.291]
+3  2087    MIR4665 0.007015697  NA  0.8556856 [-0.553,+2.285]
+4   625 UMODL1-AS1 0.006797938  NA -0.8467875 [-2.377,+0.647]
+5   861     ZBTB21 0.006797816  NA -0.8467766 [-2.298,+0.695]
+  index variable       prob PVE      coef  Pr(coef.&gt;0.95)
+1  5018   LINGO2 0.03082371  NA -1.384424 [-2.446,-0.237]
+2   207   OR10C1 0.01856919  NA  1.269161 [+0.243,+2.240]
+3 11379   OR12D3 0.01856539  NA  1.269288 [+0.261,+2.363]
+4  4877   OR14J1 0.01856490  NA  1.269167 [+0.246,+2.327]
+5 11217    OR5V1 0.01856380  NA  1.269262 [+0.255,+2.420]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">names</span><span class="p">(</span>new<span class="p">)</span>
+new<span class="o">$</span><span class="kp">summary</span>
+<span class="c1"># new$summary</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+
+
+<div class="output_text output_subarea ">
+<pre>$family
+[1] &#34;binomial&#34;
+
+$cred.int
+[1] 0.95
+
+$n
+[1] 1000
+
+$p
+[1] 11312
+
+$ns
+[1] 26
+
+$ncov
+[1] 1
+
+$prior.same
+[1] TRUE
+
+$update.sigma
+[1] FALSE
+
+$update.sa
+[1] FALSE
+
+$optimize.eta
+[1] TRUE
+
+$logw
+ [1] -695.9374 -695.9455 -695.9560 -695.9696 -695.9874 -696.0108 -696.0418
+ [8] -696.0830 -696.1384 -696.2132 -696.3151 -696.4545 -696.6462 -696.9108
+[15] -697.2765 -697.7826 -698.4821 -699.4466 -700.7710 -702.5798 -705.0322
+[22] -708.3276 -712.7090 -718.4620 -725.9080 -735.3886
+
+$w
+ [1] 8.435918e-02 8.367649e-02 8.280289e-02 8.168235e-02 8.024196e-02
+ [6] 7.838760e-02 7.599950e-02 7.292932e-02 6.900161e-02 6.402541e-02
+[11] 5.782479e-02 5.029958e-02 4.152411e-02 3.187193e-02 2.210796e-02
+[16] 1.332809e-02 6.621935e-03 2.524200e-03 6.712823e-04 1.099937e-04
+[21] 9.469600e-06 3.508678e-07 4.388466e-09 1.392548e-11 8.129561e-15
+[26] 6.204180e-19
+
+$sigma
+$sigma$x0
+[1] NA
+
+$sigma$a
+[1] NA
+
+$sigma$b
+[1] NA
+
+
+$sa
+$sa$x
+ [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+
+$sa$x0
+[1] NA
+
+$sa$a
+[1] NA
+
+$sa$b
+[1] NA
+
+
+$logodds
+$logodds$x
+ [1] -3.5 -3.4 -3.3 -3.2 -3.1 -3.0 -2.9 -2.8 -2.7 -2.6 -2.5 -2.4 -2.3 -2.2 -2.1
+[16] -2.0 -1.9 -1.8 -1.7 -1.6 -1.5 -1.4 -1.3 -1.2 -1.1 -1.0
+
+$logodds$x0
+[1] -2.898119
+
+$logodds$a
+[1] -3.5
+
+$logodds$b
+[1] -2.2
+
+
+$model.pve
+$model.pve$x0
+[1] NA
+
+$model.pve$a
+2.5% 
+  NA 
+
+$model.pve$b
+97.5% 
+   NA 
+
+
+$num.included
+&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
+    0     0     0     0     0     0 
+
+$top.vars
+  index     variable        prob PVE       coef  Pr(coef.&gt;0.95)
+1  1765        SH2B1 0.006146390  NA  1.0557747 [+0.023,+2.172]
+2   732 LOC101928381 0.005178606  NA -1.1059052 [-2.333,+0.270]
+3   595 LOC105375297 0.005154133  NA  1.1052029 [-0.262,+2.368]
+4  3973       EIF3CL 0.004533974  NA  0.9793640 [-0.196,+2.109]
+5  6538        EIF3C 0.004533273  NA  0.9793257 [-0.085,+2.145]
+
+attr(,&#34;class&#34;)
+[1] &#34;summary.varbvs&#34; &#34;list&#34;          </pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+    </div>
+  </div>
+</body>
+</html>
