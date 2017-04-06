@@ -1,0 +1,63 @@
+[varbvs_1]
+depends: Py_Module("pandasql"), Py_Module('fisher'), Py_Module('plotly')
+parameter: sample_size = 2000
+parameter: seed = [999]
+parameter: gamma = [(3,1), (5,1), (9, 1)]
+parameter: n_causal_gene = [100, 200]
+parameter: name = 'data/del_sim'
+input: for_each = ['gamma', 'n_causal_gene', 'seed']
+output: "${name}_%s.pkl" % "scale{}_shape{}_N{}_M{}_{}".format("${_gamma[0]}", "${_gamma[1]}", int("${sample_size}") * 2, "${_n_causal_gene}", "${_seed}")
+task:
+python:
+import sys, os
+sys.path.append(os.getcwd())
+from simulation import Environment, run_simulation 
+args = Environment()
+args['odds_ratio_params']['shape'] = ${_gamma[0]}
+args['odds_ratio_params']['scale'] = ${_gamma[1]}
+args['n_case'] = args['n_ctrl'] = ${sample_size}
+args['n_causal_gene'] = ${_n_causal_gene}
+args['output'] = ${name!r}
+args.seed = ${_seed}
+run_simulation(args, "scale{}_shape{}_N{}_M{}_{}".format(${_gamma[0]}, ${_gamma[1]}, ${sample_size} * 2, ${_n_causal_gene}, ${_seed}))
+
+[varbvs_2]
+depends: Py_Module("feather-format")
+input: group_by = 'single'
+output: "${_input!n}.feather"
+task:
+python:
+import sys, os
+sys.path.append(os.getcwd())
+import pickle, feather
+import pandas as pd
+import numpy as np
+from simulation import Environment, load_reference_gene 
+args = Environment()
+#
+dat = pickle.load(open(${_input!r}, "rb"))
+ref = load_reference_gene(args["refgene_file"])
+# create regression data
+genes = pd.Series(list(set(ref['gene_name'])))
+regression_data = np.array([np.array(genes.isin(item["gene_name"]), dtype = float) for item in dat['case'] + dat['ctrl']])
+regression_data = np.hstack((np.matrix([1] * len(dat['case']) + [0] * len(dat['ctrl'])).T, regression_data))
+mask = ~np.ravel((regression_data==0).all(0))
+regression_data = regression_data[:,mask]
+# save to disk
+feather.write_dataframe(pd.DataFrame(regression_data, columns = ['phenotype'] + genes[mask[1:]].tolist()), ${_output!r})
+
+[varbvs_3]
+depends: R_library("varbvs"), R_library("feather")
+input: group_by = "single"
+output: "${_input!n}.varbvs.rds"
+task:
+R:
+dat = as.matrix(feather::read_feather(${_input!r}))
+# FIXME: need to check if the usage is correct
+fit = varbvs::varbvs(dat[,-1], NULL, dat[,1], family = "binomial", logodds = seq(-3.5,-1,0.1), sa = 1, verbose = F)
+fit$summary = summary(fit)
+fit$w = varbvs::normalizelogweights(fit$logw)
+fit$pip = fit$alpha %*% c(fit$w)
+fit$beta = fit$mu %*% c(fit$w)
+fit$var_names = colnames(dat[-1])
+saveRDS(fit, ${_output!r})
