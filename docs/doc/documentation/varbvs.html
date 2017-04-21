@@ -549,7 +549,7 @@ Top 5 variables by inclusion probability:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span>get_summary <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>datalist<span class="p">){</span>
@@ -558,7 +558,11 @@ Top 5 variables by inclusion probability:
         print <span class="p">(</span>newdat<span class="o">$</span><span class="kp">summary</span><span class="o">$</span>top.vars<span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-get_summary<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/del_sim_scale3_shape1_N200_M50_999.varbvs.rds&quot;</span><span class="p">,</span> 
+get_summary<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/del_sim_scaleNone_shapeNone_N1000_M50_999.varbvs.rds&quot;</span><span class="p">,</span> 
+              <span class="s">&quot;data/del_sim_scaleNone_shapeNone_N1000_M100_999.varbvs.rds&quot;</span><span class="p">,</span> 
+              <span class="s">&quot;data/del_sim_scale3_shape1_N1000_M50_999.varbvs.rds&quot;</span><span class="p">,</span> 
+              <span class="s">&quot;data/del_sim_scale3_shape1_N1000_M100_999.varbvs.rds&quot;</span><span class="p">,</span> 
+              <span class="s">&quot;data/del_sim_scale5_shape1_N1000_M50_999.varbvs.rds&quot;</span><span class="p">,</span> 
               <span class="s">&quot;data/del_sim_scale5_shape1_N1000_M100_999.varbvs.rds&quot;</span><span class="p">))</span>
 </pre></div>
 
@@ -572,12 +576,36 @@ get_summary<span class="p">(</span><span class="kt">c</span><span class="p">(</s
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>  index   variable        prob PVE       coef  Pr(coef.&gt;0.95)
-1  1795   KIAA2026 0.007015727  NA  0.8556895 [-0.632,+2.325]
-2  1870     RANBP6 0.007015708  NA  0.8556871 [-0.635,+2.291]
-3  2087    MIR4665 0.007015697  NA  0.8556856 [-0.553,+2.285]
-4   625 UMODL1-AS1 0.006797938  NA -0.8467875 [-2.377,+0.647]
-5   861     ZBTB21 0.006797816  NA -0.8467766 [-2.298,+0.695]
+<pre>  index  variable        prob PVE       coef  Pr(coef.&gt;0.95)
+1  1919 MIR4509-3 0.006918537  NA  1.2016560 [-0.028,+2.438]
+2  3600     NBPF9 0.006445871  NA  1.1902711 [-0.000,+2.435]
+3  7682      CHD8 0.004696351  NA  0.9342469 [-0.105,+1.990]
+4  9771     CECR7 0.004623919  NA -1.1018108 [-2.469,+0.226]
+5  2480      HFE2 0.004520604  NA  1.0971500 [-0.288,+2.463]
+  index  variable        prob PVE       coef  Pr(coef.&gt;0.95)
+1  9912     PALLD 0.004574916  NA  1.1111237 [-0.173,+2.310]
+2  3092    FAM72D 0.004492356  NA  1.1078011 [-0.163,+2.532]
+3  5123   RPGRIP1 0.004424014  NA -1.1049633 [-2.444,+0.316]
+4  2381    CTNNA3 0.003569959  NA  0.8298613 [-0.180,+1.782]
+5   941 LINC01099 0.003311740  NA  0.9992212 [-0.332,+2.388]
+  index variable        prob PVE     coef  Pr(coef.&gt;0.95)
+1   654  TXNDC15 0.009455229  NA 1.242177 [+0.024,+2.482]
+2  4190    DDX46 0.009454233  NA 1.242147 [-0.035,+2.444]
+3  4546  C5orf24 0.009453258  NA 1.242122 [-0.005,+2.399]
+4  6332    PCBD2 0.009452172  NA 1.242094 [+0.074,+2.371]
+5  7849    LRFN5 0.007892913  NA 1.197103 [+0.006,+2.401]
+  index  variable        prob PVE       coef  Pr(coef.&gt;0.95)
+1  1849   ZNF658B 0.009851762  NA  1.2751382 [+0.154,+2.415]
+2 10731 SPATA31A1 0.004615559  NA  1.1038984 [-0.162,+2.385]
+3   872   PRAMEF1 0.004541793  NA -1.1005270 [-2.396,+0.229]
+4  7708  PRAMEF11 0.004541675  NA -1.1005149 [-2.422,+0.191]
+5  2717   FAM74A1 0.004509376  NA  0.9975195 [-0.139,+2.116]
+  index     variable        prob PVE       coef  Pr(coef.&gt;0.95)
+1  1765        SH2B1 0.006146390  NA  1.0557747 [+0.023,+2.172]
+2   732 LOC101928381 0.005178606  NA -1.1059052 [-2.333,+0.270]
+3   595 LOC105375297 0.005154133  NA  1.1052029 [-0.262,+2.368]
+4  3973       EIF3CL 0.004533974  NA  0.9793640 [-0.196,+2.109]
+5  6538        EIF3C 0.004533273  NA  0.9793257 [-0.085,+2.145]
   index variable       prob PVE      coef  Pr(coef.&gt;0.95)
 1  5018   LINGO2 0.03082371  NA -1.384424 [-2.446,-0.237]
 2   207   OR10C1 0.01856919  NA  1.269161 [+0.243,+2.240]
@@ -588,6 +616,33 @@ get_summary<span class="p">(</span><span class="kt">c</span><span class="p">(</s
 </div>
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># different prior for each gene, (1-pi)*p + pi*N(0,s^2)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># get summary of rds using pkl</span>
+<span class="kn">library</span><span class="p">(</span>feather<span class="p">)</span>
+</pre></div>
+
+</div>
 </div>
 </div>
 
