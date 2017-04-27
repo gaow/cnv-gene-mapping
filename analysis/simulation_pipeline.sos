@@ -1,12 +1,13 @@
 [varbvs_1]
 depends: Py_Module("pandasql"), Py_Module('fisher'), Py_Module('plotly')
 parameter: sample_size = 2000
-parameter: seed = [999]
-parameter: gamma = [(3,1), (5,1), (9, 1)]
+parameter: seed = [12]
+parameter: prevalence = [0.005, 0.01]
+parameter: gamma = [(3,1), (5,1), (9,1)]
 parameter: n_causal_gene = [100, 200]
 parameter: name = 'data/del_sim'
-input: for_each = ['gamma', 'n_causal_gene', 'seed']
-output: "${name}_%s.pkl" % "scale{}_shape{}_N{}_M{}_{}".format("${_gamma[0]}", "${_gamma[1]}", int("${sample_size}") * 2, "${_n_causal_gene}", "${_seed}")
+input: for_each = ['gamma', 'prevalence', 'n_causal_gene', 'seed']
+output: "${name}_%s.data.pkl" % "shape{}_scale{}_p{}_N{}_M{}_{}".format("${_gamma[0]}", "${_gamma[1]}", "${_prevalence}", int("${sample_size}") * 2, "${_n_causal_gene}", "${_seed}")
 task:
 python:
 import sys, os
@@ -15,11 +16,12 @@ from simulation import Environment, run_simulation
 args = Environment()
 args['odds_ratio_params']['shape'] = ${_gamma[0]}
 args['odds_ratio_params']['scale'] = ${_gamma[1]}
+args['prevalence'] = ${_prevalence}
 args['n_case'] = args['n_ctrl'] = ${sample_size}
 args['n_causal_gene'] = ${_n_causal_gene}
 args['output'] = ${name!r}
 args.seed = ${_seed}
-run_simulation(args, "scale{}_shape{}_N{}_M{}_{}".format(${_gamma[0]}, ${_gamma[1]}, ${sample_size} * 2, ${_n_causal_gene}, ${_seed}))
+run_simulation(args, "shape{}_scale{}_p{}_N{}_M{}_{}".format(${_gamma[0]}, ${_gamma[1]}, ${_prevalence}, ${sample_size} * 2, ${_n_causal_gene}, ${_seed}))
 
 [varbvs_2]
 depends: Py_Module("feather-format")
@@ -49,7 +51,7 @@ feather.write_dataframe(pd.DataFrame(regression_data, columns = ['phenotype'] + 
 [varbvs_3]
 depends: R_library("varbvs"), R_library("feather")
 input: group_by = "single"
-output: "${_input!n}.varbvs.rds"
+output: "${_input!nn}.varbvs.rds"
 task:
 R:
 dat = as.matrix(feather::read_feather(${_input!r}))
