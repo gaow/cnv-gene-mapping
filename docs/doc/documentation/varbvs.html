@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>varbvs</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>varbvs</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
@@ -130,32 +128,15 @@ $( document ).ready(function(){
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># install package &quot;varbvs&quot; and load data</span>
 <span class="kn">library</span><span class="p">(</span>varbvs<span class="p">)</span>
-data<span class="p">(</span>leukemia<span class="p">)</span>
-<span class="c1"># names(leukemia)</span>
-print <span class="p">(</span>leukemia<span class="o">$</span>y<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>feather<span class="p">)</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre> [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1
-[39] 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 0 0 1 1 0 1 1 1 1 1 1 1 0 0 0 0 0 0
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -166,6 +147,9 @@ print <span class="p">(</span>leukemia<span class="o">$</span>y<span class="p">)
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># trial</span>
+data<span class="p">(</span>leukemia<span class="p">)</span>
+<span class="c1"># names(leukemia)</span>
+print <span class="p">(</span>leukemia<span class="o">$</span>y<span class="p">)</span>
 fit <span class="o">&lt;-</span> varbvs<span class="p">(</span>leukemia<span class="o">$</span>x<span class="p">,</span> <span class="kc">NULL</span><span class="p">,</span> leukemia<span class="o">$</span>y<span class="p">,</span> family <span class="o">=</span> <span class="s">&quot;binomial&quot;</span><span class="p">,</span> logodds <span class="o">=</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-3.5</span><span class="p">,</span><span class="m">-1</span><span class="p">,</span><span class="m">0.1</span><span class="p">),</span> sa <span class="o">=</span> <span class="m">1</span><span class="p">)</span>
 </pre></div>
 
@@ -177,7 +161,9 @@ fit <span class="o">&lt;-</span> varbvs<span class="p">(</span>leukemia<span cla
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Welcome to           --       *                              *               
 VARBVS version 2.0.3 --       |              |               |               
@@ -210,151 +196,6 @@ outer inner   lower bound  change   vars   sigma      sa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>fit2 <span class="o">&lt;-</span> varbvs<span class="p">(</span>leukemia<span class="o">$</span>x<span class="p">,</span> <span class="kc">NULL</span><span class="p">,</span> leukemia<span class="o">$</span>y<span class="p">,</span> family <span class="o">=</span> <span class="s">&quot;binomial&quot;</span><span class="p">,</span> logodds <span class="o">=</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-3.5</span><span class="p">,</span><span class="m">-1</span><span class="p">),</span> sa <span class="o">=</span> <span class="m">1</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Welcome to           --       *                              *               
-VARBVS version 2.0.3 --       |              |               |               
-large-scale Bayesian --       ||           | |    |          || |     |   |  
-variable selection   -- |     || | |    |  | ||  ||        |||| ||    |   || 
-****************************************************************************
-Copyright (C) 2012-2017 Peter Carbonetto.
-See http://www.gnu.org/licenses/gpl.html for the full license.
-Fitting variational approximation for Bayesian variable selection model.
-family:     binomial   num. hyperparameter settings: 3 
-samples:    72         convergence tolerance         1.0e-04
-variables:  3571       iid variable selection prior: yes 
-covariates: 0          fit prior var. of coefs (sa): no 
-intercept:  yes        fit approx. factors (eta):    yes 
-Finding best initialization for 3 combinations of hyperparameters.
--iteration-   variational    max.   incl variance params
-outer inner   lower bound  change   vars   sigma      sa
- 
-Computing marginal likelihood for 3 combinations of hyperparameters.
--iteration-   variational    max.   incl variance params
-outer inner   lower bound  change   vars   sigma      sa
- 
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="kp">summary</span><span class="p">(</span>fit<span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-
-
-<div class="output_text output_subarea ">
-<pre>Summary of fitted Bayesian variable selection model:
-family:     binomial   num. hyperparameter settings: 26
-samples:    72         iid variable selection prior: yes
-variables:  3571       fit prior var. of coefs (sa): no
-covariates: 1          fit approx. factors (eta):    yes
-maximum log-likelihood lower bound: -29.5809
-Hyperparameters: 
-        estimate Pr&gt;0.95             candidate values
-sa            NA [NA,NA]             1--1
-logodds    -3.18 [-3.50,-2.80]       (-3.50)--(-1.00)
-Selected variables by probability cutoff:
-&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
-    1     1     1     1     1     1 
-Top 5 variables by inclusion probability:
-  index variable    prob PVE  coef*  Pr(coef.&gt;0.95)
-1  3441    X3441 1.00000  NA -2.760 [-3.421,-2.165]
-2  3038    X3038 0.00379  NA  0.675 [+0.149,+1.191]
-3  2141    X2141 0.00361  NA -0.657 [-1.241,-0.137]
-4  2230    X2230 0.00356  NA  0.649 [+0.086,+1.158]
-5   951     X951 0.00346  NA  0.654 [+0.061,+1.166]
-*See help(varbvs) about interpreting coefficients in logistic regression.</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="kp">summary</span><span class="p">(</span>fit2<span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-
-
-<div class="output_text output_subarea ">
-<pre>Summary of fitted Bayesian variable selection model:
-family:     binomial   num. hyperparameter settings: 3
-samples:    72         iid variable selection prior: yes
-variables:  3571       fit prior var. of coefs (sa): no
-covariates: 1          fit approx. factors (eta):    yes
-maximum log-likelihood lower bound: -32.9071
-Hyperparameters: 
-        estimate Pr&gt;0.95             candidate values
-sa            NA [NA,NA]             1--1
-logodds    -3.46 [-3.50,-2.50]       (-3.50)--(-1.50)
-Selected variables by probability cutoff:
-&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
-    1     1     1     1     1     1 
-Top 5 variables by inclusion probability:
-  index variable    prob PVE  coef*  Pr(coef.&gt;0.95)
-1   436     X436 1.00000  NA  2.383 [+1.819,+3.001]
-2  3098    X3098 0.01117  NA  0.815 [+0.305,+1.325]
-3  1219    X1219 0.00477  NA -0.740 [-1.298,-0.207]
-4   672     X672 0.00355  NA -0.712 [-1.239,-0.208]
-5   956     X956 0.00338  NA  0.729 [+0.160,+1.271]
-*See help(varbvs) about interpreting coefficients in logistic regression.</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
@@ -371,7 +212,9 @@ varbvscoefcred<span class="p">(</span>fit<span class="p">,</span> vars<span clas
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <ol class=list-inline>
@@ -399,7 +242,9 @@ varbvscoefcred<span class="p">(</span>fit<span class="p">,</span> vars<span clas
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <dl>
@@ -433,7 +278,7 @@ varbvscoefcred<span class="p">(</span>fit<span class="p">,</span> vars<span clas
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># read rds file</span>
@@ -450,7 +295,9 @@ new <span class="o">&lt;-</span> <span class="kp">readRDS</span><span class="p">
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <ol class=list-inline>
@@ -482,7 +329,9 @@ new <span class="o">&lt;-</span> <span class="kp">readRDS</span><span class="p">
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 <div class="output_html rendered_html output_subarea ">
 <ol class=list-inline>
@@ -500,122 +349,24 @@ new <span class="o">&lt;-</span> <span class="kp">readRDS</span><span class="p">
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>new<span class="o">$</span><span class="kp">summary</span>
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># get_summary &lt;- function(datalist){</span>
+<span class="c1">#     for (data in datalist){</span>
+<span class="c1">#         newdat = readRDS(data)</span>
+<span class="c1">#         print (newdat$summary$top.vars)</span>
+<span class="c1">#     }</span>
+<span class="c1"># }</span>
+<span class="c1"># get_summary(c(&quot;data/del_sim_scaleNone_shapeNone_N1000_M50_999.varbvs.rds&quot;, </span>
+<span class="c1">#               &quot;data/del_sim_scaleNone_shapeNone_N1000_M100_999.varbvs.rds&quot;, </span>
+<span class="c1">#               &quot;data/del_sim_scale3_shape1_N1000_M50_999.varbvs.rds&quot;, </span>
+<span class="c1">#               &quot;data/del_sim_scale3_shape1_N1000_M100_999.varbvs.rds&quot;, </span>
+<span class="c1">#               &quot;data/del_sim_scale5_shape1_N1000_M50_999.varbvs.rds&quot;, </span>
+<span class="c1">#               &quot;data/del_sim_scale5_shape1_N1000_M100_999.varbvs.rds&quot;))</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-
-
-<div class="output_text output_subarea ">
-<pre>Summary of fitted Bayesian variable selection model:
-family:     binomial   num. hyperparameter settings: 26
-samples:    1000       iid variable selection prior: yes
-variables:  11312      fit prior var. of coefs (sa): no
-covariates: 1          fit approx. factors (eta):    yes
-maximum log-likelihood lower bound: -695.9374
-Hyperparameters: 
-        estimate Pr&gt;0.95             candidate values
-sa            NA [NA,NA]             1--1
-logodds    -2.90 [-3.50,-2.20]       (-3.50)--(-1.00)
-Selected variables by probability cutoff:
-&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
-    0     0     0     0     0     0 
-Top 5 variables by inclusion probability:
-  index     variable    prob PVE  coef*  Pr(coef.&gt;0.95)
-1  1765        SH2B1 0.00615  NA  1.056 [+0.023,+2.172]
-2   732 LOC101928381 0.00518  NA -1.106 [-2.333,+0.270]
-3   595 LOC105375297 0.00515  NA  1.105 [-0.262,+2.368]
-4  3973       EIF3CL 0.00453  NA  0.979 [-0.196,+2.109]
-5  6538        EIF3C 0.00453  NA  0.979 [-0.085,+2.145]
-*See help(varbvs) about interpreting coefficients in logistic regression.</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>get_summary <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>datalist<span class="p">){</span>
-    <span class="kr">for</span> <span class="p">(</span>data <span class="kr">in</span> datalist<span class="p">){</span>
-        newdat <span class="o">=</span> <span class="kp">readRDS</span><span class="p">(</span>data<span class="p">)</span>
-        print <span class="p">(</span>newdat<span class="o">$</span><span class="kp">summary</span><span class="o">$</span>top.vars<span class="p">)</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-get_summary<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/del_sim_scaleNone_shapeNone_N1000_M50_999.varbvs.rds&quot;</span><span class="p">,</span> 
-              <span class="s">&quot;data/del_sim_scaleNone_shapeNone_N1000_M100_999.varbvs.rds&quot;</span><span class="p">,</span> 
-              <span class="s">&quot;data/del_sim_scale3_shape1_N1000_M50_999.varbvs.rds&quot;</span><span class="p">,</span> 
-              <span class="s">&quot;data/del_sim_scale3_shape1_N1000_M100_999.varbvs.rds&quot;</span><span class="p">,</span> 
-              <span class="s">&quot;data/del_sim_scale5_shape1_N1000_M50_999.varbvs.rds&quot;</span><span class="p">,</span> 
-              <span class="s">&quot;data/del_sim_scale5_shape1_N1000_M100_999.varbvs.rds&quot;</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  index  variable        prob PVE       coef  Pr(coef.&gt;0.95)
-1  1919 MIR4509-3 0.006918537  NA  1.2016560 [-0.028,+2.438]
-2  3600     NBPF9 0.006445871  NA  1.1902711 [-0.000,+2.435]
-3  7682      CHD8 0.004696351  NA  0.9342469 [-0.105,+1.990]
-4  9771     CECR7 0.004623919  NA -1.1018108 [-2.469,+0.226]
-5  2480      HFE2 0.004520604  NA  1.0971500 [-0.288,+2.463]
-  index  variable        prob PVE       coef  Pr(coef.&gt;0.95)
-1  9912     PALLD 0.004574916  NA  1.1111237 [-0.173,+2.310]
-2  3092    FAM72D 0.004492356  NA  1.1078011 [-0.163,+2.532]
-3  5123   RPGRIP1 0.004424014  NA -1.1049633 [-2.444,+0.316]
-4  2381    CTNNA3 0.003569959  NA  0.8298613 [-0.180,+1.782]
-5   941 LINC01099 0.003311740  NA  0.9992212 [-0.332,+2.388]
-  index variable        prob PVE     coef  Pr(coef.&gt;0.95)
-1   654  TXNDC15 0.009455229  NA 1.242177 [+0.024,+2.482]
-2  4190    DDX46 0.009454233  NA 1.242147 [-0.035,+2.444]
-3  4546  C5orf24 0.009453258  NA 1.242122 [-0.005,+2.399]
-4  6332    PCBD2 0.009452172  NA 1.242094 [+0.074,+2.371]
-5  7849    LRFN5 0.007892913  NA 1.197103 [+0.006,+2.401]
-  index  variable        prob PVE       coef  Pr(coef.&gt;0.95)
-1  1849   ZNF658B 0.009851762  NA  1.2751382 [+0.154,+2.415]
-2 10731 SPATA31A1 0.004615559  NA  1.1038984 [-0.162,+2.385]
-3   872   PRAMEF1 0.004541793  NA -1.1005270 [-2.396,+0.229]
-4  7708  PRAMEF11 0.004541675  NA -1.1005149 [-2.422,+0.191]
-5  2717   FAM74A1 0.004509376  NA  0.9975195 [-0.139,+2.116]
-  index     variable        prob PVE       coef  Pr(coef.&gt;0.95)
-1  1765        SH2B1 0.006146390  NA  1.0557747 [+0.023,+2.172]
-2   732 LOC101928381 0.005178606  NA -1.1059052 [-2.333,+0.270]
-3   595 LOC105375297 0.005154133  NA  1.1052029 [-0.262,+2.368]
-4  3973       EIF3CL 0.004533974  NA  0.9793640 [-0.196,+2.109]
-5  6538        EIF3C 0.004533273  NA  0.9793257 [-0.085,+2.145]
-  index variable       prob PVE      coef  Pr(coef.&gt;0.95)
-1  5018   LINGO2 0.03082371  NA -1.384424 [-2.446,-0.237]
-2   207   OR10C1 0.01856919  NA  1.269161 [+0.243,+2.240]
-3 11379   OR12D3 0.01856539  NA  1.269288 [+0.261,+2.363]
-4  4877   OR14J1 0.01856490  NA  1.269167 [+0.246,+2.327]
-5 11217    OR5V1 0.01856380  NA  1.269262 [+0.255,+2.420]
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -639,10 +390,400 @@ get_summary<span class="p">(</span><span class="kt">c</span><span class="p">(</s
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># get summary of rds using pkl</span>
-<span class="kn">library</span><span class="p">(</span>feather<span class="p">)</span>
+<span class="c1"># dat = as.matrix(feather::read_feather(${_input!r}))</span>
+dat <span class="o">=</span> <span class="kp">as.matrix</span><span class="p">(</span>read_feather<span class="p">(</span><span class="s">&quot;data/del_sim_shape9_scale1_p0.005_N4000_M100_12.data.feather&quot;</span><span class="p">))</span>
+print <span class="p">(</span><span class="kp">dim</span><span class="p">(</span>dat<span class="p">))</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1]  4000 21756
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>fit <span class="o">=</span> varbvs<span class="p">(</span>dat<span class="p">[,</span><span class="m">-1</span><span class="p">],</span> <span class="kc">NULL</span><span class="p">,</span> dat<span class="p">[,</span><span class="m">1</span><span class="p">],</span> family <span class="o">=</span> <span class="s">&quot;binomial&quot;</span><span class="p">,</span> logodds <span class="o">=</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-3.5</span><span class="p">,</span> <span class="m">-1</span><span class="p">,</span> <span class="m">0.1</span><span class="p">),</span> sa <span class="o">=</span> <span class="m">1</span><span class="p">,</span> verbose <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>get_varbvs_rds <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>datalist<span class="p">){</span>
+    <span class="kr">for</span> <span class="p">(</span>dat <span class="kr">in</span> datalist<span class="p">){</span>
+        newdat <span class="o">=</span> <span class="kp">as.matrix</span><span class="p">(</span>read_feather<span class="p">(</span>dat<span class="p">))</span>
+        print <span class="p">(</span><span class="kp">dim</span><span class="p">(</span>newdat<span class="p">))</span>
+        newfit <span class="o">=</span> varbvs<span class="p">(</span>newdat<span class="p">[,</span><span class="m">-1</span><span class="p">],</span> <span class="kc">NULL</span><span class="p">,</span> newdat<span class="p">[,</span><span class="m">1</span><span class="p">],</span> family <span class="o">=</span> <span class="s">&quot;binomial&quot;</span><span class="p">,</span> 
+                        logodds <span class="o">=</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-3.0</span><span class="p">,</span><span class="m">-1</span><span class="p">,</span><span class="m">0.1</span><span class="p">),</span> sa <span class="o">=</span> <span class="m">1</span><span class="p">,</span> verbose <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
+        newfit<span class="o">$</span>summary <span class="o">=</span> <span class="kp">summary</span><span class="p">(</span>newfit<span class="p">)</span>
+        newfit<span class="o">$</span>w <span class="o">=</span> normalizelogweights<span class="p">(</span>newfit<span class="o">$</span>logw<span class="p">)</span>
+        newfit<span class="o">$</span>pip <span class="o">=</span> newfit<span class="o">$</span>alpha <span class="o">%*%</span> <span class="kt">c</span><span class="p">(</span>newfit<span class="o">$</span>w<span class="p">)</span>
+        newfit<span class="o">$</span>beta <span class="o">=</span> newfit<span class="o">$</span>mu <span class="o">%*%</span> <span class="kt">c</span><span class="p">(</span>newfit<span class="o">$</span>w<span class="p">)</span>
+        newfit<span class="o">$</span>var_names <span class="o">=</span> <span class="kp">colnames</span><span class="p">(</span>newdat<span class="p">[</span><span class="m">-1</span><span class="p">])</span>
+        print <span class="p">(</span>newfit<span class="o">$</span><span class="kp">summary</span><span class="p">)</span>
+        filename <span class="o">=</span> <span class="kp">paste</span><span class="p">(</span>dat<span class="p">,</span> <span class="s">&quot;.RDS&quot;</span><span class="p">,</span> sep<span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+        <span class="kp">saveRDS</span><span class="p">(</span>newfit<span class="p">,</span> filename<span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>get_varbvs_rds<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/del_sim_shape9_scale1_p0.005_N4000_M100_12.data.feather&quot;</span><span class="p">,</span>  
+                 <span class="s">&quot;data/del_sim_shape9_scale1_p0.005_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape5_scale1_p0.005_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape5_scale1_p0.005_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape3_scale1_p0.005_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape3_scale1_p0.005_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M100_12.data.feather&quot;</span><span class="p">,</span>
+                 <span class="s">&quot;data/del_sim_shape3_scale1_p0.01_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape3_scale1_p0.01_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape9_scale1_p0.01_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape9_scale1_p0.01_N4000_M200_12.data.feather&quot;</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>fit<span class="o">$</span>summary <span class="o">=</span> <span class="kp">summary</span><span class="p">(</span>fit<span class="p">)</span>
+fit<span class="o">$</span>w <span class="o">=</span> normalizelogweights<span class="p">(</span>fit<span class="o">$</span>logw<span class="p">)</span>
+fit<span class="o">$</span>pip <span class="o">=</span> fit<span class="o">$</span>alpha <span class="o">%*%</span> <span class="kt">c</span><span class="p">(</span>fit<span class="o">$</span>w<span class="p">)</span>
+fit<span class="o">$</span>beta <span class="o">=</span> fit<span class="o">$</span>mu <span class="o">%*%</span> <span class="kt">c</span><span class="p">(</span>fit<span class="o">$</span>w<span class="p">)</span>
+fit<span class="o">$</span>var_names <span class="o">=</span> <span class="kp">colnames</span><span class="p">(</span>dat<span class="p">[</span><span class="m">-1</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">saveRDS</span><span class="p">(</span>fit<span class="p">,</span> <span class="s">&quot;data/del_sim_shape3_scale1_p0.01_N4000_M100_12.data.varbvs.rds&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>aa <span class="o">&lt;-</span> <span class="kp">readRDS</span><span class="p">(</span><span class="s">&quot;data/del_sim_shape3_scale1_p0.01_N4000_M100_12.data.varbvs.rds&quot;</span><span class="p">)</span>
+<span class="kp">names</span><span class="p">(</span>aa<span class="p">)</span>
+<span class="kp">dim</span><span class="p">(</span>aa<span class="o">$</span>mu<span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>'family'</li>
+	<li>'n'</li>
+	<li>'n0'</li>
+	<li>'mu.cov'</li>
+	<li>'sa0'</li>
+	<li>'update.sigma'</li>
+	<li>'update.sa'</li>
+	<li>'optimize.eta'</li>
+	<li>'prior.same'</li>
+	<li>'logw'</li>
+	<li>'sigma'</li>
+	<li>'sa'</li>
+	<li>'logodds'</li>
+	<li>'alpha'</li>
+	<li>'mu'</li>
+	<li>'s'</li>
+	<li>'eta'</li>
+	<li>'model.pve'</li>
+	<li>'summary'</li>
+	<li>'w'</li>
+	<li>'pip'</li>
+	<li>'beta'</li>
+</ol>
+
+</div>
+
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>5046</li>
+	<li>26</li>
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>dat1 <span class="o">=</span> <span class="kp">as.matrix</span><span class="p">(</span>read_feather<span class="p">(</span><span class="s">&quot;data/del_test_data.feather&quot;</span><span class="p">))</span>
+print <span class="p">(</span><span class="kp">dim</span><span class="p">(</span>dat1<span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1] 4000 4941
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>dat2 <span class="o">=</span> <span class="kp">as.matrix</span><span class="p">(</span>read_feather<span class="p">(</span><span class="s">&quot;data/del_test_data_2.feather&quot;</span><span class="p">))</span>
+print <span class="p">(</span><span class="kp">dim</span><span class="p">(</span>dat2<span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1] 4000 4941
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">all.equal</span><span class="p">(</span>dat1<span class="p">,</span> dat2<span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_html rendered_html output_subarea ">
+'Attributes: &lt; Component “dimnames”: Component 2: 4940 string mismatches &gt;'
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">all</span><span class="p">(</span>dat1<span class="o">==</span>dat2<span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_html rendered_html output_subarea ">
+TRUE
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">identical</span><span class="p">(</span>dat1<span class="p">,</span> dat2<span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_html rendered_html output_subarea ">
+FALSE
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>matequal <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>x<span class="p">,</span> y<span class="p">)</span>
+    <span class="kp">is.matrix</span><span class="p">(</span>x<span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="kp">is.matrix</span><span class="p">(</span>y<span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="kp">dim</span><span class="p">(</span>x<span class="p">)</span> <span class="o">==</span> <span class="kp">dim</span><span class="p">(</span>y<span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="kp">all</span><span class="p">(</span>x <span class="o">==</span> y<span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>matequal<span class="p">(</span>dat1<span class="p">,</span> dat2<span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_html rendered_html output_subarea ">
+TRUE
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -663,4 +804,8 @@ get_summary<span class="p">(</span><span class="kt">c</span><span class="p">(</s
     </div>
   </div>
 </body>
+
+ 
+
+
 </html>

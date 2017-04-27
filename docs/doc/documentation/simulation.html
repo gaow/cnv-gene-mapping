@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>simulation</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>simulation</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
@@ -402,7 +400,7 @@ when presented in causal gene vs. non causal gene.</p>
                       <span class="s1">&#39;cnv_file&#39;</span><span class="p">:</span> <span class="s1">&#39;data/ISC-r1.CNV.bed&#39;</span><span class="p">,</span>
                       <span class="s1">&#39;case_dataset&#39;</span><span class="p">:</span> <span class="s1">&#39;delCases&#39;</span><span class="p">,</span>
                       <span class="s1">&#39;ctrl_dataset&#39;</span><span class="p">:</span> <span class="s1">&#39;delControls&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="s1">&#39;del_sample&#39;</span> 
+                      <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="s1">&#39;del_sample&#39;</span>
                      <span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
         <span class="c1">## select causal genes randomly, instead of the first 100 in enrichment analysis</span>
@@ -419,8 +417,8 @@ when presented in causal gene vs. non causal gene.</p>
     <span class="n">status</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">case_data</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">ctrl_data</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">debug</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;niter&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span> <span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> 
-             <span class="s1">&#39;causal genes&#39;</span><span class="p">:</span> <span class="n">causal_genes</span><span class="p">,</span> <span class="s1">&#39;number of causal genes&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;number of genes overlap CNV&#39;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="n">debug</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;niter&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span> <span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span> 
+             <span class="s1">&#39;causal genes&#39;</span><span class="p">:</span> <span class="n">causal_genes</span><span class="p">,</span> <span class="s1">&#39;number of causal genes&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;number of genes overlap CNV&#39;</span><span class="p">:</span> <span class="p">[],</span> 
              <span class="s1">&#39;simulated CNV length in case&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;simulated CNV length in ctrl&#39;</span><span class="p">:</span> <span class="p">[]}</span>
     
     <span class="k">while</span><span class="p">(</span><span class="n">status</span><span class="p">):</span>
@@ -434,7 +432,6 @@ when presented in causal gene vs. non causal gene.</p>
         <span class="n">debug</span><span class="p">[</span><span class="s1">&#39;number of causal genes&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">causal_genes_in_sample</span><span class="p">))</span>
         <span class="c1"># add the number of genes overlapped with simulated CNVs, both causal and non-causal genes</span>
         <span class="n">debug</span><span class="p">[</span><span class="s1">&#39;number of genes overlap CNV&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span> <span class="nb">set</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span> <span class="p">))</span>
-        <span class="c1">#debug[&#39;p&#39;].append(p)</span>
         <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">p</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">case_data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;n_case&#39;</span><span class="p">]:</span>
             <span class="c1"># sample data is a case</span>
             <span class="n">case_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
@@ -572,7 +569,9 @@ when presented in causal gene vs. non causal gene.</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>{&#39;delCases&#39;:       chrom    cnv_end  cnv_start
 0     chr19     318090      40793
@@ -897,7 +896,9 @@ when presented in causal gene vs. non causal gene.</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[7]:</div>
+
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -906,7 +907,9 @@ when presented in causal gene vs. non causal gene.</p>
 
 </div>
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 
 <div class="output_png output_subarea ">
@@ -1143,7 +1146,9 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>[199253 165731]
 </pre>
@@ -1230,7 +1235,9 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>0
 </pre>
@@ -1272,7 +1279,9 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>0
 0.005
@@ -1402,7 +1411,9 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>[&#39;PTPRD&#39;, &#39;CNTNAP3&#39;, &#39;JUN&#39;, &#39;LOC100132057&#39;, &#39;MIR6077&#39;, &#39;MYSM1&#39;, &#39;NBPF8&#39;, &#39;NBPF9&#39;, &#39;ATAD1&#39;, &#39;CFL1P1&#39;, &#39;KLLN&#39;, &#39;LINC00706&#39;, &#39;LINC00707&#39;, &#39;LINP1&#39;, &#39;PTEN&#39;, &#39;DLG2&#39;, &#39;AKAP13&#39;, &#39;DNM1P46&#39;, &#39;GOLGA6L3&#39;, &#39;LOC642423&#39;, &#39;LYSMD4&#39;, &#39;MEF2A&#39;, &#39;MIR7706&#39;, &#39;PDE8A&#39;, &#39;LOC101927009&#39;, &#39;LOC101928203&#39;, &#39;CDRT15&#39;, &#39;COX10&#39;, &#39;HS3ST3B1&#39;, &#39;MGC12916&#39;, &#39;SH3RF3&#39;, &#39;CPNE4&#39;, &#39;DDX60&#39;, &#39;DDX60L&#39;, &#39;PALLD&#39;, &#39;RWDD4&#39;, &#39;STOX2&#39;, &#39;TRAPPC11&#39;, &#39;LOC102467226&#39;, &#39;LOC646241&#39;, &#39;LOC100507477&#39;, &#39;MIR3668&#39;, &#39;ANKMY2&#39;, &#39;BZW2&#39;, &#39;FAM20C&#39;, &#39;LOC100507642&#39;, &#39;LOC102723672&#39;, &#39;LOC105375115&#39;, &#39;LOC442497&#39;, &#39;LRRC72&#39;, &#39;MIR6839&#39;, &#39;WI2-2373I1.2&#39;, &#39;ZNF107&#39;, &#39;COX6C&#39;, &#39;FBXO43&#39;, &#39;MIR1273A&#39;, &#39;MYOM2&#39;, &#39;POLR2K&#39;, &#39;RGS22&#39;, &#39;RNF19A&#39;, &#39;RUNX1T1&#39;, &#39;SPAG1&#39;, &#39;VPS13B&#39;, &#39;FAM74A1&#39;, &#39;LOC101928195&#39;, &#39;LOC101929583&#39;, &#39;LOC105375972&#39;, &#39;LOC286297&#39;, &#39;SPATA31A1&#39;, &#39;ZNF658B&#39;, &#39;METTL3&#39;, &#39;RAB2B&#39;, &#39;SNORD9&#39;, &#39;SUPT16H&#39;, &#39;TOX4&#39;, &#39;CHD8&#39;, &#39;SNORD8&#39;, &#39;LINC01138&#39;, &#39;NBPF20&#39;, &#39;PPIAL4G&#39;, &#39;LINC00863&#39;, &#39;LINC00864&#39;, &#39;MINPP1&#39;, &#39;MIR4678&#39;, &#39;NUTM2A-AS1&#39;, &#39;NUTM2D&#39;, &#39;PAPSS2&#39;, &#39;ABCC6P1&#39;, &#39;LOC100288162&#39;, &#39;MIR3179-1&#39;, &#39;MIR3180-2&#39;, &#39;MIR3180-3&#39;, &#39;MIR3670-1&#39;, &#39;MIR6511A4&#39;, &#39;MIR6770-2&#39;, &#39;NOMO2&#39;, &#39;NPIPA8&#39;, &#39;LINC01224&#39;, &#39;ZNF91&#39;, &#39;FER1L5&#39;]
 </pre>
@@ -1435,7 +1446,9 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 
 <div class="output_png output_subarea ">
@@ -2966,7 +2979,9 @@ AQYAAFiHAAMAAKxDgAEAANYhwAAAAOsQYAAAgHW+AEA/r201SIjpAAAAAElFTkSuQmCC
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 
 
 <div class="output_png output_subarea ">
@@ -4338,7 +4353,9 @@ iIiIXdNkRkREROyaJjMiIiJi1zSZEREREbumyYyIiIjYtf8H71E0eOpZFSIAAAAASUVORK5CYII=
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
+<div class="output_area">
+<div class="prompt"></div>
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>[NbConvertApp] Converting notebook simulation.ipynb to script
 [NbConvertApp] Writing 23535 bytes to simulation.py
@@ -4366,4 +4383,8 @@ iIiIXdNkRkREROyaJjMiIiJi1zSZEREREbumyYyIiIjYtf8H71E0eOpZFSIAAAAASUVORK5CYII=
     </div>
   </div>
 </body>
+
+ 
+
+
 </html>
