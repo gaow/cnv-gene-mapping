@@ -138,6 +138,8 @@ $( document ).ready(function(){
 <span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">robjects</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">pandas2ri</span>
 <span class="n">pandas2ri</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+<span class="n">readRDS</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;readRDS&#39;</span><span class="p">]</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">inf</span>
 </pre></div>
 
 </div>
@@ -158,82 +160,11 @@ $( document ).ready(function(){
     <span class="n">overlap_genes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">causal_genes</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">fisher_table</span><span class="p">[</span><span class="s2">&quot;genes&quot;</span><span class="p">]))</span>
     <span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">fisher_table</span><span class="p">[</span><span class="s2">&quot;genes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">overlap_genes</span><span class="p">]</span>
     <span class="n">log_overlap_pvalue</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">fisher_table</span><span class="p">[</span><span class="s2">&quot;p_value&quot;</span><span class="p">][</span><span class="n">num</span><span class="p">])</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span>
-    <span class="n">overlap_df</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">overlap_genes</span><span class="p">,</span> <span class="n">log_overlap_pvalue</span><span class="p">]),</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">overlap_df</span>
+    <span class="n">pvalue_df</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">overlap_genes</span><span class="p">,</span> <span class="n">log_overlap_pvalue</span><span class="p">]),</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">overlap_genes</span><span class="p">,</span> <span class="n">pvalue_df</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">causal_pvalue_pkl</span> <span class="o">=</span> <span class="n">get_causal_pvalue_from_pkl</span><span class="p">(</span><span class="s2">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M200_12.data.pkl&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">causal_pvalue_pkl</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>OrderedDict([(&#39;HLA-DMB&#39;, 6.1298915412363941), (&#39;TAPBP&#39;, 5.9880651828746503), (&#39;HCG24&#39;, 5.8485342966337512), (&#39;PFDN6&#39;, 5.8009295876328482), (&#39;PSMB8-AS1&#39;, 5.7924058063420389), (&#39;FAM74A1&#39;, 4.8293295444741746), (&#39;ETS2&#39;, 4.3400883257724665), (&#39;LOC101928398&#39;, 3.8431393098732203), (&#39;FBP1&#39;, 2.9227737632971089), (&#39;LINC01149&#39;, 2.9227737632971089), (&#39;ABCC11&#39;, 2.6699711643366348), (&#39;AKAP12&#39;, 2.4123565666524307), (&#39;TBC1D7-LOC100130357&#39;, 2.4123565666524307), (&#39;WWOX&#39;, 2.2765526256633715), (&#39;DSCAM-IT1&#39;, 2.1496218638143496), (&#39;NAT9&#39;, 2.1496218638143496), (&#39;EFR3A&#39;, 1.9389418590035867), (&#39;DARS-AS1&#39;, 1.8817767331052515), (&#39;ACAP2&#39;, 1.8817767331052515), (&#39;SMTN&#39;, 1.8817767331052515), (&#39;PCSK2&#39;, 1.8817767331052515), (&#39;TRPM1&#39;, 1.7056697921288428), (&#39;OSER1-AS1&#39;, 1.7056697921288428), (&#39;XDH&#39;, 1.6968916717709526), (&#39;FADS6&#39;, 1.6968916717709526), (&#39;PPARGC1A&#39;, 1.677596551988241), (&#39;P2RY12&#39;, 1.6092727262381343), (&#39;SENCR&#39;, 1.6092727262381343), (&#39;SEMG1&#39;, 1.6092727262381343), (&#39;MIR3928&#39;, 1.6092727262381343), (&#39;NUTM2F&#39;, 1.6092727262381343), (&#39;LINC00671&#39;, 1.6092727262381343), (&#39;LOC400710&#39;, 1.6092727262381343), (&#39;ZNF468&#39;, 1.4849767900490587), (&#39;PRAMEF5&#39;, 1.3431570675514455), (&#39;PAM&#39;, 1.3355307426984826), (&#39;LHCGR&#39;, 1.3355307426984826), (&#39;IGHV1OR15-3&#39;, 1.3355307426984826), (&#39;IL20&#39;, 1.3355307426984826), (&#39;DCUN1D4&#39;, 1.3355307426984826), (&#39;MIR4742&#39;, 1.3331245697002414), (&#39;DDAH1&#39;, 1.3331245697002414), (&#39;ARHGAP31-AS1&#39;, 1.3331245697002414), (&#39;NR5A2&#39;, 1.2629197437728732), (&#39;LNPEP&#39;, 1.2629197437728732), (&#39;MYCBPAP&#39;, 1.2629197437728732), (&#39;MRAS&#39;, 1.2629197437728732), (&#39;OR2A1&#39;, 1.107191052819362), (&#39;B4GALT2&#39;, 1.0856051999827627), (&#39;DUSP26&#39;, 1.0856051999827627), (&#39;CLIP4&#39;, 1.0856051999827627), (&#39;OBSL1&#39;, 1.0856051999827627), (&#39;LINC01159&#39;, 1.0856051999827627), (&#39;RFX2&#39;, 1.0856051999827627), (&#39;HCG21&#39;, 1.0566673521676435), (&#39;DNAH12&#39;, 1.0566673521676435), (&#39;LIPG&#39;, 1.0402041022946642), (&#39;LINC00466&#39;, 1.0402041022946642), (&#39;FAM189A2&#39;, 1.0402041022946642), (&#39;C8orf22&#39;, 1.0402041022946642), (&#39;LINC00824&#39;, 0.85707134124372009), (&#39;MIR302A&#39;, 0.82887808101233462), (&#39;SLC47A2&#39;, 0.82887808101233462), (&#39;KCP&#39;, 0.82887808101233462), (&#39;LCE2B&#39;, 0.82887808101233462), (&#39;DUSP14&#39;, 0.82887808101233462), (&#39;KLHL6-AS1&#39;, 0.82887808101233462), (&#39;LSM3&#39;, 0.82887808101233462), (&#39;SMIM13&#39;, 0.82887808101233462), (&#39;ASB9P1&#39;, 0.82887808101233462), (&#39;GTF3C6&#39;, 0.82887808101233462), (&#39;LOC388692&#39;, 0.82887808101233462), (&#39;ZNF764&#39;, 0.82887808101233462), (&#39;LOC100506937&#39;, 0.82887808101233462), (&#39;NRG1&#39;, 0.82654862482628966), (&#39;LOC101929268&#39;, 0.8181588304778411), (&#39;TMPRSS2&#39;, 0.8181588304778411), (&#39;ARMC2&#39;, 0.8181588304778411), (&#39;FAM53A&#39;, 0.8181588304778411), (&#39;SLC45A3&#39;, 0.8181588304778411), (&#39;LEPR&#39;, 0.6719347947432901), (&#39;DNAJB6&#39;, 0.6719347947432901), (&#39;TOX2&#39;, 0.6642636195763294), (&#39;EPHA6&#39;, 0.61007067316884289), (&#39;ERC2&#39;, 0.61007067316884289), (&#39;C2orf68&#39;, 0.59895234025470834), (&#39;HSPB9&#39;, 0.59895234025470834), (&#39;PDZRN3&#39;, 0.59895234025470834), (&#39;LOC105369438&#39;, 0.59895234025470834), (&#39;DYDC1&#39;, 0.59895234025470834), (&#39;MPP5&#39;, 0.59895234025470834), (&#39;PIK3CA&#39;, 0.59895234025470834), (&#39;CSN2&#39;, 0.56356017481248499), (&#39;IFIT2&#39;, 0.56356017481248499), (&#39;ZDHHC1&#39;, 0.56356017481248499), (&#39;SRGN&#39;, 0.56356017481248499), (&#39;C11orf42&#39;, 0.56356017481248499), (&#39;KCNIP2&#39;, 0.5046501057008671), (&#39;C1orf210&#39;, 0.5046501057008671), (&#39;TEX37&#39;, 0.49059686557245219), (&#39;PEX7&#39;, 0.49059686557245219), (&#39;BANP&#39;, 0.41919745518119456), (&#39;GABRB2&#39;, 0.41919745518119456), (&#39;MSRB3&#39;, 0.38853237105336758), (&#39;LOC105374704&#39;, 0.38853237105336758), (&#39;SCN3A&#39;, 0.38588103064822832), (&#39;RANBP17&#39;, 0.38588103064822832), (&#39;TMBIM1&#39;, 0.38588103064822832), (&#39;MIR512-1&#39;, 0.38588103064822832), (&#39;ANKRD20A1&#39;, 0.38588103064822832), (&#39;ITGA7&#39;, 0.38588103064822832), (&#39;ZNF32-AS2&#39;, 0.38500714999196473), (&#39;GMCL1&#39;, 0.34017765395378219), (&#39;FGF14&#39;, 0.33722358696727384), (&#39;EMG1&#39;, 0.31554199196618798), (&#39;MIR4449&#39;, 0.31554199196618798), (&#39;TCEB3CL&#39;, 0.31554199196618798), (&#39;IPP&#39;, 0.31554199196618798), (&#39;LOC101927503&#39;, 0.28781385401098436), (&#39;TCP11L2&#39;, 0.28781385401098436), (&#39;LOC100287036&#39;, 0.28781385401098436), (&#39;SNORA74B&#39;, 0.28781385401098436), (&#39;FUT11&#39;, 0.28781385401098436), (&#39;UBE2H&#39;, 0.26795166525732667), (&#39;LETM1&#39;, 0.26795166525732667), (&#39;GABRA1&#39;, 0.23831837882740742), (&#39;ZNF827&#39;, 0.23831837882740742), (&#39;BOK-AS1&#39;, 0.21541374407470978), (&#39;THG1L&#39;, 0.18854774868800758), (&#39;APITD1-CORT&#39;, 0.18854774868800758), (&#39;CRCP&#39;, 0.18854774868800758), (&#39;DPY19L4&#39;, 0.18854774868800758), (&#39;MORC1-AS1&#39;, 0.18854774868800758), (&#39;MS4A5&#39;, 0.18854774868800758), (&#39;HLA-G&#39;, 0.18381771642907749), (&#39;RLBP1&#39;, 0.18381771642907749), (&#39;SCAND1&#39;, 0.18381771642907749), (&#39;GSTA4&#39;, 0.18381771642907749), (&#39;C7orf25&#39;, 0.18381771642907749), (&#39;SEPT4-AS1&#39;, 0.18381771642907749), (&#39;LENG8&#39;, 0.18381771642907749), (&#39;PIAS1&#39;, 0.18381771642907749), (&#39;GCNT4&#39;, 0.18381771642907749), (&#39;RCN2&#39;, 0.15759117455100666), (&#39;ZNF451&#39;, 0.15034906025761616), (&#39;CGNL1&#39;, 0.15034906025761616), (&#39;C11orf74&#39;, 0.15034906025761616), (&#39;TAOK3&#39;, 0.13981654561212339), (&#39;CD59&#39;, 0.13981654561212339), (&#39;EIF2AK2&#39;, 0.12797363148523849), (&#39;PCGF5&#39;, 0.12797363148523849), (&#39;EHF&#39;, 0.12797363148523849), (&#39;QRICH2&#39;, 6.8798062668133753e-11), (&#39;CA14&#39;, 6.8798062668133753e-11), (&#39;LOC105748977&#39;, 6.8798062668133753e-11), (&#39;KRTAP15-1&#39;, 4.1425772175665143e-11), (&#39;ERO1A&#39;, 4.1425772175665143e-11), (&#39;UST-AS1&#39;, 4.1425772175665143e-11), (&#39;SETDB2&#39;, 4.1425772175665143e-11), (&#39;LOC100422212&#39;, 4.1425772175665143e-11), (&#39;KRT4&#39;, 3.1831437128250661e-11), (&#39;UGT1A6&#39;, 6.8021248672535171e-12), (&#39;LOC105377651&#39;, 6.8021248672535171e-12), (&#39;TGS1&#39;, 6.3837513958830225e-12), (&#39;TJAP1&#39;, 6.3837513958830225e-12), (&#39;C19orf38&#39;, 6.3837513958830225e-12), (&#39;C1orf112&#39;, 6.3837513958830225e-12), (&#39;SYTL2&#39;, 6.3837513958830225e-12), (&#39;NKX2-4&#39;, 6.3837513958830225e-12), (&#39;LINC00613&#39;, 6.3837513958830225e-12), (&#39;SNORD45B&#39;, 6.3837513958830225e-12), (&#39;GPATCH1&#39;, 6.3837513958830225e-12), (&#39;LINC00665&#39;, -0.0), (&#39;NADK2&#39;, -0.0), (&#39;PVRIG&#39;, -0.0), (&#39;PPP1R16A&#39;, -0.0), (&#39;RAD21-AS1&#39;, -0.0), (&#39;LRRC24&#39;, -0.0), (&#39;RPS27&#39;, -0.0), (&#39;DEFB122&#39;, -0.0), (&#39;XPNPEP1&#39;, -0.0), (&#39;HR&#39;, -0.0), (&#39;DEFT1P&#39;, -0.0)])
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">causal_pvalue_pkl</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>OrderedDict([(&#39;HLA-DMB&#39;, 7.414953959274976e-07), (&#39;TAPBP&#39;, 1.027862015647931e-06), (&#39;HCG24&#39;, 1.4173127805323972e-06), (&#39;PFDN6&#39;, 1.581504428537075e-06), (&#39;PSMB8-AS1&#39;, 1.6128507988616623e-06), (&#39;FAM74A1&#39;, 1.4813935709027073e-05), (&#39;ETS2&#39;, 4.569952375651823e-05), (&#39;LOC101928398&#39;, 0.00014350290411796848), (&#39;LINC01149&#39;, 0.0011946102498362563), (&#39;FBP1&#39;, 0.0011946102498362563), (&#39;ABCC11&#39;, 0.0021381040475615077), (&#39;TBC1D7-LOC100130357&#39;, 0.003869398271770422), (&#39;AKAP12&#39;, 0.003869398271770422), (&#39;WWOX&#39;, 0.005289898929394989), (&#39;DSCAM-IT1&#39;, 0.007085624546515857), (&#39;NAT9&#39;, 0.007085624546515857), (&#39;EFR3A&#39;, 0.011509544621895733), (&#39;DARS-AS1&#39;, 0.013128746626385655), (&#39;SMTN&#39;, 0.013128746626385655), (&#39;ACAP2&#39;, 0.013128746626385655), (&#39;PCSK2&#39;, 0.013128746626385655), (&#39;OSER1-AS1&#39;, 0.0196938310504362), (&#39;TRPM1&#39;, 0.0196938310504362), (&#39;XDH&#39;, 0.020095940131107024), (&#39;FADS6&#39;, 0.020095940131107024), (&#39;PPARGC1A&#39;, 0.02100890648860944), (&#39;P2RY12&#39;, 0.02458823038915322), (&#39;LOC400710&#39;, 0.02458823038915322), (&#39;LINC00671&#39;, 0.02458823038915322), (&#39;NUTM2F&#39;, 0.02458823038915322), (&#39;SEMG1&#39;, 0.02458823038915322), (&#39;SENCR&#39;, 0.02458823038915322), (&#39;MIR3928&#39;, 0.02458823038915322), (&#39;ZNF468&#39;, 0.03273581893780945), (&#39;PRAMEF5&#39;, 0.045377747317241826), (&#39;DCUN1D4&#39;, 0.04618162998340624), (&#39;PAM&#39;, 0.04618162998340624), (&#39;LHCGR&#39;, 0.04618162998340624), (&#39;IL20&#39;, 0.04618162998340624), (&#39;IGHV1OR15-3&#39;, 0.04618162998340624), (&#39;MIR4742&#39;, 0.04643820563284569), (&#39;ARHGAP31-AS1&#39;, 0.04643820563284569), (&#39;DDAH1&#39;, 0.04643820563284569), (&#39;MYCBPAP&#39;, 0.05458587247126694), (&#39;LNPEP&#39;, 0.05458587247126694), (&#39;NR5A2&#39;, 0.05458587247126694), (&#39;MRAS&#39;, 0.05458587247126694), (&#39;OR2A1&#39;, 0.07812840301218528), (&#39;B4GALT2&#39;, 0.0821097632693542), (&#39;LINC01159&#39;, 0.0821097632693542), (&#39;CLIP4&#39;, 0.0821097632693542), (&#39;DUSP26&#39;, 0.0821097632693542), (&#39;OBSL1&#39;, 0.0821097632693542), (&#39;RFX2&#39;, 0.0821097632693542), (&#39;DNAH12&#39;, 0.08776728171947842), (&#39;HCG21&#39;, 0.08776728171947842), (&#39;FAM189A2&#39;, 0.09115823287958953), (&#39;LIPG&#39;, 0.09115823287958953), (&#39;LINC00466&#39;, 0.09115823287958953), (&#39;C8orf22&#39;, 0.09115823287958953), (&#39;LINC00824&#39;, 0.1389724323441896), (&#39;LOC388692&#39;, 0.14829343291566568), (&#39;KCP&#39;, 0.14829343291566568), (&#39;SMIM13&#39;, 0.14829343291566568), (&#39;LCE2B&#39;, 0.14829343291566568), (&#39;SLC47A2&#39;, 0.14829343291566568), (&#39;KLHL6-AS1&#39;, 0.14829343291566568), (&#39;ZNF764&#39;, 0.14829343291566568), (&#39;MIR302A&#39;, 0.14829343291566568), (&#39;GTF3C6&#39;, 0.14829343291566568), (&#39;LSM3&#39;, 0.14829343291566568), (&#39;ASB9P1&#39;, 0.14829343291566568), (&#39;DUSP14&#39;, 0.14829343291566568), (&#39;LOC100506937&#39;, 0.14829343291566568), (&#39;NRG1&#39;, 0.14909098196693907), (&#39;LOC101929268&#39;, 0.1519991535715302), (&#39;TMPRSS2&#39;, 0.1519991535715302), (&#39;FAM53A&#39;, 0.1519991535715302), (&#39;ARMC2&#39;, 0.1519991535715302), (&#39;SLC45A3&#39;, 0.1519991535715302), (&#39;DNAJB6&#39;, 0.21284585901544884), (&#39;LEPR&#39;, 0.21284585901544884), (&#39;TOX2&#39;, 0.2166388693595493), (&#39;ERC2&#39;, 0.24543094909854332), (&#39;EPHA6&#39;, 0.24543094909854332), (&#39;HSPB9&#39;, 0.2517953234344212), (&#39;PIK3CA&#39;, 0.2517953234344212), (&#39;DYDC1&#39;, 0.2517953234344212), (&#39;MPP5&#39;, 0.2517953234344212), (&#39;PDZRN3&#39;, 0.2517953234344212), (&#39;LOC105369438&#39;, 0.2517953234344212), (&#39;C2orf68&#39;, 0.2517953234344212), (&#39;IFIT2&#39;, 0.2731742913841445), (&#39;ZDHHC1&#39;, 0.2731742913841445), (&#39;C11orf42&#39;, 0.2731742913841445), (&#39;CSN2&#39;, 0.2731742913841445), (&#39;SRGN&#39;, 0.2731742913841445), (&#39;KCNIP2&#39;, 0.3128598943421359), (&#39;C1orf210&#39;, 0.3128598943421359), (&#39;PEX7&#39;, 0.3231492367000816), (&#39;TEX37&#39;, 0.3231492367000816), (&#39;BANP&#39;, 0.3808926083934808), (&#39;GABRB2&#39;, 0.3808926083934808), (&#39;LOC105374704&#39;, 0.40875928324201766), (&#39;MSRB3&#39;, 0.40875928324201766), (&#39;MIR512-1&#39;, 0.41126236567671776), (&#39;RANBP17&#39;, 0.41126236567671776), (&#39;SCN3A&#39;, 0.41126236567671776), (&#39;ITGA7&#39;, 0.41126236567671776), (&#39;ANKRD20A1&#39;, 0.41126236567671776), (&#39;TMBIM1&#39;, 0.41126236567671776), (&#39;ZNF32-AS2&#39;, 0.4120907346001321), (&#39;GMCL1&#39;, 0.45690124982846964), (&#39;FGF14&#39;, 0.46001968158643514), (&#39;TCEB3CL&#39;, 0.48356850576626775), (&#39;MIR4449&#39;, 0.48356850576626775), (&#39;IPP&#39;, 0.48356850576626775), (&#39;EMG1&#39;, 0.48356850576626775), (&#39;LOC101927503&#39;, 0.5154495276608494), (&#39;SNORA74B&#39;, 0.5154495276608494), (&#39;TCP11L2&#39;, 0.5154495276608494), (&#39;LOC100287036&#39;, 0.5154495276608494), (&#39;FUT11&#39;, 0.5154495276608494), (&#39;LETM1&#39;, 0.5395706706146851), (&#39;UBE2H&#39;, 0.5395706706146851), (&#39;ZNF827&#39;, 0.5776724037686324), (&#39;GABRA1&#39;, 0.5776724037686324), (&#39;BOK-AS1&#39;, 0.6089564795770299), (&#39;APITD1-CORT&#39;, 0.6478168668575265), (&#39;DPY19L4&#39;, 0.6478168668575265), (&#39;MS4A5&#39;, 0.6478168668575265), (&#39;MORC1-AS1&#39;, 0.6478168668575265), (&#39;CRCP&#39;, 0.6478168668575265), (&#39;THG1L&#39;, 0.6478168668575265), (&#39;RLBP1&#39;, 0.6549109978806511), (&#39;C7orf25&#39;, 0.6549109978806511), (&#39;SCAND1&#39;, 0.6549109978806511), (&#39;GSTA4&#39;, 0.6549109978806511), (&#39;SEPT4-AS1&#39;, 0.6549109978806511), (&#39;PIAS1&#39;, 0.6549109978806511), (&#39;GCNT4&#39;, 0.6549109978806511), (&#39;LENG8&#39;, 0.6549109978806511), (&#39;HLA-G&#39;, 0.6549109978806511), (&#39;RCN2&#39;, 0.6956788905170473), (&#39;ZNF451&#39;, 0.7073770079749254), (&#39;CGNL1&#39;, 0.7073770079749254), (&#39;C11orf74&#39;, 0.7073770079749254), (&#39;CD59&#39;, 0.7247420404768146), (&#39;TAOK3&#39;, 0.7247420404768146), (&#39;PCGF5&#39;, 0.7447771922383182), (&#39;EIF2AK2&#39;, 0.7447771922383182), (&#39;EHF&#39;, 0.7447771922383182), (&#39;LOC105748977&#39;, 0.9999999998415866), (&#39;CA14&#39;, 0.9999999998415866), (&#39;QRICH2&#39;, 0.9999999998415866), (&#39;ERO1A&#39;, 0.9999999999046136), (&#39;LOC100422212&#39;, 0.9999999999046136), (&#39;SETDB2&#39;, 0.9999999999046136), (&#39;UST-AS1&#39;, 0.9999999999046136), (&#39;KRTAP15-1&#39;, 0.9999999999046136), (&#39;KRT4&#39;, 0.9999999999267054), (&#39;LOC105377651&#39;, 0.9999999999843375), (&#39;UGT1A6&#39;, 0.9999999999843375), (&#39;SNORD45B&#39;, 0.9999999999853009), (&#39;C19orf38&#39;, 0.9999999999853009), (&#39;C1orf112&#39;, 0.9999999999853009), (&#39;GPATCH1&#39;, 0.9999999999853009), (&#39;LINC00613&#39;, 0.9999999999853009), (&#39;SYTL2&#39;, 0.9999999999853009), (&#39;TJAP1&#39;, 0.9999999999853009), (&#39;NKX2-4&#39;, 0.9999999999853009), (&#39;TGS1&#39;, 0.9999999999853009), (&#39;PPP1R16A&#39;, 1.0), (&#39;DEFB122&#39;, 1.0), (&#39;PVRIG&#39;, 1.0), (&#39;LINC00665&#39;, 1.0), (&#39;DEFT1P&#39;, 1.0), (&#39;RPS27&#39;, 1.0), (&#39;NADK2&#39;, 1.0), (&#39;XPNPEP1&#39;, 1.0), (&#39;LRRC24&#39;, 1.0), (&#39;RAD21-AS1&#39;, 1.0), (&#39;HR&#39;, 1.0)])
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -243,90 +174,11 @@ $( document ).ready(function(){
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">overlap_genes_from_pkl</span><span class="p">,</span> <span class="n">pvalue_df_pkl</span> <span class="o">=</span> <span class="n">get_causal_pvalue_from_pkl</span><span class="p">(</span>
+    <span class="s2">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M100_12.data.pkl&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dat</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M200_12.data.pkl&quot;</span><span class="p">)</span>
-<span class="n">causal_genes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">][</span><span class="s2">&quot;causal genes&quot;</span><span class="p">])</span>
-<span class="n">sample_genes</span> <span class="o">=</span> <span class="n">get_gene_table</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
-<span class="n">fisher_table</span> <span class="o">=</span> <span class="n">test_contingency_table</span><span class="p">(</span><span class="n">sample_genes</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">overlap_genes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">causal_genes</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">fisher_table</span><span class="p">[</span><span class="s2">&quot;genes&quot;</span><span class="p">]))</span>
-<span class="nb">print</span> <span class="p">(</span><span class="n">overlap_genes</span><span class="p">)</span>
-<span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">fisher_table</span><span class="p">[</span><span class="s2">&quot;genes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">overlap_genes</span><span class="p">]</span>
-<span class="nb">print</span> <span class="p">(</span><span class="n">indices</span><span class="p">)</span>
-<span class="n">overlap_pvalue</span> <span class="o">=</span> <span class="p">[</span><span class="n">fisher_table</span><span class="p">[</span><span class="s2">&quot;p_value&quot;</span><span class="p">][</span><span class="n">num</span><span class="p">]</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span>
-<span class="n">overlap_df_test</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">overlap_genes</span><span class="p">,</span> <span class="n">overlap_pvalue</span><span class="p">]),</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;DPY19L4&#39;, &#39;SEMG1&#39;, &#39;ERC2&#39;, &#39;RAD21-AS1&#39;, &#39;GTF3C6&#39;, &#39;MIR4742&#39;, &#39;HLA-DMB&#39;, &#39;LNPEP&#39;, &#39;FGF14&#39;, &#39;PVRIG&#39;, &#39;AKAP12&#39;, &#39;ZNF32-AS2&#39;, &#39;C19orf38&#39;, &#39;HR&#39;, &#39;LCE2B&#39;, &#39;XPNPEP1&#39;, &#39;C8orf22&#39;, &#39;ETS2&#39;, &#39;FAM74A1&#39;, &#39;ACAP2&#39;, &#39;DEFT1P&#39;, &#39;SMTN&#39;, &#39;LOC105374704&#39;, &#39;DUSP14&#39;, &#39;GABRB2&#39;, &#39;TEX37&#39;, &#39;LOC101928398&#39;, &#39;NADK2&#39;, &#39;DDAH1&#39;, &#39;ASB9P1&#39;, &#39;ARHGAP31-AS1&#39;, &#39;UST-AS1&#39;, &#39;LINC00665&#39;, &#39;MS4A5&#39;, &#39;XDH&#39;, &#39;HCG21&#39;, &#39;LEPR&#39;, &#39;LRRC24&#39;, &#39;LIPG&#39;, &#39;DARS-AS1&#39;, &#39;UGT1A6&#39;, &#39;ZDHHC1&#39;, &#39;ERO1A&#39;, &#39;SEPT4-AS1&#39;, &#39;PCSK2&#39;, &#39;SETDB2&#39;, &#39;RANBP17&#39;, &#39;FADS6&#39;, &#39;SNORA74B&#39;, &#39;PSMB8-AS1&#39;, &#39;FAM189A2&#39;, &#39;IFIT2&#39;, &#39;EHF&#39;, &#39;NRG1&#39;, &#39;THG1L&#39;, &#39;C11orf74&#39;, &#39;LINC00671&#39;, &#39;ZNF468&#39;, &#39;GCNT4&#39;, &#39;B4GALT2&#39;, &#39;LINC00613&#39;, &#39;RPS27&#39;, &#39;TCEB3CL&#39;, &#39;DNAH12&#39;, &#39;SYTL2&#39;, &#39;ZNF827&#39;, &#39;TAOK3&#39;, &#39;OBSL1&#39;, &#39;ABCC11&#39;, &#39;LOC100287036&#39;, &#39;RCN2&#39;, &#39;EFR3A&#39;, &#39;TAPBP&#39;, &#39;LINC00466&#39;, &#39;ZNF451&#39;, &#39;GMCL1&#39;, &#39;SLC45A3&#39;, &#39;LOC105369438&#39;, &#39;TRPM1&#39;, &#39;PDZRN3&#39;, &#39;LETM1&#39;, &#39;EMG1&#39;, &#39;RLBP1&#39;, &#39;TOX2&#39;, &#39;CLIP4&#39;, &#39;FUT11&#39;, &#39;TCP11L2&#39;, &#39;OSER1-AS1&#39;, &#39;HCG24&#39;, &#39;SCN3A&#39;, &#39;GSTA4&#39;, &#39;HLA-G&#39;, &#39;C7orf25&#39;, &#39;SENCR&#39;, &#39;MPP5&#39;, &#39;KCP&#39;, &#39;SLC47A2&#39;, &#39;LOC388692&#39;, &#39;CGNL1&#39;, &#39;C1orf112&#39;, &#39;DYDC1&#39;, &#39;MORC1-AS1&#39;, &#39;CD59&#39;, &#39;ITGA7&#39;, &#39;PIAS1&#39;, &#39;PPARGC1A&#39;, &#39;PEX7&#39;, &#39;MIR302A&#39;, &#39;LINC01149&#39;, &#39;PRAMEF5&#39;, &#39;ANKRD20A1&#39;, &#39;IPP&#39;, &#39;EIF2AK2&#39;, &#39;KCNIP2&#39;, &#39;NUTM2F&#39;, &#39;IGHV1OR15-3&#39;, &#39;NKX2-4&#39;, &#39;HSPB9&#39;, &#39;EPHA6&#39;, &#39;SCAND1&#39;, &#39;TJAP1&#39;, &#39;LOC105748977&#39;, &#39;PFDN6&#39;, &#39;MSRB3&#39;, &#39;LHCGR&#39;, &#39;MIR3928&#39;, &#39;LINC01159&#39;, &#39;TGS1&#39;, &#39;SMIM13&#39;, &#39;DSCAM-IT1&#39;, &#39;LINC00824&#39;, &#39;PAM&#39;, &#39;LOC105377651&#39;, &#39;UBE2H&#39;, &#39;DCUN1D4&#39;, &#39;PIK3CA&#39;, &#39;DEFB122&#39;, &#39;RFX2&#39;, &#39;FAM53A&#39;, &#39;MIR4449&#39;, &#39;P2RY12&#39;, &#39;DNAJB6&#39;, &#39;C11orf42&#39;, &#39;NAT9&#39;, &#39;LOC101927503&#39;, &#39;WWOX&#39;, &#39;LENG8&#39;, &#39;GPATCH1&#39;, &#39;PPP1R16A&#39;, &#39;GABRA1&#39;, &#39;BOK-AS1&#39;, &#39;MYCBPAP&#39;, &#39;LOC400710&#39;, &#39;TBC1D7-LOC100130357&#39;, &#39;TMPRSS2&#39;, &#39;LSM3&#39;, &#39;LOC100506937&#39;, &#39;APITD1-CORT&#39;, &#39;LOC101929268&#39;, &#39;BANP&#39;, &#39;MIR512-1&#39;, &#39;KRT4&#39;, &#39;CSN2&#39;, &#39;MRAS&#39;, &#39;ARMC2&#39;, &#39;OR2A1&#39;, &#39;NR5A2&#39;, &#39;SRGN&#39;, &#39;KRTAP15-1&#39;, &#39;LOC100422212&#39;, &#39;SNORD45B&#39;, &#39;C2orf68&#39;, &#39;IL20&#39;, &#39;QRICH2&#39;, &#39;CA14&#39;, &#39;FBP1&#39;, &#39;ZNF764&#39;, &#39;KLHL6-AS1&#39;, &#39;CRCP&#39;, &#39;PCGF5&#39;, &#39;C1orf210&#39;, &#39;TMBIM1&#39;, &#39;DUSP26&#39;]
-[5323, 435, 117, 2723, 2566, 527, 27, 325, 175, 17375, 194, 20244, 4062, 2705, 1613, 1713, 504, 46, 19, 311, 699, 310, 9616, 1985, 324, 615, 51, 2536, 520, 1875, 645, 9957, 2090, 3237, 163, 196, 376, 17646, 411, 297, 1351, 3805, 7076, 2011, 306, 7030, 1475, 162, 9698, 34, 515, 3048, 746, 126, 4960, 1064, 403, 225, 2513, 1001, 4764, 11249, 832, 193, 3299, 322, 1807, 1332, 161, 7463, 3684, 153, 18, 377, 1500, 4309, 533, 747, 178, 922, 655, 751, 1912, 137, 1306, 6176, 6911, 190, 1, 1338, 2565, 2571, 2615, 385, 770, 2641, 2014, 1632, 1143, 2775, 737, 4664, 1724, 1097, 1908, 118, 673, 2466, 146, 77, 1542, 718, 874, 11611, 517, 777, 4478, 802, 116, 2313, 5124, 5761, 12, 6822, 883, 444, 1318, 5385, 2601, 238, 368, 943, 1458, 692, 927, 923, 15222, 1278, 654, 932, 449, 501, 3114, 220, 6441, 49, 2087, 4090, 17729, 323, 228, 282, 413, 200, 642, 2399, 2649, 2767, 703, 276, 1265, 756, 4731, 320, 663, 151, 263, 3097, 8851, 5731, 2973, 870, 717, 7839, 5533, 154, 1967, 2391, 5170, 741, 10701, 1343, 1533]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">overlap_df_test</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>OrderedDict([(&#39;HLA-DMB&#39;, 7.414953959274976e-07), (&#39;TAPBP&#39;, 1.027862015647931e-06), (&#39;HCG24&#39;, 1.4173127805323972e-06), (&#39;PFDN6&#39;, 1.581504428537075e-06), (&#39;PSMB8-AS1&#39;, 1.6128507988616623e-06), (&#39;FAM74A1&#39;, 1.4813935709027073e-05), (&#39;ETS2&#39;, 4.569952375651823e-05), (&#39;LOC101928398&#39;, 0.00014350290411796848), (&#39;LINC01149&#39;, 0.0011946102498362563), (&#39;FBP1&#39;, 0.0011946102498362563), (&#39;ABCC11&#39;, 0.0021381040475615077), (&#39;AKAP12&#39;, 0.003869398271770422), (&#39;TBC1D7-LOC100130357&#39;, 0.003869398271770422), (&#39;WWOX&#39;, 0.005289898929394989), (&#39;DSCAM-IT1&#39;, 0.007085624546515857), (&#39;NAT9&#39;, 0.007085624546515857), (&#39;EFR3A&#39;, 0.011509544621895733), (&#39;ACAP2&#39;, 0.013128746626385655), (&#39;SMTN&#39;, 0.013128746626385655), (&#39;DARS-AS1&#39;, 0.013128746626385655), (&#39;PCSK2&#39;, 0.013128746626385655), (&#39;TRPM1&#39;, 0.0196938310504362), (&#39;OSER1-AS1&#39;, 0.0196938310504362), (&#39;XDH&#39;, 0.020095940131107024), (&#39;FADS6&#39;, 0.020095940131107024), (&#39;PPARGC1A&#39;, 0.02100890648860944), (&#39;SEMG1&#39;, 0.02458823038915322), (&#39;LINC00671&#39;, 0.02458823038915322), (&#39;SENCR&#39;, 0.02458823038915322), (&#39;NUTM2F&#39;, 0.02458823038915322), (&#39;MIR3928&#39;, 0.02458823038915322), (&#39;P2RY12&#39;, 0.02458823038915322), (&#39;LOC400710&#39;, 0.02458823038915322), (&#39;ZNF468&#39;, 0.03273581893780945), (&#39;PRAMEF5&#39;, 0.045377747317241826), (&#39;IGHV1OR15-3&#39;, 0.04618162998340624), (&#39;LHCGR&#39;, 0.04618162998340624), (&#39;PAM&#39;, 0.04618162998340624), (&#39;DCUN1D4&#39;, 0.04618162998340624), (&#39;IL20&#39;, 0.04618162998340624), (&#39;MIR4742&#39;, 0.04643820563284569), (&#39;DDAH1&#39;, 0.04643820563284569), (&#39;ARHGAP31-AS1&#39;, 0.04643820563284569), (&#39;LNPEP&#39;, 0.05458587247126694), (&#39;MYCBPAP&#39;, 0.05458587247126694), (&#39;MRAS&#39;, 0.05458587247126694), (&#39;NR5A2&#39;, 0.05458587247126694), (&#39;OR2A1&#39;, 0.07812840301218528), (&#39;B4GALT2&#39;, 0.0821097632693542), (&#39;OBSL1&#39;, 0.0821097632693542), (&#39;CLIP4&#39;, 0.0821097632693542), (&#39;LINC01159&#39;, 0.0821097632693542), (&#39;RFX2&#39;, 0.0821097632693542), (&#39;DUSP26&#39;, 0.0821097632693542), (&#39;HCG21&#39;, 0.08776728171947842), (&#39;DNAH12&#39;, 0.08776728171947842), (&#39;C8orf22&#39;, 0.09115823287958953), (&#39;LIPG&#39;, 0.09115823287958953), (&#39;FAM189A2&#39;, 0.09115823287958953), (&#39;LINC00466&#39;, 0.09115823287958953), (&#39;LINC00824&#39;, 0.1389724323441896), (&#39;GTF3C6&#39;, 0.14829343291566568), (&#39;LCE2B&#39;, 0.14829343291566568), (&#39;DUSP14&#39;, 0.14829343291566568), (&#39;ASB9P1&#39;, 0.14829343291566568), (&#39;KCP&#39;, 0.14829343291566568), (&#39;SLC47A2&#39;, 0.14829343291566568), (&#39;LOC388692&#39;, 0.14829343291566568), (&#39;MIR302A&#39;, 0.14829343291566568), (&#39;SMIM13&#39;, 0.14829343291566568), (&#39;LSM3&#39;, 0.14829343291566568), (&#39;LOC100506937&#39;, 0.14829343291566568), (&#39;ZNF764&#39;, 0.14829343291566568), (&#39;KLHL6-AS1&#39;, 0.14829343291566568), (&#39;NRG1&#39;, 0.14909098196693907), (&#39;SLC45A3&#39;, 0.1519991535715302), (&#39;FAM53A&#39;, 0.1519991535715302), (&#39;TMPRSS2&#39;, 0.1519991535715302), (&#39;LOC101929268&#39;, 0.1519991535715302), (&#39;ARMC2&#39;, 0.1519991535715302), (&#39;LEPR&#39;, 0.21284585901544884), (&#39;DNAJB6&#39;, 0.21284585901544884), (&#39;TOX2&#39;, 0.2166388693595493), (&#39;ERC2&#39;, 0.24543094909854332), (&#39;EPHA6&#39;, 0.24543094909854332), (&#39;LOC105369438&#39;, 0.2517953234344212), (&#39;PDZRN3&#39;, 0.2517953234344212), (&#39;MPP5&#39;, 0.2517953234344212), (&#39;DYDC1&#39;, 0.2517953234344212), (&#39;HSPB9&#39;, 0.2517953234344212), (&#39;PIK3CA&#39;, 0.2517953234344212), (&#39;C2orf68&#39;, 0.2517953234344212), (&#39;ZDHHC1&#39;, 0.2731742913841445), (&#39;IFIT2&#39;, 0.2731742913841445), (&#39;C11orf42&#39;, 0.2731742913841445), (&#39;CSN2&#39;, 0.2731742913841445), (&#39;SRGN&#39;, 0.2731742913841445), (&#39;KCNIP2&#39;, 0.3128598943421359), (&#39;C1orf210&#39;, 0.3128598943421359), (&#39;TEX37&#39;, 0.3231492367000816), (&#39;PEX7&#39;, 0.3231492367000816), (&#39;GABRB2&#39;, 0.3808926083934808), (&#39;BANP&#39;, 0.3808926083934808), (&#39;LOC105374704&#39;, 0.40875928324201766), (&#39;MSRB3&#39;, 0.40875928324201766), (&#39;RANBP17&#39;, 0.41126236567671776), (&#39;SCN3A&#39;, 0.41126236567671776), (&#39;ITGA7&#39;, 0.41126236567671776), (&#39;ANKRD20A1&#39;, 0.41126236567671776), (&#39;MIR512-1&#39;, 0.41126236567671776), (&#39;TMBIM1&#39;, 0.41126236567671776), (&#39;ZNF32-AS2&#39;, 0.4120907346001321), (&#39;GMCL1&#39;, 0.45690124982846964), (&#39;FGF14&#39;, 0.46001968158643514), (&#39;TCEB3CL&#39;, 0.48356850576626775), (&#39;EMG1&#39;, 0.48356850576626775), (&#39;IPP&#39;, 0.48356850576626775), (&#39;MIR4449&#39;, 0.48356850576626775), (&#39;SNORA74B&#39;, 0.5154495276608494), (&#39;LOC100287036&#39;, 0.5154495276608494), (&#39;FUT11&#39;, 0.5154495276608494), (&#39;TCP11L2&#39;, 0.5154495276608494), (&#39;LOC101927503&#39;, 0.5154495276608494), (&#39;LETM1&#39;, 0.5395706706146851), (&#39;UBE2H&#39;, 0.5395706706146851), (&#39;ZNF827&#39;, 0.5776724037686324), (&#39;GABRA1&#39;, 0.5776724037686324), (&#39;BOK-AS1&#39;, 0.6089564795770299), (&#39;DPY19L4&#39;, 0.6478168668575265), (&#39;MS4A5&#39;, 0.6478168668575265), (&#39;THG1L&#39;, 0.6478168668575265), (&#39;MORC1-AS1&#39;, 0.6478168668575265), (&#39;APITD1-CORT&#39;, 0.6478168668575265), (&#39;CRCP&#39;, 0.6478168668575265), (&#39;SEPT4-AS1&#39;, 0.6549109978806511), (&#39;GCNT4&#39;, 0.6549109978806511), (&#39;RLBP1&#39;, 0.6549109978806511), (&#39;GSTA4&#39;, 0.6549109978806511), (&#39;HLA-G&#39;, 0.6549109978806511), (&#39;C7orf25&#39;, 0.6549109978806511), (&#39;PIAS1&#39;, 0.6549109978806511), (&#39;SCAND1&#39;, 0.6549109978806511), (&#39;LENG8&#39;, 0.6549109978806511), (&#39;RCN2&#39;, 0.6956788905170473), (&#39;C11orf74&#39;, 0.7073770079749254), (&#39;ZNF451&#39;, 0.7073770079749254), (&#39;CGNL1&#39;, 0.7073770079749254), (&#39;TAOK3&#39;, 0.7247420404768146), (&#39;CD59&#39;, 0.7247420404768146), (&#39;EHF&#39;, 0.7447771922383182), (&#39;EIF2AK2&#39;, 0.7447771922383182), (&#39;PCGF5&#39;, 0.7447771922383182), (&#39;LOC105748977&#39;, 0.9999999998415866), (&#39;QRICH2&#39;, 0.9999999998415866), (&#39;CA14&#39;, 0.9999999998415866), (&#39;UST-AS1&#39;, 0.9999999999046136), (&#39;ERO1A&#39;, 0.9999999999046136), (&#39;SETDB2&#39;, 0.9999999999046136), (&#39;KRTAP15-1&#39;, 0.9999999999046136), (&#39;LOC100422212&#39;, 0.9999999999046136), (&#39;KRT4&#39;, 0.9999999999267054), (&#39;UGT1A6&#39;, 0.9999999999843375), (&#39;LOC105377651&#39;, 0.9999999999843375), (&#39;C19orf38&#39;, 0.9999999999853009), (&#39;LINC00613&#39;, 0.9999999999853009), (&#39;SYTL2&#39;, 0.9999999999853009), (&#39;C1orf112&#39;, 0.9999999999853009), (&#39;NKX2-4&#39;, 0.9999999999853009), (&#39;TJAP1&#39;, 0.9999999999853009), (&#39;TGS1&#39;, 0.9999999999853009), (&#39;GPATCH1&#39;, 0.9999999999853009), (&#39;SNORD45B&#39;, 0.9999999999853009), (&#39;RAD21-AS1&#39;, 1.0), (&#39;PVRIG&#39;, 1.0), (&#39;HR&#39;, 1.0), (&#39;XPNPEP1&#39;, 1.0), (&#39;DEFT1P&#39;, 1.0), (&#39;NADK2&#39;, 1.0), (&#39;LINC00665&#39;, 1.0), (&#39;LRRC24&#39;, 1.0), (&#39;RPS27&#39;, 1.0), (&#39;DEFB122&#39;, 1.0), (&#39;PPP1R16A&#39;, 1.0)])
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -336,7 +188,41 @@ $( document ).ready(function(){
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">((</span><span class="n">indices</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_lfdr</span><span class="p">(</span><span class="n">rds_data</span><span class="p">,</span> <span class="n">overlap_genes_from_pkl</span><span class="p">,</span> <span class="n">inf_sub</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">readRDS</span><span class="p">(</span><span class="n">rds_data</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">ri2py</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="c1"># print (df.names)</span>
+    <span class="c1"># &quot;20&quot; is &quot;pip&quot;, &quot;18&quot; is &quot;summary&quot;</span>
+    <span class="n">pip_rds</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span>
+    <span class="n">pip_genes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pip_rds</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">pip_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">pip_rds</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">lfdr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pip_list</span><span class="p">]</span>
+    <span class="n">gene_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">pip_genes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">gene</span><span class="p">)</span> <span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">overlap_genes_from_pkl</span><span class="p">]</span>
+    <span class="n">log_lfdr_overlap</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">lfdr</span><span class="p">[</span><span class="n">index</span><span class="p">])</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">gene_index</span><span class="p">]</span>
+    <span class="c1"># replace infinity with maximum of log10(pvalue) plus the median of it</span>
+    <span class="n">log_lfdr_overlap</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="n">inf_sub</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">log_lfdr_overlap</span><span class="p">]</span>
+    <span class="n">lfdr_df</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">overlap_genes_from_pkl</span><span class="p">,</span> <span class="n">log_lfdr_overlap</span><span class="p">]),</span> 
+                                 <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">lfdr_df</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">comb</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;p1&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;p2&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;gene&quot;</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="k">for</span> <span class="n">gene</span><span class="p">,</span> <span class="n">pvalue</span> <span class="ow">in</span> <span class="n">lfdr_df_rds</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">comb</span><span class="p">[</span><span class="s2">&quot;p1&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pvalue_df_pkl</span><span class="p">[</span><span class="n">gene</span><span class="p">])</span>
+    <span class="n">comb</span><span class="p">[</span><span class="s2">&quot;p2&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pvalue</span><span class="p">)</span>
+    <span class="n">comb</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gene</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">comb</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -351,7 +237,7 @@ $( document ).ready(function(){
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[5323, 435, 117, 2723, 2566, 527, 27, 325, 175, 17375, 194, 20244, 4062, 2705, 1613, 1713, 504, 46, 19, 311, 699, 310, 9616, 1985, 324, 615, 51, 2536, 520, 1875, 645, 9957, 2090, 3237, 163, 196, 376, 17646, 411, 297, 1351, 3805, 7076, 2011, 306, 7030, 1475, 162, 9698, 34, 515, 3048, 746, 126, 4960, 1064, 403, 225, 2513, 1001, 4764, 11249, 832, 193, 3299, 322, 1807, 1332, 161, 7463, 3684, 153, 18, 377, 1500, 4309, 533, 747, 178, 922, 655, 751, 1912, 137, 1306, 6176, 6911, 190, 1, 1338, 2565, 2571, 2615, 385, 770, 2641, 2014, 1632, 1143, 2775, 737, 4664, 1724, 1097, 1908, 118, 673, 2466, 146, 77, 1542, 718, 874, 11611, 517, 777, 4478, 802, 116, 2313, 5124, 5761, 12, 6822, 883, 444, 1318, 5385, 2601, 238, 368, 943, 1458, 692, 927, 923, 15222, 1278, 654, 932, 449, 501, 3114, 220, 6441, 49, 2087, 4090, 17729, 323, 228, 282, 413, 200, 642, 2399, 2649, 2767, 703, 276, 1265, 756, 4731, 320, 663, 151, 263, 3097, 8851, 5731, 2973, 870, 717, 7839, 5533, 154, 1967, 2391, 5170, 741, 10701, 1343, 1533]
+<pre>{&#39;p2&#39;: [8.38766615213477, 1.1513495296140523, 0.99572276183519082, 0.22189829416145843, 0.10476823696014212, 0.096639218022880197, 0.087263486859466846, 0.083174929249326929, 0.074578919449324765, 0.06140308757177549, 0.044806983921961169, 0.042568389922506847, 0.035682808901918044, 0.033527245038569173, 0.032663213563200309, 0.032174110228294812, 0.028537985451091704, 0.023308731995297274, 0.022877119081008895, 0.021558689603370207, 0.021351390365639503, 0.020435359401592371, 0.019853136590562506, 0.019370459928301956, 0.019002863238303976, 0.018443635131835355, 0.01837019819166865, 0.018192300014133387, 0.017123844730406831, 0.016684931697572652, 0.015386054953766121, 0.014667448607958464, 0.014216702663927045, 0.013842274781441446, 0.013763489722023637, 0.013623455924062937, 0.013320842128594437, 0.013073295527133792, 0.013063345509085311, 0.012948311949327385, 0.012821053312728592, 0.011890470046226979, 0.011712896275743253, 0.011461354437213854, 0.011447200424475603, 0.01140893465013146, 0.011149384986747415, 0.011136686556098225, 0.011018834374284761, 0.011017796901049955, 0.01039243485223921, 0.01026443456943962, 0.01021860960803558, 0.0098603544430265616, 0.0098105932228373365, 0.0097415161371621206, 0.0093545651024850799, 0.0092124047969507142, 0.0091764976357664486, 0.0090472121383639043, 0.0089491170341010357, 0.0088773788327820829, 0.0088764261002405361, 0.0088232538121939125, 0.0087042440168257768, 0.0085590551181998278, 0.0085388851075963099, 0.0085074806552015627, 0.0083622454899767301, 0.0081488038001017466, 0.0079977589283068487, 0.0079309879470164588, 0.0078761771048039188, 0.0078254096105220099, 0.0077290778876935922, 0.0076407099976335104, 0.0075752829504661685, 0.0075192512299505085, 0.0074593195590603187, 0.0073673928295711118, 0.0073314651025053069, 0.007217738177872266, 0.0071076197483907391, 0.0071069535965975371, 0.0069280842046550916, 0.0067431282198338162, 0.0067375872921307256, 0.006522554211775819, 0.0064840517415165515, 0.006427234135191565, 0.0063433671195395761, 0.0063255129414295092, 0.0063178333084600545, 0.0062531721545798537, 0.0062488588912581544, 0.0062381300143494033, 0.0061281425464471172, 0.0061194873350666618, 0.0056651196501681014, 0.0056557398041035432, 0.0056475864593616733, 0.0056194999068172775, 0.0056168100432414797, 0.0055943474711842144, 0.0055760581280802921, 0.0055659818121077944, 0.0055331094975465322, 0.0054015055216750235, 0.0053053702976865796, 0.0052809075460445382, 0.0052445608106501248, 0.0052185858869823404, 0.0052097696720122752, 0.0051789555361584283, 0.0051356549730522142, 0.00512693607445764, 0.0050902343680746991, 0.0050698990109983039, 0.0050633541838619725, 0.005056763090886496, 0.0048964018284883368, 0.0048866858538762345, 0.004874005598572935, 0.0048369592340016853, 0.0048152552955720443, 0.0047854950186557036, 0.0047574615902290212, 0.0047531227102967201, 0.0046921922972669389, 0.0046580945731347417, 0.0045282728496299617, 0.0045201140823922783, 0.0045170229595622819, 0.0044479044863047733, 0.0044252738069535053, 0.0044136488389038041, 0.0043922021066420194, 0.0042987256351129629, 0.0042452837125096015, 0.0042341308094040386, 0.0042079183334051834, 0.0041823689531950564, 0.0041198880083477074, 0.0040522382226749528, 0.0040481106175098694, 0.0040420908287124848, 0.0040323137273120023, 0.0039944972365792411, 0.003932623747320901, 0.0039012150158036951, 0.0038546487269990161, 0.0038532331491646704, 0.0037706472700002841, 0.0037563693416420183, 0.0036985222998444146, 0.0036264236432950372, 0.0035632484491461974, 0.0035300753414290462, 0.0035083742598368854, 0.0034150398093827322, 0.0034015894063343811, 0.0033981935777602171, 0.0033854610919834193, 0.0033264314887240997, 0.0033110393831643002, 0.003250098296568968, 0.0032490185339760481, 0.0032268516015741275, 0.0032243166155596528, 0.0032208205264909616, 0.0031073140462759387, 0.0030080072285615335, 0.0029703125634273513, 0.0029529784503257894, 0.0029511782062366099, 0.002930887577843753, 0.0029197480492094878, 0.0027898039650799088, 0.0027850186232126419, 0.0025341487661307989, 0.0024620274734499644, 0.0018323254062319004], &#39;gene&#39;: [&#39;MIR7641-2&#39;, &#39;EHBP1&#39;, &#39;DLGAP1&#39;, &#39;SPATA31A1&#39;, &#39;PDZRN3&#39;, &#39;E2F6&#39;, &#39;EPHA6&#39;, &#39;PRPF19&#39;, &#39;ACTL6A&#39;, &#39;CDH23&#39;, &#39;LIMA1&#39;, &#39;TMEM254&#39;, &#39;FSHR&#39;, &#39;DISC1-IT1&#39;, &#39;ADAMTSL1&#39;, &#39;MRPL47&#39;, &#39;CRCP&#39;, &#39;TAGAP&#39;, &#39;HCG4&#39;, &#39;LCTL&#39;, &#39;XIRP2&#39;, &#39;WDR86-AS1&#39;, &#39;LOC100287592&#39;, &#39;AGA&#39;, &#39;TNFAIP8L3&#39;, &#39;DIAPH3-AS1&#39;, &#39;ATP2C1&#39;, &#39;PUM1&#39;, &#39;NCOA7&#39;, &#39;MIR124-2HG&#39;, &#39;TRIM21&#39;, &#39;SNORD18B&#39;, &#39;B9D1&#39;, &#39;ZNF226&#39;, &#39;LOC102467079&#39;, &#39;EGFR&#39;, &#39;PGA4&#39;, &#39;FAM74A7&#39;, &#39;LOC101928650&#39;, &#39;MB21D1&#39;, &#39;MAP3K7CL&#39;, &#39;ZEB2&#39;, &#39;TTC28-AS1&#39;, &#39;PRPF40B&#39;, &#39;MIR4262&#39;, &#39;WDR46&#39;, &#39;SYTL3&#39;, &#39;ZNF365&#39;, &#39;TP53TG3E&#39;, &#39;ASCC2&#39;, &#39;POLH&#39;, &#39;LINC01431&#39;, &#39;MIR4444-2&#39;, &#39;FMNL2&#39;, &#39;ZNF277&#39;, &#39;PTF1A&#39;, &#39;TSEN2&#39;, &#39;PLET1&#39;, &#39;LINC00261&#39;, &#39;S100A8&#39;, &#39;LINC00437&#39;, &#39;LOC400710&#39;, &#39;LINC01533&#39;, &#39;EHD2&#39;, &#39;NRG2&#39;, &#39;ABHD11-AS1&#39;, &#39;MT1E&#39;, &#39;LINC01225&#39;, &#39;CRP&#39;, &#39;SNORA50C&#39;, &#39;RIMBP3C&#39;, &#39;LOC102467223&#39;, &#39;SLC44A4&#39;, &#39;HOXA13&#39;, &#39;MSH5&#39;, &#39;HMGB1&#39;, &#39;GCLM&#39;, &#39;GGT1&#39;, &#39;FRY-AS1&#39;, &#39;SLC25A3&#39;, &#39;NTN4&#39;, &#39;TMEM179B&#39;, &#39;EPSTI1&#39;, &#39;LINC00184&#39;, &#39;MIR6737&#39;, &#39;PCDHA5&#39;, &#39;MIR449C&#39;, &#39;NUDT9&#39;, &#39;CYP4A22&#39;, &#39;RPS6KA1&#39;, &#39;MIR3141&#39;, &#39;UBE3B&#39;, &#39;IFNL4&#39;, &#39;DDAH2&#39;, &#39;ATAT1&#39;, &#39;PISD&#39;, &#39;COL11A2&#39;, &#39;TUBA4A&#39;, &#39;ANKRD27&#39;, &#39;MIR4632&#39;, &#39;POMK&#39;, &#39;ZFP91-CNTF&#39;, &#39;ACTG1P17&#39;, &#39;NT5C3A&#39;, &#39;PARM1&#39;, &#39;ZFR2&#39;, &#39;PRKD2&#39;, &#39;TM2D2&#39;, &#39;NT5E&#39;, &#39;CPS1-IT1&#39;, &#39;GNB5&#39;, &#39;DPRXP4&#39;, &#39;LRFN4&#39;, &#39;HOPX&#39;, &#39;CTBP1-AS2&#39;, &#39;OR8G5&#39;, &#39;OBP2A&#39;, &#39;BNC1&#39;, &#39;LOC101928424&#39;, &#39;MIGA1&#39;, &#39;LYRM1&#39;, &#39;LOC102724651&#39;, &#39;TMEM14B&#39;, &#39;LINC00399&#39;, &#39;RABGEF1&#39;, &#39;LOC102724034&#39;, &#39;ELL&#39;, &#39;OR5V1&#39;, &#39;PLEKHG1&#39;, &#39;TCEANC2&#39;, &#39;PIGO&#39;, &#39;MIF-AS1&#39;, &#39;LINC00167&#39;, &#39;MIR1231&#39;, &#39;LHFPL2&#39;, &#39;PRKRA&#39;, &#39;MAF1&#39;, &#39;AKAP3&#39;, &#39;SEC61G&#39;, &#39;KIAA1107&#39;, &#39;TRPC3&#39;, &#39;FRA10AC1&#39;, &#39;SSC5D&#39;, &#39;LINC01099&#39;, &#39;DSCR3&#39;, &#39;DDX21&#39;, &#39;HMGN1&#39;, &#39;PER1&#39;, &#39;HAL&#39;, &#39;BNIP3L&#39;, &#39;AA06&#39;, &#39;C20orf144&#39;, &#39;EPHB3&#39;, &#39;TMEM26&#39;, &#39;MIR759&#39;, &#39;PPP3CB&#39;, &#39;UEVLD&#39;, &#39;LRRC39&#39;, &#39;PRDX6&#39;, &#39;ZNF503-AS1&#39;, &#39;PRKAG1&#39;, &#39;COX6B1&#39;, &#39;PPP1R12A&#39;, &#39;GPC6-AS2&#39;, &#39;PTPRJ&#39;, &#39;FAM221A&#39;, &#39;HOXB-AS3&#39;, &#39;ZNF189&#39;, &#39;KHSRP&#39;, &#39;LILRB4&#39;, &#39;COLEC11&#39;, &#39;RNF111&#39;, &#39;DISC1FP1&#39;, &#39;MIR6074&#39;, &#39;SNORD9&#39;, &#39;FRG1BP&#39;, &#39;PCF11&#39;, &#39;LINC00158&#39;, &#39;LOC101929470&#39;, &#39;DDX39B-AS1&#39;, &#39;AMTN&#39;, &#39;RUFY3&#39;], &#39;p1&#39;: [1.2650848521101263, 2.6005713479229988, 2.4224413392596627, 2.0299133382687415, 2.3320240406913579, 2.3088883419855248, 1.6341917612277383, 4.0883735255356122, 1.9050437219251006, 1.6805828969144405, 2.343716183901273, 1.6805828969144405, 1.2189122911980437, 1.5874292724166703, 1.2282404004773471, 1.6805828969144405, 1.842589763779225, 1.4535138610548139, 2.3413194828743298, 1.4535138610548139, 0.8468984366862532, 1.842589763779225, 1.0080960304512663, 1.0080960304512663, 1.3251432107427732, 1.0567284106625991, 1.0567284106625991, 1.2189122911980437, 0.73207222735320854, 1.0080960304512663, 0.90656532152907998, 1.2251881119416941, 1.0567284106625991, 1.5874292724166703, 1.3251432107427732, 1.0080960304512663, 1.6805828969144405, 0.79933275886526955, 1.0567284106625991, 0.79933275886526955, 0.78447897426728075, 1.3251432107427732, 0.79933275886526955, 1.6805828969144405, 1.3251432107427732, 1.842589763779225, 1.3251432107427732, 0.65927524350350197, 0.50854973346954102, 0.78447897426728075, 1.0567284106625991, 1.3251432107427732, 0.59013330194022695, 0.36594443695515128, 0.79933275886526955, 1.3251432107427732, 1.0567284106625991, 1.0567284106625991, 0.78447897426728075, 0.99764334619573347, 0.59013330194022695, 0.79933275886526955, 0.59013330194022695, 0.79933275886526955, 0.79933275886526955, 0.59013330194022695, 0.78447897426728075, 1.0080960304512663, 0.65927524350350197, 0.79953072186395047, 0.59013330194022695, 0.78447897426728075, 4.6194143627926367, 0.79953072186395047, 5.6524210336139999, 0.59013330194022695, 0.30327510871799868, 0.59013330194022695, 0.30327510871799868, 0.78447897426728075, 2.343716183901273, 0.79933275886526955, 0.38341063339859116, 0.78447897426728075, 0.79953072186395047, 0.99764334619573347, 0.59013330194022695, 0.38341063339859116, 0.54758045420457679, 0.78447897426728075, 0.38341063339859116, 0.79953072186395047, 0.59013330194022695, 5.6524210336139999, 2.3088883419855248, 0.38341063339859116, 1.2251881119416941, 0.54758045420457679, 0.41352931742599697, 0.38341063339859116, 0.30779188113908063, 0.38341063339859116, 2.58347322496259, 0.47692882984570406, 0.38341063339859116, 0.38341063339859116, 0.38341063339859116, 0.30327510871799868, 0.28210056516891252, 0.28210056516891252, 0.38341063339859116, 0.28210056516891252, 0.54758045420457679, 0.79933275886526955, 0.18409049868544622, 0.28210056516891252, 0.28210056516891252, 1.3251432107427732, 0.28210056516891252, 0.30779188113908063, 0.28210056516891252, 0.18409049868544622, 0.18409049868544622, 0.30327510871799868, 0.18409049868544622, 2.58347322496259, 0.38341063339859116, 1.2251881119416941, 0.12533142490457178, 0.38341063339859116, 0.38341063339859116, 0.18409049868544622, 4.5311336834908955e-12, 4.5311336834908955e-12, 0.38341063339859116, 0.1480353841370291, 4.5311336834908955e-12, -0.0, 0.38341063339859116, 0.18409049868544622, 0.1480353841370291, 0.26446121697730623, -0.0, 0.12533142490457178, -0.0, -0.0, -0.0, -0.0, 0.8468984366862532, 0.18409049868544622, 0.18409049868544622, -0.0, -0.0, 1.6362322721797785e-11, 1.5639559285589468e-11, 0.24713080150332425, 1.0288940120885502e-11, 1.6362322721797785e-11, 1.6362322721797785e-11, -0.0, 0.36594443695515128, -0.0, -0.0, -0.0, -0.0, 0.18732361925011115, 0.18732361925011115, 0.18732361925011115, 0.18732361925011115, 0.18732361925011115, -0.0, -0.0, 0.092366995453704054, 0.16356612115693364, 4.8619477170473804, 0.14258124054346671, -0.0, 0.35153753791321074, -0.0, 3.983448480275265, 2.0492273343707637, 1.1140849010323375]}
 </pre>
 </div>
 </div>
@@ -362,10 +248,265 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">overlap_genes</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">comb</span><span class="p">[</span><span class="s2">&quot;p1&quot;</span><span class="p">],</span> <span class="n">comb</span><span class="p">[</span><span class="s2">&quot;p2&quot;</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">comb</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">],</span> <span class="n">comb</span><span class="p">[</span><span class="s2">&quot;p1&quot;</span><span class="p">],</span> <span class="n">comb</span><span class="p">[</span><span class="s2">&quot;p2&quot;</span><span class="p">]):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">p1</span><span class="o">&gt;</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">p2</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">p1</span><span class="o">&gt;</span><span class="mi">4</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">p2</span><span class="o">&gt;</span><span class="mi">4</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># from itertools import chain</span>
+<span class="c1"># from collections import defaultdict</span>
+<span class="c1"># overall_df = defaultdict(list)</span>
+<span class="c1"># for k,v in chain(pvalue_df_pkl.items(), lfdr_df_rds.items()):</span>
+<span class="c1">#     # The first element in value is -log10(pvalue) from fisher test, the second is -log10(lfdr)</span>
+<span class="c1">#     overall_df[k].append(v)</span>
+<span class="c1"># print (overall_df)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[86]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">inf</span>
+<span class="n">test1</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="n">inf</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">test1</span><span class="p">))</span>
+<span class="n">test1</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">test1</span><span class="p">)]</span><span class="o">=</span><span class="mi">10</span>
 </pre></div>
 
 </div>
@@ -380,7 +521,7 @@ $( document ).ready(function(){
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;C19orf38&#39;, &#39;ITGA7&#39;, &#39;RFX2&#39;, &#39;SCN3A&#39;, &#39;DNAJB6&#39;, &#39;LIPG&#39;, &#39;CD59&#39;, &#39;FBP1&#39;, &#39;DARS-AS1&#39;, &#39;ARHGAP31-AS1&#39;, &#39;PRAMEF5&#39;, &#39;ASB9P1&#39;, &#39;ACAP2&#39;, &#39;KCNIP2&#39;, &#39;ZDHHC1&#39;, &#39;THG1L&#39;, &#39;DUSP26&#39;, &#39;EPHA6&#39;, &#39;MIR4449&#39;, &#39;GSTA4&#39;, &#39;SETDB2&#39;, &#39;LOC101928398&#39;, &#39;LOC100422212&#39;, &#39;RCN2&#39;, &#39;EFR3A&#39;, &#39;P2RY12&#39;, &#39;SLC45A3&#39;, &#39;ABCC11&#39;, &#39;NR5A2&#39;, &#39;TBC1D7-LOC100130357&#39;, &#39;TCEB3CL&#39;, &#39;SCAND1&#39;, &#39;LOC105374704&#39;, &#39;HCG24&#39;, &#39;MYCBPAP&#39;, &#39;MIR4742&#39;, &#39;PSMB8-AS1&#39;, &#39;DSCAM-IT1&#39;, &#39;CGNL1&#39;, &#39;SNORA74B&#39;, &#39;CLIP4&#39;, &#39;GABRA1&#39;, &#39;PVRIG&#39;, &#39;KRT4&#39;, &#39;HSPB9&#39;, &#39;SEPT4-AS1&#39;, &#39;GCNT4&#39;, &#39;PCGF5&#39;, &#39;LOC400710&#39;, &#39;LINC00824&#39;, &#39;C11orf74&#39;, &#39;LETM1&#39;, &#39;LOC105377651&#39;, &#39;HLA-G&#39;, &#39;PIK3CA&#39;, &#39;HCG21&#39;, &#39;UST-AS1&#39;, &#39;TMPRSS2&#39;, &#39;PIAS1&#39;, &#39;FAM189A2&#39;, &#39;EMG1&#39;, &#39;C2orf68&#39;, &#39;LOC101929268&#39;, &#39;LEPR&#39;, &#39;RLBP1&#39;, &#39;TRPM1&#39;, &#39;IL20&#39;, &#39;ZNF827&#39;, &#39;SNORD45B&#39;, &#39;MRAS&#39;, &#39;MIR302A&#39;, &#39;IGHV1OR15-3&#39;, &#39;OBSL1&#39;, &#39;LINC00665&#39;, &#39;SEMG1&#39;, &#39;IFIT2&#39;, &#39;LINC01159&#39;, &#39;SYTL2&#39;, &#39;TAOK3&#39;, &#39;TJAP1&#39;, &#39;SRGN&#39;, &#39;MS4A5&#39;, &#39;LOC105748977&#39;, &#39;GTF3C6&#39;, &#39;TOX2&#39;, &#39;WWOX&#39;, &#39;KCP&#39;, &#39;PFDN6&#39;, &#39;HR&#39;, &#39;PCSK2&#39;, &#39;APITD1-CORT&#39;, &#39;NRG1&#39;, &#39;RPS27&#39;, &#39;LRRC24&#39;, &#39;TCP11L2&#39;, &#39;DNAH12&#39;, &#39;CA14&#39;, &#39;NUTM2F&#39;, &#39;LINC01149&#39;, &#39;LNPEP&#39;, &#39;PAM&#39;, &#39;LOC100287036&#39;, &#39;LINC00613&#39;, &#39;BOK-AS1&#39;, &#39;UBE2H&#39;, &#39;TAPBP&#39;, &#39;DYDC1&#39;, &#39;SLC47A2&#39;, &#39;MPP5&#39;, &#39;ANKRD20A1&#39;, &#39;FAM53A&#39;, &#39;ZNF451&#39;, &#39;C7orf25&#39;, &#39;GPATCH1&#39;, &#39;TMBIM1&#39;, &#39;MORC1-AS1&#39;, &#39;ERC2&#39;, &#39;PEX7&#39;, &#39;GMCL1&#39;, &#39;NAT9&#39;, &#39;ZNF764&#39;, &#39;LOC101927503&#39;, &#39;LOC105369438&#39;, &#39;GABRB2&#39;, &#39;TGS1&#39;, &#39;NADK2&#39;, &#39;UGT1A6&#39;, &#39;LCE2B&#39;, &#39;C1orf112&#39;, &#39;OR2A1&#39;, &#39;LENG8&#39;, &#39;TEX37&#39;, &#39;FAM74A1&#39;, &#39;CRCP&#39;, &#39;DPY19L4&#39;, &#39;PDZRN3&#39;, &#39;ZNF468&#39;, &#39;C8orf22&#39;, &#39;PPARGC1A&#39;, &#39;ARMC2&#39;, &#39;CSN2&#39;, &#39;B4GALT2&#39;, &#39;ETS2&#39;, &#39;LINC00671&#39;, &#39;AKAP12&#39;, &#39;RANBP17&#39;, &#39;ERO1A&#39;, &#39;QRICH2&#39;, &#39;DCUN1D4&#39;, &#39;SMTN&#39;, &#39;SMIM13&#39;, &#39;FGF14&#39;, &#39;MIR512-1&#39;, &#39;NKX2-4&#39;, &#39;DDAH1&#39;, &#39;MIR3928&#39;, &#39;BANP&#39;, &#39;EHF&#39;, &#39;DUSP14&#39;, &#39;IPP&#39;, &#39;OSER1-AS1&#39;, &#39;PPP1R16A&#39;, &#39;DEFT1P&#39;, &#39;FADS6&#39;, &#39;XDH&#39;, &#39;C11orf42&#39;, &#39;RAD21-AS1&#39;, &#39;LHCGR&#39;, &#39;MSRB3&#39;, &#39;LOC100506937&#39;, &#39;LSM3&#39;, &#39;KRTAP15-1&#39;, &#39;FUT11&#39;, &#39;LINC00466&#39;, &#39;LOC388692&#39;, &#39;HLA-DMB&#39;, &#39;C1orf210&#39;, &#39;DEFB122&#39;, &#39;ZNF32-AS2&#39;, &#39;SENCR&#39;, &#39;KLHL6-AS1&#39;, &#39;EIF2AK2&#39;, &#39;XPNPEP1&#39;]
+<pre>inf
 </pre>
 </div>
 </div>
@@ -391,38 +532,10 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[74]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">readRDS</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;readRDS&#39;</span><span class="p">]</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M200_12.data.feather.RDS&quot;</span><span class="p">)</span>
-<span class="c1"># df = pandas2ri.ri2py(df)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">names</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">test1</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -434,49 +547,12 @@ $( document ).ready(function(){
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[27]:</div>
+<div class="prompt"></div>
 
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>R object with classes: (&#39;character&#39;,) mapped to:
-&lt;StrVector - Python:0x7f54690a4a88 / R:0x667a2c0&gt;
-[&#39;fami..., &#39;n&#39;, &#39;n0&#39;, ..., &#39;w&#39;, &#39;pip&#39;, &#39;beta&#39;]</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>41.0
+</pre>
 </div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt output_prompt">Out[50]:</div>
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>R object with classes: (&#39;numeric&#39;,) mapped to:
-&lt;FloatVector - Python:0x7f54687f0188 / R:0x7c30b18&gt;
-[0.000000]</pre>
-</div>
-
 </div>
 
 </div>
