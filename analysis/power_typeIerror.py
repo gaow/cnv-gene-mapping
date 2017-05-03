@@ -24,7 +24,11 @@ def get_typeIerror(stats_table, causal_genes, p = 0.05):
 
 def test_contingency_table(gene_table, method = "Fisher", option = False): 
     if (method == "Fisher"):
-        stats_table = {"genes": get_stats(gene_table)["logp_gene"], "p_value": get_stats(gene_table)["p_value"]}
+        stats_table = [(pvalue(row["n_case_gene"], row["n_ctrl_gene"], row["n_case_nogene"], row["n_ctrl_nogene"]), 
+                        row["gene_name"]) for idx, row in gene_table.iterrows()]
+        p_value = [x[0].two_tail for x in stats_table]
+        genes = [x[1] for x in stats_table]
+        stats_table = {"genes": genes, "p_value": "p_value"}
     else:
         table = [( stats.chi2_contingency([[row["n_case_gene"], row["n_ctrl_gene"]], 
                                            [row["n_case_nogene"], row["n_ctrl_nogene"]]], 
