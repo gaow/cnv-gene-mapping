@@ -210,7 +210,7 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">causal_genes_del</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RAB2B&#39;</span><span class="p">,</span> <span class="s1">&#39;CHD8&#39;</span><span class="p">,</span> <span class="s1">&#39;TOX4&#39;</span><span class="p">,</span> <span class="s1">&#39;SNORD8&#39;</span><span class="p">,</span> <span class="s1">&#39;METTL3&#39;</span><span class="p">,</span> <span class="s1">&#39;SALL2&#39;</span><span class="p">,</span> <span class="s1">&#39;SNORD9&#39;</span><span class="p">,</span> <span class="s1">&#39;SUPT16H&#39;</span><span class="p">,</span> <span class="s1">&#39;RPGRIP1&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3180-3&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3670-1&#39;</span><span class="p">,</span> <span class="s1">&#39;NOMO2&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR6511A4&#39;</span><span class="p">,</span> <span class="s1">&#39;NPIPA8&#39;</span><span class="p">,</span> <span class="s1">&#39;FSIP2&#39;</span><span class="p">,</span> <span class="s1">&#39;FSIP2-AS1&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC101927196&#39;</span><span class="p">,</span> <span class="s1">&#39;ATP6V1E1&#39;</span><span class="p">,</span> <span class="s1">&#39;BCL2L13&#39;</span><span class="p">,</span> <span class="s1">&#39;BID&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR1&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR2&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR3&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR5&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR5-AS1&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR6&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR7&#39;</span><span class="p">,</span> <span class="s1">&#39;FLJ41941&#39;</span><span class="p">,</span> <span class="s1">&#39;GAB4&#39;</span><span class="p">,</span> <span class="s1">&#39;IL17RA&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC00528&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC100996342&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC100996415&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC101929372&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC105379550&#39;</span><span class="p">,</span> <span class="s1">&#39;MICAL3&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3198-1&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR648&#39;</span><span class="p">,</span> <span class="s1">&#39;PEX26&#39;</span><span class="p">,</span> <span class="s1">&#39;SLC25A18&#39;</span><span class="p">,</span> <span class="s1">&#39;TUBA8&#39;</span><span class="p">,</span> <span class="s1">&#39;USP18&#39;</span><span class="p">,</span> <span class="s1">&#39;FAM72C&#39;</span><span class="p">,</span> <span class="s1">&#39;FAM72D&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC01138&#39;</span><span class="p">,</span> <span class="s1">&#39;NBPF8&#39;</span><span class="p">,</span> <span class="s1">&#39;PPIAL4G&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR6770-2&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3179-1&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3180-2&#39;</span><span class="p">,</span> <span class="s1">&#39;MACROD2&#39;</span><span class="p">,</span> <span class="s1">&#39;FAM189A1&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC100130111&#39;</span><span class="p">,</span> <span class="s1">&#39;MACROD2-AS1&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC00623&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC00869&#39;</span><span class="p">,</span> <span class="s1">&#39;PPIAL4C&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3680-2&#39;</span><span class="p">,</span> <span class="s1">&#39;ABCC6P1&#39;</span><span class="p">,</span> <span class="s1">&#39;HNRNPC&#39;</span><span class="p">,</span> <span class="s1">&#39;APBA2&#39;</span><span class="p">,</span> <span class="s1">&#39;C22orf39&#39;</span><span class="p">,</span> <span class="s1">&#39;CDC45&#39;</span><span class="p">,</span> <span class="s1">&#39;CLDN5&#39;</span><span class="p">,</span> <span class="s1">&#39;CLTCL1&#39;</span><span class="p">,</span> <span class="s1">&#39;DGCR14&#39;</span><span class="p">,</span> <span class="s1">&#39;DGCR2&#39;</span><span class="p">,</span> <span class="s1">&#39;GNB1L&#39;</span><span class="p">,</span> <span class="s1">&#39;GOLGA6L7P&#39;</span><span class="p">,</span> <span class="s1">&#39;GOLGA8M&#39;</span><span class="p">,</span> <span class="s1">&#39;GP1BB&#39;</span><span class="p">,</span> <span class="s1">&#39;GSC2&#39;</span><span class="p">,</span> <span class="s1">&#39;HIRA&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC00895&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC01311&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC100289656&#39;</span><span class="p">,</span> <span class="s1">&#39;MRPL40&#39;</span><span class="p">,</span> <span class="s1">&#39;NPIPB4&#39;</span><span class="p">,</span> <span class="s1">&#39;NSMCE3&#39;</span><span class="p">,</span> <span class="s1">&#39;PDCD6IPP2&#39;</span><span class="p">,</span> <span class="s1">&#39;SEPT5&#39;</span><span class="p">,</span> <span class="s1">&#39;SEPT5-GP1BB&#39;</span><span class="p">,</span> <span class="s1">&#39;SLC25A1&#39;</span><span class="p">,</span> <span class="s1">&#39;TBX1&#39;</span><span class="p">,</span> <span class="s1">&#39;TSSK2&#39;</span><span class="p">,</span> <span class="s1">&#39;UFD1L&#39;</span><span class="p">,</span> <span class="s1">&#39;WHAMMP2&#39;</span><span class="p">,</span> <span class="s1">&#39;HSFY1P1&#39;</span><span class="p">,</span> <span class="s1">&#39;PFN1P2&#39;</span><span class="p">,</span> <span class="s1">&#39;XKR3&#39;</span><span class="p">,</span> <span class="s1">&#39;OR4A47&#39;</span><span class="p">,</span> <span class="s1">&#39;C5orf17&#39;</span><span class="p">,</span> <span class="s1">&#39;CNTN4&#39;</span><span class="p">,</span> <span class="s1">&#39;EXOC4&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC00540&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC101927967&#39;</span><span class="p">,</span> <span class="s1">&#39;LRRC4C&#39;</span><span class="p">,</span> <span class="s1">&#39;SMG1P2&#39;</span><span class="p">,</span> <span class="s1">&#39;SPRY2&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC100288162&#39;</span><span class="p">]</span>
@@ -246,7 +246,7 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
@@ -540,7 +540,7 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Load reference gene database</span>
@@ -565,7 +565,7 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cnvbed_df</span> <span class="o">=</span> <span class="n">load_cnv_data</span><span class="p">(</span><span class="s2">&quot;data/ISC-r1.CNV.bed&quot;</span><span class="p">)</span>
@@ -584,259 +584,259 @@ when presented in causal gene vs. non causal gene.</p>
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;delCases&#39;:       chrom    cnv_end  cnv_start
-0     chr19     318090      40793
-1     chr19   10493593   10231490
-2     chr19   20350179   20213206
-3     chr19   22788957   21878081
-4     chr19   23793209   23677370
-5     chr19   23968930   23823055
-6     chr19   33399885   33184559
-7     chr19   34877253   34619105
-8     chr19   47935511   47828599
-9     chr19   47956191   47830895
-10    chr19   58037134   57862446
-11    chr19   59844601   59721259
-12    chr19   59849150   59721259
-13    chr19   60070512   59942897
-14     chr4     166522      58821
-15     chr4     712308     511830
-16     chr4    8738298    8586366
-17     chr4    8738298    8586709
-18     chr4    9155615    9046959
-19     chr4    9174185    9046959
-20     chr4    9177664    9046959
-22     chr4    9262583    9046959
-23     chr4    9263034    9046959
-24     chr4    9174136    9048572
-26     chr4    9177664    9052835
-27     chr4   11876033   11775897
-28     chr4   11948682   11838410
-29     chr4   12783628   12671014
-30     chr4   16467467   16195988
-31     chr4   18863181   18692392
-...     ...        ...        ...
-1328  chr10   67749180   67625233
-1329  chr10   67853199   67725533
-1330  chr10   67866549   67725533
-1331  chr10   68154852   67838185
-1332  chr10   68017544   67871675
-1333  chr10   68167186   67944973
-1334  chr10   68169079   67945774
-1335  chr10   68076591   67969885
-1336  chr10   68149475   67981580
-1337  chr10   68229361   68000628
-1338  chr10   68139446   68037680
-1339  chr10   68177220   68070424
-1340  chr10   81593475   81449105
-1341  chr10   81586301   81475459
-1342  chr10   81587121   81475459
-1343  chr10   81587760   81475459
-1345  chr10   81588070   81475459
-1347  chr10   81593475   81475459
-1359  chr10   81607601   81475459
-1360  chr10   81593475   81486935
-1362  chr10   83189835   83045275
-1363  chr10   89102874   88987279
-1365  chr10   89107281   88987279
-1367  chr10   96623003   96434206
-1368  chr10  100893437  100699542
-1369  chr10  110354648  110124699
-1370  chr10  111323779  111195021
-1371  chr10  111323630  111197664
-1372  chr10  120744322  120582005
-1373  chr10  128559817  128361810
+<pre>{&#39;dupCases&#39;:       chrom   cnv_end  cnv_start
+0      chr3    177035      35322
+1      chr3    199247      35322
+3      chr3    212076      35322
+4      chr3    285947      35322
+5      chr3    163866      41866
+6      chr3    285947      60002
+7      chr3    248781      80793
+8      chr3    496709     127005
+9      chr3    400525     163865
+10     chr3    336177     189839
+11     chr3   1403399     832458
+12     chr3   1205461     930813
+13     chr3   1509354    1109010
+14     chr3   1723803    1118192
+15     chr3   1695061    1575774
+16     chr3   1696149    1575774
+17     chr3   1696280    1581011
+18     chr3   1827467    1678602
+19     chr3   2001745    1705740
+20     chr3   2130263    1765316
+21     chr3   2149336    1979767
+22     chr3   2149336    1988471
+23     chr3   2909350    2458305
+24     chr3   3832230    3703697
+25     chr3   4394070    4187684
+26     chr3   8360610    8039635
+27     chr3   8360610    8043419
+28     chr3  13663873   13556247
+29     chr3  15194364   15069772
+31     chr3  22750860   22644013
+...     ...       ...        ...
+2198  chr16  68744696   68597885
+2199  chr16  68755898   68597885
+2200  chr16  68770546   68607297
+2201  chr16  68768795   68622514
+2202  chr16  69654411   69403572
+2203  chr16  69763410   69408394
+2204  chr16  73653913   73472641
+2205  chr16  75288330   74490729
+2206  chr16  75390632   75109832
+2207  chr16  75599459   75464136
+2208  chr16  76376976   76225685
+2209  chr16  77158257   76525303
+2210  chr16  77333535   77015972
+2211  chr16  77226496   77103485
+2212  chr16  80820058   80705879
+2213  chr16  81284489   80772887
+2214  chr16  81604209   80925131
+2215  chr16  83042494   82802796
+2216  chr16  83141229   83026884
+2217  chr16  83193287   83066869
+2218  chr16  85269091   84848013
+2219  chr16  86583073   86246025
+2220  chr16  86550042   86327205
+2221  chr16  87440401   87284313
+2222  chr16  87580547   87298122
+2223  chr16  87465350   87329995
+2224  chr16  87756590   87521081
+2225  chr16  87668086   87545898
+2226  chr16  88799382   88560756
+2227  chr16  88799382   88564142
 
-[1161 rows x 3 columns], &#39;dupCases&#39;:       chrom    cnv_end  cnv_start
-0     chr19    1231660     846638
-1     chr19    2475686    2274013
-2     chr19    2940976    2802678
-3     chr19    5453719    5343629
-4     chr19    5819236    5627542
-5     chr19    7059064    6843781
-6     chr19    7054543    6847380
-12    chr19    7057724    6847380
-13    chr19    7059445    6847380
-14    chr19    7065196    6847380
-15    chr19    6973156    6863072
-16    chr19    8366535    7933954
-17    chr19   10485796   10299376
-18    chr19   10860451   10611738
-19    chr19   11223580   11111139
-20    chr19   11922385   11772788
-21    chr19   12645820   12489058
-22    chr19   14159634   13761432
-23    chr19   16581261   16292361
-24    chr19   16608417   16500299
-25    chr19   18203869   18037250
-26    chr19   18521054   18394642
-27    chr19   19922126   19544830
-28    chr19   20778156   20621431
-35    chr19   20764844   20622809
-37    chr19   20764844   20627327
-38    chr19   20777552   20627327
-39    chr19   20778156   20627730
-40    chr19   20764844   20639114
-41    chr19   20777552   20639114
-...     ...        ...        ...
-2198  chr10   81607601   81475459
-2199  chr10   81975772   81570697
-2200  chr10   81912710   81586268
-2201  chr10   84396330   84208644
-2202  chr10   92979270   92528813
-2203  chr10  103321635  103112807
-2204  chr10  105935833  105822145
-2205  chr10  106347840  105863321
-2206  chr10  106602416  106447428
-2207  chr10  106733026  106610088
-2208  chr10  106862097  106704432
-2209  chr10  107144539  107026591
-2210  chr10  107306583  107086561
-2211  chr10  107297421  107100981
-2212  chr10  107307852  107100981
-2213  chr10  107308294  107100981
-2214  chr10  110108337  107277953
-2215  chr10  110536821  110427940
-2216  chr10  112546757  112224209
-2217  chr10  116578051  115760137
-2218  chr10  117370519  117213595
-2219  chr10  123803750  123539198
-2220  chr10  128723593  128549112
-2221  chr10  132877124  131538937
-2222  chr10  133340388  132792504
-2223  chr10  133099297  132902663
-2224  chr10  134737614  134618899
-2225  chr10  135393952  135213790
-2226  chr10  135393952  135240018
-2227  chr10  135393952  135247545
+[1936 rows x 3 columns], &#39;delCases&#39;:       chrom   cnv_end  cnv_start
+0      chr3   1636121     285763
+1      chr3    753245     638627
+2      chr3   1206335     738197
+3      chr3   1814724    1109010
+4      chr3   1445860    1300394
+5      chr3   2105050    1517298
+6      chr3   4158413    3874791
+7      chr3   4160602    3996516
+8      chr3   4288486    4148839
+13     chr3   4295851    4148839
+14     chr3   4288486    4156405
+15     chr3   6244704    6052172
+16     chr3   7145742    7043889
+17     chr3  24881911   24613795
+18     chr3  26140723   26014525
+19     chr3  26139674   26015732
+23     chr3  26145716   26016533
+24     chr3  26139674   26021365
+25     chr3  29182560   28925115
+26     chr3  36232571   36082687
+27     chr3  41806183   41338692
+28     chr3  41799437   41343432
+31     chr3  50452892   50339490
+32     chr3  60421099   60296311
+33     chr3  60540944   60307923
+34     chr3  60832672   60454967
+35     chr3  65975331   65781878
+36     chr3  72929199   72699980
+37     chr3  78025721   77924106
+38     chr3  80500254   80388134
+...     ...       ...        ...
+1340  chr16  21746842   21500956
+1341  chr16  21654018   21510499
+1342  chr16  21636716   21513553
+1343  chr16  22335781   21693739
+1344  chr16  22349522   21724961
+1345  chr16  22335781   21745742
+1346  chr16  22009081   21854037
+1347  chr16  22335781   21854037
+1348  chr16  22335781   22203964
+1349  chr16  28507883   28398018
+1350  chr16  28951377   28732153
+1351  chr16  30085921   29657036
+1352  chr16  58962576   58812289
+1353  chr16  61224856   61118952
+1354  chr16  68697044   68582090
+1356  chr16  68744696   68582090
+1357  chr16  68755898   68597885
+1359  chr16  68770546   68597885
+1360  chr16  68755898   68607297
+1362  chr16  68768795   68609885
+1363  chr16  70361575   68768945
+1364  chr16  71278043   71049620
+1365  chr16  76512564   76398531
+1366  chr16  76918651   76535125
+1367  chr16  76934621   76800885
+1368  chr16  79106760   79006741
+1370  chr16  79841100   79730163
+1371  chr16  83091199   82977842
+1372  chr16  83145462   83029060
+1373  chr16  88799382   88521659
 
-[1936 rows x 3 columns], &#39;dupControls&#39;:       chrom    cnv_end  cnv_start
-0     chr19    2533155    2411262
-1     chr19    7054543    6841130
-2     chr19    7054982    6841150
-4     chr19    7057724    6841150
-6     chr19    7057724    6843781
-7     chr19    7054543    6847380
-9     chr19    7059445    6847380
-10    chr19   11922385   11776185
-12    chr19   20101309   19478134
-13    chr19   20335656   19884866
-14    chr19   20734345   20621431
-15    chr19   20778156   20621431
-29    chr19   20748903   20622809
-30    chr19   20777552   20627327
-31    chr19   20778156   20627730
-35    chr19   20777552   20639114
-36    chr19   20777552   20643736
-37    chr19   23718549   23616825
-38    chr19   38866101   38624360
-39    chr19   48746899   48538078
-40    chr19   55277701   55124592
-41    chr19   55805730   55330310
-42    chr19   56879615   56540781
-43    chr19   57309215   56975322
-44    chr19   57309319   56975466
-45    chr19   59217333   58798706
-46    chr19   59960029   59649917
-47    chr19   60139653   59655364
-48    chr19   60031546   59929058
-54    chr19   60227328   60121070
-...     ...        ...        ...
-1839   chr5   68617146   68504814
-1840   chr5   76189691   75866793
-1841   chr5   77969027   77607951
-1842   chr5   78305491   77629551
-1843   chr5   78527793   78342184
-1844   chr5   82130284   81950335
-1845   chr5   95378941   95237403
-1846   chr5  100863225  100624601
-1847   chr5  101002523  100874094
-1848   chr5  101801915  101650312
-1849   chr5  102368453  102161446
-1850   chr5  104876705  103893570
-1851   chr5  105285739  105177808
-1852   chr5  105537044  105392417
-1853   chr5  116154005  115252589
-1854   chr5  116475345  116360763
-1855   chr5  117217532  117066048
-1856   chr5  122383128  122075211
-1857   chr5  126748436  126233923
-1858   chr5  127132474  126738855
-1859   chr5  146709675  146149704
-1860   chr5  146729597  146508795
-1861   chr5  160774441  160067406
-1862   chr5  162633359  162164425
-1863   chr5  178863917  178662194
-1864   chr5  179803798  179629799
-1865   chr5  180219363  179987794
-1866   chr5  180148873  180048423
-1871   chr5  180170773  180048423
-1872   chr5  180171122  180068839
+[1161 rows x 3 columns], &#39;delControls&#39;:       chrom   cnv_end  cnv_start
+0      chr3   1410359     832458
+1      chr3   1033417     860794
+2      chr3   1217240    1090173
+3      chr3   1581012    1410358
+4      chr3   1880009    1692011
+5      chr3   2023352    1863860
+6      chr3   2567979    1890238
+7      chr3   2855211    2187236
+8      chr3   2677038    2307779
+9      chr3   4206021    3933764
+10     chr3   4160602    3996516
+11     chr3   4212349    4018018
+12     chr3   4227280    4067922
+13     chr3   4227662    4069627
+14     chr3   4248490    4074877
+15     chr3   4288486    4148839
+21     chr3   4288486    4163665
+22     chr3   4276298    4165757
+23     chr3   4355162    4234712
+24     chr3   6501529    6290882
+25     chr3  17475702   17365970
+26     chr3  21326642   21226323
+27     chr3  26139674   26009915
+28     chr3  26140723   26014525
+29     chr3  26145716   26014525
+31     chr3  26139674   26015732
+32     chr3  26145716   26016533
+33     chr3  26201923   26021365
+34     chr3  37896109   37779107
+35     chr3  59427408   59232110
+...     ...       ...        ...
+1247  chr16  21650634   21503814
+1248  chr16  21654455   21503814
+1249  chr16  21746842   21503814
+1250  chr16  21654018   21508825
+1251  chr16  21746842   21513468
+1252  chr16  21654018   21513553
+1254  chr16  26984629   26761830
+1255  chr16  30085921   29474810
+1256  chr16  30134445   29487535
+1257  chr16  30252473   29515716
+1258  chr16  32160750   31905683
+1259  chr16  61932799   61829864
+1260  chr16  62407724   62146565
+1261  chr16  62786527   62625505
+1262  chr16  68744696   68582090
+1263  chr16  68697044   68586194
+1264  chr16  68744696   68586194
+1265  chr16  68744696   68597885
+1266  chr16  68744696   68607297
+1267  chr16  68744696   68608412
+1268  chr16  68755357   68609885
+1269  chr16  70147103   69953396
+1270  chr16  71278043   71089863
+1271  chr16  72656476   72551860
+1272  chr16  76393270   76257950
+1273  chr16  76980957   76795589
+1274  chr16  79085684   78789512
+1275  chr16  82227917   80737839
+1276  chr16  84178404   83944013
+1277  chr16  85435367   85304885
 
-[1577 rows x 3 columns], &#39;delControls&#39;:       chrom    cnv_end  cnv_start
-0     chr19    1458711     846638
-1     chr19    1469202    1074378
-2     chr19    1934477    1742099
-3     chr19    2219056    1872882
-4     chr19    9492209    9348592
-5     chr19    9495499    9348592
-6     chr19   21713916   21440503
-7     chr19   21864074   21657837
-8     chr19   23862995   23412725
-9     chr19   24375153   24252658
-10    chr19   33400163   33186598
-11    chr19   33924202   33686098
-12    chr19   34681779   34572455
-13    chr19   47947058   47830895
-14    chr19   47960464   47830895
-15    chr19   57641493   57536064
-16    chr19   59844601   59721259
-17     chr4     220238      77113
-18     chr4    4240901    3934713
-19     chr4    9147528    9046959
-20     chr4    9162357    9046959
-21     chr4    9174185    9046959
-22     chr4    9174185    9048572
-25     chr4    9177664    9048572
-26     chr4    9174136    9052835
-27     chr4    9162357    9057460
-28     chr4   11948682   11838297
-29     chr4   11948682   11841929
-30     chr4   12783628   12580799
-31     chr4   18892765   18776398
-...     ...        ...        ...
-1227  chr10   67971752   67871675
-1228  chr10   68078649   67871675
-1229  chr10   68119975   67975943
-1230  chr10   68139446   68037680
-1232  chr10   68201849   68039128
-1233  chr10   68557334   68376219
-1234  chr10   68830019   68622864
-1235  chr10   81593475   81434084
-1236  chr10   81975345   81434084
-1237  chr10   81593475   81449105
-1238  chr10   81586301   81475459
-1239  chr10   81587121   81475459
-1242  chr10   81587760   81475459
-1244  chr10   81588070   81475459
-1250  chr10   81593475   81475459
-1260  chr10   81607601   81475459
-1262  chr10   83189835   83045275
-1263  chr10   84175521   83980248
-1264  chr10   89093029   88987279
-1265  chr10   89102874   88987279
-1267  chr10   89107281   88987279
-1269  chr10  100893437  100699542
-1270  chr10  110263393  110067126
-1271  chr10  111033397  110916347
-1272  chr10  111323630  111194594
-1273  chr10  117439541  117331154
-1274  chr10  128559817  128361810
-1275  chr10  134163327  134028972
-1276  chr10  135393952  135278735
-1277  chr10  135395586  135289131
+[1049 rows x 3 columns], &#39;dupControls&#39;:       chrom   cnv_end  cnv_start
+0      chr3    406825      60002
+1      chr3    218089     102604
+2      chr3    649788     193663
+3      chr3    510653     359169
+4      chr3    905568     373222
+5      chr3    581055     474885
+6      chr3   1326841     537031
+7      chr3   1325135     634022
+8      chr3   1061878     880686
+9      chr3   1756804    1433406
+10     chr3   1805431    1433406
+11     chr3   1805314    1435279
+13     chr3   1695061    1575774
+15     chr3   2149336    1991318
+16     chr3   2745828    2003829
+17     chr3   2578229    2064570
+18     chr3   3832230    3694456
+19     chr3   4584649    4395255
+20     chr3   7180238    6792664
+21     chr3   8024763    7602114
+22     chr3  11864927   11719647
+23     chr3  15194364   15079749
+24     chr3  23818625   23659316
+25     chr3  23818625   23667699
+26     chr3  25932953   25776689
+27     chr3  25938545   25796513
+28     chr3  31528896   31403429
+29     chr3  34781688   34675826
+30     chr3  35916775   35775771
+31     chr3  35915307   35778779
+...     ...       ...        ...
+1841  chr16  68744696   68545887
+1842  chr16  68755898   68545887
+1843  chr16  68697044   68582090
+1844  chr16  68768795   68597261
+1845  chr16  68744696   68597885
+1847  chr16  68709824   68607297
+1848  chr16  68768795   68609885
+1849  chr16  68755357   68622514
+1850  chr16  68768795   68622514
+1852  chr16  69758575   69399598
+1853  chr16  73918236   73009537
+1854  chr16  75288330   74494362
+1855  chr16  75792376   75679042
+1856  chr16  77164851   76114962
+1857  chr16  76911575   76170016
+1858  chr16  76929110   76225560
+1859  chr16  77158257   76525303
+1860  chr16  79317627   78760305
+1861  chr16  79654700   79441804
+1862  chr16  79652453   79443082
+1863  chr16  79850232   79745622
+1864  chr16  82531568   82109008
+1865  chr16  82531568   82110299
+1866  chr16  83853019   83618218
+1867  chr16  84483027   84286314
+1868  chr16  86442049   86322658
+1869  chr16  87654823   87545898
+1870  chr16  88499847   88248332
+1871  chr16  88799382   88609161
+1872  chr16  88799382   88616592
 
-[1049 rows x 3 columns]}
+[1577 rows x 3 columns]}
 </pre>
 </div>
 </div>
@@ -847,7 +847,7 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get 2 data-sets from my data for del and dup</span>
@@ -866,7 +866,7 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># check how many CNVs start in block_size = 100K blocks genome</span>
@@ -887,7 +887,7 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># length of CNVs, and fit mixed geometric distribution</span>
@@ -908,7 +908,7 @@ when presented in causal gene vs. non causal gene.</p>
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[7]:</div>
+<div class="prompt output_prompt">Out[6]:</div>
 
 
 
@@ -924,195 +924,161 @@ when presented in causal gene vs. non causal gene.</p>
 
 
 <div class="output_png output_subarea ">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaIAAAECCAYAAAC8F9OBAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
-AAALEgAACxIB0t1+/AAAIABJREFUeJzt3Xt0XOWd5vtv7broWiXZVtkYBwix4YcJYMA0BgK2afAE
-CAlJOqc7JJlOaC7dWQxzOjk5fRr6kM50xsOZZBarh9OTpCeQQG4zfcI5SfeEBYEM6WCbYAymAw7m
-h8HcAr5IsmWVSte6nD9qSyrJuhRgacvW81nLS1Xv3u+rvV9Lemrv/e53x8rlMiIiIlEJot4AERGZ
-3xREIiISKQWRiIhESkEkIiKRUhCJiEikFEQiIhKpxHQrmFkM+AawCugHbnD33VXLPwzcDgwB33X3
-uyerY2bLgXuBErDD3W8O27gRuClsY6O7P1DV/seAT7j7p8P3lwFfBQaB/cAfu3v/u+oFERGJTC1H
-RB8F6tz9IuBW4M7hBWaWCN9fDqwHbjKz7BR17gRuc/d1QGBm15jZEuAW4ELgCuAOM0uG7f8tsBGI
-VW3P3wEfcff1wEvADe9gv0VEZI6oJYguBh4CcPetwHlVy1YCu9y9292HgE3AugnqrA7XX+3um8LX
-DwIbgPOBze5ecPduYBdwVrjOFuDz47Znvbt3hK8TVI64RETkKFVLEGWAQ1XvC2YWTLKsB2gB0uPK
-i2YWZ+yRTS6sP37d4TZw9x+P3xh33wdgZh+nchT2vRr2QURE5qhagqibSliM1HH3UtWyTNWyNHBw
-kjpFKteGqtftmqSNrqk2yMz+HPgC8EF3H6xhH0REZI6adrACldNjVwP3m9kFwHNVy3YCK8ysFegF
-LgG+Hi6bqM52M1vr7o8BVwKPAtuAjWaWAhqA04Adk22Mmf0VcA5wubsPTLfx5XK5HIvFpltNRETG
-mrU/nLUE0U+ADWa2JXx/nZldCzSFI+S+CDxMZaPvcfc9ZnZYnfDrl4Bvh4MRdgL3u3vZzO4CNodt
-3DbZUY6ZLQa+DDwNPGRmZeAf3P3vJ9v4WCxGe3uuht089mWzafVFSH0xSn0xSn0xKptNT7/SERKb
-B7Nvl/WDVaFfslHqi1Hqi1Hqi1HZbHrWjoh0Q6uIiERKQSQiIpFSEImISKQURCIiEikFkYiIREpB
-JCIikVIQiYhIpBREIiISKQWRiIhESkEkIiKRUhCJiEikFEQiIhIpBZGIiERKQSQiIpFSEImISKQU
-RCIiEikFkYiIREpBJCIikVIQiYhIpBREIiISKQWRiIhESkEkIiKRUhCJiEikFEQiIhIpBZGIiERK
-QSQiIpFKRL0B80Eul+N3e/aPKYsBp644mSDQZwERmd8URLPgrb3t7OutH1PWc6iTk08aoq6uLqKt
-EhGZG/RxXEREIjXtEZGZxYBvAKuAfuAGd99dtfzDwO3AEPBdd797sjpmthy4FygBO9z95rCNG4Gb
-wjY2uvsDVe1/DPiEu386fL8G+M/huo+4+9+8uy4QEZEo1XJE9FGgzt0vAm4F7hxeYGaJ8P3lwHrg
-JjPLTlHnTuA2d18HBGZ2jZktAW4BLgSuAO4ws2TY/t8CG6lcUhn2LeCT7n4JsMbMVr2jPRcRkTmh
-liC6GHgIwN23AudVLVsJ7HL3bncfAjYB6yaoszpcf7W7bwpfPwhsAM4HNrt7wd27gV3AWeE6W4DP
-D38zM0sDKXd/NSz6OZUQFBGRo1QtQZQBDlW9L5hZMMmyHqAFSI8rL5pZnLFHNrmw/vh1h9vA3X88
-wbZ0j2ujpYZ9EBGROaqWIOqmEhYjddy9VLUsU7UsDRycpE6RyrWh6nW7Jmmja4ptqXVdERE5CtQy
-fHsLcDVwv5ldADxXtWwnsMLMWoFe4BLg6+GyiepsN7O17v4YcCXwKLAN2GhmKaABOA3YMdGGuHvO
-zAbM7GTgVeCDwFem24FsNj3dKjNqX0cjPbHkmLJYsY5sNj3rw7ej7ou5RH0xSn0xSn0x+2oJop8A
-G8xsS/j+OjO7FmgKR8h9EXiYymm3e9x9j5kdVif8+iXg2+FghJ3A/e5eNrO7gM1hG7e5++AU2/Nn
-wI+oHM097O7bptuB9vZcDbs5c7oO9pLLjw2cnp4B2ttz1NVNtatHVjabjrwv5gr1xSj1xSj1xajZ
-DORYuVyetW8WkXLUP1i+azd7xgfRoU42XGCzekSkX7JR6otR6otR6otR2Ww6Nv1aR4ZuaBURkUgp
-iEREJFIKIhERiZSCSEREIqUgEhGRSCmIREQkUgoiERGJlIJIREQipSASEZFIKYhERCRSCiIREYmU
-gkhERCKlIBIRkUgpiEREJFIKIhERiZSCSEREIqUgEhGRSCmIREQkUgoiERGJlIJIREQipSASEZFI
-KYhERCRSCiIREYmUgkhERCKlIBIRkUgpiEREJFIKIhERiZSCSEREIqUgEhGRSCmIREQkUonpVjCz
-GPANYBXQD9zg7rurln8YuB0YAr7r7ndPVsfMlgP3AiVgh7vfHLZxI3BT2MZGd3/AzOqBHwCLgW7g
-s+7eaWaXA3eE6/7C3b98BPpBREQiUssR0UeBOne/CLgVuHN4gZklwveXA+uBm8wsO0WdO4Hb3H0d
-EJjZNWa2BLgFuBC4ArjDzJLA54Fn3X0t8H0qYQfwNeAzYduXmtn73/Hei4hI5GoJoouBhwDcfStw
-XtWylcAud+929yFgE7Bugjqrw/VXu/um8PWDwAbgfGCzuxfcvRvYReVIaqSNcN3LwtfbgTYzSwH1
-QPFt7bGIiMwptQRRBjhU9b5gZsEky3qAFiA9rrxoZnEgVlWWC+uPX3eiNnJhGcAO4GfAb4HX3f2F
-GvZBRETmqGmvEVG5PpOueh+4e6lqWaZqWRo4OEmdopmVxq3bVWMbaaDLzFqonOpb6e57zew/mtmX
-3P0/TbUD2Wx6qsUzbl9HIz2x5JiyWLGObDZNXV3drG5L1H0xl6gvRqkvRqkvZl8tQbQFuBq438wu
-AJ6rWrYTWGFmrUAvcAnw9XDZRHW2m9lad38MuBJ4FNgGbAxPtTUAp1E56nkcuAp4Kvy6CeijcnSU
-D9vbA7RNtwPt7bkadnPmdB3sJZcfGzg9PQO0t+eoqxucte3IZtOR98Vcob4Ypb4Ypb4YNZuBXEsQ
-/QTYYGZbwvfXmdm1QFM4Qu6LwMNUTrvd4+57zOywOuHXLwHfDgcj7ATud/eymd0FbA7buM3dB83s
-m8B9ZrYJGAA+FZb/b8AjZtZH5Yjqc++yD0REJEKxcrkc9TbMtHLUn3B81272jD8iOtTJhgtsVk/N
-6dPeKPXFKPXFKPXFqGw2HZt+rSNDN7SKiEikFEQiIhKpWq4RyQwol8t0d3dTV5caU55OZ4jFZu2I
-WEQkcgqiiPT15nn0qd2kMy1jyjasWUGmqkxE5FinIIpQQ0MTjU26Z0FE5jddIxIRkUgpiEREJFIK
-IhERiZSCSEREIqUgEhGRSCmIREQkUgoiERGJlIJIREQipSASEZFIKYhERCRSCiIREYmUgkhERCKl
-IBIRkUhp9u05pFwuk8t1H1auZxSJyLFMQTSH9PXm+dX2A7QuXDSmTM8oEpFjmYJojqlvaNQzikRk
-XtE1IhERiZSCSEREIqUgEhGRSCmIREQkUgoiERGJlIJIREQipSASEZFIKYhERCRS097QamYx4BvA
-KqAfuMHdd1ct/zBwOzAEfNfd756sjpktB+4FSsAOd785bONG4KawjY3u/oCZ1QM/ABYD3cBn3b0z
-bONbQBIYAD7p7gfffVeIiEgUajki+ihQ5+4XAbcCdw4vMLNE+P5yYD1wk5llp6hzJ3Cbu68DAjO7
-xsyWALcAFwJXAHeYWRL4PPCsu68Fvk8l7AD+K/BX7r6eSiCd+g73XURE5oBaguhi4CEAd98KnFe1
-bCWwy9273X0I2ASsm6DO6nD91e6+KXz9ILABOB/Y7O4Fd+8GdlE5khppI1z3svAoaTHwETP7JZXw
-evJt77WIiMwZtQRRBjhU9b5gZsEky3qAFiA9rrxoZnGgegrpXFh//LoTtZELyxYC7wcedvdLw/ef
-rWEfRERkjqpl0tNuKqEwLHD3UtWyTNWyNHBwkjpFMyuNW7erxjaG1z0A5Nz9sbD8Z1ROC9471Q5k
-s9FOIrqvo5GeWHJMWW9zHfWN9aSb60fK+vIpgiA5pixgkLa2NC0tR2Yfou6LuUR9MUp9MUp9Mftq
-CaItwNXA/WZ2AfBc1bKdwAozawV6gUuAr4fLJqqz3czWhkFyJfAosA3YaGYpoAE4DdgBPA5cBTwV
-ft3k7v1m5mb2AXffAqwFfjvdDrS352rYzZnTdbCXXL5uTFlPzwCFUj9Bon+kLJ8fJAiK1DWMlvXm
-B+joyDE4+O4HOGaz6cj7Yq5QX4xSX4xSX4yazUCuJYh+Amwwsy3h++vM7FqgKRwh90XgYSqn3e5x
-9z1mdlid8OuXgG+HgxF2Ave7e9nM7gI2h23c5u6DZvZN4D4z20RldNynwjZuAP5LeKrvFeAv3sX+
-i4hIxGLlcjnqbZhp5ag/4fiu3ewZd0S0/63XqG/MkGldMFLWsX8PQRBnYdvikbLefI6Lz1x6RB6M
-p097o9QXo9QXo9QXo7LZ9Kw9Flo3tIqISKQURCIiEikFkYiIREpBJCIikVIQiYhIpBREIiISKQWR
-iIhESkEkIiKRUhCJiEikFEQiIhIpBZGIiERKQSQiIpGqZfZtiVC5XCaX6z6sPJ3OEIvN2pyEIiIz
-RkE0x/X15vnV9gO0Llw0pmzDmhVHZEZuEZGoKYiOAvUNjTQ26amRInJs0jUiERGJlIJIREQipSAS
-EZFIKYhERCRSCiIREYmUgkhERCKlIBIRkUgpiEREJFIKIhERiZSCSEREIqUgEhGRSCmIREQkUgoi
-ERGJlIJIREQiNe1jIMwsBnwDWAX0Aze4++6q5R8GbgeGgO+6+92T1TGz5cC9QAnY4e43h23cCNwU
-trHR3R8ws3rgB8BioBv4rLt3Vn3f24Az3f3ad9kHIiISoVqOiD4K1Ln7RcCtwJ3DC8wsEb6/HFgP
-3GRm2Snq3Anc5u7rgMDMrjGzJcAtwIXAFcAdZpYEPg886+5rge9TCbvh73slcBVQfqc7LiIic0Mt
-QXQx8BCAu28FzqtathLY5e7d7j4EbALWTVBndbj+anffFL5+ENgAnA9sdveCu3cDu6gcSY20Ea57
-OYCZrQBuBL78tvdWRETmnFqCKAMcqnpfMLNgkmU9QAuQHldeNLM4EKsqy4X1x687URs5IGNmTcDf
-AX9K5fRedXsiInIUquVR4d1UQmFY4O6lqmWZqmVp4OAkdYpmVhq3bleNbQyvuwFYAvwDsABYamZ/
-4e5fm2oHstloH7O9r6ORnlhyTFlvcx31jfWkm+tHyvryKYIgOW1ZwCBtbWlaWt7+fkXdF3OJ+mKU
-+mKU+mL21RJEW4CrgfvN7ALguaplO4EVZtYK9AKXAF8Pl01UZ7uZrXX3x4ArgUeBbcBGM0sBDcBp
-wA7gcSrXgZ4Kv25y958CPwUws3XAn04XQgDt7bkadnPmdB3sJZevG1PW0zNAodRPkOgfKcvnBwmC
-InUNU5f15gfo6MgxOPj2Bj1ms+nI+2KuUF+MUl+MUl+Mms1AriWIfgJsMLMt4fvrzOxaoCkcIfdF
-4GEqp8nucfc9ZnZYnfDrl4Bvh4MRdgL3u3vZzO4CNodt3Obug2b2TeA+M9sEDACfOgL7KyIic0ys
-XD7mB56Vo/6E47t2s2fcEdH+t16jvjFDpnXBSFnH/j0EQZyFbYunLOvN57j4zKVkMi1vazv0aW+U
-+mKU+mKU+mJUNpuetWvwuqFVREQiVcupOZljyuUyuVz3YeXpdIZYTAMJReTooiA6CvX15vnV9gO0
-Llw0pmzDmhVv+3SdiEjUFERHqfqGRhqbNMxURI5+ukYkIiKRUhCJiEikFEQiIhIpBZGIiERKQSQi
-IpFSEImISKQURCIiEikFkYiIREpBJCIikdLMCke5oUKJvQd6ee2tLra+0MUFZyzlg793IkGgOedE
-5OigIDoK5fuLtOeGePqVN9h3oI9S1aM83vjlyzyzq4MbPrSSxQsaI9xKEZHaKIiOAsVSmTfb87zZ
-0cOb7XlyvUMjyxak63hPtolFzTEuO3cZ//jEXp56YT9//Z1t/OHvr2D92cdrRm4RmdMURHNUT98Q
-b7bneeXNXjpzBYqlLgCS8YAlrQmWtKQ49eTjaKxPApDv6YZiH5++9D2sPKGJ+x97ne//3HnmxXau
-u2olC9J1U307EZHIKIjmiFKpTGeuQHv3AAdeeIWunsGRZc31ASce18KybBOLFzRysGMvQRAfCSE4
-/NEQv7+qjSdf6GTHKwe4/e6tfOZfncrV65pnfb9ERKajIIpQ/2CRfb87xJvtPezp7GWoUAIgHsRY
-lm1iWbaJxlgvzQ3JMY8Kn0z1oyEam2DtWQFBPMk/Pf4m//V/PM9vX+/iD9e9j3Rjakb3S0Tk7VAQ
-zaJSuUxHVz9vtvfw2lsDdPf3jyxrbkhy/IIES1pTrHjvUhLxysj6jv39kzU3rVgsxgfen2X1acdz
-9wM72fKbt3jupQ4+d+VpnL2i7V3vj4jIkaAgmgW79/aybXcnb3XkGRyqHPXEYpBtSXLS0laWtTWT
-aUrS2V455TYcQkfK4gWN/OWnzmXzb/fxg4d2ctf9z3LJWUv55GWn0FCnHwERiZb+Cs2wUrnMT37d
-TqFUprE+wUlL0izLNpEY7KQ53UKmdcGsbEcQxPiD3z+F9y1p5u6fPc+mZ/fw/KsHueHqldiJs7MN
-IiITURDNsCAW4zOXHkdnf4rW5rqRodT73zow49+7XC6Ty3WPvE+lSmTqi/zbj53CPz97gAeeeI2v
-/egZNvzeCXx87ftIJeMzvk0iIuMpiGbBktY6SvnZHz49fiRdc9MBevID9PXm2bBmBatOaePun+3k
-4W1v8NzuTm64+nROXpqZ9e0UkflNc80d44ZH0jU2pWlqztDYlKahsQmA5ce38JXrfo/LVr+HPZ29
-bPze0/x0024KxVLEWy0i84mCaJ6rS8b59IZT+dInz6Y1neKftrzKxu8/zZsd+ag3TUTmCQWRAHD6
-exfyN3+yhg+ccRyv7c3x7767jZ8/+fqYeexERGaCgkhGNNYnuP7q0/k3Hz+Thro4//DoS3ztR8/Q
-3tUX9aaJyDFMQSSHOffULF+9fg3nnprlxTe6+PJ3nuSx37xFWUdHIjIDph01Z2Yx4BvAKqAfuMHd
-d1ct/zBwOzAEfNfd756sjpktB+4FSsAOd785bONG4KawjY3u/oCZ1QM/ABYD3cBn3b3TzC4DvgoM
-AvuBP3b3dz79gEwo05Ti5o+dweM79vKjX7zIvQ++wPYX2/nclafR2qwJVEXkyKnliOijQJ27XwTc
-Ctw5vMDMEuH7y4H1wE1mlp2izp3Abe6+DgjM7BozWwLcAlwIXAHcYWZJ4PPAs+6+Fvg+lbAD+Dvg
-I+6+HngJuOEd7vu8NXx/UXf3oTH/xh/xxGIxPnDmUr56/RpOf+8Cnn25k9vv3sqTO/dFtOUiciyq
-JYguBh4CcPetwHlVy1YCu9y9292HgE3AugnqrA7XX+3um8LXDwIbgPOBze5ecPduYBeVI6mRNsJ1
-Lw9fr3f3jvB1gsoRl7wNlfuLXmfzc3tG/j2y9aUxN79WW5ip54t/dDaf3nAqQ4US3/rH3/Ktf9xB
-T9/QhOuLiLwdtQRRBjhU9b5gZsEky3qAFiA9rrxoZnGg+gltubD++HUnamN4Xdx9H4CZfZzKUdj3
-atgHGaf6/qLqe4smE8RiXLb6PXzlT85n+fEZnty5n9vv3sq/7OqYsp6IyHRqCaJuKqEwUsfdS1XL
-qm/FTwMHJ6lTpHJtqHrdrhrbGF4XADP7c+ALwAfdfRCZNcctbOTWz6zmE+uXk+8f4q7/91nueeB5
-evsLUW+aiBylapniZwtwNXC/mV0APFe1bCewwsxagV7gEuDr4bKJ6mw3s7Xu/hhwJfAosA3YaGYp
-oAE4DdgBPA5cBTwVft0EYGZ/BZwDXO7uA7XsZDabnn6lGbSvo5GeWHJMWW9zHfWN9aSb60fK+vIp
-giA5o2Xp5voJywMGaWtL09JSW1999sNnsP68E7nzv21ny3N78de7uOWPzuFcm/65SXNF1D8Xc4n6
-YpT6YvbFphuSWzUC7qyw6Doq13yawhFyHwL+msppt3vc/VsT1XH3F83sFODbQJJKiN3o7mUzux74
-07CNje7+UzNrAO4DlgIDwKfCtt4Ang7LysA/uPvfT7EL5fb2XI3dMTN81272jJtrbv9br1HfmBkz
-+3bH/j0EQXzMQ/COZFm6uZ5cT/+E6/bmc1x85lIymZaRsvGTpg6XASOTtxaLZR7ZvodHnt5LsVRm
-/TnL+MNLl1OfmtvTGGazaaL+uZgr1Bej1Bejstl0bPq1joxp/1q4e5nKCLZqL1YtfwB4oIY6uPsu
-Ktd1xpffA9wzrqwP+MMJNkljh2dJLtfNI1tfGnP96EDHPoIgMTKRKkC81Muf/8Fp/Pdfvs4/P/Mm
-O3Z3cv2H9HgJEamNbmiVKTU0No0Z1FDf0DThQIcTso18+XO/x1UXnERndz9f+9Ez/Ldf7GJwqBj1
-LojIHDe3z5/IrJnoNFwu1105+VmjZCLgE+uXc84pbdz9wE4eearyeInrr17J8uNbpm9AROYlBZEA
-hz+7CCqn4RqbMjQ2v72Lt8uXVR4v8f/9ajePPPUG/+H7T3PVBSfxkQ+cTDKhg3ARGUt/FWTE+FNu
-9Q1T31s0lbpknGsvP4X/41PnsChTzwO/fo2v3reN1/bqQrCIjKUgkhllJy7g3/3J+aw/+3h+157n
-33/vKf5p8yt6+J6IjFAQyYxrqEvwx1ecxhf/aBWZphQ/3fxK5eF77T1Rb5qIzAEKIpk1Z5y8iK9e
-f/7ow/fu3caDT7xGqaTHS4jMZwoimVWN9Umuv/p0bvmDM2msT/Ljf36ZO374NHsP9Ea9aSISEQWR
-ROKcU7L8+xvWcP7Kxbz8Zjdf+c6T/OKpN/RocpF5SMO35V2rZSqgYel0ZqSsuSHJn11zBueeuo8f
-PPwiP/rFLra/2M6fXLWSttaG2dl4EYmcgkjetcnuQRo/FVBfb54Na1aMmc8O4PyVS7ATF/C9h17g
-mV0d3P6dJ/nk769g7arjDwsyETn2KIjkiBi+B2lYb76HIIiPKZvoyAkqR0ktTSn+zcfP5Ne/3csP
-H9nFfQ85T+7cz6XnLGPVikUkE/FZ2Q8RmX0KIpk1Ex05VR8lxWIxLjpjKaeduIB7H3qBHbsPsPO1
-gzTUxTn31CwXnH4cp53USjzQpU2RY4mCSGbV+COniSzM1POF/2UVv2vP88Tze3ny+X1seW4vW57b
-S6YpxfmnLWbN+5fwvqUZnboTOQYoiGROisVinLC4mRMWr+AP1i3npd8dYuvz+9j2wn5+8fTv+MXT
-vyPbWs+a04/jgtOXcHzbO5+OSESipSCSOS+IxTj1hFZOPaGVay8/hedfPcATz+/jmRc7+Nnjr/Kz
-x1/lxMXNrHn/EtasXMLCTP30jYrInKEgkki9naHfUBnYcNbyNs5a3sbAYJF/eamDrc/v47ndnfz4
-ly/z41++zKkntHLB6Us477TFNDckD2tDROYWBZFEqtah31AZiXfh+5eQTmdGyla+p57zV55Jvr/A
-076fJ367jxff6OLFN7r44SMvcsbJC1nz/iWcsyJLXUoj70TmIgWRRK6Wod/D5b/a/vqko+7Wnb2M
-dWcv40B3P0/u3M8Tz+/lNy938puXO0klA849Jcua05fw/pMXztq+icj0FERyVKl11N0Va07kijUn
-sqczz9bn9/HEb/fxxPOVf80NSS4+exmrTl7AKSe0ElSdApzqXieN0BOZGQoiOaYtXdTERy95Hx/5
-wHt5/uW9PL3rAM+8dICHfv0qD/36VRak61i1oo1lbU0sa2siU1/k18++RkPj6Ci8yWaEEJEjQ0Ek
-x5yJjmpyuW78lf1kW5rYcG6W3ECZ53d30pEr8M/PvDlm3bpkQGt6kNbmOlqaUzTEE/T0FchkOGJ0
-5CUySkEkx5xcrptHtr405qjmQMc+GpsyI6f1jjuunkx9wAWnLyE3kOCtjjxvduR5fW8Xr+ztYd+B
-PvYd6Bup/6vnOsk0Jjm+rYllbc0c39ZYeZ1tfkcj8ybaRh15yXylIJJjUkNj02EDICaSiAecdFya
-k46rrNvdfYjNz+0hVd/EoZ5BunoG6DjYQyIeZ/+hAfz1Ll54vWtMG5mmFMvamjg+/Df8erqAGr+N
-IvOVgkhkAol4wKKWeha11LO0NeDiM5eSybQwMFhkz4E8b7bneeWtA+w90M++g33sfO0gO187OKaN
-lqbUmHDKtjbQmq5jQXNq5F4pEVEQiUxr/PWchY2QXFhg755+Tj+xidNPbKJQLLG/M8dxi5rp6oW9
-B/rYc7B/woACSCZipBIBzQ0HaahL0FifIE6BWLnEcW05Mk1JWhpTpJLBEb1uNNG1qVSqRLkc07Up
-iYyCSI5qkw1MoIYDjlrrTnbTbfU1J4DB/l66D3WxcOEiFqabOf2kZgrFEu0Hcpx4fBt9gwFdPQN0
-9QzSeaiX9q7K0VS1517NAXtH3ifi0JapZ2FLA63NdSxI19HaXEdrcyr8WhlQkYjXNiP5RNemgtgb
-XHTGCbo2JZFREMlRbcqQaJ76+svbqTvRTbcTmeg+p3gQ4/RlqTEzQuRy3fzmlTz1jc30DxboHSiw
-d187gwWIJRroHSjQ218g3zfIofwgew/2T7kvmcZkJZjSdTTVJ2mqrxxlNdUnaWpI0BiWlQv9kKin
-rr6JeBheAYNTtv1OaFSgvB0KIjnq1RoSR7puraYLvMb6JI31SRhIEgRxFrZlR9br2L+HwYEB0q0L
-6Rso0j9Y5FCul5OOX0R/IaArN0BXzwAHewbZd7CP1/fXuv37iAcxUsmAumTAr/5lP5mm+pHAaqwf
-PV3YWBevnD4Mvy5payWVnPpPx5EeFahgO7ZNG0RmFgO+AawC+oEb3H131fIPA7cDQ8B33f3uyeqY
-2XLgXqBiAsRzAAAJhklEQVQE7HD3m8M2bgRuCtvY6O4PmFk98ANgMdANfNbdO83sAuBvw3Ufcfe/
-OQL9IDKj3m1YptMZ0mH1fE83Z5/cMOYICyp/lPsHi+T7hsj3F8j3D9F5sJvegSJ9AwV6B4oc6ulj
-z4EBiuWAwaESg4UifQNFDuXzlMv5mrcpEQ+oT8WpS8apSwYk4lCXjJNKBKSSAQFFDuWL1Df0k4wH
-JOIBpSJs33WA1swQdcmAulSi8jUZpy5sK5kIJgwWDXc/ttVyRPRRoM7dLzKzNcCdYRlmlgjfrwb6
-gC1m9o/AxZPUuRO4zd03mdk3zewa4AngFuBcoBHYbGYPA58HnnX3vzGzP6ISdn8OfBP4mLu/amYP
-mNkqd//NEeoPkTlvoiOs6glhUwGkGiFRzLOzvZOGpiZSCUglAkp9PSx5b4aFbYtH6gYMctbJC0jV
-NdPbPxpiHQe7efblTgiSI6HV2zdAXTJgsACDhRKDQyUO5gYZGCpRmvC63Nhwe3rXoSn3LRaDVDJO
-fbISTKlkPAy2Erm+IepSReJBjHg8oFws0Pf472hu6iSZCEgmKkGYTASkwlBLJQJSiTiJRIzB/t6R
-smQiIBkPaG1t0RHVHFBLEF0MPATg7lvN7LyqZSuBXe7eDWBmm4B1wIXj6qwO11/t7pvC1w8C/4rK
-0dFmdy8A3Wa2i8qR1MXAf6xa9/80szSQcvdXw/KfA5cDCiKZVyY6who/IexEAyomOhIrl8vke3IE
-sdhIiC1ojNOSjNOTbxpzvWz4VOHh32cBrQuzFIolCsUy7fv3UiKgMd1KoVCmUCyRz+dZuiBFLJ5i
-YKgUBlmx6nWJgaHiyOv+wQLdvYMMFUoUR1JuYMy2v7yn9qO4iQQxSCYqR2yJeIxUMk48qLxOxEfL
-h1/H4zGSY76OLo8HMYqFwZE68aDyb7R+jCCIEcRiNDc1VV6H78d+Zeyy4fLqZWPqVJ7ZNT5Qj6bT
-mbUEUQao/hhTMLPA3UsTLOsBWoD0uPKimcWB6r3PhfXHrztRG7mqsu5xbZxcwz6IHPPe6em/3t4e
-frU9d9hjN97uwI0giJEK4qSS0FQfr1zvWtA4sl7H/h768t20LlxEKhED4hzo6KAhmaB1yUSPARm9
-VtbZvpe6hgyZBYsolsoUi2U62vczMDBIQ3OGYqlMqVSmWCrT19fPiUvSxBMpBguVYMz39rOvaxCC
-RFi/RF9/P4ViiVgQr9QtlsgXigSxGKUyFIplCqUSpVJN3Ri5WIyRgIrFgDKUSiWIxSp/eMOyZCJG
-LBYQizFSHiM29n0sxve+cuWsbXstQdRNJQCGDYfQ8LLqE9Vp4OAkdYpmVhq3bleNbQyvm5tg3bG3
-uc9BQRDQe2j/mLJCfzf9QYJEfvS/oL8vTxAk6M3nZqQsYJDe/MCMf5+ZKJuJvjgat3tGynp7mUx/
-X+8R/97vRCwWozDYR2mojxiVP1ypWD/1jQlaW+vGrHugI0dX5x5aWhcQACkg39/B+xZlaF3YWrVe
-P0GQGhPA/b1dHDzYTUvrgtH1OjuIxeI0t7RSLpcpleDgwQMQi9PUnKFUhlK5TPehQ6TqKkeQpVK5
-UtZ9CIhT19BIqRwefeZ7KBQK1NU1UC5X7hYol8sMFQosy2ZIJFKUypVgHRwc5K3OymNRhtcdHBiA
-WIxEIjlSViwWyTTVEwvilMtlyuVKWU/fELEgHNpfhkKxQKlUIohDuQRlyhSLRSBGEA8Yvs+6VJzd
-9K3lp2ILcDVwfzhQ4LmqZTuBFWbWCvQClwBfD5dNVGe7ma1198eAK4FHgW3ARjNLAQ3AacAO4HHg
-KuCp8Osmd8+Z2YCZnQy8CnwQ+Mo02x/LZqOdRiWbPZOLIt0CmdhZUW+AiACx6aYaqRoBN/xbex2V
-wQlN4Qi5DwF/TeWo7h53/9ZEddz9RTM7Bfg2kKQSYje6e9nMrgf+NGxjo7v/1MwagPuApVRODH/K
-3feb2fnAfwYC4GF3v/3IdIWIiERh2iASERGZSbXNCyIiIjJDFEQiIhIpBZGIiERKQSQiIpE6Zic9
-nW6OvKNROKXSd4D3Urk9YiPwPDM0f5+ZfRn4UFj+BXffNku7WhMzW0xleP/lQJF52g8AZvaXwEeo
-jEj9BvAY87A/wt+R+6j8jhSAG5mHPxvh1Gr/l7tfOpNzfE60/2a2CPgRUA+8RWXU9JTTxx/LR0Qj
-c+QBt1KZ5+5o9xmgw93XAlcAf8fo/H3rgMDMrjGzJVTm77swXO8OM0syOn/fWuD7VObvg8r8fZ90
-90uANWa2yszOAda6+xrgWuC/zN5uTi/8g/MtKvevwTztBwAzWwdcGP6srwdOZP72x1VA3N0/AHwV
-+A/Ms74ws/+dym0yw3f6zvb+fxn4Yfj9/gX4s+m2+VgOojFz5AHnTb36UeH/YfQHI07lE9+54+bv
-2wCcTzh/XzgPYPX8fQ9VrXvZJPP3bQjXfRjA3d8A4uEnnbniP1H55XiLyv1n87UfoHJj9w4z+ynw
-T8DPmL/98SKQCM+ItFD5pD7f+uIl4GNV78fP8TmT+982URvTbfCxHEQTzpEX1cYcCe7e6+758Afj
-x8BfMTPz9000X+BwG5Ezs88B+939EUb3v/r/dl70Q5U2KjeZf4LKJ9ofMn/7o4fK/JMvAH8P3MU8
-+x1x959Q+ZA6bLb2f6Ly4bIpHdV/mKcx1Rx5Ry0zO4HK1Ej3uft/p3Led9iRmr9vovkC59K8ftcB
-G8zsl1Q+xX0PyFYtny/9MKwT+Hn46fZFKtdEq3/551N/fAF4yN2N0Z+NVNXy+dQXw2brb0Rmijam
-dCwH0RYq54uZYI68o1J4XvfnwF+4+31h8TNmtjZ8fSWwicr8fRebWcrMWjh8/j6omr8PGDCzk8PT
-GR8M23gc+KCZxczsRCDm7gdmYTen5e7r3P1Sd7+Uyjnofw08ON/6ocpmKuf5MbPjgSbgf4bXjmB+
-9ccBRj+Nd1EZkPXMPO2LYdtn+XdjS1Ubw99vSsfsqDngJ1Q+NW8J318X5cYcIbcCrcDt4WiVMvC/
-Av93eKFxJ3B/OH/fXVT+QMWoXKgcNLNvAvdZ5blRA8Cnwnb/jMool+H5+7bByPOlfh22cfNs7eQ7
-9CXg2/OxH8LRTpeY2ZNUtvHzVCYFvnse9sffAt8xs8eojCD8S+Bp5mdfDJvt342NYRs3Ah1VbUxK
-c82JiEikjuVTcyIichRQEImISKQURCIiEikFkYiIREpBJCIikVIQiYhIpBREIiISKQWRiIhE6v8H
-ZVVomhl+VeYAAAAASUVORK5CYII=
+<img src="data:image/png;base64,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
+UKcAAAAASUVORK5CYII=
 "
 >
 </div>
@@ -1142,7 +1108,7 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sample_len_del</span> <span class="o">=</span> <span class="n">sample_cnv_length</span><span class="p">(</span><span class="n">del_length</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;avg_cnv_per_individual&#39;</span><span class="p">])</span>
@@ -1161,7 +1127,7 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[199253 165731]
+<pre>[ 157318  219774  200308 1158441  157299  148601  118372  120567  151527]
 </pre>
 </div>
 </div>
@@ -1172,7 +1138,7 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Now I get n_del sample CNVs but I only know which block it belongs to</span>
@@ -1187,7 +1153,7 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Now for each sample block, I:</span>
@@ -1213,12 +1179,12 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Annotate data with gene names</span>
 <span class="n">samples</span> <span class="o">=</span> <span class="n">annotate_samples</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">gene_df</span><span class="p">)</span>
-<span class="c1">#print(samples)</span>
+<span class="c1"># print(samples)</span>
 </pre></div>
 
 </div>
@@ -1228,14 +1194,14 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># get causal genes in data</span>
-<span class="n">del_causal_genes_in_sample</span> <span class="o">=</span> <span class="n">get_causal_genes</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">[</span><span class="s2">&quot;causal_genes_del&quot;</span><span class="p">],</span> <span class="n">samples</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-<span class="n">dup_causal_genes_in_sample</span> <span class="o">=</span> <span class="n">get_causal_genes</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">[</span><span class="s2">&quot;causal_genes_dup&quot;</span><span class="p">],</span> <span class="n">samples</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">del_causal_genes_in_sample</span> <span class="o">=</span> <span class="n">get_causal_genes</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">,</span> <span class="n">samples</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="c1"># dup_causal_genes_in_sample = get_causal_genes(args.causal_genes[&quot;causal_genes_dup&quot;], samples[&#39;gene_name&#39;].tolist())</span>
 <span class="c1">#print (samples[&#39;gene_name&#39;].tolist())</span>
-<span class="nb">print</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">del_causal_genes_in_sample</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">((</span><span class="n">del_causal_genes_in_sample</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -1250,7 +1216,7 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>0
+<pre>[]
 </pre>
 </div>
 </div>
@@ -1270,12 +1236,11 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#k = 0.005 # prevalence of the disease</span>
 <span class="c1">#sim_args = {&#39;shape&#39;: 2, &#39;scale&#39;: 1}</span>
-
 <span class="n">num_causal_genes_in_sample</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">del_causal_genes_in_sample</span><span class="p">)</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">num_causal_genes_in_sample</span><span class="p">)</span>
 <span class="n">p</span> <span class="o">=</span> <span class="n">p_case</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;prevalence&quot;</span><span class="p">],</span> <span class="n">num_causal_genes_in_sample</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
@@ -1349,11 +1314,12 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">del_sample</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;del_sample_10.pkl&quot;</span><span class="p">)</span>
-<span class="n">dup_sample</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;dup_sample_test.pkl&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">del_sample</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;data/del_sample_10.pkl&quot;</span><span class="p">)</span>
+<span class="c1"># dup_sample = load_data(&quot;data/dup_sample_test.pkl&quot;)</span>
+<span class="c1"># print (del_sample)</span>
 </pre></div>
 
 </div>
@@ -1380,21 +1346,101 @@ ZVVomhl+VeYAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">del_sample_gene</span> <span class="o">=</span> <span class="n">get_gene_table</span><span class="p">(</span><span class="n">del_sample</span><span class="p">)</span>
-<span class="n">dup_sample_gene</span> <span class="o">=</span> <span class="n">get_gene_table</span><span class="p">(</span><span class="n">dup_sample</span><span class="p">)</span>
+<span class="c1"># dup_sample_gene = get_gene_table(dup_sample)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">del_sample_gene</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>        gene_name  n_case_gene  n_ctrl_gene  n_case_nogene  n_ctrl_nogene
+0            CHD8          5.0          0.0          235.0          103.0
+1          SNORD8          5.0          0.0          235.0          103.0
+2          METTL3          4.0          0.0          236.0          103.0
+3           RAB2B          4.0          0.0          236.0          103.0
+4          SNORD9          4.0          0.0          236.0          103.0
+5         SUPT16H          4.0          0.0          236.0          103.0
+6            TOX4          4.0          0.0          236.0          103.0
+7         RPGRIP1          3.0          0.0          237.0          103.0
+8           SALL2          3.0          0.0          237.0          103.0
+9          HNRNPC          2.0          0.0          238.0          103.0
+10      LINC00641          2.0          0.0          238.0          103.0
+11         OR5AU1          2.0          0.0          238.0          103.0
+12        MACROD2          2.0          1.0          238.0          102.0
+13       C22orf39          2.0          0.0          238.0          103.0
+14          CDC45          2.0          0.0          238.0          103.0
+15          CLDN5          2.0          0.0          238.0          103.0
+16         CLTCL1          2.0          0.0          238.0          103.0
+17         DGCR14          2.0          0.0          238.0          103.0
+18          DGCR2          2.0          0.0          238.0          103.0
+19           GSC2          2.0          0.0          238.0          103.0
+20           HIRA          2.0          0.0          238.0          103.0
+21        HSFY1P1          2.0          1.0          238.0          102.0
+22      LINC00895          2.0          0.0          238.0          103.0
+23      LINC01311          2.0          0.0          238.0          103.0
+24   LOC101929350          2.0          1.0          238.0          102.0
+25         MRPL40          2.0          0.0          238.0          103.0
+26        SLC25A1          2.0          0.0          238.0          103.0
+27          TSSK2          2.0          0.0          238.0          103.0
+28          UFD1L          2.0          0.0          238.0          103.0
+29           XKR3          2.0          1.0          238.0          102.0
+..            ...          ...          ...            ...            ...
+230  LOC100507477          0.0          1.0          240.0          102.0
+231       MIR3668          0.0          1.0          240.0          102.0
+232        ANKMY2          0.0          1.0          240.0          102.0
+233          BZW2          0.0          1.0          240.0          102.0
+234        FAM20C          0.0          1.0          240.0          102.0
+235  LOC100507642          0.0          1.0          240.0          102.0
+236  LOC102723672          0.0          1.0          240.0          102.0
+237  LOC105375115          0.0          1.0          240.0          102.0
+238     LOC442497          0.0          1.0          240.0          102.0
+239        LRRC72          0.0          1.0          240.0          102.0
+240       MIR6839          0.0          1.0          240.0          102.0
+241  WI2-2373I1.2          0.0          1.0          240.0          102.0
+242        ZNF107          0.0          1.0          240.0          102.0
+243         COX6C          0.0          1.0          240.0          102.0
+244        FBXO43          0.0          1.0          240.0          102.0
+245      MIR1273A          0.0          1.0          240.0          102.0
+246         MYOM2          0.0          1.0          240.0          102.0
+247        POLR2K          0.0          1.0          240.0          102.0
+248         RGS22          0.0          1.0          240.0          102.0
+249        RNF19A          0.0          1.0          240.0          102.0
+250       RUNX1T1          0.0          1.0          240.0          102.0
+251         SPAG1          0.0          1.0          240.0          102.0
+252        VPS13B          0.0          1.0          240.0          102.0
+253       FAM74A1          0.0          1.0          240.0          102.0
+254  LOC101928195          0.0          1.0          240.0          102.0
+255  LOC101929583          0.0          1.0          240.0          102.0
+256  LOC105375972          0.0          1.0          240.0          102.0
+257     LOC286297          0.0          1.0          240.0          102.0
+258     SPATA31A1          0.0          1.0          240.0          102.0
+259       ZNF658B          0.0          1.0          240.0          102.0
+
+[260 rows x 5 columns]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">del_stats_table</span> <span class="o">=</span> <span class="n">get_stats</span><span class="p">(</span><span class="n">del_sample_gene</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>

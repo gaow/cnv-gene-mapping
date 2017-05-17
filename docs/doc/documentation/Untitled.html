@@ -128,26 +128,59 @@ $( document ).ready(function(){
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="kn">library</span><span class="p">(</span>feather<span class="p">)</span>
 <span class="kn">library</span><span class="p">(</span>varbvs<span class="p">)</span>
-<span class="kr">for</span> <span class="p">(</span>dat <span class="kr">in</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/feather/del_sim_scale5_shape1_N100_M50_999.feather&quot;</span><span class="p">,</span> 
-            <span class="s">&quot;data/feather/del_sim_scaleNone_shapeNone_N100_M50_999.feather&quot;</span><span class="p">))</span> <span class="p">{</span>
-        
-        newdat <span class="o">=</span> <span class="kp">as.matrix</span><span class="p">(</span>read_feather<span class="p">(</span>dat<span class="p">))</span>
-        print <span class="p">(</span><span class="kp">dim</span><span class="p">(</span>newdat<span class="p">))</span>
-        newfit <span class="o">=</span> varbvs<span class="p">(</span>newdat<span class="p">[,</span><span class="m">-1</span><span class="p">],</span> <span class="kc">NULL</span><span class="p">,</span> newdat<span class="p">[,</span><span class="m">1</span><span class="p">],</span> family <span class="o">=</span> <span class="s">&quot;binomial&quot;</span><span class="p">,</span> 
-                        logodds <span class="o">=</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-3.0</span><span class="p">,</span><span class="m">-1</span><span class="p">,</span><span class="m">0.1</span><span class="p">),</span> sa <span class="o">=</span> <span class="m">1</span><span class="p">,</span> verbose <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
-        newfit<span class="o">$</span>summary <span class="o">=</span> <span class="kp">summary</span><span class="p">(</span>newfit<span class="p">)</span>
-        newfit<span class="o">$</span>w <span class="o">=</span> normalizelogweights<span class="p">(</span>newfit<span class="o">$</span>logw<span class="p">)</span>
-        newfit<span class="o">$</span>beta <span class="o">=</span> newfit<span class="o">$</span>mu <span class="o">%*%</span> <span class="kt">c</span><span class="p">(</span>newfit<span class="o">$</span>w<span class="p">)</span>
-        newfit<span class="o">$</span>var_names <span class="o">=</span> <span class="kp">colnames</span><span class="p">(</span>newdat<span class="p">[</span><span class="m">-1</span><span class="p">])</span>
-        print <span class="p">(</span>newfit<span class="o">$</span><span class="kp">summary</span><span class="p">)</span>
-        filename <span class="o">=</span> <span class="kp">paste</span><span class="p">(</span>dat<span class="p">,</span> <span class="s">&quot;.RDS&quot;</span><span class="p">,</span> sep<span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
-        <span class="kp">saveRDS</span><span class="p">(</span>newfit<span class="p">,</span> filename<span class="p">)</span>
-<span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>newdat <span class="o">=</span> read_feather<span class="p">(</span><span class="s">&quot;data/s2_mild.feather&quot;</span><span class="p">)</span>
+newfit <span class="o">=</span> varbvs<span class="p">(</span>newdat<span class="p">[,</span><span class="m">-1</span><span class="p">],</span> <span class="kc">NULL</span><span class="p">,</span> newdat<span class="p">[,</span><span class="m">1</span><span class="p">],</span> family <span class="o">=</span> <span class="s">&quot;binomial&quot;</span><span class="p">,</span> logodds <span class="o">=</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-3.0</span><span class="p">,</span><span class="m">-1</span><span class="p">,</span><span class="m">0.1</span><span class="p">),</span> sa <span class="o">=</span> <span class="m">1</span><span class="p">,</span> verbose <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_text output_error">
+<pre>
+Error in varbvs(newdat[, -1], NULL, newdat[, 1], family = &#34;binomial&#34;, : Input X must be a double-precision matrix with no missing values.
+Traceback:
+
+1. varbvs(newdat[, -1], NULL, newdat[, 1], family = &#34;binomial&#34;, 
+ .     logodds = seq(-3, -1, 0.1), sa = 1, verbose = F)
+2. stop(&#34;Input X must be a double-precision matrix with no missing values.&#34;)</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>print <span class="p">(</span>newdat<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -162,186 +195,20 @@ $( document ).ready(function(){
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[1]  100 1631
-Summary of fitted Bayesian variable selection model:
-family:     binomial   num. hyperparameter settings: 21
-samples:    100        iid variable selection prior: yes
-variables:  1630       fit prior var. of coefs (sa): no
-covariates: 1          fit approx. factors (eta):    yes
-maximum log-likelihood lower bound: -70.9305
-Hyperparameters: 
-        estimate Pr&gt;0.95             candidate values
-sa            NA [NA,NA]             1--1
-logodds    -2.28 [-3.00,-1.50]       (-3.00)--(-1.00)
-Selected variables by probability cutoff:
-&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
-    0     0     0     0     0     0 
-Top 5 variables by inclusion probability:
-  index  variable   prob PVE coef*  Pr(coef.&gt;0.95)
-1   784     LRRN3 0.0156  NA 0.978 [-0.396,+2.444]
-2  1207    IMMP2L 0.0156  NA 0.978 [-0.449,+2.356]
-3   838 LINC00448 0.0124  NA 0.837 [-0.679,+2.293]
-4  1496   CCDC141 0.0108  NA 0.669 [-0.829,+2.354]
-5  1561     TENM2 0.0108  NA 0.669 [-0.791,+2.307]
-*See help(varbvs) about interpreting coefficients in logistic regression.
-[1]  100 1490
-Summary of fitted Bayesian variable selection model:
-family:     binomial   num. hyperparameter settings: 21
-samples:    100        iid variable selection prior: yes
-variables:  1489       fit prior var. of coefs (sa): no
-covariates: 1          fit approx. factors (eta):    yes
-maximum log-likelihood lower bound: -70.9466
-Hyperparameters: 
-        estimate Pr&gt;0.95             candidate values
-sa            NA [NA,NA]             1--1
-logodds    -2.32 [-3.00,-1.50]       (-3.00)--(-1.00)
-Selected variables by probability cutoff:
-&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
-    0     0     0     0     0     0 
-Top 5 variables by inclusion probability:
-  index     variable    prob PVE  coef*  Pr(coef.&gt;0.95)
-1   880 LOC105375972 0.00969  NA  0.668 [-0.926,+2.189]
-2  1398        PTPRD 0.00969  NA  0.668 [-0.863,+2.276]
-3   870       BRINP3 0.00962  NA -0.664 [-2.248,+0.981]
-4   187       CTNND2 0.00956  NA -0.661 [-2.279,+0.933]
-5   754        MFSD6 0.00952  NA  0.659 [-0.977,+2.192]
-*See help(varbvs) about interpreting coefficients in logistic regression.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>newdata <span class="o">=</span> <span class="kp">readRDS</span><span class="p">(</span><span class="s">&quot;data/feather/del_sim_scale5_shape1_N100_M50_999.feather.RDS&quot;</span><span class="p">)</span>
-print <span class="p">(</span>newdata<span class="o">$</span><span class="kp">summary</span><span class="o">$</span>top.vars<span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  index  variable       prob PVE      coef  Pr(coef.&gt;0.95)
-1   784     LRRN3 0.01558894  NA 0.9779205 [-0.396,+2.444]
-2  1207    IMMP2L 0.01558697  NA 0.9778663 [-0.449,+2.356]
-3   838 LINC00448 0.01244915  NA 0.8366337 [-0.679,+2.293]
-4  1496   CCDC141 0.01076735  NA 0.6692474 [-0.829,+2.354]
-5  1561     TENM2 0.01076101  NA 0.6690785 [-0.791,+2.307]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>get_varbvs_rds <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>datalist<span class="p">){</span>
-    <span class="kr">for</span> <span class="p">(</span>dat <span class="kr">in</span> datalist<span class="p">){</span>
-        newdat <span class="o">=</span> <span class="kp">as.matrix</span><span class="p">(</span>read_feather<span class="p">(</span>dat<span class="p">))</span>
-        print <span class="p">(</span><span class="kp">dim</span><span class="p">(</span>newdat<span class="p">))</span>
-        newfit <span class="o">=</span> varbvs<span class="p">(</span>newdat<span class="p">[,</span><span class="m">-1</span><span class="p">],</span> <span class="kc">NULL</span><span class="p">,</span> newdat<span class="p">[,</span><span class="m">1</span><span class="p">],</span> family <span class="o">=</span> <span class="s">&quot;binomial&quot;</span><span class="p">,</span> 
-                        logodds <span class="o">=</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-3.0</span><span class="p">,</span><span class="m">-1</span><span class="p">,</span><span class="m">0.1</span><span class="p">),</span> sa <span class="o">=</span> <span class="m">1</span><span class="p">,</span> verbose <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
-        newfit<span class="o">$</span>summary <span class="o">=</span> <span class="kp">summary</span><span class="p">(</span>newfit<span class="p">)</span>
-        newfit<span class="o">$</span>w <span class="o">=</span> normalizelogweights<span class="p">(</span>newfit<span class="o">$</span>logw<span class="p">)</span>
-        newfit<span class="o">$</span>pip <span class="o">=</span> newfit<span class="o">$</span>alpha <span class="o">%*%</span> <span class="kt">c</span><span class="p">(</span>newfit<span class="o">$</span>w<span class="p">)</span>
-        newfit<span class="o">$</span>beta <span class="o">=</span> newfit<span class="o">$</span>mu <span class="o">%*%</span> <span class="kt">c</span><span class="p">(</span>newfit<span class="o">$</span>w<span class="p">)</span>
-        newfit<span class="o">$</span>var_names <span class="o">=</span> <span class="kp">colnames</span><span class="p">(</span>newdat<span class="p">[</span><span class="m">-1</span><span class="p">])</span>
-        print <span class="p">(</span>newfit<span class="o">$</span><span class="kp">summary</span><span class="p">)</span>
-        filename <span class="o">=</span> <span class="kp">paste</span><span class="p">(</span>dat<span class="p">,</span> <span class="s">&quot;.RDS&quot;</span><span class="p">,</span> sep<span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
-        <span class="kp">saveRDS</span><span class="p">(</span>newfit<span class="p">,</span> filename<span class="p">)</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>get_varbvs_rds<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/feather/del_sim_scale5_shape1_N100_M50_999.feather&quot;</span><span class="p">,</span> 
-            <span class="s">&quot;data/feather/del_sim_scaleNone_shapeNone_N100_M50_999.feather&quot;</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[1]  100 1631
-Summary of fitted Bayesian variable selection model:
-family:     binomial   num. hyperparameter settings: 21
-samples:    100        iid variable selection prior: yes
-variables:  1630       fit prior var. of coefs (sa): no
-covariates: 1          fit approx. factors (eta):    yes
-maximum log-likelihood lower bound: -70.9305
-Hyperparameters: 
-        estimate Pr&gt;0.95             candidate values
-sa            NA [NA,NA]             1--1
-logodds    -2.28 [-3.00,-1.50]       (-3.00)--(-1.00)
-Selected variables by probability cutoff:
-&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
-    0     0     0     0     0     0 
-Top 5 variables by inclusion probability:
-  index  variable   prob PVE coef*  Pr(coef.&gt;0.95)
-1   784     LRRN3 0.0156  NA 0.978 [-0.383,+2.364]
-2  1207    IMMP2L 0.0156  NA 0.978 [-0.464,+2.349]
-3   838 LINC00448 0.0124  NA 0.837 [-0.633,+2.374]
-4  1496   CCDC141 0.0108  NA 0.669 [-0.887,+2.413]
-5  1561     TENM2 0.0108  NA 0.669 [-1.048,+2.235]
-*See help(varbvs) about interpreting coefficients in logistic regression.
-[1]  100 1490
-Summary of fitted Bayesian variable selection model:
-family:     binomial   num. hyperparameter settings: 21
-samples:    100        iid variable selection prior: yes
-variables:  1489       fit prior var. of coefs (sa): no
-covariates: 1          fit approx. factors (eta):    yes
-maximum log-likelihood lower bound: -70.9466
-Hyperparameters: 
-        estimate Pr&gt;0.95             candidate values
-sa            NA [NA,NA]             1--1
-logodds    -2.32 [-3.00,-1.50]       (-3.00)--(-1.00)
-Selected variables by probability cutoff:
-&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
-    0     0     0     0     0     0 
-Top 5 variables by inclusion probability:
-  index     variable    prob PVE  coef*  Pr(coef.&gt;0.95)
-1   880 LOC105375972 0.00969  NA  0.668 [-0.819,+2.312]
-2  1398        PTPRD 0.00969  NA  0.668 [-0.992,+2.185]
-3   870       BRINP3 0.00962  NA -0.664 [-2.189,+0.955]
-4   187       CTNND2 0.00956  NA -0.661 [-2.164,+0.799]
-5   754        MFSD6 0.00952  NA  0.659 [-0.883,+2.230]
-*See help(varbvs) about interpreting coefficients in logistic regression.
+<pre># A tibble: 1,200 × 4
+   phenotype   `0`   `1`   `2`
+       &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+1          0     1     1     0
+2          1     1     1     0
+3          0     1     1     0
+4          0     1     1     0
+5          0     1     1     0
+6          0     1     1     0
+7          1     1     1     0
+8          1     1     1     0
+9          1     1     1     0
+10         1     1     1     0
+# ... with 1,190 more rows
 </pre>
 </div>
 </div>
