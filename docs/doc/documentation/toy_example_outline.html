@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8" />
+<title>toy_example_outline</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+
+
+
+
+
+
+<!-- Custom stylesheet, it must be in the same directory as the html file -->
+<link rel="stylesheet" href="custom.css">
+
+<!-- Loading mathjax macro -->
+<!-- Load mathjax -->
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- MathJax configuration -->
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        // Center justify equations in code and markdown cells. Elsewhere
+        // we use CSS to left justify single line equations in code cells.
+        displayAlign: 'center',
+        "HTML-CSS": {
+            styles: {'.MathJax_Display': {"margin": 0}},
+            linebreaks: { automatic: true }
+        }
+    });
+    </script>
+    <!-- End of mathjax configuration --></head>
+
+ <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+<style>  /* defined here in case the main.css below cannot be loaded */
+.lev1 {margin-left: 80px}
+.lev2 {margin-left: 100px}
+.lev3 {margin-left: 120px}
+.lev4 {margin-left: 140px}
+.lev5 {margin-left: 160px}
+.lev6 {margin-left: 180px}
+</style>
+
+<link rel="stylesheet" type="text/css" href="../../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../../css/toc2.css">
+
+<script src="../../js/toc2.js"></script>
+<script src="../../js/docs.js"></script>
+
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["STIX","TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+$( document ).ready(function(){
+
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false, 
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+
+            // fire the main function with these parameters
+
+
+            table_of_contents(cfg,st);
+
+            var file=analysisDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=documentation;
+            var pos=documentation.indexOf(file);
+        
+            for (var a=pos;a>=0;a--){
+                  var name=docs[a]
+                  $('<li><a href="'+name+'.html">'+name.replace(/_/g," ")+'</a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+
+
+            $('<li id="indexHome"><a href="../../documentation.html"><b>Analysis Home<b></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            for (var a=pos+1;a<docs.length;a++){
+                  var name=docs[a]
+                  $(".toc #toc-level0").append('<li><a href="'+name+'.html">'+name.replace(/_/g," ")+'</a></li>');
+            }
+            $("#toc-header").hide();
+
+    });
+</script>
+<body>
+  <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Toy-example-of-gene-configuration-overlapped-with-CNV">Toy example of gene configuration overlapped with CNV<a class="anchor-link" href="#Toy-example-of-gene-configuration-overlapped-with-CNV">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Outline">Outline<a class="anchor-link" href="#Outline">&#182;</a></h3><p>Suppose there are three adjacent genes, gene1, gene2 and gene3, on a genomic region. Only gene1 is causal gene. Simulated CNVs overlap with none, soly one, two adjacent or all the three genes.</p>
+<p>For one specific sample, each gene is either overlapped with one CNV or none, denoted as {0,1}. Whether the three genes overlap with CNV are denoted as one of the seven following scenarios: {0,0,0}, {1,0,0}, {0,1,0}, {0,0,1}, {1,1,0}, {0,1,1}, {1,1,1}.</p>
+<h4 id="Cases-and-Controls-assignment">Cases and Controls assignment<a class="anchor-link" href="#Cases-and-Controls-assignment">&#182;</a></h4><p>The fraction for each scenario is uncertain. Here I suppose {0,0,0} accounts for 0.5, the other six scenarios account for the other 0.5 evenly. For example, there are 600 samples for {0,0,0}, and 100 samples for the other six respectively. Half of all simulated samples are cases and the other are controls. Scenarios {0,0,0}, {0,1,0}, {0,0,1} and {0,1,1} tend to be controls, while the other three, {1,0,0}, {1,1,0} and {1,1,1}, tend to be cases, because they cover the causal gene. To determine the category, I simply simulated a normal random variable for each sample, and add a constant for each of those three scenarios, respectively, which tend to be cases. To be specific, 1.0 is added to {1,0,0}, 0.66 is added to {1,1,0}, 0.33 is added to {1,1,1}. These constants can be adjusted.</p>
+<h4 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h4><p>1) Use R package varbvs to calculate the posterior inclusion probability (pip) for each gene.</p>
+<p>2) Calculate odds ratio and p-value of Fisher's exact test for each gene.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h4><p>PIP for three genes</p>
+
+<pre><code>variable    prob        PVE coef        Pr(coef.&gt;0.95)
+gene1   0.999999816 NA  0.8815534   [+0.620,+1.157]
+gene2   0.012486887 NA  -0.1412246  [-0.394,+0.098]
+gene3   0.009969412 NA  -0.1118736  [-0.377,+0.150]
+</code></pre>
+<p>The pip for gene1 (causal) is close to 1 and pip for the other two genes are close to 0.</p>
+<p>Odds ratio for three genes</p>
+
+<pre><code>gene1    2.4518160045430979
+gene2    1.1974117130949771
+gene3    0.98237911337572137
+</code></pre>
+<p>Odds ratio for gene1 is most largest.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+    </div>
+  </div>
+</body>
+
+ 
+
+
+</html>

@@ -371,7 +371,6 @@ new <span class="o">&lt;-</span> <span class="kp">readRDS</span><span class="p">
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span>get_varbvs_rds <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>datalist<span class="p">){</span>
-    <span class="s">&#39;&#39;&#39;Input data feather&#39;&#39;&#39;</span>
     <span class="kr">for</span> <span class="p">(</span>dat <span class="kr">in</span> datalist<span class="p">){</span>
         newdat <span class="o">=</span> <span class="kp">as.matrix</span><span class="p">(</span>read_feather<span class="p">(</span>dat<span class="p">))</span>
         print <span class="p">(</span><span class="kp">dim</span><span class="p">(</span>newdat<span class="p">))</span>
