@@ -202,9 +202,9 @@ $( document ).ready(function(){
 <span class="n">n110</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">n011</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">n111</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">diff100</span> <span class="o">=</span> <span class="mf">0.66</span>
-<span class="n">diff110</span> <span class="o">=</span> <span class="mf">0.44</span>
-<span class="n">diff111</span> <span class="o">=</span> <span class="mf">0.22</span>
+<span class="n">diff100</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c1"># 0.66</span>
+<span class="n">diff110</span> <span class="o">=</span> <span class="mf">0.66</span> <span class="c1"># 0.44</span>
+<span class="n">diff111</span> <span class="o">=</span> <span class="mf">0.33</span> <span class="c1"># 0.22</span>
 <span class="n">sample</span> <span class="o">=</span> <span class="n">sample_config</span><span class="p">(</span><span class="n">n1</span><span class="o">=</span><span class="n">n000</span><span class="p">,</span> <span class="n">n2</span><span class="o">=</span><span class="n">n100</span><span class="p">,</span> <span class="n">n3</span><span class="o">=</span><span class="n">n010</span><span class="p">,</span> <span class="n">n4</span><span class="o">=</span><span class="n">n001</span><span class="p">,</span> <span class="n">n5</span><span class="o">=</span><span class="n">n110</span><span class="p">,</span> <span class="n">n6</span><span class="o">=</span><span class="n">n011</span><span class="p">,</span> <span class="n">n7</span><span class="o">=</span><span class="n">n111</span><span class="p">,</span> 
                        <span class="n">const1</span><span class="o">=</span><span class="n">diff111</span><span class="p">,</span> <span class="n">const2</span><span class="o">=</span><span class="n">diff100</span><span class="p">,</span> <span class="n">const3</span><span class="o">=</span><span class="n">diff110</span><span class="p">)</span>
 </pre></div>
@@ -243,10 +243,10 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_OR</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_OR</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">fisher</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -258,14 +258,14 @@ $( document ).ready(function(){
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[6]:</div>
+<div class="prompt output_prompt">Out[7]:</div>
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{&#39;gene1&#39;: 2.4518160045430979,
- &#39;gene2&#39;: 1.1974117130949771,
- &#39;gene3&#39;: 0.98237911337572137}</pre>
+<pre>{&#39;gene1&#39;: 5.4061609811311113,
+ &#39;gene2&#39;: 1.1209781660647247,
+ &#39;gene3&#39;: 0.26078522305818641}</pre>
 </div>
 
 </div>

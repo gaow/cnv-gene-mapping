@@ -140,9 +140,54 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Outline">Outline<a class="anchor-link" href="#Outline">&#182;</a></h3><p>Suppose there are three adjacent genes, gene1, gene2 and gene3, on a genomic region. Only gene1 is causal gene. Simulated CNVs overlap with none, soly one, two adjacent or all the three genes.</p>
+<h4 id="Convergence-of-genes-and-CNV">Convergence of genes and CNV<a class="anchor-link" href="#Convergence-of-genes-and-CNV">&#182;</a></h4><p>Suppose there are three adjacent genes, gene1, gene2 and gene3, on a genomic region. Only gene1 is causal gene. Simulated CNVs overlap with none, soly one, two adjacent or all the three genes.</p>
 <p>For one specific sample, each gene is either overlapped with one CNV or none, denoted as {0,1}. Whether the three genes overlap with CNV are denoted as one of the seven following scenarios: {0,0,0}, {1,0,0}, {0,1,0}, {0,0,1}, {1,1,0}, {0,1,1}, {1,1,1}.</p>
-<h4 id="Cases-and-Controls-assignment">Cases and Controls assignment<a class="anchor-link" href="#Cases-and-Controls-assignment">&#182;</a></h4><p>The fraction for each scenario is uncertain. Here I suppose {0,0,0} accounts for 0.5, the other six scenarios account for the other 0.5 evenly. For example, there are 600 samples for {0,0,0}, and 100 samples for the other six respectively. Half of all simulated samples are cases and the other are controls. Scenarios {0,0,0}, {0,1,0}, {0,0,1} and {0,1,1} tend to be controls, while the other three, {1,0,0}, {1,1,0} and {1,1,1}, tend to be cases, because they cover the causal gene. To determine the category, I simply simulated a normal random variable for each sample, and add a constant for each of those three scenarios, respectively, which tend to be cases. To be specific, 1.0 is added to {1,0,0}, 0.66 is added to {1,1,0}, 0.33 is added to {1,1,1}. These constants can be adjusted.</p>
+<h4 id="Cases-and-Controls-assignment">Cases and Controls assignment<a class="anchor-link" href="#Cases-and-Controls-assignment">&#182;</a></h4><p>The fraction for each scenario is uncertain. Here I suppose {0,0,0} accounts for 0.5, the other six scenarios account for the other 0.5 evenly. For example, there are 600 samples for {0,0,0}, and 100 samples for the other six respectively. Half of all simulated samples are cases and the other are controls. Scenarios {0,0,0}, {0,1,0}, {0,0,1} and {0,1,1} tend to be controls, while the other three, {1,0,0}, {1,1,0} and {1,1,1}, tend to be cases, because they cover the causal gene. To determine the category, I simply simulated a normal random variable for each sample, and add a constant for each of those three scenarios, respectively, which tend to be cases. To be specific, 1.0/0.66 is added to {1,0,0}, 0.66/0.44 is added to {1,1,0}, 0.33/0.22 is added to {1,1,1}. These constants can be adjusted.</p>
+<table>
+<thead><tr>
+<th style="text-align:center">Number</th>
+<th style="text-align:center">Scenario</th>
+<th style="text-align:center">Constant added</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">600</td>
+<td style="text-align:center">{0,0,0}</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">100</td>
+<td style="text-align:center">{1,0,0}</td>
+<td style="text-align:center">1.0 or 0.66</td>
+</tr>
+<tr>
+<td style="text-align:center">100</td>
+<td style="text-align:center">{0,1,0}</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">100</td>
+<td style="text-align:center">{0,0,1}</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">100</td>
+<td style="text-align:center">{1,1,0}</td>
+<td style="text-align:center">0.66 or 0.44</td>
+</tr>
+<tr>
+<td style="text-align:center">100</td>
+<td style="text-align:center">{0,1,1}</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">100</td>
+<td style="text-align:center">{1,1,1}</td>
+<td style="text-align:center">0.33 or 0.22</td>
+</tr>
+</tbody>
+</table>
 <h4 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h4><p>1) Use R package varbvs to calculate the posterior inclusion probability (pip) for each gene.</p>
 <p>2) Calculate odds ratio and p-value of Fisher's exact test for each gene.</p>
 
@@ -154,21 +199,49 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h4><p>PIP for three genes</p>
+<h4 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h4><p>1) Sample size: 1200,  constant added: $\textbf{0.66, 0.44 and 0.22}$</p>
+<p>PIP for three genes:</p>
 
-<pre><code>variable    prob        PVE coef        Pr(coef.&gt;0.95)
+<pre><code>variable    prob        PVE coef         Pr(coef.&gt;0.95)
 gene1   0.999999816 NA  0.8815534   [+0.620,+1.157]
 gene2   0.012486887 NA  -0.1412246  [-0.394,+0.098]
 gene3   0.009969412 NA  -0.1118736  [-0.377,+0.150]
 </code></pre>
 <p>The pip for gene1 (causal) is close to 1 and pip for the other two genes are close to 0.</p>
-<p>Odds ratio for three genes</p>
+<p>Odds ratio for three genes: odds ratio for gene1 is most largest.</p>
 
 <pre><code>gene1    2.4518160045430979
 gene2    1.1974117130949771
 gene3    0.98237911337572137
+
 </code></pre>
-<p>Odds ratio for gene1 is most largest.</p>
+<p>$-\text{log}_{10}$(p-value) for three genes:</p>
+
+<pre><code>gene1    5.4061609811311113
+gene2    0.798730116322797
+gene3    0.0237162043415813
+
+</code></pre>
+<p>2) Sample size: 1200,  constant added: $\textbf{1.0, 0.66 and 0.33}$</p>
+
+<pre><code>variable    prob       PVE  coef       Pr(coef.&gt;0.95)
+gene1   1.00000000  NA   1.3036892  [+1.028,+1.561]
+gene2   0.04018127  NA  -0.2375393  [-0.476,+0.010]
+gene3   0.02796016  NA  -0.2240704  [-0.488,+0.038]
+
+</code></pre>
+<p>Odds ratio for three genes:</p>
+
+<pre><code>gene1    3.763157894736842
+gene2    1.2527202527202528
+gene3    0.91492378589152779
+
+</code></pre>
+<p>$-\text{log}_{10}$(p-value) for three genes:</p>
+
+<pre><code>gene1    5.4061609811311113
+gene2    1.1209781660647247
+gene3    0.2607852230581864</code></pre>
 
 </div>
 </div>

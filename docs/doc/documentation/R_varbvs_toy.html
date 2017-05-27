@@ -172,7 +172,8 @@ $( document ).ready(function(){
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>get_rds_toy<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/toy_n000_600_n100_100_n010_100_n001_100_n110_100_n011_100_n111_100.feather&quot;</span><span class="p">))</span>
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># get_rds_toy(c(&quot;data/toy_n000_600_n100_100_n010_100_n001_100_n110_100_n011_100_n111_100.feather&quot;))</span>
+get_rds_toy<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/toy_n1_600_n2_100_n3_100_n4_100_n5_100_n6_100_n7_100.feather&quot;</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -191,9 +192,9 @@ $( document ).ready(function(){
 <table>
 <thead><tr><th scope=col>index</th><th scope=col>variable</th><th scope=col>prob</th><th scope=col>PVE</th><th scope=col>coef</th><th scope=col>Pr(coef.&gt;0.95)</th></tr></thead>
 <tbody>
-	<tr><td>1              </td><td>gene1          </td><td>0.999999816    </td><td>NA             </td><td> 0.8815534     </td><td>[+0.620,+1.157]</td></tr>
-	<tr><td>2              </td><td>gene2          </td><td>0.012486887    </td><td>NA             </td><td>-0.1412246     </td><td>[-0.394,+0.098]</td></tr>
-	<tr><td>3              </td><td>gene3          </td><td>0.009969412    </td><td>NA             </td><td>-0.1118736     </td><td>[-0.377,+0.150]</td></tr>
+	<tr><td>1              </td><td>gene1          </td><td>1.00000000     </td><td>NA             </td><td> 1.3036921     </td><td>[+1.040,+1.561]</td></tr>
+	<tr><td>2              </td><td>gene2          </td><td>0.04018374     </td><td>NA             </td><td>-0.2375421     </td><td>[-0.481,+0.001]</td></tr>
+	<tr><td>3              </td><td>gene3          </td><td>0.02796048     </td><td>NA             </td><td>-0.2240711     </td><td>[-0.516,+0.038]</td></tr>
 </tbody>
 </table>
 
@@ -278,9 +279,9 @@ Selected variables by probability cutoff:
     1     1     1     1     1     1 
 Top 3 variables by inclusion probability:
   index variable    prob PVE  coef*  Pr(coef.&gt;0.95)
-1     1    gene1 1.00000  NA  0.882 [+0.615,+1.143]
-2     2    gene2 0.01249  NA -0.141 [-0.373,+0.095]
-3     3    gene3 0.00997  NA -0.112 [-0.366,+0.158]
+1     1    gene1 1.00000  NA  0.882 [+0.623,+1.133]
+2     2    gene2 0.01249  NA -0.141 [-0.377,+0.102]
+3     3    gene3 0.00997  NA -0.112 [-0.348,+0.178]
 *See help(varbvs) about interpreting coefficients in logistic regression.
 </pre>
 </div>
