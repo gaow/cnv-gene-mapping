@@ -228,29 +228,18 @@ $( document ).ready(function(){
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 500 samples without any CNV in this region. 5 for 1010, 10 for 1001, 5 for 0101, 10 for 1101, 10 for 1011</span>
 <span class="c1"># 1010 can be divided into 1000 and 0010, 1101 can be divided into 1100 and 0001</span>
 <span class="c1"># So we add 25 for 1000 and 0001, 5 for 0010 and 0100, 10 for 1100 and 0011</span>
-<span class="n">n0000</span> <span class="o">=</span> <span class="mi">640</span>
-<span class="n">n1000</span> <span class="o">=</span> <span class="mi">60</span>
-<span class="n">n0001</span> <span class="o">=</span> <span class="mi">60</span>
-<span class="n">n1100</span> <span class="o">=</span> <span class="mi">80</span>
-<span class="n">n0011</span> <span class="o">=</span> <span class="mi">80</span>
-<span class="n">n1110</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">n0111</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">n1111</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">n0100</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">n0010</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">n0110</span> <span class="o">=</span> <span class="mi">15</span>
-<span class="n">n1010</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">n1001</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">n0101</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">n1101</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">n1011</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">diff1000</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c1"># 0.66</span>
-<span class="n">diff1100</span> <span class="o">=</span> <span class="mf">0.75</span> <span class="c1"># 0.44</span>
-<span class="n">diff1110</span> <span class="o">=</span> <span class="mf">0.50</span> <span class="c1"># 0.22</span>
+<span class="c1"># n0000 = 200; n1000 = 100; n0001 = 100; n1100 = 150; n0011 = 150; n1110 = 200; n0111 = 200; n1111 = 150</span>
+<span class="c1"># n0100 = 20; n0010 = 20; n0110 = 30; n1010 = 10; n1001 = 10; n0101 = 10; n1101 = 10; n1011 = 10</span>
+<span class="c1">### a special case</span>
+<span class="n">n0000</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span> <span class="n">n1000</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n0001</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n1100</span> <span class="o">=</span> <span class="mi">500</span><span class="p">;</span> <span class="n">n0011</span> <span class="o">=</span> <span class="mi">500</span><span class="p">;</span> <span class="n">n1110</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n0111</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n1111</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">n0100</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n0010</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n0110</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n1010</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n1001</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n0101</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n1101</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n1011</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">diff1000</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">diff1100</span> <span class="o">=</span> <span class="mf">0.75</span>
+<span class="n">diff1110</span> <span class="o">=</span> <span class="mf">0.50</span>
 <span class="n">diff1111</span> <span class="o">=</span> <span class="mf">0.25</span>
 <span class="n">sample</span> <span class="o">=</span> <span class="n">sample_4gene</span><span class="p">(</span><span class="n">n1</span><span class="o">=</span><span class="n">n0000</span><span class="p">,</span> <span class="n">n2</span><span class="o">=</span><span class="n">n1000</span><span class="p">,</span> <span class="n">n5</span><span class="o">=</span><span class="n">n0001</span><span class="p">,</span> <span class="n">n6</span><span class="o">=</span><span class="n">n1100</span><span class="p">,</span> <span class="n">n8</span><span class="o">=</span><span class="n">n0011</span><span class="p">,</span> <span class="n">n9</span><span class="o">=</span><span class="n">n1110</span><span class="p">,</span> <span class="n">n10</span><span class="o">=</span><span class="n">n0111</span><span class="p">,</span> <span class="n">n11</span><span class="o">=</span><span class="n">n1111</span><span class="p">,</span> <span class="n">n3</span><span class="o">=</span><span class="n">n0100</span><span class="p">,</span> 
                       <span class="n">n4</span><span class="o">=</span><span class="n">n0010</span><span class="p">,</span> <span class="n">n7</span><span class="o">=</span><span class="n">n0110</span><span class="p">,</span> <span class="n">n12</span> <span class="o">=</span> <span class="n">n1010</span><span class="p">,</span> <span class="n">n13</span> <span class="o">=</span> <span class="n">n1001</span><span class="p">,</span> <span class="n">n14</span> <span class="o">=</span> <span class="n">n0101</span><span class="p">,</span> <span class="n">n15</span> <span class="o">=</span> <span class="n">n1101</span><span class="p">,</span> <span class="n">n16</span> <span class="o">=</span> <span class="n">n1011</span><span class="p">,</span> 
-                      <span class="n">const2</span><span class="o">=</span><span class="n">diff1000</span><span class="p">,</span> <span class="n">const6</span><span class="o">=</span><span class="n">diff1100</span><span class="p">,</span> <span class="n">const9</span><span class="o">=</span><span class="n">diff1110</span><span class="p">,</span> <span class="n">const11</span><span class="o">=</span><span class="n">diff1111</span><span class="p">,</span> <span class="n">divide</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                      <span class="n">const2</span><span class="o">=</span><span class="n">diff1000</span><span class="p">,</span> <span class="n">const6</span><span class="o">=</span><span class="n">diff1100</span><span class="p">,</span> <span class="n">const9</span><span class="o">=</span><span class="n">diff1110</span><span class="p">,</span> <span class="n">const11</span><span class="o">=</span><span class="n">diff1111</span><span class="p">,</span> <span class="n">divide</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -307,18 +296,31 @@ $( document ).ready(function(){
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;gene1&#39;: 2.3031590024993891,
- &#39;gene2&#39;: 1.3592490912326189,
- &#39;gene3&#39;: 0.87626626606305447,
- &#39;gene4&#39;: 0.75974025974025972}
-{&#39;gene1&#39;: 5.4934888127143431,
- &#39;gene2&#39;: 1.9743215672164185,
- &#39;gene3&#39;: 0.54557255989613296,
- &#39;gene4&#39;: 1.5210780539773865}
+<pre>{&#39;gene1&#39;: 3.3693563248650782,
+ &#39;gene2&#39;: 3.3693563248650782,
+ &#39;gene3&#39;: 0.66511562323745066,
+ &#39;gene4&#39;: 0.66511562323745066}
+{&#39;gene1&#39;: 5.3846825395472706,
+ &#39;gene2&#39;: 5.3846825395472706,
+ &#39;gene3&#39;: 3.9780239260106884,
+ &#39;gene4&#39;: 3.9780239260106884}
 </pre>
 </div>
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># print (sample)</span>
+</pre></div>
+
+</div>
 </div>
 </div>
 

@@ -157,22 +157,6 @@ $( document ).ready(function(){
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>Cloning into &#39;dap&#39;...
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -186,13 +170,13 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">feather</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="n">fn</span> <span class="o">=</span> <span class="s2">&quot;data/toy_4genes_n_1280.feather&quot;</span>
-<span class="n">fout</span> <span class="o">=</span> <span class="s2">&quot;data/toy_4genes_n_1280.dap&quot;</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="s2">&quot;data/toy_4genes_n_1370.feather&quot;</span>
+<span class="n">fout</span> <span class="o">=</span> <span class="s2">&quot;data/toy_4genes_n_1370.dap&quot;</span>
 
 <span class="n">dat</span> <span class="o">=</span> <span class="n">feather</span><span class="o">.</span><span class="n">read_dataframe</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
 
@@ -243,15 +227,31 @@ $( document ).ready(function(){
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>run_dap(dat, fout)</p>
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">run_dap</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">fout</span><span class="p">)</span>
+</pre></div>
 
 </div>
 </div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">

@@ -140,9 +140,10 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Convergence-of-genes-and-CNV">Convergence of genes and CNV<a class="anchor-link" href="#Convergence-of-genes-and-CNV">&#182;</a></h4><p>Suppose there are three adjacent genes, gene1, gene2 and gene3, on a genomic region. Only gene1 is causal gene. Simulated CNVs overlap with none, soly one, two adjacent or all the three genes.</p>
+<h3 id="Convergence-of-genes-and-CNV">Convergence of genes and CNV<a class="anchor-link" href="#Convergence-of-genes-and-CNV">&#182;</a></h3><p>Suppose there are three adjacent genes, gene1, gene2 and gene3, on a genomic region. Only gene1 is causal gene. Simulated CNVs overlap with none, soly one, two adjacent or all the three genes.</p>
 <p>For one specific sample, each gene is either overlapped with one CNV or none, denoted as {0,1}. Whether the three genes overlap with CNV are denoted as one of the seven following scenarios: {0,0,0}, {1,0,0}, {0,1,0}, {0,0,1}, {1,1,0}, {0,1,1}, {1,1,1}.</p>
-<h4 id="Cases-and-Controls-assignment">Cases and Controls assignment<a class="anchor-link" href="#Cases-and-Controls-assignment">&#182;</a></h4><p>The fraction for each scenario is uncertain. Here I suppose {0,0,0} accounts for 0.5, the other six scenarios account for the other 0.5 evenly. For example, there are 600 samples for {0,0,0}, and 100 samples for the other six respectively. Half of all simulated samples are cases and the other are controls. Scenarios {0,0,0}, {0,1,0}, {0,0,1} and {0,1,1} tend to be controls, while the other three, {1,0,0}, {1,1,0} and {1,1,1}, tend to be cases, because they cover the causal gene. To determine the category, I simply simulated a normal random variable for each sample, and add a constant for each of those three scenarios, respectively, which tend to be cases. To be specific, 1.0/0.66 is added to {1,0,0}, 0.66/0.44 is added to {1,1,0}, 0.33/0.22 is added to {1,1,1}. These constants can be adjusted.</p>
+<h3 id="Cases-and-Controls-assignment">Cases and Controls assignment<a class="anchor-link" href="#Cases-and-Controls-assignment">&#182;</a></h3><h4 id="3-adjacent-genes">3 adjacent genes<a class="anchor-link" href="#3-adjacent-genes">&#182;</a></h4><p>The fraction for each scenario is uncertain. Here I suppose {0,0,0} accounts for 0.5, the other six scenarios account for the other 0.5 evenly. For example, there are 600 samples for {0,0,0}, and 100 samples for the other six respectively. Half of all simulated samples are cases and the other are controls. Scenarios {0,0,0}, {0,1,0}, {0,0,1} and {0,1,1} tend to be controls, while the other three, {1,0,0}, {1,1,0} and {1,1,1}, tend to be cases, because they cover the causal gene.</p>
+<p>To determine the category, I simply simulated a normal random variable for each sample, and add a constant for each of those three scenarios, respectively, which tend to be cases. To be specific, 1.0 ($1*\sigma$) is added to {1,0,0}, 0.66 is added to {1,1,0}, 0.33 is added to {1,1,1}. These constants can be adjusted. Since {1,0,1} are uncommon, and can be divided into {1,0,0} and {0,1,1}, I just ignored it.</p>
 <table>
 <thead><tr>
 <th style="text-align:center">Number</th>
@@ -188,41 +189,209 @@ $( document ).ready(function(){
 </tr>
 </tbody>
 </table>
-<h4 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h4><p>1) Use R package varbvs to calculate the posterior inclusion probability (pip) for each gene.</p>
-<p>2) Calculate odds ratio and p-value of Fisher's exact test for each gene.</p>
+<h4 id="4-adjacent-genes">4 adjacent genes<a class="anchor-link" href="#4-adjacent-genes">&#182;</a></h4><p>There are 16 scenarios, {1,0,0,0}, {1,1,0,0}, {1,1,1,1} etc.</p>
+<p>Extreme case</p>
+<table>
+<thead><tr>
+<th style="text-align:center">Number</th>
+<th style="text-align:center">Scenario</th>
+<th style="text-align:center">Constant added</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1000</td>
+<td style="text-align:center">{0,0,0,0}</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">500</td>
+<td style="text-align:center">{1,1,0,0}</td>
+<td style="text-align:center">0.75</td>
+</tr>
+<tr>
+<td style="text-align:center">500</td>
+<td style="text-align:center">{0,0,1,1}</td>
+</tr>
+</tbody>
+</table>
+<p>Normal case</p>
+<table>
+<thead><tr>
+<th style="text-align:center">Number</th>
+<th style="text-align:center">Scenario</th>
+<th style="text-align:center">Constant added</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">200</td>
+<td style="text-align:center">{0,0,0,0}</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">150</td>
+<td style="text-align:center">{1,1,1,1}</td>
+<td style="text-align:center">0.25</td>
+</tr>
+<tr>
+<td style="text-align:center">100</td>
+<td style="text-align:center">{1,0,0,0}</td>
+<td style="text-align:center">1.0</td>
+</tr>
+<tr>
+<td style="text-align:center">20</td>
+<td style="text-align:center">{0,1,0,0}</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">20</td>
+<td style="text-align:center">{0,0,1,0}</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">100</td>
+<td style="text-align:center">{0,0,0,1}</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">150</td>
+<td style="text-align:center">{1,1,0,0}</td>
+<td style="text-align:center">0.75</td>
+</tr>
+<tr>
+<td style="text-align:center">30</td>
+<td style="text-align:center">{0,1,1,0}</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">150</td>
+<td style="text-align:center">{0,0,1,1}</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">{1,0,1,0}</td>
+<td style="text-align:center">1.0</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">{0,1,0,1}</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">{1,0,0,1}</td>
+<td style="text-align:center">1.0</td>
+</tr>
+<tr>
+<td style="text-align:center">200</td>
+<td style="text-align:center">{1,1,1,0}</td>
+<td style="text-align:center">0.50</td>
+</tr>
+<tr>
+<td style="text-align:center">200</td>
+<td style="text-align:center">{0,1,1,1}</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">{1,1,0,1}</td>
+<td style="text-align:center">1.0</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">{1,0,1,1}</td>
+<td style="text-align:center">1.0</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h3><p>1) Use R package varbvs to calculate the posterior inclusion probability (PIP) for each gene.</p>
+<p>2) Use DAP to calculate PIP for each gene</p>
+<p>3) Calculate odds ratio and p-value of Fisher's exact test for each gene.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h4><p>1) Sample size: 1200,  constant added: $\textbf{0.66, 0.44 and 0.22}$</p>
-<p>PIP for three genes:</p>
+<h3 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h3><h4 id="4-genes,-extreme-case,-sample-size-2000">4 genes, extreme case, sample size 2000<a class="anchor-link" href="#4-genes,-extreme-case,-sample-size-2000">&#182;</a></h4><p>1) varbvs</p>
 
-<pre><code>variable    prob        PVE coef         Pr(coef.&gt;0.95)
-gene1   0.999999816 NA  0.8815534   [+0.620,+1.157]
-gene2   0.012486887 NA  -0.1412246  [-0.394,+0.098]
-gene3   0.009969412 NA  -0.1118736  [-0.377,+0.150]
-</code></pre>
-<p>The pip for gene1 (causal) is close to 1 and pip for the other two genes are close to 0.</p>
-<p>Odds ratio for three genes: odds ratio for gene1 is most largest.</p>
-
-<pre><code>gene1    2.4518160045430979
-gene2    1.1974117130949771
-gene3    0.98237911337572137
+<pre><code>variable    prob    PVE coef    Pr(coef.&gt;0.95)
+gene1   1.000000000 NA  1.20021579  [+1.007,+1.402]
+gene4   0.005535446 NA  -0.02558938 [-0.224,+0.168]
+gene3   0.005535398 NA  -0.02558722 [-0.231,+0.173]
+gene2   0.005522906 NA  0.01360461  [-0.208,+0.220]
 
 </code></pre>
-<p>$-\text{log}_{10}$(p-value) for three genes:</p>
+<p>2) DAP</p>
 
-<pre><code>gene1    5.4061609811311113
-gene2    0.798730116322797
-gene3    0.0237162043415813
+<pre><code>Posterior inclusion probability
+
+1 chr6.100001   5.48922e-01     26.142
+2 chr6.100002   5.48922e-01     26.142
+</code></pre>
+<p>3) OR and pvalue for Fisher's test
+Odds ratio for 4 genes:</p>
+
+<pre><code>gene1 3.3693563248650782
+gene2 3.3693563248650782
+gene3 0.66511562323745066
+gene4 0.66511562323745066
 
 </code></pre>
-<p>2) Sample size: 1200,  constant added: $\textbf{1.0, 0.66 and 0.33}$</p>
+<h4 id="4-genes,-sample-size-1370">4 genes, sample size 1370<a class="anchor-link" href="#4-genes,-sample-size-1370">&#182;</a></h4><p>1) varbvs</p>
+
+<pre><code>variable    prob    PVE coef    Pr(coef.&gt;0.95)
+gene1   1.00000000  NA  0.8859984   [+0.674,+1.094]
+gene2   0.12003916  NA  -0.2736790  [-0.484,-0.057]
+gene3   0.09093133  NA  -0.2622626  [-0.474,-0.047]
+gene4   0.02197247  NA  -0.1788246  [-0.384,+0.059]
+
+</code></pre>
+<p>2) DAP</p>
+
+<pre><code>Posterior inclusion probability
+
+1 chr6.100001   1.00000e+00     12.570
+2 chr6.100002   3.72234e-01     -1.489
+3 chr6.100003   1.37045e-01     -0.561
+
+</code></pre>
+<p>3) OR and pvalue for Fisher's test
+Odds ratio for 4 genes:</p>
+
+<pre><code>gene1 2.4161986980694548
+gene2 1.1126891862250494
+gene3 0.77924589107315501
+gene4 0.60945878072949899
+
+</code></pre>
+<p>$-\text{log}_{10}$(p-value) for 4 genes:</p>
+
+<pre><code>gene1 5.3922160065576534
+gene2 0.45027764339334964
+gene3 1.5928938699383275
+gene4 4.9480343315517779
+
+</code></pre>
+<h4 id="3-genes,-sample-size-1210">3 genes, sample size 1210<a class="anchor-link" href="#3-genes,-sample-size-1210">&#182;</a></h4><p>1) varbvs</p>
 
 <pre><code>variable    prob       PVE  coef       Pr(coef.&gt;0.95)
 gene1   1.00000000  NA   1.3036892  [+1.028,+1.561]
@@ -230,19 +399,51 @@ gene2   0.04018127  NA  -0.2375393  [-0.476,+0.010]
 gene3   0.02796016  NA  -0.2240704  [-0.488,+0.038]
 
 </code></pre>
-<p>Odds ratio for three genes:</p>
+<p>2) DAP</p>
+
+<pre><code>Posterior inclusion probability
+
+1 chr6.100001   1.00000e+00     15.761
+2 chr6.100002   6.98946e-02     -0.817
+3 chr6.100003   3.97663e-02     -1.567
+
+</code></pre>
+<p>3) OR and pvalue for Fisher's test
+Odds ratio for 3 genes:</p>
 
 <pre><code>gene1    3.763157894736842
 gene2    1.2527202527202528
 gene3    0.91492378589152779
 
 </code></pre>
-<p>$-\text{log}_{10}$(p-value) for three genes:</p>
+<p>$-\text{log}_{10}$(p-value) for 3 genes:</p>
 
 <pre><code>gene1    5.4061609811311113
 gene2    1.1209781660647247
 gene3    0.2607852230581864</code></pre>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Issue">Issue<a class="anchor-link" href="#Issue">&#182;</a></h3><h4 id="Constant-added-might-be-too-large">Constant added might be too large<a class="anchor-link" href="#Constant-added-might-be-too-large">&#182;</a></h4><h4 id="Size-for-each-scenario-might-not-accurate">Size for each scenario might not accurate<a class="anchor-link" href="#Size-for-each-scenario-might-not-accurate">&#182;</a></h4>
 </div>
 </div>
 </div>
