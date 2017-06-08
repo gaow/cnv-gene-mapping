@@ -128,7 +128,7 @@ $( document ).ready(function(){
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="kn">library</span><span class="p">(</span>feather<span class="p">)</span>
@@ -142,7 +142,7 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span>get_rds_toy <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>datalist<span class="p">){</span>
@@ -169,11 +169,11 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># get_rds_toy(c(&quot;data/toy_n000_600_n100_100_n010_100_n001_100_n110_100_n011_100_n111_100.feather&quot;))</span>
-get_rds_toy<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/toy_4genes_n_2000.feather&quot;</span><span class="p">))</span>
+get_rds_toy<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/toy_4genes_n1320_const0_causal1.feather&quot;</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -192,10 +192,10 @@ get_rds_toy<span class="p">(</span><span class="kt">c</span><span class="p">(</s
 <table>
 <thead><tr><th scope=col>index</th><th scope=col>variable</th><th scope=col>prob</th><th scope=col>PVE</th><th scope=col>coef</th><th scope=col>Pr(coef.&gt;0.95)</th></tr></thead>
 <tbody>
-	<tr><td>1              </td><td>gene1          </td><td>1.000000000    </td><td>NA             </td><td> 1.20021579    </td><td>[+1.007,+1.402]</td></tr>
-	<tr><td>4              </td><td>gene4          </td><td>0.005535446    </td><td>NA             </td><td>-0.02558938    </td><td>[-0.224,+0.168]</td></tr>
-	<tr><td>3              </td><td>gene3          </td><td>0.005535398    </td><td>NA             </td><td>-0.02558722    </td><td>[-0.231,+0.173]</td></tr>
-	<tr><td>2              </td><td>gene2          </td><td>0.005522906    </td><td>NA             </td><td> 0.01360461    </td><td>[-0.208,+0.220]</td></tr>
+	<tr><td>2              </td><td>gene2          </td><td>0.002438732    </td><td>NA             </td><td>-0.08537077    </td><td>[-0.284,+0.130]</td></tr>
+	<tr><td>1              </td><td>gene1          </td><td>0.002415618    </td><td>NA             </td><td>-0.08443071    </td><td>[-0.317,+0.131]</td></tr>
+	<tr><td>3              </td><td>gene3          </td><td>0.002001100    </td><td>NA             </td><td> 0.04889482    </td><td>[-0.164,+0.262]</td></tr>
+	<tr><td>4              </td><td>gene4          </td><td>0.001847391    </td><td>NA             </td><td> 0.02403800    </td><td>[-0.190,+0.221]</td></tr>
 </tbody>
 </table>
 

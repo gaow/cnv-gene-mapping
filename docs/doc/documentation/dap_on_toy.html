@@ -170,13 +170,15 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">feather</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="n">fn</span> <span class="o">=</span> <span class="s2">&quot;data/toy_4genes_n_1370.feather&quot;</span>
-<span class="n">fout</span> <span class="o">=</span> <span class="s2">&quot;data/toy_4genes_n_1370.dap&quot;</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="n">fn</span> <span class="o">=</span> <span class="s2">&quot;data/toy_4genes_n1320_const0_causal1.feather&quot;</span>
+<span class="n">fout</span> <span class="o">=</span> <span class="s2">&quot;data/toy_4genes_n1320_const0_causal1.dap&quot;</span>
 
 <span class="n">dat</span> <span class="o">=</span> <span class="n">feather</span><span class="o">.</span><span class="n">read_dataframe</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
 
@@ -187,6 +189,7 @@ $( document ).ready(function(){
 <span class="sd">        - grid file (of effect size): omega^2 + phi^2 is what we care. lets set it to</span>
 <span class="sd">            1 1; 2 2; 3 3 and 4 4 for now, as we only have one Y</span>
 <span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span>
     <span class="kn">import</span> <span class="nn">os</span>
     <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="kn">import</span> <span class="nn">time</span>
@@ -210,6 +213,7 @@ $( document ).ready(function(){
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;.grid&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">]))</span>
     <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&quot;{0} -d {1}.dat -g {1}.grid -t 8 -it 0.05 -prior {1}.prior &gt; {2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exec_path</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">fout</span><span class="p">))</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span>
 </pre></div>
 
 </div>
@@ -229,13 +233,30 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">run_dap</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">fout</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2017-06-06 16:03:38.755334
+2017-06-06 16:03:39.084285
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -259,6 +280,15 @@ $( document ).ready(function(){
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>%preview -n data/toy_4genes_n_1280.dap</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 
 <pre><code>1   7.2437e-01    2      7.465   [chr6.100001] [chr6.100003]
 2   2.1527e-01    1      6.938   [chr6.100001]
@@ -286,6 +316,7 @@ $( document ).ready(function(){
 <pre><code>1   7.2437e-01    2      7.465   [chr6.100001] [chr6.100003]
 </code></pre>
 <p>The last section of the output is the posterior inclusion probabilities (PIP) for top ranked genes, for example, PIP for gene1 is $0.9396$.</p>
+<p>The last column gives $\text{log}_{10}$ Bayes factor of the corresponding SNP/gene in single-SNP/gene testing.</p>
 
 </div>
 </div>

@@ -171,19 +171,20 @@ $( document ).ready(function(){
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">sample_3gene</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">n4</span><span class="p">,</span> <span class="n">n5</span><span class="p">,</span> <span class="n">n6</span><span class="p">,</span> <span class="n">n7</span><span class="p">,</span> <span class="n">const7</span><span class="p">,</span> <span class="n">const2</span><span class="p">,</span> <span class="n">const5</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">999</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">sample_3gene</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">n3</span><span class="p">,</span> <span class="n">n4</span><span class="p">,</span> <span class="n">n5</span><span class="p">,</span> <span class="n">n6</span><span class="p">,</span> <span class="n">n7</span><span class="p">,</span> <span class="n">const</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">999</span><span class="p">):</span>
     <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
     <span class="n">overlap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span> <span class="p">[</span><span class="n">s7</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n7</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">s1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n1</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">s2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n2</span><span class="p">)]</span> 
                        <span class="o">+</span> <span class="p">[</span><span class="n">s3</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n3</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">s4</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n4</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">s5</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n5</span><span class="p">)]</span> 
                        <span class="o">+</span> <span class="p">[</span><span class="n">s6</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n6</span><span class="p">)]</span> <span class="p">)</span>
-    <span class="n">config</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">const7</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n7</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n1</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">const2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n2</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n3</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n4</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">const5</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n5</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n6</span><span class="p">)]</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">const</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n7</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n1</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">const</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n2</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n3</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n4</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">const</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n5</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n6</span><span class="p">)]</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">i</span><span class="o">&gt;</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">config</span><span class="p">])</span>
     <span class="n">sample</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">config</span><span class="p">,</span> <span class="n">overlap</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;gene</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)])</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;gene1&quot;</span><span class="p">,</span> <span class="s2">&quot;gene2&quot;</span><span class="p">,</span> <span class="s2">&quot;gene3&quot;</span><span class="p">,</span> <span class="s2">&quot;phenotype&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
         <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">feather</span><span class="o">.</span><span class="n">write_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;data/toy_3genes_n_</span><span class="si">{}</span><span class="s2">.feather&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n1</span><span class="o">+</span><span class="n">n2</span><span class="o">+</span><span class="n">n3</span><span class="o">+</span><span class="n">n4</span><span class="o">+</span><span class="n">n5</span><span class="o">+</span><span class="n">n6</span><span class="o">+</span><span class="n">n7</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">df</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">,</span> <span class="n">counts</span>
 </pre></div>
 
 </div>
@@ -203,14 +204,55 @@ $( document ).ready(function(){
 <span class="n">n110</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">n011</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">n111</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">diff100</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c1"># 0.66</span>
-<span class="n">diff110</span> <span class="o">=</span> <span class="mf">0.66</span> <span class="c1"># 0.44</span>
-<span class="n">diff111</span> <span class="o">=</span> <span class="mf">0.33</span> <span class="c1"># 0.22</span>
-<span class="n">sample</span> <span class="o">=</span> <span class="n">sample_3gene</span><span class="p">(</span><span class="n">n1</span><span class="o">=</span><span class="n">n000</span><span class="p">,</span> <span class="n">n2</span><span class="o">=</span><span class="n">n100</span><span class="p">,</span> <span class="n">n3</span><span class="o">=</span><span class="n">n010</span><span class="p">,</span> <span class="n">n4</span><span class="o">=</span><span class="n">n001</span><span class="p">,</span> <span class="n">n5</span><span class="o">=</span><span class="n">n110</span><span class="p">,</span> <span class="n">n6</span><span class="o">=</span><span class="n">n011</span><span class="p">,</span> <span class="n">n7</span><span class="o">=</span><span class="n">n111</span><span class="p">,</span> 
-                       <span class="n">const7</span><span class="o">=</span><span class="n">diff111</span><span class="p">,</span> <span class="n">const2</span><span class="o">=</span><span class="n">diff100</span><span class="p">,</span> <span class="n">const5</span><span class="o">=</span><span class="n">diff110</span><span class="p">)</span>
+<span class="n">diff</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c1"># 0.66</span>
+<span class="n">sample</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">sample_3gene</span><span class="p">(</span><span class="n">n1</span><span class="o">=</span><span class="n">n000</span><span class="p">,</span> <span class="n">n2</span><span class="o">=</span><span class="n">n100</span><span class="p">,</span> <span class="n">n3</span><span class="o">=</span><span class="n">n010</span><span class="p">,</span> <span class="n">n4</span><span class="o">=</span><span class="n">n001</span><span class="p">,</span> <span class="n">n5</span><span class="o">=</span><span class="n">n110</span><span class="p">,</span> <span class="n">n6</span><span class="o">=</span><span class="n">n011</span><span class="p">,</span> <span class="n">n7</span><span class="o">=</span><span class="n">n111</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="n">diff</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>gene1  gene2  gene3  phenotype
+0      0      0      0            362
+                     1            238
+              1      0             61
+                     1             44
+       1      0      0             59
+                     1             41
+              1      0             62
+                     1             38
+1      0      0      0             22
+                     1             83
+       1      0      0             22
+                     1             78
+              1      0             17
+                     1             83
+dtype: int64
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -247,7 +289,7 @@ $( document ).ready(function(){
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_OR</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">fisher</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_OR</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">fisher</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -264,9 +306,9 @@ $( document ).ready(function(){
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{&#39;gene1&#39;: 5.4789381094439111,
- &#39;gene2&#39;: 1.2358384261227371,
- &#39;gene3&#39;: 0.1603845392738765}</pre>
+<pre>{&#39;gene1&#39;: 6.0277008310249309,
+ &#39;gene2&#39;: 1.8287671232876712,
+ &#39;gene3&#39;: 1.2455357142857142}</pre>
 </div>
 
 </div>
