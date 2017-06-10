@@ -128,7 +128,7 @@ $( document ).ready(function(){
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="kn">library</span><span class="p">(</span>feather<span class="p">)</span>
@@ -142,7 +142,7 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span>get_rds_toy <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>datalist<span class="p">){</span>
@@ -169,11 +169,11 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># get_rds_toy(c(&quot;data/toy_n000_600_n100_100_n010_100_n001_100_n110_100_n011_100_n111_100.feather&quot;))</span>
-get_rds_toy<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/toy_4genes_n1320_const0_causal1.feather&quot;</span><span class="p">))</span>
+get_rds_toy<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/toy_pos15_causal8_n1250.feather&quot;</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -192,10 +192,11 @@ get_rds_toy<span class="p">(</span><span class="kt">c</span><span class="p">(</s
 <table>
 <thead><tr><th scope=col>index</th><th scope=col>variable</th><th scope=col>prob</th><th scope=col>PVE</th><th scope=col>coef</th><th scope=col>Pr(coef.&gt;0.95)</th></tr></thead>
 <tbody>
-	<tr><td>2              </td><td>gene2          </td><td>0.002438732    </td><td>NA             </td><td>-0.08537077    </td><td>[-0.284,+0.130]</td></tr>
-	<tr><td>1              </td><td>gene1          </td><td>0.002415618    </td><td>NA             </td><td>-0.08443071    </td><td>[-0.317,+0.131]</td></tr>
-	<tr><td>3              </td><td>gene3          </td><td>0.002001100    </td><td>NA             </td><td> 0.04889482    </td><td>[-0.164,+0.262]</td></tr>
-	<tr><td>4              </td><td>gene4          </td><td>0.001847391    </td><td>NA             </td><td> 0.02403800    </td><td>[-0.190,+0.221]</td></tr>
+	<tr><td> 8             </td><td>pos8           </td><td>1.000000000    </td><td>NA             </td><td>1.5955125      </td><td>[+1.375,+1.831]</td></tr>
+	<tr><td>13             </td><td>pos13          </td><td>0.008163419    </td><td>NA             </td><td>0.1154095      </td><td>[-0.120,+0.342]</td></tr>
+	<tr><td>10             </td><td>pos10          </td><td>0.008019286    </td><td>NA             </td><td>0.1131944      </td><td>[-0.123,+0.342]</td></tr>
+	<tr><td>11             </td><td>pos11          </td><td>0.007751100    </td><td>NA             </td><td>0.1090041      </td><td>[-0.134,+0.350]</td></tr>
+	<tr><td>12             </td><td>pos12          </td><td>0.007520969    </td><td>NA             </td><td>0.1050648      </td><td>[-0.124,+0.342]</td></tr>
 </tbody>
 </table>
 
@@ -235,10 +236,10 @@ get_rds_toy<span class="p">(</span><span class="kt">c</span><span class="p">(</s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>newdat <span class="o">=</span> read_feather<span class="p">(</span><span class="s">&quot;data/toy_4genes_n_1440.feather&quot;</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>newdat <span class="o">=</span> read_feather<span class="p">(</span><span class="s">&quot;data/toy_pos15_causal8_n1250.feather&quot;</span><span class="p">)</span>
 newmatrix <span class="o">=</span> <span class="kt">matrix</span><span class="p">(</span><span class="kp">as.double</span><span class="p">(</span><span class="kp">unlist</span><span class="p">(</span>newdat<span class="p">)),</span> <span class="kp">dim</span><span class="p">(</span>newdat<span class="p">)[</span><span class="m">1</span><span class="p">],</span> <span class="kp">dim</span><span class="p">(</span>newdat<span class="p">)[</span><span class="m">2</span><span class="p">])</span>
 <span class="kp">colnames</span><span class="p">(</span>newmatrix<span class="p">)</span> <span class="o">=</span> <span class="kp">colnames</span><span class="p">(</span>newdat<span class="p">)</span>
 <span class="c1"># print (dim(newdat)[1])</span>
@@ -267,23 +268,24 @@ print <span class="p">(</span><span class="kp">summary</span><span class="p">(</
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Summary of fitted Bayesian variable selection model:
 family:     binomial   num. hyperparameter settings: 26
-samples:    1440       iid variable selection prior: yes
-variables:  4          fit prior var. of coefs (sa): no
+samples:    1250       iid variable selection prior: yes
+variables:  15         fit prior var. of coefs (sa): no
 covariates: 1          fit approx. factors (eta):    yes
-maximum log-likelihood lower bound: -971.6803
+maximum log-likelihood lower bound: -786.2700
 Hyperparameters: 
         estimate Pr&gt;0.95             candidate values
 sa            NA [NA,NA]             1--1
-logodds    -1.27 [-2.00,-1.00]       (-3.50)--(-1.00)
+logodds    -1.53 [-2.50,-1.00]       (-3.50)--(-1.00)
 Selected variables by probability cutoff:
 &gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
-    2     2     2     1     1     1 
-Top 4 variables by inclusion probability:
-  index variable   prob PVE  coef*  Pr(coef.&gt;0.95)
-1     1    gene1 1.0000  NA  0.870 [+0.659,+1.087]
-2     3    gene3 0.5730  NA -0.353 [-0.571,-0.153]
-3     2    gene2 0.0662  NA -0.238 [-0.440,-0.025]
-4     4    gene4 0.0282  NA -0.188 [-0.397,+0.005]
+    1     1     1     1     1     1 
+Top 5 variables by inclusion probability:
+  index variable    prob PVE coef*  Pr(coef.&gt;0.95)
+1     8     pos8 1.00000  NA 1.596 [+1.366,+1.821]
+2    13    pos13 0.00816  NA 0.115 [-0.101,+0.355]
+3    10    pos10 0.00802  NA 0.113 [-0.105,+0.357]
+4    11    pos11 0.00775  NA 0.109 [-0.111,+0.318]
+5    12    pos12 0.00752  NA 0.105 [-0.127,+0.335]
 *See help(varbvs) about interpreting coefficients in logistic regression.
 </pre>
 </div>
@@ -295,10 +297,21 @@ Top 4 variables by inclusion probability:
 
 <div class="output_html rendered_html output_subarea ">
 <ol class=list-inline>
-	<li>'gene1'</li>
-	<li>'gene2'</li>
-	<li>'gene3'</li>
-	<li>'gene4'</li>
+	<li>'pos1'</li>
+	<li>'pos2'</li>
+	<li>'pos3'</li>
+	<li>'pos4'</li>
+	<li>'pos5'</li>
+	<li>'pos6'</li>
+	<li>'pos7'</li>
+	<li>'pos8'</li>
+	<li>'pos9'</li>
+	<li>'pos10'</li>
+	<li>'pos11'</li>
+	<li>'pos12'</li>
+	<li>'pos13'</li>
+	<li>'pos14'</li>
+	<li>'pos15'</li>
 </ol>
 
 </div>
