@@ -169,11 +169,11 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># get_rds_toy(c(&quot;data/toy_n000_600_n100_100_n010_100_n001_100_n110_100_n011_100_n111_100.feather&quot;))</span>
-get_rds_toy<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/toy_pos15_causal8_n1250.feather&quot;</span><span class="p">))</span>
+get_rds_toy<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/toy_pos15_causal8_n1250_const1.feather&quot;</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -192,11 +192,11 @@ get_rds_toy<span class="p">(</span><span class="kt">c</span><span class="p">(</s
 <table>
 <thead><tr><th scope=col>index</th><th scope=col>variable</th><th scope=col>prob</th><th scope=col>PVE</th><th scope=col>coef</th><th scope=col>Pr(coef.&gt;0.95)</th></tr></thead>
 <tbody>
-	<tr><td> 8             </td><td>pos8           </td><td>1.000000000    </td><td>NA             </td><td>1.5955125      </td><td>[+1.375,+1.831]</td></tr>
-	<tr><td>13             </td><td>pos13          </td><td>0.008163419    </td><td>NA             </td><td>0.1154095      </td><td>[-0.120,+0.342]</td></tr>
-	<tr><td>10             </td><td>pos10          </td><td>0.008019286    </td><td>NA             </td><td>0.1131944      </td><td>[-0.123,+0.342]</td></tr>
-	<tr><td>11             </td><td>pos11          </td><td>0.007751100    </td><td>NA             </td><td>0.1090041      </td><td>[-0.134,+0.350]</td></tr>
-	<tr><td>12             </td><td>pos12          </td><td>0.007520969    </td><td>NA             </td><td>0.1050648      </td><td>[-0.124,+0.342]</td></tr>
+	<tr><td> 8             </td><td>pos8           </td><td>1.000000000    </td><td>NA             </td><td> 1.51201225    </td><td>[+1.286,+1.749]</td></tr>
+	<tr><td> 6             </td><td>pos6           </td><td>0.013264482    </td><td>NA             </td><td>-0.16318042    </td><td>[-0.375,+0.065]</td></tr>
+	<tr><td> 5             </td><td>pos5           </td><td>0.006990269    </td><td>NA             </td><td>-0.09408846    </td><td>[-0.319,+0.121]</td></tr>
+	<tr><td> 9             </td><td>pos9           </td><td>0.006778974    </td><td>NA             </td><td> 0.08909799    </td><td>[-0.145,+0.299]</td></tr>
+	<tr><td>15             </td><td>pos15          </td><td>0.005803543    </td><td>NA             </td><td>-0.06029096    </td><td>[-0.291,+0.163]</td></tr>
 </tbody>
 </table>
 
@@ -281,11 +281,11 @@ Selected variables by probability cutoff:
     1     1     1     1     1     1 
 Top 5 variables by inclusion probability:
   index variable    prob PVE coef*  Pr(coef.&gt;0.95)
-1     8     pos8 1.00000  NA 1.596 [+1.366,+1.821]
-2    13    pos13 0.00816  NA 0.115 [-0.101,+0.355]
-3    10    pos10 0.00802  NA 0.113 [-0.105,+0.357]
-4    11    pos11 0.00775  NA 0.109 [-0.111,+0.318]
-5    12    pos12 0.00752  NA 0.105 [-0.127,+0.335]
+1     8     pos8 1.00000  NA 1.596 [+1.370,+1.830]
+2    13    pos13 0.00816  NA 0.115 [-0.117,+0.362]
+3    10    pos10 0.00802  NA 0.113 [-0.106,+0.350]
+4    11    pos11 0.00775  NA 0.109 [-0.116,+0.359]
+5    12    pos12 0.00752  NA 0.105 [-0.109,+0.315]
 *See help(varbvs) about interpreting coefficients in logistic regression.
 </pre>
 </div>

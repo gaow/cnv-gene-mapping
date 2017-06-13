@@ -170,15 +170,15 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">feather</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
-<span class="n">fn</span> <span class="o">=</span> <span class="s2">&quot;data/toy_pos15_causal8_n1250.feather&quot;</span>
-<span class="n">fout</span> <span class="o">=</span> <span class="s2">&quot;data/toy_pos15_causal8_n1250.dap&quot;</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="s2">&quot;data/toy_pos15_causal8_n1250_const1.feather&quot;</span>
+<span class="n">fout</span> <span class="o">=</span> <span class="s2">&quot;data/toy_pos15_causal8_n1250_const1.dap&quot;</span>
 
 <span class="n">dat</span> <span class="o">=</span> <span class="n">feather</span><span class="o">.</span><span class="n">read_dataframe</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
 
@@ -233,7 +233,7 @@ $( document ).ready(function(){
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">run_dap</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">fout</span><span class="p">)</span>
@@ -251,8 +251,8 @@ $( document ).ready(function(){
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>2017-06-09 19:21:02.566816
-2017-06-09 19:21:03.118316
+<pre>2017-06-12 19:18:44.575000
+2017-06-12 19:18:45.779275
 </pre>
 </div>
 </div>
