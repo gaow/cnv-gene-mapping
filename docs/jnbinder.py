@@ -524,7 +524,7 @@ def make_index_nb(path, exclude):
         name = os.path.splitext(os.path.basename(fn))[0].replace('_', ' ')
         with open(fn) as f:
             data = json.load(f)
-        title = data["cells"][0]["source"][0][2:].strip()
+        title = re.compile('(^\W+|\W+$)').sub('', data["cells"][0]["source"][0]).strip()
         out += '''
   {
    "cell_type": "markdown",
@@ -533,7 +533,7 @@ def make_index_nb(path, exclude):
     "[%s](%s/%s)<br>\\n",
     "&nbsp; &nbsp; %s"
    ]
-  },''' % (name, path, os.path.splitext(os.path.basename(fn))[0] + '.html', title)
+  },''' % (name, path, os.path.splitext(os.path.basename(fn))[0] + '.html', title.replace('"', "'"))
     if len(sos_files):
         out += '''
   {
