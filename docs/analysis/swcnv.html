@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link rel="stylesheet"
+      href="../site_libs/highlight/textmate.css"
+      type="text/css" />
+<script src="../site_libs/highlight/highlight.js"></script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+<script src="../js/toc2.js"></script>
+<script src="../js/docs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["STIX","TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+<title>Gene Mapping with CNV</title>
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+<!-- code folding -->
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+<li>
+  <a href="../setup.html">Setup</a>
+</li>
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+    <a href="http://github.com/gaow/cnv-gene-mapping">
+    <span class="fa fa-github"></span>
+    </a>
+    </li>
+    </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="k">import</span> <span class="n">pprint</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sw_pheno</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../swcnv/swcnv.pheno&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span>
+<span class="n">sw_sum</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../swcnv/swcnv.qc6.cnv.summary&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span> <span class="c1"># &quot;CHR&quot;</span>
+<span class="n">sw_fam</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../swcnv/swcnv.qc6.fam&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+                       <span class="n">usecols</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;IID&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;Case-Ctrl&quot;</span><span class="p">])</span> <span class="c1"># sex and case-ctrl</span>
+<span class="n">sw_cnv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../swcnv/swcnv.qc6.cnv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span>
+<span class="n">sw_cluster</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../swcnv/swcnv.clusters&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span> <span class="c1"># Sw1, Sw2-4, Sw5-6</span>
+<span class="n">sw_cluster</span> <span class="o">=</span> <span class="n">sw_cluster</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;uFID&quot;</span><span class="p">:</span> <span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;uIID&quot;</span><span class="p">:</span> <span class="s2">&quot;IID&quot;</span><span class="p">})</span>
+<span class="n">sw_indiv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../swcnv/swcnv.qc6.cnv.indiv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span> <span class="c1"># &quot;NSEG&quot;: number of CNV in each sample</span>
+<span class="n">sw_cluster_indiv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">sw_cluster</span><span class="p">,</span> <span class="n">sw_indiv</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;IID&quot;</span><span class="p">])</span>
+<span class="n">sw_cluster_cnv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">sw_cluster</span><span class="p">,</span> <span class="n">sw_cnv</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;IID&quot;</span><span class="p">])</span>
+<span class="n">sw_cluster_cnv_indiv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">sw_cluster_cnv</span><span class="p">,</span> <span class="n">sw_indiv</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;IID&quot;</span><span class="p">])</span>
+<span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;CNV_LEN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;BP2&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;BP1&quot;</span><span class="p">])</span><span class="o">/</span><span class="mi">1000</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Number of Cases and Controls, 2: cases, 1: controls</span>
+<span class="n">sw_fam</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;Case-Ctrl&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[3]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>Case-Ctrl
+1    5917
+2    4719
+dtype: int64</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># sex by status</span>
+<span class="n">sex_by_casectrl</span> <span class="o">=</span> <span class="n">sw_fam</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Case-Ctrl&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">sex_by_casectrl</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Case-Ctrl  sex
+1          1      3034
+           2      2883
+2          1      2826
+           2      1893
+dtype: int64
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">prp_male_case</span> <span class="o">=</span> <span class="n">sex_by_casectrl</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">sex_by_casectrl</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">sex_by_casectrl</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">prp_male_case</span><span class="p">)</span>
+<span class="n">prp_male_ctrl</span> <span class="o">=</span> <span class="n">sex_by_casectrl</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">sex_by_casectrl</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">sex_by_casectrl</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">prp_male_ctrl</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.598855689765
+0.512759844516
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">sw_cluster_indiv</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;tr&quot;</span><span class="p">,</span> <span class="s2">&quot;PHE&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>tr            PHE
+scz_s234_eur  1      2137
+              2      1847
+scz_swe1_eur  1       206
+              2       207
+scz_swe5_eur  1      2456
+              2      1674
+scz_swe6_eur  1      1118
+              2       991
+dtype: int64
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># &quot;NSEG&quot;: number of CNV in each subject</span>
+<span class="n">mean_cnv_case_sw1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;NSEG&quot;</span><span class="p">][</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_swe1_eur&quot;</span><span class="p">]</span>
+                            <span class="p">[</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">mean_cnv_ctrl_sw1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;NSEG&quot;</span><span class="p">][</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_swe1_eur&quot;</span><span class="p">]</span>
+                            <span class="p">[</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">mean_cnv_case_sw1</span><span class="p">,</span> <span class="n">mean_cnv_ctrl_sw1</span><span class="p">)</span>
+<span class="n">mean_cnv_case_sw234</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;NSEG&quot;</span><span class="p">][</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_s234_eur&quot;</span><span class="p">]</span>
+                              <span class="p">[</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">mean_cnv_ctrl_sw234</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;NSEG&quot;</span><span class="p">][</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_s234_eur&quot;</span><span class="p">]</span>
+                              <span class="p">[</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">mean_cnv_case_sw234</span><span class="p">,</span> <span class="n">mean_cnv_ctrl_sw234</span><span class="p">)</span>
+<span class="n">mean_cnv_case_sw56</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;NSEG&quot;</span><span class="p">][</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_swe5_eur&quot;</span><span class="p">]</span>
+                            <span class="p">[</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+                            <span class="o">+</span> <span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;NSEG&quot;</span><span class="p">][</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_swe6_eur&quot;</span><span class="p">]</span>
+                            <span class="p">[</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">mean_cnv_ctrl_sw56</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;NSEG&quot;</span><span class="p">][</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="p">(</span><span class="s2">&quot;scz_swe5_eur&quot;</span><span class="p">)]</span>
+                             <span class="p">[</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+                            <span class="o">+</span> <span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;NSEG&quot;</span><span class="p">][</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_swe6_eur&quot;</span><span class="p">]</span>
+                            <span class="p">[</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">mean_cnv_case_sw56</span><span class="p">,</span> <span class="n">mean_cnv_ctrl_sw56</span><span class="p">)</span>
+<span class="n">mean_cnv_case</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;NSEG&quot;</span><span class="p">][</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">mean_cnv_ctrl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;NSEG&quot;</span><span class="p">][</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">mean_cnv_case</span><span class="p">,</span> <span class="n">mean_cnv_ctrl</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.05797101449 0.844660194175
+1.2360584732 1.20870379036
+0.758348968105 0.683547845551
+0.958465776648 0.878823728241
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">prp_del_case</span> <span class="o">=</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">prp_del_ctrl</span> <span class="o">=</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_case</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_case</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_ctrl</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_ctrl</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.38182622153437984
+0.38211538461538463
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">prp_del_case_sw1</span> <span class="o">=</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_swe1_eur&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">prp_del_ctrl_sw1</span> <span class="o">=</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_swe1_eur&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_case_sw1</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_case_sw1</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_ctrl_sw1</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_ctrl_sw1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.4794520547945205
+0.39080459770114945
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">prp_del_case_sw234</span> <span class="o">=</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_s234_eur&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">prp_del_ctrl_sw234</span> <span class="o">=</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_s234_eur&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_case_sw234</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_case_sw234</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_ctrl_sw234</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_ctrl_sw234</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.3587385019710907
+0.36624080526519553
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">prp_del_case_sw56</span> <span class="o">=</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_swe5_eur&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_swe6_eur&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">prp_del_ctrl_sw56</span> <span class="o">=</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_swe5_eur&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_swe6_eur&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_case_sw56</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_case_sw56</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_ctrl_sw56</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_ctrl_sw56</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.39732805541810984
+0.3982808022922636
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">median_cnv_len_case</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;CNV_LEN&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">median_cnv_len_ctrl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;CNV_LEN&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">median_cnv_len_case</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">median_cnv_len_ctrl</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>188.797
+182.711
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">median_cnv_len_case_sw1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;CNV_LEN&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_swe1_eur&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">median_cnv_len_ctrl_sw1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;CNV_LEN&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_swe1_eur&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">median_cnv_len_case_sw1</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">median_cnv_len_ctrl_sw1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>178.016
+181.313
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">median_cnv_len_case_sw234</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;CNV_LEN&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_s234_eur&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">median_cnv_len_ctrl_sw234</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;CNV_LEN&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_s234_eur&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">median_cnv_len_case_sw234</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">median_cnv_len_ctrl_sw234</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>188.213
+182.211
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">median_cnv_len_case_sw56</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;CNV_LEN&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_swe5_eur&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;CNV_LEN&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_swe6_eur&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="n">median_cnv_len_ctrl_sw56</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;CNV_LEN&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_swe5_eur&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;CNV_LEN&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_swe6_eur&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">median_cnv_len_case_sw56</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">median_cnv_len_ctrl_sw56</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>190.739
+183.127
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sw_mds</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../swcnv/swcnv.mds&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C_sum&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C1&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C2&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C3&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C4&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C5&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C6&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C7&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C8&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C9&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C10&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C_sum&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.00015782373
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
+</div>
+</div>
+</body>
+</html>

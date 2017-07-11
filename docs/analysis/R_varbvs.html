@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link rel="stylesheet"
+      href="../site_libs/highlight/textmate.css"
+      type="text/css" />
+<script src="../site_libs/highlight/highlight.js"></script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+<script src="../js/toc2.js"></script>
+<script src="../js/docs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["STIX","TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+<title>Gene Mapping with CNV</title>
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+<!-- code folding -->
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+<li>
+  <a href="../setup.html">Setup</a>
+</li>
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+    <a href="http://github.com/gaow/cnv-gene-mapping">
+    <span class="fa fa-github"></span>
+    </a>
+    </li>
+    </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># install package &quot;varbvs&quot; and load data</span>
+<span class="kn">library</span><span class="p">(</span>varbvs<span class="p">)</span>
+<span class="kn">library</span><span class="p">(</span>feather<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># trial</span>
+data<span class="p">(</span>leukemia<span class="p">)</span>
+<span class="c1"># names(leukemia)</span>
+print <span class="p">(</span>leukemia<span class="o">$</span>y<span class="p">)</span>
+fit <span class="o">&lt;-</span> varbvs<span class="p">(</span>leukemia<span class="o">$</span>x<span class="p">,</span> <span class="kc">NULL</span><span class="p">,</span> leukemia<span class="o">$</span>y<span class="p">,</span> family <span class="o">=</span> <span class="s">&quot;binomial&quot;</span><span class="p">,</span> logodds <span class="o">=</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-3.5</span><span class="p">,</span><span class="m">-1</span><span class="p">,</span><span class="m">0.1</span><span class="p">),</span> sa <span class="o">=</span> <span class="m">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre> [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1
+[39] 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 0 0 1 1 0 1 1 1 1 1 1 1 0 0 0 0 0 0
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="kp">names</span><span class="p">(</span>fit<span class="p">)</span>
+<span class="c1"># Compute Monte Carlo estimates of credible intervals for coefficients in the fitted variable selection model</span>
+varbvscoefcred<span class="p">(</span>fit<span class="p">,</span> vars<span class="o">=</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;X3441&quot;</span><span class="p">,</span> <span class="s">&quot;X3038&quot;</span><span class="p">,</span> <span class="s">&quot;X2141&quot;</span><span class="p">,</span> <span class="s">&quot;X2230&quot;</span><span class="p">,</span> <span class="s">&quot;X951&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>'family'</li>
+	<li>'n'</li>
+	<li>'n0'</li>
+	<li>'mu.cov'</li>
+	<li>'sa0'</li>
+	<li>'update.sigma'</li>
+	<li>'update.sa'</li>
+	<li>'optimize.eta'</li>
+	<li>'prior.same'</li>
+	<li>'logw'</li>
+	<li>'sigma'</li>
+	<li>'sa'</li>
+	<li>'logodds'</li>
+	<li>'alpha'</li>
+	<li>'mu'</li>
+	<li>'s'</li>
+	<li>'eta'</li>
+	<li>'model.pve'</li>
+</ol>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<dl>
+	<dt>$a</dt>
+		<dd><ol class=list-inline>
+	<li>-3.34594044405318</li>
+	<li>0.160285919449911</li>
+	<li>-1.17297675415351</li>
+	<li>0.111705256892244</li>
+	<li>0.0888599416021013</li>
+</ol>
+</dd>
+	<dt>$b</dt>
+		<dd><ol class=list-inline>
+	<li>-2.17559567049768</li>
+	<li>1.18617101721651</li>
+	<li>-0.095707608321667</li>
+	<li>1.21135281295143</li>
+	<li>1.20279400897618</li>
+</ol>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># read rds file</span>
+new <span class="o">&lt;-</span> <span class="kp">readRDS</span><span class="p">(</span><span class="s">&quot;data/del_sim_scale5_shape1_N1000_M50_999.varbvs.rds&quot;</span><span class="p">)</span>
+<span class="kp">names</span><span class="p">(</span>new<span class="p">)</span>
+<span class="kp">dim</span><span class="p">(</span>new<span class="o">$</span>mu<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>'family'</li>
+	<li>'n'</li>
+	<li>'n0'</li>
+	<li>'mu.cov'</li>
+	<li>'sa0'</li>
+	<li>'update.sigma'</li>
+	<li>'update.sa'</li>
+	<li>'optimize.eta'</li>
+	<li>'prior.same'</li>
+	<li>'logw'</li>
+	<li>'sigma'</li>
+	<li>'sa'</li>
+	<li>'logodds'</li>
+	<li>'alpha'</li>
+	<li>'mu'</li>
+	<li>'s'</li>
+	<li>'eta'</li>
+	<li>'model.pve'</li>
+	<li>'summary'</li>
+	<li>'w'</li>
+	<li>'pip'</li>
+	<li>'beta'</li>
+</ol>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>11312</li>
+	<li>26</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># get_summary &lt;- function(datalist){</span>
+<span class="c1">#     for (data in datalist){</span>
+<span class="c1">#         newdat = readRDS(data)</span>
+<span class="c1">#         print (newdat$summary$top.vars)</span>
+<span class="c1">#     }</span>
+<span class="c1"># }</span>
+<span class="c1"># get_summary(c(&quot;data/del_sim_scaleNone_shapeNone_N1000_M50_999.varbvs.rds&quot;, </span>
+<span class="c1">#               &quot;data/del_sim_scaleNone_shapeNone_N1000_M100_999.varbvs.rds&quot;, </span>
+<span class="c1">#               &quot;data/del_sim_scale3_shape1_N1000_M50_999.varbvs.rds&quot;, </span>
+<span class="c1">#               &quot;data/del_sim_scale3_shape1_N1000_M100_999.varbvs.rds&quot;, </span>
+<span class="c1">#               &quot;data/del_sim_scale5_shape1_N1000_M50_999.varbvs.rds&quot;, </span>
+<span class="c1">#               &quot;data/del_sim_scale5_shape1_N1000_M100_999.varbvs.rds&quot;))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># different prior for each gene, (1-pi)*p + pi*N(0,s^2)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>get_varbvs_rds <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>datalist<span class="p">){</span>
+    <span class="kr">for</span> <span class="p">(</span>dat <span class="kr">in</span> datalist<span class="p">){</span>
+        newdat <span class="o">=</span> <span class="kp">as.matrix</span><span class="p">(</span>read_feather<span class="p">(</span>dat<span class="p">))</span>
+        print <span class="p">(</span><span class="kp">dim</span><span class="p">(</span>newdat<span class="p">))</span>
+        newfit <span class="o">=</span> varbvs<span class="p">(</span>newdat<span class="p">[,</span><span class="m">-1</span><span class="p">],</span> <span class="kc">NULL</span><span class="p">,</span> newdat<span class="p">[,</span><span class="m">1</span><span class="p">],</span> family <span class="o">=</span> <span class="s">&quot;binomial&quot;</span><span class="p">,</span> 
+                        logodds <span class="o">=</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-3.0</span><span class="p">,</span><span class="m">-1</span><span class="p">,</span><span class="m">0.1</span><span class="p">),</span> sa <span class="o">=</span> <span class="m">1</span><span class="p">,</span> verbose <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
+        newfit<span class="o">$</span>summary <span class="o">=</span> <span class="kp">summary</span><span class="p">(</span>newfit<span class="p">)</span>
+        newfit<span class="o">$</span>w <span class="o">=</span> normalizelogweights<span class="p">(</span>newfit<span class="o">$</span>logw<span class="p">)</span>
+        newfit<span class="o">$</span>pip <span class="o">=</span> newfit<span class="o">$</span>alpha <span class="o">%*%</span> <span class="kt">c</span><span class="p">(</span>newfit<span class="o">$</span>w<span class="p">)</span>
+        newfit<span class="o">$</span>beta <span class="o">=</span> newfit<span class="o">$</span>mu <span class="o">%*%</span> <span class="kt">c</span><span class="p">(</span>newfit<span class="o">$</span>w<span class="p">)</span>
+        newfit<span class="o">$</span>var_names <span class="o">=</span> <span class="kp">colnames</span><span class="p">(</span>newdat<span class="p">[</span><span class="m">-1</span><span class="p">])</span>
+        print <span class="p">(</span>newfit<span class="o">$</span><span class="kp">summary</span><span class="p">)</span>
+        filename <span class="o">=</span> <span class="kp">paste</span><span class="p">(</span>dat<span class="p">,</span> <span class="s">&quot;.RDS&quot;</span><span class="p">,</span> sep<span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+        <span class="kp">saveRDS</span><span class="p">(</span>newfit<span class="p">,</span> filename<span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>get_varbvs_rds<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/del_sim_shape9_scale1_p0.005_N4000_M100_12.data.feather&quot;</span><span class="p">,</span>  
+                 <span class="s">&quot;data/del_sim_shape9_scale1_p0.005_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape5_scale1_p0.005_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape5_scale1_p0.005_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape3_scale1_p0.005_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape3_scale1_p0.005_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M100_12.data.feather&quot;</span><span class="p">,</span>
+                 <span class="s">&quot;data/del_sim_shape3_scale1_p0.01_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape3_scale1_p0.01_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape9_scale1_p0.01_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s">&quot;data/del_sim_shape9_scale1_p0.01_N4000_M200_12.data.feather&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1]  4000 21756
+Summary of fitted Bayesian variable selection model:
+family:     binomial   num. hyperparameter settings: 21
+samples:    4000       iid variable selection prior: yes
+variables:  21755      fit prior var. of coefs (sa): no
+covariates: 1          fit approx. factors (eta):    yes
+maximum log-likelihood lower bound: -2697.3874
+Hyperparameters: 
+        estimate Pr&gt;0.95             candidate values
+sa            NA [NA,NA]             1--1
+logodds    -1.84 [-2.00,-1.70]       (-3.00)--(-1.00)
+Selected variables by probability cutoff:
+&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
+   36    18    15    10    10     9 
+Top 5 variables by inclusion probability:
+  index variable prob PVE coef*  Pr(coef.&gt;0.95)
+1   315     RBAK    1  NA  2.51 [+1.649,+3.368]
+2 10668    PTPRT    1  NA  1.69 [+1.151,+2.250]
+3  2308 C6orf136    1  NA  2.34 [+1.575,+3.154]
+4   255 MIR219A1    1  NA  2.34 [+1.472,+3.135]
+5  5267    CNNM3    1  NA  1.97 [+1.274,+2.647]
+*See help(varbvs) about interpreting coefficients in logistic regression.
+[1]  4000 22047
+Summary of fitted Bayesian variable selection model:
+family:     binomial   num. hyperparameter settings: 21
+samples:    4000       iid variable selection prior: yes
+variables:  22046      fit prior var. of coefs (sa): no
+covariates: 1          fit approx. factors (eta):    yes
+maximum log-likelihood lower bound: -2546.7515
+Hyperparameters: 
+        estimate Pr&gt;0.95             candidate values
+sa            NA [NA,NA]             1--1
+logodds    -1.81 [-2.00,-1.70]       (-3.00)--(-1.00)
+Selected variables by probability cutoff:
+&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
+   41    22    20    19    16    14 
+Top 5 variables by inclusion probability:
+  index variable prob PVE coef*  Pr(coef.&gt;0.95)
+1    28  PCDHGA7    1  NA  3.41 [+2.942,+3.873]
+2   293  NBPF25P    1  NA  2.18 [+1.728,+2.668]
+3   243      TNF    1  NA  2.73 [+2.085,+3.324]
+4 21342  RPS6KA1    1  NA  2.40 [+1.739,+3.066]
+5 16114     CDH3    1  NA  2.24 [+1.600,+2.847]
+*See help(varbvs) about interpreting coefficients in logistic regression.
+[1]  4000 21403
+Summary of fitted Bayesian variable selection model:
+family:     binomial   num. hyperparameter settings: 21
+samples:    4000       iid variable selection prior: yes
+variables:  21402      fit prior var. of coefs (sa): no
+covariates: 1          fit approx. factors (eta):    yes
+maximum log-likelihood lower bound: -2749.7040
+Hyperparameters: 
+        estimate Pr&gt;0.95             candidate values
+sa            NA [NA,NA]             1--1
+logodds    -2.19 [-2.50,-1.80]       (-3.00)--(-1.00)
+Selected variables by probability cutoff:
+&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
+    7     6     4     3     2     2 
+Top 5 variables by inclusion probability:
+  index variable  prob PVE coef*  Pr(coef.&gt;0.95)
+1  6840   NBPF11 1.000  NA  2.46 [+1.856,+3.076]
+2   217   LY6G5B 0.951  NA  1.74 [+0.767,+2.573]
+3 16772    TRRAP 0.815  NA  1.75 [+0.830,+2.681]
+4  2349    HERC2 0.623  NA  1.07 [+0.544,+1.598]
+5  9664 MIR548H4 0.384  NA  1.63 [+0.680,+2.637]
+*See help(varbvs) about interpreting coefficients in logistic regression.
+[1]  4000 21650
+Summary of fitted Bayesian variable selection model:
+family:     binomial   num. hyperparameter settings: 21
+samples:    4000       iid variable selection prior: yes
+variables:  21649      fit prior var. of coefs (sa): no
+covariates: 1          fit approx. factors (eta):    yes
+maximum log-likelihood lower bound: -2771.1726
+Hyperparameters: 
+        estimate Pr&gt;0.95             candidate values
+sa            NA [NA,NA]             1--1
+logodds    -2.30 [-2.90,-2.00]       (-3.00)--(-1.00)
+Selected variables by probability cutoff:
+&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
+    8     5     3     1     0     0 
+Top 5 variables by inclusion probability:
+  index variable  prob PVE coef*  Pr(coef.&gt;0.95)
+1  2223   NPIPA5 0.828  NA  1.48 [+0.750,+2.234]
+2 19857    ASTN2 0.518  NA  1.40 [+0.657,+2.218]
+3  9759    DPP10 0.506  NA  1.27 [+0.564,+1.961]
+4  9684    RFWD2 0.499  NA  1.72 [+0.691,+2.641]
+5 17640    EPHA4 0.265  NA  1.36 [+0.619,+2.180]
+*See help(varbvs) about interpreting coefficients in logistic regression.
+[1]  4000 21582
+Summary of fitted Bayesian variable selection model:
+family:     binomial   num. hyperparameter settings: 21
+samples:    4000       iid variable selection prior: yes
+variables:  21581      fit prior var. of coefs (sa): no
+covariates: 1          fit approx. factors (eta):    yes
+maximum log-likelihood lower bound: -2776.5586
+Hyperparameters: 
+        estimate Pr&gt;0.95             candidate values
+sa            NA [NA,NA]             1--1
+logodds    -2.79 [-3.00,-2.40]       (-3.00)--(-1.00)
+Selected variables by probability cutoff:
+&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
+    0     0     0     0     0     0 
+Top 5 variables by inclusion probability:
+  index variable   prob PVE coef*  Pr(coef.&gt;0.95)
+1  7268    DOCK8 0.0282  NA  1.29 [+0.251,+2.289]
+2  1051    NCOA1 0.0190  NA  1.36 [+0.254,+2.440]
+3 21072    CELF4 0.0189  NA  1.03 [+0.272,+1.824]
+4 20731     AKT3 0.0183  NA  1.24 [+0.227,+2.240]
+5  8857    CELF1 0.0134  NA  1.32 [+0.146,+2.532]
+*See help(varbvs) about interpreting coefficients in logistic regression.
+[1]  4000 21464
+Summary of fitted Bayesian variable selection model:
+family:     binomial   num. hyperparameter settings: 21
+samples:    4000       iid variable selection prior: yes
+variables:  21463      fit prior var. of coefs (sa): no
+covariates: 1          fit approx. factors (eta):    yes
+maximum log-likelihood lower bound: -2772.2459
+Hyperparameters: 
+        estimate Pr&gt;0.95             candidate values
+sa            NA [NA,NA]             1--1
+logodds    -2.61 [-3.00,-2.20]       (-3.00)--(-1.00)
+Selected variables by probability cutoff:
+&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
+    0     0     0     0     0     0 
+Top 5 variables by inclusion probability:
+  index variable   prob PVE coef*  Pr(coef.&gt;0.95)
+1 13083  GALNT14 0.0689  NA  1.46 [+0.441,+2.473]
+2  9168   CEP112 0.0679  NA  1.34 [+0.385,+2.235]
+3 19316     BAG6 0.0500  NA  1.13 [+0.366,+1.878]
+4  4382     AIF1 0.0500  NA  1.13 [+0.416,+1.843]
+5 16699  SNORA38 0.0500  NA  1.13 [+0.356,+1.868]
+*See help(varbvs) about interpreting coefficients in logistic regression.
+[1]  4000 22060
+Summary of fitted Bayesian variable selection model:
+family:     binomial   num. hyperparameter settings: 21
+samples:    4000       iid variable selection prior: yes
+variables:  22059      fit prior var. of coefs (sa): no
+covariates: 1          fit approx. factors (eta):    yes
+maximum log-likelihood lower bound: -2727.6496
+Hyperparameters: 
+        estimate Pr&gt;0.95             candidate values
+sa            NA [NA,NA]             1--1
+logodds    -2.00 [-2.20,-1.80]       (-3.00)--(-1.00)
+Selected variables by probability cutoff:
+&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
+   16     9     8     7     6     5 
+Top 5 variables by inclusion probability:
+  index   variable  prob PVE coef*  Pr(coef.&gt;0.95)
+1  5209  MIR7641-2 1.000  NA  1.54 [+1.123,+1.948]
+2  2856    RPGRIP1 1.000  NA  2.27 [+1.589,+2.922]
+3   563    MIR6832 0.997  NA  1.97 [+1.126,+2.818]
+4  8794 GOLGA6L17P 0.986  NA  2.10 [+1.222,+2.975]
+5  1841       AMBN 0.959  NA  1.49 [+0.789,+2.167]
+*See help(varbvs) about interpreting coefficients in logistic regression.
+[1]  4000 21397
+Summary of fitted Bayesian variable selection model:
+family:     binomial   num. hyperparameter settings: 21
+samples:    4000       iid variable selection prior: yes
+variables:  21396      fit prior var. of coefs (sa): no
+covariates: 1          fit approx. factors (eta):    yes
+maximum log-likelihood lower bound: -2760.7506
+Hyperparameters: 
+        estimate Pr&gt;0.95             candidate values
+sa            NA [NA,NA]             1--1
+logodds    -2.43 [-2.90,-2.10]       (-3.00)--(-1.00)
+Selected variables by probability cutoff:
+&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
+    5     4     3     3     2     2 
+Top 5 variables by inclusion probability:
+  index  variable  prob PVE coef*  Pr(coef.&gt;0.95)
+1  3520     HCG24 1.000  NA  2.52 [+1.757,+3.265]
+2  1448       UBD 0.983  NA  2.14 [+1.267,+3.026]
+3   531   PCDHGA4 0.862  NA  1.68 [+0.763,+2.536]
+4 20438 LOC730100 0.266  NA  1.14 [+0.471,+1.786]
+5 18489      NAV2 0.153  NA  1.41 [+0.470,+2.365]
+*See help(varbvs) about interpreting coefficients in logistic regression.
+[1]  4000 21698
+Summary of fitted Bayesian variable selection model:
+family:     binomial   num. hyperparameter settings: 21
+samples:    4000       iid variable selection prior: yes
+variables:  21697      fit prior var. of coefs (sa): no
+covariates: 1          fit approx. factors (eta):    yes
+maximum log-likelihood lower bound: -2772.6999
+Hyperparameters: 
+        estimate Pr&gt;0.95             candidate values
+sa            NA [NA,NA]             1--1
+logodds    -2.52 [-3.00,-2.10]       (-3.00)--(-1.00)
+Selected variables by probability cutoff:
+&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
+    0     0     0     0     0     0 
+Top 5 variables by inclusion probability:
+  index  variable   prob PVE coef*  Pr(coef.&gt;0.95)
+1  5640     C5AR2 0.0888  NA  1.45 [+0.476,+2.413]
+2 21125 KRTAP13-1 0.0753  NA  1.32 [+0.387,+2.225]
+3  4833   MIR4327 0.0753  NA  1.32 [+0.341,+2.250]
+4 17320 KRTAP13-2 0.0753  NA  1.32 [+0.375,+2.268]
+5 19536 KRTAP13-4 0.0480  NA  1.27 [+0.360,+2.195]
+*See help(varbvs) about interpreting coefficients in logistic regression.
+[1]  4000 22119
+Summary of fitted Bayesian variable selection model:
+family:     binomial   num. hyperparameter settings: 21
+samples:    4000       iid variable selection prior: yes
+variables:  22118      fit prior var. of coefs (sa): no
+covariates: 1          fit approx. factors (eta):    yes
+maximum log-likelihood lower bound: -2664.3734
+Hyperparameters: 
+        estimate Pr&gt;0.95             candidate values
+sa            NA [NA,NA]             1--1
+logodds    -1.69 [-1.80,-1.60]       (-3.00)--(-1.00)
+Selected variables by probability cutoff:
+&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
+   57    24    15    13    11    10 
+Top 5 variables by inclusion probability:
+  index    variable  prob PVE coef*  Pr(coef.&gt;0.95)
+1 18247   MIR7641-2 1.000  NA  2.07 [+1.674,+2.486]
+2 20127       HCG18 1.000  NA  2.36 [+1.605,+3.109]
+3 20682        CDK7 1.000  NA  2.52 [+1.708,+3.337]
+4  4044       HNF4A 0.999  NA  2.13 [+1.285,+2.942]
+5   107 SNORD115-33 0.999  NA  2.20 [+1.238,+3.084]
+*See help(varbvs) about interpreting coefficients in logistic regression.
+[1]  4000 22138
+Summary of fitted Bayesian variable selection model:
+family:     binomial   num. hyperparameter settings: 21
+samples:    4000       iid variable selection prior: yes
+variables:  22137      fit prior var. of coefs (sa): no
+covariates: 1          fit approx. factors (eta):    yes
+maximum log-likelihood lower bound: -2738.7279
+Hyperparameters: 
+        estimate Pr&gt;0.95             candidate values
+sa            NA [NA,NA]             1--1
+logodds    -2.04 [-2.30,-1.80]       (-3.00)--(-1.00)
+Selected variables by probability cutoff:
+&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
+   16     4     4     4     3     3 
+Top 5 variables by inclusion probability:
+  index variable  prob PVE coef*  Pr(coef.&gt;0.95)
+1    66  MIR6873 1.000  NA  2.63 [+1.944,+3.384]
+2 19973  FAM74A1 1.000  NA  1.75 [+1.160,+2.344]
+3  3513     ETS2 0.999  NA  2.09 [+1.276,+2.868]
+4 15674     WWOX 0.815  NA  1.45 [+0.752,+2.174]
+5 18968   ABCC11 0.231  NA  1.48 [+0.519,+2.535]
+*See help(varbvs) about interpreting coefficients in logistic regression.
+[1]  4000 21884
+Summary of fitted Bayesian variable selection model:
+family:     binomial   num. hyperparameter settings: 21
+samples:    4000       iid variable selection prior: yes
+variables:  21883      fit prior var. of coefs (sa): no
+covariates: 1          fit approx. factors (eta):    yes
+maximum log-likelihood lower bound: -2667.9919
+Hyperparameters: 
+        estimate Pr&gt;0.95             candidate values
+sa            NA [NA,NA]             1--1
+logodds    -1.75 [-1.90,-1.60]       (-3.00)--(-1.00)
+Selected variables by probability cutoff:
+&gt;0.10 &gt;0.25 &gt;0.50 &gt;0.75 &gt;0.90 &gt;0.95 
+   44    18    14    12     9     8 
+Top 5 variables by inclusion probability:
+  index  variable  prob PVE coef*  Pr(coef.&gt;0.95)
+1  8045 MIR7641-2 1.000  NA  1.86 [+1.506,+2.253]
+2 17108      DLG2 1.000  NA  2.12 [+1.642,+2.580]
+3    30 LINC01149 1.000  NA  2.35 [+1.520,+3.136]
+4   429 LOC728989 0.999  NA  2.09 [+1.299,+2.919]
+5   351     SETD5 0.987  NA  2.09 [+1.136,+2.985]
+*See help(varbvs) about interpreting coefficients in logistic regression.
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>aa <span class="o">&lt;-</span> <span class="kp">readRDS</span><span class="p">(</span><span class="s">&quot;data/del_sim_shape3_scale1_p0.01_N4000_M100_12.data.varbvs.rds&quot;</span><span class="p">)</span>
+<span class="kp">names</span><span class="p">(</span>aa<span class="p">)</span>
+<span class="kp">dim</span><span class="p">(</span>aa<span class="o">$</span>mu<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>'family'</li>
+	<li>'n'</li>
+	<li>'n0'</li>
+	<li>'mu.cov'</li>
+	<li>'sa0'</li>
+	<li>'update.sigma'</li>
+	<li>'update.sa'</li>
+	<li>'optimize.eta'</li>
+	<li>'prior.same'</li>
+	<li>'logw'</li>
+	<li>'sigma'</li>
+	<li>'sa'</li>
+	<li>'logodds'</li>
+	<li>'alpha'</li>
+	<li>'mu'</li>
+	<li>'s'</li>
+	<li>'eta'</li>
+	<li>'model.pve'</li>
+	<li>'summary'</li>
+	<li>'w'</li>
+	<li>'pip'</li>
+	<li>'beta'</li>
+</ol>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>5046</li>
+	<li>26</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
+</div>
+</div>
+</body>
+</html>
