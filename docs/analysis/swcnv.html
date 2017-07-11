@@ -120,6 +120,15 @@ body {
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Table-1-and-Figure-3-in-CNV-in-schizophrenia-in-Sweden">Table 1 and Figure 3 in CNV in schizophrenia in Sweden<a class="anchor-link" href="#Table-1-and-Figure-3-in-CNV-in-schizophrenia-in-Sweden">&#182;</a></h3>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
@@ -134,19 +143,28 @@ body {
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Table-1">Table 1<a class="anchor-link" href="#Table-1">&#182;</a></h4>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sw_pheno</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../swcnv/swcnv.pheno&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span>
-<span class="n">sw_sum</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../swcnv/swcnv.qc6.cnv.summary&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span> <span class="c1"># &quot;CHR&quot;</span>
-<span class="n">sw_fam</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../swcnv/swcnv.qc6.fam&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sw_pheno</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/swcnv/swcnv.pheno&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span>
+<span class="n">sw_sum</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/swcnv/swcnv.qc6.cnv.summary&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span> <span class="c1"># &quot;CHR&quot;</span>
+<span class="n">sw_fam</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/swcnv/swcnv.qc6.fam&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
                        <span class="n">usecols</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;IID&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;Case-Ctrl&quot;</span><span class="p">])</span> <span class="c1"># sex and case-ctrl</span>
-<span class="n">sw_cnv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../swcnv/swcnv.qc6.cnv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span>
-<span class="n">sw_cluster</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../swcnv/swcnv.clusters&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span> <span class="c1"># Sw1, Sw2-4, Sw5-6</span>
+<span class="n">sw_cnv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/swcnv/swcnv.qc6.cnv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span>
+<span class="n">sw_cluster</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/swcnv/swcnv.clusters&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span> <span class="c1"># Sw1, Sw2-4, Sw5-6</span>
 <span class="n">sw_cluster</span> <span class="o">=</span> <span class="n">sw_cluster</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;uFID&quot;</span><span class="p">:</span> <span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;uIID&quot;</span><span class="p">:</span> <span class="s2">&quot;IID&quot;</span><span class="p">})</span>
-<span class="n">sw_indiv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../swcnv/swcnv.qc6.cnv.indiv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span> <span class="c1"># &quot;NSEG&quot;: number of CNV in each sample</span>
+<span class="n">sw_indiv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/swcnv/swcnv.qc6.cnv.indiv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span> <span class="c1"># &quot;NSEG&quot;: number of CNV in each sample</span>
 <span class="n">sw_cluster_indiv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">sw_cluster</span><span class="p">,</span> <span class="n">sw_indiv</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;IID&quot;</span><span class="p">])</span>
 <span class="n">sw_cluster_cnv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">sw_cluster</span><span class="p">,</span> <span class="n">sw_cnv</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;IID&quot;</span><span class="p">])</span>
 <span class="n">sw_cluster_cnv_indiv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">sw_cluster_cnv</span><span class="p">,</span> <span class="n">sw_indiv</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;IID&quot;</span><span class="p">])</span>
@@ -321,6 +339,7 @@ dtype: int64
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">prp_del_case</span> <span class="o">=</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 <span class="n">prp_del_ctrl</span> <span class="o">=</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">][</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="c1"># 1 is deletion, 3 is duplication</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_case</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_case</span><span class="p">))</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_ctrl</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_ctrl</span><span class="p">))</span>
 </pre></div>
@@ -522,6 +541,1253 @@ dtype: int64
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Figure-3">Figure 3<a class="anchor-link" href="#Figure-3">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[135]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;PHE&quot;</span><span class="p">,</span> <span class="s2">&quot;TYPE&quot;</span><span class="p">]]</span>
+<span class="n">new</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">])]</span>
+<span class="n">new</span><span class="p">[</span><span class="s2">&quot;PHE_NEW&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">new</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">][</span><span class="n">new</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">new</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>          FID  PHE  TYPE  PHE_NEW
+0     PT-BPTP    2     1        1
+1     PT-BPAI    2     0        1
+2     PT-BSLJ    2     0        1
+3     PT-BQP5    2     0        1
+5     PT-BQGK    2     0        1
+6     PT-BSRL    2     0        1
+7     PT-BPTX    2     1        1
+8     PT-BPYW    2     1        1
+9     PT-BRL3    2     0        1
+10    PT-BRL3    2     0        1
+11    PT-BQ15    2     1        1
+12    PT-BQ15    2     0        1
+13    PT-BRLU    2     0        1
+14    PT-BQYE    2     0        1
+15    PT-BQ64    2     0        1
+16    PT-BQ64    2     0        1
+17    PT-BQ64    2     1        1
+18    PT-BQ64    2     1        1
+19    PT-BQ64    2     1        1
+20    PT-BSY2    2     0        1
+21    PT-BSY2    2     0        1
+22    PT-BSY2    2     0        1
+23    PT-BRMS    2     0        1
+24    PT-BRMS    2     0        1
+26    PT-BRLT    2     0        1
+27    PT-BRLT    2     0        1
+28    PT-BRLT    2     0        1
+30    PT-BRLT    2     0        1
+31    PT-BQNC    2     0        1
+32    PT-BR4V    2     0        1
+...       ...  ...   ...      ...
+9693  PT-P29A    1     0        0
+9694  PT-P29F    1     1        0
+9695  PT-P29L    1     0        0
+9696  PT-P29N    1     0        0
+9697  PT-P29P    1     0        0
+9698  PT-P29U    1     0        0
+9699  PT-P29U    1     0        0
+9700  PT-P2A5    1     1        0
+9701  PT-P2A6    1     1        0
+9702  PT-P2A6    1     1        0
+9703  PT-P2A6    1     1        0
+9704  PT-P2A9    1     0        0
+9705  PT-P2AB    1     0        0
+9706  PT-P2AE    1     1        0
+9707  PT-P2AJ    1     1        0
+9708  PT-P2AJ    1     0        0
+9709  PT-P2AM    1     1        0
+9710  PT-P2AP    1     0        0
+9711  PT-P2AP    1     1        0
+9712  PT-P2AV    1     1        0
+9713  PT-P2AW    1     0        0
+9714  PT-P2AX    1     0        0
+9715  PT-P2AX    1     1        0
+9716  PT-P2AY    1     0        0
+9717  PT-P2AY    1     0        0
+9718  PT-P2B1    1     1        0
+9719  PT-P2BA    1     1        0
+9720  PT-P2BE    1     1        0
+9721  PT-P2BG    1     0        0
+9722  PT-P2BI    1     0        0
+[9540 rows x 4 columns]
+</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/opt/miniconda3/lib/python3.5/site-packages/ipykernel_launcher.py:3: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+  This is separate from the ipykernel package so we can avoid doing imports until
+/opt/miniconda3/lib/python3.5/site-packages/ipykernel_launcher.py:4: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+  after removing the cwd from sys.path.
+/opt/miniconda3/lib/python3.5/site-packages/pandas/core/generic.py:4702: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+  self._update_inplace(new_data)
+/opt/miniconda3/lib/python3.5/site-packages/IPython/core/interactiveshell.py:2847: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+  exec(code_obj, self.user_global_ns, self.user_ns)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[136]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="n">new_logit</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Logit</span><span class="p">(</span><span class="n">new</span><span class="p">[</span><span class="s2">&quot;PHE_NEW&quot;</span><span class="p">],</span> <span class="n">new</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">])</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">new_logit</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">params</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Optimization terminated successfully.
+         Current function value: 0.692192
+         Iterations 3
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:                PHE_NEW   No. Observations:                 9540
+Model:                          Logit   Df Residuals:                     9539
+Method:                           MLE   Df Model:                            0
+Date:                Mon, 10 Jul 2017   Pseudo R-squ.:               -0.002106
+Time:                        19:41:10   Log-Likelihood:                -6603.5
+converged:                       True   LL-Null:                       -6589.6
+                                        LLR p-value:                       nan
+==============================================================================
+                 coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+TYPE          -0.1402      0.033     -4.263      0.000      -0.205      -0.076
+==============================================================================
+TYPE    0.869149
+dtype: float64
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sw_cluster_cnv_indiv</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[28]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>FID</th>
+      <th>IID</th>
+      <th>tr</th>
+      <th>CHR</th>
+      <th>BP1</th>
+      <th>BP2</th>
+      <th>TYPE</th>
+      <th>SCORE</th>
+      <th>SITES</th>
+      <th>PHE</th>
+      <th>NSEG</th>
+      <th>KB</th>
+      <th>KBAVG</th>
+      <th>CNV_LEN</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>PT-BPTP</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>7</td>
+      <td>9128802</td>
+      <td>9229882</td>
+      <td>1</td>
+      <td>65.0100</td>
+      <td>86</td>
+      <td>2</td>
+      <td>1</td>
+      <td>101.080</td>
+      <td>101.080</td>
+      <td>101.080</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>PT-BPAI</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>16</td>
+      <td>18228118</td>
+      <td>18727232</td>
+      <td>3</td>
+      <td>13.1300</td>
+      <td>41</td>
+      <td>2</td>
+      <td>1</td>
+      <td>499.114</td>
+      <td>499.114</td>
+      <td>499.114</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>PT-BSLJ</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>1</td>
+      <td>16869363</td>
+      <td>17005978</td>
+      <td>3</td>
+      <td>38.6800</td>
+      <td>55</td>
+      <td>2</td>
+      <td>1</td>
+      <td>136.615</td>
+      <td>136.615</td>
+      <td>136.615</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>PT-BQP5</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>16</td>
+      <td>18830938</td>
+      <td>19075191</td>
+      <td>3</td>
+      <td>97.8900</td>
+      <td>113</td>
+      <td>2</td>
+      <td>1</td>
+      <td>244.253</td>
+      <td>244.253</td>
+      <td>244.253</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>PT-BP9I</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>21</td>
+      <td>37481955</td>
+      <td>37619514</td>
+      <td>4</td>
+      <td>147.0000</td>
+      <td>100</td>
+      <td>2</td>
+      <td>1</td>
+      <td>137.559</td>
+      <td>137.559</td>
+      <td>137.559</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>PT-BQGK</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>15</td>
+      <td>97984319</td>
+      <td>99176197</td>
+      <td>3</td>
+      <td>811.3100</td>
+      <td>934</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1191.880</td>
+      <td>1191.880</td>
+      <td>1191.878</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>PT-BSRL</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>11</td>
+      <td>54773893</td>
+      <td>56010199</td>
+      <td>3</td>
+      <td>436.6850</td>
+      <td>623</td>
+      <td>2</td>
+      <td>1</td>
+      <td>1236.310</td>
+      <td>1236.310</td>
+      <td>1236.306</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>PT-BPTX</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>6</td>
+      <td>119714337</td>
+      <td>119951785</td>
+      <td>1</td>
+      <td>171.4600</td>
+      <td>133</td>
+      <td>2</td>
+      <td>1</td>
+      <td>237.448</td>
+      <td>237.448</td>
+      <td>237.448</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>PT-BPYW</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>9</td>
+      <td>11919831</td>
+      <td>12182949</td>
+      <td>1</td>
+      <td>313.6600</td>
+      <td>223</td>
+      <td>2</td>
+      <td>1</td>
+      <td>263.118</td>
+      <td>263.118</td>
+      <td>263.118</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>PT-BRL3</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>16</td>
+      <td>15072787</td>
+      <td>15241308</td>
+      <td>3</td>
+      <td>41.4400</td>
+      <td>62</td>
+      <td>2</td>
+      <td>2</td>
+      <td>1548.610</td>
+      <td>774.303</td>
+      <td>168.521</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>PT-BRL3</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>22</td>
+      <td>23689983</td>
+      <td>25070067</td>
+      <td>3</td>
+      <td>322.4150</td>
+      <td>757</td>
+      <td>2</td>
+      <td>2</td>
+      <td>1548.610</td>
+      <td>774.303</td>
+      <td>1380.084</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>PT-BQ15</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>7</td>
+      <td>125640231</td>
+      <td>125772441</td>
+      <td>1</td>
+      <td>130.6000</td>
+      <td>110</td>
+      <td>2</td>
+      <td>2</td>
+      <td>700.260</td>
+      <td>350.130</td>
+      <td>132.210</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>PT-BQ15</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>15</td>
+      <td>22673399</td>
+      <td>23241449</td>
+      <td>3</td>
+      <td>168.9300</td>
+      <td>305</td>
+      <td>2</td>
+      <td>2</td>
+      <td>700.260</td>
+      <td>350.130</td>
+      <td>568.050</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>PT-BRLU</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>22</td>
+      <td>16864898</td>
+      <td>17288220</td>
+      <td>3</td>
+      <td>116.7500</td>
+      <td>179</td>
+      <td>2</td>
+      <td>1</td>
+      <td>423.322</td>
+      <td>423.322</td>
+      <td>423.322</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>PT-BQYE</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>7</td>
+      <td>88150798</td>
+      <td>90161919</td>
+      <td>3</td>
+      <td>83.0420</td>
+      <td>1204</td>
+      <td>2</td>
+      <td>1</td>
+      <td>2011.120</td>
+      <td>2011.120</td>
+      <td>2011.121</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>PT-BQ64</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>6</td>
+      <td>57656301</td>
+      <td>58082951</td>
+      <td>3</td>
+      <td>148.1100</td>
+      <td>165</td>
+      <td>2</td>
+      <td>5</td>
+      <td>2102.920</td>
+      <td>420.584</td>
+      <td>426.650</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>PT-BQ64</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>6</td>
+      <td>61930020</td>
+      <td>62123362</td>
+      <td>3</td>
+      <td>79.7500</td>
+      <td>84</td>
+      <td>2</td>
+      <td>5</td>
+      <td>2102.920</td>
+      <td>420.584</td>
+      <td>193.342</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>PT-BQ64</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>9</td>
+      <td>45368770</td>
+      <td>46210382</td>
+      <td>1</td>
+      <td>14.4300</td>
+      <td>49</td>
+      <td>2</td>
+      <td>5</td>
+      <td>2102.920</td>
+      <td>420.584</td>
+      <td>841.612</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>PT-BQ64</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>9</td>
+      <td>68837844</td>
+      <td>69186411</td>
+      <td>1</td>
+      <td>17.9000</td>
+      <td>34</td>
+      <td>2</td>
+      <td>5</td>
+      <td>2102.920</td>
+      <td>420.584</td>
+      <td>348.567</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>PT-BQ64</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>9</td>
+      <td>69685271</td>
+      <td>69978022</td>
+      <td>1</td>
+      <td>33.2200</td>
+      <td>68</td>
+      <td>2</td>
+      <td>5</td>
+      <td>2102.920</td>
+      <td>420.584</td>
+      <td>292.751</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>PT-BSY2</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>1</td>
+      <td>248249108</td>
+      <td>248434821</td>
+      <td>3</td>
+      <td>112.9500</td>
+      <td>106</td>
+      <td>2</td>
+      <td>3</td>
+      <td>775.884</td>
+      <td>258.628</td>
+      <td>185.713</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>PT-BSY2</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>11</td>
+      <td>134348915</td>
+      <td>134719568</td>
+      <td>3</td>
+      <td>254.7000</td>
+      <td>342</td>
+      <td>2</td>
+      <td>3</td>
+      <td>775.884</td>
+      <td>258.628</td>
+      <td>370.653</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>PT-BSY2</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>17</td>
+      <td>26835922</td>
+      <td>27055440</td>
+      <td>3</td>
+      <td>49.8600</td>
+      <td>80</td>
+      <td>2</td>
+      <td>3</td>
+      <td>775.884</td>
+      <td>258.628</td>
+      <td>219.518</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>PT-BRMS</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>4</td>
+      <td>181479865</td>
+      <td>181583203</td>
+      <td>3</td>
+      <td>141.5200</td>
+      <td>81</td>
+      <td>2</td>
+      <td>2</td>
+      <td>413.028</td>
+      <td>206.514</td>
+      <td>103.338</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>PT-BRMS</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>22</td>
+      <td>33538320</td>
+      <td>33848010</td>
+      <td>3</td>
+      <td>340.3100</td>
+      <td>276</td>
+      <td>2</td>
+      <td>2</td>
+      <td>413.028</td>
+      <td>206.514</td>
+      <td>309.690</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>PT-BRLT</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>1</td>
+      <td>104163499</td>
+      <td>104303639</td>
+      <td>4</td>
+      <td>15.5600</td>
+      <td>30</td>
+      <td>2</td>
+      <td>6</td>
+      <td>3208.220</td>
+      <td>534.704</td>
+      <td>140.140</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>PT-BRLT</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>9</td>
+      <td>41475106</td>
+      <td>42065343</td>
+      <td>3</td>
+      <td>11.7800</td>
+      <td>48</td>
+      <td>2</td>
+      <td>6</td>
+      <td>3208.220</td>
+      <td>534.704</td>
+      <td>590.237</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>PT-BRLT</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>9</td>
+      <td>45054940</td>
+      <td>46331526</td>
+      <td>3</td>
+      <td>11.2600</td>
+      <td>65</td>
+      <td>2</td>
+      <td>6</td>
+      <td>3208.220</td>
+      <td>534.704</td>
+      <td>1276.586</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>PT-BRLT</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>9</td>
+      <td>68995234</td>
+      <td>69958201</td>
+      <td>3</td>
+      <td>19.1300</td>
+      <td>111</td>
+      <td>2</td>
+      <td>6</td>
+      <td>3208.220</td>
+      <td>534.704</td>
+      <td>962.967</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>PT-BRLT</td>
+      <td>1</td>
+      <td>scz_s234_eur</td>
+      <td>10</td>
+      <td>88997299</td>
+      <td>89117300</td>
+      <td>4</td>
+      <td>11.0700</td>
+      <td>18</td>
+      <td>2</td>
+      <td>6</td>
+      <td>3208.220</td>
+      <td>534.704</td>
+      <td>120.001</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>9693</th>
+      <td>PT-P29A</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>12</td>
+      <td>6079058</td>
+      <td>6402340</td>
+      <td>3</td>
+      <td>105.2600</td>
+      <td>101</td>
+      <td>1</td>
+      <td>2</td>
+      <td>682.496</td>
+      <td>341.248</td>
+      <td>323.282</td>
+    </tr>
+    <tr>
+      <th>9694</th>
+      <td>PT-P29F</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>6</td>
+      <td>169021311</td>
+      <td>170116319</td>
+      <td>1</td>
+      <td>83.4267</td>
+      <td>322</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1095.010</td>
+      <td>1095.010</td>
+      <td>1095.008</td>
+    </tr>
+    <tr>
+      <th>9695</th>
+      <td>PT-P29L</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>15</td>
+      <td>94242985</td>
+      <td>94402204</td>
+      <td>3</td>
+      <td>46.9200</td>
+      <td>39</td>
+      <td>1</td>
+      <td>1</td>
+      <td>159.219</td>
+      <td>159.219</td>
+      <td>159.219</td>
+    </tr>
+    <tr>
+      <th>9696</th>
+      <td>PT-P29N</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>3</td>
+      <td>35826707</td>
+      <td>35938795</td>
+      <td>3</td>
+      <td>33.5400</td>
+      <td>20</td>
+      <td>1</td>
+      <td>1</td>
+      <td>112.088</td>
+      <td>112.088</td>
+      <td>112.088</td>
+    </tr>
+    <tr>
+      <th>9697</th>
+      <td>PT-P29P</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>12</td>
+      <td>19469320</td>
+      <td>19578107</td>
+      <td>3</td>
+      <td>15.8100</td>
+      <td>20</td>
+      <td>1</td>
+      <td>1</td>
+      <td>108.787</td>
+      <td>108.787</td>
+      <td>108.787</td>
+    </tr>
+    <tr>
+      <th>9698</th>
+      <td>PT-P29U</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>2</td>
+      <td>110863095</td>
+      <td>110980346</td>
+      <td>3</td>
+      <td>43.9400</td>
+      <td>27</td>
+      <td>1</td>
+      <td>2</td>
+      <td>230.578</td>
+      <td>115.289</td>
+      <td>117.251</td>
+    </tr>
+    <tr>
+      <th>9699</th>
+      <td>PT-P29U</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>13</td>
+      <td>58977716</td>
+      <td>59091043</td>
+      <td>3</td>
+      <td>32.8800</td>
+      <td>18</td>
+      <td>1</td>
+      <td>2</td>
+      <td>230.578</td>
+      <td>115.289</td>
+      <td>113.327</td>
+    </tr>
+    <tr>
+      <th>9700</th>
+      <td>PT-P2A5</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>8</td>
+      <td>16416711</td>
+      <td>16526958</td>
+      <td>1</td>
+      <td>83.2600</td>
+      <td>35</td>
+      <td>1</td>
+      <td>1</td>
+      <td>110.247</td>
+      <td>110.247</td>
+      <td>110.247</td>
+    </tr>
+    <tr>
+      <th>9701</th>
+      <td>PT-P2A6</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>2</td>
+      <td>35819686</td>
+      <td>36087642</td>
+      <td>1</td>
+      <td>150.2800</td>
+      <td>88</td>
+      <td>1</td>
+      <td>3</td>
+      <td>548.366</td>
+      <td>182.789</td>
+      <td>267.956</td>
+    </tr>
+    <tr>
+      <th>9702</th>
+      <td>PT-P2A6</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>3</td>
+      <td>109621818</td>
+      <td>109727353</td>
+      <td>1</td>
+      <td>49.3600</td>
+      <td>24</td>
+      <td>1</td>
+      <td>3</td>
+      <td>548.366</td>
+      <td>182.789</td>
+      <td>105.535</td>
+    </tr>
+    <tr>
+      <th>9703</th>
+      <td>PT-P2A6</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>7</td>
+      <td>9283620</td>
+      <td>9458495</td>
+      <td>1</td>
+      <td>77.9600</td>
+      <td>46</td>
+      <td>1</td>
+      <td>3</td>
+      <td>548.366</td>
+      <td>182.789</td>
+      <td>174.875</td>
+    </tr>
+    <tr>
+      <th>9704</th>
+      <td>PT-P2A9</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>9</td>
+      <td>312134</td>
+      <td>594579</td>
+      <td>3</td>
+      <td>184.1000</td>
+      <td>164</td>
+      <td>1</td>
+      <td>1</td>
+      <td>282.445</td>
+      <td>282.445</td>
+      <td>282.445</td>
+    </tr>
+    <tr>
+      <th>9705</th>
+      <td>PT-P2AB</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>9</td>
+      <td>138182186</td>
+      <td>138284278</td>
+      <td>3</td>
+      <td>37.6200</td>
+      <td>41</td>
+      <td>1</td>
+      <td>1</td>
+      <td>102.092</td>
+      <td>102.092</td>
+      <td>102.092</td>
+    </tr>
+    <tr>
+      <th>9706</th>
+      <td>PT-P2AE</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>7</td>
+      <td>110892226</td>
+      <td>111122474</td>
+      <td>1</td>
+      <td>61.6700</td>
+      <td>38</td>
+      <td>1</td>
+      <td>1</td>
+      <td>230.248</td>
+      <td>230.248</td>
+      <td>230.248</td>
+    </tr>
+    <tr>
+      <th>9707</th>
+      <td>PT-P2AJ</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>2</td>
+      <td>89620837</td>
+      <td>91732866</td>
+      <td>1</td>
+      <td>17.2000</td>
+      <td>17</td>
+      <td>1</td>
+      <td>2</td>
+      <td>2361.620</td>
+      <td>1180.810</td>
+      <td>2112.029</td>
+    </tr>
+    <tr>
+      <th>9708</th>
+      <td>PT-P2AJ</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>3</td>
+      <td>141835715</td>
+      <td>142085310</td>
+      <td>3</td>
+      <td>46.8900</td>
+      <td>37</td>
+      <td>1</td>
+      <td>2</td>
+      <td>2361.620</td>
+      <td>1180.810</td>
+      <td>249.595</td>
+    </tr>
+    <tr>
+      <th>9709</th>
+      <td>PT-P2AM</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>1</td>
+      <td>12852872</td>
+      <td>12961019</td>
+      <td>1</td>
+      <td>28.2800</td>
+      <td>17</td>
+      <td>1</td>
+      <td>1</td>
+      <td>108.147</td>
+      <td>108.147</td>
+      <td>108.147</td>
+    </tr>
+    <tr>
+      <th>9710</th>
+      <td>PT-P2AP</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>4</td>
+      <td>12374586</td>
+      <td>12643903</td>
+      <td>3</td>
+      <td>49.6900</td>
+      <td>58</td>
+      <td>1</td>
+      <td>2</td>
+      <td>400.413</td>
+      <td>200.207</td>
+      <td>269.317</td>
+    </tr>
+    <tr>
+      <th>9711</th>
+      <td>PT-P2AP</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>7</td>
+      <td>110892226</td>
+      <td>111023322</td>
+      <td>1</td>
+      <td>58.6300</td>
+      <td>25</td>
+      <td>1</td>
+      <td>2</td>
+      <td>400.413</td>
+      <td>200.207</td>
+      <td>131.096</td>
+    </tr>
+    <tr>
+      <th>9712</th>
+      <td>PT-P2AV</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>8</td>
+      <td>78863442</td>
+      <td>79059629</td>
+      <td>1</td>
+      <td>77.0800</td>
+      <td>40</td>
+      <td>1</td>
+      <td>1</td>
+      <td>196.187</td>
+      <td>196.187</td>
+      <td>196.187</td>
+    </tr>
+    <tr>
+      <th>9713</th>
+      <td>PT-P2AW</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>9</td>
+      <td>120869313</td>
+      <td>121385397</td>
+      <td>3</td>
+      <td>94.1350</td>
+      <td>124</td>
+      <td>1</td>
+      <td>1</td>
+      <td>516.084</td>
+      <td>516.084</td>
+      <td>516.084</td>
+    </tr>
+    <tr>
+      <th>9714</th>
+      <td>PT-P2AX</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>13</td>
+      <td>43544964</td>
+      <td>43732555</td>
+      <td>3</td>
+      <td>108.8700</td>
+      <td>75</td>
+      <td>1</td>
+      <td>2</td>
+      <td>360.440</td>
+      <td>180.220</td>
+      <td>187.591</td>
+    </tr>
+    <tr>
+      <th>9715</th>
+      <td>PT-P2AX</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>19</td>
+      <td>43663086</td>
+      <td>43835935</td>
+      <td>1</td>
+      <td>32.4500</td>
+      <td>20</td>
+      <td>1</td>
+      <td>2</td>
+      <td>360.440</td>
+      <td>180.220</td>
+      <td>172.849</td>
+    </tr>
+    <tr>
+      <th>9716</th>
+      <td>PT-P2AY</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>1</td>
+      <td>25447125</td>
+      <td>25760920</td>
+      <td>3</td>
+      <td>41.0100</td>
+      <td>50</td>
+      <td>1</td>
+      <td>2</td>
+      <td>518.656</td>
+      <td>259.328</td>
+      <td>313.795</td>
+    </tr>
+    <tr>
+      <th>9717</th>
+      <td>PT-P2AY</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>19</td>
+      <td>6898681</td>
+      <td>7103542</td>
+      <td>3</td>
+      <td>64.8900</td>
+      <td>66</td>
+      <td>1</td>
+      <td>2</td>
+      <td>518.656</td>
+      <td>259.328</td>
+      <td>204.861</td>
+    </tr>
+    <tr>
+      <th>9718</th>
+      <td>PT-P2B1</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>1</td>
+      <td>102667388</td>
+      <td>102846147</td>
+      <td>1</td>
+      <td>98.9900</td>
+      <td>41</td>
+      <td>1</td>
+      <td>1</td>
+      <td>178.759</td>
+      <td>178.759</td>
+      <td>178.759</td>
+    </tr>
+    <tr>
+      <th>9719</th>
+      <td>PT-P2BA</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>8</td>
+      <td>13285702</td>
+      <td>13417869</td>
+      <td>1</td>
+      <td>69.9800</td>
+      <td>52</td>
+      <td>1</td>
+      <td>1</td>
+      <td>132.167</td>
+      <td>132.167</td>
+      <td>132.167</td>
+    </tr>
+    <tr>
+      <th>9720</th>
+      <td>PT-P2BE</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>13</td>
+      <td>84559815</td>
+      <td>84669950</td>
+      <td>1</td>
+      <td>18.6900</td>
+      <td>21</td>
+      <td>1</td>
+      <td>1</td>
+      <td>110.135</td>
+      <td>110.135</td>
+      <td>110.135</td>
+    </tr>
+    <tr>
+      <th>9721</th>
+      <td>PT-P2BG</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>15</td>
+      <td>32018731</td>
+      <td>32620127</td>
+      <td>3</td>
+      <td>61.9050</td>
+      <td>108</td>
+      <td>1</td>
+      <td>1</td>
+      <td>601.396</td>
+      <td>601.396</td>
+      <td>601.396</td>
+    </tr>
+    <tr>
+      <th>9722</th>
+      <td>PT-P2BI</td>
+      <td>1</td>
+      <td>scz_swe6_eur</td>
+      <td>14</td>
+      <td>35398428</td>
+      <td>35624831</td>
+      <td>3</td>
+      <td>40.2900</td>
+      <td>36</td>
+      <td>1</td>
+      <td>1</td>
+      <td>226.403</td>
+      <td>226.403</td>
+      <td>226.403</td>
+    </tr>
+  </tbody>
+</table>
+<p>9723 rows × 14 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
@@ -560,7 +1826,7 @@ dtype: int64
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sw_mds</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../swcnv/swcnv.mds&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sw_mds</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/swcnv/swcnv.mds&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

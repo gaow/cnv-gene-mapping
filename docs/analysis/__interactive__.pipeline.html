@@ -1,0 +1,571 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta charset='utf-8'>
+
+
+
+ <title>__interactive__.sos</title>
+<meta http-equiv="content-type" content="text/html; charset=None">
+<style type="text/css">
+
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+img {
+  border-style: none;
+}
+
+pre {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+td {
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #333;
+  background-color: #fff;
+}
+
+a {
+  color: #4078c0;
+  text-decoration: none;
+}
+
+a:hover,
+a:active {
+  text-decoration: underline;
+}
+
+pre {
+  margin-top: 0;
+  margin-bottom: 0;
+  font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+.container {
+  width: 980px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.container::before {
+  display: table;
+  content: "";
+}
+
+.container::after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+.right {
+  float: right !important;
+}
+
+::-moz-placeholder {
+  color: #999;
+}
+
+:-ms-input-placeholder {
+  color: #999;
+}
+
+::placeholder {
+  color: #999;
+}
+
+.form-select::-ms-expand {
+  opacity: 0;
+}
+
+.avatar {
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1;
+  vertical-align: middle;
+  border-radius: 3px;
+}
+
+.commit-tease {
+  position: relative;
+  padding: 10px;
+  margin-bottom: -1px;
+  line-height: 20px;
+  color: #68777d;
+  background-color: #f2f9fc;
+  border: 1px solid #c9e6f2;
+  border-radius: 3px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.commit-tease .message {
+  color: inherit;
+}
+
+.commit-tease .avatar {
+  margin-top: -1px;
+}
+
+.commit-tease-sha {
+  display: inline-block;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  color: #445055;
+}
+
+.full-commit .btn-outline:not(:disabled):hover {
+  color: #4078c0;
+  border: 1px solid #4078c0;
+}
+
+.blob-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.blob-num {
+  width: 1%;
+  min-width: 50px;
+  padding-right: 10px;
+  padding-left: 10px;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+  line-height: 18px;
+  color: rgba(0,0,0,0.3);
+  text-align: right;
+  white-space: nowrap;
+  vertical-align: bottom;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: solid #eee;
+  border-width: 0 1px 0 0;
+}
+
+.blob-num:hover {
+  color: rgba(0,0,0,0.6);
+}
+
+.blob-num::before {
+  content: attr(data-line-number);
+}
+
+.blob-code {
+  position: relative;
+  padding-right: 10px;
+  padding-left: 10px;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.sos-comment {
+  background: #f7f7f7;
+}
+.sos-report {
+  background: #FAFAD2;
+  padding-top: 5px;
+}
+.sos-header {
+  margin-top: 20px;
+  margin-bottom: 0px;
+  padding-top: 5px;
+  background-color: #C0C0C0;
+  border-bottom-color: #dde4e6;
+
+}
+.sos-directive {
+  padding-top: 5px;
+  background-color: #fff9ea;
+  border-color: #f1c0c0;
+}
+.sos-statement {
+  padding-top: 5px;
+  background-color: #f2f9fc;
+}
+.sos-error {
+  background: #ffdddd;
+}
+.sos-script {
+  position: relative;
+  padding-right: 10px;
+  padding-left: 30px;
+  vertical-align: top;
+  background-color: #eff0f1;
+}
+
+
+.blob-code-inner {
+  overflow: visible;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+  color: #333;
+  word-wrap: normal;
+  white-space: pre;
+}
+
+.blob-code-inner::before {
+  content: "";
+}
+
+body {
+  min-width: 1020px;
+  word-wrap: break-word;
+}
+
+.user-mention {
+  font-weight: bold;
+  color: #333;
+  white-space: nowrap;
+}
+
+.prose-diff>.markdown-body :not(li.moved).removed {
+  color: #a33;
+  text-decoration: line-through;
+  background: #ffeaea;
+}
+
+.prose-diff>.markdown-body :not(.github-user-ins):not(li.moved).removed {
+  text-decoration: line-through;
+}
+
+.prose-diff>.markdown-body :not(li.moved).added {
+  background: #eaffea;
+}
+
+.prose-diff>.markdown-body :not(.github-user-del):not(li.moved).added li:not(.moved):not(.github-user-del).added {
+  text-decoration: none;
+}
+
+:checked+.radio-label {
+  position: relative;
+  z-index: 1;
+  border-color: #4078c0;
+}
+
+.select-menu-text-filter input::-moz-placeholder {
+  color: #aaa;
+}
+
+.select-menu-text-filter input:-ms-input-placeholder {
+  color: #aaa;
+}
+
+.select-menu-text-filter input::placeholder {
+  color: #aaa;
+}
+
+.tab-size[data-tab-size="8"] {
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+}
+
+# override source
+.source {
+  background: auto;
+}
+
+.file {
+  position: relative;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.file-header {
+  padding: 5px 10px;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #d8d8d8;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+
+.file-header::before {
+  display: table;
+  content: "";
+}
+
+.file-header::after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+.file-actions {
+  float: right;
+  padding-top: 3px;
+}
+
+.file-info {
+  float: left;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 12px;
+  line-height: 32px;
+}
+
+.file-info-divider {
+  display: inline-block;
+  width: 1px;
+  height: 18px;
+  margin-right: 3px;
+  margin-left: 3px;
+  vertical-align: middle;
+  background-color: #ddd;
+}
+
+.header-search-input::-ms-clear {
+  display: none;
+}
+
+.org-validate-group input::-ms-clear {
+  display: none;
+}
+
+.source .c { color: #408080; font-style: italic } /* Comment */
+.source .err { border: 1px solid #FF0000 } /* Error */
+.source .k { color: #008000; font-weight: bold } /* Keyword */
+.source .o { color: #666666 } /* Operator */
+.source .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.source .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.source .cp { color: #BC7A00 } /* Comment.Preproc */
+.source .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.source .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.source .cs { color: #408080; font-style: italic } /* Comment.Special */
+.source .gd { color: #A00000 } /* Generic.Deleted */
+.source .ge { font-style: italic } /* Generic.Emph */
+.source .gr { color: #FF0000 } /* Generic.Error */
+.source .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.source .gi { color: #00A000 } /* Generic.Inserted */
+.source .go { color: #888888 } /* Generic.Output */
+.source .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.source .gs { font-weight: bold } /* Generic.Strong */
+.source .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.source .gt { color: #0044DD } /* Generic.Traceback */
+.source .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.source .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.source .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.source .kp { color: #008000 } /* Keyword.Pseudo */
+.source .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.source .kt { color: #B00040 } /* Keyword.Type */
+.source .m { color: #666666 } /* Literal.Number */
+.source .s { color: #BA2121 } /* Literal.String */
+.source .na { color: #7D9029 } /* Name.Attribute */
+.source .nb { color: #008000 } /* Name.Builtin */
+.source .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.source .no { color: #880000 } /* Name.Constant */
+.source .nd { color: #AA22FF } /* Name.Decorator */
+.source .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.source .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.source .nf { color: #0000FF } /* Name.Function */
+.source .nl { color: #A0A000 } /* Name.Label */
+.source .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.source .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.source .nv { color: #19177C } /* Name.Variable */
+.source .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.source .w { color: #bbbbbb } /* Text.Whitespace */
+.source .mb { color: #666666 } /* Literal.Number.Bin */
+.source .mf { color: #666666 } /* Literal.Number.Float */
+.source .mh { color: #666666 } /* Literal.Number.Hex */
+.source .mi { color: #666666 } /* Literal.Number.Integer */
+.source .mo { color: #666666 } /* Literal.Number.Oct */
+.source .sa { color: #BA2121 } /* Literal.String.Affix */
+.source .sb { color: #BA2121 } /* Literal.String.Backtick */
+.source .sc { color: #BA2121 } /* Literal.String.Char */
+.source .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.source .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.source .s2 { color: #BA2121 } /* Literal.String.Double */
+.source .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.source .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.source .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.source .sx { color: #008000 } /* Literal.String.Other */
+.source .sr { color: #BB6688 } /* Literal.String.Regex */
+.source .s1 { color: #BA2121 } /* Literal.String.Single */
+.source .ss { color: #19177C } /* Literal.String.Symbol */
+.source .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.source .fm { color: #0000FF } /* Name.Function.Magic */
+.source .vc { color: #19177C } /* Name.Variable.Class */
+.source .vg { color: #19177C } /* Name.Variable.Global */
+.source .vi { color: #19177C } /* Name.Variable.Instance */
+.source .vm { color: #19177C } /* Name.Variable.Magic */
+.source .il { color: #666666 } /* Literal.Number.Integer.Long */
+
+ </style>
+</head>
+<body>
+
+
+<div class="container new-discussion-timeline experiment-repo-nav">
+
+ <div class="commit-tease">
+      <span class="right">
+      </span>
+ <div>
+        <a class="header-logo-invertocat" href="https://vatlab.github.io/SOS" data-hotkey="g d" aria-label="Homepage">
+        <img src="http://vatlab.github.io/SOS/img/sos_icon.svg" alt="sos_icon">
+        </a>
+
+        <span class="user-mention">__interactive__.sos</span>
+      </div>
+      </div>
+
+  <div class="repository-content">
+  <div class="file">
+  <div class="file-header">
+
+  <div class="file-info">
+      analysis/__interactive__.sos
+      <span class="file-info-divider"></span>
+    2.5 KiB
+  </div>
+  <div class="file-actions">
+  </div>
+  </div>
+ <div itemprop="text" class="blob-wrapper data type-python">
+
+<table class="highlight tab-size js-file-line-container"><div class="source blob-code sos-header"><pre><span></span><span class="p">[</span><span class="n">varbvs_1</span><span class="p">]</span>
+</pre></div>
+
+<div class="source blob-code sos-directive"><pre><span></span><span class="kn">depends:</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s2">&quot;pandasql&quot;</span><span class="p">),</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s1">&#39;fisher&#39;</span><span class="p">),</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s1">&#39;plotly&#39;</span><span class="p">)</span>
+<span class="kn">parameter:</span> <span class="n">sample_size</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="kn">parameter:</span> <span class="n">seed</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">]</span>
+<span class="kn">parameter:</span> <span class="n">prevalence</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">]</span>
+<span class="kn">parameter:</span> <span class="n">gamma</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="kn">parameter:</span> <span class="n">n_causal_gene</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">]</span>
+<span class="kn">parameter:</span> <span class="kp">name</span> <span class="o">=</span> <span class="s1">&#39;data/del_sim&#39;</span>
+<span class="kn">input:</span> <span class="kp">for_each</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">,</span> <span class="s1">&#39;prevalence&#39;</span><span class="p">,</span> <span class="s1">&#39;n_causal_gene&#39;</span><span class="p">,</span> <span class="s1">&#39;seed&#39;</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="s2">&quot;${name}_</span><span class="si">%s</span><span class="s2">.pkl&quot;</span> <span class="o">%</span> <span class="s2">&quot;shape{}_scale{}_p{}_N{}_M{}_{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;${_gamma[0]}&quot;</span><span class="p">,</span> <span class="s2">&quot;${_gamma[1]}&quot;</span><span class="p">,</span> <span class="s2">&quot;${_prevalence}&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="s2">&quot;${sample_size}&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;${_n_causal_gene}&quot;</span><span class="p">,</span> <span class="s2">&quot;${_seed}&quot;</span><span class="p">)</span>
+<span class="kn">task:</span>
+</pre></div>
+
+<div class="source blob-code sos-directive"><pre><span></span><span class="kn">python:</span>
+</pre></div>
+
+<div class="source blob-code sos-script "><pre><span></span><span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+<span class="kn">from</span> <span class="nn">simulation</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">run_simulation</span> 
+<span class="n">args</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+<span class="n">args</span><span class="p">[</span><span class="s1">&#39;odds_ratio_params&#39;</span><span class="p">][</span><span class="s1">&#39;shape&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_gamma</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>
+<span class="n">args</span><span class="p">[</span><span class="s1">&#39;odds_ratio_params&#39;</span><span class="p">][</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_gamma</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+<span class="n">args</span><span class="p">[</span><span class="s1">&#39;prevalence&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_prevalence</span><span class="p">}</span>
+<span class="n">args</span><span class="p">[</span><span class="s1">&#39;n_case&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;n_ctrl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">sample_size</span><span class="p">}</span>
+<span class="n">args</span><span class="p">[</span><span class="s1">&#39;n_causal_gene&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_n_causal_gene</span><span class="p">}</span>
+<span class="n">args</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">name</span><span class="err">!</span><span class="n">r</span><span class="p">}</span>
+<span class="n">args</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_seed</span><span class="p">}</span>
+<span class="n">run_simulation</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s2">&quot;shape{}_scale{}_p{}_N{}_M{}_{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_gamma</span><span class="p">[</span><span class="mi">0</span><span class="p">]},</span> <span class="err">$</span><span class="p">{</span><span class="n">_gamma</span><span class="p">[</span><span class="mi">1</span><span class="p">]},</span> <span class="err">$</span><span class="p">{</span><span class="n">_prevalence</span><span class="p">},</span> <span class="err">$</span><span class="p">{</span><span class="n">sample_size</span><span class="p">}</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">_n_causal_gene</span><span class="p">},</span> <span class="err">$</span><span class="p">{</span><span class="n">_seed</span><span class="p">}))</span>
+ 
+</pre></div>
+
+<div class="source blob-code sos-header"><pre><span></span><span class="p">[</span><span class="n">varbvs_2</span><span class="p">]</span>
+</pre></div>
+
+<div class="source blob-code sos-directive"><pre><span></span><span class="kn">depends:</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s2">&quot;feather-format&quot;</span><span class="p">)</span>
+<span class="kn">input:</span> <span class="kp">group_by</span> <span class="o">=</span> <span class="s1">&#39;single&#39;</span>
+<span class="kn">output:</span> <span class="s2">&quot;${_input!n}.feather&quot;</span>
+<span class="kn">task:</span>
+</pre></div>
+
+<div class="source blob-code sos-directive"><pre><span></span><span class="kn">python:</span>
+</pre></div>
+
+<div class="source blob-code sos-script "><pre><span></span><span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+<span class="kn">import</span> <span class="nn">pickle</span><span class="o">,</span> <span class="nn">feather</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">simulation</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">load_reference_gene</span> 
+<span class="n">args</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+<span class="c1">#</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="err">!</span><span class="n">r</span><span class="p">},</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+<span class="n">ref</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;refgene_file&quot;</span><span class="p">])</span>
+<span class="c1"># create regression data</span>
+<span class="n">genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">])))</span>
+<span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">genes</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]])</span>
+<span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">regression_data</span><span class="p">))</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">((</span><span class="n">regression_data</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">regression_data</span> <span class="o">=</span> <span class="n">regression_data</span><span class="p">[:,</span><span class="n">mask</span><span class="p">]</span>
+<span class="c1"># save to disk</span>
+<span class="n">feather</span><span class="o">.</span><span class="n">write_dataframe</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">regression_data</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">genes</span><span class="p">[</span><span class="n">mask</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()),</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
+ 
+</pre></div>
+
+<div class="source blob-code sos-header"><pre><span></span><span class="p">[</span><span class="n">varbvs_3</span><span class="p">]</span>
+</pre></div>
+
+<div class="source blob-code sos-directive"><pre><span></span><span class="kn">depends:</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;varbvs&quot;</span><span class="p">),</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;feather&quot;</span><span class="p">)</span>
+<span class="kn">input:</span> <span class="kp">group_by</span> <span class="o">=</span> <span class="s2">&quot;single&quot;</span>
+<span class="kn">output:</span> <span class="s2">&quot;${_input!n}.varbvs.rds&quot;</span>
+<span class="kn">task:</span>
+</pre></div>
+
+<div class="source blob-code sos-directive"><pre><span></span><span class="kn">R:</span>
+</pre></div>
+
+<div class="source blob-code sos-script "><pre><span></span>dat <span class="o">=</span> <span class="kp">as.matrix</span><span class="p">(</span>feather<span class="o">::</span>read_feather<span class="p">(</span><span class="o">$</span><span class="p">{</span>_input<span class="o">!</span>r<span class="p">}))</span>
+<span class="c1"># FIXME: need to check if the usage is correct</span>
+fit <span class="o">=</span> varbvs<span class="o">::</span>varbvs<span class="p">(</span>dat<span class="p">[,</span><span class="m">-1</span><span class="p">],</span> <span class="kc">NULL</span><span class="p">,</span> dat<span class="p">[,</span><span class="m">1</span><span class="p">],</span> family <span class="o">=</span> <span class="s">&quot;binomial&quot;</span><span class="p">,</span> logodds <span class="o">=</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-3.5</span><span class="p">,</span><span class="m">-1</span><span class="p">,</span><span class="m">0.1</span><span class="p">),</span> sa <span class="o">=</span> <span class="m">1</span><span class="p">,</span> verbose <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
+fit<span class="o">$</span>summary <span class="o">=</span> <span class="kp">summary</span><span class="p">(</span>fit<span class="p">)</span>
+fit<span class="o">$</span>w <span class="o">=</span> varbvs<span class="o">::</span>normalizelogweights<span class="p">(</span>fit<span class="o">$</span>logw<span class="p">)</span>
+fit<span class="o">$</span>pip <span class="o">=</span> fit<span class="o">$</span>alpha <span class="o">%*%</span> <span class="kt">c</span><span class="p">(</span>fit<span class="o">$</span>w<span class="p">)</span>
+fit<span class="o">$</span>beta <span class="o">=</span> fit<span class="o">$</span>mu <span class="o">%*%</span> <span class="kt">c</span><span class="p">(</span>fit<span class="o">$</span>w<span class="p">)</span>
+fit<span class="o">$</span>var_names <span class="o">=</span> <span class="kp">colnames</span><span class="p">(</span>dat<span class="p">[</span><span class="m">-1</span><span class="p">])</span>
+<span class="kp">saveRDS</span><span class="p">(</span>fit<span class="p">,</span> <span class="o">$</span><span class="p">{</span>_output<span class="o">!</span>r<span class="p">})</span>
+</pre></div>
+
+</table>
+</div>
+</div>
+</div>
+</body></html>
