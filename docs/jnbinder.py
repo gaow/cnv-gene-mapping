@@ -3,6 +3,57 @@ import glob
 import re
 import json
 
+def get_output(cmd, show_command=False, prompt='$ '):
+    import subprocess
+    try:
+        output = subprocess.check_output(cmd, stderr=subprocess.DEVNULL, shell=True).decode()
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(e)
+    if show_command:
+        return '{}{}\n{}'.format(prompt, cmd, output)
+    else:
+        return output.strip()
+
+def get_commit_link(repo, cid):
+    bits = os.path.split(repo)
+    if "github.com" or "gitlab.com" in bits:
+        return "{}/commit/{}".format(repo, cid)
+    elif "bitbucket.org" in bits:
+        return "{}/commits/{}".format(repo, cid)
+    else:
+        return repo
+
+def get_notebook_link(repo, cid, fn):
+    bits = os.path.split(repo)
+    if "github.com" or "gitlab.com" in bits:
+        link = "{}/blob/{}/{}".format(repo, cid, fn)
+        return '<a href=\\"{}\\"><code>{}</code></a>'.format(link, fn)
+    else:
+        return '<code>{}</code>'.format(fn)
+
+def get_commit_info(fn, conf):
+    out = ''
+    if conf['add_commit_info']:
+        try:
+            long_fmt = get_output('git log -n 1 --pretty=format:%H -- {}'.format(fn))
+            short_fmt = get_output('git log -n 1 --pretty=format:%h -- {}'.format(fn))
+            rev_string = 'by {} on {} <a href=\\"{}\\">revision {}, {}</a>'.\
+                       format(get_output('git log -n 1 --format="%an" {}'.format(long_fmt)),
+                              get_output('git show -s --format="%cd" --date=local {}'.format(long_fmt)),
+                              get_commit_link(conf['repo'], long_fmt),
+                              get_output('git rev-list --count {}'.format(long_fmt)), short_fmt)
+            out = '<p><small>Exported from {} committed {} {}</small></p>'.\
+                  format(get_notebook_link(conf['repo'], long_fmt, fn), rev_string,
+                         '<a href=\\"{}\\">{}</a>'.\
+                         format(conf['__about_commit__'], '<span class=\\"fa fa-question-circle\\"></span>')
+                         if conf['__about_commit__'] else '')
+        except:
+            raise
+            # if git related command fails, indicating it is not a git repo
+            # I'll just pass ...
+            pass
+    return out.replace('/', '\/')
+
 def get_nav(dirs, home_label, prefix = './'):
     out = '''
 <li>
@@ -96,14 +147,13 @@ def get_index_tpl(conf, dirs):
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta charset="utf-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="pandoc" />
+<meta name="ipynb_website:version" content="%s" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>%s</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/%s.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
@@ -116,6 +166,13 @@ def get_index_tpl(conf, dirs):
       type="text/css" />
 <script src="site_libs/highlight/highlight.js"></script>
 <style type="text/css">
+  div.input_prompt {display: none;}
+  div.output_html {
+     font-family: "PT Mono", monospace;
+     font-size: 10.0pt;
+     color: #353535;
+     padding-bottom: 25px;
+ }
   pre:not([class]) {
     background-color: white;
   }
@@ -305,7 +362,7 @@ $(document).ready(function () {
 </body>
 </html>
 {%% endblock %%}
-	''' % (conf['name'], conf['theme'], get_font(conf['font']), conf['name'],
+	''' % (conf['__version__'], conf['name'], conf['theme'], get_font(conf['font']), conf['name'],
            get_nav([x for x in dirs if not x in conf['hide_navbar']], conf['homepage_label']),
            conf['repo'], conf['source_label'], conf['footer'],
            get_disqus(conf['disqus']))
@@ -321,11 +378,12 @@ def get_notebook_tpl(conf, dirs, path):
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta charset="utf-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="%s" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
+%s
 <link rel="stylesheet" type="text/css" href="../css/toc2.css">
 
 <link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
@@ -450,7 +508,10 @@ body {
 </body>
 </html>
 {%% endblock %%}
-	''' % (conf['theme'], get_sidebar(path) if conf['notebook_toc'] else '',
+	''' % (conf['__version__'],
+           '<link rel="stylesheet" type="text/css" href="../css/%s.css">' % conf['jt_theme']
+           if conf['jt_theme'] is not None else '',
+           conf['theme'], get_sidebar(path) if conf['notebook_toc'] else '',
            conf['name'], get_font(conf['font']), conf['name'],
            get_nav([x for x in dirs if not x in conf['hide_navbar']], conf['homepage_label'], '../'),
            conf['repo'], conf['source_label'], conf['footer'])
@@ -479,20 +540,36 @@ def get_notebook_toc(path, exclude):
     return out
 
 def get_index_toc(path):
-    out = 'var {}Array = ['.format(os.path.basename(path))
+    out = 'var {}Array = '.format(os.path.basename(path))
+    # Reference index
+    fr = os.path.join(path, '_index.ipynb')
+    if not os.path.isfile(fr):
+        return out + '[]'
+    # Actual index
     fi = os.path.join(path, 'index.ipynb')
     if not os.path.isfile(fi):
-        fi = os.path.join(path, '_index.ipynb')
-        if not os.path.isfile(fi):
-            return out + ']'
+        fi = fr
+    # Collect HTML file names from index file
+    res = []
     with open(fi) as f:
         data = json.load(f)
     for cell in data['cells']:
         for sentence in cell["source"]:
             doc = re.search('(.+?)/(.+?).html', sentence)
             if doc:
-                out += '"' + doc.group(2) + '", '
-    return out.rstrip().rstrip(',') + ']'
+                res.append(doc.group(2))
+    # Filter by reference index
+    if not fi == fr:
+        ref = []
+        with open(fr) as f:
+            data = json.load(f)
+        for cell in data['cells']:
+            for sentence in cell["source"]:
+                doc = re.search('(.+?)/(.+?).html', sentence)
+                if doc:
+                    ref.append(doc.group(2))
+        res = [x for x in res if x in ref]
+    return out + repr(res)
 
 def get_toc(path, exclude):
     return [get_index_toc(path) + '\n' + get_notebook_toc(path, exclude)]
