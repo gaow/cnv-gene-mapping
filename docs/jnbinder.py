@@ -48,7 +48,6 @@ def get_commit_info(fn, conf):
                          format(conf['__about_commit__'], '<span class=\\"fa fa-question-circle\\"></span>')
                          if conf['__about_commit__'] else '')
         except:
-            raise
             # if git related command fails, indicating it is not a git repo
             # I'll just pass ...
             pass
