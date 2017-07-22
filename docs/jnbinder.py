@@ -609,7 +609,7 @@ def make_index_nb(path, exclude):
     "&nbsp; &nbsp; %s"
    ]
   },''' % (name, path, os.path.splitext(os.path.basename(fn))[0] + '.html',
-           data["cells"][0]["source"][0].replace('"', "'").strip("#"))
+           re.sub('[^0-9a-zA-Z-_`]+', ' ', data["cells"][0]["source"][0]))
     if len(sos_files):
         out += '''
   {

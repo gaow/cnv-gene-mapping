@@ -3,7 +3,7 @@
 
 sys.path.append('docs')
 from jnbinder import compare_versions
-stop_if(compare_versions(SOS_VERSION, '0.9.8.8') < 0, msg = "\n[ERROR] This script requires SoS version >= 0.9.8.8\nPlease update via `pip install sos --upgrade`.")
+stop_if(compare_versions(SOS_VERSION, '0.9.8.8') < 0, msg = "This script requires SoS version >= 0.9.8.8\nPlease update via `pip install sos --upgrade`.")
 
 DEFAULT_CONF = {
            '__version__': '0.9.1',
