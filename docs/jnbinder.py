@@ -531,7 +531,10 @@ def get_notebook_toc(path, exclude):
         name = os.path.basename(fn[:-6]).strip()
         with open(fn) as f:
             data = json.load(f)
-        title = re.compile('(^\W+|\W+$)').sub('', data["cells"][0]["source"][0]).strip().replace(" ", "-") + "-1"
+        try:
+            title = re.sub('[^0-9a-zA-Z-:]+', '-', data["cells"][0]["source"][0].strip()).strip('-') + "-1"
+        except IndexError:
+            continue
         out +='"' + title + '":"' + name + '",'
     if not out.endswith('{'):
         out = out[:-1]
@@ -573,8 +576,8 @@ def get_index_toc(path):
 def get_toc(path, exclude):
     return [get_index_toc(path) + '\n' + get_notebook_toc(path, exclude)]
 
-def make_index_nb(path, exclude):
-    sos_files = [x for x in sorted(glob.glob(os.path.join(path, "*.sos")), reverse = True) if not x in exclude]
+def make_index_nb(path, exclude, long_description = False, reverse_alphabet = False):
+    sos_files = [x for x in sorted(glob.glob(os.path.join(path, "*.sos")), reverse = reverse_alphabet) if not x in exclude]
     out = '''
 {
  "cells": [
@@ -594,22 +597,30 @@ def make_index_nb(path, exclude):
     "## Notebooks"
    ]
   },'''
-    for fn in sorted(glob.glob(os.path.join(path, "*.ipynb")), reverse = True):
+    for fn in sorted(glob.glob(os.path.join(path, "*.ipynb")), reverse = reverse_alphabet):
         if os.path.basename(fn) in ['_index.ipynb', 'index.ipynb'] or fn in exclude:
             continue
         name = os.path.splitext(os.path.basename(fn))[0].replace('_', ' ')
         with open(fn) as f:
             data = json.load(f)
+        try:
+            source = [x.strip() for x in data["cells"][0]["source"] if x.strip()]
+            if long_description and source[0].startswith('#') and len(source) >= 2:
+                description = source[1]
+            else:
+                description = source[0]
+        except IndexError:
+            continue
         out += '''
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "[%s](%s/%s)<br>\\n",
+    "[**%s**](%s/%s)<br>\\n",
     "&nbsp; &nbsp; %s"
    ]
   },''' % (name, path, os.path.splitext(os.path.basename(fn))[0] + '.html',
-           re.sub('[^0-9a-zA-Z-_`]+', ' ', data["cells"][0]["source"][0]))
+           re.sub('[^\x00-\x7F]+', ' ', description.strip("#").replace('"', "'")))
     if len(sos_files):
         out += '''
   {

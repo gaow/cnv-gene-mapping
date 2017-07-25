@@ -2,8 +2,11 @@
 #fileformat=SOS1.0
 
 sys.path.append('docs')
-from jnbinder import compare_versions
-stop_if(compare_versions(SOS_VERSION, '0.9.8.8') < 0, msg = "This script requires SoS version >= 0.9.8.8\nPlease update via `pip install sos --upgrade`.")
+try:
+  from jnbinder import compare_versions
+  fail_if(compare_versions(SOS_VERSION, '0.9.8.8') < 0, msg = "This script requires SoS version >= 0.9.8.8\nPlease update via `pip install sos --upgrade`.")
+except ImportError:
+  pass
 
 DEFAULT_CONF = {
            '__version__': '0.9.1',
@@ -23,7 +26,9 @@ DEFAULT_CONF = {
            'homepage': 'Overview.ipynb',
            'font': "Droid Sans",
            'notebook_toc': True,
-           'add_commit_info': True
+           'add_commit_info': True,
+           'long_autoindex': False,
+           'reverse_autoindex': False
            }
 CONFIG.update({k:v for k,v in DEFAULT_CONF.items() if k not in CONFIG})
 CONFIG['jt_theme'] = CONFIG['theme'] if os.path.isfile("docs/css/{}.css".format(CONFIG['theme'])) else None
@@ -84,7 +89,7 @@ if flag:
 import os
 from jnbinder import make_index_nb, make_empty_nb
 for binder in binders:
-  data = make_index_nb(binder, CONFIG['exclude_file'] + [CONFIG['homepage']])
+  data = make_index_nb(binder, CONFIG['exclude_file'] + [CONFIG['homepage']], CONFIG['long_autoindex'], CONFIG['reverse_autoindex'])
   with open('{}/_index.ipynb'.format(binder), 'w') as f:
     f.write(data.strip())
 if not os.path.isfile(CONFIG['homepage']):
@@ -146,18 +151,17 @@ run("rm -f ${to_remove}")
 [default_1]
 # build ipynb website ...
 parameter: err_msg1 = '''
-[ERROR] No valid path found in `include_dir`!
+No valid path found in `include_dir`!
 Please properly set `include_dir` in `config.yml`.
 '''
 parameter: err_msg2 = '''
-[ERROR] To properly add git commit info, the working tree must be empty;
+To properly add git commit info, the working tree must be empty;
 that is, all changes must be committed via "git commit".
 Please commit all changes and run this command again. Or you may set
 `add_commit_info: False` in `config.yml` if you want to disable this feature.
 '''
-stop_if(len(binders) == 0, msg = err_msg1)
-if CONFIG['add_commit_info'] and os.path.isdir('.git'):
-  stop_if(get_output('git status --untracked-files=no --porcelain').strip(), msg = err_msg2)
+fail_if(len(binders) == 0, msg = err_msg1)
+fail_if(get_output('git status --untracked-files=no --porcelain').strip() and CONFIG['add_commit_info'] and os.path.isdir('.git'), msg = err_msg2)
 sos_run('update-tpl')
 sos_run('update-index')
 sos_run('update-hp')
