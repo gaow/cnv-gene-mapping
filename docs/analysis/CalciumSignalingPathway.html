@@ -39,7 +39,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
         },
         "HTML-CSS": {
             preferredFont: "TeX",
-            availableFonts: ["STIX","TeX"],
+            availableFonts: ["TeX"],
             styles: {
                 scale: 110,
                 ".MathJax_Display": {
@@ -110,14 +110,12 @@ body {
   <a href="../writeup.html">Writeup</a>
 </li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-    <a href="http://github.com/gaow/cnv-gene-mapping">
-    <span class="fa fa-github"></span>
-    </a>
-    </li>
-    </ul>
-    </div><!--/.nav-collapse -->
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+      </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered">
@@ -1707,6 +1705,27 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP2&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP1&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">100000</span><span class="p">][</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[27]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>19</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
@@ -1718,7 +1737,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/ad62d063a725d0b351a9711c4dfa00384d9877b4/analysis/CalciumSignalingPathway.ipynb"><code>analysis/CalciumSignalingPathway.ipynb</code></a> committed by Min Qiao on Tue Jul 25 19:43:31 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/ad62d063a725d0b351a9711c4dfa00384d9877b4">revision 243, ad62d06</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/5bf01687325f2c500b581fd0cf9e8182927e52a3/analysis/CalciumSignalingPathway.ipynb"><code>analysis/CalciumSignalingPathway.ipynb</code></a> committed by Min Qiao on Wed Jul 26 18:52:34 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/5bf01687325f2c500b581fd0cf9e8182927e52a3">revision 245, 5bf0168</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
