@@ -20,7 +20,7 @@ DEFAULT_CONF = {
            'disqus': None,
            'release_message': None,
            'post_release_actions': None,
-           'homepage_label': 'Overview',
+           'homepage_label': None,
            'source_label': '<span class="fa fa-github"></span>',
            'theme': 'cosmo',
            'homepage': 'Overview.ipynb',
@@ -28,7 +28,7 @@ DEFAULT_CONF = {
            'notebook_toc': True,
            'add_commit_info': True,
            'long_autoindex': False,
-           'reverse_autoindex': False
+           'reverse_autoindex': []
            }
 CONFIG.update({k:v for k,v in DEFAULT_CONF.items() if k not in CONFIG})
 CONFIG['jt_theme'] = CONFIG['theme'] if os.path.isfile("docs/css/{}.css".format(CONFIG['theme'])) else None
@@ -89,7 +89,7 @@ if flag:
 import os
 from jnbinder import make_index_nb, make_empty_nb
 for binder in binders:
-  data = make_index_nb(binder, CONFIG['exclude_file'] + [CONFIG['homepage']], CONFIG['long_autoindex'], CONFIG['reverse_autoindex'])
+  data = make_index_nb(binder, CONFIG['exclude_file'] + [CONFIG['homepage']], CONFIG['long_autoindex'], binder in CONFIG['reverse_autoindex'])
   with open('{}/_index.ipynb'.format(binder), 'w') as f:
     f.write(data.strip())
 if not os.path.isfile(CONFIG['homepage']):
@@ -102,9 +102,9 @@ input: ['{}/index.ipynb'.format(x) if os.path.isfile('{}/index.ipynb'.format(x))
 output: ['docs/{}.html'.format(x) for x in binders if x not in CONFIG['hide_navbar']] + ['docs/index.html'], group_by = 1
 task:
 run:
-  sos convert ${_input!a} ${_output!a} --template docs/index.tpl --log-level 0
-  # sed -i 's/<div class="prompt input_prompt">In&nbsp;\[[0-9]\]:<\/div>//g' ${_output!a}
-  perl -i -ne 'print if /\S/' ${_output!a}
+  sos convert ${_input!e} ${_output!e} --template docs/index.tpl --log-level 0
+  # sed -i 's/<div class="prompt input_prompt">In&nbsp;\[[0-9]\]:<\/div>//g' ${_output!e}
+  perl -i -ne 'print if /\S/' ${_output!e}
 
 [update-nb]
 # update notebook HTML
@@ -114,10 +114,10 @@ input: notebook_files, group_by = 1, paired_with = ['nb_info']
 output: 'docs/' + _input[0].replace('.ipynb', '.html')
 task:
 run:
-  sos convert ${_input!a} ${_output!a} --template docs/${_input!d}.tpl --log-level 0
-  num=`grep -n -Fx '''${CONFIG['footer']}''' ${_output!a} | tail -1 | sed 's/\([0-9]*\).*/\1/'`
-  perl -i -lpe 'print "${_nb_info}" if $. == '"$num"'+1' ${_output!a}
-  perl -i -ne 'print if /\S/' ${_output!a}
+  sos convert ${_input!e} ${_output!e} --template docs/${_input!d}.tpl --log-level 0
+  num=`grep -n -Fx '''${CONFIG['footer']}''' ${_output!e} | tail -1 | sed 's/\([0-9]*\).*/\1/'`
+  perl -i -lpe 'print "${_nb_info}" if $. == '"$num"'+1' ${_output!e}
+  perl -i -ne 'print if /\S/' ${_output!e}
 
 [update-sos]
 # update pipeline HTML
