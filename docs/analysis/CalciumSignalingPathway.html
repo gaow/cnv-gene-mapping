@@ -238,7 +238,7 @@ body {
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;LOC729317&#39;, &#39;CHP&#39;}
+<pre>{&#39;CHP&#39;, &#39;LOC729317&#39;}
 </pre>
 </div>
 </div>
@@ -291,9 +291,9 @@ body {
 <span class="s1">)</span>
 <span class="s1">GROUP BY sw.CHR, sw.BP1, sw.BP2, cal.gene_name, sw.TYPE, sw.PHE</span>
 <span class="s1">&#39;&#39;&#39;</span>
-<span class="n">overlap_genes_df</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;BP1&quot;</span><span class="p">,</span> <span class="s2">&quot;BP2&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">,</span> <span class="s2">&quot;TYPE&quot;</span><span class="p">,</span> <span class="s2">&quot;PHE&quot;</span><span class="p">,</span> <span class="s2">&quot;count(sw.FID)&quot;</span><span class="p">))</span>
-<span class="c1"># overlap_genes_df = sqldf(query)</span>
-<span class="n">overlap_genes_df</span> <span class="o">=</span> <span class="n">overlap_genes_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;count(sw.FID)&quot;</span><span class="p">:</span> <span class="s2">&quot;n_FID&quot;</span><span class="p">})</span>
+<span class="c1"># overlap_CNV_gene_df = sqldf(query).drop_duplicates(subset=(&quot;CHR&quot;, &quot;BP1&quot;, &quot;BP2&quot;, &quot;gene_name&quot;, &quot;TYPE&quot;, &quot;PHE&quot;, &quot;count(sw.FID)&quot;))</span>
+<span class="n">overlap_CNV_gene_df</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="n">overlap_CNV_gene_df</span> <span class="o">=</span> <span class="n">overlap_CNV_gene_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;count(sw.FID)&quot;</span><span class="p">:</span> <span class="s2">&quot;n_FID&quot;</span><span class="p">})</span>
 </pre></div>
 </div>
 </div>
@@ -304,7 +304,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">overlap_genes_df</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">overlap_CNV_gene_df</span>
 </pre></div>
 </div>
 </div>
@@ -1079,12 +1079,12 @@ body {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">SELECT CHR, PHE, TYPE, gene_name, sum(n_FID)</span>
-<span class="s1">FROM overlap_genes_df</span>
+<span class="s1">FROM overlap_CNV_gene_df</span>
 <span class="s1">GROUP BY CHR, PHE, TYPE, gene_start, gene_end</span>
 <span class="s1">ORDER BY CHR, gene_name</span>
 <span class="s1">&#39;&#39;&#39;</span>
-<span class="n">n_occur_gene_overlap</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;PHE&quot;</span><span class="p">,</span> <span class="s2">&quot;TYPE&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">,</span> <span class="s2">&quot;sum(n_FID)&quot;</span><span class="p">))</span>
-<span class="n">n_occur_gene_overlap</span> <span class="o">=</span> <span class="n">n_occur_gene_overlap</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sum(n_FID)&quot;</span><span class="p">:</span> <span class="s2">&quot;n_FID&quot;</span><span class="p">})</span>
+<span class="n">n_occur_CNV_overlap</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;PHE&quot;</span><span class="p">,</span> <span class="s2">&quot;TYPE&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">,</span> <span class="s2">&quot;sum(n_FID)&quot;</span><span class="p">))</span>
+<span class="n">n_occur_CNV_overlap</span> <span class="o">=</span> <span class="n">n_occur_CNV_overlap</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sum(n_FID)&quot;</span><span class="p">:</span> <span class="s2">&quot;n_FID&quot;</span><span class="p">})</span>
 </pre></div>
 </div>
 </div>
@@ -1095,7 +1095,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n_occur_gene_overlap</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n_occur_CNV_overlap</span>
 </pre></div>
 </div>
 </div>
@@ -1617,11 +1617,11 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># n_occur_gene_overlap[&quot;n_FID&quot;][n_occur_gene_overlap[&quot;TYPE&quot;]==3].sum()</span>
-<span class="n">overlap_genes_df</span><span class="p">[</span><span class="s2">&quot;n_FID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># print (n_occur_CNV_overlap[&quot;n_FID&quot;][n_occur_CNV_overlap[&quot;TYPE&quot;]==3].sum())</span>
+<span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;n_FID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1629,9 +1629,77 @@ body {
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="prompt output_prompt">Out[15]:</div>
+<div class="prompt output_prompt">Out[14]:</div>
 <div class="output_text output_subarea output_execute_result">
 <pre>194</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n_occur_CNV_100kb_overlap</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP2&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP1&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">100000</span><span class="p">][</span><span class="s2">&quot;n_FID&quot;</span><span class="p">])</span>
+<span class="n">n_occur_CNV_500kb_overlap</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP2&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP1&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">500000</span><span class="p">][</span><span class="s2">&quot;n_FID&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">n_occur_CNV_100kb_overlap</span><span class="p">,</span> <span class="n">n_occur_CNV_500kb_overlap</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>194 80
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">n_occur_gene_overlap_100kbcnv</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP2&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP1&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">100000</span><span class="p">][</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
+<span class="n">n_occur_gene_overlap_500kbcnv</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP2&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP1&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">500000</span><span class="p">][</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">n_occur_gene_overlap_100kbcnv</span><span class="p">,</span> <span class="n">n_occur_gene_overlap_500kbcnv</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>44 18
+</pre>
 </div>
 </div>
 </div>
@@ -1650,7 +1718,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/72d9ba57b5709e357ccdc6742a8965d40390b583/analysis/CalciumSignalingPathway.ipynb"><code>analysis/CalciumSignalingPathway.ipynb</code></a> committed by Min Qiao on Mon Jul 24 19:14:50 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/72d9ba57b5709e357ccdc6742a8965d40390b583">revision 241, 72d9ba5</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/ad62d063a725d0b351a9711c4dfa00384d9877b4/analysis/CalciumSignalingPathway.ipynb"><code>analysis/CalciumSignalingPathway.ipynb</code></a> committed by Min Qiao on Tue Jul 25 19:43:31 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/ad62d063a725d0b351a9711c4dfa00384d9877b4">revision 243, ad62d06</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
