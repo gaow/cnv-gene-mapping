@@ -123,67 +123,52 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="CNV-meeting-notes-starting-from-June-2017">CNV meeting notes starting from June 2017<a class="anchor-link" href="#CNV-meeting-notes-starting-from-June-2017">&#182;</a></h3>
+<h3 id="Data-transform:-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">Data transform: $y \in \{0,1\}$ to $y \in \{0,t\}$<a class="anchor-link" href="#Data-transform:-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">&#182;</a></h3>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Notes-for-meeting-06/02/2017">Notes for meeting 06/02/2017<a class="anchor-link" href="#Notes-for-meeting-06/02/2017">&#182;</a></h4><p>*1) Obtain $\alpha$ / $\alpha_0$ from ???</p>
-<p>2) Add meaning of the last column in DAP output: log10 Bayes factor of the corresponding SNP in single-SNP testing</p>
-<p>3) Add time consumed, begin time and end time</p>
-<p>4) Constants added for all patterns disrupted by CNVs are the same, set to 1.0</p>
-<p>5) Change the causal gene to the 2nd one or last one instead of 1st one</p>
-<p>6) Make configuration data for ???</p>
-<p>7) Add two more columns in pattern table: # of each pattern in cases and controls</p>
-<p>8) Make toy example for 10 genes: at most one CNV for each sample, i.e. CNV can only disrupt adjacent gene(s)</p>
-<p>9) For 4 genes toy example, ignore patterns which contain two CNVs in one sample</p>
-<p>10) Set all constant to 0, and observe results generated from variational approximation and DAP</p>
-<p>11) Make two or more blocks instead of only one in current toy example:</p>
-<p>*** Estimation of $\alpha$: simulation procedure. (1) Many blocks per sample: sample genotypes; (2) Randomly choose a pathway; (3) Create causal gene list based on pathway. (4) Sample phenotypes: if a causal gene is disrupted, a larger $y$.</p>
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="k">import</span> <span class="n">pprint</span>
+<span class="kn">from</span> <span class="nn">pandasql</span> <span class="k">import</span> <span class="n">sqldf</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
+</pre></div>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Notes-for-meeting-06/15/2017">Notes for meeting 06/15/2017<a class="anchor-link" href="#Notes-for-meeting-06/15/2017">&#182;</a></h4><p>1) First simulate CNVs: simu CNVs for different lengths: e.g. length (span 1~10 genes) follows geometric distribution; the longer CNV the less common/frequent it is; $0$ means no CNV in this region (wild type), most common in samples.</p>
-<p>2) Sample fixed amount of CNVs, say 10, in this region. Binomial sampling these CNVs from 1st step???</p>
-<p>3) Then simulate case-control: the number of CNV in cases are supposed to be more than in controls. Samples who have CNV overlapping with causal gene are more likely to be cases, say 80%; samples who have CNV not overlapping with causal gene are equally likely to be cases or controls, i.e. 50%.</p>
-<p>4) Obtain $\alpha_0$: prior; Bayes factor: if sample size is small, pip would decrease, need to check Bayes factor</p>
-<p>5) Check Swedish data, figure 3/table 1</p>
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># the lifetime prevalence of schizophrenia is 4.0/1000, not 1%, but we first set it as 0.01</span>
+<span class="c1"># according to https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1140960/</span>
+<span class="n">prevalence</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="c1"># relative risk is normally between 2 and 10</span>
+<span class="n">RR</span> <span class="o">=</span> <span class="mf">2.5</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">prevalence</span><span class="p">)</span>
+<span class="c1"># effect size of beta is z_mu</span>
+<span class="n">z_mu</span> <span class="o">=</span> <span class="n">t</span> <span class="o">-</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">RR</span><span class="o">*</span><span class="n">prevalence</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">z_mu</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Notes-for-meeting-07/21/2017">Notes for meeting 07/21/2017<a class="anchor-link" href="#Notes-for-meeting-07/21/2017">&#182;</a></h4><p>1) Data transformation: transform binary y {0,1} to {0,t}, for using linear model to perform logistic regression. $Z_\mu$ is the effect size.</p>
-<p>$ P(X \geqslant t) = P(X=Z_\mu+X' \geqslant t) = P(X' \geqslant t-Z_\mu) = 1-\Phi(t-Z_\mu) $</p>
-<p>Relative risk (RR):</p>
-<p>$ RR = \frac{1-\Phi(t-Z_\mu)}{1-\Phi(t)} $</p>
-<p>Solve $Z_\mu$ from a given RR:</p>
-<p>$ \Phi(t-Z_\mu) = 1-RR*(1-\Phi(t)) $</p>
-<p>2) TORUS prepare DAP input</p>
-<p>genesets: caucal/noncausal, one causal geneset and several noncausal genesets, each geneset contains tens to two hundreds genes</p>
-<p>3) DAP</p>
-<p>4) Real data</p>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.366383889501
+</pre>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>$f(k)=t, 1-\Phi(t)=k, y \in \{0,t\}$</p>
 </div>
 </div>
 </div>
@@ -200,7 +185,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/23863bd6946e5121f663f53fea4055f3d3c732ab/writeup/CNV_meeting_2017.ipynb"><code>writeup/CNV_meeting_2017.ipynb</code></a> committed by Min Qiao on Fri Jul 28 18:52:27 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/23863bd6946e5121f663f53fea4055f3d3c732ab">revision 247, 23863bd</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/23863bd6946e5121f663f53fea4055f3d3c732ab/analysis/20170726_DataTransform.ipynb"><code>analysis/20170726_DataTransform.ipynb</code></a> committed by Min Qiao on Fri Jul 28 18:52:27 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/23863bd6946e5121f663f53fea4055f3d3c732ab">revision 247, 23863bd</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
