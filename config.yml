@@ -3,7 +3,7 @@ repo: 'http://github.com/gaow/cnv-gene-mapping'
 footer: '&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago'
 include_dir: ['analysis', 'setup', 'writeup']
 homepage: "writeup/Overview.ipynb"
-homepage_label: "Overview"
 release_message: "Build website via jnbinder"
 post_release_actions: "cd writeup/8687161qzfgsmmjwvzy && git pull" 
 notebook_toc: False
+reverse_autoindex: ['analysis']
