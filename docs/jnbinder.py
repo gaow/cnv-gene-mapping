@@ -639,7 +639,7 @@ def make_index_nb(path, exclude, long_description = False, reverse_alphabet = Fa
     "### %s\\n"
    ]
   },''' % date_section
-        title = re.sub('[^\x00-\x7F]+', ' ', description.strip("#").replace('"', "'"))
+        title = re.sub('[^\x00-\x7F]+', ' ', description.strip("#").replace('"', "'").replace("\\", '\\\\'))
         if name.strip() != title.strip():
             out += '''
   {
@@ -702,7 +702,7 @@ def make_index_nb(path, exclude, long_description = False, reverse_alphabet = Fa
  "nbformat": 4,
  "nbformat_minor": 2
 }'''
-    return out
+    return out.strip()
 
 def make_empty_nb(name):
     return '''{
