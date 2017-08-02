@@ -1,18 +1,11 @@
-{%- extends 'basic.tpl' -%}
-
-{%- block header -%}
-{{ super() }}
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="ipynb_website:version" content="0.9.2" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
-
 <link rel="stylesheet" type="text/css" href="../css/toc2.css">
-
 <link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
 <link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
@@ -21,11 +14,9 @@
 <script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-
 <link rel="stylesheet"
       href="../site_libs/highlight/textmate.css"
       type="text/css" />
-
 <script src="../site_libs/highlight/highlight.js"></script>
 <script type="text/javascript">
 if (window.hljs && document.readyState && document.readyState === "complete") {
@@ -34,10 +25,8 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
    }, 0);
 }
 </script>
-
 <script src="../js/toc2.js"></script>
 <script src="../js/docs.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
 <script>
     MathJax.Hub.Config({
@@ -60,7 +49,6 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
         }
     });
 </script>
-
 <script>
 // manage active state of menu based on current page
 $(document).ready(function () {
@@ -84,9 +72,7 @@ $(document).ready(function () {
   window.buildTabsets("TOC");
 });
 </script>
-
 <title>Gene Mapping with CNV</title>
-
 <style type = "text/css">
 body {
   font-family: "Droid Sans";
@@ -95,13 +81,10 @@ body {
 }
 </style>
 </head>
-
 <body>
 <div tabindex="-1" id="notebook" class="border-box-sizing">
 <div class="container" id="notebook-container">
-
 <!-- code folding -->
-
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -114,40 +97,78 @@ body {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        
 <li>
   <a href="../index.html">Overview</a>
 </li>
-        
 <li>
   <a href="../analysis.html">Analysis</a>
 </li>
-        
 <li>
   <a href="../setup.html">Setup</a>
 </li>
-        
 <li>
   <a href="../writeup.html">Writeup</a>
 </li>
-        
       </ul>
-        
 <ul class="nav navbar-nav navbar-right">
 <li>
    <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
 </li>
 </ul>
-        
       </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
-{%- endblock header -%}
-{% block footer %}
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Overview-of-DAP-and-TORUS">Overview of DAP and TORUS<a class="anchor-link" href="#Overview-of-DAP-and-TORUS">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="TORUS:-QTL-discovery-utilizing-genomic-annotations;-Implement-a-computational-procedure-for-discovering-molecular-QTLs-incorporating-genomic-annotations.">TORUS: QTL discovery utilizing genomic annotations; Implement a computational procedure for discovering molecular QTLs incorporating genomic annotations.<a class="anchor-link" href="#TORUS:-QTL-discovery-utilizing-genomic-annotations;-Implement-a-computational-procedure-for-discovering-molecular-QTLs-incorporating-genomic-annotations.">&#182;</a></h4><p>Goal: 1) Enrichment Analysis, assess the enrichment level of the annotated SNPs in the association signals; e.g. gene A is an association signal of SZ if it is significantly associated with SZ.</p>
+<p>2) QTL Discovery, discover genetic loci that harbor causal variants.</p>
+<p>Data: only summary statistics (z-score or p-value from the single SNP association test)</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="DAP:-deterministic-approximation-of-posterior;-Enables-highly-efficient-and-accurate-joint-enrichment-analysis-and-identification-of-multiple-causal-variants.">DAP: deterministic approximation of posterior; Enables highly efficient and accurate joint enrichment analysis and identification of multiple causal variants.<a class="anchor-link" href="#DAP:-deterministic-approximation-of-posterior;-Enables-highly-efficient-and-accurate-joint-enrichment-analysis-and-identification-of-multiple-causal-variants.">&#182;</a></h4><p>Goal: Multi-SNP Fine-mapping analysis for the identified loci from goal 2 in TORUS.</p>
+<p>Data: individual-level genotype data. Fine-mapping is performed for each locus, all the data files should be organized for each locus separately before running the analysis.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Multi-SNP-Fine-mapping-Case-study">Multi-SNP Fine-mapping Case study<a class="anchor-link" href="#Multi-SNP-Fine-mapping-Case-study">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+</div>
+</div>
+</div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/3a670665f11dcd42db1ba7c84bb515ad2baa1d57/analysis/20170801_Overview_TORUS_DAP.ipynb"><code>analysis/20170801_Overview_TORUS_DAP.ipynb</code></a> committed by Min Qiao on Tue Aug 1 19:27:44 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/3a670665f11dcd42db1ba7c84bb515ad2baa1d57">revision 252, 3a67066</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
 </html>
-{% endblock %}
