@@ -132,7 +132,8 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="TORUS:-QTL-discovery-utilizing-genomic-annotations;-Implement-a-computational-procedure-for-discovering-molecular-QTLs-incorporating-genomic-annotations.">TORUS: QTL discovery utilizing genomic annotations; Implement a computational procedure for discovering molecular QTLs incorporating genomic annotations.<a class="anchor-link" href="#TORUS:-QTL-discovery-utilizing-genomic-annotations;-Implement-a-computational-procedure-for-discovering-molecular-QTLs-incorporating-genomic-annotations.">&#182;</a></h4><p>Goal: 1) Enrichment Analysis, assess the enrichment level of the annotated SNPs in the association signals; e.g. gene A is an association signal of SZ if it is significantly associated with SZ.</p>
+<h4 id="TORUS:-QTL-discovery-utilizing-genomic-annotations;-Implement-a-computational-procedure-for-discovering-molecular-QTLs-incorporating-genomic-annotations.">TORUS: QTL discovery utilizing genomic annotations; Implement a computational procedure for discovering molecular QTLs incorporating genomic annotations.<a class="anchor-link" href="#TORUS:-QTL-discovery-utilizing-genomic-annotations;-Implement-a-computational-procedure-for-discovering-molecular-QTLs-incorporating-genomic-annotations.">&#182;</a></h4><p><a href="https://github.com/xqwen/torus">https://github.com/xqwen/torus</a></p>
+<p>Goal: 1) Enrichment Analysis, assess the enrichment level of the annotated SNPs in the association signals; e.g. gene A is an association signal of SZ if it is significantly associated with SZ.</p>
 <p>2) QTL Discovery, discover genetic loci that harbor causal variants.</p>
 <p>Data: only summary statistics (z-score or p-value from the single SNP association test)</p>
 </div>
@@ -143,7 +144,8 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="DAP:-deterministic-approximation-of-posterior;-Enables-highly-efficient-and-accurate-joint-enrichment-analysis-and-identification-of-multiple-causal-variants.">DAP: deterministic approximation of posterior; Enables highly efficient and accurate joint enrichment analysis and identification of multiple causal variants.<a class="anchor-link" href="#DAP:-deterministic-approximation-of-posterior;-Enables-highly-efficient-and-accurate-joint-enrichment-analysis-and-identification-of-multiple-causal-variants.">&#182;</a></h4><p>Goal: Multi-SNP Fine-mapping analysis for the identified loci from goal 2 in TORUS.</p>
+<h4 id="DAP:-deterministic-approximation-of-posterior;-Enables-highly-efficient-and-accurate-joint-enrichment-analysis-and-identification-of-multiple-causal-variants.">DAP: deterministic approximation of posterior; Enables highly efficient and accurate joint enrichment analysis and identification of multiple causal variants.<a class="anchor-link" href="#DAP:-deterministic-approximation-of-posterior;-Enables-highly-efficient-and-accurate-joint-enrichment-analysis-and-identification-of-multiple-causal-variants.">&#182;</a></h4><p><a href="https://github.com/xqwen/dap/wiki">https://github.com/xqwen/dap/wiki</a></p>
+<p>Goal: Multi-SNP Fine-mapping analysis for the identified loci from goal 2 in TORUS.</p>
 <p>Data: individual-level genotype data. Fine-mapping is performed for each locus, all the data files should be organized for each locus separately before running the analysis.</p>
 </div>
 </div>
@@ -153,7 +155,40 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Multi-SNP-Fine-mapping-Case-study">Multi-SNP Fine-mapping Case study<a class="anchor-link" href="#Multi-SNP-Fine-mapping-Case-study">&#182;</a></h4>
+<h4 id="Effect-Size-Grid-File">Effect Size Grid File<a class="anchor-link" href="#Effect-Size-Grid-File">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Effect size grid file: prior effect size specifications for causal variants.</p>
+<p>two-parameters, phi and omega, are required:</p>
+<p>$\phi$: the heterogeneity of a genetic effect across multiple subgroups (Genetic heterogeneity is a phenomenon in which a single phenotype or genetic disorder may be caused by any one of a multiple number of alleles or non-allele (locus) mutations).</p>
+<p>$\omega$: the average effect size.</p>
+<p>Single study, set $\phi$ to 0 and only specify $\omega$</p>
+<p>Two-column data matrix: 1st column is $\phi$, 2nd column specifies $\omega$. Each row provides a unique combination.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Prior-file">Prior file<a class="anchor-link" href="#Prior-file">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The prior file specifies SNP-level prior for each candidate SNP. The SNP-level priors can be computed by the executable torus in the process of enrichment analysis.</p>
+<p>The 1st column represents the SNP name and the 2nd column represents the prior probability that the SNP is associated.</p>
 </div>
 </div>
 </div>
@@ -167,7 +202,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/3a670665f11dcd42db1ba7c84bb515ad2baa1d57/analysis/20170801_Overview_TORUS_DAP.ipynb"><code>analysis/20170801_Overview_TORUS_DAP.ipynb</code></a> committed by Min Qiao on Tue Aug 1 19:27:44 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/3a670665f11dcd42db1ba7c84bb515ad2baa1d57">revision 252, 3a67066</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/220c48c5cd0877fef003ed694a8f1211133a38c8/analysis/20170801_Overview_TORUS_DAP.ipynb"><code>analysis/20170801_Overview_TORUS_DAP.ipynb</code></a> committed by Min Qiao on Thu Aug 3 20:39:07 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/220c48c5cd0877fef003ed694a8f1211133a38c8">revision 254, 220c48c</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

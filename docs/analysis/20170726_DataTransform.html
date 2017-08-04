@@ -137,6 +137,10 @@ body {
 <span class="kn">from</span> <span class="nn">pprint</span> <span class="k">import</span> <span class="n">pprint</span>
 <span class="kn">from</span> <span class="nn">pandasql</span> <span class="k">import</span> <span class="n">sqldf</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">feather</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
 </pre></div>
 </div>
 </div>
@@ -144,7 +148,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># the lifetime prevalence of schizophrenia is 4.0/1000, not 1%, but we first set it as 0.01</span>
@@ -174,10 +178,1694 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create prior file</span>
+<span class="n">cal_pthwy_genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/calciumgeneset.txt&quot;</span><span class="p">,</span> <span class="n">skiprows</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
+<span class="n">ref_genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;data/refGene.txt.gz&quot;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+                          <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;gene_name&quot;</span><span class="p">))</span>
+<span class="n">calpath_gene_pos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">ref_genes</span><span class="p">,</span> <span class="n">cal_pthwy_genes</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
+<span class="n">diff</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">cal_pthwy_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">calpath_gene_pos</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<span class="c1"># add the two missing genes and their chromosome in the dataframe</span>
+<span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chr2&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">diff</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chr15&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">diff</span><span class="p">)[</span><span class="mi">1</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">calpath_gene_pos</span><span class="p">[</span><span class="s2">&quot;chr.gene&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]),</span> 
+                                                      <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">calpath_gene_pos</span><span class="p">[</span><span class="s2">&quot;prior.pr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">z_mu</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">calpath_gene_pos</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[19]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>chrom</th>
+      <th>gene_name</th>
+      <th>chr.gene</th>
+      <th>prior.pr</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>chr17</td>
+      <td>CACNA1G</td>
+      <td>chr17.CACNA1G</td>
+      <td>0.184038</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>chr2</td>
+      <td>PLCD4</td>
+      <td>chr2.PLCD4</td>
+      <td>0.242758</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>chr20</td>
+      <td>PLCB4</td>
+      <td>chr20.PLCB4</td>
+      <td>0.365112</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>chr4</td>
+      <td>CAMK2D</td>
+      <td>chr4.CAMK2D</td>
+      <td>0.192109</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>chr14</td>
+      <td>SLC8A3</td>
+      <td>chr14.SLC8A3</td>
+      <td>0.155206</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>chr8</td>
+      <td>PTK2B</td>
+      <td>chr8.PTK2B</td>
+      <td>0.109224</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>chr9</td>
+      <td>GNA14</td>
+      <td>chr9.GNA14</td>
+      <td>0.111205</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>chr8</td>
+      <td>VDAC3</td>
+      <td>chr8.VDAC3</td>
+      <td>0.064767</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>chr12</td>
+      <td>PDE1B</td>
+      <td>chr12.PDE1B</td>
+      <td>0.031932</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>chr12</td>
+      <td>CACNA1C</td>
+      <td>chr12.CACNA1C</td>
+      <td>0.223430</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>chr3</td>
+      <td>ITPR1</td>
+      <td>chr3.ITPR1</td>
+      <td>0.110726</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>chr1</td>
+      <td>PRKACB</td>
+      <td>chr1.PRKACB</td>
+      <td>0.105360</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>chr17</td>
+      <td>ATP2A3</td>
+      <td>chr17.ATP2A3</td>
+      <td>0.120601</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>chr20</td>
+      <td>ADRA1D</td>
+      <td>chr20.ADRA1D</td>
+      <td>0.170864</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>chr5</td>
+      <td>HTR4</td>
+      <td>chr5.HTR4</td>
+      <td>0.054739</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>chr1</td>
+      <td>PTAFR</td>
+      <td>chr1.PTAFR</td>
+      <td>0.088442</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>chr4</td>
+      <td>CD38</td>
+      <td>chr4.CD38</td>
+      <td>0.104394</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>chrX</td>
+      <td>SLC25A6</td>
+      <td>chrX.SLC25A6</td>
+      <td>0.028137</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>chr1</td>
+      <td>PTGER3</td>
+      <td>chr1.PTGER3</td>
+      <td>0.036412</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>chr19</td>
+      <td>SPHK2</td>
+      <td>chr19.SPHK2</td>
+      <td>0.172305</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>chr12</td>
+      <td>ATP2A2</td>
+      <td>chr12.ATP2A2</td>
+      <td>0.242930</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>chr12</td>
+      <td>P2RX2</td>
+      <td>chr12.P2RX2</td>
+      <td>0.344589</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>chr1</td>
+      <td>CACNA1E</td>
+      <td>chr1.CACNA1E</td>
+      <td>0.022320</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>chr1</td>
+      <td>ATP2B4</td>
+      <td>chr1.ATP2B4</td>
+      <td>0.075964</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>chr2</td>
+      <td>ADCY3</td>
+      <td>chr2.ADCY3</td>
+      <td>0.024188</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>chr16</td>
+      <td>PLCG2</td>
+      <td>chr16.PLCG2</td>
+      <td>0.039797</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>chr18</td>
+      <td>GNAL</td>
+      <td>chr18.GNAL</td>
+      <td>0.064265</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>chr6</td>
+      <td>ITPR3</td>
+      <td>chr6.ITPR3</td>
+      <td>0.129792</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>chr1</td>
+      <td>RYR2</td>
+      <td>chr1.RYR2</td>
+      <td>0.179770</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>chr10</td>
+      <td>CAMK2G</td>
+      <td>chr10.CAMK2G</td>
+      <td>0.063644</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>148</th>
+      <td>chr12</td>
+      <td>P2RX7</td>
+      <td>chr12.P2RX7</td>
+      <td>0.359476</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>chr15</td>
+      <td>ITPKA</td>
+      <td>chr15.ITPKA</td>
+      <td>0.119983</td>
+    </tr>
+    <tr>
+      <th>150</th>
+      <td>chr8</td>
+      <td>TRHR</td>
+      <td>chr8.TRHR</td>
+      <td>0.365393</td>
+    </tr>
+    <tr>
+      <th>151</th>
+      <td>chr1</td>
+      <td>CACNA1S</td>
+      <td>chr1.CACNA1S</td>
+      <td>0.219652</td>
+    </tr>
+    <tr>
+      <th>152</th>
+      <td>chr9</td>
+      <td>GNAQ</td>
+      <td>chr9.GNAQ</td>
+      <td>0.163707</td>
+    </tr>
+    <tr>
+      <th>153</th>
+      <td>chr15</td>
+      <td>PLCB2</td>
+      <td>chr15.PLCB2</td>
+      <td>0.282660</td>
+    </tr>
+    <tr>
+      <th>154</th>
+      <td>chr7</td>
+      <td>ADCY1</td>
+      <td>chr7.ADCY1</td>
+      <td>0.326483</td>
+    </tr>
+    <tr>
+      <th>155</th>
+      <td>chr15</td>
+      <td>RYR3</td>
+      <td>chr15.RYR3</td>
+      <td>0.282053</td>
+    </tr>
+    <tr>
+      <th>156</th>
+      <td>chr7</td>
+      <td>PHKG1</td>
+      <td>chr7.PHKG1</td>
+      <td>0.326782</td>
+    </tr>
+    <tr>
+      <th>157</th>
+      <td>chrX</td>
+      <td>CYSLTR1</td>
+      <td>chrX.CYSLTR1</td>
+      <td>0.127346</td>
+    </tr>
+    <tr>
+      <th>158</th>
+      <td>chr5</td>
+      <td>PDGFRB</td>
+      <td>chr5.PDGFRB</td>
+      <td>0.351892</td>
+    </tr>
+    <tr>
+      <th>159</th>
+      <td>chr4</td>
+      <td>SLC25A4</td>
+      <td>chr4.SLC25A4</td>
+      <td>0.278924</td>
+    </tr>
+    <tr>
+      <th>160</th>
+      <td>chr8</td>
+      <td>PPP3CC</td>
+      <td>chr8.PPP3CC</td>
+      <td>0.274591</td>
+    </tr>
+    <tr>
+      <th>161</th>
+      <td>chr2</td>
+      <td>LHCGR</td>
+      <td>chr2.LHCGR</td>
+      <td>0.102993</td>
+    </tr>
+    <tr>
+      <th>162</th>
+      <td>chr8</td>
+      <td>ADRB3</td>
+      <td>chr8.ADRB3</td>
+      <td>0.300598</td>
+    </tr>
+    <tr>
+      <th>163</th>
+      <td>chr3</td>
+      <td>OXTR</td>
+      <td>chr3.OXTR</td>
+      <td>0.300472</td>
+    </tr>
+    <tr>
+      <th>164</th>
+      <td>chr10</td>
+      <td>CALML5</td>
+      <td>chr10.CALML5</td>
+      <td>0.304928</td>
+    </tr>
+    <tr>
+      <th>165</th>
+      <td>chr1</td>
+      <td>HTR6</td>
+      <td>chr1.HTR6</td>
+      <td>0.082030</td>
+    </tr>
+    <tr>
+      <th>166</th>
+      <td>chr20</td>
+      <td>PLCG1</td>
+      <td>chr20.PLCG1</td>
+      <td>0.086298</td>
+    </tr>
+    <tr>
+      <th>167</th>
+      <td>chr20</td>
+      <td>MYLK2</td>
+      <td>chr20.MYLK2</td>
+      <td>0.168521</td>
+    </tr>
+    <tr>
+      <th>168</th>
+      <td>chr7</td>
+      <td>CHRM2</td>
+      <td>chr7.CHRM2</td>
+      <td>0.070614</td>
+    </tr>
+    <tr>
+      <th>169</th>
+      <td>chr11</td>
+      <td>P2RX3</td>
+      <td>chr11.P2RX3</td>
+      <td>0.355313</td>
+    </tr>
+    <tr>
+      <th>170</th>
+      <td>chrX</td>
+      <td>CACNA1F</td>
+      <td>chrX.CACNA1F</td>
+      <td>0.305084</td>
+    </tr>
+    <tr>
+      <th>171</th>
+      <td>chrX</td>
+      <td>SLC25A5</td>
+      <td>chrX.SLC25A5</td>
+      <td>0.035433</td>
+    </tr>
+    <tr>
+      <th>172</th>
+      <td>chrX</td>
+      <td>ATP2B3</td>
+      <td>chrX.ATP2B3</td>
+      <td>0.295798</td>
+    </tr>
+    <tr>
+      <th>173</th>
+      <td>chr16</td>
+      <td>PRKCB</td>
+      <td>chr16.PRKCB</td>
+      <td>0.333293</td>
+    </tr>
+    <tr>
+      <th>174</th>
+      <td>chr1</td>
+      <td>CALML6</td>
+      <td>chr1.CALML6</td>
+      <td>0.142020</td>
+    </tr>
+    <tr>
+      <th>175</th>
+      <td>chr13</td>
+      <td>CYSLTR2</td>
+      <td>chr13.CYSLTR2</td>
+      <td>0.116161</td>
+    </tr>
+    <tr>
+      <th>176</th>
+      <td>chr2</td>
+      <td>LOC729317</td>
+      <td>chr2.LOC729317</td>
+      <td>0.322392</td>
+    </tr>
+    <tr>
+      <th>177</th>
+      <td>chr15</td>
+      <td>CHP</td>
+      <td>chr15.CHP</td>
+      <td>0.028747</td>
+    </tr>
+  </tbody>
+</table>
+<p>178 rows × 4 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">testprior</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;dap/ENSG00000112799.null.prior&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+                          <span class="n">usecols</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;SNP&quot;</span><span class="p">,</span> <span class="s2">&quot;prior&quot;</span><span class="p">])</span>
+<span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">testprior</span><span class="p">[</span><span class="s2">&quot;prior&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[18]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>0.023190000000000002</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create/write grid file</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="n">z_mu</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create</span>
+<span class="n">y_tran</span> <span class="o">=</span> <span class="n">t</span>
+<span class="n">y_phe0</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">feather</span><span class="o">.</span><span class="n">read_dataframe</span><span class="p">(</span><span class="s2">&quot;data/toy_n2000_p0.9_causal5_const1.0_0.05.feather&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0 phenotype
+1 gene1
+2 gene2
+3 gene3
+4 gene4
+5 gene5
+6 gene6
+7 gene7
+8 gene8
+9 gene9
+10 gene10
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[72]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># feather.read_dataframe(&quot;data/del_sim_scale3_shape1_N100_M50_999.feather&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;data/del_sim_scale3_shape1_N100_M100_999.feather&quot;</span>
+<span class="n">fileout</span> <span class="o">=</span> <span class="s2">&quot;data/del_sim_scale3_shape1_N100_M100_999.dap&quot;</span>
+<span class="n">input_file</span> <span class="o">=</span> <span class="n">feather</span><span class="o">.</span><span class="n">read_dataframe</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">input_file</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">run_dap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">fileout</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exec_path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Convert pandas dataframe to dap input:</span>
+<span class="sd">        - phenotype / genotype file</span>
+<span class="sd">        - prior file</span>
+<span class="sd">        - grid file (of effect size): omega^2 + phi^2 is what we care. Let&#39;s set it to</span>
+<span class="sd">            *************** for now, as we only have one Y</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">time</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;/tmp/F&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">exec_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">exec_path</span> <span class="o">=</span> <span class="s1">&#39;dap/dap&#39;</span>
+    <span class="n">chrom</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chr</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">23</span><span class="p">))</span><span class="o">+</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]]</span>
+<span class="c1">#     pos is all the gene names showed in .feather</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="c1">#     first item in &quot;dat&quot; is phenotype for all samples (# of rows in .feather)</span>
+    <span class="n">dat</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;pheno&#39;</span><span class="p">,</span> <span class="s1">&#39;trait&#39;</span><span class="p">,</span> <span class="s1">&#39;chicago&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]]]</span>
+    <span class="n">prior</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)]</span>
+<span class="c1">#     item is gene name</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="s1">&#39;phenotype&#39;</span><span class="p">:</span>
+            <span class="k">continue</span>
+<span class="c1">#         fix &quot;chrom&quot; and &quot;pos&quot; for the next two lines</span>
+        <span class="n">dat</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;geno&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chrom</span><span class="p">,</span> <span class="n">item</span> <span class="o">+</span> <span class="n">idx</span><span class="p">),</span> <span class="s1">&#39;chicago&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="n">item</span><span class="p">]])</span>
+        <span class="n">prior</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chrom</span><span class="p">,</span> <span class="n">pos</span> <span class="o">+</span> <span class="n">idx</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))])</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;.dat&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">]))</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;.prior&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">prior</span><span class="p">]))</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;.grid&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">]))</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> -d </span><span class="si">{1}</span><span class="s2">.dat -g </span><span class="si">{1}</span><span class="s2">.grid -t 8 -it 0.05 -prior </span><span class="si">{1}</span><span class="s2">.prior &gt; </span><span class="si">{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">exec_path</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">fileout</span><span class="p">))</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[71]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># chrom</span>
+<span class="n">chrom</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chr</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">23</span><span class="p">))</span><span class="o">+</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]]</span>
+<span class="nb">print</span> <span class="p">((</span><span class="n">chrom</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;chr1&#39;, &#39;chr2&#39;, &#39;chr3&#39;, &#39;chr4&#39;, &#39;chr5&#39;, &#39;chr6&#39;, &#39;chr7&#39;, &#39;chr8&#39;, &#39;chr9&#39;, &#39;chr10&#39;, &#39;chr11&#39;, &#39;chr12&#39;, &#39;chr13&#39;, &#39;chr14&#39;, &#39;chr15&#39;, &#39;chr16&#39;, &#39;chr17&#39;, &#39;chr18&#39;, &#39;chr19&#39;, &#39;chr20&#39;, &#39;chr21&#39;, &#39;chr22&#39;, &#39;chrX&#39;]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># pos</span>
+<span class="n">feather</span><span class="o">.</span><span class="n">read_dataframe</span><span class="p">(</span><span class="s2">&quot;data/del_sim_scale3_shape1_N100_M100_999.feather&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[63]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;STXBP4&#39;,
+ &#39;PKD1P1&#39;,
+ &#39;FAM120AOS&#39;,
+ &#39;LRRC3B&#39;,
+ &#39;KANSL3&#39;,
+ &#39;LOC641746&#39;,
+ &#39;LOC101929337&#39;,
+ &#39;OLFM3&#39;,
+ &#39;ZNF257&#39;,
+ &#39;PRAMEF9&#39;,
+ &#39;HIPK1&#39;,
+ &#39;NOMO3&#39;,
+ &#39;OR8B8&#39;,
+ &#39;C19orf35&#39;,
+ &#39;MKRN1&#39;,
+ &#39;LPL&#39;,
+ &#39;SNORD41&#39;,
+ &#39;PGAM5&#39;,
+ &#39;RGP1&#39;,
+ &#39;DPY19L2P1&#39;,
+ &#39;MIR185&#39;,
+ &#39;NOMO2&#39;,
+ &#39;SRSF6&#39;,
+ &#39;ZNF132&#39;,
+ &#39;KDELC2&#39;,
+ &#39;LRRC63&#39;,
+ &#39;HDAC9&#39;,
+ &#39;ZMAT4&#39;,
+ &#39;LOC340512&#39;,
+ &#39;CIRBP&#39;,
+ &#39;SLC25A24&#39;,
+ &#39;CPED1&#39;,
+ &#39;FAM179B&#39;,
+ &#39;MBNL1-AS1&#39;,
+ &#39;PKN2-AS1&#39;,
+ &#39;PSMG1&#39;,
+ &#39;FERMT3&#39;,
+ &#39;ST20&#39;,
+ &#39;LOC100130872&#39;,
+ &#39;MIR1268A&#39;,
+ &#39;LINC01518&#39;,
+ &#39;ATP6V0E2&#39;,
+ &#39;COX11&#39;,
+ &#39;MIRLET7C&#39;,
+ &#39;TOP3A&#39;,
+ &#39;KRBOX1-AS1&#39;,
+ &#39;EVPLL&#39;,
+ &#39;LINC00184&#39;,
+ &#39;LOC100130451&#39;,
+ &#39;GOLGA8J&#39;,
+ &#39;NR5A2&#39;,
+ &#39;PRAMEF6&#39;,
+ &#39;MAP9&#39;,
+ &#39;TMEM35B&#39;,
+ &#39;SH3RF3&#39;,
+ &#39;OR2AP1&#39;,
+ &#39;NMU&#39;,
+ &#39;CSGALNACT1&#39;,
+ &#39;TMEM109&#39;,
+ &#39;DLGAP1&#39;,
+ &#39;UBQLN3&#39;,
+ &#39;HECTD2&#39;,
+ &#39;DNAH14&#39;,
+ &#39;JUNB&#39;,
+ &#39;MIR6794&#39;,
+ &#39;RNASEH2A&#39;,
+ &#39;MIS18BP1&#39;,
+ &#39;MFF&#39;,
+ &#39;FAM221B&#39;,
+ &#39;SERPINB8&#39;,
+ &#39;GJB7&#39;,
+ &#39;SLC27A5&#39;,
+ &#39;GOLGA6D&#39;,
+ &#39;LOC101929340&#39;,
+ &#39;C7orf13&#39;,
+ &#39;GIPC3&#39;,
+ &#39;MIR1306&#39;,
+ &#39;UBE3C&#39;,
+ &#39;PLCB3&#39;,
+ &#39;OR6X1&#39;,
+ &#39;MIR6515&#39;,
+ &#39;IL1RL1&#39;,
+ &#39;IARS&#39;,
+ &#39;XKR4&#39;,
+ &#39;CELF5&#39;,
+ &#39;TRIM22&#39;,
+ &#39;ZFR2&#39;,
+ &#39;LRRN3&#39;,
+ &#39;MIR99A&#39;,
+ &#39;OR8B12&#39;,
+ &#39;LINC00961&#39;,
+ &#39;HEPN1&#39;,
+ &#39;PHF2&#39;,
+ &#39;RAB19&#39;,
+ &#39;FANCM&#39;,
+ &#39;TMC1&#39;,
+ &#39;ZC3H4&#39;,
+ &#39;RTN3&#39;,
+ &#39;MIR5006&#39;,
+ &#39;ABHD17A&#39;,
+ &#39;FCRLA&#39;,
+ &#39;ATP6V0E2-AS1&#39;,
+ &#39;COL11A1&#39;,
+ &#39;MIR5692A2&#39;,
+ &#39;RIMS1&#39;,
+ &#39;LOC728084&#39;,
+ &#39;LOC102546228&#39;,
+ &#39;TMEM220-AS1&#39;,
+ &#39;LINC01257&#39;,
+ &#39;PTPRO&#39;,
+ &#39;IAPP&#39;,
+ &#39;ZNF777&#39;,
+ &#39;NAMPT&#39;,
+ &#39;ESAM&#39;,
+ &#39;MIR4781&#39;,
+ &#39;DECR1&#39;,
+ &#39;TMEFF1&#39;,
+ &#39;BEST2&#39;,
+ &#39;TMEM160&#39;,
+ &#39;CHFR&#39;,
+ &#39;ASNA1&#39;,
+ &#39;ULK4&#39;,
+ &#39;ZP1&#39;,
+ &#39;RAD21&#39;,
+ &#39;C11orf53&#39;,
+ &#39;LINC00563&#39;,
+ &#39;FOXD1&#39;,
+ &#39;TMEM67&#39;,
+ &#39;MYH4&#39;,
+ &#39;RICTOR&#39;,
+ &#39;LINC00440&#39;,
+ &#39;SERPINB7&#39;,
+ &#39;USP42&#39;,
+ &#39;CARD19&#39;,
+ &#39;CCDC68&#39;,
+ &#39;LINC00301&#39;,
+ &#39;MIR6839&#39;,
+ &#39;APP&#39;,
+ &#39;CSNK1G2&#39;,
+ &#39;LOC101928166&#39;,
+ &#39;ZNF324B&#39;,
+ &#39;ANGPTL2&#39;,
+ &#39;TRIM64B&#39;,
+ &#39;LOC100130238&#39;,
+ &#39;PRAMEF1&#39;,
+ &#39;FAM214B&#39;,
+ &#39;ZFAND4&#39;,
+ &#39;CNTNAP2&#39;,
+ &#39;LOC101927954&#39;,
+ &#39;IMPA1&#39;,
+ &#39;REXO1&#39;,
+ &#39;RSU1P2&#39;,
+ &#39;SLC2A3&#39;,
+ &#39;DZIP1&#39;,
+ &#39;CCDC81&#39;,
+ &#39;OR52B6&#39;,
+ &#39;CCDC174&#39;,
+ &#39;BRWD1&#39;,
+ &#39;SNORD89&#39;,
+ &#39;STARD13&#39;,
+ &#39;DDIT3&#39;,
+ &#39;LRSAM1&#39;,
+ &#39;MIR6807&#39;,
+ &#39;EFNA2&#39;,
+ &#39;HOOK2&#39;,
+ &#39;TMEM225&#39;,
+ &#39;IL1RL2&#39;,
+ &#39;CEMIP&#39;,
+ &#39;TCEANC2&#39;,
+ &#39;LINC01264&#39;,
+ &#39;ZNF783&#39;,
+ &#39;IL1R1&#39;,
+ &#39;PEAR1&#39;,
+ &#39;VPS4B&#39;,
+ &#39;ANKRD27&#39;,
+ &#39;OLFM5P&#39;,
+ &#39;FSHR&#39;,
+ &#39;APBA3&#39;,
+ &#39;PRAMEF12&#39;,
+ &#39;ZNF484&#39;,
+ &#39;VSIG2&#39;,
+ &#39;PARD3B&#39;,
+ &#39;MIR3670-4&#39;,
+ &#39;SERPINB5&#39;,
+ &#39;MIR3685&#39;,
+ &#39;DNAJC27-AS1&#39;,
+ &#39;ZHX2&#39;,
+ &#39;OR9K2&#39;,
+ &#39;RPL29&#39;,
+ &#39;LOC400794&#39;,
+ &#39;TBC1D8&#39;,
+ &#39;KCNK4-TEX40&#39;,
+ &#39;ABRACL&#39;,
+ &#39;LYL1&#39;,
+ &#39;TRMT112&#39;,
+ &#39;INVS&#39;,
+ &#39;ZNF891&#39;,
+ &#39;LOC101927020&#39;,
+ &#39;HTT-AS&#39;,
+ &#39;MIR5087&#39;,
+ &#39;GOLGA6L4&#39;,
+ &#39;PDE8A&#39;,
+ &#39;TRIM28&#39;,
+ &#39;PIP5K1C&#39;,
+ &#39;VAV3&#39;,
+ &#39;TMEM8B&#39;,
+ &#39;NKX1-1&#39;,
+ &#39;CRYM&#39;,
+ &#39;TMPRSS11F&#39;,
+ &#39;SRRD&#39;,
+ &#39;DCLRE1CP1&#39;,
+ &#39;RAX2&#39;,
+ &#39;SRRT&#39;,
+ &#39;MRM2&#39;,
+ &#39;CCDC107&#39;,
+ &#39;WDR83OS&#39;,
+ &#39;MIR8485&#39;,
+ &#39;GHSR&#39;,
+ &#39;FLJ35934&#39;,
+ &#39;CNNM4&#39;,
+ &#39;DIRAS1&#39;,
+ &#39;LOC105378269&#39;,
+ &#39;SEPT10&#39;,
+ &#39;C19orf43&#39;,
+ &#39;ASPH&#39;,
+ &#39;GJB3&#39;,
+ &#39;ADAT3&#39;,
+ &#39;MIR6758&#39;,
+ &#39;HSPA14&#39;,
+ &#39;NAA40&#39;,
+ &#39;PIGO&#39;,
+ &#39;AKAP13&#39;,
+ &#39;EPHA7&#39;,
+ &#39;NXN&#39;,
+ &#39;PPIP5K2&#39;,
+ &#39;JMJD1C&#39;,
+ &#39;ZFAND1&#39;,
+ &#39;EMC1&#39;,
+ &#39;LOC100128885&#39;,
+ &#39;NDUFB2-AS1&#39;,
+ &#39;CACTIN-AS1&#39;,
+ &#39;MIR6511A1&#39;,
+ &#39;EPHA4&#39;,
+ &#39;ZNF462&#39;,
+ &#39;LOC102724238&#39;,
+ &#39;THSD7A&#39;,
+ &#39;IL1R2&#39;,
+ &#39;GPR62&#39;,
+ &#39;JPH2&#39;,
+ &#39;SUV39H2&#39;,
+ &#39;LINC00887&#39;,
+ &#39;TSPAN5&#39;,
+ &#39;TWF2&#39;,
+ &#39;CAMKK2&#39;,
+ &#39;STOML2&#39;,
+ &#39;GP5&#39;,
+ &#39;RPL12&#39;,
+ &#39;PCAT7&#39;,
+ &#39;SGTA&#39;,
+ &#39;PRKCA&#39;,
+ &#39;C11orf65&#39;,
+ &#39;IQCF5-AS1&#39;,
+ &#39;LOC100507443&#39;,
+ &#39;OR8D2&#39;,
+ &#39;SPON2&#39;,
+ &#39;MACROD2&#39;,
+ &#39;MIR552&#39;,
+ &#39;TSSK1B&#39;,
+ &#39;ARHGEF7&#39;,
+ &#39;SERPINB12&#39;,
+ &#39;GPC5&#39;,
+ &#39;TRIM53AP&#39;,
+ &#39;TNFSF10&#39;,
+ &#39;KRT35&#39;,
+ &#39;LOC441242&#39;,
+ &#39;CCSAP&#39;,
+ &#39;INHBC&#39;,
+ &#39;LPXN&#39;,
+ &#39;CTBP1&#39;,
+ &#39;SNX16&#39;,
+ &#39;LOC100132078&#39;,
+ &#39;MIR331&#39;,
+ &#39;ACKR2&#39;,
+ &#39;GAMT&#39;,
+ &#39;NUTM2F&#39;,
+ &#39;LOC102724084&#39;,
+ &#39;LINC01047&#39;,
+ &#39;RNF149&#39;,
+ &#39;CCT6P1&#39;,
+ &#39;SNAR-E&#39;,
+ &#39;CSGALNACT2&#39;,
+ &#39;CLOCK&#39;,
+ &#39;TMEM59&#39;,
+ &#39;TCF3&#39;,
+ &#39;MIR3180-2&#39;,
+ &#39;GLS&#39;,
+ &#39;LINC00342&#39;,
+ &#39;REPS1&#39;,
+ &#39;UBR4&#39;,
+ &#39;MRGPRX1&#39;,
+ &#39;KRBA1&#39;,
+ &#39;DBIL5P&#39;,
+ &#39;CDCP2&#39;,
+ &#39;ASF1A&#39;,
+ &#39;ADTRP&#39;,
+ &#39;IQCF4&#39;,
+ &#39;DNAJB5&#39;,
+ &#39;MIR4706&#39;,
+ &#39;ZNF467&#39;,
+ &#39;MIR6875&#39;,
+ &#39;ADAM7&#39;,
+ &#39;CHURC1-FNTB&#39;,
+ &#39;LOC101927668&#39;,
+ &#39;PRSS3&#39;,
+ &#39;KRT17P5&#39;,
+ &#39;OR10S1&#39;,
+ &#39;FKBP3&#39;,
+ &#39;POLR2E&#39;,
+ &#39;FAM149B1&#39;,
+ &#39;C16orf46&#39;,
+ &#39;OAZ2&#39;,
+ &#39;CERS6&#39;,
+ &#39;KLF1&#39;,
+ &#39;FAM214A&#39;,
+ &#39;MSANTD3&#39;,
+ &#39;ICOS&#39;,
+ &#39;MIR6730&#39;,
+ &#39;RALGPS1&#39;,
+ &#39;RAD21-AS1&#39;,
+ &#39;NALCN&#39;,
+ &#39;LOC101928530&#39;,
+ &#39;MYBL2&#39;,
+ &#39;RGS9BP&#39;,
+ &#39;ARHGDIB&#39;,
+ &#39;ZNF556&#39;,
+ &#39;GLYCTK-AS1&#39;,
+ &#39;OR13A1&#39;,
+ &#39;ASPN&#39;,
+ &#39;ADAMTS1&#39;,
+ &#39;MASTL&#39;,
+ &#39;ADAM28&#39;,
+ &#39;SNORD135&#39;,
+ &#39;MIR5692C2&#39;,
+ &#39;EXO5&#39;,
+ &#39;ZNF684&#39;,
+ &#39;ATCAY&#39;,
+ &#39;LOC101928597&#39;,
+ &#39;GPR37&#39;,
+ &#39;CNOT11&#39;,
+ &#39;CNTN3&#39;,
+ &#39;TOM1L1&#39;,
+ &#39;WNK2&#39;,
+ &#39;LRCOL1&#39;,
+ &#39;OR8G5&#39;,
+ &#39;LOC101929353&#39;,
+ &#39;GLYCTK&#39;,
+ &#39;MEIG1&#39;,
+ &#39;LINC00895&#39;,
+ &#39;NR6A1&#39;,
+ &#39;LOC101927583&#39;,
+ &#39;GCDH&#39;,
+ &#39;TNPO2&#39;,
+ &#39;LOC100996351&#39;,
+ &#39;ALDH9A1&#39;,
+ &#39;MIR6852&#39;,
+ &#39;TTC28-AS1&#39;,
+ &#39;TNRC6C&#39;,
+ &#39;LRP5L&#39;,
+ &#39;UQCR11&#39;,
+ &#39;LOC401324&#39;,
+ &#39;ARRDC3&#39;,
+ &#39;MIR1237&#39;,
+ &#39;DNAH11&#39;,
+ &#39;AGK&#39;,
+ &#39;KRT32&#39;,
+ &#39;RPL13AP17&#39;,
+ &#39;STON1-GTF2A1L&#39;,
+ &#39;LGALS12&#39;,
+ &#39;OR4D5&#39;,
+ &#39;OR51B5&#39;,
+ &#39;TEX40&#39;,
+ &#39;TEFM&#39;,
+ &#39;TESK1&#39;,
+ &#39;ETV3&#39;,
+ &#39;WISP1&#39;,
+ &#39;ATM&#39;,
+ &#39;BSND&#39;,
+ &#39;LOC554249&#39;,
+ &#39;LOC550113&#39;,
+ &#39;MEF2C-AS1&#39;,
+ &#39;OR6C2&#39;,
+ &#39;ATP8A2&#39;,
+ &#39;C10orf25&#39;,
+ &#39;PRAMEF8&#39;,
+ &#39;LINC00114&#39;,
+ &#39;LOC101929748&#39;,
+ &#39;FAM184A&#39;,
+ &#39;RXRG&#39;,
+ &#39;MIR4454&#39;,
+ &#39;MACC1&#39;,
+ &#39;ZNF662&#39;,
+ &#39;HTT&#39;,
+ &#39;NR5A1&#39;,
+ &#39;PKD1L2&#39;,
+ &#39;ZNF140&#39;,
+ &#39;OGN&#39;,
+ &#39;DAND5&#39;,
+ &#39;RPL31P11&#39;,
+ &#39;LOC81691&#39;,
+ &#39;SLIT1&#39;,
+ &#39;C22orf39&#39;,
+ &#39;RNF32&#39;,
+ &#39;SLC7A14&#39;,
+ &#39;NDRG1&#39;,
+ &#39;SEZ6L&#39;,
+ &#39;LINC01251&#39;,
+ &#39;AHI1&#39;,
+ &#39;AKR7A2&#39;,
+ &#39;ZFP69B&#39;,
+ &#39;CCDC88B&#39;,
+ &#39;TMEM72-AS1&#39;,
+ &#39;P4HA1&#39;,
+ &#39;FARS2&#39;,
+ &#39;ZNF676&#39;,
+ &#39;KIF2B&#39;,
+ &#39;TEX10&#39;,
+ &#39;LOC440700&#39;,
+ &#39;LOC642361&#39;,
+ &#39;CREB3&#39;,
+ &#39;MS4A18&#39;,
+ &#39;STON1&#39;,
+ &#39;SGCD&#39;,
+ &#39;LRRD1&#39;,
+ &#39;UVSSA&#39;,
+ &#39;MIR634&#39;,
+ &#39;ARVCF&#39;,
+ &#39;FAM129B&#39;,
+ &#39;GARNL3&#39;,
+ &#39;HEPACAM&#39;,
+ &#39;CRISP2&#39;,
+ &#39;RERG-AS1&#39;,
+ &#39;PTPRT&#39;,
+ &#39;STAM2&#39;,
+ &#39;CAPZB&#39;,
+ &#39;EMC7&#39;,
+ &#39;LOC654841&#39;,
+ &#39;SLC10A5&#39;,
+ &#39;TRMT1&#39;,
+ &#39;ACOT11&#39;,
+ &#39;WNT16&#39;,
+ &#39;FAM120A&#39;,
+ &#39;KRT37&#39;,
+ &#39;RPS15&#39;,
+ &#39;LOC285762&#39;,
+ &#39;MIR4761&#39;,
+ &#39;MIR4741&#39;,
+ &#39;CD72&#39;,
+ &#39;ERC1&#39;,
+ &#39;AUTS2&#39;,
+ &#39;TMEM132A&#39;,
+ &#39;DCC&#39;,
+ &#39;MEIOC&#39;,
+ &#39;LINC01266&#39;,
+ &#39;GRAMD3&#39;,
+ &#39;BAD&#39;,
+ &#39;NEIL1&#39;,
+ &#39;FLNB&#39;,
+ &#39;RBBP8&#39;,
+ &#39;MIR6828&#39;,
+ &#39;LOC103908605&#39;,
+ &#39;MGAM&#39;,
+ &#39;DNAAF2&#39;,
+ &#39;MYZAP&#39;,
+ &#39;PLPPR1&#39;,
+ &#39;SNORD127&#39;,
+ &#39;MIR7641-2&#39;,
+ &#39;HECTD2-AS1&#39;,
+ &#39;TMEM136&#39;,
+ &#39;ADPRM&#39;,
+ &#39;FBXW9&#39;,
+ &#39;OR52N1&#39;,
+ &#39;MSANTD2&#39;,
+ &#39;ADGRL3&#39;,
+ &#39;SPPL3&#39;,
+ &#39;VAV3-AS1&#39;,
+ &#39;NPIPA8&#39;,
+ &#39;ARHGAP19&#39;,
+ &#39;GPR52&#39;,
+ &#39;WDR82&#39;,
+ &#39;NOL8&#39;,
+ &#39;GRK4&#39;,
+ &#39;ZNF169&#39;,
+ &#39;LOC105377143&#39;,
+ &#39;CTNNB1&#39;,
+ &#39;OR8D4&#39;,
+ &#39;OLFML3&#39;,
+ &#39;MAST1&#39;,
+ &#39;OSER1-AS1&#39;,
+ &#39;GRM2&#39;,
+ &#39;P2RX7&#39;,
+ &#39;MIR6836&#39;,
+ &#39;ABHD14A-ACY1&#39;,
+ &#39;MIR4494&#39;,
+ &#39;VCP&#39;,
+ &#39;MIRLET7G&#39;,
+ &#39;SLC39A3&#39;,
+ &#39;MEX3D&#39;,
+ &#39;FARSA&#39;,
+ &#39;LINC01180&#39;,
+ &#39;FAM151A&#39;,
+ &#39;SNORA65&#39;,
+ &#39;TIMD4&#39;,
+ &#39;NCEH1&#39;,
+ &#39;UBE2M&#39;,
+ &#39;SSPO&#39;,
+ &#39;LOC101927895&#39;,
+ &#39;MIR7850&#39;,
+ &#39;OSER1&#39;,
+ &#39;METTL15&#39;,
+ &#39;ALX1&#39;,
+ &#39;PAM&#39;,
+ &#39;MIR6763&#39;,
+ &#39;C9orf131&#39;,
+ &#39;NPAS1&#39;,
+ &#39;MGAM2&#39;,
+ &#39;MSANTD1&#39;,
+ &#39;SSBP3&#39;,
+ &#39;PIAS1&#39;,
+ &#39;LOC102724034&#39;,
+ &#39;PTPRM&#39;,
+ &#39;VEGFB&#39;,
+ &#39;CRIPAK&#39;,
+ &#39;LINC01386&#39;,
+ &#39;PHLPP1&#39;,
+ &#39;ZFP91&#39;,
+ &#39;TANGO2&#39;,
+ &#39;RET&#39;,
+ &#39;CCDC124&#39;,
+ &#39;SRP19&#39;,
+ &#39;MYLK-AS1&#39;,
+ &#39;TYR&#39;,
+ &#39;CHMP4C&#39;,
+ &#39;ADAMTS5&#39;,
+ &#39;OR6T1&#39;,
+ &#39;RPS29&#39;,
+ &#39;OAZ1&#39;,
+ &#39;TNFSF13B&#39;,
+ &#39;P2RX2&#39;,
+ &#39;ZNF446&#39;,
+ &#39;ZCCHC2&#39;,
+ &#39;AGFG1&#39;,
+ &#39;INTS10&#39;,
+ &#39;FOLH1B&#39;,
+ &#39;UBE2R2&#39;,
+ &#39;DAZAP1&#39;,
+ &#39;STIP1&#39;,
+ &#39;MARCH8&#39;,
+ &#39;DERL1&#39;,
+ &#39;PARS2&#39;,
+ &#39;MARK2&#39;,
+ &#39;PPP1R14B&#39;,
+ &#39;TLE6&#39;,
+ &#39;LOC101928583&#39;,
+ &#39;RAD54L2&#39;,
+ &#39;MBD5&#39;,
+ &#39;FAM3C&#39;,
+ &#39;AMH&#39;,
+ &#39;TDRD12&#39;,
+ &#39;CALR&#39;,
+ &#39;TMPRSS9&#39;,
+ &#39;OR56B1&#39;,
+ &#39;EYS&#39;,
+ &#39;LOC105375734&#39;,
+ &#39;LINC00696&#39;,
+ &#39;DHPS&#39;,
+ &#39;LOC102467222&#39;,
+ &#39;GJA4&#39;,
+ &#39;MIR4321&#39;,
+ &#39;TBXAS1&#39;,
+ &#39;CNTN6&#39;,
+ &#39;NBPF8&#39;,
+ &#39;ZSWIM2&#39;,
+ &#39;LINC00492&#39;,
+ &#39;LOC101926948&#39;,
+ &#39;LOC286114&#39;,
+ &#39;GNA11&#39;,
+ &#39;MRM3&#39;,
+ &#39;RABGAP1L&#39;,
+ &#39;LINC01425&#39;,
+ &#39;POU2AF1&#39;,
+ &#39;LINC00865&#39;,
+ &#39;SERPINB13&#39;,
+ &#39;ARHGAP35&#39;,
+ &#39;MIR1227&#39;,
+ &#39;DTX3&#39;,
+ &#39;SLC12A9&#39;,
+ &#39;DNAH1&#39;,
+ &#39;GRM5&#39;,
+ &#39;MIR4491&#39;,
+ &#39;MATK&#39;,
+ &#39;PDCL2&#39;,
+ &#39;LOC105376430&#39;,
+ &#39;HES1&#39;,
+ &#39;BMS1&#39;,
+ &#39;MIR4422&#39;,
+ &#39;MARCH1&#39;,
+ &#39;LOC101927359&#39;,
+ &#39;LSM14A&#39;,
+ &#39;LOC100132077&#39;,
+ &#39;SFPQ&#39;,
+ &#39;MGAT2&#39;,
+ &#39;ATP5D&#39;,
+ &#39;C11orf88&#39;,
+ &#39;NRG3&#39;,
+ &#39;LOC100288123&#39;,
+ &#39;ATP13A3&#39;,
+ &#39;MIR548BA&#39;,
+ &#39;GLI1&#39;,
+ &#39;CYP51A1&#39;,
+ &#39;CLDN11&#39;,
+ &#39;LOC102467212&#39;,
+ &#39;LINC01006&#39;,
+ &#39;PARP3&#39;,
+ &#39;LCP1&#39;,
+ &#39;ENGASE&#39;,
+ &#39;UFD1L&#39;,
+ &#39;ERP27&#39;,
+ &#39;C19orf71&#39;,
+ &#39;CYB5RL&#39;,
+ &#39;KRBOX1&#39;,
+ &#39;LOC107161159&#39;,
+ &#39;SNORD121A&#39;,
+ &#39;MIR6853&#39;,
+ &#39;ZNF605&#39;,
+ &#39;SNORA101A&#39;,
+ &#39;JHDM1D-AS1&#39;,
+ &#39;ACBD7-DCLRE1CP1&#39;,
+ &#39;ABCC6P1&#39;,
+ &#39;LOC105372672&#39;,
+ &#39;SERPINB10&#39;,
+ &#39;PHF24&#39;,
+ &#39;SMIM12&#39;,
+ &#39;MIR3681HG&#39;,
+ &#39;ADSS&#39;,
+ &#39;CYP8B1&#39;,
+ &#39;COLCA2&#39;,
+ &#39;CDH13&#39;,
+ &#39;MIR6816&#39;,
+ &#39;RASGEF1A&#39;,
+ &#39;SLC15A3&#39;,
+ &#39;MIR3167&#39;,
+ &#39;LOC101927229&#39;,
+ &#39;EFR3B&#39;,
+ &#39;PCGF5&#39;,
+ &#39;FLNB-AS1&#39;,
+ &#39;KLHL28&#39;,
+ &#39;EPS8&#39;,
+ &#39;PTENP1-AS&#39;,
+ &#39;LOC100507634&#39;,
+ &#39;KDM7A&#39;,
+ &#39;ARHGEF39&#39;,
+ &#39;STAT1&#39;,
+ &#39;C9orf129&#39;,
+ &#39;HRASLS2&#39;,
+ &#39;LAYN&#39;,
+ &#39;DERA&#39;,
+ &#39;SLC22A11&#39;,
+ &#39;NRGN&#39;,
+ &#39;BCL2A1&#39;,
+ &#39;OASL&#39;,
+ &#39;LMNB2&#39;,
+ &#39;ALAS1&#39;,
+ &#39;OR6C4&#39;,
+ &#39;MACC1-AS1&#39;,
+ &#39;FER1L5&#39;,
+ &#39;FGF7P6&#39;,
+ &#39;TMEM220&#39;,
+ &#39;LRRC71&#39;,
+ &#39;OSMR&#39;,
+ &#39;ZDHHC4&#39;,
+ &#39;SGK2&#39;,
+ &#39;OR10G9&#39;,
+ &#39;CNTNAP5&#39;,
+ &#39;DNAJC4&#39;,
+ &#39;OR52D1&#39;,
+ &#39;MINOS1-NBL1&#39;,
+ &#39;FBP1&#39;,
+ &#39;KIF18A&#39;,
+ &#39;ROBO3&#39;,
+ &#39;PLEKHJ1&#39;,
+ &#39;LINC00376&#39;,
+ &#39;IQCF6&#39;,
+ &#39;INSC&#39;,
+ &#39;TBXA2R&#39;,
+ &#39;CLVS1&#39;,
+ &#39;OR52N4&#39;,
+ &#39;NFIX&#39;,
+ &#39;BRAF&#39;,
+ &#39;HIPK2&#39;,
+ &#39;LOC105378614&#39;,
+ &#39;SDPR&#39;,
+ &#39;FAM220A&#39;,
+ &#39;CDH20&#39;,
+ &#39;LOC101927770&#39;,
+ &#39;LRRC27&#39;,
+ &#39;UTRN&#39;,
+ &#39;NOX4&#39;,
+ &#39;ZFP69&#39;,
+ &#39;VPS53&#39;,
+ &#39;ZNF746&#39;,
+ &#39;C1orf158&#39;,
+ &#39;SUGCT&#39;,
+ &#39;OCA2&#39;,
+ &#39;LOC101929054&#39;,
+ &#39;PRMT8&#39;,
+ &#39;LOC100506321&#39;,
+ &#39;TMEM61&#39;,
+ &#39;HINT2&#39;,
+ &#39;ADAMTSL5&#39;,
+ &#39;PDE6H&#39;,
+ &#39;RNF152&#39;,
+ &#39;NEK10&#39;,
+ &#39;P2RX4&#39;,
+ &#39;C19orf25&#39;,
+ &#39;GBA2&#39;,
+ &#39;SPA17&#39;,
+ &#39;RARRES3&#39;,
+ &#39;L3MBTL1&#39;,
+ &#39;UFSP1&#39;,
+ &#39;IGLL3P&#39;,
+ &#39;HPS4&#39;,
+ &#39;METTL11B&#39;,
+ &#39;LRRC15&#39;,
+ &#39;MYHAS&#39;,
+ &#39;ROBO4&#39;,
+ &#39;TM4SF20&#39;,
+ &#39;WASHC2C&#39;,
+ &#39;ABHD14A&#39;,
+ &#39;MFSD14B&#39;,
+ &#39;BHLHA9&#39;,
+ &#39;ZNF324&#39;,
+ &#39;PRAMEF2&#39;,
+ &#39;TEX29&#39;,
+ &#39;TRIM49&#39;,
+ &#39;MIR99AHG&#39;,
+ &#39;DGCR8&#39;,
+ &#39;LYRM1&#39;,
+ &#39;MIR5703&#39;,
+ &#39;IDH1-AS1&#39;,
+ &#39;NUDT12&#39;,
+ &#39;MIR5684&#39;,
+ &#39;C2orf80&#39;,
+ &#39;KRT33B&#39;,
+ &#39;MARS&#39;,
+ &#39;LOC101927488&#39;,
+ &#39;ARID5A&#39;,
+ &#39;MIR3651&#39;,
+ &#39;ATP8B5P&#39;,
+ &#39;NEURL3&#39;,
+ &#39;LOC285889&#39;,
+ &#39;LOC100505782&#39;,
+ &#39;RNF225&#39;,
+ &#39;ESRRA&#39;,
+ &#39;LOC155060&#39;,
+ &#39;ME3&#39;,
+ &#39;RYR3&#39;,
+ &#39;MYO5A&#39;,
+ &#39;PTGDR2&#39;,
+ &#39;SHISA6&#39;,
+ &#39;PQLC2&#39;,
+ &#39;HFM1&#39;,
+ &#39;LOC101928797&#39;,
+ &#39;AP3D1&#39;,
+ &#39;ABR&#39;,
+ &#39;NCLN&#39;,
+ &#39;RERG&#39;,
+ &#39;SLCO3A1&#39;,
+ &#39;SF3A2&#39;,
+ &#39;THAP1&#39;,
+ &#39;MZF1&#39;,
+ &#39;SNORD121B&#39;,
+ &#39;CALML4&#39;,
+ &#39;ZMYM6&#39;,
+ &#39;SUZ12P1&#39;,
+ &#39;CACNA1A&#39;,
+ &#39;CDH9&#39;,
+ &#39;IZUMO4&#39;,
+ &#39;MIR6778&#39;,
+ &#39;MIR765&#39;,
+ &#39;CDC45&#39;,
+ &#39;MIR7108&#39;,
+ &#39;LMAN2L&#39;,
+ &#39;AP2S1&#39;,
+ &#39;RBM12B&#39;,
+ &#39;PYROXD1&#39;,
+ &#39;PPP2R1B&#39;,
+ &#39;DAGLB&#39;,
+ &#39;LOC101927478&#39;,
+ &#39;LOC653160&#39;,
+ &#39;MYH2&#39;,
+ &#39;C14orf28&#39;,
+ &#39;TRIM64&#39;,
+ &#39;OR10P1&#39;,
+ &#39;MKNK2&#39;,
+ &#39;RASSF4&#39;,
+ &#39;LINGO3&#39;,
+ &#39;RIOK3&#39;,
+ &#39;LOC642423&#39;,
+ &#39;NUDT22&#39;,
+ &#39;LINGO2&#39;,
+ &#39;SMCR8&#39;,
+ &#39;MYCT1&#39;,
+ &#39;LOC100128361&#39;,
+ &#39;HNRNPCL3&#39;,
+ &#39;KLF16&#39;,
+ &#39;TLR9&#39;,
+ &#39;PSD3&#39;,
+ &#39;NDUFB2&#39;,
+ &#39;SLC4A7&#39;,
+ &#39;MIR3144&#39;,
+ &#39;ZNF287&#39;,
+ &#39;PRAMEF11&#39;,
+ &#39;ACBD5&#39;,
+ &#39;MAGI2&#39;,
+ &#39;CACTIN&#39;,
+ &#39;SGO2&#39;,
+ &#39;NUDT1&#39;,
+ &#39;MIR3179-1&#39;,
+ &#39;LMBR1&#39;,
+ &#39;LINC00271&#39;,
+ &#39;AKR7A3&#39;,
+ &#39;AES&#39;,
+ &#39;CRYGD&#39;,
+ &#39;PTPN20&#39;,
+ &#39;LOC642943&#39;,
+ &#39;IPPK&#39;,
+ &#39;TSHZ2&#39;,
+ &#39;UFM1&#39;,
+ &#39;SKIL&#39;,
+ &#39;DNAH6&#39;,
+ &#39;ETV3L&#39;,
+ &#39;GIN1&#39;,
+ &#39;CACNG5&#39;,
+ &#39;IQCF1&#39;,
+ &#39;HMSD&#39;,
+ &#39;SPATA16&#39;,
+ &#39;MIR616&#39;,
+ &#39;OR8D1&#39;,
+ &#39;LOC101927048&#39;,
+ &#39;LINC01169&#39;,
+ &#39;ZNF862&#39;,
+ &#39;GPC5-AS1&#39;,
+ &#39;LRRN1&#39;,
+ &#39;NOM1&#39;,
+ &#39;TTC28&#39;,
+ &#39;NPAT&#39;,
+ &#39;MIR548AD&#39;,
+ &#39;OR6M1&#39;,
+ &#39;MGP&#39;,
+ &#39;C10orf91&#39;,
+ &#39;HLF&#39;,
+ &#39;LOC101927787&#39;,
+ &#39;RTBDN&#39;,
+ &#39;MIR6511A4&#39;,
+ &#39;SOX5&#39;,
+ &#39;RPL31&#39;,
+ &#39;TLE2&#39;,
+ &#39;ZNF767P&#39;,
+ &#39;LOC105378330&#39;,
+ &#39;JSRP1&#39;,
+ &#39;SYT14P1&#39;,
+ &#39;MBD6&#39;,
+ &#39;ZNF292&#39;,
+ &#39;TRIM34&#39;,
+ &#39;KHDRBS2&#39;,
+ &#39;LGALS9C&#39;,
+ &#39;PCSK9&#39;,
+ &#39;ANKRD36C&#39;,
+ &#39;NUDT19&#39;,
+ &#39;ANKRD19P&#39;,
+ &#39;OMD&#39;,
+ &#39;LINC01392&#39;,
+ &#39;KRT31&#39;,
+ &#39;ETS2&#39;,
+ &#39;DPP10&#39;,
+ &#39;CSMD3&#39;,
+ &#39;GADD45GIP1&#39;,
+ &#39;COLCA1&#39;,
+ &#39;NHEG1&#39;,
+ &#39;SPAG16&#39;,
+ &#39;FOXN2&#39;,
+ &#39;MAN2C1&#39;,
+ &#39;UGP2&#39;,
+ &#39;TMEM72&#39;,
+ &#39;CDH12&#39;,
+ &#39;MAX&#39;,
+ &#39;KRT16P1&#39;,
+ &#39;ATL3&#39;,
+ &#39;MIR2278&#39;,
+ &#39;STK32C&#39;,
+ &#39;LOC101929445&#39;,
+ &#39;RBPMS2&#39;,
+ &#39;SLC22A9&#39;,
+ &#39;NPR2&#39;,
+ &#39;DOHH&#39;,
+ &#39;MYH3&#39;,
+ &#39;KRT34&#39;,
+ &#39;MMP17&#39;,
+ &#39;ZNF10&#39;,
+ &#39;MACROD1&#39;,
+ &#39;AADACL4&#39;,
+ &#39;MIR5692A1&#39;,
+ &#39;ASNS&#39;,
+ &#39;MAD1L1&#39;,
+ &#39;TAS2R38&#39;,
+ &#39;BCL2&#39;,
+ &#39;TBX20&#39;,
+ &#39;IRF2BP2&#39;,
+ &#39;KRT13&#39;,
+ &#39;OR52H1&#39;,
+ &#39;HRASLS5&#39;,
+ &#39;MSMP&#39;,
+ &#39;REEP3&#39;,
+ &#39;MTHFS&#39;,
+ &#39;R3HDM2&#39;,
+ &#39;PXMP2&#39;,
+ &#39;SLC25A51P1&#39;,
+ &#39;HECA&#39;,
+ &#39;PANX3&#39;,
+ &#39;HACD1&#39;,
+ &#39;ADAMDEC1&#39;,
+ &#39;GABPA&#39;,
+ &#39;ADGRD1&#39;,
+ &#39;ZNF438&#39;,
+ &#39;USP32P2&#39;,
+ &#39;MIR548AU&#39;,
+ &#39;POLR2M&#39;,
+ &#39;MYLK-AS2&#39;,
+ &#39;LOC283028&#39;,
+ &#39;GRM3&#39;,
+ &#39;C3orf20&#39;,
+ &#39;PPM1M&#39;,
+ &#39;TBRG1&#39;,
+ &#39;GOLGA3&#39;,
+ &#39;LOC338797&#39;,
+ &#39;GABRG1&#39;,
+ &#39;ZFP91-CNTF&#39;,
+ &#39;SMIM8&#39;,
+ &#39;LOC100506286&#39;,
+ &#39;CNTF&#39;,
+ &#39;GPX4&#39;,
+ &#39;NCK2&#39;,
+ &#39;GOLGA6C&#39;,
+ &#39;KRT38&#39;,
+ &#39;SNORA49&#39;,
+ &#39;LOC100505920&#39;,
+ &#39;CIRBP-AS1&#39;,
+ &#39;RANBP1&#39;,
+ &#39;OR8G2&#39;,
+ &#39;SLC37A3&#39;,
+ &#39;MIR135A1&#39;,
+ &#39;ZMYM1&#39;,
+ &#39;TRIP6&#39;,
+ &#39;ABHD14B&#39;,
+ &#39;TRIM6&#39;,
+ &#39;TRIM77&#39;,
+ &#39;STX10&#39;,
+ &#39;FCRLB&#39;,
+ &#39;LOC100129620&#39;,
+ &#39;FLRT1&#39;,
+ &#39;NOC4L&#39;,
+ &#39;MIR6789&#39;,
+ &#39;CLDN5&#39;,
+ &#39;CHRNB3&#39;,
+ &#39;PLK5&#39;,
+ &#39;BTG4&#39;,
+ &#39;BOD1L2&#39;,
+ &#39;ANXA2P2&#39;,
+ &#39;KRT36&#39;,
+ &#39;VWA8&#39;,
+ &#39;ARHGAP45&#39;,
+ &#39;STRAP&#39;,
+ &#39;SPPL2B&#39;,
+ &#39;BEND3P3&#39;,
+ &#39;LINC00950&#39;,
+ &#39;PGBD4&#39;,
+ &#39;DCUN1D3&#39;,
+ &#39;GJB5&#39;,
+ &#39;CRISP3&#39;,
+ &#39;MTMR3&#39;,
+ &#39;LINC01375&#39;,
+ &#39;MFSD12&#39;,
+ &#39;DISC1&#39;,
+ &#39;MBD3&#39;,
+ &#39;SHB&#39;,
+ &#39;ZNF584&#39;,
+ &#39;ZNF555&#39;,
+ &#39;MIR548B&#39;,
+ &#39;PPIAL4G&#39;,
+ &#39;OR52N5&#39;,
+ ...]</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># </span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">run_dap</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="n">fileout</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -185,7 +1873,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/3a670665f11dcd42db1ba7c84bb515ad2baa1d57/analysis/20170726_DataTransform.ipynb"><code>analysis/20170726_DataTransform.ipynb</code></a> committed by Min Qiao on Tue Aug 1 19:27:44 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/3a670665f11dcd42db1ba7c84bb515ad2baa1d57">revision 252, 3a67066</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/f24d4dd4a4f5542a43ebb45730bf53e925b3712d/analysis/20170726_DataTransform.ipynb"><code>analysis/20170726_DataTransform.ipynb</code></a> committed by Min Qiao on Thu Aug 3 20:47:04 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/f24d4dd4a4f5542a43ebb45730bf53e925b3712d">revision 255, f24d4dd</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

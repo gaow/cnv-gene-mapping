@@ -129,7 +129,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -144,7 +144,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">calpath_gene_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/calciumgeneset.txt&quot;</span><span class="p">,</span> <span class="n">skiprows</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
@@ -161,7 +161,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">calpath_gene_list</span> <span class="o">=</span> <span class="n">calpath_gene_df</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -172,7 +172,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">calpath_gene_list</span><span class="p">)</span>
@@ -194,7 +194,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">calpath_gene_pos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">refgene_df</span><span class="p">,</span> <span class="n">calpath_gene_df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
@@ -205,7 +205,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
@@ -245,6 +245,469 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">calpath_gene_pos</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[11]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gene_name</th>
+      <th>chrom</th>
+      <th>gene_start</th>
+      <th>gene_end</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ADCY1</td>
+      <td>chr7</td>
+      <td>45613738</td>
+      <td>45762714</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>ADCY2</td>
+      <td>chr5</td>
+      <td>7396342</td>
+      <td>7830194</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>ADCY3</td>
+      <td>chr2</td>
+      <td>25042038</td>
+      <td>25142886</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>ADCY4</td>
+      <td>chr14</td>
+      <td>24787554</td>
+      <td>24804277</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>ADCY7</td>
+      <td>chr16</td>
+      <td>50300450</td>
+      <td>50352045</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>ADCY8</td>
+      <td>chr8</td>
+      <td>131792546</td>
+      <td>132052835</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>ADCY9</td>
+      <td>chr16</td>
+      <td>4012649</td>
+      <td>4166186</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>ADORA2A</td>
+      <td>chr22</td>
+      <td>24819564</td>
+      <td>24838328</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>ADORA2B</td>
+      <td>chr17</td>
+      <td>15848230</td>
+      <td>15879210</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>ADRA1A</td>
+      <td>chr8</td>
+      <td>26605666</td>
+      <td>26724760</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>ADRA1B</td>
+      <td>chr5</td>
+      <td>159343739</td>
+      <td>159400017</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>ADRA1D</td>
+      <td>chr20</td>
+      <td>4201277</td>
+      <td>4229659</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>ADRB1</td>
+      <td>chr10</td>
+      <td>115803805</td>
+      <td>115806667</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>ADRB2</td>
+      <td>chr5</td>
+      <td>148206155</td>
+      <td>148208197</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>ADRB3</td>
+      <td>chr8</td>
+      <td>37820513</td>
+      <td>37824184</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>AGTR1</td>
+      <td>chr3</td>
+      <td>148415657</td>
+      <td>148460790</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>ATP2A1</td>
+      <td>chr16</td>
+      <td>28889808</td>
+      <td>28915830</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>ATP2A2</td>
+      <td>chr12</td>
+      <td>110719031</td>
+      <td>110788897</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>ATP2A3</td>
+      <td>chr17</td>
+      <td>3827162</td>
+      <td>3867758</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>ATP2B1</td>
+      <td>chr12</td>
+      <td>89981825</td>
+      <td>90049844</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>ATP2B2</td>
+      <td>chr3</td>
+      <td>10365706</td>
+      <td>10547374</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>ATP2B3</td>
+      <td>chrX</td>
+      <td>152801579</td>
+      <td>152848387</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>ATP2B4</td>
+      <td>chr1</td>
+      <td>203595914</td>
+      <td>203713209</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>AVPR1A</td>
+      <td>chr12</td>
+      <td>63536538</td>
+      <td>63546590</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>AVPR1B</td>
+      <td>chr1</td>
+      <td>206224282</td>
+      <td>206231482</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>BDKRB1</td>
+      <td>chr14</td>
+      <td>96722546</td>
+      <td>96731100</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>BDKRB2</td>
+      <td>chr14</td>
+      <td>96671134</td>
+      <td>96710666</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>BST1</td>
+      <td>chr4</td>
+      <td>15704572</td>
+      <td>15733796</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>CACNA1A</td>
+      <td>chr19</td>
+      <td>13317255</td>
+      <td>13617274</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>CACNA1B</td>
+      <td>chr9</td>
+      <td>140772240</td>
+      <td>141019076</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>146</th>
+      <td>PRKCG</td>
+      <td>chr19</td>
+      <td>54385437</td>
+      <td>54410901</td>
+    </tr>
+    <tr>
+      <th>147</th>
+      <td>PRKX</td>
+      <td>chrX</td>
+      <td>3522383</td>
+      <td>3631675</td>
+    </tr>
+    <tr>
+      <th>148</th>
+      <td>PTAFR</td>
+      <td>chr1</td>
+      <td>28473676</td>
+      <td>28520447</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>PTGER1</td>
+      <td>chr19</td>
+      <td>14583277</td>
+      <td>14586174</td>
+    </tr>
+    <tr>
+      <th>150</th>
+      <td>PTGER3</td>
+      <td>chr1</td>
+      <td>71318035</td>
+      <td>71513491</td>
+    </tr>
+    <tr>
+      <th>151</th>
+      <td>PTGFR</td>
+      <td>chr1</td>
+      <td>78956727</td>
+      <td>79006386</td>
+    </tr>
+    <tr>
+      <th>152</th>
+      <td>PTK2B</td>
+      <td>chr8</td>
+      <td>27168998</td>
+      <td>27316908</td>
+    </tr>
+    <tr>
+      <th>153</th>
+      <td>RYR1</td>
+      <td>chr19</td>
+      <td>38924339</td>
+      <td>39078204</td>
+    </tr>
+    <tr>
+      <th>154</th>
+      <td>RYR2</td>
+      <td>chr1</td>
+      <td>237205701</td>
+      <td>237997288</td>
+    </tr>
+    <tr>
+      <th>155</th>
+      <td>RYR3</td>
+      <td>chr15</td>
+      <td>33603162</td>
+      <td>34158304</td>
+    </tr>
+    <tr>
+      <th>156</th>
+      <td>SLC25A31</td>
+      <td>chr4</td>
+      <td>128651532</td>
+      <td>128695454</td>
+    </tr>
+    <tr>
+      <th>157</th>
+      <td>SLC25A4</td>
+      <td>chr4</td>
+      <td>186064416</td>
+      <td>186071538</td>
+    </tr>
+    <tr>
+      <th>158</th>
+      <td>SLC25A5</td>
+      <td>chrX</td>
+      <td>118602362</td>
+      <td>118605359</td>
+    </tr>
+    <tr>
+      <th>159</th>
+      <td>SLC25A6</td>
+      <td>chrX</td>
+      <td>1455044</td>
+      <td>1511039</td>
+    </tr>
+    <tr>
+      <th>160</th>
+      <td>SLC8A1</td>
+      <td>chr2</td>
+      <td>40339285</td>
+      <td>40739575</td>
+    </tr>
+    <tr>
+      <th>161</th>
+      <td>SLC8A2</td>
+      <td>chr19</td>
+      <td>47931278</td>
+      <td>47975307</td>
+    </tr>
+    <tr>
+      <th>162</th>
+      <td>SLC8A3</td>
+      <td>chr14</td>
+      <td>70510933</td>
+      <td>70655787</td>
+    </tr>
+    <tr>
+      <th>163</th>
+      <td>SPHK1</td>
+      <td>chr17</td>
+      <td>74380689</td>
+      <td>74383941</td>
+    </tr>
+    <tr>
+      <th>164</th>
+      <td>SPHK2</td>
+      <td>chr19</td>
+      <td>49122547</td>
+      <td>49133663</td>
+    </tr>
+    <tr>
+      <th>165</th>
+      <td>TACR1</td>
+      <td>chr2</td>
+      <td>75273589</td>
+      <td>75426645</td>
+    </tr>
+    <tr>
+      <th>166</th>
+      <td>TACR2</td>
+      <td>chr10</td>
+      <td>71163957</td>
+      <td>71176674</td>
+    </tr>
+    <tr>
+      <th>167</th>
+      <td>TACR3</td>
+      <td>chr4</td>
+      <td>104510624</td>
+      <td>104640973</td>
+    </tr>
+    <tr>
+      <th>168</th>
+      <td>TBXA2R</td>
+      <td>chr19</td>
+      <td>3594503</td>
+      <td>3606831</td>
+    </tr>
+    <tr>
+      <th>169</th>
+      <td>TNNC1</td>
+      <td>chr3</td>
+      <td>52485106</td>
+      <td>52488057</td>
+    </tr>
+    <tr>
+      <th>170</th>
+      <td>TNNC2</td>
+      <td>chr20</td>
+      <td>44451854</td>
+      <td>44455953</td>
+    </tr>
+    <tr>
+      <th>171</th>
+      <td>TRHR</td>
+      <td>chr8</td>
+      <td>110099652</td>
+      <td>110131812</td>
+    </tr>
+    <tr>
+      <th>172</th>
+      <td>TRPC1</td>
+      <td>chr3</td>
+      <td>142443265</td>
+      <td>142526729</td>
+    </tr>
+    <tr>
+      <th>173</th>
+      <td>VDAC1</td>
+      <td>chr5</td>
+      <td>133307565</td>
+      <td>133340824</td>
+    </tr>
+    <tr>
+      <th>174</th>
+      <td>VDAC2</td>
+      <td>chr10</td>
+      <td>76969911</td>
+      <td>76991207</td>
+    </tr>
+    <tr>
+      <th>175</th>
+      <td>VDAC3</td>
+      <td>chr8</td>
+      <td>42249278</td>
+      <td>42263455</td>
+    </tr>
+  </tbody>
+</table>
+<p>176 rows × 4 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
@@ -259,7 +722,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">calpath_gene_pos</span><span class="p">[</span><span class="s2">&quot;chr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">][</span><span class="mi">3</span><span class="p">:])</span> 
@@ -1737,7 +2200,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/47c448bdce2c4ba05e24ba84c50be1b822af7cb5/analysis/20170726_CalciumSignalingPathway.ipynb"><code>analysis/20170726_CalciumSignalingPathway.ipynb</code></a> committed by Min Qiao on Sun Jul 30 00:59:37 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/47c448bdce2c4ba05e24ba84c50be1b822af7cb5">revision 249, 47c448b</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/220c48c5cd0877fef003ed694a8f1211133a38c8/analysis/20170726_CalciumSignalingPathway.ipynb"><code>analysis/20170726_CalciumSignalingPathway.ipynb</code></a> committed by Min Qiao on Thu Aug 3 20:39:07 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/220c48c5cd0877fef003ed694a8f1211133a38c8">revision 254, 220c48c</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
