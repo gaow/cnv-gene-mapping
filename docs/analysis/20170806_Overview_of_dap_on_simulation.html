@@ -132,7 +132,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Data-transformation:-transform-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">Data transformation: transform $y \in \{0,1\}$ to $y \in \{0,t\}$<a class="anchor-link" href="#Data-transformation:-transform-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">&#182;</a></h4><p>The area under the original normal curve is $1-\Phi(t)$, the area under the transformed/shifted normal curve is $1-\Phi(t-Z_\mu)$. The mean of the original and transformed normal curve is $0$ and $Z_\mu$.</p>
+<h3 id="Data-transformation:-transform-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">Data transformation: transform $y \in \{0,1\}$ to $y \in \{0,t\}$<a class="anchor-link" href="#Data-transformation:-transform-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">&#182;</a></h3><p>The area under the original normal curve is $1-\Phi(t)$, the area under the transformed/shifted normal curve is $1-\Phi(t-Z_\mu)$. The mean of the original and transformed normal curve is $0$ and $Z_\mu$.</p>
 <p>$ P(X \geqslant t) = P(X=Z_\mu+X' \geqslant t) = P(X' \geqslant t-Z_\mu) = 1-\Phi(t-Z_\mu) $, in which $Z_\mu$ is the effect size $\beta$, and $1-\Phi(t)$ is prevalence.</p>
 <p>$t$ is transformed $y$, only depending on the prevalence.</p>
 <p>Relative risk (RR) is the ratio of two areas under two normal curves:</p>
@@ -148,10 +148,16 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Prepare-DAP-input">Prepare DAP input<a class="anchor-link" href="#Prepare-DAP-input">&#182;</a></h4><p>Grid file: prior effect size specifications for causal variantscausal variants.</p>
-<p>ω: the average effect size; ϕ: the heterogeneity of a genetic effect across multiple subgroups.</p>
+<h3 id="Prepare-DAP-input">Prepare DAP input<a class="anchor-link" href="#Prepare-DAP-input">&#182;</a></h3><h4 id="Effect-Size-Grid-file:-prior-effect-size-specifications-for-causal-variantscausal-variants.">Effect Size Grid file: prior effect size specifications for causal variantscausal variants.<a class="anchor-link" href="#Effect-Size-Grid-file:-prior-effect-size-specifications-for-causal-variantscausal-variants.">&#182;</a></h4><p>ω: the average effect size; ϕ: the heterogeneity of a genetic effect across multiple subgroups.</p>
 <p>It is a two-column data matrix: 1st column specifies ϕ, 2nd column specifies ω. Each row provides a unique combination.</p>
-<p>For single study, ϕ can be set to $0$ and only ω needs to specify.</p>
+<p>For single study, ϕ can be set to $0$ and only ω needs to specify. The prior effect size (ω) for causal genes is $0.366\ (Z_\mu)$. There is only one combination for ϕ and ω, (0,0.366).</p>
+<h4 id="Prior-file:-specifies-SNP-level/gene-level-prior-for-each-candidate-SNP/gene.">Prior file: specifies SNP-level/gene-level prior for each candidate SNP/gene.<a class="anchor-link" href="#Prior-file:-specifies-SNP-level/gene-level-prior-for-each-candidate-SNP/gene.">&#182;</a></h4><p>The 1st column represents the SNP/gene name and the 2nd column represents the prior probability that the SNP/gene is associated.</p>
+<p>Prior probability for causal genes is set to be higher than noncausal genes. I set the prior probability for causal genes in a certain pathway $\textbf{three}$ times as the noncausal genes. Use Calcium Signaling Pathway genes for example. This patyway include 178 causal genes (ADCY1, ADORA2A, ADRB1, etc).</p>
+<pre><code>chr6.ADCY1   0.0001355197
+chr8.ADORA2A 0.0001355197
+...
+chr1.XXXXX   4.517324e-05
+...</code></pre>
 </div>
 </div>
 </div>
@@ -160,7 +166,43 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Run-DAP">Run DAP<a class="anchor-link" href="#Run-DAP">&#182;</a></h4>
+<h4 id="Run-DAP">Run DAP<a class="anchor-link" href="#Run-DAP">&#182;</a></h4><p>Use feather file generated from simulation, effect size grid file and prior file generated in last step to run DAP.</p>
+<p>For small sample size simulation, there is no PIP generated for any gene, due to the lack of power. And the association model with greatest posterior probability is NULL, which means it is hard to identify the causal genes.</p>
+<p>For large sample size simulation, for example, 4000 samples,</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">feather</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M200_12.data.feather&quot;</span>
+<span class="n">testfile</span> <span class="o">=</span> <span class="n">feather</span><span class="o">.</span><span class="n">read_dataframe</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">testfile</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[17]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>22137</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -177,7 +219,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/069dc3d97832fe76a984b7952230e46b82a46a8d/analysis/20170806_Overview_of_dap_on_simulation.ipynb"><code>analysis/20170806_Overview_of_dap_on_simulation.ipynb</code></a> committed by Min Qiao on Sun Aug 6 20:03:06 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/069dc3d97832fe76a984b7952230e46b82a46a8d">revision 259, 069dc3d</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/4ba6ffb357df8037ccab440f5c29d948eab81a50/analysis/20170806_Overview_of_dap_on_simulation.ipynb"><code>analysis/20170806_Overview_of_dap_on_simulation.ipynb</code></a> committed by Min Qiao on Mon Aug 7 17:44:52 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/4ba6ffb357df8037ccab440f5c29d948eab81a50">revision 261, 4ba6ffb</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
