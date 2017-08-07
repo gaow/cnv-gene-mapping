@@ -158,14 +158,14 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">feather</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="n">fn</span> <span class="o">=</span> <span class="s2">&quot;data/toy_n2000_p0.9_causal5_const1.0_0.05.feather&quot;</span>
-<span class="n">fout</span> <span class="o">=</span> <span class="s2">&quot;data/toy_n2000_p0.9_causal5_const1.0_0.05.dap&quot;</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="s2">&quot;data/toy_n2000_p0.5_causal5.feather&quot;</span>
+<span class="n">fout</span> <span class="o">=</span> <span class="s2">&quot;data/toy_n2000_p0.5_causal5_test.dap&quot;</span>
 <span class="n">input_file</span> <span class="o">=</span> <span class="n">feather</span><span class="o">.</span><span class="n">read_dataframe</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
 <span class="k">print</span> <span class="p">(</span><span class="n">input_file</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">run_dap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">fout</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">exec_path</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
@@ -228,7 +228,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">run_dap</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="n">fout</span><span class="p">)</span>
@@ -241,8 +241,8 @@ body {
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>2017-08-04 19:05:09.325742
-2017-08-04 19:05:11.540159
+<pre>2017-08-06 16:46:21.754220
+2017-08-06 16:46:26.263577
 </pre>
 </div>
 </div>
@@ -313,7 +313,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/6a8f500b0d17d7ef7cf648a187826610bb4d8c92/analysis/20170710_dap_on_toy.ipynb"><code>analysis/20170710_dap_on_toy.ipynb</code></a> committed by Min Qiao on Fri Aug 4 20:36:41 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/6a8f500b0d17d7ef7cf648a187826610bb4d8c92">revision 257, 6a8f500</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/069dc3d97832fe76a984b7952230e46b82a46a8d/analysis/20170710_dap_on_toy.ipynb"><code>analysis/20170710_dap_on_toy.ipynb</code></a> committed by Min Qiao on Sun Aug 6 20:03:06 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/069dc3d97832fe76a984b7952230e46b82a46a8d">revision 259, 069dc3d</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

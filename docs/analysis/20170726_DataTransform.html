@@ -203,460 +203,7 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">calpath_gene_pos</span><span class="p">[</span><span class="s2">&quot;chr.gene&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]),</span> 
                                                       <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">calpath_gene_pos</span><span class="p">[</span><span class="s2">&quot;prior.pr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">z_mu</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">calpath_gene_pos</span>
 </pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="prompt output_prompt">Out[4]:</div>
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>chrom</th>
-      <th>gene_name</th>
-      <th>chr.gene</th>
-      <th>prior.pr</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>chr17</td>
-      <td>CACNA1G</td>
-      <td>chr17.CACNA1G</td>
-      <td>0.266285</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>chr2</td>
-      <td>PLCD4</td>
-      <td>chr2.PLCD4</td>
-      <td>0.107040</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>chr20</td>
-      <td>PLCB4</td>
-      <td>chr20.PLCB4</td>
-      <td>0.362211</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>chr4</td>
-      <td>CAMK2D</td>
-      <td>chr4.CAMK2D</td>
-      <td>0.140378</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>chr14</td>
-      <td>SLC8A3</td>
-      <td>chr14.SLC8A3</td>
-      <td>0.169377</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>chr8</td>
-      <td>PTK2B</td>
-      <td>chr8.PTK2B</td>
-      <td>0.210375</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>chr9</td>
-      <td>GNA14</td>
-      <td>chr9.GNA14</td>
-      <td>0.059547</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>chr8</td>
-      <td>VDAC3</td>
-      <td>chr8.VDAC3</td>
-      <td>0.157412</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>chr12</td>
-      <td>PDE1B</td>
-      <td>chr12.PDE1B</td>
-      <td>0.075162</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>chr12</td>
-      <td>CACNA1C</td>
-      <td>chr12.CACNA1C</td>
-      <td>0.256323</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>chr3</td>
-      <td>ITPR1</td>
-      <td>chr3.ITPR1</td>
-      <td>0.271080</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>chr1</td>
-      <td>PRKACB</td>
-      <td>chr1.PRKACB</td>
-      <td>0.294886</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>chr17</td>
-      <td>ATP2A3</td>
-      <td>chr17.ATP2A3</td>
-      <td>0.347966</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>chr20</td>
-      <td>ADRA1D</td>
-      <td>chr20.ADRA1D</td>
-      <td>0.220837</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>chr5</td>
-      <td>HTR4</td>
-      <td>chr5.HTR4</td>
-      <td>0.296342</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>chr1</td>
-      <td>PTAFR</td>
-      <td>chr1.PTAFR</td>
-      <td>0.304160</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>chr4</td>
-      <td>CD38</td>
-      <td>chr4.CD38</td>
-      <td>0.004339</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>chrX</td>
-      <td>SLC25A6</td>
-      <td>chrX.SLC25A6</td>
-      <td>0.333085</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>chr1</td>
-      <td>PTGER3</td>
-      <td>chr1.PTGER3</td>
-      <td>0.075069</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>chr19</td>
-      <td>SPHK2</td>
-      <td>chr19.SPHK2</td>
-      <td>0.173236</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>chr12</td>
-      <td>ATP2A2</td>
-      <td>chr12.ATP2A2</td>
-      <td>0.208458</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>chr12</td>
-      <td>P2RX2</td>
-      <td>chr12.P2RX2</td>
-      <td>0.173613</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>chr1</td>
-      <td>CACNA1E</td>
-      <td>chr1.CACNA1E</td>
-      <td>0.323274</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>chr1</td>
-      <td>ATP2B4</td>
-      <td>chr1.ATP2B4</td>
-      <td>0.093543</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>chr2</td>
-      <td>ADCY3</td>
-      <td>chr2.ADCY3</td>
-      <td>0.310170</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>chr16</td>
-      <td>PLCG2</td>
-      <td>chr16.PLCG2</td>
-      <td>0.139039</td>
-    </tr>
-    <tr>
-      <th>26</th>
-      <td>chr18</td>
-      <td>GNAL</td>
-      <td>chr18.GNAL</td>
-      <td>0.226588</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>chr6</td>
-      <td>ITPR3</td>
-      <td>chr6.ITPR3</td>
-      <td>0.100228</td>
-    </tr>
-    <tr>
-      <th>28</th>
-      <td>chr1</td>
-      <td>RYR2</td>
-      <td>chr1.RYR2</td>
-      <td>0.267196</td>
-    </tr>
-    <tr>
-      <th>29</th>
-      <td>chr10</td>
-      <td>CAMK2G</td>
-      <td>chr10.CAMK2G</td>
-      <td>0.027177</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>148</th>
-      <td>chr12</td>
-      <td>P2RX7</td>
-      <td>chr12.P2RX7</td>
-      <td>0.302376</td>
-    </tr>
-    <tr>
-      <th>149</th>
-      <td>chr15</td>
-      <td>ITPKA</td>
-      <td>chr15.ITPKA</td>
-      <td>0.320564</td>
-    </tr>
-    <tr>
-      <th>150</th>
-      <td>chr8</td>
-      <td>TRHR</td>
-      <td>chr8.TRHR</td>
-      <td>0.134721</td>
-    </tr>
-    <tr>
-      <th>151</th>
-      <td>chr1</td>
-      <td>CACNA1S</td>
-      <td>chr1.CACNA1S</td>
-      <td>0.259831</td>
-    </tr>
-    <tr>
-      <th>152</th>
-      <td>chr9</td>
-      <td>GNAQ</td>
-      <td>chr9.GNAQ</td>
-      <td>0.275942</td>
-    </tr>
-    <tr>
-      <th>153</th>
-      <td>chr15</td>
-      <td>PLCB2</td>
-      <td>chr15.PLCB2</td>
-      <td>0.121064</td>
-    </tr>
-    <tr>
-      <th>154</th>
-      <td>chr7</td>
-      <td>ADCY1</td>
-      <td>chr7.ADCY1</td>
-      <td>0.343054</td>
-    </tr>
-    <tr>
-      <th>155</th>
-      <td>chr15</td>
-      <td>RYR3</td>
-      <td>chr15.RYR3</td>
-      <td>0.265300</td>
-    </tr>
-    <tr>
-      <th>156</th>
-      <td>chr7</td>
-      <td>PHKG1</td>
-      <td>chr7.PHKG1</td>
-      <td>0.157181</td>
-    </tr>
-    <tr>
-      <th>157</th>
-      <td>chrX</td>
-      <td>CYSLTR1</td>
-      <td>chrX.CYSLTR1</td>
-      <td>0.068701</td>
-    </tr>
-    <tr>
-      <th>158</th>
-      <td>chr5</td>
-      <td>PDGFRB</td>
-      <td>chr5.PDGFRB</td>
-      <td>0.293815</td>
-    </tr>
-    <tr>
-      <th>159</th>
-      <td>chr4</td>
-      <td>SLC25A4</td>
-      <td>chr4.SLC25A4</td>
-      <td>0.070235</td>
-    </tr>
-    <tr>
-      <th>160</th>
-      <td>chr8</td>
-      <td>PPP3CC</td>
-      <td>chr8.PPP3CC</td>
-      <td>0.356010</td>
-    </tr>
-    <tr>
-      <th>161</th>
-      <td>chr2</td>
-      <td>LHCGR</td>
-      <td>chr2.LHCGR</td>
-      <td>0.094462</td>
-    </tr>
-    <tr>
-      <th>162</th>
-      <td>chr8</td>
-      <td>ADRB3</td>
-      <td>chr8.ADRB3</td>
-      <td>0.330471</td>
-    </tr>
-    <tr>
-      <th>163</th>
-      <td>chr3</td>
-      <td>OXTR</td>
-      <td>chr3.OXTR</td>
-      <td>0.327985</td>
-    </tr>
-    <tr>
-      <th>164</th>
-      <td>chr10</td>
-      <td>CALML5</td>
-      <td>chr10.CALML5</td>
-      <td>0.363580</td>
-    </tr>
-    <tr>
-      <th>165</th>
-      <td>chr1</td>
-      <td>HTR6</td>
-      <td>chr1.HTR6</td>
-      <td>0.337619</td>
-    </tr>
-    <tr>
-      <th>166</th>
-      <td>chr20</td>
-      <td>PLCG1</td>
-      <td>chr20.PLCG1</td>
-      <td>0.244072</td>
-    </tr>
-    <tr>
-      <th>167</th>
-      <td>chr20</td>
-      <td>MYLK2</td>
-      <td>chr20.MYLK2</td>
-      <td>0.164047</td>
-    </tr>
-    <tr>
-      <th>168</th>
-      <td>chr7</td>
-      <td>CHRM2</td>
-      <td>chr7.CHRM2</td>
-      <td>0.268262</td>
-    </tr>
-    <tr>
-      <th>169</th>
-      <td>chr11</td>
-      <td>P2RX3</td>
-      <td>chr11.P2RX3</td>
-      <td>0.051683</td>
-    </tr>
-    <tr>
-      <th>170</th>
-      <td>chrX</td>
-      <td>CACNA1F</td>
-      <td>chrX.CACNA1F</td>
-      <td>0.190121</td>
-    </tr>
-    <tr>
-      <th>171</th>
-      <td>chrX</td>
-      <td>SLC25A5</td>
-      <td>chrX.SLC25A5</td>
-      <td>0.180459</td>
-    </tr>
-    <tr>
-      <th>172</th>
-      <td>chrX</td>
-      <td>ATP2B3</td>
-      <td>chrX.ATP2B3</td>
-      <td>0.180794</td>
-    </tr>
-    <tr>
-      <th>173</th>
-      <td>chr16</td>
-      <td>PRKCB</td>
-      <td>chr16.PRKCB</td>
-      <td>0.272680</td>
-    </tr>
-    <tr>
-      <th>174</th>
-      <td>chr1</td>
-      <td>CALML6</td>
-      <td>chr1.CALML6</td>
-      <td>0.147582</td>
-    </tr>
-    <tr>
-      <th>175</th>
-      <td>chr13</td>
-      <td>CYSLTR2</td>
-      <td>chr13.CYSLTR2</td>
-      <td>0.222805</td>
-    </tr>
-    <tr>
-      <th>176</th>
-      <td>chr2</td>
-      <td>CHP</td>
-      <td>chr2.CHP</td>
-      <td>0.351839</td>
-    </tr>
-    <tr>
-      <th>177</th>
-      <td>chr15</td>
-      <td>LOC729317</td>
-      <td>chr15.LOC729317</td>
-      <td>0.328145</td>
-    </tr>
-  </tbody>
-</table>
-<p>178 rows × 4 columns</p>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -678,16 +225,18 @@ body {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;data/del_sim_scale3_shape1_N100_M100_999.feather&quot;</span>
-<span class="n">fileout</span> <span class="o">=</span> <span class="s2">&quot;data/del_sim_scale3_shape1_N100_M100_999.dap&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># filename = &quot;data/del_sim_shape5_scale1_p0.01_N4000_M200_12.data.feather&quot;</span>
+<span class="c1"># fileout = &quot;data/del_sim_shape5_scale1_p0.01_N4000_M200_12.data.dap&quot;</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;data/del_test_data.feather&quot;</span>
+<span class="n">fileout</span> <span class="o">=</span> <span class="s2">&quot;data/del_test_data.dap&quot;</span>
 <span class="n">input_file</span> <span class="o">=</span> <span class="n">feather</span><span class="o">.</span><span class="n">read_dataframe</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 <span class="n">input_file</span><span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_file</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">y_tran</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span><span class="o">==</span><span class="mf">1.0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">run_dap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">fileout</span><span class="p">,</span> <span class="n">multiplier</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exec_path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">run_dap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">fileout</span><span class="p">,</span> <span class="n">multiplier</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exec_path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Convert pandas dataframe to dap input:</span>
 <span class="sd">        - phenotype / genotype file</span>
 <span class="sd">        - prior file</span>
 <span class="sd">        - grid file (of effect size): omega^2 + phi^2 is what we care. Let&#39;s set it to</span>
-<span class="sd">            *************** for now, as we only have one Y</span>
+<span class="sd">          (0, beta) for now, as we only have one Y</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="nb">print</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span>
     <span class="kn">import</span> <span class="nn">os</span>
@@ -702,7 +251,7 @@ body {
 <span class="c1">#     first item in &quot;dat&quot; is phenotype for all samples (# of rows in .feather)</span>
     <span class="n">dat</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;pheno&#39;</span><span class="p">,</span> <span class="s1">&#39;trait&#39;</span><span class="p">,</span> <span class="s1">&#39;chicago&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]]]</span>
     <span class="n">prior</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">grid</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="n">beta</span><span class="p">)]</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">)]</span>
 <span class="c1">#     item is gene name</span>
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="s2">&quot;phenotype&quot;</span><span class="p">:</span>
@@ -710,9 +259,12 @@ body {
         <span class="n">dat</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;geno&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genes</span><span class="p">[</span><span class="n">ref_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">==</span><span class="n">item</span><span class="p">][</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">),</span> 
                     <span class="s1">&#39;chicago&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="n">item</span><span class="p">]])</span>
         <span class="n">n_overlap_gene</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">cal_pthwy_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span>
-        <span class="n">prior_causal</span> <span class="o">=</span> <span class="n">multiplier</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span>
-        <span class="n">prior_noncausal</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">prior_causal</span><span class="o">*</span><span class="n">n_overlap_gene</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span><span class="o">-</span><span class="n">n_overlap_gene</span><span class="p">)</span>
-        <span class="n">prior_pr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">prior_causal</span><span class="p">)</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cal_pthwy_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">prior_noncausal</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">multiplier</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="n">prior_pr</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">prior_causal</span> <span class="o">=</span> <span class="n">multiplier</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span>
+            <span class="n">prior_noncausal</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">prior_causal</span><span class="o">*</span><span class="n">n_overlap_gene</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span><span class="o">-</span><span class="n">n_overlap_gene</span><span class="p">)</span>
+            <span class="n">prior_pr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">prior_causal</span><span class="p">)</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cal_pthwy_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">prior_noncausal</span><span class="p">)</span>
         <span class="n">prior</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genes</span><span class="p">[</span><span class="n">ref_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">==</span><span class="n">item</span><span class="p">][</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">),</span> <span class="n">prior_pr</span><span class="p">])</span>
 <span class="c1">#     print (prior_causal, prior_noncausal)</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;.dat&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -731,10 +283,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">testp</span><span class="o">=</span><span class="n">run_dap</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="n">fileout</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">run_dap</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="n">fileout</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -744,8 +296,7 @@ body {
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>2017-08-04 20:22:54.007086
-2017-08-04 20:23:02.148236
+<pre>2017-08-06 19:53:34.382848
 </pre>
 </div>
 </div>
@@ -754,10 +305,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;test.csv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># calpath_gene_pos.to_csv(&quot;test.csv&quot;, sep=&quot;\t&quot;)</span>
 </pre></div>
 </div>
 </div>
@@ -765,24 +316,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># prior_c = len(set(cal_pthwy_genes[&quot;gene_name&quot;]) &amp; set(df.columns.values[1:].tolist())) *2 / len(set(df.columns.values[1:].tolist())) / len(set(cal_pthwy_genes[&quot;gene_name&quot;]))</span>
-<span class="n">prior_c</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
-<span class="n">n_overlap_gene</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">cal_pthwy_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
-<span class="n">prior_nc</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">prior_c</span><span class="o">*</span><span class="n">n_overlap_gene</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span><span class="o">-</span><span class="n">n_overlap_gene</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
-    <span class="n">prior_t</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">prior_c</span><span class="p">)</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cal_pthwy_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">prior_nc</span><span class="p">)</span>
-<span class="c1">#     print (prior_t)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># chrom</span>
@@ -804,9 +338,20 @@ body {
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/6a8f500b0d17d7ef7cf648a187826610bb4d8c92/analysis/20170726_DataTransform.ipynb"><code>analysis/20170726_DataTransform.ipynb</code></a> committed by Min Qiao on Fri Aug 4 20:36:41 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/6a8f500b0d17d7ef7cf648a187826610bb4d8c92">revision 257, 6a8f500</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/069dc3d97832fe76a984b7952230e46b82a46a8d/analysis/20170726_DataTransform.ipynb"><code>analysis/20170726_DataTransform.ipynb</code></a> committed by Min Qiao on Sun Aug 6 20:03:06 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/069dc3d97832fe76a984b7952230e46b82a46a8d">revision 259, 069dc3d</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
