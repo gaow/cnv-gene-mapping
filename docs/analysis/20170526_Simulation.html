@@ -231,9 +231,18 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Notes-for-08/07/2017.-In-order-to-run-calcium-pathway,-temporarily-changed-&quot;Environment&quot;.">Notes for 08/07/2017. In order to run calcium pathway, temporarily changed "Environment".<a class="anchor-link" href="#Notes-for-08/07/2017.-In-order-to-run-calcium-pathway,-temporarily-changed-&quot;Environment&quot;.">&#182;</a></h4>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
@@ -257,6 +266,12 @@ when presented in causal gene vs. non causal gene.</p>
                          <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> 
                          <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;tx_name&quot;</span><span class="p">,</span> <span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">load_pthwy_gene</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">n_skiprow</span> <span class="o">=</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Load pathway genes. For example, calcium pathway genes.</span>
+<span class="sd">       The input file must contain a column named &quot;gene_name&quot;.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">pthwy_gene</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">skiprows</span> <span class="o">=</span> <span class="n">n_skiprow</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">pthwy_gene</span>
 <span class="k">def</span> <span class="nf">load_cnv_data</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;load cnv data&#39;&#39;&#39;</span>
     <span class="n">cnvbed</span> <span class="o">=</span> <span class="p">{}</span>
@@ -368,6 +383,7 @@ when presented in causal gene vs. non causal gene.</p>
                       <span class="s1">&#39;prevalence&#39;</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>
                       <span class="s1">&#39;n_causal_gene&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
                       <span class="s1">&#39;refgene_file&#39;</span><span class="p">:</span> <span class="s1">&#39;data/refGene.txt.gz&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;pthwy_gene_file&#39;</span><span class="p">:</span> <span class="s1">&#39;../data/calciumgeneset.txt&#39;</span><span class="p">,</span>
                       <span class="s1">&#39;cnv_file&#39;</span><span class="p">:</span> <span class="s1">&#39;data/ISC-r1.CNV.bed&#39;</span><span class="p">,</span>
                       <span class="s1">&#39;case_dataset&#39;</span><span class="p">:</span> <span class="s1">&#39;delCases&#39;</span><span class="p">,</span>
                       <span class="s1">&#39;ctrl_dataset&#39;</span><span class="p">:</span> <span class="s1">&#39;delControls&#39;</span><span class="p">,</span>
@@ -375,8 +391,9 @@ when presented in causal gene vs. non causal gene.</p>
                      <span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
         <span class="c1">## select causal genes randomly, instead of the first 100 in enrichment analysis</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ref_gene_name</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;refgene_file&quot;</span><span class="p">])[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">causal_genes</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ref_gene_name</span><span class="p">,</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;n_causal_gene&#39;</span><span class="p">])</span>
+<span class="c1">#         self.ref_gene_name = load_reference_gene(parameters[&quot;refgene_file&quot;])[&quot;gene_name&quot;].tolist()</span>
+<span class="c1">#         self.causal_genes = random.sample(self.ref_gene_name, parameters[&#39;n_causal_gene&#39;])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">causal_genes</span> <span class="o">=</span> <span class="n">load_pthwy_gene</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;pthwy_gene_file&quot;</span><span class="p">])[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="mi">999</span>
 <span class="n">args</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="n">refgene</span><span class="p">,</span> <span class="n">cnv_data</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">causal_genes</span><span class="p">):</span>
@@ -449,7 +466,56 @@ when presented in causal gene vs. non causal gene.</p>
     <span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;n_ctrl_nogene&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_gene_ctrl</span> <span class="o">-</span> <span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;n_ctrl_gene&quot;</span><span class="p">]</span>
     <span class="n">gene_table</span> <span class="o">=</span> <span class="n">gene_table</span><span class="p">[[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">,</span> <span class="s2">&quot;n_case_gene&quot;</span><span class="p">,</span> <span class="s2">&quot;n_ctrl_gene&quot;</span><span class="p">,</span> <span class="s2">&quot;n_case_nogene&quot;</span><span class="p">,</span> <span class="s2">&quot;n_ctrl_nogene&quot;</span><span class="p">]]</span>
     <span class="k">return</span> <span class="n">gene_table</span>
-<span class="k">def</span> <span class="nf">get_stats</span><span class="p">(</span><span class="n">gene_table</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># specifically for calcium pathway simulation</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+<span class="n">gene_df</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="s2">&quot;data/refGene.txt.gz&quot;</span><span class="p">)</span>
+<span class="n">cnv_data</span> <span class="o">=</span> <span class="n">load_cnv_data</span><span class="p">(</span><span class="s2">&quot;data/ISC-r1.CNV.bed&quot;</span><span class="p">)</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">gene_df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delCases&#39;</span><span class="p">],</span> <span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delControls&#39;</span><span class="p">]]),</span> <span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">)</span>
+<span class="n">save_data</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="s1">&#39;calcium_pathway_</span><span class="si">{}</span><span class="s1">.data.pkl&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">samples_4000</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">gene_df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delCases&#39;</span><span class="p">],</span><span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delControls&#39;</span><span class="p">]]),</span> <span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">)</span>
+<span class="n">save_data</span><span class="p">(</span><span class="n">samples_4000</span><span class="p">,</span> <span class="s1">&#39;calcium_pathway_4000.data.pkl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_stats</span><span class="p">(</span><span class="n">gene_table</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
     <span class="c1"># from website https://pypi.python.org/pypi/fisher/</span>
     <span class="n">stats_table</span> <span class="o">=</span> <span class="p">[(</span><span class="n">pvalue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_case_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_ctrl_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_case_nogene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_ctrl_nogene&quot;</span><span class="p">]),</span> 
                 <span class="n">row</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">gene_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
@@ -467,17 +533,7 @@ when presented in causal gene vs. non causal gene.</p>
     <span class="n">stats_table</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;p_value&quot;</span><span class="p">:</span> <span class="n">p_value</span><span class="p">,</span> <span class="s2">&quot;logp_2side&quot;</span><span class="p">:</span> <span class="n">logp_2side</span><span class="p">,</span> <span class="s2">&quot;logp_gene&quot;</span><span class="p">:</span> <span class="n">logp_gene</span><span class="p">,</span> 
                    <span class="s2">&quot;OR_2side&quot;</span><span class="p">:</span> <span class="n">OR_2side</span><span class="p">,</span> <span class="s2">&quot;OR_gene&quot;</span><span class="p">:</span> <span class="n">OR_gene</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">stats_table</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_stats_from_input</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">sort_data</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_stats_from_input</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">sort_data</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;input data saved from run_simulate step: sample_dup and sample_del separately&#39;&#39;&#39;</span>
     <span class="n">input_data</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
     <span class="n">sample_gene_table</span> <span class="o">=</span> <span class="n">get_gene_table</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
@@ -522,7 +578,7 @@ when presented in causal gene vs. non causal gene.</p>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cnvbed_df</span> <span class="o">=</span> <span class="n">load_cnv_data</span><span class="p">(</span><span class="s2">&quot;data/ISC-r1.CNV.bed&quot;</span><span class="p">)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="n">cnvbed_df</span><span class="p">)</span>
+<span class="c1"># print (cnvbed_df)</span>
 </pre></div>
 </div>
 </div>
@@ -4279,7 +4335,7 @@ iIiIXdNkRkREROyaJjMiIiJi1zSZEREREbumyYyIiIjYtf8H71E0eOpZFSIAAAAASUVORK5CYII=
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/220c48c5cd0877fef003ed694a8f1211133a38c8/analysis/20170526_Simulation.ipynb"><code>analysis/20170526_Simulation.ipynb</code></a> committed by Min Qiao on Thu Aug 3 20:39:07 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/220c48c5cd0877fef003ed694a8f1211133a38c8">revision 254, 220c48c</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/b74931b55e343645d37b968203eb5a2de75e6b58/analysis/20170526_Simulation.ipynb"><code>analysis/20170526_Simulation.ipynb</code></a> committed by Min Qiao on Mon Aug 7 19:54:04 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/b74931b55e343645d37b968203eb5a2de75e6b58">revision 263, b74931b</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
