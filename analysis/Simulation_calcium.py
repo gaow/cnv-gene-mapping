@@ -19,6 +19,13 @@ def load_reference_gene(filename):
                          names = ["tx_name", "chrom", "tx_start", "tx_end", "gene_name"])
     return ref_gene.drop_duplicates(subset=("chrom", "tx_start", "tx_end"))
 
+def load_pthwy_gene(filename, n_skiprow = 2):
+    '''Load pathway genes. For example, calcium pathway genes.
+       The input file must contain a column named "gene_name".
+    '''
+    pthwy_gene = pd.read_table(filename, skiprows = n_skiprow, header = None, names = ["gene_name"])
+    return pthwy_gene
+
 def load_cnv_data(filename):
     '''load cnv data'''
     cnvbed = {}
@@ -142,17 +149,14 @@ class Environment(dict):
                       'prevalence': 0.005,
                       'n_causal_gene': 200,
                       'refgene_file': 'data/refGene.txt.gz',
+                      'pthwy_gene_file': '../data/calciumgeneset.txt',
                       'cnv_file': 'data/ISC-r1.CNV.bed',
                       'case_dataset': 'delCases',
                       'ctrl_dataset': 'delControls',
-                      'output': 'del_sample' 
+                      'output': 'del_sample'
                      }
         self.update(parameters)
         ## select causal genes randomly, instead of the first 100 in enrichment analysis
-        self.ref_gene_name = load_reference_gene(parameters["refgene_file"])["gene_name"].tolist()
-        self.causal_genes = random.sample(self.ref_gene_name, parameters['n_causal_gene'])
-        self.seed = 999
-
 
 def simulate(refgene, cnv_data, args, causal_genes):
     df = cnv_data.drop_duplicates(subset=("chrom", "cnv_start", "cnv_end"))
@@ -161,8 +165,8 @@ def simulate(refgene, cnv_data, args, causal_genes):
     status = 1
     case_data = []
     ctrl_data = []
-    debug = {'p': [], 'niter': 0, 'time': [str(datetime.now()), None], 'args': dict(args), 
-             'causal genes': causal_genes, 'number of causal genes': [], 'number of genes overlap CNV': [],
+    debug = {'p': [], 'niter': 0, 'time': [str(datetime.now()), None], 'args': dict(args), 'seed': args.seed, 
+             'causal genes': causal_genes, 'number of causal genes': [], 'number of genes overlap CNV': [], 
              'simulated CNV length in case': [], 'simulated CNV length in ctrl': []}
     
     while(status):
@@ -176,7 +180,6 @@ def simulate(refgene, cnv_data, args, causal_genes):
         debug['number of causal genes'].append(len(causal_genes_in_sample))
         # add the number of genes overlapped with simulated CNVs, both causal and non-causal genes
         debug['number of genes overlap CNV'].append(len( set(samples['gene_name'].tolist()) ))
-        #debug['p'].append(p)
         if random.random() < p and len(case_data) < args['n_case']:
             # sample data is a case
             case_data.append(samples)
@@ -232,6 +235,8 @@ def get_gene_table(gene_df):
     gene_table = gene_table[["gene_name", "n_case_gene", "n_ctrl_gene", "n_case_nogene", "n_ctrl_nogene"]]
     return gene_table
 
+
+
 def get_stats(gene_table, sort = 0):
     # from website https://pypi.python.org/pypi/fisher/
     stats_table = [(pvalue(row["n_case_gene"], row["n_ctrl_gene"], row["n_case_nogene"], row["n_ctrl_nogene"]), 
@@ -253,7 +258,7 @@ def get_stats(gene_table, sort = 0):
     return stats_table
 
 def get_stats_from_input(input_data, sort_data = 0):
-    '''input data saving from run_simulate step: sample_dup and sample_del separately'''
+    '''input data saved from run_simulate step: sample_dup and sample_del separately'''
     input_data = load_data(input_data)
     sample_gene_table = get_gene_table(input_data)
     sample_stats_table = get_stats(del_sample_gene, num=100, sort = sort_data)
@@ -268,4 +273,3 @@ def run_stats(input_data, output_data):
 
 
 import plotly
-
