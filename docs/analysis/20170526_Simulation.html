@@ -242,7 +242,7 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
@@ -473,7 +473,7 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># specifically for calcium pathway simulation</span>
@@ -481,7 +481,7 @@ when presented in causal gene vs. non causal gene.</p>
 <span class="n">gene_df</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="s2">&quot;data/refGene.txt.gz&quot;</span><span class="p">)</span>
 <span class="n">cnv_data</span> <span class="o">=</span> <span class="n">load_cnv_data</span><span class="p">(</span><span class="s2">&quot;data/ISC-r1.CNV.bed&quot;</span><span class="p">)</span>
 <span class="n">samples</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">gene_df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delCases&#39;</span><span class="p">],</span> <span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delControls&#39;</span><span class="p">]]),</span> <span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">)</span>
-<span class="n">save_data</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="s1">&#39;calcium_pathway_</span><span class="si">{}</span><span class="s1">.data.pkl&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="p">))</span>
+<span class="n">save_data</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="s2">&quot;data/calcium_pathway_</span><span class="si">{}</span><span class="s2">.data.pkl&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -489,11 +489,11 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">samples_4000</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">gene_df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delCases&#39;</span><span class="p">],</span><span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delControls&#39;</span><span class="p">]]),</span> <span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">)</span>
-<span class="n">save_data</span><span class="p">(</span><span class="n">samples_4000</span><span class="p">,</span> <span class="s1">&#39;calcium_pathway_4000.data.pkl&#39;</span><span class="p">)</span>
+<span class="n">save_data</span><span class="p">(</span><span class="n">samples_4000</span><span class="p">,</span> <span class="s2">&quot;data/calcium_pathway_4000.data.pkl&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -574,271 +574,12 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cnvbed_df</span> <span class="o">=</span> <span class="n">load_cnv_data</span><span class="p">(</span><span class="s2">&quot;data/ISC-r1.CNV.bed&quot;</span><span class="p">)</span>
 <span class="c1"># print (cnvbed_df)</span>
 </pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;dupCases&#39;:       chrom   cnv_end  cnv_start
-0      chr3    177035      35322
-1      chr3    199247      35322
-3      chr3    212076      35322
-4      chr3    285947      35322
-5      chr3    163866      41866
-6      chr3    285947      60002
-7      chr3    248781      80793
-8      chr3    496709     127005
-9      chr3    400525     163865
-10     chr3    336177     189839
-11     chr3   1403399     832458
-12     chr3   1205461     930813
-13     chr3   1509354    1109010
-14     chr3   1723803    1118192
-15     chr3   1695061    1575774
-16     chr3   1696149    1575774
-17     chr3   1696280    1581011
-18     chr3   1827467    1678602
-19     chr3   2001745    1705740
-20     chr3   2130263    1765316
-21     chr3   2149336    1979767
-22     chr3   2149336    1988471
-23     chr3   2909350    2458305
-24     chr3   3832230    3703697
-25     chr3   4394070    4187684
-26     chr3   8360610    8039635
-27     chr3   8360610    8043419
-28     chr3  13663873   13556247
-29     chr3  15194364   15069772
-31     chr3  22750860   22644013
-...     ...       ...        ...
-2198  chr16  68744696   68597885
-2199  chr16  68755898   68597885
-2200  chr16  68770546   68607297
-2201  chr16  68768795   68622514
-2202  chr16  69654411   69403572
-2203  chr16  69763410   69408394
-2204  chr16  73653913   73472641
-2205  chr16  75288330   74490729
-2206  chr16  75390632   75109832
-2207  chr16  75599459   75464136
-2208  chr16  76376976   76225685
-2209  chr16  77158257   76525303
-2210  chr16  77333535   77015972
-2211  chr16  77226496   77103485
-2212  chr16  80820058   80705879
-2213  chr16  81284489   80772887
-2214  chr16  81604209   80925131
-2215  chr16  83042494   82802796
-2216  chr16  83141229   83026884
-2217  chr16  83193287   83066869
-2218  chr16  85269091   84848013
-2219  chr16  86583073   86246025
-2220  chr16  86550042   86327205
-2221  chr16  87440401   87284313
-2222  chr16  87580547   87298122
-2223  chr16  87465350   87329995
-2224  chr16  87756590   87521081
-2225  chr16  87668086   87545898
-2226  chr16  88799382   88560756
-2227  chr16  88799382   88564142
-[1936 rows x 3 columns], &#39;delCases&#39;:       chrom   cnv_end  cnv_start
-0      chr3   1636121     285763
-1      chr3    753245     638627
-2      chr3   1206335     738197
-3      chr3   1814724    1109010
-4      chr3   1445860    1300394
-5      chr3   2105050    1517298
-6      chr3   4158413    3874791
-7      chr3   4160602    3996516
-8      chr3   4288486    4148839
-13     chr3   4295851    4148839
-14     chr3   4288486    4156405
-15     chr3   6244704    6052172
-16     chr3   7145742    7043889
-17     chr3  24881911   24613795
-18     chr3  26140723   26014525
-19     chr3  26139674   26015732
-23     chr3  26145716   26016533
-24     chr3  26139674   26021365
-25     chr3  29182560   28925115
-26     chr3  36232571   36082687
-27     chr3  41806183   41338692
-28     chr3  41799437   41343432
-31     chr3  50452892   50339490
-32     chr3  60421099   60296311
-33     chr3  60540944   60307923
-34     chr3  60832672   60454967
-35     chr3  65975331   65781878
-36     chr3  72929199   72699980
-37     chr3  78025721   77924106
-38     chr3  80500254   80388134
-...     ...       ...        ...
-1340  chr16  21746842   21500956
-1341  chr16  21654018   21510499
-1342  chr16  21636716   21513553
-1343  chr16  22335781   21693739
-1344  chr16  22349522   21724961
-1345  chr16  22335781   21745742
-1346  chr16  22009081   21854037
-1347  chr16  22335781   21854037
-1348  chr16  22335781   22203964
-1349  chr16  28507883   28398018
-1350  chr16  28951377   28732153
-1351  chr16  30085921   29657036
-1352  chr16  58962576   58812289
-1353  chr16  61224856   61118952
-1354  chr16  68697044   68582090
-1356  chr16  68744696   68582090
-1357  chr16  68755898   68597885
-1359  chr16  68770546   68597885
-1360  chr16  68755898   68607297
-1362  chr16  68768795   68609885
-1363  chr16  70361575   68768945
-1364  chr16  71278043   71049620
-1365  chr16  76512564   76398531
-1366  chr16  76918651   76535125
-1367  chr16  76934621   76800885
-1368  chr16  79106760   79006741
-1370  chr16  79841100   79730163
-1371  chr16  83091199   82977842
-1372  chr16  83145462   83029060
-1373  chr16  88799382   88521659
-[1161 rows x 3 columns], &#39;delControls&#39;:       chrom   cnv_end  cnv_start
-0      chr3   1410359     832458
-1      chr3   1033417     860794
-2      chr3   1217240    1090173
-3      chr3   1581012    1410358
-4      chr3   1880009    1692011
-5      chr3   2023352    1863860
-6      chr3   2567979    1890238
-7      chr3   2855211    2187236
-8      chr3   2677038    2307779
-9      chr3   4206021    3933764
-10     chr3   4160602    3996516
-11     chr3   4212349    4018018
-12     chr3   4227280    4067922
-13     chr3   4227662    4069627
-14     chr3   4248490    4074877
-15     chr3   4288486    4148839
-21     chr3   4288486    4163665
-22     chr3   4276298    4165757
-23     chr3   4355162    4234712
-24     chr3   6501529    6290882
-25     chr3  17475702   17365970
-26     chr3  21326642   21226323
-27     chr3  26139674   26009915
-28     chr3  26140723   26014525
-29     chr3  26145716   26014525
-31     chr3  26139674   26015732
-32     chr3  26145716   26016533
-33     chr3  26201923   26021365
-34     chr3  37896109   37779107
-35     chr3  59427408   59232110
-...     ...       ...        ...
-1247  chr16  21650634   21503814
-1248  chr16  21654455   21503814
-1249  chr16  21746842   21503814
-1250  chr16  21654018   21508825
-1251  chr16  21746842   21513468
-1252  chr16  21654018   21513553
-1254  chr16  26984629   26761830
-1255  chr16  30085921   29474810
-1256  chr16  30134445   29487535
-1257  chr16  30252473   29515716
-1258  chr16  32160750   31905683
-1259  chr16  61932799   61829864
-1260  chr16  62407724   62146565
-1261  chr16  62786527   62625505
-1262  chr16  68744696   68582090
-1263  chr16  68697044   68586194
-1264  chr16  68744696   68586194
-1265  chr16  68744696   68597885
-1266  chr16  68744696   68607297
-1267  chr16  68744696   68608412
-1268  chr16  68755357   68609885
-1269  chr16  70147103   69953396
-1270  chr16  71278043   71089863
-1271  chr16  72656476   72551860
-1272  chr16  76393270   76257950
-1273  chr16  76980957   76795589
-1274  chr16  79085684   78789512
-1275  chr16  82227917   80737839
-1276  chr16  84178404   83944013
-1277  chr16  85435367   85304885
-[1049 rows x 3 columns], &#39;dupControls&#39;:       chrom   cnv_end  cnv_start
-0      chr3    406825      60002
-1      chr3    218089     102604
-2      chr3    649788     193663
-3      chr3    510653     359169
-4      chr3    905568     373222
-5      chr3    581055     474885
-6      chr3   1326841     537031
-7      chr3   1325135     634022
-8      chr3   1061878     880686
-9      chr3   1756804    1433406
-10     chr3   1805431    1433406
-11     chr3   1805314    1435279
-13     chr3   1695061    1575774
-15     chr3   2149336    1991318
-16     chr3   2745828    2003829
-17     chr3   2578229    2064570
-18     chr3   3832230    3694456
-19     chr3   4584649    4395255
-20     chr3   7180238    6792664
-21     chr3   8024763    7602114
-22     chr3  11864927   11719647
-23     chr3  15194364   15079749
-24     chr3  23818625   23659316
-25     chr3  23818625   23667699
-26     chr3  25932953   25776689
-27     chr3  25938545   25796513
-28     chr3  31528896   31403429
-29     chr3  34781688   34675826
-30     chr3  35916775   35775771
-31     chr3  35915307   35778779
-...     ...       ...        ...
-1841  chr16  68744696   68545887
-1842  chr16  68755898   68545887
-1843  chr16  68697044   68582090
-1844  chr16  68768795   68597261
-1845  chr16  68744696   68597885
-1847  chr16  68709824   68607297
-1848  chr16  68768795   68609885
-1849  chr16  68755357   68622514
-1850  chr16  68768795   68622514
-1852  chr16  69758575   69399598
-1853  chr16  73918236   73009537
-1854  chr16  75288330   74494362
-1855  chr16  75792376   75679042
-1856  chr16  77164851   76114962
-1857  chr16  76911575   76170016
-1858  chr16  76929110   76225560
-1859  chr16  77158257   76525303
-1860  chr16  79317627   78760305
-1861  chr16  79654700   79441804
-1862  chr16  79652453   79443082
-1863  chr16  79850232   79745622
-1864  chr16  82531568   82109008
-1865  chr16  82531568   82110299
-1866  chr16  83853019   83618218
-1867  chr16  84483027   84286314
-1868  chr16  86442049   86322658
-1869  chr16  87654823   87545898
-1870  chr16  88499847   88248332
-1871  chr16  88799382   88609161
-1872  chr16  88799382   88616592
-[1577 rows x 3 columns]}
-</pre>
-</div>
 </div>
 </div>
 </div>
@@ -1288,86 +1029,13 @@ UKcAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">del_sample_gene</span> <span class="o">=</span> <span class="n">get_gene_table</span><span class="p">(</span><span class="n">del_sample</span><span class="p">)</span>
 <span class="c1"># dup_sample_gene = get_gene_table(dup_sample)</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">del_sample_gene</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>        gene_name  n_case_gene  n_ctrl_gene  n_case_nogene  n_ctrl_nogene
-0            CHD8          5.0          0.0          235.0          103.0
-1          SNORD8          5.0          0.0          235.0          103.0
-2          METTL3          4.0          0.0          236.0          103.0
-3           RAB2B          4.0          0.0          236.0          103.0
-4          SNORD9          4.0          0.0          236.0          103.0
-5         SUPT16H          4.0          0.0          236.0          103.0
-6            TOX4          4.0          0.0          236.0          103.0
-7         RPGRIP1          3.0          0.0          237.0          103.0
-8           SALL2          3.0          0.0          237.0          103.0
-9          HNRNPC          2.0          0.0          238.0          103.0
-10      LINC00641          2.0          0.0          238.0          103.0
-11         OR5AU1          2.0          0.0          238.0          103.0
-12        MACROD2          2.0          1.0          238.0          102.0
-13       C22orf39          2.0          0.0          238.0          103.0
-14          CDC45          2.0          0.0          238.0          103.0
-15          CLDN5          2.0          0.0          238.0          103.0
-16         CLTCL1          2.0          0.0          238.0          103.0
-17         DGCR14          2.0          0.0          238.0          103.0
-18          DGCR2          2.0          0.0          238.0          103.0
-19           GSC2          2.0          0.0          238.0          103.0
-20           HIRA          2.0          0.0          238.0          103.0
-21        HSFY1P1          2.0          1.0          238.0          102.0
-22      LINC00895          2.0          0.0          238.0          103.0
-23      LINC01311          2.0          0.0          238.0          103.0
-24   LOC101929350          2.0          1.0          238.0          102.0
-25         MRPL40          2.0          0.0          238.0          103.0
-26        SLC25A1          2.0          0.0          238.0          103.0
-27          TSSK2          2.0          0.0          238.0          103.0
-28          UFD1L          2.0          0.0          238.0          103.0
-29           XKR3          2.0          1.0          238.0          102.0
-..            ...          ...          ...            ...            ...
-230  LOC100507477          0.0          1.0          240.0          102.0
-231       MIR3668          0.0          1.0          240.0          102.0
-232        ANKMY2          0.0          1.0          240.0          102.0
-233          BZW2          0.0          1.0          240.0          102.0
-234        FAM20C          0.0          1.0          240.0          102.0
-235  LOC100507642          0.0          1.0          240.0          102.0
-236  LOC102723672          0.0          1.0          240.0          102.0
-237  LOC105375115          0.0          1.0          240.0          102.0
-238     LOC442497          0.0          1.0          240.0          102.0
-239        LRRC72          0.0          1.0          240.0          102.0
-240       MIR6839          0.0          1.0          240.0          102.0
-241  WI2-2373I1.2          0.0          1.0          240.0          102.0
-242        ZNF107          0.0          1.0          240.0          102.0
-243         COX6C          0.0          1.0          240.0          102.0
-244        FBXO43          0.0          1.0          240.0          102.0
-245      MIR1273A          0.0          1.0          240.0          102.0
-246         MYOM2          0.0          1.0          240.0          102.0
-247        POLR2K          0.0          1.0          240.0          102.0
-248         RGS22          0.0          1.0          240.0          102.0
-249        RNF19A          0.0          1.0          240.0          102.0
-250       RUNX1T1          0.0          1.0          240.0          102.0
-251         SPAG1          0.0          1.0          240.0          102.0
-252        VPS13B          0.0          1.0          240.0          102.0
-253       FAM74A1          0.0          1.0          240.0          102.0
-254  LOC101928195          0.0          1.0          240.0          102.0
-255  LOC101929583          0.0          1.0          240.0          102.0
-256  LOC105375972          0.0          1.0          240.0          102.0
-257     LOC286297          0.0          1.0          240.0          102.0
-258     SPATA31A1          0.0          1.0          240.0          102.0
-259       ZNF658B          0.0          1.0          240.0          102.0
-[260 rows x 5 columns]
-</pre>
-</div>
 </div>
 </div>
 </div>
@@ -4300,11 +3968,12 @@ iIiIXdNkRkREROyaJjMiIiJi1zSZEREREbumyYyIiIjYtf8H71E0eOpZFSIAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> jupyter nbconvert --to script simulation.ipynb
-<span class="o">!</span> python extract_function.py --from simulation.py --to simulation.py
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> jupyter nbconvert --to script 20170526_Simulation.ipynb
+<span class="c1"># ! python extract_function.py --from simulation.py --to simulation.py</span>
+<span class="o">!</span> python extract_function.py --from 20170526_Simulation.py --to Simulation_calcium.py
 </pre></div>
 </div>
 </div>
@@ -4314,8 +3983,8 @@ iIiIXdNkRkREROyaJjMiIiJi1zSZEREREbumyYyIiIjYtf8H71E0eOpZFSIAAAAASUVORK5CYII=
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[NbConvertApp] Converting notebook simulation.ipynb to script
-[NbConvertApp] Writing 23535 bytes to simulation.py
+<pre>[NbConvertApp] Converting notebook 20170526_Simulation.ipynb to script
+[NbConvertApp] Writing 24740 bytes to 20170526_Simulation.py
 </pre>
 </div>
 </div>
@@ -4335,7 +4004,7 @@ iIiIXdNkRkREROyaJjMiIiJi1zSZEREREbumyYyIiIjYtf8H71E0eOpZFSIAAAAASUVORK5CYII=
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/b74931b55e343645d37b968203eb5a2de75e6b58/analysis/20170526_Simulation.ipynb"><code>analysis/20170526_Simulation.ipynb</code></a> committed by Min Qiao on Mon Aug 7 19:54:04 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/b74931b55e343645d37b968203eb5a2de75e6b58">revision 263, b74931b</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/dc0fc531e60881636876df66d83e7e2bff5c52fd/analysis/20170526_Simulation.ipynb"><code>analysis/20170526_Simulation.ipynb</code></a> committed by Min Qiao on Wed Aug 9 19:51:08 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/dc0fc531e60881636876df66d83e7e2bff5c52fd">revision 265, dc0fc53</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
