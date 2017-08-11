@@ -231,7 +231,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">run_dap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">fileout</span><span class="p">,</span> <span class="n">pthwy_genes</span><span class="p">,</span> <span class="n">multiplier</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exec_path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
@@ -286,7 +286,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;data/calcium_pathway_N4000.data.feather&quot;</span>
@@ -305,8 +305,35 @@ body {
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>2017-08-08 12:13:30.943323
-2017-08-08 12:21:46.834222
+<pre>2017-08-10 17:49:34.493148
+2017-08-10 18:19:40.418724
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># test, check if the genes with high posterior are similar to calcium. If yes, then simulation has problem.</span>
+<span class="n">filename1</span> <span class="o">=</span> <span class="s2">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M200_12.data.feather&quot;</span>
+<span class="n">fileout1</span> <span class="o">=</span> <span class="s2">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M200_12.test.dap&quot;</span>
+<span class="n">input_file1</span> <span class="o">=</span> <span class="n">feather</span><span class="o">.</span><span class="n">read_dataframe</span><span class="p">(</span><span class="n">filename1</span><span class="p">)</span>
+<span class="n">input_file1</span><span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_file1</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">y_tran</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span><span class="o">==</span><span class="mf">1.0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">run_dap</span><span class="p">(</span><span class="n">input_file1</span><span class="p">,</span> <span class="n">fileout1</span><span class="p">,</span> <span class="n">cal_pthwy_genes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>2017-08-10 19:22:02.873925
 </pre>
 </div>
 </div>
@@ -366,7 +393,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/dc0fc531e60881636876df66d83e7e2bff5c52fd/analysis/20170726_Dap_on_simulation.ipynb"><code>analysis/20170726_Dap_on_simulation.ipynb</code></a> committed by Min Qiao on Wed Aug 9 19:51:08 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/dc0fc531e60881636876df66d83e7e2bff5c52fd">revision 265, dc0fc53</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/c21a7c3ff5aaf56831ebd67b6e2d282b8f1f7620/analysis/20170726_Dap_on_simulation.ipynb"><code>analysis/20170726_Dap_on_simulation.ipynb</code></a> committed by Min Qiao on Thu Aug 10 19:50:16 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/c21a7c3ff5aaf56831ebd67b6e2d282b8f1f7620">revision 267, c21a7c3</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

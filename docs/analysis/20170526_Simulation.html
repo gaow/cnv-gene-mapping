@@ -242,7 +242,7 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
@@ -394,7 +394,7 @@ when presented in causal gene vs. non causal gene.</p>
 <span class="c1">#         self.ref_gene_name = load_reference_gene(parameters[&quot;refgene_file&quot;])[&quot;gene_name&quot;].tolist()</span>
 <span class="c1">#         self.causal_genes = random.sample(self.ref_gene_name, parameters[&#39;n_causal_gene&#39;])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">causal_genes</span> <span class="o">=</span> <span class="n">load_pthwy_gene</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;pthwy_gene_file&quot;</span><span class="p">])[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="mi">999</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="mi">12</span>
 <span class="n">args</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="n">refgene</span><span class="p">,</span> <span class="n">cnv_data</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">causal_genes</span><span class="p">):</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">cnv_data</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_start&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_end&quot;</span><span class="p">))</span>
@@ -473,14 +473,24 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># specifically for calcium pathway simulation</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
 <span class="n">gene_df</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="s2">&quot;data/refGene.txt.gz&quot;</span><span class="p">)</span>
 <span class="n">cnv_data</span> <span class="o">=</span> <span class="n">load_cnv_data</span><span class="p">(</span><span class="s2">&quot;data/ISC-r1.CNV.bed&quot;</span><span class="p">)</span>
-<span class="n">samples</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">gene_df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delCases&#39;</span><span class="p">],</span> <span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delControls&#39;</span><span class="p">]]),</span> <span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">gene_df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delCases&#39;</span><span class="p">],</span> <span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delControls&#39;</span><span class="p">]]),</span> <span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">)</span>
 <span class="n">save_data</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="s2">&quot;data/calcium_pathway_</span><span class="si">{}</span><span class="s2">.data.pkl&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -489,11 +499,12 @@ when presented in causal gene vs. non causal gene.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">samples_4000</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">gene_df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delCases&#39;</span><span class="p">],</span><span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delControls&#39;</span><span class="p">]]),</span> <span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">)</span>
-<span class="n">save_data</span><span class="p">(</span><span class="n">samples_4000</span><span class="p">,</span> <span class="s2">&quot;data/calcium_pathway_4000.data.pkl&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># the size of calcium simulation is much smaller than previous with the same sample size, check the size</span>
+<span class="n">samples_4000</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">gene_df</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delCases&#39;</span><span class="p">],</span><span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;delControls&#39;</span><span class="p">]]),</span> <span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">)</span>
+<span class="n">save_data</span><span class="p">(</span><span class="n">samples_4000</span><span class="p">,</span> <span class="s2">&quot;data/calcium_pathway_4000_2.data.pkl&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -4004,7 +4015,7 @@ iIiIXdNkRkREROyaJjMiIiJi1zSZEREREbumyYyIiIjYtf8H71E0eOpZFSIAAAAASUVORK5CYII=
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/dc0fc531e60881636876df66d83e7e2bff5c52fd/analysis/20170526_Simulation.ipynb"><code>analysis/20170526_Simulation.ipynb</code></a> committed by Min Qiao on Wed Aug 9 19:51:08 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/dc0fc531e60881636876df66d83e7e2bff5c52fd">revision 265, dc0fc53</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/c21a7c3ff5aaf56831ebd67b6e2d282b8f1f7620/analysis/20170526_Simulation.ipynb"><code>analysis/20170526_Simulation.ipynb</code></a> committed by Min Qiao on Thu Aug 10 19:50:16 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/c21a7c3ff5aaf56831ebd67b6e2d282b8f1f7620">revision 267, c21a7c3</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
