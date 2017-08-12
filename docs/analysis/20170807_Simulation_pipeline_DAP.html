@@ -144,7 +144,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="nb">set</span> <span class="o">-</span><span class="n">J</span> <span class="mi">1</span> <span class="o">-</span><span class="n">j</span> <span class="mi">2</span>
 <span class="o">%</span><span class="kp">run</span> <span class="n">dap</span>
 <span class="p">[</span><span class="n">dap_1</span><span class="p">]</span>
-<span class="kn">depends:</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s2">&quot;pandasql&quot;</span><span class="p">),</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s1">&#39;fisher&#39;</span><span class="p">),</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s1">&#39;plotly&#39;</span><span class="p">)</span>
+<span class="kn">depends:</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s2">&quot;pandasql&quot;</span><span class="p">)</span>
 <span class="kn">parameter:</span> <span class="n">sample_size</span> <span class="o">=</span> <span class="mi">2000</span>
 <span class="kn">parameter:</span> <span class="n">seed</span> <span class="o">=</span> <span class="p">[</span><span class="mi">999</span><span class="p">]</span>
 <span class="kn">parameter:</span> <span class="n">prevalence</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">]</span>
@@ -189,14 +189,16 @@ body {
 <span class="c1"># save to disk</span>
 <span class="n">feather</span><span class="o">.</span><span class="n">write_dataframe</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">regression_data</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">genes</span><span class="p">[</span><span class="n">mask</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()),</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
 <span class="p">[</span><span class="n">dap_3</span><span class="p">]</span>
-<span class="kn">depends:</span> 
-<span class="kn">input:</span> 
-<span class="kn">output:</span> 
+<span class="kn">depends:</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="kn">input:</span> <span class="kp">group_by</span> <span class="o">=</span> <span class="s1">&#39;single&#39;</span>
+<span class="kn">output:</span> <span class="s2">&quot;${_input!n}.dap&quot;</span>
 <span class="kn">task:</span>
 <span class="kn">python:</span>
 <span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
-<span class="kn">import</span>
+<span class="kn">import</span> <span class="nn">pandas</span><span class="o">,</span> <span class="nn">feather</span>
+<span class="n">input_df</span> <span class="o">=</span> <span class="n">feather</span><span class="o">.</span><span class="n">read_dataframe</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">input_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -268,7 +270,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/c21a7c3ff5aaf56831ebd67b6e2d282b8f1f7620/analysis/20170807_Simulation_pipeline_DAP.ipynb"><code>analysis/20170807_Simulation_pipeline_DAP.ipynb</code></a> committed by Min Qiao on Thu Aug 10 19:50:16 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/c21a7c3ff5aaf56831ebd67b6e2d282b8f1f7620">revision 267, c21a7c3</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/3e0abf8d110180c43ad8832759e4467689f04caf/analysis/20170807_Simulation_pipeline_DAP.ipynb"><code>analysis/20170807_Simulation_pipeline_DAP.ipynb</code></a> committed by Min Qiao on Fri Aug 11 20:32:02 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/3e0abf8d110180c43ad8832759e4467689f04caf">revision 269, 3e0abf8</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
