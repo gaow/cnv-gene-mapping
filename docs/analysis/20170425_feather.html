@@ -129,7 +129,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span><span class="o">,</span> <span class="nn">feather</span>
@@ -163,31 +163,7 @@ body {
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">Simulation_calcium</span> <span class="k">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">load_reference_gene</span>
 <span class="n">args</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
-<span class="n">ref</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;refgene_file&quot;</span><span class="p">])</span>
-<span class="n">genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">])))</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_feather</span><span class="p">(</span><span class="n">input_data</span><span class="p">):</span>
-    <span class="n">dat</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
-    <span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">genes</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span> 
-                                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]])</span>
-    <span class="n">phenotype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span>
-    <span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">phenotype</span><span class="p">,</span> <span class="n">regression_data</span><span class="p">))</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">((</span><span class="n">regression_data</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-    <span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">phenotype</span><span class="p">,</span> <span class="n">regression_data</span><span class="p">[:,</span> <span class="n">mask</span><span class="p">]))</span>
-    <span class="n">output_data</span> <span class="o">=</span> <span class="n">feather</span><span class="o">.</span><span class="n">write_dataframe</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">regression_data</span><span class="p">,</span> 
-                                          <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">genes</span><span class="p">[</span><span class="n">mask</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()),</span> 
-                                          <span class="s2">&quot;data/calcium_pathway_N</span><span class="si">{}</span><span class="s2">.data.feather&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                          <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">][</span><span class="s2">&quot;args&quot;</span><span class="p">][</span><span class="s2">&quot;n_case&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">][</span><span class="s2">&quot;args&quot;</span><span class="p">][</span><span class="s2">&quot;n_ctrl&quot;</span><span class="p">]))</span>
-    <span class="k">return</span> <span class="n">output_data</span>
+<span class="kn">import</span> <span class="nn">random</span>
 </pre></div>
 </div>
 </div>
@@ -198,7 +174,25 @@ body {
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_feather</span><span class="p">(</span><span class="s2">&quot;data/calcium_pathway_4000.data.pkl&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_feather</span><span class="p">(</span><span class="n">input_data</span><span class="p">):</span>
+    <span class="n">dat</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+    <span class="n">ref</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;refgene_file&quot;</span><span class="p">])</span>
+    <span class="n">genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">])))</span>
+    <span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">genes</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span> 
+                                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]])</span>
+    <span class="n">phenotype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">phenotype</span><span class="p">,</span> <span class="n">regression_data</span><span class="p">))</span>
+<span class="c1">#     mask = np.ravel((regression_data==0).all(0))</span>
+<span class="c1">#     regression_data = np.hstack((phenotype, regression_data[:, mask]))</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">regression_data</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">genes</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+    <span class="n">newdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">newdf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+    <span class="n">output_data</span> <span class="o">=</span> <span class="n">feather</span><span class="o">.</span><span class="n">write_dataframe</span><span class="p">(</span><span class="n">newdf</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="s2">&quot;data/calcium_pathway_N</span><span class="si">{}</span><span class="s2">_shape</span><span class="si">{}</span><span class="s2">_nomask.data.feather&quot;</span>
+                                          <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">][</span><span class="s2">&quot;args&quot;</span><span class="p">][</span><span class="s2">&quot;n_case&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">][</span><span class="s2">&quot;args&quot;</span><span class="p">][</span><span class="s2">&quot;n_ctrl&quot;</span><span class="p">],</span> 
+                                                  <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">][</span><span class="s2">&quot;args&quot;</span><span class="p">][</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s2">&quot;shape&quot;</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">output_data</span>
 </pre></div>
 </div>
 </div>
@@ -209,8 +203,97 @@ body {
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test4000</span> <span class="o">=</span> <span class="n">feather</span><span class="o">.</span><span class="n">read_dataframe</span><span class="p">(</span><span class="s2">&quot;data/calcium_pathway_N4000.data.feather&quot;</span><span class="p">)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="n">test4000</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_feather</span><span class="p">(</span><span class="s2">&quot;data/calcium_pathway_4000_shape_25.data.pkl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># randomly select 1000 samples (500 cases and 500 controls) from 4000 samples</span>
+<span class="n">test4000</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;data/calcium_pathway_4000_shape_25.data.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+<span class="n">n_case</span> <span class="o">=</span> <span class="n">n_ctrl</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">test4000</span><span class="p">[</span><span class="s2">&quot;case&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">case</span> <span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="n">test4000</span><span class="p">[</span><span class="s2">&quot;case&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">case</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">test4000</span><span class="p">[</span><span class="s2">&quot;case&quot;</span><span class="p">])</span>
+<span class="n">test4000</span><span class="p">[</span><span class="s2">&quot;ctrl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctrl</span> <span class="k">for</span> <span class="n">ctrl</span> <span class="ow">in</span> <span class="n">test4000</span><span class="p">[</span><span class="s2">&quot;ctrl&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ctrl</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">test4000</span><span class="p">[</span><span class="s2">&quot;ctrl&quot;</span><span class="p">])</span>
+<span class="n">case</span> <span class="o">=</span> <span class="p">[</span><span class="n">test4000</span><span class="p">[</span><span class="s2">&quot;case&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">test4000</span><span class="p">[</span><span class="s2">&quot;case&quot;</span><span class="p">])),</span> <span class="n">n_case</span><span class="p">)]</span>
+<span class="n">ctrl</span> <span class="o">=</span> <span class="p">[</span><span class="n">test4000</span><span class="p">[</span><span class="s2">&quot;ctrl&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">test4000</span><span class="p">[</span><span class="s2">&quot;ctrl&quot;</span><span class="p">])),</span> <span class="n">n_ctrl</span><span class="p">)]</span>
+<span class="n">test1000</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;case&quot;</span><span class="p">:</span> <span class="n">case</span><span class="p">,</span> <span class="s2">&quot;ctrl&quot;</span><span class="p">:</span> <span class="n">ctrl</span><span class="p">,</span> <span class="s2">&quot;debug&quot;</span><span class="p">:</span> <span class="n">test4000</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">]}</span>
+<span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">test1000</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;data/calcium_pathway_</span><span class="si">{}</span><span class="s2">_shape_25.data.pkl&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_case</span> <span class="o">+</span> <span class="n">n_ctrl</span><span class="p">),</span> <span class="s2">&quot;wb&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test1000</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">][</span><span class="s2">&quot;args&quot;</span><span class="p">][</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s2">&quot;shape&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[10]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>25</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ref</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;refgene_file&quot;</span><span class="p">])</span>
+<span class="n">genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">])))</span>
+<span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="n">genes</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span> <span class="p">)</span> 
+                             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">test</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">test</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]</span> <span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">regression_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -220,193 +303,7 @@ body {
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>      phenotype  MIR6069  FNBP4  ISCA2  LOC100506472  RPL39  LOC101927817  \
-0           1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-1           1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-2           1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3           1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-4           1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-5           1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-6           1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-7           1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-8           1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-9           1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-10          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-11          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-12          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-13          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-14          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-15          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-16          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-17          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-18          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-19          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-20          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-21          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-22          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-23          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-24          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-25          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-26          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-27          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-28          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-29          1.0      0.0    0.0    0.0           0.0    0.0           0.0   
-...         ...      ...    ...    ...           ...    ...           ...   
-3970        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3971        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3972        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3973        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3974        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3975        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3976        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3977        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3978        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3979        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3980        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3981        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3982        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3983        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3984        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3985        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3986        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3987        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3988        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3989        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3990        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3991        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3992        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3993        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3994        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3995        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3996        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3997        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3998        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-3999        0.0      0.0    0.0    0.0           0.0    0.0           0.0   
-      TMEM231  TMEM72-AS1  SIRPG-AS1   ...     TTTY18  FBXW10  SLC10A3  PIN4  \
-0         0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-1         0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-2         0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3         0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-4         0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-5         0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-6         0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-7         0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-8         0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-9         0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-10        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-11        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-12        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-13        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-14        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-15        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-16        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-17        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-18        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-19        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-20        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-21        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-22        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-23        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-24        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-25        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-26        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-27        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-28        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-29        0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-...       ...         ...        ...   ...        ...     ...      ...   ...   
-3970      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3971      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3972      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3973      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3974      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3975      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3976      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3977      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3978      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3979      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3980      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3981      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3982      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3983      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3984      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3985      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3986      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3987      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3988      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3989      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3990      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3991      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3992      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3993      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3994      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3995      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3996      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3997      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3998      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-3999      0.0         0.0        0.0   ...        0.0     0.0      0.0   0.0   
-      MIR4769  LOC102723544  FAAHP1  HCG26  MIR532  MIR6807  
-0         0.0           0.0     0.0    0.0     0.0      0.0  
-1         0.0           0.0     0.0    0.0     0.0      0.0  
-2         0.0           0.0     0.0    0.0     0.0      0.0  
-3         0.0           0.0     0.0    0.0     0.0      0.0  
-4         0.0           0.0     0.0    0.0     0.0      0.0  
-5         0.0           0.0     0.0    0.0     0.0      0.0  
-6         0.0           0.0     0.0    0.0     0.0      0.0  
-7         0.0           0.0     0.0    0.0     0.0      0.0  
-8         0.0           0.0     0.0    0.0     0.0      0.0  
-9         0.0           0.0     0.0    0.0     0.0      0.0  
-10        0.0           0.0     0.0    0.0     0.0      0.0  
-11        0.0           0.0     0.0    0.0     0.0      0.0  
-12        0.0           0.0     0.0    0.0     0.0      0.0  
-13        0.0           0.0     0.0    0.0     0.0      0.0  
-14        0.0           0.0     0.0    0.0     0.0      0.0  
-15        0.0           0.0     0.0    0.0     0.0      0.0  
-16        0.0           0.0     0.0    0.0     0.0      0.0  
-17        0.0           0.0     0.0    0.0     0.0      0.0  
-18        0.0           0.0     0.0    0.0     0.0      0.0  
-19        0.0           0.0     0.0    0.0     0.0      0.0  
-20        0.0           0.0     0.0    0.0     0.0      0.0  
-21        0.0           0.0     0.0    0.0     0.0      0.0  
-22        0.0           0.0     0.0    0.0     0.0      0.0  
-23        0.0           0.0     0.0    0.0     0.0      0.0  
-24        0.0           0.0     0.0    0.0     0.0      0.0  
-25        0.0           0.0     0.0    0.0     0.0      0.0  
-26        0.0           0.0     0.0    0.0     0.0      0.0  
-27        0.0           0.0     0.0    0.0     0.0      0.0  
-28        0.0           0.0     0.0    0.0     0.0      0.0  
-29        0.0           0.0     0.0    0.0     0.0      0.0  
-...       ...           ...     ...    ...     ...      ...  
-3970      0.0           0.0     0.0    0.0     0.0      0.0  
-3971      0.0           0.0     0.0    0.0     0.0      0.0  
-3972      0.0           0.0     0.0    0.0     0.0      0.0  
-3973      0.0           0.0     0.0    0.0     0.0      0.0  
-3974      0.0           0.0     0.0    0.0     0.0      0.0  
-3975      0.0           0.0     0.0    0.0     0.0      0.0  
-3976      0.0           0.0     0.0    0.0     0.0      0.0  
-3977      0.0           0.0     0.0    0.0     0.0      0.0  
-3978      0.0           0.0     0.0    0.0     0.0      0.0  
-3979      0.0           0.0     0.0    0.0     0.0      0.0  
-3980      0.0           0.0     0.0    0.0     0.0      0.0  
-3981      0.0           0.0     0.0    0.0     0.0      0.0  
-3982      0.0           0.0     0.0    0.0     0.0      0.0  
-3983      0.0           0.0     0.0    0.0     0.0      0.0  
-3984      0.0           0.0     0.0    0.0     0.0      0.0  
-3985      0.0           0.0     0.0    0.0     0.0      0.0  
-3986      0.0           0.0     0.0    0.0     0.0      0.0  
-3987      0.0           0.0     0.0    0.0     0.0      0.0  
-3988      0.0           0.0     0.0    0.0     0.0      0.0  
-3989      0.0           0.0     0.0    0.0     0.0      0.0  
-3990      0.0           0.0     0.0    0.0     0.0      0.0  
-3991      0.0           0.0     0.0    0.0     0.0      0.0  
-3992      0.0           0.0     0.0    0.0     0.0      0.0  
-3993      0.0           0.0     0.0    0.0     0.0      0.0  
-3994      0.0           0.0     0.0    0.0     0.0      0.0  
-3995      0.0           0.0     0.0    0.0     0.0      0.0  
-3996      0.0           0.0     0.0    0.0     0.0      0.0  
-3997      0.0           0.0     0.0    0.0     0.0      0.0  
-3998      0.0           0.0     0.0    0.0     0.0      0.0  
-3999      0.0           0.0     0.0    0.0     0.0      0.0  
-[4000 rows x 4917 columns]
+<pre>(20, 26929)
 </pre>
 </div>
 </div>
@@ -415,10 +312,633 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">phenotype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span>
+<span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">phenotype</span><span class="p">,</span> <span class="n">regression_data</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">regression_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(20, 26930)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">regression_data</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">genes</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+<span class="n">df_test</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[5]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>phenotype</th>
+      <th>BROX</th>
+      <th>OIP5-AS1</th>
+      <th>HTR3D</th>
+      <th>SYT1</th>
+      <th>CYP4X1</th>
+      <th>PJA1</th>
+      <th>MIR4449</th>
+      <th>GNRH1</th>
+      <th>WDHD1</th>
+      <th>...</th>
+      <th>ELF1</th>
+      <th>KCNAB1-AS1</th>
+      <th>FAM234A</th>
+      <th>DDX42</th>
+      <th>WDR5</th>
+      <th>IVD</th>
+      <th>TCEB3C</th>
+      <th>SLC25A19</th>
+      <th>NME4</th>
+      <th>GPBP1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>20 rows × 26930 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mask1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">((</span><span class="n">regression_data</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="nb">sum</span><span class="p">(</span><span class="n">mask1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[18]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>26580</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">regression_data1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">phenotype</span><span class="p">,</span> <span class="n">regression_data</span><span class="p">[:,</span> <span class="o">-</span><span class="n">mask1</span><span class="p">]))</span>
+<span class="n">regression_data1</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/opt/miniconda3/lib/python3.5/site-packages/ipykernel_launcher.py:1: DeprecationWarning:
+numpy boolean negative, the `-` operator, is deprecated, use the `~` operator or the logical_not function instead.
+</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt output_prompt">Out[21]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>(20, 351)</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">test</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">test</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]:</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">][</span><span class="s2">&quot;number of causal genes in case&quot;</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">][</span><span class="s2">&quot;number of causal genes in ctrl&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -440,21 +960,10 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ref</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;refgene_file&quot;</span><span class="p">])</span>
-<span class="n">genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">])))</span>
-<span class="k">def</span> <span class="nf">get_feather</span><span class="p">(</span><span class="n">input_data</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_feather</span><span class="p">(</span><span class="n">input_data</span><span class="p">):</span>
     <span class="n">dat</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+    <span class="n">ref</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;refgene_file&quot;</span><span class="p">])</span>
+    <span class="n">genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">])))</span>
     <span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">genes</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span> 
                                 <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]])</span>
     <span class="n">phenotype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span>
@@ -516,7 +1025,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_feather</span><span class="p">(</span><span class="s2">&quot;data/del_sim_scale9_shape1_N4000_M200_999.data.pkl&quot;</span><span class="p">)</span>
@@ -527,7 +1036,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dat</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;data/del_sample_test_4000.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
@@ -540,21 +1049,10 @@ body {
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>(4000, 26929)
-</pre>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">regression_data</span><span class="p">))</span>
@@ -563,21 +1061,10 @@ body {
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>(4000, 26930)
-</pre>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">((</span><span class="n">regression_data</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
@@ -587,22 +1074,10 @@ body {
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>26930
-26930
-</pre>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">regression_data</span><span class="p">[:,</span> <span class="n">mask</span><span class="p">]))</span>
@@ -613,22 +1088,10 @@ body {
 </div>
 </div>
 </div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>(4000, 4941)
-4000
-</pre>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">feather</span><span class="o">.</span><span class="n">write_dataframe</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">regression_data</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">genes</span><span class="p">[</span><span class="n">mask</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()),</span> 
@@ -651,7 +1114,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/3e0abf8d110180c43ad8832759e4467689f04caf/analysis/20170425_feather.ipynb"><code>analysis/20170425_feather.ipynb</code></a> committed by Min Qiao on Fri Aug 11 20:32:02 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/3e0abf8d110180c43ad8832759e4467689f04caf">revision 269, 3e0abf8</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/6c09649979461fec67e0273dbe1db6e151e5d2b8/analysis/20170425_feather.ipynb"><code>analysis/20170425_feather.ipynb</code></a> committed by Min Qiao on Thu Aug 17 13:17:10 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/6c09649979461fec67e0273dbe1db6e151e5d2b8">revision 272, 6c09649</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
