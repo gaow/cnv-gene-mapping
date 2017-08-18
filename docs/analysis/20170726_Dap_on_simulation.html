@@ -231,7 +231,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">run_dap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">fileout</span><span class="p">,</span> <span class="n">pthwy_genes</span><span class="p">,</span> <span class="n">dap_method</span> <span class="o">=</span> <span class="s2">&quot;dap&quot;</span><span class="p">,</span> <span class="n">multiplier</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>  
@@ -282,7 +282,7 @@ body {
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">prior</span><span class="p">]))</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;.grid&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">]))</span>
-    <span class="n">fileout</span> <span class="o">=</span> <span class="n">fileout</span> <span class="o">+</span> <span class="s1">&#39;.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dap_method</span><span class="p">)</span>
+    <span class="n">fileout</span> <span class="o">=</span> <span class="n">fileout</span> <span class="o">+</span> <span class="s1">&#39;_multiplier</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">multiplier</span><span class="p">,</span> <span class="n">dap_method</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">dap_method</span> <span class="o">==</span> <span class="s1">&#39;dap&#39;</span><span class="p">:</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> -d </span><span class="si">{1}</span><span class="s2">.dat -g </span><span class="si">{1}</span><span class="s2">.grid -it 0.05 -prior </span><span class="si">{1}</span><span class="s2">.prior -t </span><span class="si">{2}</span><span class="s2"> &gt; </span><span class="si">{3}</span><span class="s2"> &quot;</span><span class="o">.</span>\
             <span class="nb">format</span><span class="p">(</span><span class="n">exec_path</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">ncpu</span><span class="p">,</span> <span class="n">fileout</span><span class="p">)</span>
@@ -293,9 +293,11 @@ body {
         <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> -d </span><span class="si">{1}</span><span class="s2">.dat -prior </span><span class="si">{1}</span><span class="s2">.prior &gt; </span><span class="si">{2}</span><span class="s2"> &quot;</span><span class="o">.</span>\
             <span class="nb">format</span><span class="p">(</span><span class="n">exec_path</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">fileout</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">dry_run</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
         <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
         <span class="nb">print</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span>
     <span class="k">else</span><span class="p">:</span>
+<span class="c1">#         generate cmd, then run under the folder of &quot;analysis&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
 <span class="c1">#     return prior</span>
 </pre></div>
@@ -305,7 +307,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;data/calcium_pathway_N4000_shape25_nomask.data.feather&quot;</span>
@@ -313,7 +315,7 @@ body {
 <span class="n">input_file</span> <span class="o">=</span> <span class="n">feather</span><span class="o">.</span><span class="n">read_dataframe</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 <span class="n">input_file</span><span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_file</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">y_tran</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span><span class="o">==</span><span class="mf">1.0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">run_dap</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="n">fileout</span><span class="p">,</span> <span class="n">cal_pthwy_genes</span><span class="p">,</span> <span class="n">multiplier</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">ncpu</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dry_run</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">dap_method</span> <span class="o">=</span> <span class="s2">&quot;dap&quot;</span><span class="p">)</span>
-<span class="c1"># run_dap(input_file, fileout, cal_pthwy_genes, multiplier = 10, ncpu = 2, dry_run = True, dap_method = &quot;dap-g&quot;)</span>
+<span class="c1"># run_dap(input_file, fileout, cal_pthwy_genes, multiplier = 10, ncpu = 2, dry_run = False, dap_method = &quot;dap-g&quot;)</span>
 </pre></div>
 </div>
 </div>
@@ -323,7 +325,9 @@ body {
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>2017-08-17 13:02:56.088583
+<pre>2017-08-17 19:31:42.961731
+dap/dap -d /tmp/F1503016302.9618092.dat -g /tmp/F1503016302.9618092.grid -it 0.05 -prior /tmp/F1503016302.9618092.prior -t 2 &gt; data/calcium_pathway_N4000_shape25_nomask.data_multiplier10.dap 
+2017-08-17 19:35:17.635490
 </pre>
 </div>
 </div>
@@ -332,10 +336,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># dap/dap -d /tmp/F1503014064.6944265.dat -g /tmp/F1503014064.6944265.grid -it 0.05 -prior /tmp/F1503014064.6944265.prior -t 2 &gt; data/calcium_pathway_N4000_shape25_nomask.data.dap </span>
 </pre></div>
 </div>
 </div>
@@ -443,7 +447,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/6c09649979461fec67e0273dbe1db6e151e5d2b8/analysis/20170726_Dap_on_simulation.ipynb"><code>analysis/20170726_Dap_on_simulation.ipynb</code></a> committed by Min Qiao on Thu Aug 17 13:17:10 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/6c09649979461fec67e0273dbe1db6e151e5d2b8">revision 272, 6c09649</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/d870ca7c866f2191138715a48bbe4a60a81495cf/analysis/20170726_Dap_on_simulation.ipynb"><code>analysis/20170726_Dap_on_simulation.ipynb</code></a> committed by Min Qiao on Thu Aug 17 20:43:13 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/d870ca7c866f2191138715a48bbe4a60a81495cf">revision 274, d870ca7</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
