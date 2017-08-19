@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link rel="stylesheet"
+      href="../site_libs/highlight/textmate.css"
+      type="text/css" />
+<script src="../site_libs/highlight/highlight.js"></script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+<script src="../js/toc2.js"></script>
+<script src="../js/docs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+<title>Gene Mapping with CNV</title>
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+<!-- code folding -->
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+<li>
+  <a href="../setup.html">Setup</a>
+</li>
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+      </ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Overview-of-DAP-on-Calcium-Pathway-Simulation">Overview of DAP on Calcium Pathway Simulation<a class="anchor-link" href="#Overview-of-DAP-on-Calcium-Pathway-Simulation">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Calcium pathway signaling (KEGG:hsa04020) includes 178 genes:</p>
+<pre><code>'ADCY1', 'ADCY2', 'ADCY3', 'ADCY4', 'ADCY7', 'ADCY8', 'ADCY9', 'ADORA2A', 'ADORA2B', 'ADRA1A', 'ADRA1B', 'ADRA1D', 'ADRB1', 'ADRB2', 'ADRB3', 'AGTR1', 'ATP2A1', 'ATP2A2', 'ATP2A3', 'ATP2B1', 'ATP2B2', 'ATP2B3', 'ATP2B4', 'AVPR1A', 'AVPR1B', 'BDKRB1', 'BDKRB2', 'BST1', 'CACNA1A', 'CACNA1B', 'CACNA1C', 'CACNA1D', 'CACNA1E', 'CACNA1F', 'CACNA1G', 'CACNA1H', 'CACNA1I', 'CACNA1S', 'CALM1', 'CALM2', 'CALM3', 'CALML3', 'CALML5', 'CALML6', 'CAMK2A', 'CAMK2B', 'CAMK2D', 'CAMK2G', 'CAMK4', 'CCKAR', 'CCKBR', 'CD38', 'CHP', 'CHP2', 'CHRM1', 'CHRM2', 'CHRM3', 'CHRM5', 'CHRNA7', 'CYSLTR1', 'CYSLTR2', 'DRD1', 'DRD5', 'EDNRA', 'EDNRB', 'EGFR', 'ERBB2', 'ERBB3', 'ERBB4', 'F2R', 'GNA11', 'GNA14', 'GNA15', 'GNAL', 'GNAQ', 'GNAS', 'GRIN1', 'GRIN2A', 'GRIN2C', 'GRIN2D', 'GRM1', 'GRM5', 'GRPR', 'HRH1', 'HRH2', 'HTR2A', 'HTR2B', 'HTR2C', 'HTR4', 'HTR5A', 'HTR6', 'HTR7', 'ITPKA', 'ITPKB', 'ITPR1', 'ITPR2', 'ITPR3', 'LHCGR', 'LOC729317', 'LTB4R2', 'MYLK', 'MYLK2', 'MYLK3', 'NOS1', 'NOS2', 'NOS3', 'NTSR1', 'OXTR', 'P2RX1', 'P2RX2', 'P2RX3', 'P2RX4', 'P2RX5', 'P2RX6', 'P2RX7', 'PDE1A', 'PDE1B', 'PDE1C', 'PDGFRA', 'PDGFRB', 'PHKA1', 'PHKA2', 'PHKB', 'PHKG1', 'PHKG2', 'PLCB1', 'PLCB2', 'PLCB3', 'PLCB4', 'PLCD1', 'PLCD3', 'PLCD4', 'PLCE1', 'PLCG1', 'PLCG2', 'PLCZ1', 'PLN', 'PPID', 'PPP3CA', 'PPP3CB', 'PPP3CC', 'PPP3R1', 'PPP3R2', 'PRKACA', 'PRKACB', 'PRKACG', 'PRKCA', 'PRKCB', 'PRKCG', 'PRKX', 'PTAFR', 'PTGER1', 'PTGER3', 'PTGFR', 'PTK2B', 'RYR1', 'RYR2', 'RYR3', 'SLC25A31', 'SLC25A4', 'SLC25A5', 'SLC25A6', 'SLC8A1', 'SLC8A2', 'SLC8A3', 'SPHK1', 'SPHK2', 'TACR1', 'TACR2', 'TACR3', 'TBXA2R', 'TNNC1', 'TNNC2', 'TRHR', 'TRPC1', 'VDAC1', 'VDAC2', 'VDAC3'</code></pre>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="DAP-for-calcium-pathway-simulation">DAP for calcium pathway simulation<a class="anchor-link" href="#DAP-for-calcium-pathway-simulation">&#182;</a></h3><h4 id="sample-size-=-4000,-gamma-shape-=-5">sample size = 4000, gamma shape = 5<a class="anchor-link" href="#sample-size-=-4000,-gamma-shape-=-5">&#182;</a></h4><p>High-probability association models:</p>
+<p>For example, the posterior probability of the association model for [chr12.P2RX7], [chr9.GNA14] and [chr17.ATP2A3] is $0.26163$.</p>
+<p>The unnormalized posterior score $\text{log}_{10}(prior) + \text{log}_{10}(BF)$ is $3.569$.</p>
+<pre><code>1   2.6163e-01    3      3.569   [chr12.P2RX7] [chr9.GNA14] [chr17.ATP2A3]
+2   2.0212e-01    2      3.457   [chr9.GNA14] [chr17.ATP2A3]
+3   1.4066e-01    2      3.300   [chr12.P2RX7] [chr17.ATP2A3]
+4   1.2398e-01    1      3.245   [chr17.ATP2A3]
+5   9.5602e-02    3      3.132   [chr12.P2RX7] [chr17.P2RX1] [chr9.GNA14]
+6   7.4881e-02    2      3.026   [chr17.P2RX1] [chr9.GNA14]
+7   5.2177e-02    2      2.869   [chr12.P2RX7] [chr17.P2RX1]
+8   4.6612e-02    1      2.820   [chr17.P2RX1]
+</code></pre>
+<p>Posterior inclusion probabilities (PIP) for top ranked genes:</p>
+<p>For example, PIP for [chr17.ATP2A3] is $0.7293$.</p>
+<p>The last column gives $\text{log}_{10}$ Bayes factor of the corresponding SNP/gene in single-SNP/gene testing.</p>
+<pre><code>Posterior expected model size: 2.186 (sd = 0.705)
+LogNC = 9.55939 ( Log10NC = 4.152 )
+Posterior inclusion probability
+1 chr17.ATP2A3   7.29341e-01      7.022
+2 chr9.GNA14   6.34910e-01      3.444
+3 chr12.P2RX7   5.50651e-01      3.296
+4 chr17.P2RX1   2.70217e-01      6.597</code></pre>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="sample-size-=-1000,-gamma-shape-=-25">sample size = 1000, gamma shape = 25<a class="anchor-link" href="#sample-size-=-1000,-gamma-shape-=-25">&#182;</a></h4><p>High-probability association models:</p>
+<pre><code>1   4.5037e-01    0     -0.434   [NULL]
+2   9.7056e-03    1     -2.101   [chr3.ITPR1]
+3   6.4605e-03    1     -2.278   [chr19.GNA15]
+4   6.4605e-03    1     -2.278   [chr4.CD38]
+5   6.4605e-03    1     -2.278   [chr19.GNA11]
+6   6.4605e-03    1     -2.278   [chr4.BST1]
+7   4.4507e-03    1     -2.439   [chr20.PLCB1]
+8   4.3509e-03    1     -2.449   [chr9.GNA14]
+Posterior expected model size: 0.550 (sd = 0.498)
+LogNC = -0.20240 ( Log10NC = -0.088 )
+Posterior inclusion probability
+1 chr3.ITPR1   9.85832e-03      1.423
+2 chr19.GNA15   6.61322e-03      1.246
+3  chr4.CD38   6.46047e-03      1.246
+4 chr19.GNA11   6.46047e-03      1.246
+5  chr4.BST1   6.46047e-03      1.246
+6 chr20.PLCB1   4.45072e-03      1.084
+7 chr9.GNA14   4.35087e-03      1.074</code></pre>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="DAP-greedy:-improved-Adaptive-DAP-Algorithm">DAP-greedy: improved Adaptive DAP Algorithm<a class="anchor-link" href="#DAP-greedy:-improved-Adaptive-DAP-Algorithm">&#182;</a></h3><h4 id="New-features">New features<a class="anchor-link" href="#New-features">&#182;</a></h4><p>1). Automatic signal clustering: the output now automatically identifies potentially multiple independent association signal clusters, and provides information on cluster memberships and the correlation within and between clusters.</p>
+<p>2). Improved efficiency: the adaptive DAP algorithm runs more efficiently by focusing on a relatively smaller set of high-probability models.</p>
+<p>3). Default grid specification: there is a set of default grid values built-in, which is appropriate for analysis for a single genotype-phenotype data set or fixed-effect meta-analysis of multiple data sets.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="sample-size-=-4000,-gamma-shape-=-5:-the-PIP-is-slightly-larger-than-DAP">sample size = 4000, gamma shape = 5: the PIP is slightly larger than DAP<a class="anchor-link" href="#sample-size-=-4000,-gamma-shape-=-5:-the-PIP-is-slightly-larger-than-DAP">&#182;</a></h4><p>High-probability association models:</p>
+<pre><code>1   1.3184e-01    2      3.457   [chr17.ATP2A3] [chr9.GNA14]
+2   9.1746e-02    2      3.300   [chr17.ATP2A3] [chr12.P2RX7]
+3   9.1746e-02    2      3.300   [chr17.ATP2A3] [chr9.GNAQ]
+4   8.0868e-02    1      3.245   [chr17.ATP2A3]
+5   5.7422e-02    2      3.096   [chr17.ATP2A3] [chr19.GNA15]
+6   5.7422e-02    2      3.096   [chr17.ATP2A3] [chr19.SLC8A2]
+7   4.8842e-02    2      3.026   [chr17.P2RX1] [chr9.GNA14]
+8   3.6063e-02    2      2.894   [chr17.ATP2A3] [chr12.P2RX4]
+9   3.4033e-02    2      2.869   [chr17.P2RX1] [chr12.P2RX7]
+10   3.4033e-02    2      2.869   [chr17.P2RX1] [chr9.GNAQ]
+11   3.2409e-02    2      2.848   [chr17.ATP2A3] [chr20.PLCB1]
+12   3.0403e-02    1      2.820   [chr17.P2RX1]
+13   2.2736e-02    2      2.694   [chr17.ATP2A3] [chr19.GNA11]
+14   2.1316e-02    2      2.666   [chr17.P2RX1] [chr19.SLC8A2]
+15   2.1316e-02    2      2.666   [chr17.P2RX1] [chr19.GNA15]
+16   1.3397e-02    2      2.464   [chr17.P2RX1] [chr12.P2RX4]
+17   1.3379e-02    2      2.464   [chr17.ATP2A3] [chr20.PLCB4]
+18   1.2011e-02    2      2.417   [chr17.P2RX1] [chr20.PLCB1]
+Posterior expected model size: 1.970 (sd = 0.442)
+LogNC = 9.98670 ( Log10NC = 4.337 )
+Posterior inclusion probability
+((1))      chr17.ATP2A3 7.45620e-01   7.022 1
+((2))       chr17.P2RX1 2.53419e-01   6.597 1
+((3))        chr9.GNA14 2.13311e-01   3.444 2
+((4))         chr9.GNAQ 1.44423e-01   3.296 2
+((5))       chr12.P2RX7 1.42302e-01   3.296 2
+((6))       chr19.GNA15 8.43529e-02   3.098 2
+((7))      chr19.SLC8A2 8.34754e-02   3.098 2
+((8))       chr12.P2RX4 5.19484e-02   2.901 2
+((9))       chr20.PLCB1 4.58337e-02   2.838 2
+((10))      chr19.GNA11 3.11916e-02   2.707 2
+((11))      chr20.PLCB4 1.83495e-02   2.469 2
+Independent association signal clusters
+ cluster     member_snp  cluster_pip      average_r2
+   {1}          2        9.990e-01      0.900             0.900   0.000 
+   {2}         25        8.879e-01      0.077             0.000   0.077 </code></pre>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="sample-size-=-1000,-gamma-shape-=-25:--the-PIP-is-slightly-larger-than-DAP">sample size = 1000, gamma shape = 25:  the PIP is slightly larger than DAP<a class="anchor-link" href="#sample-size-=-1000,-gamma-shape-=-25:--the-PIP-is-slightly-larger-than-DAP">&#182;</a></h4><p>High-probability association models:</p>
+<pre><code>1   4.4834e-01    0     -0.434   [NULL]
+2   9.6618e-03    1     -2.101   [chr3.ITPR1]
+3   6.4313e-03    1     -2.278   [chr19.GNA15]
+4   6.4313e-03    1     -2.278   [chr4.CD38]
+5   6.4313e-03    1     -2.278   [chr19.GNA11]
+6   6.4313e-03    1     -2.278   [chr4.BST1]
+7   4.4307e-03    1     -2.439   [chr20.PLCB1]
+8   4.3313e-03    1     -2.449   [chr9.GNA14]
+Posterior expected model size: 0.554 (sd = 0.504)
+LogNC = -0.19789 ( Log10NC = -0.086 )
+Posterior inclusion probability
+((1))        chr3.ITPR1 1.01033e-02   1.423 1
+((2))         chr4.CD38 6.72646e-03   1.246 1
+((3))         chr4.BST1 6.72646e-03   1.246 1
+((4))       chr19.GNA15 6.71677e-03   1.246 1
+((5))       chr19.GNA11 6.71677e-03   1.246 1</code></pre>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Next-step">Next step<a class="anchor-link" href="#Next-step">&#182;</a></h3><p>For the results listed above, I put the whole genome into DAP instead of the many CNV regions (CNVs in one region do not overlap with any other regions). I will next separate the whole genome into CNV regions. And there is probably many regions on each chromosome. For each region, a multi-gene fine-mapping analysis (DAP) will run.</p>
+</div>
+</div>
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/d870ca7c866f2191138715a48bbe4a60a81495cf/analysis/20170817_Overview_of_DAP_on_calcium_pathway_simulation.ipynb"><code>analysis/20170817_Overview_of_DAP_on_calcium_pathway_simulation.ipynb</code></a> committed by Min Qiao on Thu Aug 17 20:43:13 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/d870ca7c866f2191138715a48bbe4a60a81495cf">revision 274, d870ca7</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>
