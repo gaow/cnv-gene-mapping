@@ -118,13 +118,21 @@ body {
       </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="R-example-for-varbvs">R example for varbvs<a class="anchor-link" href="#R-example-for-varbvs">&#182;</a></h1>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="kn">library</span><span class="p">(</span>feather<span class="p">)</span>
-<span class="kn">library</span><span class="p">(</span>varbvs<span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">library</span><span class="p">(</span><span class="n">feather</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">varbvs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -135,19 +143,19 @@ body {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>get_rds_toy <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>datalist<span class="p">){</span>
-    <span class="kr">for</span> <span class="p">(</span>dat <span class="kr">in</span> datalist<span class="p">){</span>
-        newdat <span class="o">=</span> read_feather<span class="p">(</span>dat<span class="p">)</span>
-        newmatrix <span class="o">=</span> <span class="kt">matrix</span><span class="p">(</span><span class="kp">as.double</span><span class="p">(</span><span class="kp">unlist</span><span class="p">(</span>newdat<span class="p">)),</span> <span class="kp">dim</span><span class="p">(</span>newdat<span class="p">)[</span><span class="m">1</span><span class="p">],</span> <span class="kp">dim</span><span class="p">(</span>newdat<span class="p">)[</span><span class="m">2</span><span class="p">])</span>
-        <span class="kp">colnames</span><span class="p">(</span>newmatrix<span class="p">)</span> <span class="o">=</span> <span class="kp">colnames</span><span class="p">(</span>newdat<span class="p">)</span>
-        newfit <span class="o">=</span> varbvs<span class="p">(</span>newmatrix<span class="p">[,</span><span class="m">-1</span><span class="p">],</span> <span class="kc">NULL</span><span class="p">,</span> newmatrix<span class="p">[,</span><span class="m">1</span><span class="p">],</span> family <span class="o">=</span> <span class="s">&quot;binomial&quot;</span><span class="p">,</span> 
-                        logodds <span class="o">=</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-3.5</span><span class="p">,</span><span class="m">-1</span><span class="p">,</span><span class="m">0.1</span><span class="p">),</span> sa <span class="o">=</span> <span class="m">1</span><span class="p">,</span> verbose <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
-        newfit<span class="o">$</span>summary <span class="o">=</span> <span class="kp">summary</span><span class="p">(</span>newfit<span class="p">)</span>
-        newfit<span class="o">$</span>w <span class="o">=</span> normalizelogweights<span class="p">(</span>newfit<span class="o">$</span>logw<span class="p">)</span>
-        newfit<span class="o">$</span>pip <span class="o">=</span> newfit<span class="o">$</span>alpha <span class="o">%*%</span> <span class="kt">c</span><span class="p">(</span>newfit<span class="o">$</span>w<span class="p">)</span>
-        filename <span class="o">=</span> <span class="kp">paste</span><span class="p">(</span>dat<span class="p">,</span> <span class="s">&quot;.RDS&quot;</span><span class="p">,</span> sep<span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
-        <span class="kp">saveRDS</span><span class="p">(</span>newfit<span class="p">,</span> filename<span class="p">)</span>
-        <span class="kr">return</span> <span class="p">(</span>newfit<span class="o">$</span><span class="kp">summary</span><span class="o">$</span>top.vars<span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">get_rds_toy</span> <span class="o">&lt;-</span> <span class="n">function</span><span class="p">(</span><span class="n">datalist</span><span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">dat</span> <span class="ow">in</span> <span class="n">datalist</span><span class="p">){</span>
+        <span class="n">newdat</span> <span class="o">=</span> <span class="n">read_feather</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
+        <span class="n">newmatrix</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">double</span><span class="p">(</span><span class="n">unlist</span><span class="p">(</span><span class="n">newdat</span><span class="p">)),</span> <span class="n">dim</span><span class="p">(</span><span class="n">newdat</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dim</span><span class="p">(</span><span class="n">newdat</span><span class="p">)[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">colnames</span><span class="p">(</span><span class="n">newmatrix</span><span class="p">)</span> <span class="o">=</span> <span class="n">colnames</span><span class="p">(</span><span class="n">newdat</span><span class="p">)</span>
+        <span class="n">newfit</span> <span class="o">=</span> <span class="n">varbvs</span><span class="p">(</span><span class="n">newmatrix</span><span class="p">[,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">newmatrix</span><span class="p">[,</span><span class="mi">1</span><span class="p">],</span> <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;binomial&quot;</span><span class="p">,</span> 
+                        <span class="n">logodds</span> <span class="o">=</span> <span class="n">seq</span><span class="p">(</span><span class="o">-</span><span class="mf">3.5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">sa</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="n">F</span><span class="p">)</span>
+        <span class="n">newfit</span><span class="err">$</span><span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span><span class="p">(</span><span class="n">newfit</span><span class="p">)</span>
+        <span class="n">newfit</span><span class="err">$</span><span class="n">w</span> <span class="o">=</span> <span class="n">normalizelogweights</span><span class="p">(</span><span class="n">newfit</span><span class="err">$</span><span class="n">logw</span><span class="p">)</span>
+        <span class="n">newfit</span><span class="err">$</span><span class="n">pip</span> <span class="o">=</span> <span class="n">newfit</span><span class="err">$</span><span class="n">alpha</span> <span class="o">%*%</span> <span class="n">c</span><span class="p">(</span><span class="n">newfit</span><span class="err">$</span><span class="n">w</span><span class="p">)</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">paste</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="s2">&quot;.RDS&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">saveRDS</span><span class="p">(</span><span class="n">newfit</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">newfit</span><span class="err">$</span><span class="n">summary</span><span class="err">$</span><span class="n">top</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -160,8 +168,8 @@ body {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="c1"># get_rds_toy(c(&quot;data/toy_n000_600_n100_100_n010_100_n001_100_n110_100_n011_100_n111_100.feather&quot;))</span>
-get_rds_toy<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/toy_n2000_p0.9_causal5_const1.0_0.05.feather&quot;</span><span class="p">))</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># get_rds_toy(c(&quot;data/toy_n000_600_n100_100_n010_100_n001_100_n110_100_n011_100_n111_100.feather&quot;))</span>
+<span class="n">get_rds_toy</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s2">&quot;data/toy_n2000_p0.9_causal5_const1.0_0.05.feather&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -188,44 +196,22 @@ get_rds_toy<span class="p">(</span><span class="kt">c</span><span class="p">(</s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>newdat <span class="o">=</span> read_feather<span class="p">(</span><span class="s">&quot;data/toy_pos15_causal8_n1250.feather&quot;</span><span class="p">)</span>
-newmatrix <span class="o">=</span> <span class="kt">matrix</span><span class="p">(</span><span class="kp">as.double</span><span class="p">(</span><span class="kp">unlist</span><span class="p">(</span>newdat<span class="p">)),</span> <span class="kp">dim</span><span class="p">(</span>newdat<span class="p">)[</span><span class="m">1</span><span class="p">],</span> <span class="kp">dim</span><span class="p">(</span>newdat<span class="p">)[</span><span class="m">2</span><span class="p">])</span>
-<span class="kp">colnames</span><span class="p">(</span>newmatrix<span class="p">)</span> <span class="o">=</span> <span class="kp">colnames</span><span class="p">(</span>newdat<span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">newdat</span> <span class="o">=</span> <span class="n">read_feather</span><span class="p">(</span><span class="s2">&quot;data/toy_pos15_causal8_n1250.feather&quot;</span><span class="p">)</span>
+<span class="n">newmatrix</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">double</span><span class="p">(</span><span class="n">unlist</span><span class="p">(</span><span class="n">newdat</span><span class="p">)),</span> <span class="n">dim</span><span class="p">(</span><span class="n">newdat</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dim</span><span class="p">(</span><span class="n">newdat</span><span class="p">)[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">colnames</span><span class="p">(</span><span class="n">newmatrix</span><span class="p">)</span> <span class="o">=</span> <span class="n">colnames</span><span class="p">(</span><span class="n">newdat</span><span class="p">)</span>
 <span class="c1"># print (dim(newdat)[1])</span>
-newfit <span class="o">=</span> varbvs<span class="p">(</span>newmatrix<span class="p">[,</span><span class="m">-1</span><span class="p">],</span> <span class="kc">NULL</span><span class="p">,</span> newmatrix<span class="p">[,</span><span class="m">1</span><span class="p">],</span> family <span class="o">=</span> <span class="s">&quot;binomial&quot;</span><span class="p">,</span> 
-                logodds <span class="o">=</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-3.5</span><span class="p">,</span><span class="m">-1</span><span class="p">,</span><span class="m">0.1</span><span class="p">),</span> sa <span class="o">=</span> <span class="m">1</span><span class="p">,</span> verbose <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
-newfit<span class="o">$</span>summary <span class="o">=</span> <span class="kp">summary</span><span class="p">(</span>newfit<span class="p">)</span>
-newfit<span class="o">$</span>w <span class="o">=</span> normalizelogweights<span class="p">(</span>newfit<span class="o">$</span>logw<span class="p">)</span>
-newfit<span class="o">$</span>pip <span class="o">=</span> newfit<span class="o">$</span>alpha <span class="o">%*%</span> <span class="kt">c</span><span class="p">(</span>newfit<span class="o">$</span>w<span class="p">)</span>
-newfit<span class="o">$</span>beta <span class="o">=</span> newfit<span class="o">$</span>mu <span class="o">%*%</span> <span class="kt">c</span><span class="p">(</span>newfit<span class="o">$</span>w<span class="p">)</span>
-newfit<span class="o">$</span>var_names <span class="o">=</span> <span class="kp">colnames</span><span class="p">(</span>newdat<span class="p">[</span><span class="m">-1</span><span class="p">])</span>
-print <span class="p">(</span><span class="kp">summary</span><span class="p">(</span>newfit<span class="p">))</span>
-<span class="kp">dimnames</span><span class="p">(</span>newfit<span class="o">$</span>pip<span class="p">)[[</span><span class="m">1</span><span class="p">]]</span>
+<span class="n">newfit</span> <span class="o">=</span> <span class="n">varbvs</span><span class="p">(</span><span class="n">newmatrix</span><span class="p">[,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">newmatrix</span><span class="p">[,</span><span class="mi">1</span><span class="p">],</span> <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;binomial&quot;</span><span class="p">,</span> 
+                <span class="n">logodds</span> <span class="o">=</span> <span class="n">seq</span><span class="p">(</span><span class="o">-</span><span class="mf">3.5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">sa</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="n">F</span><span class="p">)</span>
+<span class="n">newfit</span><span class="err">$</span><span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span><span class="p">(</span><span class="n">newfit</span><span class="p">)</span>
+<span class="n">newfit</span><span class="err">$</span><span class="n">w</span> <span class="o">=</span> <span class="n">normalizelogweights</span><span class="p">(</span><span class="n">newfit</span><span class="err">$</span><span class="n">logw</span><span class="p">)</span>
+<span class="n">newfit</span><span class="err">$</span><span class="n">pip</span> <span class="o">=</span> <span class="n">newfit</span><span class="err">$</span><span class="n">alpha</span> <span class="o">%*%</span> <span class="n">c</span><span class="p">(</span><span class="n">newfit</span><span class="err">$</span><span class="n">w</span><span class="p">)</span>
+<span class="n">newfit</span><span class="err">$</span><span class="n">beta</span> <span class="o">=</span> <span class="n">newfit</span><span class="err">$</span><span class="n">mu</span> <span class="o">%*%</span> <span class="n">c</span><span class="p">(</span><span class="n">newfit</span><span class="err">$</span><span class="n">w</span><span class="p">)</span>
+<span class="n">newfit</span><span class="err">$</span><span class="n">var_names</span> <span class="o">=</span> <span class="n">colnames</span><span class="p">(</span><span class="n">newdat</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">summary</span><span class="p">(</span><span class="n">newfit</span><span class="p">))</span>
+<span class="n">dimnames</span><span class="p">(</span><span class="n">newfit</span><span class="err">$</span><span class="n">pip</span><span class="p">)[[</span><span class="mi">1</span><span class="p">]]</span>
 </pre></div>
 </div>
 </div>
@@ -284,20 +270,9 @@ Top 5 variables by inclusion probability:
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/23863bd6946e5121f663f53fea4055f3d3c732ab/analysis/20170706_R_varbvs_toy.ipynb"><code>analysis/20170706_R_varbvs_toy.ipynb</code></a> committed by Min Qiao on Fri Jul 28 18:52:27 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/23863bd6946e5121f663f53fea4055f3d3c732ab">revision 247, 23863bd</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/08155c05536629ce749904db1941d5074bdb6dc2/analysis/20170706_R_varbvs_toy.ipynb"><code>analysis/20170706_R_varbvs_toy.ipynb</code></a> committed by Min Qiao on Sat Aug 19 10:08:56 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/08155c05536629ce749904db1941d5074bdb6dc2">revision 254, 08155c0</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

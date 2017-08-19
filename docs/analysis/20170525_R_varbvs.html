@@ -118,14 +118,21 @@ body {
       </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="R-varbvs-toy-example">R varbvs toy example<a class="anchor-link" href="#R-varbvs-toy-example">&#182;</a></h1>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="c1"># install package &quot;varbvs&quot; and load data</span>
-<span class="kn">library</span><span class="p">(</span>varbvs<span class="p">)</span>
-<span class="kn">library</span><span class="p">(</span>feather<span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">library</span><span class="p">(</span><span class="n">varbvs</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">feather</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -136,11 +143,11 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="c1"># trial</span>
-data<span class="p">(</span>leukemia<span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># trial</span>
+<span class="n">data</span><span class="p">(</span><span class="n">leukemia</span><span class="p">)</span>
 <span class="c1"># names(leukemia)</span>
-print <span class="p">(</span>leukemia<span class="o">$</span>y<span class="p">)</span>
-fit <span class="o">&lt;-</span> varbvs<span class="p">(</span>leukemia<span class="o">$</span>x<span class="p">,</span> <span class="kc">NULL</span><span class="p">,</span> leukemia<span class="o">$</span>y<span class="p">,</span> family <span class="o">=</span> <span class="s">&quot;binomial&quot;</span><span class="p">,</span> logodds <span class="o">=</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-3.5</span><span class="p">,</span><span class="m">-1</span><span class="p">,</span><span class="m">0.1</span><span class="p">),</span> sa <span class="o">=</span> <span class="m">1</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">leukemia</span><span class="err">$</span><span class="n">y</span><span class="p">)</span>
+<span class="n">fit</span> <span class="o">&lt;-</span> <span class="n">varbvs</span><span class="p">(</span><span class="n">leukemia</span><span class="err">$</span><span class="n">x</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">leukemia</span><span class="err">$</span><span class="n">y</span><span class="p">,</span> <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;binomial&quot;</span><span class="p">,</span> <span class="n">logodds</span> <span class="o">=</span> <span class="n">seq</span><span class="p">(</span><span class="o">-</span><span class="mf">3.5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">sa</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -163,9 +170,9 @@ fit <span class="o">&lt;-</span> varbvs<span class="p">(</span>leukemia<span cla
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="kp">names</span><span class="p">(</span>fit<span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">names</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
 <span class="c1"># Compute Monte Carlo estimates of credible intervals for coefficients in the fitted variable selection model</span>
-varbvscoefcred<span class="p">(</span>fit<span class="p">,</span> vars<span class="o">=</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;X3441&quot;</span><span class="p">,</span> <span class="s">&quot;X3038&quot;</span><span class="p">,</span> <span class="s">&quot;X2141&quot;</span><span class="p">,</span> <span class="s">&quot;X2230&quot;</span><span class="p">,</span> <span class="s">&quot;X951&quot;</span><span class="p">))</span>
+<span class="n">varbvscoefcred</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">&quot;X3441&quot;</span><span class="p">,</span> <span class="s2">&quot;X3038&quot;</span><span class="p">,</span> <span class="s2">&quot;X2141&quot;</span><span class="p">,</span> <span class="s2">&quot;X2230&quot;</span><span class="p">,</span> <span class="s2">&quot;X951&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -230,10 +237,10 @@ varbvscoefcred<span class="p">(</span>fit<span class="p">,</span> vars<span clas
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="c1"># read rds file</span>
-new <span class="o">&lt;-</span> <span class="kp">readRDS</span><span class="p">(</span><span class="s">&quot;data/del_sim_scale5_shape1_N1000_M50_999.varbvs.rds&quot;</span><span class="p">)</span>
-<span class="kp">names</span><span class="p">(</span>new<span class="p">)</span>
-<span class="kp">dim</span><span class="p">(</span>new<span class="o">$</span>mu<span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># read rds file</span>
+<span class="n">new</span> <span class="o">&lt;-</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;data/del_sim_scale5_shape1_N1000_M50_999.varbvs.rds&quot;</span><span class="p">)</span>
+<span class="n">names</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+<span class="n">dim</span><span class="p">(</span><span class="n">new</span><span class="err">$</span><span class="n">mu</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -286,7 +293,7 @@ new <span class="o">&lt;-</span> <span class="kp">readRDS</span><span class="p">
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="c1"># get_summary &lt;- function(datalist){</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># get_summary &lt;- function(datalist){</span>
 <span class="c1">#     for (data in datalist){</span>
 <span class="c1">#         newdat = readRDS(data)</span>
 <span class="c1">#         print (newdat$summary$top.vars)</span>
@@ -308,7 +315,7 @@ new <span class="o">&lt;-</span> <span class="kp">readRDS</span><span class="p">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="c1"># different prior for each gene, (1-pi)*p + pi*N(0,s^2)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># different prior for each gene, (1-pi)*p + pi*N(0,s^2)</span>
 </pre></div>
 </div>
 </div>
@@ -319,20 +326,20 @@ new <span class="o">&lt;-</span> <span class="kp">readRDS</span><span class="p">
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>get_varbvs_rds <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>datalist<span class="p">){</span>
-    <span class="kr">for</span> <span class="p">(</span>dat <span class="kr">in</span> datalist<span class="p">){</span>
-        newdat <span class="o">=</span> <span class="kp">as.matrix</span><span class="p">(</span>read_feather<span class="p">(</span>dat<span class="p">))</span>
-        print <span class="p">(</span><span class="kp">dim</span><span class="p">(</span>newdat<span class="p">))</span>
-        newfit <span class="o">=</span> varbvs<span class="p">(</span>newdat<span class="p">[,</span><span class="m">-1</span><span class="p">],</span> <span class="kc">NULL</span><span class="p">,</span> newdat<span class="p">[,</span><span class="m">1</span><span class="p">],</span> family <span class="o">=</span> <span class="s">&quot;binomial&quot;</span><span class="p">,</span> 
-                        logodds <span class="o">=</span> <span class="kp">seq</span><span class="p">(</span><span class="m">-3.0</span><span class="p">,</span><span class="m">-1</span><span class="p">,</span><span class="m">0.1</span><span class="p">),</span> sa <span class="o">=</span> <span class="m">1</span><span class="p">,</span> verbose <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
-        newfit<span class="o">$</span>summary <span class="o">=</span> <span class="kp">summary</span><span class="p">(</span>newfit<span class="p">)</span>
-        newfit<span class="o">$</span>w <span class="o">=</span> normalizelogweights<span class="p">(</span>newfit<span class="o">$</span>logw<span class="p">)</span>
-        newfit<span class="o">$</span>pip <span class="o">=</span> newfit<span class="o">$</span>alpha <span class="o">%*%</span> <span class="kt">c</span><span class="p">(</span>newfit<span class="o">$</span>w<span class="p">)</span>
-        newfit<span class="o">$</span>beta <span class="o">=</span> newfit<span class="o">$</span>mu <span class="o">%*%</span> <span class="kt">c</span><span class="p">(</span>newfit<span class="o">$</span>w<span class="p">)</span>
-        newfit<span class="o">$</span>var_names <span class="o">=</span> <span class="kp">colnames</span><span class="p">(</span>newdat<span class="p">[</span><span class="m">-1</span><span class="p">])</span>
-        print <span class="p">(</span>newfit<span class="o">$</span><span class="kp">summary</span><span class="p">)</span>
-        filename <span class="o">=</span> <span class="kp">paste</span><span class="p">(</span>dat<span class="p">,</span> <span class="s">&quot;.RDS&quot;</span><span class="p">,</span> sep<span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
-        <span class="kp">saveRDS</span><span class="p">(</span>newfit<span class="p">,</span> filename<span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">get_varbvs_rds</span> <span class="o">&lt;-</span> <span class="n">function</span><span class="p">(</span><span class="n">datalist</span><span class="p">){</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">dat</span> <span class="ow">in</span> <span class="n">datalist</span><span class="p">){</span>
+        <span class="n">newdat</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">read_feather</span><span class="p">(</span><span class="n">dat</span><span class="p">))</span>
+        <span class="k">print</span> <span class="p">(</span><span class="n">dim</span><span class="p">(</span><span class="n">newdat</span><span class="p">))</span>
+        <span class="n">newfit</span> <span class="o">=</span> <span class="n">varbvs</span><span class="p">(</span><span class="n">newdat</span><span class="p">[,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">newdat</span><span class="p">[,</span><span class="mi">1</span><span class="p">],</span> <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;binomial&quot;</span><span class="p">,</span> 
+                        <span class="n">logodds</span> <span class="o">=</span> <span class="n">seq</span><span class="p">(</span><span class="o">-</span><span class="mf">3.0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">sa</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="n">F</span><span class="p">)</span>
+        <span class="n">newfit</span><span class="err">$</span><span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span><span class="p">(</span><span class="n">newfit</span><span class="p">)</span>
+        <span class="n">newfit</span><span class="err">$</span><span class="n">w</span> <span class="o">=</span> <span class="n">normalizelogweights</span><span class="p">(</span><span class="n">newfit</span><span class="err">$</span><span class="n">logw</span><span class="p">)</span>
+        <span class="n">newfit</span><span class="err">$</span><span class="n">pip</span> <span class="o">=</span> <span class="n">newfit</span><span class="err">$</span><span class="n">alpha</span> <span class="o">%*%</span> <span class="n">c</span><span class="p">(</span><span class="n">newfit</span><span class="err">$</span><span class="n">w</span><span class="p">)</span>
+        <span class="n">newfit</span><span class="err">$</span><span class="n">beta</span> <span class="o">=</span> <span class="n">newfit</span><span class="err">$</span><span class="n">mu</span> <span class="o">%*%</span> <span class="n">c</span><span class="p">(</span><span class="n">newfit</span><span class="err">$</span><span class="n">w</span><span class="p">)</span>
+        <span class="n">newfit</span><span class="err">$</span><span class="n">var_names</span> <span class="o">=</span> <span class="n">colnames</span><span class="p">(</span><span class="n">newdat</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">print</span> <span class="p">(</span><span class="n">newfit</span><span class="err">$</span><span class="n">summary</span><span class="p">)</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">paste</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="s2">&quot;.RDS&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">saveRDS</span><span class="p">(</span><span class="n">newfit</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -345,18 +352,18 @@ new <span class="o">&lt;-</span> <span class="kp">readRDS</span><span class="p">
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>get_varbvs_rds<span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;data/del_sim_shape9_scale1_p0.005_N4000_M100_12.data.feather&quot;</span><span class="p">,</span>  
-                 <span class="s">&quot;data/del_sim_shape9_scale1_p0.005_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
-                 <span class="s">&quot;data/del_sim_shape5_scale1_p0.005_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
-                 <span class="s">&quot;data/del_sim_shape5_scale1_p0.005_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
-                 <span class="s">&quot;data/del_sim_shape3_scale1_p0.005_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
-                 <span class="s">&quot;data/del_sim_shape3_scale1_p0.005_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
-                 <span class="s">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M100_12.data.feather&quot;</span><span class="p">,</span>
-                 <span class="s">&quot;data/del_sim_shape3_scale1_p0.01_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
-                 <span class="s">&quot;data/del_sim_shape3_scale1_p0.01_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
-                 <span class="s">&quot;data/del_sim_shape9_scale1_p0.01_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
-                 <span class="s">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
-                 <span class="s">&quot;data/del_sim_shape9_scale1_p0.01_N4000_M200_12.data.feather&quot;</span><span class="p">))</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">get_varbvs_rds</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s2">&quot;data/del_sim_shape9_scale1_p0.005_N4000_M100_12.data.feather&quot;</span><span class="p">,</span>  
+                 <span class="s2">&quot;data/del_sim_shape9_scale1_p0.005_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s2">&quot;data/del_sim_shape5_scale1_p0.005_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s2">&quot;data/del_sim_shape5_scale1_p0.005_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s2">&quot;data/del_sim_shape3_scale1_p0.005_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s2">&quot;data/del_sim_shape3_scale1_p0.005_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s2">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M100_12.data.feather&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;data/del_sim_shape3_scale1_p0.01_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s2">&quot;data/del_sim_shape3_scale1_p0.01_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s2">&quot;data/del_sim_shape9_scale1_p0.01_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s2">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
+                 <span class="s2">&quot;data/del_sim_shape9_scale1_p0.01_N4000_M200_12.data.feather&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -641,9 +648,9 @@ Top 5 variables by inclusion probability:
 <div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>aa <span class="o">&lt;-</span> <span class="kp">readRDS</span><span class="p">(</span><span class="s">&quot;data/del_sim_shape3_scale1_p0.01_N4000_M100_12.data.varbvs.rds&quot;</span><span class="p">)</span>
-<span class="kp">names</span><span class="p">(</span>aa<span class="p">)</span>
-<span class="kp">dim</span><span class="p">(</span>aa<span class="o">$</span>mu<span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">aa</span> <span class="o">&lt;-</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;data/del_sim_shape3_scale1_p0.01_N4000_M100_12.data.varbvs.rds&quot;</span><span class="p">)</span>
+<span class="n">names</span><span class="p">(</span><span class="n">aa</span><span class="p">)</span>
+<span class="n">dim</span><span class="p">(</span><span class="n">aa</span><span class="err">$</span><span class="n">mu</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -693,7 +700,7 @@ Top 5 variables by inclusion probability:
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/23863bd6946e5121f663f53fea4055f3d3c732ab/analysis/20170525_R_varbvs.ipynb"><code>analysis/20170525_R_varbvs.ipynb</code></a> committed by Min Qiao on Fri Jul 28 18:52:27 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/23863bd6946e5121f663f53fea4055f3d3c732ab">revision 247, 23863bd</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/08155c05536629ce749904db1941d5074bdb6dc2/analysis/20170525_R_varbvs.ipynb"><code>analysis/20170525_R_varbvs.ipynb</code></a> committed by Min Qiao on Sat Aug 19 10:08:56 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/08155c05536629ce749904db1941d5074bdb6dc2">revision 254, 08155c0</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
