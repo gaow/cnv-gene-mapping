@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.1" />
+<meta name="ipynb_website:version" content="0.9.2" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
 <link rel="stylesheet" type="text/css" href="../css/toc2.css">
@@ -122,7 +122,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Toy-example-of-multi-gene-configuration-overlapped-with-multi-CNV">Toy example of multi-gene configuration overlapped with multi-CNV<a class="anchor-link" href="#Toy-example-of-multi-gene-configuration-overlapped-with-multi-CNV">&#182;</a></h3>
+<h1 id="Toy-example-of-multi-gene-configuration-overlapped-with-multi-CNV">Toy example of multi-gene configuration overlapped with multi-CNV<a class="anchor-link" href="#Toy-example-of-multi-gene-configuration-overlapped-with-multi-CNV">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -130,7 +130,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Simulate-CNVs">Simulate CNVs<a class="anchor-link" href="#Simulate-CNVs">&#182;</a></h4><p>1) Simulate CNV length (number of overlapped genes), following geometric distribution (p=0.5), maximum 10 genes.</p>
+<h2 id="Simulate-CNVs">Simulate CNVs<a class="anchor-link" href="#Simulate-CNVs">&#182;</a></h2><p>1) Simulate CNV length (number of overlapped genes), following geometric distribution (p=0.5), maximum 10 genes.</p>
 <p>2) Simulate CNV start position according to the corresponding length. For example, if a CNV interrupts 5 genes, then it could only start within the first 6 gene position, and the start position is randomly selected among the 6 genes.</p>
 </div>
 </div>
@@ -139,7 +139,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Assign-CNVs-to-cases-and-controls">Assign CNVs to cases and controls<a class="anchor-link" href="#Assign-CNVs-to-cases-and-controls">&#182;</a></h4><p>1) Set the 5th gene as causal gene.</p>
+<h2 id="Assign-CNVs-to-cases-and-controls">Assign CNVs to cases and controls<a class="anchor-link" href="#Assign-CNVs-to-cases-and-controls">&#182;</a></h2><p>1) Set the 5th gene as causal gene.</p>
 <p>2) Simulate a random number from standard normal for each CNV. For each CNV interrupts with 5th gene, add a constant 1 to the simulated number.</p>
 <p>3) Since longer CNVs are supposed to have higher risk than shorter CNVs, I add a value to the number obtained from 2nd step, which is 0.1*number of covered gene.</p>
 <p>4) Calculate the median of all the values obtained from the first three steps; set those larger than median as cases, and the others are controls.</p>
@@ -150,7 +150,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h3><h4 id="CNV-maximum-length-overlap-with-10-genes;-sample-size-2000;-5th-gene-is-causal">CNV maximum length overlap with 10 genes; sample size 2000; 5th gene is causal<a class="anchor-link" href="#CNV-maximum-length-overlap-with-10-genes;-sample-size-2000;-5th-gene-is-causal">&#182;</a></h4><h4 id="Constant-$0$">Constant $0$<a class="anchor-link" href="#Constant-$0$">&#182;</a></h4><p>1) varbvs</p>
+<h2 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h2><h3 id="CNV-maximum-length-overlap-with-10-genes;-sample-size-2000;-5th-gene-is-causal">CNV maximum length overlap with 10 genes; sample size 2000; 5th gene is causal<a class="anchor-link" href="#CNV-maximum-length-overlap-with-10-genes;-sample-size-2000;-5th-gene-is-causal">&#182;</a></h3><h3 id="Constant-$0$">Constant $0$<a class="anchor-link" href="#Constant-$0$">&#182;</a></h3><p>1) varbvs</p>
 <pre><code>variable       prob PVE    coef    Pr(coef.&gt;0.95)
 gene4   0.040238922 NA  0.3292613   [+0.065,+0.583]
 gene5   0.037825435 NA  0.3154991   [+0.084,+0.567]
@@ -173,7 +173,7 @@ Posterior inclusion probability
 9 chr6.100008   2.85567e-03     -1.455
 10 chr6.100001   2.70326e-03     -1.479
 </code></pre>
-<h4 id="Constant-$0.1$">Constant $0.1$<a class="anchor-link" href="#Constant-$0.1$">&#182;</a></h4><p>1) varbvs</p>
+<h3 id="Constant-$0.1$">Constant $0.1$<a class="anchor-link" href="#Constant-$0.1$">&#182;</a></h3><p>1) varbvs</p>
 <pre><code>variable    prob    PVE coef    Pr(coef.&gt;0.95)
 gene5   0.78612965  NA  0.4906664   [+0.235,+0.732]
 gene10   0.03997344 NA  0.0000000   [-1.878,+1.858]
@@ -193,7 +193,7 @@ Posterior inclusion probability
 6 chr6.100007   3.52228e-03     -0.544
 7 chr6.100002   1.08403e-03     -1.055
 </code></pre>
-<h4 id="Constant-$0.5$">Constant $0.5$<a class="anchor-link" href="#Constant-$0.5$">&#182;</a></h4><p>1) varbvs</p>
+<h3 id="Constant-$0.5$">Constant $0.5$<a class="anchor-link" href="#Constant-$0.5$">&#182;</a></h3><p>1) varbvs</p>
 <pre><code>variable    prob    PVE coef    Pr(coef.&gt;0.95)
 gene5   1.00000000  NA  1.0491817   [+0.790,+1.291]
 gene7   0.06417755  NA  0.2934619   [+0.040,+0.560]
@@ -211,7 +211,7 @@ Posterior inclusion probability
 4 chr6.100003   3.85528e-02      1.267
 5 chr6.100002   1.78767e-02     -0.525
 </code></pre>
-<h4 id="Constant-$1.0$">Constant $1.0$<a class="anchor-link" href="#Constant-$1.0$">&#182;</a></h4><p>1) varbvs</p>
+<h3 id="Constant-$1.0$">Constant $1.0$<a class="anchor-link" href="#Constant-$1.0$">&#182;</a></h3><p>1) varbvs</p>
 <pre><code>variable    prob    PVE coef    Pr(coef.&gt;0.95)
 gene5   1.00000000  NA  1.8363550   [+1.578,+2.089]
 gene3   0.08170696  NA  0.3087521   [+0.050,+0.589]
@@ -234,25 +234,14 @@ Posterior inclusion probability
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="DAP-results-annotation">DAP results annotation<a class="anchor-link" href="#DAP-results-annotation">&#182;</a></h4><p>The last section of the output is the posterior inclusion probabilities (PIP) for top ranked genes, for example, PIP for gene5 is 0.998</p>
+<h2 id="DAP-results-annotation">DAP results annotation<a class="anchor-link" href="#DAP-results-annotation">&#182;</a></h2><p>The last section of the output is the posterior inclusion probabilities (PIP) for top ranked genes, for example, PIP for gene5 is 0.998</p>
 <p>The last column gives $\text{log}_{10}$ Bayes factor of the corresponding SNP/gene in single-SNP/gene testing.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-</div>
 </div>
 </div>
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/23863bd6946e5121f663f53fea4055f3d3c732ab/analysis/20170705_toy_example_multi_outline.ipynb"><code>analysis/20170705_toy_example_multi_outline.ipynb</code></a> committed by Min Qiao on Fri Jul 28 18:52:27 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/23863bd6946e5121f663f53fea4055f3d3c732ab">revision 247, 23863bd</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/a995f5fbe8c1ab7c23678274750401fb7acd772e/analysis/20170705_toy_example_multi_outline.ipynb"><code>analysis/20170705_toy_example_multi_outline.ipynb</code></a> committed by Min Qiao on Sat Aug 19 09:10:45 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/a995f5fbe8c1ab7c23678274750401fb7acd772e">revision 250, a995f5f</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.1" />
+<meta name="ipynb_website:version" content="0.9.2" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
 <link rel="stylesheet" type="text/css" href="../css/toc2.css">
@@ -201,7 +201,7 @@ when presented in causal gene vs. non causal gene.</p>
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">causal_genes_del</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RAB2B&#39;</span><span class="p">,</span> <span class="s1">&#39;CHD8&#39;</span><span class="p">,</span> <span class="s1">&#39;TOX4&#39;</span><span class="p">,</span> <span class="s1">&#39;SNORD8&#39;</span><span class="p">,</span> <span class="s1">&#39;METTL3&#39;</span><span class="p">,</span> <span class="s1">&#39;SALL2&#39;</span><span class="p">,</span> <span class="s1">&#39;SNORD9&#39;</span><span class="p">,</span> <span class="s1">&#39;SUPT16H&#39;</span><span class="p">,</span> <span class="s1">&#39;RPGRIP1&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3180-3&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3670-1&#39;</span><span class="p">,</span> <span class="s1">&#39;NOMO2&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR6511A4&#39;</span><span class="p">,</span> <span class="s1">&#39;NPIPA8&#39;</span><span class="p">,</span> <span class="s1">&#39;FSIP2&#39;</span><span class="p">,</span> <span class="s1">&#39;FSIP2-AS1&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC101927196&#39;</span><span class="p">,</span> <span class="s1">&#39;ATP6V1E1&#39;</span><span class="p">,</span> <span class="s1">&#39;BCL2L13&#39;</span><span class="p">,</span> <span class="s1">&#39;BID&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR1&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR2&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR3&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR5&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR5-AS1&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR6&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR7&#39;</span><span class="p">,</span> <span class="s1">&#39;FLJ41941&#39;</span><span class="p">,</span> <span class="s1">&#39;GAB4&#39;</span><span class="p">,</span> <span class="s1">&#39;IL17RA&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC00528&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC100996342&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC100996415&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC101929372&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC105379550&#39;</span><span class="p">,</span> <span class="s1">&#39;MICAL3&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3198-1&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR648&#39;</span><span class="p">,</span> <span class="s1">&#39;PEX26&#39;</span><span class="p">,</span> <span class="s1">&#39;SLC25A18&#39;</span><span class="p">,</span> <span class="s1">&#39;TUBA8&#39;</span><span class="p">,</span> <span class="s1">&#39;USP18&#39;</span><span class="p">,</span> <span class="s1">&#39;FAM72C&#39;</span><span class="p">,</span> <span class="s1">&#39;FAM72D&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC01138&#39;</span><span class="p">,</span> <span class="s1">&#39;NBPF8&#39;</span><span class="p">,</span> <span class="s1">&#39;PPIAL4G&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR6770-2&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3179-1&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3180-2&#39;</span><span class="p">,</span> <span class="s1">&#39;MACROD2&#39;</span><span class="p">,</span> <span class="s1">&#39;FAM189A1&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC100130111&#39;</span><span class="p">,</span> <span class="s1">&#39;MACROD2-AS1&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC00623&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC00869&#39;</span><span class="p">,</span> <span class="s1">&#39;PPIAL4C&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3680-2&#39;</span><span class="p">,</span> <span class="s1">&#39;ABCC6P1&#39;</span><span class="p">,</span> <span class="s1">&#39;HNRNPC&#39;</span><span class="p">,</span> <span class="s1">&#39;APBA2&#39;</span><span class="p">,</span> <span class="s1">&#39;C22orf39&#39;</span><span class="p">,</span> <span class="s1">&#39;CDC45&#39;</span><span class="p">,</span> <span class="s1">&#39;CLDN5&#39;</span><span class="p">,</span> <span class="s1">&#39;CLTCL1&#39;</span><span class="p">,</span> <span class="s1">&#39;DGCR14&#39;</span><span class="p">,</span> <span class="s1">&#39;DGCR2&#39;</span><span class="p">,</span> <span class="s1">&#39;GNB1L&#39;</span><span class="p">,</span> <span class="s1">&#39;GOLGA6L7P&#39;</span><span class="p">,</span> <span class="s1">&#39;GOLGA8M&#39;</span><span class="p">,</span> <span class="s1">&#39;GP1BB&#39;</span><span class="p">,</span> <span class="s1">&#39;GSC2&#39;</span><span class="p">,</span> <span class="s1">&#39;HIRA&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC00895&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC01311&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC100289656&#39;</span><span class="p">,</span> <span class="s1">&#39;MRPL40&#39;</span><span class="p">,</span> <span class="s1">&#39;NPIPB4&#39;</span><span class="p">,</span> <span class="s1">&#39;NSMCE3&#39;</span><span class="p">,</span> <span class="s1">&#39;PDCD6IPP2&#39;</span><span class="p">,</span> <span class="s1">&#39;SEPT5&#39;</span><span class="p">,</span> <span class="s1">&#39;SEPT5-GP1BB&#39;</span><span class="p">,</span> <span class="s1">&#39;SLC25A1&#39;</span><span class="p">,</span> <span class="s1">&#39;TBX1&#39;</span><span class="p">,</span> <span class="s1">&#39;TSSK2&#39;</span><span class="p">,</span> <span class="s1">&#39;UFD1L&#39;</span><span class="p">,</span> <span class="s1">&#39;WHAMMP2&#39;</span><span class="p">,</span> <span class="s1">&#39;HSFY1P1&#39;</span><span class="p">,</span> <span class="s1">&#39;PFN1P2&#39;</span><span class="p">,</span> <span class="s1">&#39;XKR3&#39;</span><span class="p">,</span> <span class="s1">&#39;OR4A47&#39;</span><span class="p">,</span> <span class="s1">&#39;C5orf17&#39;</span><span class="p">,</span> <span class="s1">&#39;CNTN4&#39;</span><span class="p">,</span> <span class="s1">&#39;EXOC4&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC00540&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC101927967&#39;</span><span class="p">,</span> <span class="s1">&#39;LRRC4C&#39;</span><span class="p">,</span> <span class="s1">&#39;SMG1P2&#39;</span><span class="p">,</span> <span class="s1">&#39;SPRY2&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC100288162&#39;</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">causal_genes_del</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RAB2B&#39;</span><span class="p">,</span> <span class="s1">&#39;CHD8&#39;</span><span class="p">,</span> <span class="s1">&#39;TOX4&#39;</span><span class="p">,</span> <span class="s1">&#39;SNORD8&#39;</span><span class="p">,</span> <span class="s1">&#39;METTL3&#39;</span><span class="p">,</span> <span class="s1">&#39;SALL2&#39;</span><span class="p">,</span> <span class="s1">&#39;SNORD9&#39;</span><span class="p">,</span> <span class="s1">&#39;SUPT16H&#39;</span><span class="p">,</span> <span class="s1">&#39;RPGRIP1&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3180-3&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3670-1&#39;</span><span class="p">,</span> <span class="s1">&#39;NOMO2&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR6511A4&#39;</span><span class="p">,</span> <span class="s1">&#39;NPIPA8&#39;</span><span class="p">,</span> <span class="s1">&#39;FSIP2&#39;</span><span class="p">,</span> <span class="s1">&#39;FSIP2-AS1&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC101927196&#39;</span><span class="p">,</span> <span class="s1">&#39;ATP6V1E1&#39;</span><span class="p">,</span> <span class="s1">&#39;BCL2L13&#39;</span><span class="p">,</span> <span class="s1">&#39;BID&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR1&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR2&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR3&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR5&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR5-AS1&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR6&#39;</span><span class="p">,</span> <span class="s1">&#39;CECR7&#39;</span><span class="p">,</span> <span class="s1">&#39;FLJ41941&#39;</span><span class="p">,</span> <span class="s1">&#39;GAB4&#39;</span><span class="p">,</span> <span class="s1">&#39;IL17RA&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC00528&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC100996342&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC100996415&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC101929372&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC105379550&#39;</span><span class="p">,</span> <span class="s1">&#39;MICAL3&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3198-1&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR648&#39;</span><span class="p">,</span> <span class="s1">&#39;PEX26&#39;</span><span class="p">,</span> <span class="s1">&#39;SLC25A18&#39;</span><span class="p">,</span> <span class="s1">&#39;TUBA8&#39;</span><span class="p">,</span> <span class="s1">&#39;USP18&#39;</span><span class="p">,</span> <span class="s1">&#39;FAM72C&#39;</span><span class="p">,</span> <span class="s1">&#39;FAM72D&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC01138&#39;</span><span class="p">,</span> <span class="s1">&#39;NBPF8&#39;</span><span class="p">,</span> <span class="s1">&#39;PPIAL4G&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR6770-2&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3179-1&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3180-2&#39;</span><span class="p">,</span> <span class="s1">&#39;MACROD2&#39;</span><span class="p">,</span> <span class="s1">&#39;FAM189A1&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC100130111&#39;</span><span class="p">,</span> <span class="s1">&#39;MACROD2-AS1&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC00623&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC00869&#39;</span><span class="p">,</span> <span class="s1">&#39;PPIAL4C&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR3680-2&#39;</span><span class="p">,</span> <span class="s1">&#39;ABCC6P1&#39;</span><span class="p">,</span> <span class="s1">&#39;HNRNPC&#39;</span><span class="p">,</span> <span class="s1">&#39;APBA2&#39;</span><span class="p">,</span> <span class="s1">&#39;C22orf39&#39;</span><span class="p">,</span> <span class="s1">&#39;CDC45&#39;</span><span class="p">,</span> <span class="s1">&#39;CLDN5&#39;</span><span class="p">,</span> <span class="s1">&#39;CLTCL1&#39;</span><span class="p">,</span> <span class="s1">&#39;DGCR14&#39;</span><span class="p">,</span> <span class="s1">&#39;DGCR2&#39;</span><span class="p">,</span> <span class="s1">&#39;GNB1L&#39;</span><span class="p">,</span> <span class="s1">&#39;GOLGA6L7P&#39;</span><span class="p">,</span> <span class="s1">&#39;GOLGA8M&#39;</span><span class="p">,</span> <span class="s1">&#39;GP1BB&#39;</span><span class="p">,</span> <span class="s1">&#39;GSC2&#39;</span><span class="p">,</span> <span class="s1">&#39;HIRA&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC00895&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC01311&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC100289656&#39;</span><span class="p">,</span> <span class="s1">&#39;MRPL40&#39;</span><span class="p">,</span> <span class="s1">&#39;NPIPB4&#39;</span><span class="p">,</span> <span class="s1">&#39;NSMCE3&#39;</span><span class="p">,</span> <span class="s1">&#39;PDCD6IPP2&#39;</span><span class="p">,</span> <span class="s1">&#39;SEPT5&#39;</span><span class="p">,</span> <span class="s1">&#39;SEPT5-GP1BB&#39;</span><span class="p">,</span> <span class="s1">&#39;SLC25A1&#39;</span><span class="p">,</span> <span class="s1">&#39;TBX1&#39;</span><span class="p">,</span> <span class="s1">&#39;TSSK2&#39;</span><span class="p">,</span> <span class="s1">&#39;UFD1L&#39;</span><span class="p">,</span> <span class="s1">&#39;WHAMMP2&#39;</span><span class="p">,</span> <span class="s1">&#39;HSFY1P1&#39;</span><span class="p">,</span> <span class="s1">&#39;PFN1P2&#39;</span><span class="p">,</span> <span class="s1">&#39;XKR3&#39;</span><span class="p">,</span> <span class="s1">&#39;OR4A47&#39;</span><span class="p">,</span> <span class="s1">&#39;C5orf17&#39;</span><span class="p">,</span> <span class="s1">&#39;CNTN4&#39;</span><span class="p">,</span> <span class="s1">&#39;EXOC4&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC00540&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC101927967&#39;</span><span class="p">,</span> <span class="s1">&#39;LRRC4C&#39;</span><span class="p">,</span> <span class="s1">&#39;SMG1P2&#39;</span><span class="p">,</span> <span class="s1">&#39;SPRY2&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC100288162&#39;</span><span class="p">]</span>
 <span class="n">causal_genes_dup</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CHN2&#39;</span><span class="p">,</span> <span class="s1">&#39;ESYT2&#39;</span><span class="p">,</span> <span class="s1">&#39;KIF26B&#39;</span><span class="p">,</span> <span class="s1">&#39;RPGRIP1&#39;</span><span class="p">,</span> <span class="s1">&#39;C22orf39&#39;</span><span class="p">,</span> <span class="s1">&#39;CDAN1&#39;</span><span class="p">,</span> <span class="s1">&#39;CDC45&#39;</span><span class="p">,</span> <span class="s1">&#39;CLDN5&#39;</span><span class="p">,</span> <span class="s1">&#39;GNB1L&#39;</span><span class="p">,</span> <span class="s1">&#39;GP1BB&#39;</span><span class="p">,</span> <span class="s1">&#39;HIRA&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC00895&#39;</span><span class="p">,</span> <span class="s1">&#39;MRPL40&#39;</span><span class="p">,</span> <span class="s1">&#39;SEPT5&#39;</span><span class="p">,</span> <span class="s1">&#39;SEPT5-GP1BB&#39;</span><span class="p">,</span> <span class="s1">&#39;STARD9&#39;</span><span class="p">,</span> <span class="s1">&#39;TBX1&#39;</span><span class="p">,</span> <span class="s1">&#39;TTBK2&#39;</span><span class="p">,</span> <span class="s1">&#39;UFD1L&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC283177&#39;</span><span class="p">,</span> <span class="s1">&#39;AGAP6&#39;</span><span class="p">,</span> <span class="s1">&#39;COL18A1&#39;</span><span class="p">,</span> <span class="s1">&#39;COL18A1-AS1&#39;</span><span class="p">,</span> <span class="s1">&#39;FAM21EP&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC440910&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR6815&#39;</span><span class="p">,</span> <span class="s1">&#39;POTEE&#39;</span><span class="p">,</span> <span class="s1">&#39;SLC19A1&#39;</span><span class="p">,</span> <span class="s1">&#39;TIMM23B&#39;</span><span class="p">,</span> <span class="s1">&#39;VAV2&#39;</span><span class="p">,</span> <span class="s1">&#39;WASHC2A&#39;</span><span class="p">,</span> <span class="s1">&#39;PTPRN2&#39;</span><span class="p">,</span> <span class="s1">&#39;ANO2&#39;</span><span class="p">,</span> <span class="s1">&#39;CCNDBP1&#39;</span><span class="p">,</span> <span class="s1">&#39;COLEC12&#39;</span><span class="p">,</span> <span class="s1">&#39;EPB42&#39;</span><span class="p">,</span> <span class="s1">&#39;FAM118A&#39;</span><span class="p">,</span> <span class="s1">&#39;FAM160A1&#39;</span><span class="p">,</span> <span class="s1">&#39;FBLN1&#39;</span><span class="p">,</span> <span class="s1">&#39;KIAA0930&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC01589&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC100996325&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC728613&#39;</span><span class="p">,</span> <span class="s1">&#39;LRRIQ3&#39;</span><span class="p">,</span> <span class="s1">&#39;MACROD2&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR1249&#39;</span><span class="p">,</span> <span class="s1">&#39;NUP153&#39;</span><span class="p">,</span> <span class="s1">&#39;NUP50&#39;</span><span class="p">,</span> <span class="s1">&#39;NUP50-AS1&#39;</span><span class="p">,</span> <span class="s1">&#39;PRSS48&#39;</span><span class="p">,</span> <span class="s1">&#39;RAP1GAP2&#39;</span><span class="p">,</span> <span class="s1">&#39;RBM47&#39;</span><span class="p">,</span> <span class="s1">&#39;RIBC2&#39;</span><span class="p">,</span> <span class="s1">&#39;SH3D19&#39;</span><span class="p">,</span> <span class="s1">&#39;SMC1B&#39;</span><span class="p">,</span> <span class="s1">&#39;TGM5&#39;</span><span class="p">,</span> <span class="s1">&#39;TMEM62&#39;</span><span class="p">,</span> <span class="s1">&#39;UPK3A&#39;</span><span class="p">,</span> <span class="s1">&#39;VWF&#39;</span><span class="p">,</span> <span class="s1">&#39;DGKH&#39;</span><span class="p">,</span> <span class="s1">&#39;KIF13A&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC01266&#39;</span><span class="p">,</span> <span class="s1">&#39;VWA8&#39;</span><span class="p">,</span> <span class="s1">&#39;VWA8-AS1&#39;</span><span class="p">,</span> <span class="s1">&#39;CRYM-AS1&#39;</span><span class="p">,</span> <span class="s1">&#39;SNX29P1&#39;</span><span class="p">,</span> <span class="s1">&#39;KCNJ12&#39;</span><span class="p">,</span> <span class="s1">&#39;KCNJ18&#39;</span><span class="p">,</span> <span class="s1">&#39;BNC1&#39;</span><span class="p">,</span> <span class="s1">&#39;LOC105375545&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR128-2&#39;</span><span class="p">,</span> <span class="s1">&#39;AGAP7P&#39;</span><span class="p">,</span> <span class="s1">&#39;BTBD11&#39;</span><span class="p">,</span> <span class="s1">&#39;C3orf67&#39;</span><span class="p">,</span> <span class="s1">&#39;CHD8&#39;</span><span class="p">,</span> <span class="s1">&#39;COL18A1-AS2&#39;</span><span class="p">,</span> <span class="s1">&#39;FAM110C&#39;</span><span class="p">,</span> <span class="s1">&#39;GMDS&#39;</span><span class="p">,</span> <span class="s1">&#39;HIRIP3&#39;</span><span class="p">,</span> <span class="s1">&#39;INO80E&#39;</span><span class="p">,</span> <span class="s1">&#39;LINC01022&#39;</span><span class="p">,</span> <span class="s1">&#39;MARK3&#39;</span><span class="p">,</span> <span class="s1">&#39;MIR5707&#39;</span><span class="p">,</span> <span class="s1">&#39;MSMB&#39;</span><span class="p">,</span> <span class="s1">&#39;NCAPG2&#39;</span><span class="p">,</span> <span class="s1">&#39;NCOA4&#39;</span><span class="p">,</span> <span class="s1">&#39;PAK5&#39;</span><span class="p">,</span> <span class="s1">&#39;PLEKHB2&#39;</span><span class="p">,</span> <span class="s1">&#39;PWP1&#39;</span><span class="p">,</span> <span class="s1">&#39;RAB2B&#39;</span><span class="p">,</span> <span class="s1">&#39;RNF103-CHMP3&#39;</span><span class="p">,</span> <span class="s1">&#39;SNORD8&#39;</span><span class="p">,</span> <span class="s1">&#39;SNORD9&#39;</span><span class="p">,</span> <span class="s1">&#39;SUPT16H&#39;</span><span class="p">,</span> <span class="s1">&#39;TIMM23&#39;</span><span class="p">,</span> <span class="s1">&#39;ZCCHC14&#39;</span><span class="p">,</span> <span class="s1">&#39;C17orf51&#39;</span><span class="p">,</span> <span class="s1">&#39;COX20&#39;</span><span class="p">,</span> <span class="s1">&#39;DLG1&#39;</span><span class="p">,</span> <span class="s1">&#39;EFCAB2&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -232,31 +232,31 @@ when presented in causal gene vs. non causal gene.</p>
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">randint</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">pandasql</span> <span class="k">import</span> <span class="n">sqldf</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pandasql</span> <span class="kn">import</span> <span class="n">sqldf</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="kn">as</span> <span class="nn">sp</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
 <span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">from</span> <span class="nn">sklearn.mixture</span> <span class="k">import</span> <span class="n">GaussianMixture</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">sklearn.mixture</span> <span class="kn">import</span> <span class="n">GaussianMixture</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">from</span> <span class="nn">fisher</span> <span class="k">import</span> <span class="n">pvalue</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span> <span class="nn">fisher</span> <span class="kn">import</span> <span class="n">pvalue</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 <span class="k">def</span> <span class="nf">load_reference_gene</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Load reference gene database&#39;&#39;&#39;</span>
     <span class="n">ref_gene</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> 
-                         <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> 
+                         <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> 
                          <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;tx_name&quot;</span><span class="p">,</span> <span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">))</span>
 <span class="k">def</span> <span class="nf">load_cnv_data</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;load cnv data&#39;&#39;&#39;</span>
     <span class="n">cnvbed</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">dataset</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;chr&quot;</span><span class="p">):</span>
             <span class="n">dataset</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;name=&quot;</span><span class="p">)</span>
@@ -284,7 +284,7 @@ when presented in causal gene vs. non causal gene.</p>
     <span class="c1"># check how many CNVs start in block_size = 100K blocks genome</span>
     <span class="c1"># this cell produces `block_counts`: ((chrom, block_position), count)</span>
     <span class="k">def</span> <span class="nf">count_by_blocks</span><span class="p">(</span><span class="n">chrom</span><span class="p">):</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;chrom == &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chrom</span><span class="p">))[</span><span class="s1">&#39;cnv_start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;chrom == &quot;{}&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chrom</span><span class="p">))[</span><span class="s1">&#39;cnv_start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
         <span class="n">start_pos</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">end_pos</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">counts</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">end_pos</span> <span class="o">-</span> <span class="n">start_pos</span><span class="p">)</span> <span class="o">/</span> <span class="n">block_size</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> 
@@ -337,12 +337,12 @@ when presented in causal gene vs. non causal gene.</p>
     <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">causal_genes</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sample_genes</span><span class="p">]</span>
 <span class="k">def</span> <span class="nf">get_ccnv</span><span class="p">():</span>
     <span class="sd">&#39;&#39;&#39;get causal cnvs&#39;&#39;&#39;</span>
-    <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="bp">None</span>
 <span class="k">def</span> <span class="nf">p_case</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">num_causal_genes_in_sample</span><span class="p">,</span> <span class="n">sim_args</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">num_causal_genes_in_sample</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">p</span>
     <span class="n">baseline_odds</span> <span class="o">=</span> <span class="n">p</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">sim_args</span><span class="p">[</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s2">&quot;shape&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">sim_args</span><span class="p">[</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">sim_args</span><span class="p">[</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s2">&quot;shape&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">sim_args</span><span class="p">[</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">odds_ratio</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">odds_ratio</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">sim_args</span><span class="p">[</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s1">&#39;shape&#39;</span><span class="p">],</span> 
@@ -353,7 +353,7 @@ when presented in causal gene vs. non causal gene.</p>
     <span class="n">odds</span> <span class="o">=</span> <span class="n">baseline_odds</span> <span class="o">*</span> <span class="n">odds_ratio</span>
     <span class="k">return</span> <span class="n">odds</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">odds</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Environment</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;block_size&#39;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
                       <span class="s1">&#39;avg_cnv_per_individual&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
                       <span class="s1">&#39;n_case&#39;</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span>
@@ -382,7 +382,7 @@ when presented in causal gene vs. non causal gene.</p>
     <span class="n">status</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">case_data</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">ctrl_data</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">debug</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;niter&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span> <span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span> 
+    <span class="n">debug</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;niter&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span> <span class="bp">None</span><span class="p">],</span> <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span> 
              <span class="s1">&#39;causal genes&#39;</span><span class="p">:</span> <span class="n">causal_genes</span><span class="p">,</span> <span class="s1">&#39;number of causal genes&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;number of genes overlap CNV&#39;</span><span class="p">:</span> <span class="p">[],</span> 
              <span class="s1">&#39;simulated CNV length in case&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;simulated CNV length in ctrl&#39;</span><span class="p">:</span> <span class="p">[]}</span>
     <span class="k">while</span><span class="p">(</span><span class="n">status</span><span class="p">):</span>
@@ -422,7 +422,7 @@ when presented in causal gene vs. non causal gene.</p>
     <span class="n">cnv_data</span> <span class="o">=</span> <span class="n">load_cnv_data</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;cnv_file&#39;</span><span class="p">])</span>
     <span class="n">sample_data</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">ref_gene</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cnv_data</span><span class="p">[</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;case_dataset&#39;</span><span class="p">]],</span> <span class="n">cnv_data</span><span class="p">[</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;ctrl_dataset&#39;</span><span class="p">]]]),</span>
                           <span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">)</span>
-    <span class="n">save_data</span><span class="p">(</span><span class="n">sample_data</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">.data.pkl&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">],</span> <span class="n">simulation_id</span><span class="p">))</span>
+    <span class="n">save_data</span><span class="p">(</span><span class="n">sample_data</span><span class="p">,</span> <span class="s1">&#39;{}_{}.data.pkl&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">],</span> <span class="n">simulation_id</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">sample_data</span>
 <span class="k">def</span> <span class="nf">get_gene_table</span><span class="p">(</span><span class="n">gene_df</span><span class="p">):</span>
     <span class="n">gene_table</span> <span class="o">=</span> <span class="p">{}</span>
@@ -436,8 +436,8 @@ when presented in causal gene vs. non causal gene.</p>
 <span class="s1">        &#39;&#39;&#39;</span>
         <span class="n">gene_table</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
     <span class="n">gene_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;case&quot;</span><span class="p">],</span> <span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;ctrl&quot;</span><span class="p">],</span> <span class="n">how</span> <span class="o">=</span> <span class="s2">&quot;outer&quot;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
-    <span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;count(gene_name)_x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;count(gene_name)_y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;count(gene_name)_x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;count(gene_name)_y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">gene_table</span> <span class="o">=</span> <span class="n">gene_table</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;count(gene_name)_x&quot;</span><span class="p">:</span><span class="s2">&quot;n_case_gene&quot;</span><span class="p">,</span> <span class="s2">&quot;count(gene_name)_y&quot;</span><span class="p">:</span><span class="s2">&quot;n_ctrl_gene&quot;</span><span class="p">})</span>
     <span class="n">n_gene_case</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;n_case_gene&quot;</span><span class="p">])</span>
     <span class="n">n_gene_ctrl</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;n_ctrl_gene&quot;</span><span class="p">])</span>
@@ -454,8 +454,8 @@ when presented in causal gene vs. non causal gene.</p>
                                             <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_case_nogene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_ctrl_nogene&quot;</span><span class="p">]]])[</span><span class="mi">0</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span> 
                        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">gene_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">sort</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">stats_table</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">stats_table</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">two_tail</span><span class="p">))</span>
-        <span class="n">oddsratio_table</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">oddsratio_table</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">else</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">stats_table</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">stats_table</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">two_tail</span><span class="p">))</span>
+        <span class="n">oddsratio_table</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">oddsratio_table</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">else</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">logp_2side</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">two_tail</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stats_table</span><span class="p">]</span>
     <span class="n">logp_gene</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stats_table</span><span class="p">]</span>
     <span class="n">OR_2side</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">oddsratio_table</span><span class="p">]</span>
@@ -473,7 +473,7 @@ when presented in causal gene vs. non causal gene.</p>
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_stats_from_input</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">sort_data</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="k">def</span> <span class="nf">get_stats_from_input</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">sort_data</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;input data saving from run_simulate step: sample_dup and sample_del separately&#39;&#39;&#39;</span>
     <span class="n">input_data</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
     <span class="n">sample_gene_table</span> <span class="o">=</span> <span class="n">get_gene_table</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
@@ -494,7 +494,7 @@ when presented in causal gene vs. non causal gene.</p>
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Load reference gene database</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># Load reference gene database</span>
 <span class="n">gene_df</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="s2">&quot;data/refGene.txt.gz&quot;</span><span class="p">)</span>
 <span class="c1">#[random.sample(gene_df[&quot;gene_name&quot;].tolist(), 20)]</span>
 <span class="c1">#print (gene_df[&quot;gene_name&quot;].tolist())</span>
@@ -516,8 +516,8 @@ when presented in causal gene vs. non causal gene.</p>
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cnvbed_df</span> <span class="o">=</span> <span class="n">load_cnv_data</span><span class="p">(</span><span class="s2">&quot;data/ISC-r1.CNV.bed&quot;</span><span class="p">)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="n">cnvbed_df</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">cnvbed_df</span> <span class="o">=</span> <span class="n">load_cnv_data</span><span class="p">(</span><span class="s2">&quot;data/ISC-r1.CNV.bed&quot;</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">cnvbed_df</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -787,7 +787,7 @@ when presented in causal gene vs. non causal gene.</p>
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get 2 data-sets from my data for del and dup</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># Get 2 data-sets from my data for del and dup</span>
 <span class="n">cnvdel</span> <span class="o">=</span> <span class="p">[</span><span class="n">cnvbed_df</span><span class="p">[</span><span class="s2">&quot;delCases&quot;</span><span class="p">],</span> <span class="n">cnvbed_df</span><span class="p">[</span><span class="s2">&quot;delControls&quot;</span><span class="p">]]</span>
 <span class="n">cnvdup</span> <span class="o">=</span> <span class="p">[</span><span class="n">cnvbed_df</span><span class="p">[</span><span class="s2">&quot;dupCases&quot;</span><span class="p">],</span> <span class="n">cnvbed_df</span><span class="p">[</span><span class="s2">&quot;dupControls&quot;</span><span class="p">]]</span>
 <span class="c1">#cnvdel = pd.concat(cnvdel).drop_duplicates(subset=(&quot;chrom&quot;, &quot;cnv_start&quot;, &quot;cnv_end&quot;))</span>
@@ -804,7 +804,7 @@ when presented in causal gene vs. non causal gene.</p>
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># check how many CNVs start in block_size = 100K blocks genome</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># check how many CNVs start in block_size = 100K blocks genome</span>
 <span class="c1"># this cell produces `block_counts`: ((chrom, block_position), count)</span>
 <span class="n">block_counts</span> <span class="o">=</span> <span class="n">count_cnv_by_block</span><span class="p">(</span><span class="n">dup_df</span><span class="p">,</span> <span class="mi">100000</span><span class="p">)</span>
 <span class="c1">#print (block_counts)</span>
@@ -823,7 +823,7 @@ when presented in causal gene vs. non causal gene.</p>
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># length of CNVs, and fit mixed geometric distribution</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># length of CNVs, and fit mixed geometric distribution</span>
 <span class="n">cnv_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cnvbed_df</span><span class="p">[</span><span class="s1">&#39;delCases&#39;</span><span class="p">],</span> <span class="n">cnvbed_df</span><span class="p">[</span><span class="s1">&#39;delControls&#39;</span><span class="p">]])</span>
 <span class="n">del_length</span> <span class="o">=</span> <span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;cnv_end&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;cnv_start&#39;</span><span class="p">]</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">del_length</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
@@ -1012,7 +1012,7 @@ UKcAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># violin plot</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># violin plot</span>
 <span class="kn">import</span> <span class="nn">plotly</span>
 <span class="n">plotly</span><span class="o">.</span><span class="n">offline</span><span class="o">.</span><span class="n">init_notebook_mode</span><span class="p">()</span>
 <span class="c1">#fig = plotly.figure_factory.create_violin(list(dup_block.values()), colors=&#39;#604d9e&#39;)</span>
@@ -1027,8 +1027,8 @@ UKcAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sample_len_del</span> <span class="o">=</span> <span class="n">sample_cnv_length</span><span class="p">(</span><span class="n">del_length</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;avg_cnv_per_individual&#39;</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">sample_len_del</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sample_len_del</span> <span class="o">=</span> <span class="n">sample_cnv_length</span><span class="p">(</span><span class="n">del_length</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;avg_cnv_per_individual&#39;</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sample_len_del</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1050,7 +1050,7 @@ UKcAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Now I get n_del sample CNVs but I only know which block it belongs to</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># Now I get n_del sample CNVs but I only know which block it belongs to</span>
 <span class="c1"># sample_blocks is just a sample set of `block_counts` removing the `count` part: [(chrom, block_position)]</span>
 <span class="n">sample_blocks</span> <span class="o">=</span> <span class="n">get_sample_blocks</span><span class="p">(</span><span class="n">block_counts</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_len_del</span><span class="p">))</span>
 </pre></div>
@@ -1063,7 +1063,7 @@ UKcAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Now for each sample block, I:</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># Now for each sample block, I:</span>
 <span class="c1"># 1. give it a random start position unif(block_start, block_start + block_size)</span>
 <span class="c1"># 2. give it a random end position using L previously sampled</span>
 <span class="n">samples</span> <span class="o">=</span> <span class="n">assign_cnv_to_sample</span><span class="p">(</span><span class="n">sample_blocks</span><span class="p">,</span> <span class="n">sample_len_del</span><span class="p">,</span> <span class="mi">100000</span><span class="p">)</span>
@@ -1086,7 +1086,7 @@ UKcAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Annotate data with gene names</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># Annotate data with gene names</span>
 <span class="n">samples</span> <span class="o">=</span> <span class="n">annotate_samples</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">gene_df</span><span class="p">)</span>
 <span class="c1"># print(samples)</span>
 </pre></div>
@@ -1099,11 +1099,11 @@ UKcAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># get causal genes in data</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># get causal genes in data</span>
 <span class="n">del_causal_genes_in_sample</span> <span class="o">=</span> <span class="n">get_causal_genes</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">,</span> <span class="n">samples</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 <span class="c1"># dup_causal_genes_in_sample = get_causal_genes(args.causal_genes[&quot;causal_genes_dup&quot;], samples[&#39;gene_name&#39;].tolist())</span>
 <span class="c1">#print (samples[&#39;gene_name&#39;].tolist())</span>
-<span class="nb">print</span> <span class="p">((</span><span class="n">del_causal_genes_in_sample</span><span class="p">))</span>
+<span class="k">print</span> <span class="p">((</span><span class="n">del_causal_genes_in_sample</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1133,12 +1133,12 @@ UKcAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#k = 0.005 # prevalence of the disease</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">#k = 0.005 # prevalence of the disease</span>
 <span class="c1">#sim_args = {&#39;shape&#39;: 2, &#39;scale&#39;: 1}</span>
 <span class="n">num_causal_genes_in_sample</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">del_causal_genes_in_sample</span><span class="p">)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="n">num_causal_genes_in_sample</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">num_causal_genes_in_sample</span><span class="p">)</span>
 <span class="n">p</span> <span class="o">=</span> <span class="n">p_case</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;prevalence&quot;</span><span class="p">],</span> <span class="n">num_causal_genes_in_sample</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1169,7 +1169,7 @@ UKcAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># main procedure for duplication</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># main procedure for duplication</span>
 <span class="n">genes</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="s2">&quot;data/refGene.txt.gz&quot;</span><span class="p">)</span>
 <span class="n">empirical_data</span> <span class="o">=</span> <span class="n">load_cnv_data</span><span class="p">(</span><span class="s2">&quot;data/ISC-r1.CNV.bed&quot;</span><span class="p">)</span>
 <span class="c1"># sample_dup = simulate(genes, pd.concat([empirical_data[&#39;dupCases&#39;], empirical_data[&#39;dupControls&#39;]]), </span>
@@ -1185,7 +1185,7 @@ UKcAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># main procedure for deletion</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># main procedure for deletion</span>
 <span class="n">sample_del</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">genes</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">empirical_data</span><span class="p">[</span><span class="s1">&#39;delCases&#39;</span><span class="p">],</span> <span class="n">empirical_data</span><span class="p">[</span><span class="s1">&#39;delControls&#39;</span><span class="p">]]),</span> 
                       <span class="n">args</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">)</span>
 <span class="n">save_data</span><span class="p">(</span><span class="n">sample_del</span><span class="p">,</span> <span class="s1">&#39;del_sample_test_4000.pkl&#39;</span><span class="p">)</span>
@@ -1199,7 +1199,7 @@ UKcAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">del_sample</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;data/del_sample_10.pkl&quot;</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">del_sample</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;data/del_sample_10.pkl&quot;</span><span class="p">)</span>
 <span class="c1"># dup_sample = load_data(&quot;data/dup_sample_test.pkl&quot;)</span>
 <span class="c1"># print (del_sample)</span>
 </pre></div>
@@ -1212,7 +1212,7 @@ UKcAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#block_counts[idx][0] for idx in sample_idx</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">#block_counts[idx][0] for idx in sample_idx</span>
 <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">del_sample</span><span class="p">[</span><span class="n">item</span><span class="p">])</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;case&quot;</span><span class="p">,</span> <span class="s2">&quot;ctrl&quot;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
 <span class="c1">#for item, value in del_sample.items() for item in (&quot;case&quot;, &quot;ctrl&quot;):</span>
 <span class="c1">#    values = pd.concat(value)</span>
@@ -1227,9 +1227,9 @@ UKcAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">del_sample_gene</span> <span class="o">=</span> <span class="n">get_gene_table</span><span class="p">(</span><span class="n">del_sample</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">del_sample_gene</span> <span class="o">=</span> <span class="n">get_gene_table</span><span class="p">(</span><span class="n">del_sample</span><span class="p">)</span>
 <span class="c1"># dup_sample_gene = get_gene_table(dup_sample)</span>
-<span class="nb">print</span> <span class="p">(</span><span class="n">del_sample_gene</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">del_sample_gene</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1313,7 +1313,7 @@ UKcAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">del_stats_table</span> <span class="o">=</span> <span class="n">get_stats</span><span class="p">(</span><span class="n">del_sample_gene</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">del_stats_table</span> <span class="o">=</span> <span class="n">get_stats</span><span class="p">(</span><span class="n">del_sample_gene</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">dup_stats_table</span> <span class="o">=</span> <span class="n">get_stats</span><span class="p">(</span><span class="n">dup_sample_gene</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1325,7 +1325,7 @@ UKcAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">del_stats_table</span><span class="p">[</span><span class="s2">&quot;top_logp_gene&quot;</span><span class="p">])</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="k">print</span> <span class="p">(</span><span class="n">del_stats_table</span><span class="p">[</span><span class="s2">&quot;top_logp_gene&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1347,7 +1347,7 @@ UKcAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_color_codes</span><span class="p">(</span><span class="s2">&quot;pastel&quot;</span><span class="p">)</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
 <span class="n">p_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;-logp 2side&quot;</span><span class="p">:</span> <span class="n">del_stats_table</span><span class="p">[</span><span class="s2">&quot;top_logp_2side&quot;</span><span class="p">],</span> 
@@ -2872,7 +2872,7 @@ AQYAAFiHAAMAAKxDgAEAANYhwAAAAOsQYAAAgHW+AEA/r201SIjpAAAAAElFTkSuQmCC
 <div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_color_codes</span><span class="p">(</span><span class="s2">&quot;pastel&quot;</span><span class="p">)</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">25</span><span class="p">))</span>
 <span class="n">p_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;logp 2side&quot;</span><span class="p">:</span> <span class="n">dup_stats_table</span><span class="p">[</span><span class="s2">&quot;top_logp_2side&quot;</span><span class="p">],</span> <span class="s2">&quot;gene name&quot;</span><span class="p">:</span><span class="n">dup_stats_table</span><span class="p">[</span><span class="s2">&quot;top_logp_gene&quot;</span><span class="p">]})</span>
@@ -4238,8 +4238,8 @@ iIiIXdNkRkREROyaJjMiIiJi1zSZEREREbumyYyIiIjYtf8H71E0eOpZFSIAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> jupyter nbconvert --to script simulation.ipynb
-<span class="o">!</span> python extract_function.py --from simulation.py --to simulation.py
+<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span> <span class="n">jupyter</span> <span class="n">nbconvert</span> <span class="o">--</span><span class="n">to</span> <span class="kp">script</span> <span class="n">simulation</span><span class="o">.</span><span class="n">ipynb</span>
+<span class="err">!</span> <span class="n">python</span> <span class="n">extract_function</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="kn">from</span> <span class="nn">simulation.py</span> <span class="o">--</span><span class="n">to</span> <span class="n">simulation</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 </div>
@@ -4257,20 +4257,9 @@ iIiIXdNkRkREROyaJjMiIiJi1zSZEREREbumyYyIiIjYtf8H71E0eOpZFSIAAAAASUVORK5CYII=
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-</div>
-</div>
-</div>
-</div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/23863bd6946e5121f663f53fea4055f3d3c732ab/analysis/20170526_Simulation.ipynb"><code>analysis/20170526_Simulation.ipynb</code></a> committed by Min Qiao on Fri Jul 28 18:52:27 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/23863bd6946e5121f663f53fea4055f3d3c732ab">revision 247, 23863bd</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/a995f5fbe8c1ab7c23678274750401fb7acd772e/analysis/20170526_Simulation.ipynb"><code>analysis/20170526_Simulation.ipynb</code></a> committed by Min Qiao on Sat Aug 19 09:10:45 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/a995f5fbe8c1ab7c23678274750401fb7acd772e">revision 250, a995f5f</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
