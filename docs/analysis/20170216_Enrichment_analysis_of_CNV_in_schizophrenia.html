@@ -147,7 +147,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pandasql</span> <span class="kn">import</span> <span class="n">sqldf</span>
 <span class="kn">from</span> <span class="nn">fisher</span> <span class="kn">import</span> <span class="n">pvalue</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
@@ -175,7 +175,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;data/ISC-r1.CNV.bed&quot;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;data/ISC-r1.CNV.bed&quot;</span>
 <span class="n">cnvbed</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="bp">None</span>
 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
@@ -208,7 +208,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">cnvbed_df</span> <span class="o">=</span> <span class="p">{}</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">cnvbed_df</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">cnvbed</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
     <span class="n">cnvbed_df</span><span class="p">[</span><span class="n">dataset</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;chrom&quot;</span><span class="p">:[],</span> <span class="s2">&quot;cnv_start&quot;</span><span class="p">:[],</span> <span class="s2">&quot;cnv_end&quot;</span><span class="p">:[]}</span>
     <span class="k">for</span> <span class="n">chrom</span> <span class="ow">in</span> <span class="n">cnvbed</span><span class="p">[</span><span class="n">dataset</span><span class="p">]:</span>
@@ -239,7 +239,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;data/refGene.txt.gz&quot;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> 
+<div class=" highlight hl-python"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;data/refGene.txt.gz&quot;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> 
                          <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> 
                          <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;tx_name&quot;</span><span class="p">,</span> <span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
 <span class="n">gene_df</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">))</span>
@@ -344,9 +344,9 @@ body {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">cnv_in_gene</span> <span class="o">=</span> <span class="p">{}</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">cnv_in_gene</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">cnv_counts</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">for</span> <span class="kp">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">cnvbed_df</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">cnvbed_df</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    SELECT cnv.chrom, cnv.cnv_start, cnv.cnv_end, gene.tx_name, gene.gene_name</span>
 <span class="s2">    FROM value cnv LEFT JOIN gene_df gene</span>
@@ -360,14 +360,14 @@ body {
 <span class="s2">    )</span>
 <span class="s2">    &quot;&quot;&quot;</span>
     <span class="c1"># drop_duplicates(): make sure the case that CNV spread multiple txs but one gene to be counted only once</span>
-    <span class="n">cnv_in_gene</span><span class="p">[</span><span class="kp">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_start&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">))</span>
+    <span class="n">cnv_in_gene</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_start&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">))</span>
     <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    SELECT chrom, gene_name, count(gene_name), cnv_start, cnv_end</span>
 <span class="s2">    FROM value</span>
 <span class="s2">    GROUP BY gene_name, chrom</span>
 <span class="s2">    ORDER BY count(gene_name) DESC</span>
 <span class="s2">    &quot;&quot;&quot;</span>
-    <span class="n">cnv_counts</span><span class="p">[</span><span class="kp">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    <span class="n">cnv_counts</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -386,7 +386,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="k">print</span> <span class="p">(</span><span class="n">cnv_in_gene</span><span class="p">[</span><span class="s2">&quot;delCases&quot;</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">print</span> <span class="p">(</span><span class="n">cnv_in_gene</span><span class="p">[</span><span class="s2">&quot;delCases&quot;</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -426,7 +426,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="k">print</span> <span class="p">(</span><span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;delCases&quot;</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">print</span> <span class="p">(</span><span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;delCases&quot;</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -466,7 +466,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">select gene_name, chrom, tx_name, tx_start, tx_end</span>
 <span class="s2">from ref_gene </span>
 <span class="s2">where gene_name = &quot;LOC101928381&quot;</span>
@@ -521,7 +521,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">delCases</span> <span class="o">=</span> <span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;delCases&quot;</span><span class="p">]</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">delCases</span> <span class="o">=</span> <span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;delCases&quot;</span><span class="p">]</span>
 <span class="n">delControls</span> <span class="o">=</span> <span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;delControls&quot;</span><span class="p">]</span>
 <span class="n">del_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">delCases</span><span class="p">,</span> <span class="n">delControls</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s2">&quot;outer&quot;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
 <span class="n">del_table</span><span class="p">[</span><span class="s2">&quot;count(gene_name)_x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -553,7 +553,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">dupCases</span> <span class="o">=</span> <span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;dupCases&quot;</span><span class="p">]</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">dupCases</span> <span class="o">=</span> <span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;dupCases&quot;</span><span class="p">]</span>
 <span class="n">dupControls</span> <span class="o">=</span> <span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;dupControls&quot;</span><span class="p">]</span>
 <span class="n">dup_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">dupCases</span><span class="p">,</span> <span class="n">dupControls</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s2">&quot;outer&quot;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
 <span class="n">dup_table</span><span class="p">[</span><span class="s2">&quot;count(gene_name)_x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -585,7 +585,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">res_del</span> <span class="o">=</span> <span class="p">[(</span><span class="n">pvalue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delcase_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delctrl_gene&quot;</span><span class="p">],</span> 
+<div class=" highlight hl-python"><pre><span></span><span class="n">res_del</span> <span class="o">=</span> <span class="p">[(</span><span class="n">pvalue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delcase_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delctrl_gene&quot;</span><span class="p">],</span> 
                <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delcase_nogene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delctrl_nogene&quot;</span><span class="p">]),</span>
         <span class="n">row</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">del_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
 <span class="n">or_del</span> <span class="o">=</span> <span class="p">[(</span><span class="n">stats</span><span class="o">.</span><span class="n">fisher_exact</span><span class="p">([[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delcase_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delctrl_gene&quot;</span><span class="p">]],</span> 
@@ -630,7 +630,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">res_dup</span> <span class="o">=</span> <span class="p">[(</span><span class="n">pvalue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupcase_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupctrl_gene&quot;</span><span class="p">],</span> 
+<div class=" highlight hl-python"><pre><span></span><span class="n">res_dup</span> <span class="o">=</span> <span class="p">[(</span><span class="n">pvalue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupcase_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupctrl_gene&quot;</span><span class="p">],</span> 
                <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupcase_nogene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupctrl_nogene&quot;</span><span class="p">]),</span>
         <span class="n">row</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">dup_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
 <span class="n">or_dup</span> <span class="o">=</span> <span class="p">[(</span><span class="n">stats</span><span class="o">.</span><span class="n">fisher_exact</span><span class="p">([[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupcase_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupctrl_gene&quot;</span><span class="p">]],</span> 
@@ -675,7 +675,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_color_codes</span><span class="p">(</span><span class="s2">&quot;pastel&quot;</span><span class="p">)</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
 <span class="n">p_df_del</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;logp_2side_del&quot;</span><span class="p">:</span> <span class="n">top_logp_2side_del</span><span class="p">,</span> <span class="s2">&quot;gene_name_del&quot;</span><span class="p">:</span> <span class="n">top_gene_list_del</span><span class="p">})</span>
@@ -2091,7 +2091,7 @@ ApUl23wAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_color_codes</span><span class="p">(</span><span class="s2">&quot;pastel&quot;</span><span class="p">)</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
 <span class="n">p_df_del</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;or_del&quot;</span><span class="p">:</span> <span class="n">top_or_del</span><span class="p">,</span> <span class="s2">&quot;gene_name_del&quot;</span><span class="p">:</span> <span class="n">top_or_gene_del</span><span class="p">})</span>
@@ -3426,7 +3426,7 @@ RByeEhYRERFxeEpYRERExOH9P/H/3aeT8tJOAAAAAElFTkSuQmCC
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_color_codes</span><span class="p">(</span><span class="s2">&quot;pastel&quot;</span><span class="p">)</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
 <span class="n">p_df_dup</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;logp_2side_dup&quot;</span><span class="p">:</span> <span class="n">top_logp_2side_dup</span><span class="p">,</span> <span class="s2">&quot;gene_name_dup&quot;</span><span class="p">:</span> <span class="n">top_gene_list_dup</span><span class="p">})</span>
@@ -4834,7 +4834,7 @@ BRU1IiIiYhdU1IiIiIhdUFEjIiIidkFFjYiIiNiF/wecmnO72zDMLAAAAABJRU5ErkJggg==
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span> <span class="n">jupyter</span> <span class="n">nbconvert</span> <span class="o">--</span><span class="n">to</span> <span class="kp">script</span> <span class="n">enrichment_analysis_of_CNV_in_schizophrenia</span><span class="o">.</span><span class="n">ipynb</span>
+<div class=" highlight hl-python"><pre><span></span><span class="err">!</span> <span class="n">jupyter</span> <span class="n">nbconvert</span> <span class="o">--</span><span class="n">to</span> <span class="n">script</span> <span class="n">enrichment_analysis_of_CNV_in_schizophrenia</span><span class="o">.</span><span class="n">ipynb</span>
 </pre></div>
 </div>
 </div>
@@ -4869,7 +4869,7 @@ BRU1IiIiYhdU1IiIiIhdUFEjIiIidkFFjYiIiNiF/wecmnO72zDMLAAAAABJRU5ErkJggg==
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/a995f5fbe8c1ab7c23678274750401fb7acd772e/analysis/20170216_Enrichment_analysis_of_CNV_in_schizophrenia.ipynb"><code>analysis/20170216_Enrichment_analysis_of_CNV_in_schizophrenia.ipynb</code></a> committed by Min Qiao on Sat Aug 19 09:10:45 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/a995f5fbe8c1ab7c23678274750401fb7acd772e">revision 250, a995f5f</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e/analysis/20170216_Enrichment_analysis_of_CNV_in_schizophrenia.ipynb"><code>analysis/20170216_Enrichment_analysis_of_CNV_in_schizophrenia.ipynb</code></a> committed by Min Qiao on Sat Aug 19 11:37:36 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e">revision 284, 88e7785</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

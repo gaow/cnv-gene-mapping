@@ -123,7 +123,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># test calcium simulation</span>
+<div class=" highlight hl-python"><pre><span></span><span class="c1"># test calcium simulation</span>
 </pre></div>
 </div>
 </div>
@@ -134,21 +134,21 @@ body {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">randint</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">pandasql</span> <span class="k">import</span> <span class="n">sqldf</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
+<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pandasql</span> <span class="kn">import</span> <span class="n">sqldf</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="kn">as</span> <span class="nn">sp</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
 <span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">from</span> <span class="nn">sklearn.mixture</span> <span class="k">import</span> <span class="n">GaussianMixture</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">sklearn.mixture</span> <span class="kn">import</span> <span class="n">GaussianMixture</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">from</span> <span class="nn">fisher</span> <span class="k">import</span> <span class="n">pvalue</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span> <span class="nn">fisher</span> <span class="kn">import</span> <span class="n">pvalue</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 </pre></div>
 </div>
 </div>
@@ -159,7 +159,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-python"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -170,7 +170,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-python"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -181,7 +181,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-python"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -192,14 +192,14 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="n">refgene</span><span class="p">,</span> <span class="n">cnv_data</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">causal_genes</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="n">refgene</span><span class="p">,</span> <span class="n">cnv_data</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">causal_genes</span><span class="p">):</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">cnv_data</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_start&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_end&quot;</span><span class="p">))</span>
     <span class="n">block_counts</span> <span class="o">=</span> <span class="n">count_cnv_by_block</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;block_size&#39;</span><span class="p">])</span>
     <span class="n">cnv_length</span> <span class="o">=</span> <span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;cnv_end&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">cnv_data</span><span class="p">[</span><span class="s1">&#39;cnv_start&#39;</span><span class="p">]</span>
     <span class="n">status</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">case_data</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">ctrl_data</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">debug</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;p in case&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;p in ctrl&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;niter&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span> <span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> 
+    <span class="n">debug</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;p in case&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;p in ctrl&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;niter&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span> <span class="bp">None</span><span class="p">],</span> <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> 
              <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span> <span class="s1">&#39;causal genes&#39;</span><span class="p">:</span> <span class="n">causal_genes</span><span class="p">,</span> <span class="s1">&#39;number of genes overlap CNV&#39;</span><span class="p">:</span> <span class="p">[],</span> 
              <span class="s1">&#39;number of causal genes in case&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;number of causal genes in ctrl&#39;</span><span class="p">:</span> <span class="p">[],</span> 
              <span class="s1">&#39;simulated CNV length in case&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;simulated CNV length in ctrl&#39;</span><span class="p">:</span> <span class="p">[]}</span>
@@ -238,7 +238,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-python"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -249,7 +249,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-python"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -260,7 +260,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-python"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -271,9 +271,9 @@ body {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># </span>
+<div class=" highlight hl-python"><pre><span></span><span class="c1"># </span>
 <span class="k">def</span> <span class="nf">load_pthwy_gene</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">n_skiprow</span> <span class="o">=</span> <span class="mi">2</span><span class="p">):</span>
-    <span class="n">pthwy_gene</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">skiprows</span> <span class="o">=</span> <span class="n">n_skiprow</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
+    <span class="n">pthwy_gene</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">skiprows</span> <span class="o">=</span> <span class="n">n_skiprow</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">pthwy_gene</span>
 </pre></div>
 </div>
@@ -285,9 +285,9 @@ body {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># </span>
+<div class=" highlight hl-python"><pre><span></span><span class="c1"># </span>
 <span class="k">class</span> <span class="nc">Environment</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;block_size&quot;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
                       <span class="s2">&quot;avg_cnv_per_individual&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
                       <span class="s2">&quot;n_case&quot;</span><span class="p">:</span> <span class="mi">250</span><span class="p">,</span>
@@ -318,10 +318,10 @@ body {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">load_cnv_data</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">load_cnv_data</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;load cnv data&#39;&#39;&#39;</span>
     <span class="n">cnvbed</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">dataset</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;chr&quot;</span><span class="p">):</span>
             <span class="n">dataset</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;name=&quot;</span><span class="p">)</span>
@@ -359,9 +359,9 @@ body {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">count_cnv_by_block</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">block_size</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">count_cnv_by_block</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">block_size</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">count_by_blocks</span><span class="p">(</span><span class="n">chrom</span><span class="p">):</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;chrom == &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chrom</span><span class="p">))[</span><span class="s1">&#39;cnv_start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s1">&#39;chrom == &quot;{}&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chrom</span><span class="p">))[</span><span class="s1">&#39;cnv_start&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
         <span class="n">start_pos</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">end_pos</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">counts</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">end_pos</span> <span class="o">-</span> <span class="n">start_pos</span><span class="p">)</span> <span class="o">/</span> <span class="n">block_size</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> 
@@ -1395,10 +1395,10 @@ body {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">status</span> <span class="o">=</span> <span class="mi">1</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">status</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">case_data</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">ctrl_data</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">debug</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;niter&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span> <span class="kc">None</span><span class="p">],</span> <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span> 
+<span class="n">debug</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;niter&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()),</span> <span class="bp">None</span><span class="p">],</span> <span class="s1">&#39;args&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span> 
          <span class="s1">&#39;causal genes&#39;</span><span class="p">:</span> <span class="n">args</span><span class="o">.</span><span class="n">causal_genes</span><span class="p">,</span> <span class="s1">&#39;number of causal genes in case&#39;</span><span class="p">:</span> <span class="p">[],</span> 
          <span class="s1">&#39;number of causal genes in ctrl&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;number of genes overlap CNV&#39;</span><span class="p">:</span> <span class="p">[],</span> 
          <span class="s1">&#39;simulated CNV length in case&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;simulated CNV length in ctrl&#39;</span><span class="p">:</span> <span class="p">[]}</span>
@@ -1412,7 +1412,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">sample_cnv_length</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mean_num_cnv</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">sample_cnv_length</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mean_num_cnv</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">mean_num_cnv</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -1424,7 +1424,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_sample_blocks</span><span class="p">(</span><span class="n">block_counts</span><span class="p">,</span> <span class="n">num_cnv</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">get_sample_blocks</span><span class="p">(</span><span class="n">block_counts</span><span class="p">,</span> <span class="n">num_cnv</span><span class="p">):</span>
     <span class="n">probability_distribution</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">block_counts</span><span class="p">])</span>
     <span class="n">sample_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">block_counts</span><span class="p">)),</span> <span class="n">num_cnv</span><span class="p">,</span> 
                                   <span class="n">p</span> <span class="o">=</span> <span class="n">probability_distribution</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">probability_distribution</span><span class="p">))</span>
@@ -1439,7 +1439,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">assign_cnv_to_sample</span><span class="p">(</span><span class="n">sample_blocks</span><span class="p">,</span> <span class="n">sample_len</span><span class="p">,</span> <span class="n">block_size</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">assign_cnv_to_sample</span><span class="p">(</span><span class="n">sample_blocks</span><span class="p">,</span> <span class="n">sample_len</span><span class="p">,</span> <span class="n">block_size</span><span class="p">):</span>
     <span class="n">samples</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;chrom&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;cnv_start&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;cnv_terminate&#39;</span><span class="p">:</span> <span class="p">[]}</span>
     <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sample_blocks</span><span class="p">,</span> <span class="n">sample_len</span><span class="p">):</span>
         <span class="n">start_pos</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">block_size</span><span class="p">)</span>
@@ -1457,10 +1457,10 @@ body {
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">load_reference_gene</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">load_reference_gene</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Load reference gene database&#39;&#39;&#39;</span>
     <span class="n">ref_gene</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> 
-                         <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> 
+                         <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> 
                          <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;tx_name&quot;</span><span class="p">,</span> <span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">))</span>
 <span class="n">refgene</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="s2">&quot;data/refGene.txt.gz&quot;</span><span class="p">)</span>
@@ -1474,7 +1474,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">annotate_samples</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">refgene</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">annotate_samples</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">refgene</span><span class="p">):</span>
     <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        SELECT cnv.chrom, cnv.cnv_start, cnv.cnv_terminate, gene.tx_name, gene.gene_name</span>
 <span class="s2">        FROM samples cnv LEFT JOIN refgene gene</span>
@@ -1499,7 +1499,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_causal_genes</span><span class="p">(</span><span class="n">causal_genes</span><span class="p">,</span> <span class="n">sample_genes</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">get_causal_genes</span><span class="p">(</span><span class="n">causal_genes</span><span class="p">,</span> <span class="n">sample_genes</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;get causal genes for each simulated sample&#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">causal_genes</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sample_genes</span><span class="p">]</span>
 </pre></div>
@@ -1512,11 +1512,11 @@ body {
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">p_case</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">num_causal_genes_in_sample</span><span class="p">,</span> <span class="n">sim_args</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">p_case</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">num_causal_genes_in_sample</span><span class="p">,</span> <span class="n">sim_args</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">num_causal_genes_in_sample</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">p</span>
     <span class="n">baseline_odds</span> <span class="o">=</span> <span class="n">p</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">sim_args</span><span class="p">[</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s2">&quot;shape&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">sim_args</span><span class="p">[</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">sim_args</span><span class="p">[</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s2">&quot;shape&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">sim_args</span><span class="p">[</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">odds_ratio</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">odds_ratio</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">sim_args</span><span class="p">[</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s1">&#39;shape&#39;</span><span class="p">],</span> 
@@ -1536,7 +1536,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">while</span><span class="p">(</span><span class="n">status</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">while</span><span class="p">(</span><span class="n">status</span><span class="p">):</span>
     <span class="n">sample_len</span> <span class="o">=</span> <span class="n">sample_cnv_length</span><span class="p">(</span><span class="n">cnv_length</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;avg_cnv_per_individual&#39;</span><span class="p">])</span>
     <span class="n">sample_blocks</span> <span class="o">=</span> <span class="n">get_sample_blocks</span><span class="p">(</span><span class="n">block_counts</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_len</span><span class="p">))</span>
     <span class="n">samples</span> <span class="o">=</span> <span class="n">assign_cnv_to_sample</span><span class="p">(</span><span class="n">sample_blocks</span><span class="p">,</span> <span class="n">sample_len</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;block_size&#39;</span><span class="p">])</span>
@@ -1570,7 +1570,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-python"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -1581,7 +1581,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">case_data</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">case_data</span>
 </pre></div>
 </div>
 </div>
@@ -1803,7 +1803,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ctrl_data</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">ctrl_data</span>
 </pre></div>
 </div>
 </div>
@@ -1946,7 +1946,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debug</span><span class="p">[</span><span class="s2">&quot;number of causal genes in case&quot;</span><span class="p">]</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">debug</span><span class="p">[</span><span class="s2">&quot;number of causal genes in case&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -2216,7 +2216,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">debug</span><span class="p">[</span><span class="s2">&quot;number of causal genes in ctrl&quot;</span><span class="p">]</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">debug</span><span class="p">[</span><span class="s2">&quot;number of causal genes in ctrl&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -2486,7 +2486,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
     <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">))</span>
 <span class="n">sample_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;case&#39;</span><span class="p">:</span> <span class="n">case_data</span><span class="p">,</span> <span class="s1">&#39;ctrl&#39;</span><span class="p">:</span> <span class="n">ctrl_data</span><span class="p">,</span> <span class="s1">&#39;debug&#39;</span><span class="p">:</span> <span class="n">debug</span><span class="p">}</span>
 <span class="n">save_data</span><span class="p">(</span><span class="n">sample_data</span><span class="p">,</span> <span class="s1">&#39;calcium_pathway_500.data.pkl&#39;</span><span class="p">)</span>
@@ -2500,9 +2500,9 @@ body {
 <div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pprint</span> <span class="k">import</span> <span class="n">pprint</span>
+<div class=" highlight hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
 <span class="n">causal_genes</span> <span class="o">=</span> <span class="n">load_pthwy_gene</span><span class="p">(</span><span class="s2">&quot;../data/calciumgeneset.txt&quot;</span><span class="p">)[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="nb">print</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">causal_genes</span><span class="p">))</span>
+<span class="k">print</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">causal_genes</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -2524,7 +2524,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-python"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -2532,7 +2532,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/d870ca7c866f2191138715a48bbe4a60a81495cf/analysis/20170815_test_calcium_simulation.ipynb"><code>analysis/20170815_test_calcium_simulation.ipynb</code></a> committed by Min Qiao on Thu Aug 17 20:43:13 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/d870ca7c866f2191138715a48bbe4a60a81495cf">revision 274, d870ca7</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e/analysis/20170815_test_calcium_simulation.ipynb"><code>analysis/20170815_test_calcium_simulation.ipynb</code></a> committed by Min Qiao on Sat Aug 19 11:37:36 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e">revision 284, 88e7785</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

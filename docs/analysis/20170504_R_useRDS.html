@@ -118,8 +118,7 @@ body {
       </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -132,8 +131,8 @@ body {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="kn">library</span><span class="p">(</span>feather<span class="p">)</span>
-<span class="kn">library</span><span class="p">(</span>varbvs<span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">library</span><span class="p">(</span><span class="n">feather</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">varbvs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -144,8 +143,8 @@ body {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>newdata <span class="o">=</span> <span class="kp">readRDS</span><span class="p">(</span><span class="s">&quot;data/feather/del_sim_scale5_shape1_N100_M50_999.feather.RDS&quot;</span><span class="p">)</span>
-print <span class="p">(</span>newdata<span class="o">$</span><span class="kp">summary</span><span class="o">$</span>top.vars<span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">newdata</span> <span class="o">=</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;data/feather/del_sim_scale5_shape1_N100_M50_999.feather.RDS&quot;</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">newdata</span><span class="err">$</span><span class="n">summary</span><span class="err">$</span><span class="n">top</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -172,7 +171,7 @@ print <span class="p">(</span>newdata<span class="o">$</span><span class="kp">su
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>aa <span class="o">&lt;-</span> <span class="kp">readRDS</span><span class="p">(</span><span class="s">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M100_12.data.feather.RDS&quot;</span><span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">aa</span> <span class="o">&lt;-</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M100_12.data.feather.RDS&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -183,8 +182,8 @@ print <span class="p">(</span>newdata<span class="o">$</span><span class="kp">su
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="kp">names</span><span class="p">(</span>aa<span class="p">)</span>
-<span class="kp">dim</span><span class="p">(</span>aa<span class="o">$</span>mu<span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">names</span><span class="p">(</span><span class="n">aa</span><span class="p">)</span>
+<span class="n">dim</span><span class="p">(</span><span class="n">aa</span><span class="err">$</span><span class="n">mu</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -237,7 +236,7 @@ print <span class="p">(</span>newdata<span class="o">$</span><span class="kp">su
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>hist<span class="p">(</span>aa<span class="o">$</span>pip<span class="p">[</span><span class="kp">which</span><span class="p">(</span>aa<span class="o">$</span>pip<span class="o">&gt;=</span><span class="m">0.2</span><span class="p">)],</span> breaks <span class="o">=</span> <span class="m">20</span><span class="p">,</span> xlab<span class="o">=</span><span class="s">&quot;posterior inclusion probability&quot;</span><span class="p">,</span> border<span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">hist</span><span class="p">(</span><span class="n">aa</span><span class="err">$</span><span class="n">pip</span><span class="p">[</span><span class="n">which</span><span class="p">(</span><span class="n">aa</span><span class="err">$</span><span class="n">pip</span><span class="o">&gt;=</span><span class="mf">0.2</span><span class="p">)],</span> <span class="n">breaks</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s2">&quot;posterior inclusion probability&quot;</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -372,7 +371,7 @@ QEgQICQIEBIECAkChAQBQoIAIUGAkCBASBAgJAgQEgT8P2P+gzX3UOBTAAAAAElFTkSuQmCC
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>aa<span class="o">$</span>pip<span class="p">[</span><span class="kp">which</span><span class="p">(</span>aa<span class="o">$</span>pip<span class="o">&gt;=</span><span class="m">0.02</span><span class="p">)]</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">aa</span><span class="err">$</span><span class="n">pip</span><span class="p">[</span><span class="n">which</span><span class="p">(</span><span class="n">aa</span><span class="err">$</span><span class="n">pip</span><span class="o">&gt;=</span><span class="mf">0.02</span><span class="p">)]</span>
 </pre></div>
 </div>
 </div>
@@ -799,15 +798,15 @@ QEgQICQIEBIECAkChAQBQoIAIUGAkCBASBAgJAgQEgT8P2P+gzX3UOBTAAAAAElFTkSuQmCC
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>get_pip_threshold <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>rds_dat<span class="p">,</span> p<span class="o">=</span><span class="m">0.05</span><span class="p">,</span> interval<span class="o">=</span><span class="m">0.05</span><span class="p">,</span> iter<span class="o">=</span><span class="m">1</span><span class="p">)</span> <span class="p">{</span>
-    dat <span class="o">=</span> <span class="kp">readRDS</span><span class="p">(</span>rds_dat<span class="p">)</span>
-    pip_threshold <span class="o">=</span> <span class="kt">c</span><span class="p">()</span>
-    <span class="kr">while</span> <span class="p">(</span><span class="kc">TRUE</span><span class="p">)</span> <span class="p">{</span>
-        pip_threshold<span class="p">[</span>iter<span class="p">]</span> <span class="o">=</span> <span class="kp">ifelse</span><span class="p">(</span>p <span class="o">&lt;</span> <span class="m">1</span><span class="p">,</span> <span class="kp">length</span><span class="p">(</span>dat<span class="o">$</span>pip<span class="p">[</span><span class="kp">which</span><span class="p">(</span>dat<span class="o">$</span>pip <span class="o">&lt;</span> p<span class="p">)])</span> <span class="o">/</span> <span class="kp">length</span><span class="p">(</span>dat<span class="o">$</span>pip<span class="p">),</span> <span class="kr">break</span><span class="p">)</span>
-        iter <span class="o">=</span> iter <span class="o">+</span> <span class="m">1</span>
-        p <span class="o">=</span> p <span class="o">+</span> interval
+<div class=" highlight hl-python"><pre><span></span><span class="n">get_pip_threshold</span> <span class="o">&lt;-</span> <span class="n">function</span><span class="p">(</span><span class="n">rds_dat</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="nb">iter</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">dat</span> <span class="o">=</span> <span class="n">readRDS</span><span class="p">(</span><span class="n">rds_dat</span><span class="p">)</span>
+    <span class="n">pip_threshold</span> <span class="o">=</span> <span class="n">c</span><span class="p">()</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">TRUE</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">pip_threshold</span><span class="p">[</span><span class="nb">iter</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">p</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="p">(</span><span class="n">dat</span><span class="err">$</span><span class="n">pip</span><span class="p">[</span><span class="n">which</span><span class="p">(</span><span class="n">dat</span><span class="err">$</span><span class="n">pip</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">)])</span> <span class="o">/</span> <span class="n">length</span><span class="p">(</span><span class="n">dat</span><span class="err">$</span><span class="n">pip</span><span class="p">),</span> <span class="k">break</span><span class="p">)</span>
+        <span class="nb">iter</span> <span class="o">=</span> <span class="nb">iter</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">p</span> <span class="o">+</span> <span class="n">interval</span>
     <span class="p">}</span>
-    <span class="kr">return</span> <span class="p">(</span>pip_threshold<span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">pip_threshold</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -819,7 +818,7 @@ QEgQICQIEBIECAkChAQBQoIAIUGAkCBASBAgJAgQEgT8P2P+gzX3UOBTAAAAAElFTkSuQmCC
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>get_pip_threshold<span class="p">(</span><span class="s">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M100_12.data.feather.RDS&quot;</span><span class="p">)</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">get_pip_threshold</span><span class="p">(</span><span class="s2">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M100_12.data.feather.RDS&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -860,8 +859,8 @@ QEgQICQIEBIECAkChAQBQoIAIUGAkCBASBAgJAgQEgT8P2P+gzX3UOBTAAAAAElFTkSuQmCC
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>overlap_gene <span class="o">=</span> <span class="kp">dimnames</span><span class="p">(</span>aa<span class="o">$</span>pip<span class="p">)[[</span><span class="m">1</span><span class="p">]]</span>
-overlap_gene
+<div class=" highlight hl-python"><pre><span></span><span class="n">overlap_gene</span> <span class="o">=</span> <span class="n">dimnames</span><span class="p">(</span><span class="n">aa</span><span class="err">$</span><span class="n">pip</span><span class="p">)[[</span><span class="mi">1</span><span class="p">]]</span>
+<span class="n">overlap_gene</span>
 </pre></div>
 </div>
 </div>
@@ -22942,8 +22941,8 @@ overlap_gene
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>aa<span class="o">$</span>pip<span class="p">[</span><span class="kp">which</span><span class="p">(</span>overlap_gene <span class="o">==</span> <span class="s">&quot;ZNF808&quot;</span><span class="p">)]</span>
-overlap_gene<span class="p">[</span><span class="m">3</span><span class="p">]</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">aa</span><span class="err">$</span><span class="n">pip</span><span class="p">[</span><span class="n">which</span><span class="p">(</span><span class="n">overlap_gene</span> <span class="o">==</span> <span class="s2">&quot;ZNF808&quot;</span><span class="p">)]</span>
+<span class="n">overlap_gene</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -22970,7 +22969,7 @@ overlap_gene<span class="p">[</span><span class="m">3</span><span class="p">]</s
 <div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="kp">length</span><span class="p">(</span>fdr<span class="o">$</span>lfdr<span class="p">[</span><span class="kp">which</span><span class="p">(</span>fdr<span class="o">$</span>lfdr<span class="o">&lt;</span><span class="m">0.05</span><span class="p">)])</span>
+<div class=" highlight hl-python"><pre><span></span><span class="n">length</span><span class="p">(</span><span class="n">fdr</span><span class="err">$</span><span class="n">lfdr</span><span class="p">[</span><span class="n">which</span><span class="p">(</span><span class="n">fdr</span><span class="err">$</span><span class="n">lfdr</span><span class="o">&lt;</span><span class="mf">0.05</span><span class="p">)])</span>
 </pre></div>
 </div>
 </div>
@@ -22991,7 +22990,7 @@ overlap_gene<span class="p">[</span><span class="m">3</span><span class="p">]</s
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>
+<div class=" highlight hl-python"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -22999,7 +22998,7 @@ overlap_gene<span class="p">[</span><span class="m">3</span><span class="p">]</s
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/47c448bdce2c4ba05e24ba84c50be1b822af7cb5/analysis/20170504_R_useRDS.ipynb"><code>analysis/20170504_R_useRDS.ipynb</code></a> committed by Min Qiao on Sun Jul 30 00:59:37 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/47c448bdce2c4ba05e24ba84c50be1b822af7cb5">revision 249, 47c448b</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e/analysis/20170504_R_useRDS.ipynb"><code>analysis/20170504_R_useRDS.ipynb</code></a> committed by Min Qiao on Sat Aug 19 11:37:36 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e">revision 284, 88e7785</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

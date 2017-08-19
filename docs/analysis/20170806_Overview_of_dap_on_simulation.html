@@ -122,7 +122,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Overview-of-DAP-and-TORUS">Overview of DAP and TORUS<a class="anchor-link" href="#Overview-of-DAP-and-TORUS">&#182;</a></h1>
+<h1 id="DAP-on-simulation-results">DAP on simulation results<a class="anchor-link" href="#DAP-on-simulation-results">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -130,10 +130,14 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="TORUS:-QTL-discovery-utilizing-genomic-annotations;-Implement-a-computational-procedure-for-discovering-molecular-QTLs-incorporating-genomic-annotations.">TORUS: QTL discovery utilizing genomic annotations; Implement a computational procedure for discovering molecular QTLs incorporating genomic annotations.<a class="anchor-link" href="#TORUS:-QTL-discovery-utilizing-genomic-annotations;-Implement-a-computational-procedure-for-discovering-molecular-QTLs-incorporating-genomic-annotations.">&#182;</a></h4><p><a href="https://github.com/xqwen/torus">https://github.com/xqwen/torus</a></p>
-<p>Goal: 1) Enrichment Analysis, assess the enrichment level of the annotated SNPs in the association signals; e.g. gene A is an association signal of SZ if it is significantly associated with SZ.</p>
-<p>2) QTL Discovery, discover genetic loci that harbor causal variants.</p>
-<p>Data: only summary statistics (z-score or p-value from the single SNP association test)</p>
+<h3 id="Data-transformation:-transform-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">Data transformation: transform $y \in \{0,1\}$ to $y \in \{0,t\}$<a class="anchor-link" href="#Data-transformation:-transform-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">&#182;</a></h3><p>The area under the original normal curve is $1-\Phi(t)$, the area under the transformed/shifted normal curve is $1-\Phi(t-Z_\mu)$. The mean of the original and transformed normal curve is $0$ and $Z_\mu$.</p>
+<p>$ P(X \geqslant t) = P(X=Z_\mu+X' \geqslant t) = P(X' \geqslant t-Z_\mu) = 1-\Phi(t-Z_\mu) $, in which $Z_\mu$ is the effect size $\beta$, and $1-\Phi(t)$ is prevalence.</p>
+<p>$t$ is transformed $y$, only depending on the prevalence.</p>
+<p>Relative risk (RR) is the ratio of two areas under two normal curves:</p>
+<p>$ RR = \frac{1-\Phi(t-Z_\mu)}{1-\Phi(t)} $</p>
+<p>The effect size $Z_\mu$ depends on RR and prevalence of disease. Solve $Z_\mu$ from a given RR:</p>
+<p>$ \Phi(t-Z_\mu) = 1-RR*(1-\Phi(t)) $</p>
+<p>For example, if $RR=2.5$ and prevalence=$0.01$, the effect size $Z_\mu$ is $0.366$ and the transformed $y$ is 2.326; if $RR=5$ and prevalence = $0.01$, the effect size is $0.681$.</p>
 </div>
 </div>
 </div>
@@ -141,9 +145,16 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="DAP:-deterministic-approximation-of-posterior;-Enables-highly-efficient-and-accurate-joint-enrichment-analysis-and-identification-of-multiple-causal-variants.">DAP: deterministic approximation of posterior; Enables highly efficient and accurate joint enrichment analysis and identification of multiple causal variants.<a class="anchor-link" href="#DAP:-deterministic-approximation-of-posterior;-Enables-highly-efficient-and-accurate-joint-enrichment-analysis-and-identification-of-multiple-causal-variants.">&#182;</a></h4><p><a href="https://github.com/xqwen/dap/wiki">https://github.com/xqwen/dap/wiki</a></p>
-<p>Goal: Multi-SNP Fine-mapping analysis for the identified loci from goal 2 in TORUS.</p>
-<p>Data: individual-level genotype data. Fine-mapping is performed for each locus, all the data files should be organized for each locus separately before running the analysis.</p>
+<h3 id="Prepare-DAP-input">Prepare DAP input<a class="anchor-link" href="#Prepare-DAP-input">&#182;</a></h3><h4 id="Effect-Size-Grid-file:-prior-effect-size-specifications-for-causal-variantscausal-variants.">Effect Size Grid file: prior effect size specifications for causal variantscausal variants.<a class="anchor-link" href="#Effect-Size-Grid-file:-prior-effect-size-specifications-for-causal-variantscausal-variants.">&#182;</a></h4><p>ω: the average effect size; ϕ: the heterogeneity of a genetic effect across multiple subgroups.</p>
+<p>It is a two-column data matrix: 1st column specifies ϕ, 2nd column specifies ω. Each row provides a unique combination.</p>
+<p>For single study, ϕ can be set to $0$ and only ω needs to specify. The prior effect size (ω) for causal genes is $0.366\ (Z_\mu)$. There is only one combination for ϕ and ω, (0,0.366).</p>
+<h4 id="Prior-file:-specifies-SNP-level/gene-level-prior-for-each-candidate-SNP/gene.">Prior file: specifies SNP-level/gene-level prior for each candidate SNP/gene.<a class="anchor-link" href="#Prior-file:-specifies-SNP-level/gene-level-prior-for-each-candidate-SNP/gene.">&#182;</a></h4><p>The 1st column represents the SNP/gene name and the 2nd column represents the prior probability that the SNP/gene is associated.</p>
+<p>Prior probability for causal genes is set to be higher than noncausal genes. I set the prior probability for causal genes in a certain pathway $\textbf{three}$ times as the noncausal genes. Use Calcium Signaling Pathway genes for example. This patyway include 178 causal genes (ADCY1, ADORA2A, ADRB1, etc).</p>
+<pre><code>chr6.ADCY1   0.0001355197
+chr8.ADORA2A 0.0001355197
+...
+chr1.XXXXX   4.517324e-05
+...</code></pre>
 </div>
 </div>
 </div>
@@ -151,51 +162,47 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Effect-Size-Grid-File">Effect Size Grid File<a class="anchor-link" href="#Effect-Size-Grid-File">&#182;</a></h4>
+<h4 id="Run-DAP">Run DAP<a class="anchor-link" href="#Run-DAP">&#182;</a></h4><p>Use feather file generated from simulation, effect size grid file and prior file generated in last step to run DAP.</p>
+<p>For small sample size simulation, there is no PIP generated for any gene, due to the lack of power. And the association model with greatest posterior probability is NULL, which means it is hard to identify the causal genes.</p>
+<p>For large sample size simulation, for example, 4000 samples,</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Effect size grid file: prior effect size specifications for $\textbf{causal variants}$.</p>
-<p>Two-parameters, $\phi$ and $\omega$, are required:</p>
-<p>$\phi$: the heterogeneity of a genetic effect across multiple subgroups (Genetic heterogeneity is a phenomenon in which a single phenotype or genetic disorder may be caused by any one of a multiple number of alleles or non-allele (locus) mutations).</p>
-<p>$\omega$: the average effect size.</p>
-<p>In practice, we use a grid of ($\phi$, $\omega$) combinations to describe the long-tail behavior of the genetic effects observed.</p>
-<p>Single study, set $\phi$ to 0 and only specify $\omega$</p>
-<p>Two-column data matrix: 1st column is $\phi$, 2nd column specifies $\omega$. Each row provides a unique combination.</p>
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span><span class="nb">set</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">])</span>
+</pre></div>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[18]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>{1, 4, 5, 7}</pre>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Prior-file">Prior file<a class="anchor-link" href="#Prior-file">&#182;</a></h4>
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span>
+</pre></div>
 </div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The prior file specifies SNP-level prior for each candidate SNP. The SNP-level priors can be computed by the executable torus in the process of enrichment analysis.</p>
-<p>The 1st column represents the SNP name and the 2nd column represents the prior probability that the SNP is associated.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 </div>
 </div>
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e/analysis/20170801_Overview_TORUS_DAP.ipynb"><code>analysis/20170801_Overview_TORUS_DAP.ipynb</code></a> committed by Min Qiao on Sat Aug 19 11:37:36 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e">revision 284, 88e7785</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e/analysis/20170806_Overview_of_dap_on_simulation.ipynb"><code>analysis/20170806_Overview_of_dap_on_simulation.ipynb</code></a> committed by Min Qiao on Sat Aug 19 11:37:36 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e">revision 284, 88e7785</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

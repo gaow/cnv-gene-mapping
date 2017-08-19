@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link rel="stylesheet"
+      href="../site_libs/highlight/textmate.css"
+      type="text/css" />
+<script src="../site_libs/highlight/highlight.js"></script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+<script src="../js/toc2.js"></script>
+<script src="../js/docs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+<title>Gene Mapping with CNV</title>
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+<!-- code folding -->
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+<li>
+  <a href="../setup.html">Setup</a>
+</li>
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+      </ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Toy-example-of-multi-gene-configuration-overlapped-with-multi-CNV">Toy example of multi-gene configuration overlapped with multi-CNV<a class="anchor-link" href="#Toy-example-of-multi-gene-configuration-overlapped-with-multi-CNV">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Simulate-CNVs">Simulate CNVs<a class="anchor-link" href="#Simulate-CNVs">&#182;</a></h4><p>1) Simulate CNV length (number of overlapped genes), following geometric distribution (p=0.5), maximum 10 genes.</p>
+<p>2) Simulate CNV start position according to the corresponding length. For example, if a CNV interrupts 5 genes, then it could only start within the first 6 gene position, and the start position is randomly selected among the 6 genes.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Assign-CNVs-to-cases-and-controls">Assign CNVs to cases and controls<a class="anchor-link" href="#Assign-CNVs-to-cases-and-controls">&#182;</a></h4><p>1) Set the 5th gene as causal gene.</p>
+<p>2) Simulate a random number from standard normal for each CNV. For each CNV interrupts with 5th gene, add a constant 1 to the simulated number.</p>
+<p>3) Since longer CNVs are supposed to have higher risk than shorter CNVs, I add a value to the number obtained from 2nd step, which is 0.1*number of covered gene.</p>
+<p>4) Calculate the median of all the values obtained from the first three steps; set those larger than median as cases, and the others are controls.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h3><h4 id="CNV-maximum-length-overlap-with-10-genes;-sample-size-2000;-5th-gene-is-causal">CNV maximum length overlap with 10 genes; sample size 2000; 5th gene is causal<a class="anchor-link" href="#CNV-maximum-length-overlap-with-10-genes;-sample-size-2000;-5th-gene-is-causal">&#182;</a></h4><h4 id="Constant-$0$">Constant $0$<a class="anchor-link" href="#Constant-$0$">&#182;</a></h4><p>1) varbvs</p>
+<pre><code>variable       prob PVE    coef    Pr(coef.&gt;0.95)
+gene4   0.040238922 NA  0.3292613   [+0.065,+0.583]
+gene5   0.037825435 NA  0.3154991   [+0.084,+0.567]
+gene3   0.017228166 NA  0.2784136   [+0.025,+0.526]
+gene10   0.016860727    NA  0.0000000   [-1.964,+1.983]
+gene7   0.006282785 NA  0.1961343   [-0.065,+0.462]
+</code></pre>
+<p>2) DAP, consumed 1.15s</p>
+<pre><code>Posterior expected model size: 0.280 (sd = 0.486)
+LogNC = -0.74363 ( Log10NC = -0.323 )
+Posterior inclusion probability
+1 chr6.100010   9.67567e-02      0.000
+2 chr6.100004   6.81672e-02     -0.131
+3 chr6.100005   6.24375e-02     -0.173
+4 chr6.100003   2.61014e-02     -0.563
+5 chr6.100006   6.95827e-03     -1.069
+6 chr6.100007   6.23152e-03     -1.117
+7 chr6.100002   4.64830e-03     -1.244
+8 chr6.100009   3.12758e-03     -1.416
+9 chr6.100008   2.85567e-03     -1.455
+10 chr6.100001   2.70326e-03     -1.479
+</code></pre>
+<h4 id="Constant-$0.1$">Constant $0.1$<a class="anchor-link" href="#Constant-$0.1$">&#182;</a></h4><p>1) varbvs</p>
+<pre><code>variable    prob    PVE coef    Pr(coef.&gt;0.95)
+gene5   0.78612965  NA  0.4906664   [+0.235,+0.732]
+gene10   0.03997344 NA  0.0000000   [-1.878,+1.858]
+gene3   0.03384508  NA  0.2664869   [+0.006,+0.514]
+gene4   0.02159713  NA  0.2448626   [-0.041,+0.541]
+gene7   0.01573406  NA  0.2086066   [-0.068,+0.465]
+</code></pre>
+<p>2) DAP, consumed 1.84s</p>
+<pre><code>Posterior expected model size: 1.004 (sd = 0.483)
+LogNC = 1.14602 ( Log10NC = 0.498 )
+Posterior inclusion probability
+1 chr6.100005   7.25925e-01      1.708
+2 chr6.100004   1.40245e-01      0.968
+3 chr6.100010   9.87981e-02      0.000
+4 chr6.100003   2.80659e-02     -0.103
+5 chr6.100006   5.51975e-03     -0.349
+6 chr6.100007   3.52228e-03     -0.544
+7 chr6.100002   1.08403e-03     -1.055
+</code></pre>
+<h4 id="Constant-$0.5$">Constant $0.5$<a class="anchor-link" href="#Constant-$0.5$">&#182;</a></h4><p>1) varbvs</p>
+<pre><code>variable    prob    PVE coef    Pr(coef.&gt;0.95)
+gene5   1.00000000  NA  1.0491817   [+0.790,+1.291]
+gene7   0.06417755  NA  0.2934619   [+0.040,+0.560]
+gene3   0.06116803  NA  0.2843804   [+0.002,+0.539]
+gene10   0.04828492 NA  0.0000000   [-1.798,+1.966]
+gene2   0.02864481  NA  0.2341940   [-0.044,+0.514]
+</code></pre>
+<p>2) DAP, consumed 2.31s</p>
+<pre><code>Posterior expected model size: 1.193 (sd = 0.429)
+LogNC = 24.68358 ( Log10NC = 10.720 )
+Posterior inclusion probability
+1 chr6.100005   9.98185e-01     12.043
+2 chr6.100010   9.94609e-02      0.000
+3 chr6.100007   3.88496e-02      1.558
+4 chr6.100003   3.85528e-02      1.267
+5 chr6.100002   1.78767e-02     -0.525
+</code></pre>
+<h4 id="Constant-$1.0$">Constant $1.0$<a class="anchor-link" href="#Constant-$1.0$">&#182;</a></h4><p>1) varbvs</p>
+<pre><code>variable    prob    PVE coef    Pr(coef.&gt;0.95)
+gene5   1.00000000  NA  1.8363550   [+1.578,+2.089]
+gene3   0.08170696  NA  0.3087521   [+0.050,+0.589]
+gene2   0.06772296  NA  0.3017016   [+0.045,+0.578]
+gene10   0.04849084 NA  0.0000000   [-1.955,+1.949]
+gene7   0.02220443  NA  0.2107806   [-0.096,+0.485]
+</code></pre>
+<p>2) DAP, consumed 1.70s</p>
+<pre><code>Posterior expected model size: 1.199 (sd = 0.429)
+LogNC = 73.39645 ( Log10NC = 31.876 )
+Posterior inclusion probability
+1 chr6.100005   9.98454e-01     33.195
+2 chr6.100010   9.97905e-02      0.000
+3 chr6.100003   5.33412e-02      3.068
+4 chr6.100002   4.78144e-02      0.287</code></pre>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="DAP-results-annotation">DAP results annotation<a class="anchor-link" href="#DAP-results-annotation">&#182;</a></h4><p>The last section of the output is the posterior inclusion probabilities (PIP) for top ranked genes, for example, PIP for gene5 is 0.998</p>
+<p>The last column gives $\text{log}_{10}$ Bayes factor of the corresponding SNP/gene in single-SNP/gene testing.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e/analysis/20170705_toy_example_multi_outline.ipynb"><code>analysis/20170705_toy_example_multi_outline.ipynb</code></a> committed by Min Qiao on Sat Aug 19 11:37:36 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e">revision 284, 88e7785</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>
