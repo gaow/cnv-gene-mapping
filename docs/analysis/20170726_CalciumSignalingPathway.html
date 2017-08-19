@@ -122,7 +122,8 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Implement-calcium-signaling-pathway.-Geneset-downloaded-from-KEGG">Implement calcium signaling pathway. Geneset downloaded from KEGG<a class="anchor-link" href="#Implement-calcium-signaling-pathway.-Geneset-downloaded-from-KEGG">&#182;</a></h1><p><a href="http://software.broadinstitute.org/gsea/msigdb/cards/KEGG_CALCIUM_SIGNALING_PATHWAY">http://software.broadinstitute.org/gsea/msigdb/cards/KEGG_CALCIUM_SIGNALING_PATHWAY</a></p>
+<h1 id="Implement-calcium-signaling-pathway">Implement calcium signaling pathway<a class="anchor-link" href="#Implement-calcium-signaling-pathway">&#182;</a></h1><p>Geneset downloaded from KEGG
+<a href="http://software.broadinstitute.org/gsea/msigdb/cards/KEGG_CALCIUM_SIGNALING_PATHWAY">http://software.broadinstitute.org/gsea/msigdb/cards/KEGG_CALCIUM_SIGNALING_PATHWAY</a></p>
 </div>
 </div>
 </div>
@@ -131,7 +132,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">pandasql</span> <span class="kn">import</span> <span class="n">sqldf</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
@@ -146,7 +147,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">calpath_gene_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/calciumgeneset.txt&quot;</span><span class="p">,</span> <span class="n">skiprows</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">calpath_gene_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/calciumgeneset.txt&quot;</span><span class="p">,</span> <span class="n">skiprows</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
 <span class="c1"># sex chromosome is 23</span>
 <span class="n">sw_cnv_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/swcnv/swcnv.qc6.cnv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span>
 <span class="n">sw_indiv_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/swcnv/swcnv.qc6.cnv.indiv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span>
@@ -163,7 +164,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">calpath_gene_list</span> <span class="o">=</span> <span class="n">calpath_gene_df</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">calpath_gene_list</span> <span class="o">=</span> <span class="n">calpath_gene_df</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -174,7 +175,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="k">print</span> <span class="p">(</span><span class="n">calpath_gene_list</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="k">print</span> <span class="p">(</span><span class="n">calpath_gene_list</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -196,7 +197,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">calpath_gene_pos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">refgene_df</span><span class="p">,</span> <span class="n">calpath_gene_df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">calpath_gene_pos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">refgene_df</span><span class="p">,</span> <span class="n">calpath_gene_df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -207,7 +208,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">SELECT gene_name, chrom, min(tx_start), max(tx_end)</span>
 <span class="s1">FROM calpath_gene_pos</span>
 <span class="s1">GROUP BY gene_name</span>
@@ -224,7 +225,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">diff</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">calpath_gene_list</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">calpath_gene_pos</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">diff</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">calpath_gene_list</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">calpath_gene_pos</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 <span class="k">print</span> <span class="p">(</span><span class="n">diff</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -247,7 +248,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">calpath_gene_pos</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">calpath_gene_pos</span>
 </pre></div>
 </div>
 </div>
@@ -710,7 +711,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># https://www.ncbi.nlm.nih.gov/gene/729317</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># https://www.ncbi.nlm.nih.gov/gene/729317</span>
 <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;LOC729317&quot;</span><span class="p">,</span> <span class="s2">&quot;chr2&quot;</span><span class="p">,</span> <span class="mi">65205076</span><span class="p">,</span> <span class="mi">65206278</span><span class="p">]</span>
 <span class="c1"># https://www.ncbi.nlm.nih.gov/gene/?term=CHP</span>
 <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CHP&quot;</span><span class="p">,</span> <span class="s2">&quot;chr15&quot;</span><span class="p">,</span> <span class="mi">41231149</span><span class="p">,</span> <span class="mi">41281887</span><span class="p">]</span>
@@ -724,7 +725,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">calpath_gene_pos</span><span class="p">[</span><span class="s2">&quot;chr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">][</span><span class="mi">3</span><span class="p">:])</span> 
+<div class=" highlight hl-sos"><pre><span></span><span class="n">calpath_gene_pos</span><span class="p">[</span><span class="s2">&quot;chr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">][</span><span class="mi">3</span><span class="p">:])</span> 
                                                  <span class="k">if</span> <span class="ow">not</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">][</span><span class="mi">3</span><span class="p">:]</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="mi">23</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -736,7 +737,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">SELECT sw.CHR, sw.BP1, sw.BP2, sw.TYPE, sw.PHE, cal.gene_name, cal.gene_start, cal.gene_end, count(sw.FID)</span>
 <span class="s1">FROM calpath_gene_pos cal LEFT JOIN sw_cnv_indiv_df sw</span>
 <span class="s1">WHERE sw.CHR == cal.chr</span>
@@ -764,7 +765,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">overlap_CNV_gene_df</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">overlap_CNV_gene_df</span>
 </pre></div>
 </div>
 </div>
@@ -1537,7 +1538,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">SELECT CHR, PHE, TYPE, gene_name, sum(n_FID)</span>
 <span class="s1">FROM overlap_CNV_gene_df</span>
 <span class="s1">GROUP BY CHR, PHE, TYPE, gene_start, gene_end</span>
@@ -1555,7 +1556,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">n_occur_CNV_overlap</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">n_occur_CNV_overlap</span>
 </pre></div>
 </div>
 </div>
@@ -2080,7 +2081,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># print (n_occur_CNV_overlap[&quot;n_FID&quot;][n_occur_CNV_overlap[&quot;TYPE&quot;]==3].sum())</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># print (n_occur_CNV_overlap[&quot;n_FID&quot;][n_occur_CNV_overlap[&quot;TYPE&quot;]==3].sum())</span>
 <span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;n_FID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -2102,7 +2103,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">n_occur_CNV_100kb_overlap</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP2&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP1&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">100000</span><span class="p">][</span><span class="s2">&quot;n_FID&quot;</span><span class="p">])</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">n_occur_CNV_100kb_overlap</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP2&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP1&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">100000</span><span class="p">][</span><span class="s2">&quot;n_FID&quot;</span><span class="p">])</span>
 <span class="n">n_occur_CNV_500kb_overlap</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP2&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP1&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">500000</span><span class="p">][</span><span class="s2">&quot;n_FID&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -2114,7 +2115,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="k">print</span> <span class="p">(</span><span class="n">n_occur_CNV_100kb_overlap</span><span class="p">,</span> <span class="n">n_occur_CNV_500kb_overlap</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="k">print</span> <span class="p">(</span><span class="n">n_occur_CNV_100kb_overlap</span><span class="p">,</span> <span class="n">n_occur_CNV_500kb_overlap</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2136,7 +2137,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">n_occur_gene_overlap_100kbcnv</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP2&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP1&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">100000</span><span class="p">][</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">n_occur_gene_overlap_100kbcnv</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP2&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP1&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">100000</span><span class="p">][</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
 <span class="n">n_occur_gene_overlap_500kbcnv</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP2&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP1&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">500000</span><span class="p">][</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
 </pre></div>
 </div>
@@ -2148,7 +2149,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="k">print</span> <span class="p">(</span><span class="n">n_occur_gene_overlap_100kbcnv</span><span class="p">,</span> <span class="n">n_occur_gene_overlap_500kbcnv</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="k">print</span> <span class="p">(</span><span class="n">n_occur_gene_overlap_100kbcnv</span><span class="p">,</span> <span class="n">n_occur_gene_overlap_500kbcnv</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2170,7 +2171,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP2&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP1&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">100000</span><span class="p">][</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP2&quot;</span><span class="p">]</span><span class="o">-</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;BP1&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">100000</span><span class="p">][</span><span class="n">overlap_CNV_gene_df</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
 </pre></div>
 </div>
 </div>
@@ -2186,20 +2187,9 @@ body {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e/analysis/20170726_CalciumSignalingPathway.ipynb"><code>analysis/20170726_CalciumSignalingPathway.ipynb</code></a> committed by Min Qiao on Sat Aug 19 11:37:36 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e">revision 284, 88e7785</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/85b3c981907a1a615c79c6a49fb8dc7cb5d92f53/analysis/20170726_CalciumSignalingPathway.ipynb"><code>analysis/20170726_CalciumSignalingPathway.ipynb</code></a> committed by Min Qiao on Sat Aug 19 11:53:12 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/85b3c981907a1a615c79c6a49fb8dc7cb5d92f53">revision 287, 85b3c98</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
