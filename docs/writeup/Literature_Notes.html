@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link rel="stylesheet"
+      href="../site_libs/highlight/textmate.css"
+      type="text/css" />
+<script src="../site_libs/highlight/highlight.js"></script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+<script src="../js/toc2.js"></script>
+<script src="../js/docs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+<title>Gene Mapping with CNV</title>
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+<!-- code folding -->
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+<li>
+  <a href="../setup.html">Setup</a>
+</li>
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+      </ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Literature-notes">Literature notes<a class="anchor-link" href="#Literature-notes">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Pinto-2014-AJHG">Pinto 2014 AJHG<a class="anchor-link" href="#Pinto-2014-AJHG">&#182;</a></h2><h3 id="Copy-number-variations-(CNVs)">Copy-number variations (CNVs)<a class="anchor-link" href="#Copy-number-variations-(CNVs)">&#182;</a></h3><p>A form of structural variation; it is a type of duplication or deletion event that affects a considerable number of base pairs, resulting in the cell having an abnormal number of copies of one or more sections of the DNA.</p>
+<p>De novo CNVs: CNVs present for the first time in a family member as a result of a mutation in a germ cell of one of the parents or in the fertilized egg; significantly enriched in autism patients comparing with their unaffected siblings; highly deleterious; signifiant role for early-onset/developmental diseases.</p>
+<p>Large CNVs are rare; many rare CNVs (&lt;1% frequency) result from de novo mutations. CNVs &gt; 20kb are easier to detect and studied more extensively.</p>
+<h3 id="Autism-spectrum-disorders-(ASDs)">Autism spectrum disorders (ASDs)<a class="anchor-link" href="#Autism-spectrum-disorders-(ASDs)">&#182;</a></h3><p>Affects ~1% of the population</p>
+<p>Highly heritable</p>
+<p>ASD risk: chromosome abnormalities, CNVs, SNVs</p>
+<h3 id="Subjects-of-the-study">Subjects of the study<a class="anchor-link" href="#Subjects-of-the-study">&#182;</a></h3><p>2446 ASD individuals and their parents (2147 European and 299 other ancestries), along with 2640 unrelated controls, restricted to European ancestry.</p>
+<h3 id="Aim/goal">Aim/goal<a class="anchor-link" href="#Aim/goal">&#182;</a></h3><p>apply a series of approaches to characterize candidate ASD-associated genes disrupted by CNVs, and to identify the biological relationships and common pathways they share.</p>
+<h3 id="Data/CNV-analysis">Data/CNV analysis<a class="anchor-link" href="#Data/CNV-analysis">&#182;</a></h3><p>Perform genotyping, data cleaning and quality control to ensure that CNV ascertainment was consistent among the affected, parents and controls.</p>
+<p>Use analytical pipeline of Illumina 1M arrays and quality control filters to detect CNVs.</p>
+<p>Use PLINK, R stats to analyze CNVs for case-control differences.</p>
+<h3 id="One/multiple-gene-hit-burden-analysis">One/multiple-gene-hit burden analysis<a class="anchor-link" href="#One/multiple-gene-hit-burden-analysis">&#182;</a></h3><p>One-gene-hit: Fisher's exact test.</p>
+<p>Multiple-gene-hit: fit logit models to the data; log odds of case status was fit to predictor variables.</p>
+<h3 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h3><h4 id="Excess-burden-of-rare-and-de-novo-CNVs">Excess burden of rare and de novo CNVs<a class="anchor-link" href="#Excess-burden-of-rare-and-de-novo-CNVs">&#182;</a></h4><p>ASD subjects had a 1.41-fold increase burden in the number of genes affected by rare CNVs, compared to control subjects. The enrichment was apparent for both deletions and duplications (Table 1).</p>
+<p>102 rare de novo CNVs were found in 99 affected subjects. 4.7% of trios had at least one de novo CNV.</p>
+<p>Average length of de novo events in affected subjects was larger than that of unaffected siblings (1.17 Mb vs 0.67 Mb).</p>
+<p>De novo CNVs affected 3.8-fold more genes in affected subjects than in controls.</p>
+<h4 id="CNV-burden-in-autosomal-dominant-or-X-linked-genes-implicated-in-ASD/ID">CNV burden in autosomal-dominant or X-linked genes implicated in ASD/ID<a class="anchor-link" href="#CNV-burden-in-autosomal-dominant-or-X-linked-genes-implicated-in-ASD/ID">&#182;</a></h4><p>4% (87/2147) ASD affected subjects had CNVs overlapping autosomal-dominant or X-linked genes/loci implicated in ASD/ID, which is significantly higher than controls, OR=4.09 (Figure 1A).</p>
+<p>These CNVs are classified into three categories: pathogenic (60/87), accounting for 2.8% (60/2147) of affected subjects, benign and uncertain (Figure 1B). Among the 60 affected with pathogenic CNVs, 63% (38/60) carried de novo events.</p>
+<p>When considering chromosome abnormalities (&gt;7.5 Mb), large rare de novo events validated small CNVs (&lt;30 kb), Pathogenic CNVs were identified in ~3.3% of individuals with unexplained ASD (84/2446) (Figure 2A). 64% of pathogenic CNVs were de novo events (54/84, 59% deletions and 41% duplications), and the remaining 36% (30/84) were inherited, with 7 X-linked and 23 on autosomes (Figure 2C).</p>
+<p>The proportion of females was significantly increased among carriers of highly penetrant pathogenic CNVs (male-to-female ratio of 2:1 versus 6:1 among all affected subjects) (Figure 2E).</p>
+<h4 id="Increased-multigene-burden-in-ASD-affected-subjects">Increased multigene burden in ASD-affected subjects<a class="anchor-link" href="#Increased-multigene-burden-in-ASD-affected-subjects">&#182;</a></h4><p>ASD risk was found increased as the numbers of deleted brain-expressed genes increased (Figure 3C).</p>
+<h4 id="De-novo-CNVs-and-Loss-of-Function-SNVs-converge-on-functional-gene-networks">De novo CNVs and Loss-of-Function SNVs converge on functional gene networks<a class="anchor-link" href="#De-novo-CNVs-and-Loss-of-Function-SNVs-converge-on-functional-gene-networks">&#182;</a></h4><p>By expanding the analyses to genes altered by both de novo CNVs and de novo LoF SNVs, 11 genes affcted by de novo CNVs were also found to be altered by de novo LoF SNVs among autism cohorts.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Girirajan-ARG-2011">Girirajan ARG 2011<a class="anchor-link" href="#Girirajan-ARG-2011">&#182;</a></h2><p>Human Copy Number Variation and Complex Genetic Disease</p>
+</div>
+</div>
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/2e5e756a767d6c7785fe8b1fc712677d08c1dd56/writeup/Literature_Notes.ipynb"><code>writeup/Literature_Notes.ipynb</code></a> committed by Min Qiao on Sat Aug 19 09:11:23 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/2e5e756a767d6c7785fe8b1fc712677d08c1dd56">revision 251, 2e5e756</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>
