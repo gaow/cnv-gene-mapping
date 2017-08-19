@@ -257,14 +257,9 @@ body {
   padding-bottom: 40px;
 }
 
-h1 {
-  margin-top: 25px;
-  margin-bottom: 30px;
-}
-
-h2 {
-  margin-bottom: 25px;
-}
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 20px;
+ }
 
 a.anchor-link:link {
   text-decoration: none;
@@ -544,7 +539,7 @@ def get_notebook_toc(path, exclude):
             data = json.load(f)
         try:
             # FIXME: this regex is to be continuously updated based on observed TOC generated
-            title = re.sub('[^0-9a-zA-Z-:&!?@.,()]+', '-', data["cells"][0]["source"][0].strip()).strip('-') + "-1"
+            title = re.sub('[^0-9a-zA-Z-:&!?@.,()+]+', '-', data["cells"][0]["source"][0].strip()).strip('-') + "-1"
         except IndexError:
             continue
         out +='"' + title + '":"' + name + '",'
@@ -639,17 +634,16 @@ def make_index_nb(path, exclude, long_description = False, reverse_alphabet = Fa
     "### %s\\n"
    ]
   },''' % date_section
-        title = re.sub('[^\x00-\x7F]+', ' ', description.strip("#").replace('"', "'"))
-        if name.strip() != title.strip():
+        if name.strip() != description.strip("#").strip():
             out += '''
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
     "[**%s**](%s/%s)<br>\\n",
-    "&nbsp; &nbsp; %s"
+    %s
    ]
-  },''' % (name, path, os.path.splitext(os.path.basename(fn))[0] + '.html', title)
+  },''' % (name, path, os.path.splitext(os.path.basename(fn))[0] + '.html', json.dumps("&nbsp; &nbsp;" + description.strip("#").strip()))
         else:
             out += '''
   {
@@ -702,7 +696,7 @@ def make_index_nb(path, exclude, long_description = False, reverse_alphabet = Fa
  "nbformat": 4,
  "nbformat_minor": 2
 }'''
-    return out
+    return out.strip()
 
 def make_empty_nb(name):
     return '''{
