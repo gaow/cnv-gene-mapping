@@ -1,11 +1,18 @@
+{%- extends 'basic.tpl' -%}
+
+{%- block header -%}
+{{ super() }}
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="ipynb_website:version" content="0.9.2" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
+
 <link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
 <link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
 <link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
@@ -14,9 +21,11 @@
 <script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
 <link rel="stylesheet"
       href="../site_libs/highlight/textmate.css"
       type="text/css" />
+
 <script src="../site_libs/highlight/highlight.js"></script>
 <script type="text/javascript">
 if (window.hljs && document.readyState && document.readyState === "complete") {
@@ -25,8 +34,10 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
    }, 0);
 }
 </script>
+
 <script src="../js/toc2.js"></script>
 <script src="../js/docs.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
 <script>
     MathJax.Hub.Config({
@@ -49,9 +60,10 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
         }
     });
 </script>
+
 <script>
 $( document ).ready(function(){
-            var cfg={'threshold':3,     // depth of toc (number of levels)
+            var cfg={'threshold':{{ nb.get('metadata', {}).get('toc', {}).get('threshold', '3') }},     // depth of toc (number of levels)
              'number_sections': false,
              'toc_cell': false,          // useless here
              'toc_window_display': true, // display the toc window
@@ -71,11 +83,11 @@ $( document ).ready(function(){
             st.toc_index=0;
             // fire the main function with these parameters
             table_of_contents(cfg, st);
-            var file=writeupDict[$("h1:first").attr("id")];
+            var file=prototypeDict[$("h1:first").attr("id")];
             $("#toc-level0 a").css("color","#126dce");
             $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
-            var docs=writeupArray;
-            var pos=writeupArray.indexOf(file);
+            var docs=prototypeArray;
+            var pos=prototypeArray.indexOf(file);
             for (var a=pos;a>=0;a--){
                   var name=docs[a]
                   $('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
@@ -88,6 +100,7 @@ $( document ).ready(function(){
             $("#toc-header").hide();
     });
 </script>
+
 <script>
 // manage active state of menu based on current page
 $(document).ready(function () {
@@ -111,7 +124,9 @@ $(document).ready(function () {
   window.buildTabsets("TOC");
 });
 </script>
+
 <title>Gene Mapping with CNV</title>
+
 <style type = "text/css">
 body {
   font-family: "Droid Sans";
@@ -120,10 +135,13 @@ body {
 }
 </style>
 </head>
+
 <body>
 <div tabindex="-1" id="notebook" class="border-box-sizing">
 <div class="container" id="notebook-container">
+
 <!-- code folding -->
+
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -136,113 +154,48 @@ body {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+        
 <li>
   <a href="../index.html">Overview</a>
 </li>
+        
 <li>
   <a href="../analysis.html">Analysis</a>
 </li>
+        
 <li>
   <a href="../prototype.html">Prototype</a>
 </li>
+        
 <li>
   <a href="../utils.html">Utils</a>
 </li>
+        
 <li>
   <a href="../setup.html">Setup</a>
 </li>
+        
 <li>
   <a href="../writeup.html">Writeup</a>
 </li>
+        
       </ul>
+        
 <ul class="nav navbar-nav navbar-right">
 <li>
    <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
 </li>
 </ul>
+        
       </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="CNV-meeting-notes-starting-from-June-2017">CNV meeting notes starting from June 2017<a class="anchor-link" href="#CNV-meeting-notes-starting-from-June-2017">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Notes-for-meeting-06/02/2017">Notes for meeting 06/02/2017<a class="anchor-link" href="#Notes-for-meeting-06/02/2017">&#182;</a></h4><p>*1) Obtain $\alpha$ / $\alpha_0$ from ???</p>
-<p>2) Add meaning of the last column in DAP output: log10 Bayes factor of the corresponding SNP in single-SNP testing</p>
-<p>3) Add time consumed, begin time and end time</p>
-<p>4) Constants added for all patterns disrupted by CNVs are the same, set to 1.0</p>
-<p>5) Change the causal gene to the 2nd one or last one instead of 1st one</p>
-<p>6) Make configuration data for ???</p>
-<p>7) Add two more columns in pattern table: # of each pattern in cases and controls</p>
-<p>8) Make toy example for 10 genes: at most one CNV for each sample, i.e. CNV can only disrupt adjacent gene(s)</p>
-<p>9) For 4 genes toy example, ignore patterns which contain two CNVs in one sample</p>
-<p>10) Set all constant to 0, and observe results generated from variational approximation and DAP</p>
-<p>11) Make two or more blocks instead of only one in current toy example:</p>
-<p>*** Estimation of $\alpha$: simulation procedure. (1) Many blocks per sample: sample genotypes; (2) Randomly choose a pathway; (3) Create causal gene list based on pathway. (4) Sample phenotypes: if a causal gene is disrupted, a larger $y$.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Notes-for-meeting-06/15/2017">Notes for meeting 06/15/2017<a class="anchor-link" href="#Notes-for-meeting-06/15/2017">&#182;</a></h4><p>1) First simulate CNVs: simu CNVs for different lengths: e.g. length (span 1~10 genes) follows geometric distribution; the longer CNV the less common/frequent it is; $0$ means no CNV in this region (wild type), most common in samples.</p>
-<p>2) Sample fixed amount of CNVs, say 10, in this region. Binomial sampling these CNVs from 1st step???</p>
-<p>3) Then simulate case-control: the number of CNV in cases are supposed to be more than in controls. Samples who have CNV overlapping with causal gene are more likely to be cases, say 80%; samples who have CNV not overlapping with causal gene are equally likely to be cases or controls, i.e. 50%.</p>
-<p>4) Obtain $\alpha_0$: prior; Bayes factor: if sample size is small, pip would decrease, need to check Bayes factor</p>
-<p>5) Check Swedish data, figure 3/table 1</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Notes-for-meeting-07/21/2017">Notes for meeting 07/21/2017<a class="anchor-link" href="#Notes-for-meeting-07/21/2017">&#182;</a></h4><p>1) Data transformation: transform binary y {0,1} to {0,t}, for the aim of using linear model to perform logistic regression. $Z_\mu$ is the effect size.</p>
-<p>$ P(X \geqslant t) = P(X=Z_\mu+X' \geqslant t) = P(X' \geqslant t-Z_\mu) = 1-\Phi(t-Z_\mu) $</p>
-<p>Relative risk (RR):</p>
-<p>$ RR = \frac{1-\Phi(t-Z_\mu)}{1-\Phi(t)} $</p>
-<p>Solve $Z_\mu$ from a given RR:</p>
-<p>$ \Phi(t-Z_\mu) = 1-RR*(1-\Phi(t)) $</p>
-<p>2) TORUS prepare DAP input</p>
-<p>(1) genesets: caucal/noncausal, one causal geneset and several noncausal genesets, each geneset contains tens to two hundreds genes</p>
-<p>(2) check 20170710_dap_on_toy: .feather (we can write feather file) and .dap are needed; generate prior ($\alpha$) using TORUS; grid</p>
-<p>3) DAP</p>
-<p>4) Real data</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>$f(k)=t, 1-\Phi(t)=k, y \in \{0,t\}$</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
+{%- endblock header -%}
+{% block footer %}
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/f9e8a169a58be17296b1c004c7855734a9757b11/writeup/CNV_meeting_2017.ipynb"><code>writeup/CNV_meeting_2017.ipynb</code></a> committed by Min Qiao on Sat Aug 19 11:51:15 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/f9e8a169a58be17296b1c004c7855734a9757b11">revision 286, f9e8a16</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
 </html>
+{% endblock %}

@@ -50,6 +50,45 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
     });
 </script>
 <script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=analysisDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=analysisArray;
+            var pos=analysisArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  var name=docs[a]
+                  $('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  var name=docs[a]
+                  $(".toc #toc-level0").append('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>');
+            }
+            $("#toc-header").hide();
+    });
+</script>
+<script>
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -104,6 +143,12 @@ body {
   <a href="../analysis.html">Analysis</a>
 </li>
 <li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+<li>
+  <a href="../utils.html">Utils</a>
+</li>
+<li>
   <a href="../setup.html">Setup</a>
 </li>
 <li>
@@ -125,14 +170,25 @@ body {
 <h1 id="R:-use-package-varbvs-and-feather-to-file-to-obtain-.RDS-file">R: use package varbvs and feather to file to obtain .RDS file<a class="anchor-link" href="#R:-use-package-varbvs-and-feather-to-file-to-obtain-.RDS-file">&#182;</a></h1>
 </div>
 </div>
-</div>library(feather)
-library(varbvs)
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">library</span><span class="p">(</span><span class="n">feather</span><span class="p">)</span>
+<span class="n">library</span><span class="p">(</span><span class="n">varbvs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">get_rds_toy</span> <span class="o">&lt;-</span> <span class="n">function</span><span class="p">(</span><span class="n">datalist</span><span class="p">){</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">get_rds_toy</span> <span class="o">&lt;-</span> <span class="n">function</span><span class="p">(</span><span class="n">datalist</span><span class="p">){</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">dat</span> <span class="ow">in</span> <span class="n">datalist</span><span class="p">){</span>
         <span class="n">newdat</span> <span class="o">=</span> <span class="n">read_feather</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
         <span class="n">newmatrix</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">double</span><span class="p">(</span><span class="n">unlist</span><span class="p">(</span><span class="n">newdat</span><span class="p">)),</span> <span class="n">dim</span><span class="p">(</span><span class="n">newdat</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dim</span><span class="p">(</span><span class="n">newdat</span><span class="p">)[</span><span class="mi">2</span><span class="p">])</span>
@@ -157,7 +213,7 @@ library(varbvs)
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># get_rds_toy(c(&quot;data/toy_n000_600_n100_100_n010_100_n001_100_n110_100_n011_100_n111_100.feather&quot;))</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># get_rds_toy(c(&quot;data/toy_n000_600_n100_100_n010_100_n001_100_n110_100_n011_100_n111_100.feather&quot;))</span>
 <span class="n">get_rds_toy</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s2">&quot;data/toy_n2000_p0.9_causal5_const1.0_0.05.feather&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -185,32 +241,10 @@ library(varbvs)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">newdat</span> <span class="o">=</span> <span class="n">read_feather</span><span class="p">(</span><span class="s2">&quot;data/toy_pos15_causal8_n1250.feather&quot;</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">newdat</span> <span class="o">=</span> <span class="n">read_feather</span><span class="p">(</span><span class="s2">&quot;data/toy_pos15_causal8_n1250.feather&quot;</span><span class="p">)</span>
 <span class="n">newmatrix</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">double</span><span class="p">(</span><span class="n">unlist</span><span class="p">(</span><span class="n">newdat</span><span class="p">)),</span> <span class="n">dim</span><span class="p">(</span><span class="n">newdat</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dim</span><span class="p">(</span><span class="n">newdat</span><span class="p">)[</span><span class="mi">2</span><span class="p">])</span>
 <span class="n">colnames</span><span class="p">(</span><span class="n">newmatrix</span><span class="p">)</span> <span class="o">=</span> <span class="n">colnames</span><span class="p">(</span><span class="n">newdat</span><span class="p">)</span>
 <span class="c1"># print (dim(newdat)[1])</span>
@@ -281,20 +315,9 @@ Top 5 variables by inclusion probability:
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e/analysis/20170706_R_varbvs_toy.ipynb"><code>analysis/20170706_R_varbvs_toy.ipynb</code></a> committed by Min Qiao on Sat Aug 19 11:37:36 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e">revision 284, 88e7785</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/35f31793cceaa0b2a9f4000a04c29402bed006b3/analysis/20170706_R_varbvs_toy.ipynb"><code>analysis/20170706_R_varbvs_toy.ipynb</code></a> committed by Min Qiao on Sun Aug 20 13:42:54 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/35f31793cceaa0b2a9f4000a04c29402bed006b3">revision 290, 35f3179</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

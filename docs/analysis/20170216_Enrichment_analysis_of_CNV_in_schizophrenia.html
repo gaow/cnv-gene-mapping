@@ -50,6 +50,45 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
     });
 </script>
 <script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=analysisDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=analysisArray;
+            var pos=analysisArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  var name=docs[a]
+                  $('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  var name=docs[a]
+                  $(".toc #toc-level0").append('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>');
+            }
+            $("#toc-header").hide();
+    });
+</script>
+<script>
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -104,6 +143,12 @@ body {
   <a href="../analysis.html">Analysis</a>
 </li>
 <li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+<li>
+  <a href="../utils.html">Utils</a>
+</li>
+<li>
   <a href="../setup.html">Setup</a>
 </li>
 <li>
@@ -147,15 +192,15 @@ body {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">pandasql</span> <span class="kn">import</span> <span class="n">sqldf</span>
-<span class="kn">from</span> <span class="nn">fisher</span> <span class="kn">import</span> <span class="n">pvalue</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pandasql</span> <span class="k">import</span> <span class="n">sqldf</span>
+<span class="kn">from</span> <span class="nn">fisher</span> <span class="k">import</span> <span class="n">pvalue</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
 <span class="c1"># for the plot to be showed in Jupyter notebook</span>
-<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
 </div>
 </div>
@@ -175,9 +220,9 @@ body {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;data/ISC-r1.CNV.bed&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;data/ISC-r1.CNV.bed&quot;</span>
 <span class="n">cnvbed</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;chr&quot;</span><span class="p">):</span>
         <span class="n">dataset</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;name=&quot;</span><span class="p">)</span>
@@ -208,7 +253,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">cnvbed_df</span> <span class="o">=</span> <span class="p">{}</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cnvbed_df</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">cnvbed</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
     <span class="n">cnvbed_df</span><span class="p">[</span><span class="n">dataset</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;chrom&quot;</span><span class="p">:[],</span> <span class="s2">&quot;cnv_start&quot;</span><span class="p">:[],</span> <span class="s2">&quot;cnv_end&quot;</span><span class="p">:[]}</span>
     <span class="k">for</span> <span class="n">chrom</span> <span class="ow">in</span> <span class="n">cnvbed</span><span class="p">[</span><span class="n">dataset</span><span class="p">]:</span>
@@ -239,12 +284,12 @@ body {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;data/refGene.txt.gz&quot;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> 
-                         <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;data/refGene.txt.gz&quot;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> 
+                         <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> 
                          <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;tx_name&quot;</span><span class="p">,</span> <span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
 <span class="n">gene_df</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">))</span>
 <span class="c1">#gene_df = gene_df.rename(columns={&quot;tx_start&quot;: &quot;gene_start&quot;, &quot;tx_end&quot;: &quot;gene_end&quot;})</span>
-<span class="k">print</span> <span class="p">(</span><span class="n">gene_df</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">gene_df</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -344,7 +389,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">cnv_in_gene</span> <span class="o">=</span> <span class="p">{}</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cnv_in_gene</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">cnv_counts</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">cnvbed_df</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
@@ -386,7 +431,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="k">print</span> <span class="p">(</span><span class="n">cnv_in_gene</span><span class="p">[</span><span class="s2">&quot;delCases&quot;</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">cnv_in_gene</span><span class="p">[</span><span class="s2">&quot;delCases&quot;</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -426,7 +471,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="k">print</span> <span class="p">(</span><span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;delCases&quot;</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;delCases&quot;</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -466,18 +511,18 @@ body {
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">select gene_name, chrom, tx_name, tx_start, tx_end</span>
 <span class="s2">from ref_gene </span>
 <span class="s2">where gene_name = &quot;LOC101928381&quot;</span>
 <span class="s2">&quot;&quot;&quot;</span>
-<span class="k">print</span> <span class="p">(</span><span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">))</span>
 <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">select gene_name, chrom, tx_name, tx_start, tx_end</span>
 <span class="s2">from ref_gene </span>
 <span class="s2">where gene_name = &quot;FAM72C&quot;</span>
 <span class="s2">&quot;&quot;&quot;</span>
-<span class="k">print</span> <span class="p">(</span><span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -521,11 +566,11 @@ body {
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">delCases</span> <span class="o">=</span> <span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;delCases&quot;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">delCases</span> <span class="o">=</span> <span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;delCases&quot;</span><span class="p">]</span>
 <span class="n">delControls</span> <span class="o">=</span> <span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;delControls&quot;</span><span class="p">]</span>
 <span class="n">del_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">delCases</span><span class="p">,</span> <span class="n">delControls</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s2">&quot;outer&quot;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
-<span class="n">del_table</span><span class="p">[</span><span class="s2">&quot;count(gene_name)_x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">del_table</span><span class="p">[</span><span class="s2">&quot;count(gene_name)_y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">del_table</span><span class="p">[</span><span class="s2">&quot;count(gene_name)_x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">del_table</span><span class="p">[</span><span class="s2">&quot;count(gene_name)_y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">n_delCases</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;delCases&quot;</span><span class="p">][</span><span class="s2">&quot;count(gene_name)&quot;</span><span class="p">])</span>
 <span class="n">n_delCtrls</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;delControls&quot;</span><span class="p">][</span><span class="s2">&quot;count(gene_name)&quot;</span><span class="p">])</span>
 <span class="n">del_table</span> <span class="o">=</span> <span class="n">del_table</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;count(gene_name)_x&quot;</span><span class="p">:</span> <span class="s2">&quot;n_delcase_gene&quot;</span><span class="p">,</span> 
@@ -553,11 +598,11 @@ body {
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">dupCases</span> <span class="o">=</span> <span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;dupCases&quot;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dupCases</span> <span class="o">=</span> <span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;dupCases&quot;</span><span class="p">]</span>
 <span class="n">dupControls</span> <span class="o">=</span> <span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;dupControls&quot;</span><span class="p">]</span>
 <span class="n">dup_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">dupCases</span><span class="p">,</span> <span class="n">dupControls</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s2">&quot;outer&quot;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
-<span class="n">dup_table</span><span class="p">[</span><span class="s2">&quot;count(gene_name)_x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">dup_table</span><span class="p">[</span><span class="s2">&quot;count(gene_name)_y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">dup_table</span><span class="p">[</span><span class="s2">&quot;count(gene_name)_x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">dup_table</span><span class="p">[</span><span class="s2">&quot;count(gene_name)_y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">n_dupCases</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;dupCases&quot;</span><span class="p">][</span><span class="s2">&quot;count(gene_name)&quot;</span><span class="p">])</span>
 <span class="n">n_dupCtrls</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;dupControls&quot;</span><span class="p">][</span><span class="s2">&quot;count(gene_name)&quot;</span><span class="p">])</span>
 <span class="n">dup_table</span> <span class="o">=</span> <span class="n">dup_table</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;count(gene_name)_x&quot;</span><span class="p">:</span> <span class="s2">&quot;n_dupcase_gene&quot;</span><span class="p">,</span> 
@@ -585,20 +630,20 @@ body {
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">res_del</span> <span class="o">=</span> <span class="p">[(</span><span class="n">pvalue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delcase_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delctrl_gene&quot;</span><span class="p">],</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res_del</span> <span class="o">=</span> <span class="p">[(</span><span class="n">pvalue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delcase_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delctrl_gene&quot;</span><span class="p">],</span> 
                <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delcase_nogene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delctrl_nogene&quot;</span><span class="p">]),</span>
         <span class="n">row</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">del_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
 <span class="n">or_del</span> <span class="o">=</span> <span class="p">[(</span><span class="n">stats</span><span class="o">.</span><span class="n">fisher_exact</span><span class="p">([[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delcase_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delctrl_gene&quot;</span><span class="p">]],</span> 
                                <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delcase_nogene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_delctrl_nogene&quot;</span><span class="p">]]])[</span><span class="mi">0</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
           <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">del_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
-<span class="n">res_del</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">res_del</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">two_tail</span><span class="p">))</span>
-<span class="n">or_del</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">or_del</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">else</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">res_del</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">res_del</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">two_tail</span><span class="p">))</span>
+<span class="n">or_del</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">or_del</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">else</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="c1">#print (or_del)</span>
 <span class="n">top_logp_2side_del</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">two_tail</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">res_del</span><span class="p">[:</span><span class="mi">100</span><span class="p">]]</span>
 <span class="n">top_gene_list_del</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">res_del</span><span class="p">[:</span><span class="mi">100</span><span class="p">]]</span>
 <span class="n">top_or_del</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">or_del</span><span class="p">[:</span><span class="mi">100</span><span class="p">]]</span>
 <span class="n">top_or_gene_del</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">or_del</span><span class="p">[:</span><span class="mi">100</span><span class="p">]]</span>
-<span class="k">print</span> <span class="p">(</span><span class="n">top_gene_list_del</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">top_gene_list_del</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -630,20 +675,20 @@ body {
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">res_dup</span> <span class="o">=</span> <span class="p">[(</span><span class="n">pvalue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupcase_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupctrl_gene&quot;</span><span class="p">],</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res_dup</span> <span class="o">=</span> <span class="p">[(</span><span class="n">pvalue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupcase_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupctrl_gene&quot;</span><span class="p">],</span> 
                <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupcase_nogene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupctrl_nogene&quot;</span><span class="p">]),</span>
         <span class="n">row</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">dup_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
 <span class="n">or_dup</span> <span class="o">=</span> <span class="p">[(</span><span class="n">stats</span><span class="o">.</span><span class="n">fisher_exact</span><span class="p">([[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupcase_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupctrl_gene&quot;</span><span class="p">]],</span> 
                                <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupcase_nogene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupctrl_nogene&quot;</span><span class="p">]]])[</span><span class="mi">0</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
           <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">dup_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
-<span class="n">res_dup</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">res_dup</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">two_tail</span><span class="p">))</span>
-<span class="n">or_dup</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">or_dup</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">else</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">res_dup</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">res_dup</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">two_tail</span><span class="p">))</span>
+<span class="n">or_dup</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">or_dup</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">else</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="c1">#print (or_dup)</span>
 <span class="n">top_logp_2side_dup</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">two_tail</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">res_dup</span><span class="p">[:</span><span class="mi">100</span><span class="p">]]</span>
 <span class="n">top_gene_list_dup</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">res_dup</span><span class="p">[:</span><span class="mi">100</span><span class="p">]]</span>
 <span class="n">top_or_2side_dup</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">or_dup</span><span class="p">[:</span><span class="mi">100</span><span class="p">]]</span>
 <span class="n">top_or_gene_dup</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">or_dup</span><span class="p">[:</span><span class="mi">100</span><span class="p">]]</span>
-<span class="k">print</span> <span class="p">(</span><span class="n">top_gene_list_dup</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">top_gene_list_dup</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -675,7 +720,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_color_codes</span><span class="p">(</span><span class="s2">&quot;pastel&quot;</span><span class="p">)</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
 <span class="n">p_df_del</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;logp_2side_del&quot;</span><span class="p">:</span> <span class="n">top_logp_2side_del</span><span class="p">,</span> <span class="s2">&quot;gene_name_del&quot;</span><span class="p">:</span> <span class="n">top_gene_list_del</span><span class="p">})</span>
@@ -2091,7 +2136,7 @@ ApUl23wAAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_color_codes</span><span class="p">(</span><span class="s2">&quot;pastel&quot;</span><span class="p">)</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
 <span class="n">p_df_del</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;or_del&quot;</span><span class="p">:</span> <span class="n">top_or_del</span><span class="p">,</span> <span class="s2">&quot;gene_name_del&quot;</span><span class="p">:</span> <span class="n">top_or_gene_del</span><span class="p">})</span>
@@ -3426,7 +3471,7 @@ RByeEhYRERFxeEpYRERExOH9P/H/3aeT8tJOAAAAAElFTkSuQmCC
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_color_codes</span><span class="p">(</span><span class="s2">&quot;pastel&quot;</span><span class="p">)</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
 <span class="n">p_df_dup</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;logp_2side_dup&quot;</span><span class="p">:</span> <span class="n">top_logp_2side_dup</span><span class="p">,</span> <span class="s2">&quot;gene_name_dup&quot;</span><span class="p">:</span> <span class="n">top_gene_list_dup</span><span class="p">})</span>
@@ -4834,7 +4879,7 @@ BRU1IiIiYhdU1IiIiIhdUFEjIiIidkFFjYiIiNiF/wecmnO72zDMLAAAAABJRU5ErkJggg==
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="err">!</span> <span class="n">jupyter</span> <span class="n">nbconvert</span> <span class="o">--</span><span class="n">to</span> <span class="n">script</span> <span class="n">enrichment_analysis_of_CNV_in_schizophrenia</span><span class="o">.</span><span class="n">ipynb</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> jupyter nbconvert --to script enrichment_analysis_of_CNV_in_schizophrenia.ipynb
 </pre></div>
 </div>
 </div>
@@ -4869,7 +4914,7 @@ BRU1IiIiYhdU1IiIiIhdUFEjIiIidkFFjYiIiNiF/wecmnO72zDMLAAAAABJRU5ErkJggg==
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e/analysis/20170216_Enrichment_analysis_of_CNV_in_schizophrenia.ipynb"><code>analysis/20170216_Enrichment_analysis_of_CNV_in_schizophrenia.ipynb</code></a> committed by Min Qiao on Sat Aug 19 11:37:36 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e">revision 284, 88e7785</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/35f31793cceaa0b2a9f4000a04c29402bed006b3/analysis/20170216_Enrichment_analysis_of_CNV_in_schizophrenia.ipynb"><code>analysis/20170216_Enrichment_analysis_of_CNV_in_schizophrenia.ipynb</code></a> committed by Min Qiao on Sun Aug 20 13:42:54 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/35f31793cceaa0b2a9f4000a04c29402bed006b3">revision 290, 35f3179</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

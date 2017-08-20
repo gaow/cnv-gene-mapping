@@ -50,6 +50,45 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
     });
 </script>
 <script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=utilsDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=utilsArray;
+            var pos=utilsArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  var name=docs[a]
+                  $('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  var name=docs[a]
+                  $(".toc #toc-level0").append('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>');
+            }
+            $("#toc-header").hide();
+    });
+</script>
+<script>
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -104,6 +143,12 @@ body {
   <a href="../analysis.html">Analysis</a>
 </li>
 <li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+<li>
+  <a href="../utils.html">Utils</a>
+</li>
+<li>
   <a href="../setup.html">Setup</a>
 </li>
 <li>
@@ -122,7 +167,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Simulation-pipeline">Simulation pipeline<a class="anchor-link" href="#Simulation-pipeline">&#182;</a></h1>
+<h1 id="SoS-utilities">SoS utilities<a class="anchor-link" href="#SoS-utilities">&#182;</a></h1><p>For simulation and data analysis of the CNV project.</p>
 </div>
 </div>
 </div>
@@ -130,8 +175,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This is the pipeline versions of simulation and data analysis of gene-based CNV analysis methods.</p>
-<h2 id="Large-scale-Bayesian-variable-selection">Large scale Bayesian variable selection<a class="anchor-link" href="#Large-scale-Bayesian-variable-selection">&#182;</a></h2><p>This pipeline implements simulation and data analysis using Carbonetto &amp; Stephens 2012.</p>
+<h2 id="Workflows">Workflows<a class="anchor-link" href="#Workflows">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -140,9 +184,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="nb">set</span> <span class="o">-</span><span class="n">J</span> <span class="mi">4</span> <span class="o">-</span><span class="n">j</span> <span class="mi">1</span>
-<span class="o">%</span><span class="kp">run</span> <span class="n">varbvs</span> 
-<span class="p">[</span><span class="n">varbvs_1</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">varbvs_1</span><span class="p">]</span>
 <span class="kn">depends:</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s2">&quot;pandasql&quot;</span><span class="p">),</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s1">&#39;fisher&#39;</span><span class="p">),</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s1">&#39;plotly&#39;</span><span class="p">)</span>
 <span class="kn">parameter:</span> <span class="n">sample_size</span> <span class="o">=</span> <span class="mi">2000</span>
 <span class="kn">parameter:</span> <span class="n">seed</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">]</span>
@@ -156,7 +198,7 @@ body {
 <span class="kn">python:</span>
 <span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
-<span class="kn">from</span> <span class="nn">simulation</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">run_simulation</span> 
+<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">run_simulation</span> 
 <span class="n">args</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 <span class="n">args</span><span class="p">[</span><span class="s1">&#39;odds_ratio_params&#39;</span><span class="p">][</span><span class="s1">&#39;shape&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_gamma</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>
 <span class="n">args</span><span class="p">[</span><span class="s1">&#39;odds_ratio_params&#39;</span><span class="p">][</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_gamma</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
@@ -165,7 +207,8 @@ body {
 <span class="n">args</span><span class="p">[</span><span class="s1">&#39;n_causal_gene&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_n_causal_gene</span><span class="p">}</span>
 <span class="n">args</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="kp">name</span><span class="err">!</span><span class="n">r</span><span class="p">}</span>
 <span class="n">args</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_seed</span><span class="p">}</span>
-<span class="n">run_simulation</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s2">&quot;shape{}_scale{}_p{}_N{}_M{}_{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_gamma</span><span class="p">[</span><span class="mi">0</span><span class="p">]},</span> <span class="err">$</span><span class="p">{</span><span class="n">_gamma</span><span class="p">[</span><span class="mi">1</span><span class="p">]},</span> <span class="err">$</span><span class="p">{</span><span class="n">_prevalence</span><span class="p">},</span> <span class="err">$</span><span class="p">{</span><span class="n">sample_size</span><span class="p">}</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">_n_causal_gene</span><span class="p">},</span> <span class="err">$</span><span class="p">{</span><span class="n">_seed</span><span class="p">}))</span>
+<span class="n">run_simulation</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s2">&quot;shape{}_scale{}_p{}_N{}_M{}_{}&quot;</span><span class="o">.</span>\
+               <span class="n">format</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_gamma</span><span class="p">[</span><span class="mi">0</span><span class="p">]},</span> <span class="err">$</span><span class="p">{</span><span class="n">_gamma</span><span class="p">[</span><span class="mi">1</span><span class="p">]},</span> <span class="err">$</span><span class="p">{</span><span class="n">_prevalence</span><span class="p">},</span> <span class="err">$</span><span class="p">{</span><span class="n">sample_size</span><span class="p">}</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">_n_causal_gene</span><span class="p">},</span> <span class="err">$</span><span class="p">{</span><span class="n">_seed</span><span class="p">}))</span>
 <span class="p">[</span><span class="n">varbvs_2</span><span class="p">]</span>
 <span class="kn">depends:</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s2">&quot;feather-format&quot;</span><span class="p">)</span>
 <span class="kn">input:</span> <span class="kp">group_by</span> <span class="o">=</span> <span class="s1">&#39;single&#39;</span>
@@ -177,7 +220,7 @@ body {
 <span class="kn">import</span> <span class="nn">pickle</span><span class="o">,</span> <span class="nn">feather</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">simulation</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">load_reference_gene</span> 
+<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">load_reference_gene</span> 
 <span class="n">args</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 <span class="c1">#</span>
 <span class="n">dat</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="err">!</span><span class="n">r</span><span class="p">},</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
@@ -206,6 +249,73 @@ body {
 <span class="n">fit</span><span class="err">$</span><span class="n">beta</span> <span class="o">=</span> <span class="n">fit</span><span class="err">$</span><span class="n">mu</span> <span class="o">%*%</span> <span class="n">c</span><span class="p">(</span><span class="n">fit</span><span class="err">$</span><span class="n">w</span><span class="p">)</span>
 <span class="n">fit</span><span class="err">$</span><span class="n">var_names</span> <span class="o">=</span> <span class="n">colnames</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">saveRDS</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
+<span class="p">[</span><span class="n">dap_1</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s2">&quot;pandasql&quot;</span><span class="p">)</span>
+<span class="kn">parameter:</span> <span class="n">sample_size</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="kn">parameter:</span> <span class="n">seed</span> <span class="o">=</span> <span class="p">[</span><span class="mi">999</span><span class="p">]</span>
+<span class="kn">parameter:</span> <span class="n">prevalence</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">]</span>
+<span class="kn">parameter:</span> <span class="n">shape</span> <span class="o">=</span> <span class="p">[</span><span class="mi">25</span><span class="p">]</span>
+<span class="kn">parameter:</span> <span class="n">scale</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="kn">parameter:</span> <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;data/tmp.test&quot;</span>
+<span class="kn">parameter:</span> <span class="n">ncpu</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="kn">input:</span> <span class="kp">for_each</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;shape&quot;</span><span class="p">,</span> <span class="s2">&quot;scale&quot;</span><span class="p">,</span> <span class="s2">&quot;prevalence&quot;</span><span class="p">,</span> <span class="s2">&quot;seed&quot;</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="s2">&quot;${prefix!a}_</span><span class="si">%s</span><span class="s2">.data.pkl&quot;</span> <span class="o">%</span> <span class="s2">&quot;N{}_p{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="s2">&quot;${sample_size}&quot;</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;${_prevalence}&quot;</span><span class="p">)</span>
+<span class="c1">#task:</span>
+<span class="kn">python:</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">run_simulation</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+<span class="n">args</span><span class="p">[</span><span class="s1">&#39;odds_ratio_params&#39;</span><span class="p">][</span><span class="s1">&#39;shape&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_shape</span><span class="p">}</span>
+<span class="n">args</span><span class="p">[</span><span class="s1">&#39;odds_ratio_params&#39;</span><span class="p">][</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_scale</span><span class="p">}</span>
+<span class="n">args</span><span class="p">[</span><span class="s1">&#39;prevalence&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_prevalence</span><span class="p">}</span>
+<span class="n">args</span><span class="p">[</span><span class="s1">&#39;n_case&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;n_ctrl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">sample_size</span><span class="p">}</span>
+<span class="n">args</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="err">!</span><span class="n">nnr</span><span class="p">}</span>
+<span class="n">args</span><span class="p">[</span><span class="s1">&#39;ncpu&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">ncpu</span><span class="p">}</span>
+<span class="n">args</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_seed</span><span class="p">}</span>
+<span class="n">run_simulation</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+<span class="p">[</span><span class="n">dap_2</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s2">&quot;feather-format&quot;</span><span class="p">)</span>
+<span class="kn">input:</span> <span class="kp">group_by</span> <span class="o">=</span> <span class="s1">&#39;single&#39;</span>
+<span class="kn">output:</span> <span class="s2">&quot;${_input!n}.blocks.pkl&quot;</span>
+<span class="c1">#task:</span>
+<span class="kn">python:</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">pickle</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">pkl_to_matrix</span><span class="p">,</span> <span class="n">save_data</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">pkl_to_matrix</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="err">!</span><span class="n">r</span><span class="p">},</span> <span class="n">make_block</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">save_data</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Simulation-for-variable-selection-methods">Simulation for variable selection methods<a class="anchor-link" href="#Simulation-for-variable-selection-methods">&#182;</a></h2><p>This pipeline implements simulation and data analysis using</p>
+<ul>
+<li>Carbonetto &amp; Stephens 2012 (varbvs)</li>
+<li>Wen et al 2016 (DAP)</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="DAP-data-simulation">DAP data simulation<a class="anchor-link" href="#DAP-data-simulation">&#182;</a></h3><p><strong>For calcium pathway simulation</strong></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sosrun</span> <span class="n">dap</span> <span class="o">-</span><span class="n">J</span> <span class="mi">1</span> <span class="o">-</span><span class="n">j</span> <span class="mi">1</span> <span class="o">--</span><span class="n">sample_size</span> <span class="mi">20</span> <span class="o">--</span><span class="n">seed</span> <span class="mi">12</span> <span class="o">--</span><span class="n">shape</span> <span class="mi">25</span> <span class="o">--</span><span class="n">prefix</span> <span class="s2">&quot;../analysis/data/calcium_pathway&quot;</span> <span class="o">-</span><span class="n">v</span> <span class="mi">3</span>
 </pre></div>
 </div>
 </div>
@@ -214,142 +324,42 @@ body {
 <div class="output">
 <div class="output_area">
 <div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Set sos options to &#34;-J 4 -j 1&#34;
+<div class="output_subarea output_stream output_stderr output_text">
+<pre><span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">Workflow dap created with 2 sections: dap_1, dap_2</span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">Args &#34;${prefix!a}_%s.data.pkl&#34; % &#34;N{}_p{}&#34;.format(int(&#34;${sample_size}&#34;)*2, &#34;${_prevalence}&#34;)
+ cannot be determined: name &#39;prefix&#39; is not defined</span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">Args &#34;${_input!n}.blocks.pkl&#34;
+ cannot be determined: name &#39;_input&#39; is not defined</span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">Args &#34;${name}_%s.data.pkl&#34; % &#34;shape{}_scale{}_p{}_N{}_M{}_{}&#34;.format(&#34;${_gamma[0]}&#34;, &#34;${_gamma[1]}&#34;, &#34;${_prevalence}&#34;, int(&#34;${sample_size}&#34;) * 2, &#34;${_n_causal_gene}&#34;, &#34;${_seed}&#34;)
+ cannot be determined: name &#39;name&#39; is not defined</span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">Args &#34;${_input!n}.feather&#34;
+ cannot be determined: name &#39;_input&#39; is not defined</span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">Args &#34;${_input!nn}.varbvs.rds&#34;
+ cannot be determined: name &#39;_input&#39; is not defined</span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">Args &#34;${prefix!a}_%s.data.pkl&#34; % &#34;N{}_p{}&#34;.format(int(&#34;${sample_size}&#34;)*2, &#34;${_prevalence}&#34;)
+ cannot be determined: name &#39;prefix&#39; is not defined</span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">Args &#34;${_input!n}.blocks.pkl&#34;
+ cannot be determined: name &#39;_input&#39; is not defined</span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">Executing </span><span class="ansi-green-fg">dap_1</span><span class="ansi-blue-intense-fg">: </span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">input:    </span><span class="ansi-green-fg">[]</span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">Set </span><span class="ansi-green-fg">_shape</span><span class="ansi-blue-intense-fg"> = </span><span class="ansi-green-fg">25</span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">Set </span><span class="ansi-green-fg">_scale</span><span class="ansi-blue-intense-fg"> = </span><span class="ansi-green-fg">1</span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">Set </span><span class="ansi-green-fg">_prevalence</span><span class="ansi-blue-intense-fg"> = </span><span class="ansi-green-fg">0.01</span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">Set </span><span class="ansi-green-fg">_seed</span><span class="ansi-blue-intense-fg"> = </span><span class="ansi-green-fg">12</span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">output:   </span><span class="ansi-green-fg">[&#39;/home/min/GIT/cnv-gene-mapping/analysis/data/calcium_pathway_N40_p0.01.data.pkl&#39;]</span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">Executing </span><span class="ansi-green-fg">dap_2</span><span class="ansi-blue-intense-fg">: </span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">input:    </span><span class="ansi-green-fg">[&#39;/home/min/GIT/cnv-gene-mapping/analysis/data/calcium_pathway_N40_p0.01.data.pkl&#39;]</span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">output:   </span><span class="ansi-green-fg">[&#39;/home/min/GIT/cnv-gene-mapping/analysis/data/calcium_pathway_N40_p0.01.data.blocks.pkl&#39;]</span>
+<span class="ansi-blue-intense-fg">DEBUG</span>: <span class="ansi-blue-intense-fg">Workflow dap (ID=2e3a905248506a38) is executed successfully.</span>
 </pre>
 </div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_html rendered_html output_subarea ">
-<table id="table_localhost_095ba481c914870cdb699b14ec32a957" style="border: 0px"><tr style="border: 0px">
-                        <td style="border: 0px">
-                        <i id="status_localhost_095ba481c914870cdb699b14ec32a957"
-                            class="fa fa-2x fa-fw fa-square-o" 
-                            onmouseover="$('#status_localhost_095ba481c914870cdb699b14ec32a957').addClass('fa-stop').removeClass('fa-square-o')"
-                            onmouseleave="$('#status_localhost_095ba481c914870cdb699b14ec32a957').addClass('fa-square-o').removeClass('fa-stop')"
-                            onclick="kill_task('095ba481c914870cdb699b14ec32a957', 'localhost')"
-                        ></i> </td>
-                        <td style="border: 0px"><a onclick="task_info('095ba481c914870cdb699b14ec32a957', 'localhost')"><pre>095ba481c914870cdb699b14ec32a957</pre></a></td>
-                        <td>&nbsp;<td>
-                        <td style="border:0px;text-align=right;">
-                        <pre><time id="duration_localhost_095ba481c914870cdb699b14ec32a957" datetime="1493156831162.5818">0 sec</time></pre></td>
-                        </tr>
-                        </table>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_html rendered_html output_subarea ">
-<table id="table_localhost_4a33f9ba545382687538f13045e9733e" style="border: 0px"><tr style="border: 0px">
-                        <td style="border: 0px">
-                        <i id="status_localhost_4a33f9ba545382687538f13045e9733e"
-                            class="fa fa-2x fa-fw fa-square-o" 
-                            onmouseover="$('#status_localhost_4a33f9ba545382687538f13045e9733e').addClass('fa-stop').removeClass('fa-square-o')"
-                            onmouseleave="$('#status_localhost_4a33f9ba545382687538f13045e9733e').addClass('fa-square-o').removeClass('fa-stop')"
-                            onclick="kill_task('4a33f9ba545382687538f13045e9733e', 'localhost')"
-                        ></i> </td>
-                        <td style="border: 0px"><a onclick="task_info('4a33f9ba545382687538f13045e9733e', 'localhost')"><pre>4a33f9ba545382687538f13045e9733e</pre></a></td>
-                        <td>&nbsp;<td>
-                        <td style="border:0px;text-align=right;">
-                        <pre><time id="duration_localhost_4a33f9ba545382687538f13045e9733e" datetime="1493156831163.3992">0 sec</time></pre></td>
-                        </tr>
-                        </table>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_html rendered_html output_subarea ">
-<table id="table_localhost_cd2c93ac80ea7965478d7eb863b8994c" style="border: 0px"><tr style="border: 0px">
-                        <td style="border: 0px">
-                        <i id="status_localhost_cd2c93ac80ea7965478d7eb863b8994c"
-                            class="fa fa-2x fa-fw fa-square-o" 
-                            onmouseover="$('#status_localhost_cd2c93ac80ea7965478d7eb863b8994c').addClass('fa-stop').removeClass('fa-square-o')"
-                            onmouseleave="$('#status_localhost_cd2c93ac80ea7965478d7eb863b8994c').addClass('fa-square-o').removeClass('fa-stop')"
-                            onclick="kill_task('cd2c93ac80ea7965478d7eb863b8994c', 'localhost')"
-                        ></i> </td>
-                        <td style="border: 0px"><a onclick="task_info('cd2c93ac80ea7965478d7eb863b8994c', 'localhost')"><pre>cd2c93ac80ea7965478d7eb863b8994c</pre></a></td>
-                        <td>&nbsp;<td>
-                        <td style="border:0px;text-align=right;">
-                        <pre><time id="duration_localhost_cd2c93ac80ea7965478d7eb863b8994c" datetime="1493156831163.9194">0 sec</time></pre></td>
-                        </tr>
-                        </table>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_html rendered_html output_subarea ">
-<table id="table_localhost_dec74cac07457fb4f076b5b1271f8aba" style="border: 0px"><tr style="border: 0px">
-                        <td style="border: 0px">
-                        <i id="status_localhost_dec74cac07457fb4f076b5b1271f8aba"
-                            class="fa fa-2x fa-fw fa-square-o" 
-                            onmouseover="$('#status_localhost_dec74cac07457fb4f076b5b1271f8aba').addClass('fa-stop').removeClass('fa-square-o')"
-                            onmouseleave="$('#status_localhost_dec74cac07457fb4f076b5b1271f8aba').addClass('fa-square-o').removeClass('fa-stop')"
-                            onclick="kill_task('dec74cac07457fb4f076b5b1271f8aba', 'localhost')"
-                        ></i> </td>
-                        <td style="border: 0px"><a onclick="task_info('dec74cac07457fb4f076b5b1271f8aba', 'localhost')"><pre>dec74cac07457fb4f076b5b1271f8aba</pre></a></td>
-                        <td>&nbsp;<td>
-                        <td style="border:0px;text-align=right;">
-                        <pre><time id="duration_localhost_dec74cac07457fb4f076b5b1271f8aba" datetime="1493156831164.6113">0 sec</time></pre></td>
-                        </tr>
-                        </table>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_html rendered_html output_subarea ">
-<table id="table_localhost_675a82ee54c0654fce3824616b577990" style="border: 0px"><tr style="border: 0px">
-                        <td style="border: 0px">
-                        <i id="status_localhost_675a82ee54c0654fce3824616b577990"
-                            class="fa fa-2x fa-fw fa-square-o" 
-                            onmouseover="$('#status_localhost_675a82ee54c0654fce3824616b577990').addClass('fa-stop').removeClass('fa-square-o')"
-                            onmouseleave="$('#status_localhost_675a82ee54c0654fce3824616b577990').addClass('fa-square-o').removeClass('fa-stop')"
-                            onclick="kill_task('675a82ee54c0654fce3824616b577990', 'localhost')"
-                        ></i> </td>
-                        <td style="border: 0px"><a onclick="task_info('675a82ee54c0654fce3824616b577990', 'localhost')"><pre>675a82ee54c0654fce3824616b577990</pre></a></td>
-                        <td>&nbsp;<td>
-                        <td style="border:0px;text-align=right;">
-                        <pre><time id="duration_localhost_675a82ee54c0654fce3824616b577990" datetime="1493156831165.0156">0 sec</time></pre></td>
-                        </tr>
-                        </table>
-</div>
-</div>
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_html rendered_html output_subarea ">
-<table id="table_localhost_5d631ad2090bdeea6ff5f643ea455218" style="border: 0px"><tr style="border: 0px">
-                        <td style="border: 0px">
-                        <i id="status_localhost_5d631ad2090bdeea6ff5f643ea455218"
-                            class="fa fa-2x fa-fw fa-square-o" 
-                            onmouseover="$('#status_localhost_5d631ad2090bdeea6ff5f643ea455218').addClass('fa-stop').removeClass('fa-square-o')"
-                            onmouseleave="$('#status_localhost_5d631ad2090bdeea6ff5f643ea455218').addClass('fa-square-o').removeClass('fa-stop')"
-                            onclick="kill_task('5d631ad2090bdeea6ff5f643ea455218', 'localhost')"
-                        ></i> </td>
-                        <td style="border: 0px"><a onclick="task_info('5d631ad2090bdeea6ff5f643ea455218', 'localhost')"><pre>5d631ad2090bdeea6ff5f643ea455218</pre></a></td>
-                        <td>&nbsp;<td>
-                        <td style="border:0px;text-align=right;">
-                        <pre><time id="duration_localhost_5d631ad2090bdeea6ff5f643ea455218" datetime="1493156831165.4387">0 sec</time></pre></td>
-                        </tr>
-                        </table>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span>
-</pre></div>
 </div>
 </div>
 </div>
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/6c09649979461fec67e0273dbe1db6e151e5d2b8/analysis/20170525_Simulation_pipeline.ipynb"><code>analysis/20170525_Simulation_pipeline.ipynb</code></a> committed by Min Qiao on Thu Aug 17 13:17:10 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/6c09649979461fec67e0273dbe1db6e151e5d2b8">revision 272, 6c09649</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/35f31793cceaa0b2a9f4000a04c29402bed006b3/utils/SoS_Workflows.ipynb"><code>utils/SoS_Workflows.ipynb</code></a> committed by Min Qiao on Sun Aug 20 13:42:54 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/35f31793cceaa0b2a9f4000a04c29402bed006b3">revision 290, 35f3179</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

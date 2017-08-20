@@ -50,6 +50,45 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
     });
 </script>
 <script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=setupDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=setupArray;
+            var pos=setupArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  var name=docs[a]
+                  $('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  var name=docs[a]
+                  $(".toc #toc-level0").append('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>');
+            }
+            $("#toc-header").hide();
+    });
+</script>
+<script>
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -104,6 +143,12 @@ body {
   <a href="../analysis.html">Analysis</a>
 </li>
 <li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+<li>
+  <a href="../utils.html">Utils</a>
+</li>
+<li>
   <a href="../setup.html">Setup</a>
 </li>
 <li>
@@ -132,8 +177,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="kn">R:</span>
-<span class="c1">## try http:// if https:// URLs are not supported</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">## try http:// if https:// URLs are not supported</span>
 <span class="n">source</span><span class="p">(</span><span class="s2">&quot;https://bioconductor.org/biocLite.R&quot;</span><span class="p">)</span>
 <span class="n">biocLite</span><span class="p">(</span><span class="s2">&quot;DNAcopy&quot;</span><span class="p">)</span>
 <span class="n">install</span><span class="o">.</span><span class="n">packages</span><span class="p">(</span><span class="s2">&quot;saasCNV&quot;</span><span class="p">)</span>
@@ -144,7 +188,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/f9e8a169a58be17296b1c004c7855734a9757b11/setup/setup.ipynb"><code>setup/setup.ipynb</code></a> committed by Min Qiao on Sat Aug 19 11:51:15 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/f9e8a169a58be17296b1c004c7855734a9757b11">revision 286, f9e8a16</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/c5ff8a87292a2ffe6a0b4ca6c3e973d603413dd6/setup/setup.ipynb"><code>setup/setup.ipynb</code></a> committed by Min Qiao on Sat Aug 19 23:44:38 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/c5ff8a87292a2ffe6a0b4ca6c3e973d603413dd6">revision 289, c5ff8a8</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

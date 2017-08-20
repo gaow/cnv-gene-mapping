@@ -50,6 +50,45 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
     });
 </script>
 <script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=analysisDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=analysisArray;
+            var pos=analysisArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  var name=docs[a]
+                  $('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  var name=docs[a]
+                  $(".toc #toc-level0").append('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>');
+            }
+            $("#toc-header").hide();
+    });
+</script>
+<script>
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -104,6 +143,12 @@ body {
   <a href="../analysis.html">Analysis</a>
 </li>
 <li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+<li>
+  <a href="../utils.html">Utils</a>
+</li>
+<li>
   <a href="../setup.html">Setup</a>
 </li>
 <li>
@@ -131,9 +176,9 @@ body {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">simulation</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
-<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">simulation</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="k">import</span> <span class="n">pprint</span>
 <span class="k">def</span> <span class="nf">get_num_cnv_per_sample</span><span class="p">(</span><span class="n">input_data</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;input_data is either &quot;case&quot; or &quot;ctrl&quot; in simulated dataset&#39;&#39;&#39;</span>
     <span class="n">num_cnv</span> <span class="o">=</span> <span class="p">[]</span>
@@ -192,14 +237,14 @@ body {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">plotly</span>
-<span class="n">plotly</span><span class="o">.</span><span class="n">offline</span><span class="o">.</span><span class="n">init_notebook_mode</span><span class="p">(</span><span class="n">connected</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">plotly.offline</span> <span class="kn">import</span> <span class="n">iplot</span>
-<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="kn">as</span> <span class="nn">go</span>
-<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
-<span class="n">trace1</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span> <span class="n">x</span><span class="o">=</span><span class="n">num_cnv_case</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;case=2000&#39;</span><span class="p">,</span> <span class="n">autobinx</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">plotly</span>
+<span class="n">plotly</span><span class="o">.</span><span class="n">offline</span><span class="o">.</span><span class="n">init_notebook_mode</span><span class="p">(</span><span class="n">connected</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">plotly.offline</span> <span class="k">import</span> <span class="n">iplot</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">trace1</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span> <span class="n">x</span><span class="o">=</span><span class="n">num_cnv_case</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;case=2000&#39;</span><span class="p">,</span> <span class="n">autobinx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                       <span class="n">xbins</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightred&#39;</span><span class="p">),</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.75</span> <span class="p">)</span>
-<span class="n">trace2</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span> <span class="n">x</span><span class="o">=</span><span class="n">num_cnv_ctrl</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;control=2000&#39;</span><span class="p">,</span> <span class="n">autobinx</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+<span class="n">trace2</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span> <span class="n">x</span><span class="o">=</span><span class="n">num_cnv_ctrl</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;control=2000&#39;</span><span class="p">,</span> <span class="n">autobinx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                       <span class="n">xbins</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span><span class="p">),</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.75</span> <span class="p">)</span>
 <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">trace1</span><span class="p">,</span> <span class="n">trace2</span><span class="p">]</span>
 <span class="n">layout</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Number of CNV in Cases vs Controls&#39;</span><span class="p">,</span> <span class="n">xaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Value&#39;</span><span class="p">),</span> <span class="n">yaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Count&#39;</span><span class="p">),</span>
@@ -232,8 +277,8 @@ body {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">simulation</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">simulation</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
 <span class="k">def</span> <span class="nf">get_num_causalgene_overlap_cnv</span><span class="p">(</span><span class="n">input_data</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;get the number of causal gene that overlapped with CNV in case and control&#39;&#39;&#39;</span>
     <span class="n">dat</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
@@ -253,8 +298,8 @@ body {
     <span class="k">return</span> <span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">num_causalgene_overlap_cnv_incase</span><span class="p">)),</span> <span class="nb">dict</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">num_causalgene_overlap_cnv_inctrl</span><span class="p">)),</span> 
             <span class="n">num_causalgene_overlap_cnv_incase</span><span class="p">,</span> <span class="n">num_causalgene_overlap_cnv_inctrl</span><span class="p">)</span>
 <span class="n">num_causalgene_overlap_cnv</span> <span class="o">=</span> <span class="n">get_num_causalgene_overlap_cnv</span><span class="p">(</span><span class="s2">&quot;data/del_sim_scale5_shape1_N4000_M200_999.data.pkl&quot;</span><span class="p">)</span>
-<span class="k">print</span> <span class="p">(</span><span class="n">num_causalgene_overlap_cnv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="k">print</span> <span class="p">(</span><span class="n">num_causalgene_overlap_cnv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">num_causalgene_overlap_cnv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">num_causalgene_overlap_cnv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -277,14 +322,14 @@ body {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">plotly</span>
-<span class="n">plotly</span><span class="o">.</span><span class="n">offline</span><span class="o">.</span><span class="n">init_notebook_mode</span><span class="p">(</span><span class="n">connected</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">plotly.offline</span> <span class="kn">import</span> <span class="n">iplot</span>
-<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="kn">as</span> <span class="nn">go</span>
-<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
-<span class="n">trace1</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span> <span class="n">x</span><span class="o">=</span><span class="n">num_causalgene_overlap_cnv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;case&#39;</span><span class="p">,</span> <span class="n">autobinx</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">plotly</span>
+<span class="n">plotly</span><span class="o">.</span><span class="n">offline</span><span class="o">.</span><span class="n">init_notebook_mode</span><span class="p">(</span><span class="n">connected</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">plotly.offline</span> <span class="k">import</span> <span class="n">iplot</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">trace1</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span> <span class="n">x</span><span class="o">=</span><span class="n">num_causalgene_overlap_cnv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;case&#39;</span><span class="p">,</span> <span class="n">autobinx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                       <span class="n">xbins</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightred&#39;</span><span class="p">),</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.75</span> <span class="p">)</span>
-<span class="n">trace2</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span> <span class="n">x</span><span class="o">=</span><span class="n">num_causalgene_overlap_cnv</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;control&#39;</span><span class="p">,</span> <span class="n">autobinx</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+<span class="n">trace2</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span> <span class="n">x</span><span class="o">=</span><span class="n">num_causalgene_overlap_cnv</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;control&#39;</span><span class="p">,</span> <span class="n">autobinx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                       <span class="n">xbins</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span><span class="p">),</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.75</span> <span class="p">)</span>
 <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">trace1</span><span class="p">,</span> <span class="n">trace2</span><span class="p">]</span>
 <span class="n">layout</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Number of Causal gene overlapped with CNV in cases vs Controls&#39;</span><span class="p">,</span> 
@@ -317,8 +362,8 @@ body {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">simulation</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">simulation</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="c1"># need to rerun simulation 04/04</span>
 <span class="k">def</span> <span class="nf">get_cnv_length</span><span class="p">(</span><span class="n">input_data</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;input simulated dataset, get a dict of cnv length in case and a dict of cnv length in ctrl&#39;&#39;&#39;</span>
@@ -338,14 +383,14 @@ body {
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">plotly</span>
-<span class="n">plotly</span><span class="o">.</span><span class="n">offline</span><span class="o">.</span><span class="n">init_notebook_mode</span><span class="p">(</span><span class="n">connected</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">plotly.offline</span> <span class="kn">import</span> <span class="n">iplot</span>
-<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="kn">as</span> <span class="nn">go</span>
-<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
-<span class="n">trace1</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span> <span class="n">x</span><span class="o">=</span><span class="n">cnv_length_case</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;case&#39;</span><span class="p">,</span> <span class="n">autobinx</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">plotly</span>
+<span class="n">plotly</span><span class="o">.</span><span class="n">offline</span><span class="o">.</span><span class="n">init_notebook_mode</span><span class="p">(</span><span class="n">connected</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">plotly.offline</span> <span class="k">import</span> <span class="n">iplot</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">trace1</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span> <span class="n">x</span><span class="o">=</span><span class="n">cnv_length_case</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;case&#39;</span><span class="p">,</span> <span class="n">autobinx</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
                       <span class="n">xbins</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">1500000</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">40000</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightred&#39;</span><span class="p">),</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.75</span> <span class="p">)</span>
-<span class="n">trace2</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span> <span class="n">x</span><span class="o">=</span><span class="n">cnv_length_ctrl</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;control&#39;</span><span class="p">,</span> <span class="n">autobinx</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> 
+<span class="n">trace2</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span> <span class="n">x</span><span class="o">=</span><span class="n">cnv_length_ctrl</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;control&#39;</span><span class="p">,</span> <span class="n">autobinx</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
                       <span class="n">xbins</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">1500000</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">40000</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span><span class="p">),</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.75</span> <span class="p">)</span>
 <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">trace1</span><span class="p">,</span> <span class="n">trace2</span><span class="p">]</span>
 <span class="n">layout</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;CNV length in Cases versus Controls&#39;</span><span class="p">,</span> <span class="n">xaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;CNV length&#39;</span><span class="p">),</span> 
@@ -378,8 +423,8 @@ body {
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">simulation</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">simulation</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="k">def</span> <span class="nf">get_cnv_length_overlap_with_gene</span><span class="p">(</span><span class="n">input_data</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;input simulated dataset, get a dict of cnv length which overlapped with gene in case, </span>
 <span class="sd">    and a dict of cnv length that overlapped with gene in ctrl&#39;&#39;&#39;</span>
@@ -408,14 +453,14 @@ body {
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">plotly</span>
-<span class="n">plotly</span><span class="o">.</span><span class="n">offline</span><span class="o">.</span><span class="n">init_notebook_mode</span><span class="p">(</span><span class="n">connected</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">plotly.offline</span> <span class="kn">import</span> <span class="n">iplot</span>
-<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="kn">as</span> <span class="nn">go</span>
-<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
-<span class="n">trace1</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span> <span class="n">x</span><span class="o">=</span><span class="n">cnv_length_case_overlap_with_gene</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;case&#39;</span><span class="p">,</span> <span class="n">autobinx</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">plotly</span>
+<span class="n">plotly</span><span class="o">.</span><span class="n">offline</span><span class="o">.</span><span class="n">init_notebook_mode</span><span class="p">(</span><span class="n">connected</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">plotly.offline</span> <span class="k">import</span> <span class="n">iplot</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">trace1</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span> <span class="n">x</span><span class="o">=</span><span class="n">cnv_length_case_overlap_with_gene</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;case&#39;</span><span class="p">,</span> <span class="n">autobinx</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
                       <span class="n">xbins</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">1500000</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">40000</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightred&#39;</span><span class="p">),</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.75</span> <span class="p">)</span>
-<span class="n">trace2</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span> <span class="n">x</span><span class="o">=</span><span class="n">cnv_length_ctrl_overlap_with_gene</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;control&#39;</span><span class="p">,</span> <span class="n">autobinx</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> 
+<span class="n">trace2</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span> <span class="n">x</span><span class="o">=</span><span class="n">cnv_length_ctrl_overlap_with_gene</span><span class="p">,</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;control&#39;</span><span class="p">,</span> <span class="n">autobinx</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
                       <span class="n">xbins</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">1500000</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">40000</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span><span class="p">),</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.75</span> <span class="p">)</span>
 <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">trace1</span><span class="p">,</span> <span class="n">trace2</span><span class="p">]</span>
 <span class="n">layout</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;The length of CNV overlapped with genes in Cases versus Controls&#39;</span><span class="p">,</span> 
@@ -443,20 +488,9 @@ body {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e/analysis/20170413_Plot_enrichment_analysis_CNV.ipynb"><code>analysis/20170413_Plot_enrichment_analysis_CNV.ipynb</code></a> committed by Min Qiao on Sat Aug 19 11:37:36 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e">revision 284, 88e7785</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/35f31793cceaa0b2a9f4000a04c29402bed006b3/analysis/20170413_Plot_enrichment_analysis_CNV.ipynb"><code>analysis/20170413_Plot_enrichment_analysis_CNV.ipynb</code></a> committed by Min Qiao on Sun Aug 20 13:42:54 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/35f31793cceaa0b2a9f4000a04c29402bed006b3">revision 290, 35f3179</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

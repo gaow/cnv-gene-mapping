@@ -50,6 +50,45 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
     });
 </script>
 <script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=analysisDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=analysisArray;
+            var pos=analysisArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  var name=docs[a]
+                  $('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  var name=docs[a]
+                  $(".toc #toc-level0").append('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>');
+            }
+            $("#toc-header").hide();
+    });
+</script>
+<script>
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -104,6 +143,12 @@ body {
   <a href="../analysis.html">Analysis</a>
 </li>
 <li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+<li>
+  <a href="../utils.html">Utils</a>
+</li>
+<li>
   <a href="../setup.html">Setup</a>
 </li>
 <li>
@@ -131,16 +176,16 @@ body {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">simulation</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">power_typeIerror</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="kn">as</span> <span class="nn">robjects</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">pandas2ri</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">simulation</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">power_typeIerror</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">robjects</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">pandas2ri</span>
 <span class="n">pandas2ri</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
 <span class="n">readRDS</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;readRDS&#39;</span><span class="p">]</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="c1"># from numpy import inf</span>
 </pre></div>
 </div>
@@ -152,7 +197,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">get_causal_pvalue_from_pkl</span><span class="p">(</span><span class="n">input_data</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_causal_pvalue_from_pkl</span><span class="p">(</span><span class="n">input_data</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;get p values of fisher&#39;s exact test of causal genes from pkl input&#39;&#39;&#39;</span>
     <span class="n">dat</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
     <span class="n">causal_genes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">][</span><span class="s2">&quot;causal genes&quot;</span><span class="p">])</span>
@@ -165,7 +210,7 @@ body {
     <span class="c1"># need to convert pvalue to -log10(pvalue) in def lfdr_pvalue_plot</span>
     <span class="c1"># log_overlap_pvalue = [-np.log10(fisher_table[&quot;p_value&quot;][num]) for num in indices]</span>
     <span class="n">overlap_pvalue</span> <span class="o">=</span> <span class="p">[</span><span class="n">fisher_table</span><span class="p">[</span><span class="s2">&quot;p_value&quot;</span><span class="p">][</span><span class="n">num</span><span class="p">]</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span>
-    <span class="n">pvalue_df</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">overlap_genes</span><span class="p">,</span> <span class="n">overlap_pvalue</span><span class="p">]),</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+    <span class="n">pvalue_df</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">overlap_genes</span><span class="p">,</span> <span class="n">overlap_pvalue</span><span class="p">]),</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">overlap_genes</span><span class="p">,</span> <span class="n">pvalue_df</span><span class="p">,</span> <span class="n">args</span>
 </pre></div>
 </div>
@@ -177,7 +222,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">get_lfdr</span><span class="p">(</span><span class="n">rds_data</span><span class="p">,</span> <span class="n">overlap_genes_from_pkl</span><span class="p">,</span> <span class="n">inf_sub</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_lfdr</span><span class="p">(</span><span class="n">rds_data</span><span class="p">,</span> <span class="n">overlap_genes_from_pkl</span><span class="p">,</span> <span class="n">inf_sub</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">readRDS</span><span class="p">(</span><span class="n">rds_data</span><span class="p">)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">ri2py</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
     <span class="c1"># print (df.names)</span>
@@ -192,7 +237,7 @@ body {
     <span class="n">log_lfdr</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="nb">max</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">log_lfdr_overlap</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">x</span><span class="p">)])</span> 
                 <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">log_lfdr_overlap</span><span class="p">]</span>
     <span class="n">lfdr_df</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">overlap_genes_from_pkl</span><span class="p">,</span> <span class="n">log_lfdr</span><span class="p">]),</span> 
-                                 <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+                                 <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">lfdr_df</span>
 </pre></div>
 </div>
@@ -204,7 +249,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">convert_list_to_R</span><span class="p">(</span><span class="n">list_dat</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">convert_list_to_R</span><span class="p">(</span><span class="n">list_dat</span><span class="p">):</span>
     <span class="n">ks</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;ks&#39;</span><span class="p">)</span>
     <span class="n">R_vector</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">c</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">FloatVector</span><span class="p">(</span><span class="n">list_dat</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">R_vector</span>
@@ -218,7 +263,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">library(&quot;fdrtool&quot;)</span>
 <span class="s1">f &lt;- function(lfdr){</span>
 <span class="s1">    fdr = fdrtool(lfdr, statistic = &quot;pvalue&quot;, verbose = FALSE)</span>
@@ -236,7 +281,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">lfdr_pvalue_plot</span><span class="p">(</span><span class="n">pvalue_dat</span><span class="p">,</span> <span class="n">lfdr_dat</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">lfdr_pvalue_plot</span><span class="p">(</span><span class="n">pvalue_dat</span><span class="p">,</span> <span class="n">lfdr_dat</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Use LFDR from Fisher&#39;s pvalue as x axis, instead of pvalue itself&#39;&#39;&#39;</span>
     <span class="n">overlap_genes</span><span class="p">,</span> <span class="n">pvalue</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">get_causal_pvalue_from_pkl</span><span class="p">(</span><span class="n">pvalue_dat</span><span class="p">)</span>
     <span class="n">lfdr</span> <span class="o">=</span> <span class="n">get_lfdr</span><span class="p">(</span><span class="n">lfdr_dat</span><span class="p">,</span> <span class="n">overlap_genes</span><span class="p">)</span>
@@ -255,13 +300,13 @@ body {
             <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">))</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;-log(lfdr) from Fisher&#39;s pvalue&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;-log(lfdr)&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;N={}, M={}, Gamma~({},1), p={}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;n_case&quot;</span><span class="p">]</span><span class="o">+</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;n_ctrl&quot;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;n_causal_gene&quot;</span><span class="p">],</span> 
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;N=</span><span class="si">{}</span><span class="s2">, M=</span><span class="si">{}</span><span class="s2">, Gamma~(</span><span class="si">{}</span><span class="s2">,1), p=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;n_case&quot;</span><span class="p">]</span><span class="o">+</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;n_ctrl&quot;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;n_causal_gene&quot;</span><span class="p">],</span> 
                                                 <span class="n">args</span><span class="p">[</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s2">&quot;shape&quot;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;prevalence&quot;</span><span class="p">]</span> <span class="p">))</span>
     <span class="c1"># plt.show()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;N{}_M{}_shape{}_p{}.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;n_case&quot;</span><span class="p">]</span><span class="o">+</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;n_ctrl&quot;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;n_causal_gene&quot;</span><span class="p">],</span> 
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;N</span><span class="si">{}</span><span class="s2">_M</span><span class="si">{}</span><span class="s2">_shape</span><span class="si">{}</span><span class="s2">_p</span><span class="si">{}</span><span class="s2">.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;n_case&quot;</span><span class="p">]</span><span class="o">+</span><span class="n">args</span><span class="p">[</span><span class="s2">&quot;n_ctrl&quot;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;n_causal_gene&quot;</span><span class="p">],</span> 
                                                   <span class="n">args</span><span class="p">[</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s2">&quot;shape&quot;</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;prevalence&quot;</span><span class="p">]</span> <span class="p">))</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
 </div>
 </div>
@@ -272,7 +317,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">lfdr_pvalue_plot</span><span class="p">(</span><span class="s2">&quot;data/del_sim_shape5_scale1_p0.005_N4000_M200_12.data.pkl&quot;</span><span class="p">,</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lfdr_pvalue_plot</span><span class="p">(</span><span class="s2">&quot;data/del_sim_shape5_scale1_p0.005_N4000_M200_12.data.pkl&quot;</span><span class="p">,</span> 
                  <span class="s2">&quot;data/del_sim_shape5_scale1_p0.005_N4000_M200_12.data.feather.RDS&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -284,7 +329,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># overlap_genes_from_pkl, pvalue_df_pkl, args = get_causal_pvalue_from_pkl(</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># overlap_genes_from_pkl, pvalue_df_pkl, args = get_causal_pvalue_from_pkl(</span>
 <span class="c1">#     &quot;data/del_sim_shape9_scale1_p0.01_N4000_M100_12.data.pkl&quot;)</span>
 </pre></div>
 </div>
@@ -296,7 +341,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># lfdr_df_rds = get_lfdr(&quot;data/del_sim_shape9_scale1_p0.01_N4000_M100_12.data.feather.RDS&quot;, overlap_genes_from_pkl)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># lfdr_df_rds = get_lfdr(&quot;data/del_sim_shape9_scale1_p0.01_N4000_M100_12.data.feather.RDS&quot;, overlap_genes_from_pkl)</span>
 <span class="c1"># print (lfdr_df_rds)</span>
 </pre></div>
 </div>
@@ -308,7 +353,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># fig = plt.scatter(comb[&quot;p1&quot;], comb[&quot;p2&quot;])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># fig = plt.scatter(comb[&quot;p1&quot;], comb[&quot;p2&quot;])</span>
 <span class="c1"># for label, p1, p2 in zip(comb[&quot;gene&quot;], comb[&quot;p1&quot;], comb[&quot;p2&quot;]):</span>
 <span class="c1">#     if (p1&gt;1 and p2&gt;1) or (p1&gt;2) or (p2&gt;2):</span>
 <span class="c1">#         plt.annotate(label, xy = (p1, p2))</span>
@@ -325,7 +370,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e/analysis/20170504_lfdr_plot.ipynb"><code>analysis/20170504_lfdr_plot.ipynb</code></a> committed by Min Qiao on Sat Aug 19 11:37:36 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e">revision 284, 88e7785</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/35f31793cceaa0b2a9f4000a04c29402bed006b3/analysis/20170504_lfdr_plot.ipynb"><code>analysis/20170504_lfdr_plot.ipynb</code></a> committed by Min Qiao on Sun Aug 20 13:42:54 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/35f31793cceaa0b2a9f4000a04c29402bed006b3">revision 290, 35f3179</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

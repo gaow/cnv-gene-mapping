@@ -50,6 +50,45 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
     });
 </script>
 <script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=analysisDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=analysisArray;
+            var pos=analysisArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  var name=docs[a]
+                  $('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  var name=docs[a]
+                  $(".toc #toc-level0").append('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>');
+            }
+            $("#toc-header").hide();
+    });
+</script>
+<script>
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -104,6 +143,12 @@ body {
   <a href="../analysis.html">Analysis</a>
 </li>
 <li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+<li>
+  <a href="../utils.html">Utils</a>
+</li>
+<li>
   <a href="../setup.html">Setup</a>
 </li>
 <li>
@@ -131,16 +176,32 @@ body {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="k">import</span> <span class="n">pprint</span>
 <span class="c1"># from pandasql import sqldf</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
 <span class="c1"># import pickle</span>
 <span class="kn">import</span> <span class="nn">feather</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">utils</span> <span class="k">import</span> <span class="n">run_dap</span><span class="p">,</span> <span class="n">load_data</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;data/calcium_pathway_N40_p0.01.data.blocks.pkl&#39;</span>
+<span class="n">fileout</span> <span class="o">=</span> <span class="s2">&quot;data/calcium_pathway_N40_p0.01.data&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fileout</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>data/calcium_pathway_N40_p0.01.data
+</pre>
+</div>
 </div>
 </div>
 </div>
@@ -149,7 +210,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Data-transform:-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">Data transform: $y \in \{0,1\}$ to $y \in \{0,t\}$<a class="anchor-link" href="#Data-transform:-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">&#182;</a></h4>
+<h2 id="Data-transform:-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">Data transform: $y \in \{0,1\}$ to $y \in \{0,t\}$<a class="anchor-link" href="#Data-transform:-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -158,15 +219,16 @@ body {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># the lifetime prevalence of schizophrenia is 4.0/1000, not 1%, but we first set it as 0.01</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="c1"># the lifetime prevalence of schizophrenia is 4.0/1000, not 1%, but we first set it as 0.01</span>
 <span class="c1"># according to https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1140960/</span>
-<span class="n">prevalence</span> <span class="o">=</span> <span class="mf">0.01</span>
 <span class="c1"># relative risk is normally between 2 and 10</span>
 <span class="n">RR</span> <span class="o">=</span> <span class="mf">2.5</span>
+<span class="n">prevalence</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">][</span><span class="s1">&#39;args&#39;</span><span class="p">][</span><span class="s1">&#39;prevalence&#39;</span><span class="p">]</span>
 <span class="n">t</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">prevalence</span><span class="p">)</span>
 <span class="c1"># effect size of beta is z_mu, prior</span>
 <span class="n">z_mu</span> <span class="o">=</span> <span class="n">t</span> <span class="o">-</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">RR</span><span class="o">*</span><span class="n">prevalence</span><span class="p">)</span>
-<span class="k">print</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">z_mu</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">z_mu</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -185,12 +247,12 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># create prior file</span>
-<span class="n">cal_pthwy_genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/calciumgeneset.txt&quot;</span><span class="p">,</span> <span class="n">skiprows</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
-<span class="n">ref_genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;data/refGene.txt.gz&quot;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create prior file</span>
+<span class="n">cal_pthwy_genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/calciumgeneset.txt&quot;</span><span class="p">,</span> <span class="n">skiprows</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
+<span class="n">ref_genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/refGene.txt.gz&quot;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
                           <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;gene_name&quot;</span><span class="p">))</span>
 <span class="n">calpath_gene_pos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">ref_genes</span><span class="p">,</span> <span class="n">cal_pthwy_genes</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
 <span class="n">diff</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">cal_pthwy_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">calpath_gene_pos</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
@@ -204,10 +266,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">calpath_gene_pos</span><span class="p">[</span><span class="s2">&quot;chr.gene&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="s2">&quot;{}.{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]),</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">calpath_gene_pos</span><span class="p">[</span><span class="s2">&quot;chr.gene&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]),</span> 
                                                       <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">calpath_gene_pos</span><span class="p">[</span><span class="s2">&quot;prior.pr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">z_mu</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
@@ -217,103 +279,42 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="n">z_mu</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="n">z_mu</span>
 <span class="n">y_tran</span> <span class="o">=</span> <span class="n">t</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">run_dap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">fileout</span><span class="p">,</span> <span class="n">pthwy_genes</span><span class="p">,</span> <span class="n">dap_method</span> <span class="o">=</span> <span class="s2">&quot;dap&quot;</span><span class="p">,</span> <span class="n">multiplier</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>  
-            <span class="n">exec_path</span> <span class="o">=</span> <span class="s1">&#39;dap&#39;</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dry_run</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">ncpu</span> <span class="o">=</span> <span class="mi">6</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Convert pandas dataframe to dap input:</span>
-<span class="sd">        - phenotype / genotype file</span>
-<span class="sd">        - prior file</span>
-<span class="sd">        - grid file (of effect size): omega^2 + phi^2 is what we care. Let&#39;s set it to</span>
-<span class="sd">          (0, beta) for now, as we only have one Y</span>
-<span class="sd">        dap_method: default to `dap`, other choices are `dap1`, `dap-g` (dap greedy)</span>
-<span class="sd">        You can experiment with multiple dap implementation using `dap_method` and `dry_run`</span>
-<span class="sd">        For example you set `dry_run = True`, ncpu = 3 and `dap_method = &quot;dap&quot;` </span>
-<span class="sd">        you&#39;ll get a line of command printed on screen that will run `dap` if you execute it in terminal.</span>
-<span class="sd">        Then you can change `dap_method = &quot;dap1&quot;`, run again to generate the command for `dap1` and execute</span>
-<span class="sd">        it in another terminal window.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">print</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span>
-    <span class="kn">import</span> <span class="nn">os</span>
-    <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">time</span>
-        <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;/tmp/F&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
-    <span class="n">exec_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">exec_path</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">dap_method</span><span class="p">)</span>
-<span class="c1">#     chrom = [&quot;chr{}&quot;.format(i) for i in list(range(1,23))+[&quot;X&quot;]]</span>
-<span class="c1">#     pos is all the gene names showed in .feather</span>
-    <span class="n">pos</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="c1">#     first item in &quot;dat&quot; is phenotype for all samples (# of rows in .feather)</span>
-    <span class="n">dat</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;pheno&#39;</span><span class="p">,</span> <span class="s1">&#39;trait&#39;</span><span class="p">,</span> <span class="s1">&#39;chicago&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]]]</span>
-    <span class="n">prior</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">grid</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">)]</span>
-<span class="c1">#     item is gene namePerformance Cake PanPerformance Cake PanPerformance Cake Pan</span>
-    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="s2">&quot;phenotype&quot;</span><span class="p">:</span>
-            <span class="k">continue</span>
-        <span class="n">dat</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;geno&#39;</span><span class="p">,</span> <span class="s1">&#39;{}.{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genes</span><span class="p">[</span><span class="n">ref_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">==</span><span class="n">item</span><span class="p">][</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">),</span> 
-                    <span class="s1">&#39;chicago&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="n">item</span><span class="p">]])</span>
-        <span class="n">n_overlap_gene</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pthwy_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span>
-        <span class="n">prior_causal</span> <span class="o">=</span> <span class="n">multiplier</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span>
-        <span class="n">prior_noncausal</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">prior_causal</span><span class="o">*</span><span class="n">n_overlap_gene</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span><span class="o">-</span><span class="n">n_overlap_gene</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">multiplier</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">:</span>
-            <span class="n">prior_pr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pos</span><span class="p">)))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">prior_pr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">prior_causal</span><span class="p">)</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">pthwy_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">prior_noncausal</span><span class="p">)</span>
-        <span class="n">prior</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s1">&#39;{}.{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref_genes</span><span class="p">[</span><span class="n">ref_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">==</span><span class="n">item</span><span class="p">][</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">),</span> <span class="n">prior_pr</span><span class="p">])</span>
-<span class="c1">#     print (prior_causal, prior_noncausal)</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;.dat&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">]))</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;.prior&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">prior</span><span class="p">]))</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;.grid&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">]))</span>
-    <span class="n">fileout</span> <span class="o">=</span> <span class="n">fileout</span> <span class="o">+</span> <span class="s1">&#39;_multiplier{}.{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">multiplier</span><span class="p">,</span> <span class="n">dap_method</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">dap_method</span> <span class="o">==</span> <span class="s1">&#39;dap&#39;</span><span class="p">:</span>
-        <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;{0} -d {1}.dat -g {1}.grid -it 0.05 -prior {1}.prior -t {2} &gt; {3} &quot;</span><span class="o">.</span>\
-            <span class="n">format</span><span class="p">(</span><span class="n">exec_path</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">ncpu</span><span class="p">,</span> <span class="n">fileout</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">dap_method</span> <span class="o">==</span> <span class="s1">&#39;dap-g&#39;</span><span class="p">:</span>
-        <span class="n">cmd</span> <span class="o">=</span>  <span class="s2">&quot;{0} -d {1}.dat -g {1}.grid -prior {1}.prior -t {2} &gt; {3} &quot;</span><span class="o">.</span>\
-            <span class="n">format</span><span class="p">(</span><span class="n">exec_path</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">ncpu</span><span class="p">,</span> <span class="n">fileout</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;{0} -d {1}.dat -prior {1}.prior &gt; {2} &quot;</span><span class="o">.</span>\
-            <span class="n">format</span><span class="p">(</span><span class="n">exec_path</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">fileout</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">dry_run</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
-        <span class="k">print</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span>
-    <span class="k">else</span><span class="p">:</span>
-<span class="c1">#         generate cmd, then run under the folder of &quot;analysis&quot;</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
-<span class="c1">#     return prior</span>
-</pre></div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Run-DAP">Run DAP<a class="anchor-link" href="#Run-DAP">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;data/calcium_pathway_N4000_shape25_nomask.data.feather&quot;</span>
-<span class="n">fileout</span> <span class="o">=</span> <span class="s2">&quot;data/calcium_pathway_N4000_shape25_nomask.data&quot;</span>
-<span class="n">input_file</span> <span class="o">=</span> <span class="n">feather</span><span class="o">.</span><span class="n">read_dataframe</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-<span class="n">input_file</span><span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_file</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">y_tran</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span><span class="o">==</span><span class="mf">1.0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">run_dap</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="n">fileout</span><span class="p">,</span> <span class="n">cal_pthwy_genes</span><span class="p">,</span> <span class="n">multiplier</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">ncpu</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dry_run</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">dap_method</span> <span class="o">=</span> <span class="s2">&quot;dap&quot;</span><span class="p">)</span>
-<span class="c1"># run_dap(input_file, fileout, cal_pthwy_genes, multiplier = 10, ncpu = 2, dry_run = False, dap_method = &quot;dap-g&quot;)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dap_method</span> <span class="o">=</span> <span class="s1">&#39;dap-g&#39;</span>
+<span class="n">multiplier</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">fileout</span> <span class="o">=</span> <span class="n">fileout</span> <span class="o">+</span> <span class="s1">&#39;_multiplier</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">multiplier</span><span class="p">,</span> <span class="n">dap_method</span><span class="p">)</span>
+<span class="c1"># clean it up, very important!</span>
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fileout</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fileout</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;rm -f /tmp/F*{dat,prior,grid}&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]):</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">y_tran</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span><span class="o">==</span><span class="mf">1.0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">times</span> <span class="o">=</span> <span class="n">run_dap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">fileout</span><span class="p">,</span> <span class="n">cal_pthwy_genes</span><span class="p">,</span> <span class="n">ref_genes</span><span class="p">,</span> <span class="n">grid</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">)],</span> 
+                    <span class="n">multiplier</span> <span class="o">=</span> <span class="n">multiplier</span><span class="p">,</span> <span class="n">ncpu</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">dry_run</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">dap_method</span> <span class="o">=</span> <span class="n">dap_method</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Job </span><span class="si">{2}</span><span class="s1">/</span><span class="si">{3}</span><span class="s1">, elapsed </span><span class="si">{0:.2f}</span><span class="s1">s prepare &amp; </span><span class="si">{1:.2f}</span><span class="s1">s DAP&#39;</span><span class="o">.</span>\
+          <span class="nb">format</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">times</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])))</span>
 </pre></div>
 </div>
 </div>
@@ -323,9 +324,138 @@ body {
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>2017-08-17 19:31:42.961731
-dap/dap -d /tmp/F1503016302.9618092.dat -g /tmp/F1503016302.9618092.grid -it 0.05 -prior /tmp/F1503016302.9618092.prior -t 2 &gt; data/calcium_pathway_N4000_shape25_nomask.data_multiplier10.dap 
-2017-08-17 19:35:17.635490
+<pre>Job 1/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 2/132, elapsed 0.03s prepare &amp; 0.01s DAP
+Job 3/132, elapsed 0.04s prepare &amp; 0.00s DAP
+Job 4/132, elapsed 0.06s prepare &amp; 0.00s DAP
+Job 5/132, elapsed 0.03s prepare &amp; 0.00s DAP
+Job 6/132, elapsed 0.02s prepare &amp; 0.00s DAP
+Job 7/132, elapsed 0.02s prepare &amp; 0.01s DAP
+Job 8/132, elapsed 0.02s prepare &amp; 0.01s DAP
+Job 9/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 10/132, elapsed 0.02s prepare &amp; 0.00s DAP
+Job 11/132, elapsed 0.11s prepare &amp; 0.00s DAP
+Job 12/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 13/132, elapsed 0.03s prepare &amp; 0.01s DAP
+Job 14/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 15/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 16/132, elapsed 0.06s prepare &amp; 0.00s DAP
+Job 17/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 18/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 19/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 20/132, elapsed 0.05s prepare &amp; 0.01s DAP
+Job 21/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 22/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 23/132, elapsed 0.03s prepare &amp; 0.00s DAP
+Job 24/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 25/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 26/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 27/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 28/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 29/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 30/132, elapsed 0.05s prepare &amp; 0.01s DAP
+Job 31/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 32/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 33/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 34/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 35/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 36/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 37/132, elapsed 0.03s prepare &amp; 0.00s DAP
+Job 38/132, elapsed 0.03s prepare &amp; 0.00s DAP
+Job 39/132, elapsed 0.03s prepare &amp; 0.00s DAP
+Job 40/132, elapsed 0.03s prepare &amp; 0.01s DAP
+Job 41/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 42/132, elapsed 0.03s prepare &amp; 0.00s DAP
+Job 43/132, elapsed 0.06s prepare &amp; 0.01s DAP
+Job 44/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 45/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 46/132, elapsed 0.02s prepare &amp; 0.00s DAP
+Job 47/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 48/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 49/132, elapsed 0.03s prepare &amp; 0.01s DAP
+Job 50/132, elapsed 0.04s prepare &amp; 0.01s DAP
+Job 51/132, elapsed 0.04s prepare &amp; 0.01s DAP
+Job 52/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 53/132, elapsed 0.04s prepare &amp; 0.00s DAP
+Job 54/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 55/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 56/132, elapsed 0.08s prepare &amp; 0.01s DAP
+Job 57/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 58/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 59/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 60/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 61/132, elapsed 0.02s prepare &amp; 0.01s DAP
+Job 62/132, elapsed 0.05s prepare &amp; 0.01s DAP
+Job 63/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 64/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 65/132, elapsed 0.02s prepare &amp; 0.01s DAP
+Job 66/132, elapsed 0.02s prepare &amp; 0.01s DAP
+Job 67/132, elapsed 0.02s prepare &amp; 0.01s DAP
+Job 68/132, elapsed 0.02s prepare &amp; 0.01s DAP
+Job 69/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 70/132, elapsed 0.02s prepare &amp; 0.01s DAP
+Job 71/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 72/132, elapsed 0.03s prepare &amp; 0.01s DAP
+Job 73/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 74/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 75/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 76/132, elapsed 0.03s prepare &amp; 0.01s DAP
+Job 77/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 78/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 79/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 80/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 81/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 82/132, elapsed 0.02s prepare &amp; 0.00s DAP
+Job 83/132, elapsed 0.02s prepare &amp; 0.00s DAP
+Job 84/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 85/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 86/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 87/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 88/132, elapsed 0.02s prepare &amp; 0.01s DAP
+Job 89/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 90/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 91/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 92/132, elapsed 0.02s prepare &amp; 0.00s DAP
+Job 93/132, elapsed 0.02s prepare &amp; 0.00s DAP
+Job 94/132, elapsed 0.03s prepare &amp; 0.00s DAP
+Job 95/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 96/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 97/132, elapsed 0.03s prepare &amp; 0.00s DAP
+Job 98/132, elapsed 0.02s prepare &amp; 0.01s DAP
+Job 99/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 100/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 101/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 102/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 103/132, elapsed 0.02s prepare &amp; 0.00s DAP
+Job 104/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 105/132, elapsed 0.02s prepare &amp; 0.00s DAP
+Job 106/132, elapsed 0.05s prepare &amp; 0.00s DAP
+Job 107/132, elapsed 0.02s prepare &amp; 0.00s DAP
+Job 108/132, elapsed 0.02s prepare &amp; 0.01s DAP
+Job 109/132, elapsed 0.07s prepare &amp; 0.01s DAP
+Job 110/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 111/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 112/132, elapsed 0.03s prepare &amp; 0.00s DAP
+Job 113/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 114/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 115/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 116/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 117/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 118/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 119/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 120/132, elapsed 0.04s prepare &amp; 0.01s DAP
+Job 121/132, elapsed 0.03s prepare &amp; 0.00s DAP
+Job 122/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 123/132, elapsed 0.08s prepare &amp; 0.01s DAP
+Job 124/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 125/132, elapsed 0.02s prepare &amp; 0.00s DAP
+Job 126/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 127/132, elapsed 0.01s prepare &amp; 0.00s DAP
+Job 128/132, elapsed 0.04s prepare &amp; 0.00s DAP
+Job 129/132, elapsed 0.02s prepare &amp; 0.00s DAP
+Job 130/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 131/132, elapsed 0.01s prepare &amp; 0.01s DAP
+Job 132/132, elapsed 0.01s prepare &amp; 0.00s DAP
 </pre>
 </div>
 </div>
@@ -337,57 +467,8 @@ dap/dap -d /tmp/F1503016302.9618092.dat -g /tmp/F1503016302.9618092.grid -it 0.0
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># dap/dap -d /tmp/F1503014064.6944265.dat -g /tmp/F1503014064.6944265.grid -it 0.05 -prior /tmp/F1503014064.6944265.prior -t 2 &gt; data/calcium_pathway_N4000_shape25_nomask.data.dap</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># dap/dap -d /tmp/F1503014064.6944265.dat -g /tmp/F1503014064.6944265.grid -it 0.05 -prior /tmp/F1503014064.6944265.prior -t 2 &gt; data/calcium_pathway_N4000_shape25_nomask.data.dap </span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># test, check if the genes with high posterior are similar to calcium. If yes, then simulation has problem.</span>
-<span class="n">filename1</span> <span class="o">=</span> <span class="s2">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M100_12.data.feather&quot;</span>
-<span class="n">fileout1</span> <span class="o">=</span> <span class="s2">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M100_12.test.dap&quot;</span>
-<span class="n">input_file1</span> <span class="o">=</span> <span class="n">feather</span><span class="o">.</span><span class="n">read_dataframe</span><span class="p">(</span><span class="n">filename1</span><span class="p">)</span>
-<span class="n">input_file1</span><span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">input_file1</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">y_tran</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span><span class="o">==</span><span class="mf">1.0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">run_dap</span><span class="p">(</span><span class="n">input_file1</span><span class="p">,</span> <span class="n">fileout1</span><span class="p">,</span> <span class="n">cal_pthwy_genes</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>2017-08-11 13:54:04.479076
-</pre>
-</div>
 </div>
 </div>
 </div>
@@ -397,8 +478,8 @@ dap/dap -d /tmp/F1503016302.9618092.dat -g /tmp/F1503016302.9618092.grid -it 0.0
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># calpath_gene_pos.to_csv(&quot;test.csv&quot;, sep=&quot;\t&quot;)</span>
-<span class="k">print</span> <span class="p">(</span><span class="n">cal_pthwy_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># calpath_gene_pos.to_csv(&quot;test.csv&quot;, sep=&quot;\t&quot;)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">cal_pthwy_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -420,7 +501,7 @@ dap/dap -d /tmp/F1503016302.9618092.dat -g /tmp/F1503016302.9618092.grid -it 0.0
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># chrom</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># chrom</span>
 <span class="c1"># chrom = [&quot;chr{}&quot;.format(i) for i in list(range(1,23))+[&quot;X&quot;]]</span>
 <span class="c1"># print ((chrom))</span>
 </pre></div>
@@ -433,7 +514,7 @@ dap/dap -d /tmp/F1503016302.9618092.dat -g /tmp/F1503016302.9618092.grid -it 0.0
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># [I 15:34:54.151 NotebookApp] Accepting one-time-token-authenticated connection from ::1</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># [I 15:34:54.151 NotebookApp] Accepting one-time-token-authenticated connection from ::1</span>
 <span class="c1"># [I 15:34:54.814 NotebookApp] Kernel started: 60079e22-d81d-4f83-a293-c5750b5456a1</span>
 <span class="c1"># [I 15:36:54.808 NotebookApp] Saving file at /20170726_Dap_on_simulation.ipynb</span>
 <span class="c1"># [W 15:42:01.170 NotebookApp] WebSocket ping timeout after 92790 ms.</span>
@@ -445,7 +526,7 @@ dap/dap -d /tmp/F1503016302.9618092.dat -g /tmp/F1503016302.9618092.grid -it 0.0
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e/analysis/20170726_Dap_on_simulation.ipynb"><code>analysis/20170726_Dap_on_simulation.ipynb</code></a> committed by Min Qiao on Sat Aug 19 11:37:36 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e">revision 284, 88e7785</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/35f31793cceaa0b2a9f4000a04c29402bed006b3/analysis/20170726_Dap_on_simulation.ipynb"><code>analysis/20170726_Dap_on_simulation.ipynb</code></a> committed by Min Qiao on Sun Aug 20 13:42:54 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/35f31793cceaa0b2a9f4000a04c29402bed006b3">revision 290, 35f3179</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

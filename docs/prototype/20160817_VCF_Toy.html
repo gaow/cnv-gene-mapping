@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link rel="stylesheet"
+      href="../site_libs/highlight/textmate.css"
+      type="text/css" />
+<script src="../site_libs/highlight/highlight.js"></script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+<script src="../js/toc2.js"></script>
+<script src="../js/docs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=prototypeDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=prototypeArray;
+            var pos=prototypeArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  var name=docs[a]
+                  $('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  var name=docs[a]
+                  $(".toc #toc-level0").append('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>');
+            }
+            $("#toc-header").hide();
+    });
+</script>
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+<title>Gene Mapping with CNV</title>
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+<!-- code folding -->
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+<li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+<li>
+  <a href="../utils.html">Utils</a>
+</li>
+<li>
+  <a href="../setup.html">Setup</a>
+</li>
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+      </ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Exploratory-of-a-toy-CNV-dataset-in-VCF-format">Exploratory of a toy CNV dataset in VCF format<a class="anchor-link" href="#Exploratory-of-a-toy-CNV-dataset-in-VCF-format">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1">## install package saasCNV, first install DNAcopy</span>
+<span class="c1">## source(&quot;https://bioconductor.org/biocLite.R&quot;)</span>
+<span class="c1">## biocLite(&quot;DNAcopy&quot;)</span>
+<span class="c1">## install.packages(&quot;saasCNV&quot;)</span>
+<span class="kn">library</span><span class="p">(</span>saasCNV<span class="p">)</span>
+<span class="c1">## first covert VCF file to a data frame</span>
+vcf_table <span class="o">&lt;-</span> vcf2txt<span class="p">(</span>vcf.file<span class="o">=</span><span class="s">&quot;WES_example.vcf&quot;</span><span class="p">,</span> normal.col <span class="o">=</span> <span class="m">10</span><span class="p">,</span> tumor.col <span class="o">=</span> <span class="m">11</span><span class="p">)</span>
+<span class="c1">## not used</span>
+<span class="c1">## read.delim is used to read .txt.gz, not vcf</span>
+<span class="c1">## vcf_table &lt;- read.delim(file=&quot;WES_example.vcf&quot;, as.is=TRUE)</span>
+<span class="c1">## use the data generated by vcf2txt, whose input is vcf</span>
+<span class="c1">## construct data frame for CNV inference with NGS data</span>
+seq.data <span class="o">&lt;-</span> cnv.data<span class="p">(</span>vcf<span class="o">=</span>vcf_table<span class="p">,</span> min.chr.probe<span class="o">=</span><span class="m">100</span><span class="p">,</span> verbose<span class="o">=</span><span class="kc">FALSE</span><span class="p">)</span>
+<span class="c1">## see how seq.data looks like</span>
+<span class="kp">head</span><span class="p">(</span>seq.data<span class="p">)</span>
+data<span class="p">(</span>seq.data<span class="p">)</span>
+<span class="c1">## ??? contained in library saasCNV ???</span>
+data<span class="p">(</span>seq.segs.merge<span class="p">)</span>
+<span class="c1">## CNV Calling from Sequencing Data</span>
+seq.cnv <span class="o">&lt;-</span> cnv.call<span class="p">(</span>data<span class="o">=</span>seq.data<span class="p">,</span> sample.id<span class="o">=</span><span class="s">&quot;PT116&quot;</span><span class="p">,</span> segs.stat<span class="o">=</span>seq.segs.merge<span class="p">,</span> maxL<span class="o">=</span><span class="m">2000</span><span class="p">,</span> N<span class="o">=</span><span class="m">1000</span><span class="p">,</span> pvalue.cutoff<span class="o">=</span><span class="m">0.05</span><span class="p">)</span>
+<span class="c1">## the last column is CNV</span>
+seq.cnv<span class="p">[,</span> <span class="kp">ncol</span><span class="p">(</span>seq.cnv<span class="p">)]</span>
+<span class="kp">table</span><span class="p">(</span>seq.cnv<span class="p">[,</span> <span class="kp">ncol</span><span class="p">(</span>seq.cnv<span class="p">)])</span>
+<span class="c1">## gain       LOH      loss    normal undecided </span>
+<span class="c1">##   14        14        35         4         7 </span>
+<span class="kp">head</span><span class="p">(</span>seq.cnv<span class="p">)</span>
+data<span class="p">(</span>seq.cnv<span class="p">)</span>
+<span class="c1">## visualize genome-wide SCNA profile in 2D cluster plot</span>
+diagnosis.cluster.plot<span class="p">(</span>segs<span class="o">=</span>seq.cnv<span class="p">,</span> chrs<span class="o">=</span><span class="kp">sub</span><span class="p">(</span><span class="s">&quot;^chr&quot;</span><span class="p">,</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="kp">unique</span><span class="p">(</span>seq.cnv<span class="o">$</span>chr<span class="p">)),</span> min.snps<span class="o">=</span><span class="m">10</span><span class="p">,</span> max.cex<span class="o">=</span><span class="m">3</span><span class="p">,</span> ref.num.probe<span class="o">=</span><span class="m">1000</span><span class="p">)</span>
+<span class="c1">## visualize genome-wide SCNA profile</span>
+genome.wide.plot<span class="p">(</span>data<span class="o">=</span>seq.data<span class="p">,</span> segs<span class="o">=</span>seq.cnv<span class="p">,</span> sample.id<span class="o">=</span><span class="s">&quot;PT116&quot;</span><span class="p">,</span> chrs<span class="o">=</span><span class="kp">sub</span><span class="p">(</span><span class="s">&quot;^chr&quot;</span><span class="p">,</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="kp">unique</span><span class="p">(</span>seq.cnv<span class="o">$</span>chr<span class="p">)),</span> cex<span class="o">=</span><span class="m">0.3</span><span class="p">)</span>
+<span class="c1">## Joint Segmentation on log2ratio and log2mBAF Dimensions, for chr 1-22</span>
+seq.segs <span class="o">&lt;-</span> joint.segmentation<span class="p">(</span>data<span class="o">=</span>seq.data<span class="p">,</span> min.snps<span class="o">=</span><span class="m">10</span><span class="p">,</span> global.pval.cutoff<span class="o">=</span><span class="m">1e-4</span><span class="p">,</span> max.chpts<span class="o">=</span><span class="m">30</span><span class="p">,</span> verbose<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="c1">## Merge Adjacent Segments</span>
+seq.segs.merge <span class="o">&lt;-</span> merging.segments<span class="p">(</span>data<span class="o">=</span>seq.data<span class="p">,</span> segs.stat<span class="o">=</span>seq.segs<span class="p">,</span> use.null.data<span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> N<span class="o">=</span><span class="m">1000</span><span class="p">,</span> maxL<span class="o">=</span><span class="m">2000</span><span class="p">,</span> merge.pvalue.cutoff<span class="o">=</span><span class="m">0.05</span><span class="p">,</span> verbose<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="kp">head</span><span class="p">(</span>seq.segs.merge<span class="p">)</span>
+data<span class="p">(</span>seq.segs.merge<span class="p">)</span>
+<span class="c1">## CNV Analysis Pipeline for WGS and WES Data</span>
+sample.id <span class="o">&lt;-</span> <span class="s">&quot;WES_0116&quot;</span>
+output.dir <span class="o">&lt;-</span> <span class="kp">file.path</span><span class="p">(</span><span class="kp">getwd</span><span class="p">(),</span> <span class="s">&quot;test_saasCNV&quot;</span><span class="p">)</span>
+NGS.CNV<span class="p">(</span>vcf<span class="o">=</span>vcf_table<span class="p">,</span> output.dir<span class="o">=</span>output.dir<span class="p">,</span> sample.id<span class="o">=</span>sample.id<span class="p">,</span> min.chr.probe<span class="o">=</span><span class="m">100</span><span class="p">,</span> min.snps<span class="o">=</span><span class="m">10</span><span class="p">,</span> joint.segmentation.pvalue.cutoff<span class="o">=</span><span class="m">1e-4</span><span class="p">,</span> max.chpts<span class="o">=</span><span class="m">30</span><span class="p">,</span> do.merge<span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> use.null.data<span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> num.perm<span class="o">=</span><span class="m">1000</span><span class="p">,</span> maxL<span class="o">=</span><span class="m">2000</span><span class="p">,</span> merge.pvalue.cutoff<span class="o">=</span><span class="m">0.05</span><span class="p">,</span> do.cnvcall.on.merge<span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> cnvcall.pvalue.cutoff<span class="o">=</span><span class="m">0.05</span><span class="p">,</span> do.plot<span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> cex<span class="o">=</span><span class="m">0.3</span><span class="p">,</span> ref.num.probe<span class="o">=</span><span class="m">1000</span><span class="p">,</span> do.gene.anno<span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> gene.anno.file<span class="o">=</span><span class="s">&quot;refGene_hg19.txt.gz&quot;</span><span class="p">,</span> seed<span class="o">=</span><span class="m">123456789</span><span class="p">,</span> verbose<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="c1">## Gene Annotation</span>
+gene.anno <span class="o">&lt;-</span> read.delim<span class="p">(</span>file<span class="o">=</span><span class="s">&quot;refGene_hg19.txt.gz&quot;</span><span class="p">,</span> as.is<span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> comment.char<span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+seq.cnv.anno <span class="o">&lt;-</span> reannotate.CNV.res<span class="p">(</span>res<span class="o">=</span>seq.cnv<span class="p">,</span> gene<span class="o">=</span>gene.anno<span class="p">,</span> only.CNV<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="c1">## CNV Analysis Pipeline for SNP array Data</span>
+<span class="c1">## download snp_table.txt.gz</span>
+<span class="c1">## url &lt;- &quot;https://zhangz05.u.hpc.mssm.edu/saasCNV/data/snp_table.txt.gz&quot;</span>
+snp_table <span class="o">&lt;-</span> read.delim<span class="p">(</span>file<span class="o">=</span><span class="s">&quot;snp_table.txt.gz&quot;</span><span class="p">,</span> as.is<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+SNP.CNV<span class="p">(</span>snp<span class="o">=</span>snp_table<span class="p">,</span> output.dir<span class="o">=</span>output.dir<span class="p">,</span> sample.id<span class="o">=</span>sample.id<span class="p">,</span> min.chr.probe<span class="o">=</span><span class="m">100</span><span class="p">,</span> min.snps<span class="o">=</span><span class="m">10</span><span class="p">,</span> joint.segmentation.pvalue.cutoff<span class="o">=</span><span class="m">1e-4</span><span class="p">,</span> max.chpts<span class="o">=</span><span class="m">30</span><span class="p">,</span> do.merge<span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> use.null.data<span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> num.perm<span class="o">=</span><span class="m">1000</span><span class="p">,</span> maxL<span class="o">=</span><span class="m">5000</span><span class="p">,</span> merge.pvalue.cutoff<span class="o">=</span><span class="m">0.05</span><span class="p">,</span> do.cnvcall.on.merge<span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> cnvcall.pvalue.cutoff<span class="o">=</span><span class="m">0.05</span><span class="p">,</span> do.boundary.refine<span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> do.plot<span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> cex<span class="o">=</span><span class="m">0.3</span><span class="p">,</span> ref.num.probe<span class="o">=</span><span class="m">5000</span><span class="p">,</span> do.gene.anno<span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> gene.anno.file<span class="o">=</span><span class="s">&quot;refGene_hg19.txt.gz&quot;</span><span class="p">,</span> seed<span class="o">=</span><span class="m">123456789</span><span class="p">,</span> verbose<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="c1">## Construct Data Frame for CNV Inference with SNP Array Data</span>
+snp.data <span class="o">&lt;-</span> snp.cnv.data<span class="p">(</span>snp<span class="o">=</span>snp_table<span class="p">,</span> min.chr.probe<span class="o">=</span><span class="m">100</span><span class="p">,</span> verbose<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="kp">head</span><span class="p">(</span>snp.data<span class="p">)</span>
+<span class="c1">## Refine Segment Boundaries</span>
+data<span class="p">(</span>snp.cnv<span class="p">)</span>
+snp.cnv.refine <span class="o">&lt;-</span> snp.refine.boundary<span class="p">(</span>data<span class="o">=</span>snp.data<span class="p">,</span> segs.stat<span class="o">=</span>snp.cnv<span class="p">)</span>
+<span class="kp">head</span><span class="p">(</span>snp.cnv.refine<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/35f31793cceaa0b2a9f4000a04c29402bed006b3/prototype/20160817_VCF_Toy.ipynb"><code>prototype/20160817_VCF_Toy.ipynb</code></a> committed by Min Qiao on Sun Aug 20 13:42:54 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/35f31793cceaa0b2a9f4000a04c29402bed006b3">revision 290, 35f3179</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>
