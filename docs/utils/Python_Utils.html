@@ -237,9 +237,9 @@ body {
                       <span class="s1">&#39;odds_ratio_params&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
                       <span class="s1">&#39;prevalence&#39;</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>
                       <span class="s1">&#39;n_causal_gene&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-                      <span class="s1">&#39;refgene_file&#39;</span><span class="p">:</span> <span class="s1">&#39;data/refGene.txt.gz&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;refgene_file&#39;</span><span class="p">:</span> <span class="s1">&#39;../data/refGene.txt.gz&#39;</span><span class="p">,</span>
                       <span class="s1">&#39;pthwy_gene_file&#39;</span><span class="p">:</span> <span class="s1">&#39;../data/calciumgeneset.txt&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;cnv_file&#39;</span><span class="p">:</span> <span class="s1">&#39;data/ISC-r1.CNV.bed&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;cnv_file&#39;</span><span class="p">:</span> <span class="s1">&#39;../data/ISC-r1.CNV.bed&#39;</span><span class="p">,</span>
                       <span class="s1">&#39;case_dataset&#39;</span><span class="p">:</span> <span class="s1">&#39;delCases&#39;</span><span class="p">,</span>
                       <span class="s1">&#39;ctrl_dataset&#39;</span><span class="p">:</span> <span class="s1">&#39;delControls&#39;</span><span class="p">,</span>
                       <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="s1">&#39;del_sample&#39;</span><span class="p">,</span>
@@ -312,7 +312,7 @@ body {
 <span class="k">def</span> <span class="nf">save_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
     <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">))</span>
 <span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -484,7 +484,7 @@ body {
         <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="n">debug</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">debug</span><span class="p">)</span>
     <span class="n">debug</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;case&#39;</span><span class="p">:</span><span class="nb">list</span><span class="p">(</span><span class="n">case_data</span><span class="p">),</span> <span class="s1">&#39;ctrl&#39;</span><span class="p">:</span><span class="nb">list</span><span class="p">(</span><span class="n">ctrl_data</span><span class="p">),</span> <span class="s1">&#39;debug&#39;</span><span class="p">:</span><span class="n">debug</span><span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;case&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">case_data</span><span class="p">),</span> <span class="s1">&#39;ctrl&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">ctrl_data</span><span class="p">),</span> <span class="s1">&#39;debug&#39;</span><span class="p">:</span> <span class="n">debug</span><span class="p">}</span>
 <span class="k">def</span> <span class="nf">run_simulation</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">simulation_id</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="n">ref_gene</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;refgene_file&#39;</span><span class="p">])</span>
     <span class="n">cnv_data</span> <span class="o">=</span> <span class="n">load_cnv_data</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;cnv_file&#39;</span><span class="p">])</span>
@@ -508,7 +508,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="k">def</span> <span class="nf">get_analysis_blocks</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
@@ -579,8 +579,8 @@ body {
     <span class="n">stats_table</span><span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;simulation_args&#39;</span><span class="p">:</span> <span class="n">input_data</span><span class="p">[</span><span class="s1">&#39;args&#39;</span><span class="p">]}</span>
     <span class="n">save_data</span><span class="p">(</span><span class="n">stats_table</span><span class="p">,</span> <span class="n">output_data</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">stats_table</span>
-<span class="k">def</span> <span class="nf">pkl_to_matrix</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">make_block</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
-    <span class="n">dat</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">pkl_to_matrix</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">make_block</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">):</span>
+    <span class="n">dat</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
     <span class="n">ref</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">][</span><span class="s1">&#39;args&#39;</span><span class="p">][</span><span class="s2">&quot;refgene_file&quot;</span><span class="p">])</span>
     <span class="n">genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">])))</span>
     <span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">genes</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span> 
@@ -596,10 +596,10 @@ body {
             <span class="n">newdf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span> <span class="k">continue</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">make_block</span><span class="p">:</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">newdf</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">newdf</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">blocks</span> <span class="o">=</span> <span class="n">get_analysis_blocks</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">]),</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">])]))</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">newdf</span><span class="p">[[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">item</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">]</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">newdf</span><span class="p">[[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">item</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">]</span>
     <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">res</span><span class="p">,</span> <span class="s2">&quot;debug&quot;</span><span class="p">:</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">]}</span>
 <span class="k">def</span> <span class="nf">run_dap_lite</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">fout</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">exec_path</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Convert pandas dataframe to dap input:</span>
@@ -898,18 +898,30 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span> <span class="n">python</span> <span class="n">extract_function</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="kn">from</span> <span class="nn">Python_Utils.ipynb</span> <span class="o">--</span><span class="n">to</span> <span class="o">../</span><span class="n">analysis</span><span class="o">/</span><span class="n">utils</span><span class="o">.</span><span class="n">py</span> <span class="o">../</span><span class="n">prototype</span><span class="o">/</span><span class="n">utils</span><span class="o">.</span><span class="n">py</span> <span class="n">utils</span><span class="o">.</span><span class="n">py</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">python</span> <span class="n">extract_function</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="kn">from</span> <span class="nn">Python_Utils.ipynb</span> <span class="o">--</span><span class="n">to</span> <span class="o">../</span><span class="n">analysis</span><span class="o">/</span><span class="n">utils</span><span class="o">.</span><span class="n">py</span> <span class="o">../</span><span class="n">prototype</span><span class="o">/</span><span class="n">utils</span><span class="o">.</span><span class="n">py</span> <span class="n">utils</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Extracting from Python_Utils.ipynb
+Done!
+</pre>
+</div>
 </div>
 </div>
 </div>
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/35f31793cceaa0b2a9f4000a04c29402bed006b3/utils/Python_Utils.ipynb"><code>utils/Python_Utils.ipynb</code></a> committed by Min Qiao on Sun Aug 20 13:42:54 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/35f31793cceaa0b2a9f4000a04c29402bed006b3">revision 290, 35f3179</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/8a996b5d4fb0e0303cd659f835552eda796359f3/utils/Python_Utils.ipynb"><code>utils/Python_Utils.ipynb</code></a> committed by Min Qiao on Sun Aug 20 20:28:20 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/8a996b5d4fb0e0303cd659f835552eda796359f3">revision 292, 8a996b5</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

@@ -181,7 +181,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">varbvs_1</span><span class="p">]</span>
@@ -191,7 +191,7 @@ body {
 <span class="kn">parameter:</span> <span class="n">prevalence</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">]</span>
 <span class="kn">parameter:</span> <span class="n">gamma</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
 <span class="kn">parameter:</span> <span class="n">n_causal_gene</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">]</span>
-<span class="kn">parameter:</span> <span class="kp">name</span> <span class="o">=</span> <span class="s1">&#39;data/del_sim&#39;</span>
+<span class="kn">parameter:</span> <span class="kp">name</span> <span class="o">=</span> <span class="s1">&#39;../analysis/data/del_sim&#39;</span>
 <span class="kn">input:</span> <span class="kp">for_each</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gamma&#39;</span><span class="p">,</span> <span class="s1">&#39;prevalence&#39;</span><span class="p">,</span> <span class="s1">&#39;n_causal_gene&#39;</span><span class="p">,</span> <span class="s1">&#39;seed&#39;</span><span class="p">]</span>
 <span class="kn">output:</span> <span class="s2">&quot;${name}_</span><span class="si">%s</span><span class="s2">.data.pkl&quot;</span> <span class="o">%</span> <span class="s2">&quot;shape{}_scale{}_p{}_N{}_M{}_{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;${_gamma[0]}&quot;</span><span class="p">,</span> <span class="s2">&quot;${_gamma[1]}&quot;</span><span class="p">,</span> <span class="s2">&quot;${_prevalence}&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="s2">&quot;${sample_size}&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;${_n_causal_gene}&quot;</span><span class="p">,</span> <span class="s2">&quot;${_seed}&quot;</span><span class="p">)</span>
 <span class="kn">task:</span>
@@ -259,8 +259,8 @@ body {
 <span class="kn">parameter:</span> <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;data/tmp.test&quot;</span>
 <span class="kn">parameter:</span> <span class="n">ncpu</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="kn">input:</span> <span class="kp">for_each</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;shape&quot;</span><span class="p">,</span> <span class="s2">&quot;scale&quot;</span><span class="p">,</span> <span class="s2">&quot;prevalence&quot;</span><span class="p">,</span> <span class="s2">&quot;seed&quot;</span><span class="p">]</span>
-<span class="kn">output:</span> <span class="s2">&quot;${prefix!a}_</span><span class="si">%s</span><span class="s2">.data.pkl&quot;</span> <span class="o">%</span> <span class="s2">&quot;N{}_p{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="s2">&quot;${sample_size}&quot;</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;${_prevalence}&quot;</span><span class="p">)</span>
-<span class="c1">#task:</span>
+<span class="kn">output:</span> <span class="s2">&quot;${prefix!a}_</span><span class="si">%s</span><span class="s2">.data.pkl&quot;</span> <span class="o">%</span> <span class="s2">&quot;{}_shape_{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="s2">&quot;${sample_size}&quot;</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;${_shape}&quot;</span><span class="p">)</span>
+<span class="kn">task:</span>
 <span class="kn">python:</span>
 <span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
@@ -278,13 +278,14 @@ body {
 <span class="kn">depends:</span> <span class="n">Py_Module</span><span class="p">(</span><span class="s2">&quot;feather-format&quot;</span><span class="p">)</span>
 <span class="kn">input:</span> <span class="kp">group_by</span> <span class="o">=</span> <span class="s1">&#39;single&#39;</span>
 <span class="kn">output:</span> <span class="s2">&quot;${_input!n}.blocks.pkl&quot;</span>
-<span class="c1">#task:</span>
+<span class="kn">task:</span>
 <span class="kn">python:</span>
 <span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
 <span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">pkl_to_matrix</span><span class="p">,</span> <span class="n">save_data</span>
-<span class="n">dat</span> <span class="o">=</span> <span class="n">pkl_to_matrix</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="err">!</span><span class="n">r</span><span class="p">},</span> <span class="n">make_block</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
-<span class="n">save_data</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">pkl_to_matrix</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="err">!</span><span class="n">r</span><span class="p">},</span> <span class="n">make_block</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="n">save_data</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="err">!</span><span class="n">r</span><span class="p">})</span>
 </pre></div>
 </div>
 </div>
@@ -357,9 +358,62 @@ body {
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Resume-from-simulated-data">Resume from simulated data<a class="anchor-link" href="#Resume-from-simulated-data">&#182;</a></h3><p>Input are simulation results, output is blocked data: basically run <code>dap_2</code></p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">make_block</span><span class="p">]</span>
+<span class="kn">input:</span> <span class="p">[</span><span class="s2">&quot;../analysis/data/calcium_pathway_1000_shape_25.data.pkl&quot;</span><span class="p">,</span> 
+        <span class="s2">&quot;../analysis/data/calcium_pathway_500_shape_5.data.pkl&quot;</span><span class="p">,</span> 
+        <span class="s2">&quot;../analysis/data/calcium_pathway_500_shape_25.data.pkl&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;../analysis/data/calcium_pathway_4000_shape_25.data.pkl&quot;</span><span class="p">,</span> 
+        <span class="s2">&quot;../analysis/data/calcium_pathway_20_shape_5.data.pkl&quot;</span><span class="p">]</span>
+<span class="kp">sos_run</span><span class="p">(</span><span class="s1">&#39;dap:2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">sosrun</span> <span class="n">make_block</span> <span class="o">-</span><span class="n">J</span> <span class="mi">5</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<div class="sos_hint">5 tasks completed: <a onclick="task_info('1bc1d63c09fe59af6e91130397ffb0e3', 'localhost')">1bc1</a>, <a onclick="task_info('b13d7f23454c0dfb4a8ed61f893ac665', 'localhost')">b13d</a>, ..., <a onclick="task_info('2cda0504888253b12958ca7e1332de73', 'localhost')">2cda</a></div>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/35f31793cceaa0b2a9f4000a04c29402bed006b3/utils/SoS_Workflows.ipynb"><code>utils/SoS_Workflows.ipynb</code></a> committed by Min Qiao on Sun Aug 20 13:42:54 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/35f31793cceaa0b2a9f4000a04c29402bed006b3">revision 290, 35f3179</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/8a996b5d4fb0e0303cd659f835552eda796359f3/utils/SoS_Workflows.ipynb"><code>utils/SoS_Workflows.ipynb</code></a> committed by Min Qiao on Sun Aug 20 20:28:20 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/8a996b5d4fb0e0303cd659f835552eda796359f3">revision 292, 8a996b5</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
