@@ -8,6 +8,7 @@ if __name__ == '__main__':
     parser.add_argument("--from", dest = "source")
     parser.add_argument("--to", nargs = '+')
     args = parser.parse_args()
+    print("Extracting from {}".format(args.source))
     output = []
     source = []
     harvest = False
@@ -32,3 +33,4 @@ if __name__ == '__main__':
     for item in args.to:
         with open(item, 'w') as f:
             f.write('\n'.join(output))
+    print("Done!")
