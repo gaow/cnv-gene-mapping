@@ -187,7 +187,7 @@ $(document).ready(function () {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Prototype">Prototype<a class="anchor-link" href="#Prototype">&#182;</a></h1>
+<h1 id="CNV-gene-mapping">CNV gene mapping<a class="anchor-link" href="#CNV-gene-mapping">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -196,113 +196,19 @@ $(document).ready(function () {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="prototype/toy_example_test.html"><strong>toy example test</strong></a><br>
-&nbsp; &nbsp;from simulation import *</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="2017/07">2017/07<a class="anchor-link" href="#2017/07">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="prototype/20170710_dap_on_toy.html"><strong>20170710 dap on toy</strong></a><br>
-&nbsp; &nbsp;Analysis of toy data via DAP</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="2017/06">2017/06<a class="anchor-link" href="#2017/06">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="prototype/20170606_toy_4gene.html"><strong>20170606 toy 4gene</strong></a><br>
-&nbsp; &nbsp;Toy example of 4-gene configuration overlapped with one CNV</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="prototype/20170605_toy_3gene.html"><strong>20170605 toy 3gene</strong></a><br>
-&nbsp; &nbsp;Toy example of 3-gene configuration overlapped with one CNV</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="2017/05">2017/05<a class="anchor-link" href="#2017/05">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="prototype/20170504_R_useRDS.html"><strong>20170504 R useRDS</strong></a><br>
-&nbsp; &nbsp;R: read .RDS file and draw histogram of "PIP"</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="2017/01">2017/01<a class="anchor-link" href="#2017/01">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="prototype/20170113_Toy_from_saasCNV.html"><strong>20170113 Toy from saasCNV</strong></a><br>
-&nbsp; &nbsp;Visualize genome-wide SCNA Profile</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="2016/08">2016/08<a class="anchor-link" href="#2016/08">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="prototype/20160817_VCF_Toy.html"><strong>20160817 VCF Toy</strong></a><br>
-&nbsp; &nbsp;Exploratory of a toy CNV dataset in VCF format</p>
+<h2 id="CNV">CNV<a class="anchor-link" href="#CNV">&#182;</a></h2><p>CNVs are large genomic insertion or deletion events, which is an important source of genetic variation affecting neuropsychiatric disorders, such as autism and intellectual disability.
+The length of CNVs vary largely in size, from 50 bp to tens of millions bps, which poses unique and important analytic challenges.</p>
+<h2 id="Challenge-and-aim">Challenge and aim<a class="anchor-link" href="#Challenge-and-aim">&#182;</a></h2><p>(CNVs and single-nucleotide variants (SNVs) converge on the same set of genes.)</p>
+<p>The challenge is that CNVs often span multiple genes, and it is often unclear which one is the susceptible gene.</p>
+<p>[Current analysis methods cannot effectively combine CNV data with other variants.]</p>
+<p>The aim is to develop a principled statistical method to integrate SNV and CNV data at the gene level.
+We aim to provide a rigorous statistical framework (1) to extract gene-level knowledge from CNVs, and (2) to link these findings with those from SNVs for better identification of disease genes.</p>
+<h2 id="Solution">Solution<a class="anchor-link" href="#Solution">&#182;</a></h2><p>We will develop an approach using Bayesian statistics to obtain the probability of the genes from CNV data.
+infer the posterior probabilities of genes affecting the disease risk.</p>
+<ol>
+<li>Do CNV-level analyses to estimate the evidence whether each CNV is disease-related. The evidence will be expressed as probabilities.</li>
+<li>Next, we find the best configurations of genes (the vector of variables indicating whether each gene is a risk gene) consistent with the evidence for CNVs.</li>
+</ol>
 </div>
 </div>
 </div>
