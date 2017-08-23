@@ -192,7 +192,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
@@ -221,58 +221,13 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Global-variables">Global variables<a class="anchor-link" href="#Global-variables">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="k">class</span> <span class="nc">Environment</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;block_size&#39;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
-                      <span class="s1">&#39;avg_cnv_per_individual&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-                      <span class="s1">&#39;n_case&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-                      <span class="s1">&#39;n_ctrl&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-                       <span class="c1"># set Gamma shape to be 3 instead of 5</span>
-                       <span class="c1"># &#39;odds_ratio_params&#39; : None # for H_0</span>
-                      <span class="s1">&#39;odds_ratio_params&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
-                      <span class="s1">&#39;prevalence&#39;</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>
-                      <span class="s1">&#39;n_causal_gene&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-                      <span class="s1">&#39;refgene_file&#39;</span><span class="p">:</span> <span class="s1">&#39;../data/refGene.txt.gz&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;pthwy_gene_file&#39;</span><span class="p">:</span> <span class="s1">&#39;../data/calciumgeneset.txt&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;cnv_file&#39;</span><span class="p">:</span> <span class="s1">&#39;../data/ISC-r1.CNV.bed&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;case_dataset&#39;</span><span class="p">:</span> <span class="s1">&#39;delCases&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;ctrl_dataset&#39;</span><span class="p">:</span> <span class="s1">&#39;delControls&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="s1">&#39;del_sample&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;ncpu&#39;</span><span class="p">:</span> <span class="mi">6</span>
-                     <span class="p">}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
-        <span class="c1">## select causal genes randomly, instead of the first 100 in enrichment analysis</span>
-<span class="c1">#         self.ref_gene_name = load_reference_gene(parameters[&quot;refgene_file&quot;])[&quot;gene_name&quot;].tolist()</span>
-<span class="c1">#         self.causal_genes = random.sample(self.ref_gene_name, parameters[&#39;n_causal_gene&#39;])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">causal_genes</span> <span class="o">=</span> <span class="n">load_pthwy_gene</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;pthwy_gene_file&quot;</span><span class="p">])[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="mi">12</span>
-<span class="n">args</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="File-I/O-functions">File I/O functions<a class="anchor-link" href="#File-I/O-functions">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="k">def</span> <span class="nf">load_reference_gene</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
@@ -328,13 +283,58 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Global-variables">Global variables<a class="anchor-link" href="#Global-variables">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="k">class</span> <span class="nc">Environment</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;block_size&#39;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
+                      <span class="s1">&#39;avg_cnv_per_individual&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                      <span class="s1">&#39;n_case&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                      <span class="s1">&#39;n_ctrl&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                       <span class="c1"># set Gamma shape to be 3 instead of 5</span>
+                       <span class="c1"># &#39;odds_ratio_params&#39; : None # for H_0</span>
+                      <span class="s1">&#39;odds_ratio_params&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+                      <span class="s1">&#39;prevalence&#39;</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>
+                      <span class="s1">&#39;n_causal_gene&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+                      <span class="s1">&#39;refgene_file&#39;</span><span class="p">:</span> <span class="s1">&#39;../data/refGene.txt.gz&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;pthwy_gene_file&#39;</span><span class="p">:</span> <span class="s1">&#39;../data/calciumgeneset.txt&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;cnv_file&#39;</span><span class="p">:</span> <span class="s1">&#39;../data/ISC-r1.CNV.bed&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;case_dataset&#39;</span><span class="p">:</span> <span class="s1">&#39;delCases&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;ctrl_dataset&#39;</span><span class="p">:</span> <span class="s1">&#39;delControls&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="s1">&#39;del_sample&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;ncpu&#39;</span><span class="p">:</span> <span class="mi">6</span>
+                     <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="c1">## select causal genes randomly, instead of the first 100 in enrichment analysis</span>
+<span class="c1">#         self.ref_gene_name = load_reference_gene(parameters[&quot;refgene_file&quot;])[&quot;gene_name&quot;].tolist()</span>
+<span class="c1">#         self.causal_genes = random.sample(self.ref_gene_name, parameters[&#39;n_causal_gene&#39;])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">causal_genes</span> <span class="o">=</span> <span class="n">load_pthwy_gene</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;pthwy_gene_file&quot;</span><span class="p">])[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="CNV-data-processing">CNV data processing<a class="anchor-link" href="#CNV-data-processing">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="k">def</span> <span class="nf">count_cnv_by_block</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">block_size</span><span class="p">):</span>
@@ -405,7 +405,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="k">def</span> <span class="nf">get_causal_genes</span><span class="p">(</span><span class="n">causal_genes</span><span class="p">,</span> <span class="n">sample_genes</span><span class="p">):</span>
@@ -516,7 +516,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="k">def</span> <span class="nf">get_analysis_blocks</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
@@ -723,7 +723,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="k">def</span> <span class="nf">get_power</span><span class="p">(</span><span class="n">stats_table</span><span class="p">,</span> <span class="n">causal_genes</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">):</span>
@@ -933,6 +933,53 @@ Done!
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">load_data</span>
+<span class="n">gene_df</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;../analysis/data/calcium_pathway_4000.data.pkl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">get_gene_table</span>
+<span class="n">gene_table</span> <span class="o">=</span> <span class="n">get_gene_table</span><span class="p">(</span><span class="n">gene_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">get_stats</span>
+<span class="n">stats_tble</span> <span class="o">=</span> <span class="n">get_stats</span><span class="p">(</span><span class="n">gene_table</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">stats_tble</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
@@ -944,7 +991,7 @@ Done!
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/9ee5b7756fdde406a79e2a160b0d3f7f985fef27/utils/Python_Utils.ipynb"><code>utils/Python_Utils.ipynb</code></a> committed by Min Qiao on Mon Aug 21 19:51:14 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/9ee5b7756fdde406a79e2a160b0d3f7f985fef27">revision 294, 9ee5b77</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/c3f27b602d65b4636b54fa22ccdc4b419e1043e0/utils/Python_Utils.ipynb"><code>utils/Python_Utils.ipynb</code></a> committed by Min Qiao on Tue Aug 22 19:32:10 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/c3f27b602d65b4636b54fa22ccdc4b419e1043e0">revision 296, c3f27b6</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
