@@ -260,10 +260,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">toy_multicnv_multicausal</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">n_cnv</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">causal</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">15</span><span class="p">],</span> <span class="n">n_gene</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">const1</span><span class="o">=</span><span class="mf">0.45</span><span class="p">,</span> <span class="n">const2</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">toy_multicnv_multicausal</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">n_cnv</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">causal</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">15</span><span class="p">],</span> <span class="n">n_gene</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">const1</span><span class="o">=</span><span class="mf">0.45</span><span class="p">,</span> <span class="n">const2</span><span class="o">=</span><span class="mf">0.03</span><span class="p">)</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -375,7 +375,6 @@ body {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
     <span class="nb">print</span> <span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
-<span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">0</span><span class="o">+</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">5</span>
 </pre></div>
 </div>
 </div>
@@ -440,10 +439,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;data/df.csv&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;data/df5000.csv&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -533,7 +532,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/f906978ca5c0c5d2ccdda09e174779d05228af83/analysis/20170706_toy_multiCNVs_multigenes.ipynb"><code>analysis/20170706_toy_multiCNVs_multigenes.ipynb</code></a> committed by Min Qiao on Tue Sep 5 18:28:17 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/f906978ca5c0c5d2ccdda09e174779d05228af83">revision 316, f906978</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/0d40a1d971b6f35103e9f16a26b8572960478829/analysis/20170706_toy_multiCNVs_multigenes.ipynb"><code>analysis/20170706_toy_multiCNVs_multigenes.ipynb</code></a> committed by Min Qiao on Tue Sep 12 19:39:48 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/0d40a1d971b6f35103e9f16a26b8572960478829">revision 320, 0d40a1d</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
