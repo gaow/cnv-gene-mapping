@@ -186,7 +186,27 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h3><p>The results for enrichment analysis is directly output to the screen</p>
+<h3 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h3><p>The results for enrichment analysis is directly output to the screen. 1st column represents the annotation name and its corresponding level; 2nd column is the point estimate (MLE) of the log odds ratio.</p>
+<p>log(OR) = -17.588</p>
+<pre><code>Read in 1 loci, 15 locus-SNP pairs ... 
+Loading annotations ... 
+Initializing ... 
+Starting EM ... 
+  Iter          loglik          Intercept    binding.1  dtss.1  dtss.2  dtss.3  dtss.4  
+   1             3.707           -1.765     -7.932      1.139     -1.186     -1.077     -6.009  
+   2             9.425           -5.175    -16.645      3.450     -0.154      0.064    -12.232  
+   3             9.850          -12.107    -25.214      8.071      3.190      3.516    -18.309  
+   4            10.126          -25.967    -33.765     17.310     11.152     11.587    -24.369  
+   5            10.160          -53.352    -42.316     35.456     28.020     28.564    -30.429  
+</code></pre>
+<div class="highlight"><pre><span></span>cat toy_multi_beta.est
+</pre></div>
+<pre><code>            Intercept    -53.352     -739479.978  739373.273
+            binding.1    -17.588      -93724.770  93689.593
+    dtss.1::[-17.5kb]     35.456        20.040     50.873
+     dtss.2::[-7.5kb]     28.019     -388293.712  388349.749
+    dtss.3::[-3.75kb]     28.563     -395832.517  395889.642
+    dtss.4::[-1.75kb]    -16.490     -175834.248  175801.269</code></pre>
 </div>
 </div>
 </div>
@@ -200,7 +220,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/3922dd69258f00083247d15f723896de29bd7682/analysis/20170906_Overview_TORUS_Estimate_Alpha.ipynb"><code>analysis/20170906_Overview_TORUS_Estimate_Alpha.ipynb</code></a> committed by Min Qiao on Tue Sep 19 19:20:59 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/3922dd69258f00083247d15f723896de29bd7682">revision 335, 3922dd6</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/8be5b39f36c796e5c4bb99065053a16630d2674b/analysis/20170906_Overview_TORUS_Estimate_Alpha.ipynb"><code>analysis/20170906_Overview_TORUS_Estimate_Alpha.ipynb</code></a> committed by Min Qiao on Wed Sep 20 20:11:22 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/8be5b39f36c796e5c4bb99065053a16630d2674b">revision 337, 8be5b39</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
