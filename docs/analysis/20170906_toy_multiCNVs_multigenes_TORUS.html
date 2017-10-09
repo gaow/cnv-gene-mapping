@@ -168,7 +168,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Toy-example-for-multi-genes-and-multi-CNVs-in-a-region">Toy example for multi-genes and multi-CNVs in a region<a class="anchor-link" href="#Toy-example-for-multi-genes-and-multi-CNVs-in-a-region">&#182;</a></h1><h2 id="One-or-more-causal-genes">One or more causal genes<a class="anchor-link" href="#One-or-more-causal-genes">&#182;</a></h2>
+<h1 id="Toy-example-for-multi-genes-and-multi-CNVs-in-a-region">Toy example for multi-genes and multi-CNVs in a region<a class="anchor-link" href="#Toy-example-for-multi-genes-and-multi-CNVs-in-a-region">&#182;</a></h1><h2 id="One-or-more-causal-genes">One or more causal genes<a class="anchor-link" href="#One-or-more-causal-genes">&#182;</a></h2><h2 id="Obtain-summary-statistics---z_score">Obtain summary statistics - z_score<a class="anchor-link" href="#Obtain-summary-statistics---z_score">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -372,10 +372,12 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="command">command<a class="anchor-link" href="#command">&#182;</a></h3><p>gzip *</p>
-<p>torus.sh -d beta.gz -smap snp_map.gz -gmap gene_map.gz -annot snp_anno.gz -est &gt; toy_multi_beta.est</p>
-<p>torus.sh -d bf.gz --load_bf -smap snp_map.gz -gmap gene_map.gz -annot snp_anno.gz -qtl &gt; toy_multi_bf.est</p>
-<p>torus.sh -d z_score.gz --load_zval -smap snp_map.gz -gmap gene_map.gz -annot snp_anno.gz -qtl &gt; toy_multi_zscore.est</p>
+<h3 id="command">command<a class="anchor-link" href="#command">&#182;</a></h3><p>Do NOT need the optional annotation files - snp_map and gene_map, only need snp annotation.</p>
+<p>gzip *</p>
+<p>torus.sh -d beta.gz -annot snp_anno.gz -est &gt; toy_multi_beta.est</p>
+<p>/# torus.sh -d beta.gz -smap snp_map.gz -gmap gene_map.gz -annot snp_anno.gz -est &gt; toy_multi_beta.est</p>
+<p>/# torus.sh -d bf.gz --load_bf -smap snp_map.gz -gmap gene_map.gz -annot snp_anno.gz -qtl &gt; toy_multi_bf.est</p>
+<p>/# torus.sh -d z_score.gz --load_zval -smap snp_map.gz -gmap gene_map.gz -annot snp_anno.gz -qtl &gt; toy_multi_zscore.est</p>
 </div>
 </div>
 </div>
@@ -698,7 +700,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/8be5b39f36c796e5c4bb99065053a16630d2674b/analysis/20170906_toy_multiCNVs_multigenes_TORUS.ipynb"><code>analysis/20170906_toy_multiCNVs_multigenes_TORUS.ipynb</code></a> committed by Min Qiao on Wed Sep 20 20:11:22 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/8be5b39f36c796e5c4bb99065053a16630d2674b">revision 337, 8be5b39</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/bdc7bda85518285fdf6fb38341b3a43d197156d2/analysis/20170906_toy_multiCNVs_multigenes_TORUS.ipynb"><code>analysis/20170906_toy_multiCNVs_multigenes_TORUS.ipynb</code></a> committed by Min Qiao on Sun Oct 8 20:58:29 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/bdc7bda85518285fdf6fb38341b3a43d197156d2">revision 344, bdc7bda</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

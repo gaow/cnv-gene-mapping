@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.2" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link rel="stylesheet"
+      href="../site_libs/highlight/textmate.css"
+      type="text/css" />
+<script src="../site_libs/highlight/highlight.js"></script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+<script src="../js/toc2.js"></script>
+<script src="../js/docs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=analysisDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=analysisArray;
+            var pos=analysisArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  var name=docs[a]
+                  $('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  var name=docs[a]
+                  $(".toc #toc-level0").append('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>');
+            }
+            $("#toc-header").hide();
+    });
+</script>
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+<title>Gene Mapping with CNV</title>
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+<!-- code folding -->
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+<li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+<li>
+  <a href="../utils.html">Utils</a>
+</li>
+<li>
+  <a href="../setup.html">Setup</a>
+</li>
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+      </ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Use-data-from-the-paper-of-&quot;Contribution-of-CNV-to-Schizophrenia&quot;-for-analysis">Use data from the paper of <a href="http://www.nature.com/ng/journal/v49/n1/full/ng.3725.html">"Contribution of CNV to Schizophrenia"</a> for analysis<a class="anchor-link" href="#Use-data-from-the-paper-of-&quot;Contribution-of-CNV-to-Schizophrenia&quot;-for-analysis">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scz_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;~/Downloads/SCZ_data/pgc_scz_cnv/PGC_41K_QC_del_minimum8cnv.gene.results&quot;</span><span class="p">,</span> 
+                         <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> 
+                         <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">,</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;BP_start_hg18&quot;</span><span class="p">,</span> <span class="s2">&quot;AFF&quot;</span><span class="p">,</span> <span class="s2">&quot;UNAFF&quot;</span><span class="p">,</span> <span class="s2">&quot;AFF_T&quot;</span><span class="p">,</span> <span class="s2">&quot;UNAFF_T&quot;</span><span class="p">,</span> 
+                                  <span class="s2">&quot;glm_beta&quot;</span><span class="p">,</span> <span class="s2">&quot;glm_pval&quot;</span><span class="p">,</span> <span class="s2">&quot;BH_FDR&quot;</span><span class="p">])</span>
+<span class="n">scz_data</span><span class="p">[</span><span class="s2">&quot;Non_AFF&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scz_data</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[9]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+    .dataframe thead th {
+        text-align: left;
+    }
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gene_name</th>
+      <th>CHR</th>
+      <th>BP_start_hg18</th>
+      <th>AFF</th>
+      <th>UNAFF</th>
+      <th>AFF_T</th>
+      <th>UNAFF_T</th>
+      <th>glm_beta</th>
+      <th>glm_pval</th>
+      <th>BH_FDR</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ZDHHC8</td>
+      <td>22</td>
+      <td>18499364.0</td>
+      <td>58</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.424265</td>
+      <td>0.836536</td>
+      <td>16.885229</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>ARVCF</td>
+      <td>22</td>
+      <td>18337402.0</td>
+      <td>57</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.432804</td>
+      <td>0.837755</td>
+      <td>16.718333</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>DGCR8</td>
+      <td>22</td>
+      <td>18447755.0</td>
+      <td>57</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.432804</td>
+      <td>0.837755</td>
+      <td>16.718333</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>RANBP1</td>
+      <td>22</td>
+      <td>18485024.0</td>
+      <td>57</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.432804</td>
+      <td>0.837755</td>
+      <td>16.718333</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>TRMT2A</td>
+      <td>22</td>
+      <td>18479389.0</td>
+      <td>57</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.432804</td>
+      <td>0.837755</td>
+      <td>16.718333</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>RTN4R</td>
+      <td>22</td>
+      <td>18608938.0</td>
+      <td>57</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.426982</td>
+      <td>0.837703</td>
+      <td>16.648823</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>CLTCL1</td>
+      <td>22</td>
+      <td>17546987.0</td>
+      <td>56</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.444006</td>
+      <td>0.839379</td>
+      <td>16.521383</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>C22orf29</td>
+      <td>22</td>
+      <td>18213661.0</td>
+      <td>56</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.433660</td>
+      <td>0.838952</td>
+      <td>16.453892</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>GNB1L</td>
+      <td>22</td>
+      <td>18155934.0</td>
+      <td>56</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.433660</td>
+      <td>0.838952</td>
+      <td>16.453892</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>SEPT5</td>
+      <td>22</td>
+      <td>18081987.0</td>
+      <td>56</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.433660</td>
+      <td>0.838952</td>
+      <td>16.453892</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>TBX1</td>
+      <td>22</td>
+      <td>18124226.0</td>
+      <td>56</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.433660</td>
+      <td>0.838952</td>
+      <td>16.453892</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>C22orf39</td>
+      <td>22</td>
+      <td>17808410.0</td>
+      <td>55</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.456037</td>
+      <td>0.840705</td>
+      <td>16.380984</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>CDC45</td>
+      <td>22</td>
+      <td>17847414.0</td>
+      <td>55</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.456037</td>
+      <td>0.840705</td>
+      <td>16.380984</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>CLDN5</td>
+      <td>22</td>
+      <td>17890547.0</td>
+      <td>55</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.456037</td>
+      <td>0.840705</td>
+      <td>16.380984</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>DGCR14</td>
+      <td>22</td>
+      <td>17497792.0</td>
+      <td>55</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.456037</td>
+      <td>0.840705</td>
+      <td>16.380984</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>DGCR2</td>
+      <td>22</td>
+      <td>17403795.0</td>
+      <td>55</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.456037</td>
+      <td>0.840705</td>
+      <td>16.380984</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>GSC2</td>
+      <td>22</td>
+      <td>17516504.0</td>
+      <td>55</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.456037</td>
+      <td>0.840705</td>
+      <td>16.380984</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>HIRA</td>
+      <td>22</td>
+      <td>17698224.0</td>
+      <td>55</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.456037</td>
+      <td>0.840705</td>
+      <td>16.380984</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>MRPL40</td>
+      <td>22</td>
+      <td>17800036.0</td>
+      <td>55</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.456037</td>
+      <td>0.840705</td>
+      <td>16.380984</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>SLC25A1</td>
+      <td>22</td>
+      <td>17543088.0</td>
+      <td>55</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.456037</td>
+      <td>0.840705</td>
+      <td>16.380984</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>TSSK2</td>
+      <td>22</td>
+      <td>17498321.0</td>
+      <td>55</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.456037</td>
+      <td>0.840705</td>
+      <td>16.380984</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>UFD1L</td>
+      <td>22</td>
+      <td>17817464.0</td>
+      <td>55</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.456037</td>
+      <td>0.840705</td>
+      <td>16.380984</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>DGCR6L</td>
+      <td>22</td>
+      <td>18681761.0</td>
+      <td>54</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.469691</td>
+      <td>0.842009</td>
+      <td>16.260940</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>MED15</td>
+      <td>22</td>
+      <td>19191886.0</td>
+      <td>58</td>
+      <td>1</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>4.140699</td>
+      <td>0.000044</td>
+      <td>15.966724</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>KLHL22</td>
+      <td>22</td>
+      <td>19125806.0</td>
+      <td>57</td>
+      <td>1</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>4.127581</td>
+      <td>0.000047</td>
+      <td>15.713000</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>SCARF2</td>
+      <td>22</td>
+      <td>19108874.0</td>
+      <td>57</td>
+      <td>1</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>4.127581</td>
+      <td>0.000047</td>
+      <td>15.713000</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>ZNF74</td>
+      <td>22</td>
+      <td>19078405.0</td>
+      <td>57</td>
+      <td>1</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>4.127581</td>
+      <td>0.000047</td>
+      <td>15.713000</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>COMT</td>
+      <td>22</td>
+      <td>18309263.0</td>
+      <td>57</td>
+      <td>1</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>4.061113</td>
+      <td>0.000063</td>
+      <td>14.897219</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>RIMBP3</td>
+      <td>22</td>
+      <td>18835994.0</td>
+      <td>46</td>
+      <td>0</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>13.536008</td>
+      <td>0.853149</td>
+      <td>14.631674</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>TXNRD2</td>
+      <td>22</td>
+      <td>18243040.0</td>
+      <td>57</td>
+      <td>2</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>3.418183</td>
+      <td>0.000003</td>
+      <td>14.018380</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>487</th>
+      <td>FAM227B</td>
+      <td>15</td>
+      <td>47407884.0</td>
+      <td>4</td>
+      <td>5</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>-0.097158</td>
+      <td>0.892018</td>
+      <td>-0.049676</td>
+    </tr>
+    <tr>
+      <th>488</th>
+      <td>ALPPL2</td>
+      <td>2</td>
+      <td>232979796.0</td>
+      <td>29</td>
+      <td>30</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>0.036999</td>
+      <td>0.893911</td>
+      <td>0.048698</td>
+    </tr>
+    <tr>
+      <th>489</th>
+      <td>ALPP</td>
+      <td>2</td>
+      <td>232951592.0</td>
+      <td>26</td>
+      <td>27</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>-0.000970</td>
+      <td>0.997349</td>
+      <td>-0.001153</td>
+    </tr>
+    <tr>
+      <th>490</th>
+      <td>SPANXN1</td>
+      <td>X</td>
+      <td>144136799.0</td>
+      <td>5</td>
+      <td>5</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>-0.085863</td>
+      <td>0.900837</td>
+      <td>-0.045347</td>
+    </tr>
+    <tr>
+      <th>491</th>
+      <td>IQGAP2</td>
+      <td>5</td>
+      <td>75734905.0</td>
+      <td>14</td>
+      <td>19</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>-0.044180</td>
+      <td>0.905140</td>
+      <td>-0.043322</td>
+    </tr>
+    <tr>
+      <th>492</th>
+      <td>F2RL2</td>
+      <td>5</td>
+      <td>75947063.0</td>
+      <td>13</td>
+      <td>18</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>-0.018012</td>
+      <td>0.962483</td>
+      <td>-0.016614</td>
+    </tr>
+    <tr>
+      <th>493</th>
+      <td>OR4A16</td>
+      <td>11</td>
+      <td>54867253.0</td>
+      <td>5</td>
+      <td>5</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>-0.074257</td>
+      <td>0.909392</td>
+      <td>-0.041244</td>
+    </tr>
+    <tr>
+      <th>494</th>
+      <td>MMRN1</td>
+      <td>4</td>
+      <td>91035075.0</td>
+      <td>12</td>
+      <td>10</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>-0.050862</td>
+      <td>0.910027</td>
+      <td>-0.040913</td>
+    </tr>
+    <tr>
+      <th>495</th>
+      <td>ZNF28</td>
+      <td>19</td>
+      <td>57992473.0</td>
+      <td>14</td>
+      <td>13</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>-0.044788</td>
+      <td>0.913593</td>
+      <td>-0.039232</td>
+    </tr>
+    <tr>
+      <th>496</th>
+      <td>LAMA2</td>
+      <td>6</td>
+      <td>129245979.0</td>
+      <td>4</td>
+      <td>4</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>0.076387</td>
+      <td>0.917191</td>
+      <td>0.037541</td>
+    </tr>
+    <tr>
+      <th>497</th>
+      <td>AGBL4</td>
+      <td>1</td>
+      <td>48771114.0</td>
+      <td>6</td>
+      <td>5</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>0.056275</td>
+      <td>0.928585</td>
+      <td>0.032202</td>
+    </tr>
+    <tr>
+      <th>498</th>
+      <td>FOCAD</td>
+      <td>9</td>
+      <td>20648309.0</td>
+      <td>5</td>
+      <td>5</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>-0.056495</td>
+      <td>0.931399</td>
+      <td>-0.030863</td>
+    </tr>
+    <tr>
+      <th>499</th>
+      <td>MAGEA9</td>
+      <td>X</td>
+      <td>148471105.0</td>
+      <td>4</td>
+      <td>5</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>0.059650</td>
+      <td>0.933527</td>
+      <td>0.029848</td>
+    </tr>
+    <tr>
+      <th>500</th>
+      <td>MAGEA9B</td>
+      <td>X</td>
+      <td>148471105.0</td>
+      <td>4</td>
+      <td>5</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>0.059650</td>
+      <td>0.933527</td>
+      <td>0.029848</td>
+    </tr>
+    <tr>
+      <th>501</th>
+      <td>C17orf51</td>
+      <td>17</td>
+      <td>21372164.0</td>
+      <td>16</td>
+      <td>11</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>0.034170</td>
+      <td>0.933665</td>
+      <td>0.029835</td>
+    </tr>
+    <tr>
+      <th>502</th>
+      <td>MACROD2</td>
+      <td>20</td>
+      <td>13924146.0</td>
+      <td>13</td>
+      <td>15</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>0.033658</td>
+      <td>0.934915</td>
+      <td>0.029218</td>
+    </tr>
+    <tr>
+      <th>503</th>
+      <td>PAMR1</td>
+      <td>11</td>
+      <td>35409952.0</td>
+      <td>5</td>
+      <td>7</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>0.043882</td>
+      <td>0.942967</td>
+      <td>0.025476</td>
+    </tr>
+    <tr>
+      <th>504</th>
+      <td>LARGE</td>
+      <td>22</td>
+      <td>31999062.0</td>
+      <td>6</td>
+      <td>4</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>0.049865</td>
+      <td>0.943242</td>
+      <td>0.025409</td>
+    </tr>
+    <tr>
+      <th>505</th>
+      <td>GPC5</td>
+      <td>13</td>
+      <td>90848936.0</td>
+      <td>8</td>
+      <td>8</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>-0.038894</td>
+      <td>0.943997</td>
+      <td>-0.025029</td>
+    </tr>
+    <tr>
+      <th>506</th>
+      <td>ATP2C2</td>
+      <td>16</td>
+      <td>82959634.0</td>
+      <td>18</td>
+      <td>18</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>0.024084</td>
+      <td>0.945132</td>
+      <td>0.024507</td>
+    </tr>
+    <tr>
+      <th>507</th>
+      <td>BBS9</td>
+      <td>7</td>
+      <td>33135677.0</td>
+      <td>3</td>
+      <td>5</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>0.038381</td>
+      <td>0.958514</td>
+      <td>0.018372</td>
+    </tr>
+    <tr>
+      <th>508</th>
+      <td>SPATA6L</td>
+      <td>9</td>
+      <td>4588316.0</td>
+      <td>6</td>
+      <td>5</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>-0.026669</td>
+      <td>0.968199</td>
+      <td>-0.014029</td>
+    </tr>
+    <tr>
+      <th>509</th>
+      <td>PTGIS</td>
+      <td>20</td>
+      <td>47553818.0</td>
+      <td>17</td>
+      <td>13</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>-0.013914</td>
+      <td>0.971063</td>
+      <td>-0.012749</td>
+    </tr>
+    <tr>
+      <th>510</th>
+      <td>IFNA4</td>
+      <td>9</td>
+      <td>21176618.0</td>
+      <td>5</td>
+      <td>4</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>-0.021735</td>
+      <td>0.975056</td>
+      <td>-0.010967</td>
+    </tr>
+    <tr>
+      <th>511</th>
+      <td>CHL1</td>
+      <td>3</td>
+      <td>213279.0</td>
+      <td>4</td>
+      <td>5</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>0.016262</td>
+      <td>0.981773</td>
+      <td>0.007987</td>
+    </tr>
+    <tr>
+      <th>512</th>
+      <td>AGMO</td>
+      <td>7</td>
+      <td>15206468.0</td>
+      <td>22</td>
+      <td>20</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>0.006860</td>
+      <td>0.983239</td>
+      <td>0.007341</td>
+    </tr>
+    <tr>
+      <th>513</th>
+      <td>WFDC1</td>
+      <td>16</td>
+      <td>82885902.0</td>
+      <td>4</td>
+      <td>4</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>0.013103</td>
+      <td>0.985877</td>
+      <td>0.006177</td>
+    </tr>
+    <tr>
+      <th>514</th>
+      <td>PARK2</td>
+      <td>6</td>
+      <td>161688580.0</td>
+      <td>73</td>
+      <td>72</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>-0.002897</td>
+      <td>0.986854</td>
+      <td>-0.005747</td>
+    </tr>
+    <tr>
+      <th>515</th>
+      <td>DOCK8</td>
+      <td>9</td>
+      <td>204865.0</td>
+      <td>13</td>
+      <td>12</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>-0.004387</td>
+      <td>0.991733</td>
+      <td>-0.003605</td>
+    </tr>
+    <tr>
+      <th>516</th>
+      <td>CERS3</td>
+      <td>15</td>
+      <td>98758123.0</td>
+      <td>7</td>
+      <td>8</td>
+      <td>17506</td>
+      <td>16751</td>
+      <td>-0.005041</td>
+      <td>0.992556</td>
+      <td>-0.003245</td>
+    </tr>
+  </tbody>
+</table>
+<p>517 rows × 10 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/dbb42c21fb4c39612f25c5ea028084e0d1e976ad/analysis/SCZ_CNV.ipynb"><code>analysis/SCZ_CNV.ipynb</code></a> committed by Min Qiao on Fri Oct 6 19:07:54 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/dbb42c21fb4c39612f25c5ea028084e0d1e976ad">revision 343, dbb42c2</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>

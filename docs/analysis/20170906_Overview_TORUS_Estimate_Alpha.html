@@ -177,7 +177,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h3>
+<h3 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h3><p>Generate summary statistics and snp(gene) annotation file: z_score and snp_anno.</p>
 </div>
 </div>
 </div>
@@ -187,40 +187,29 @@ body {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h3><p>The results for enrichment analysis is directly output to the screen. 1st column represents the annotation name and its corresponding level; 2nd column is the point estimate (MLE) of the log odds ratio.</p>
-<p>log(OR) = -17.588</p>
 <pre><code>Read in 1 loci, 15 locus-SNP pairs ... 
 Loading annotations ... 
 Initializing ... 
 Starting EM ... 
-  Iter          loglik          Intercept    binding.1  dtss.1  dtss.2  dtss.3  dtss.4  
-   1             3.707           -1.765     -7.932      1.139     -1.186     -1.077     -6.009  
-   2             9.425           -5.175    -16.645      3.450     -0.154      0.064    -12.232  
-   3             9.850          -12.107    -25.214      8.071      3.190      3.516    -18.309  
-   4            10.126          -25.967    -33.765     17.310     11.152     11.587    -24.369  
-   5            10.160          -53.352    -42.316     35.456     28.020     28.564    -30.429  
+ Iter          loglik          Intercept    binding.1   binding.2   binding.3   binding.4   binding.5   
+  1             3.707           -8.887      8.836     -0.439      1.111     -2.305     -2.188  
+  2             9.214          -17.697     17.697     -0.878      2.222     -4.610     -4.376  
+  3             9.217          -26.558     26.558     -1.318      3.333     -6.915     -6.564  
 </code></pre>
 <div class="highlight"><pre><span></span>cat toy_multi_beta.est
 </pre></div>
-<pre><code>            Intercept    -53.352     -739479.978  739373.273
-            binding.1    -17.588      -93724.770  93689.593
-    dtss.1::[-17.5kb]     35.456        20.040     50.873
-     dtss.2::[-7.5kb]     28.019     -388293.712  388349.749
-    dtss.3::[-3.75kb]     28.563     -395832.517  395889.642
-    dtss.4::[-1.75kb]    -16.490     -175834.248  175801.269</code></pre>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+<pre><code>            Intercept    -26.558       -32.745    -20.372
+            binding.1     26.558        14.434     38.682
+            binding.2     -1.315     -18232.648  18230.017
+            binding.3      0.002       -27.394     27.398
+            binding.4     -6.430     -89122.044  89109.184
+            binding.5     -6.181     -85665.902  85653.540</code></pre>
 </div>
 </div>
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/8be5b39f36c796e5c4bb99065053a16630d2674b/analysis/20170906_Overview_TORUS_Estimate_Alpha.ipynb"><code>analysis/20170906_Overview_TORUS_Estimate_Alpha.ipynb</code></a> committed by Min Qiao on Wed Sep 20 20:11:22 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/8be5b39f36c796e5c4bb99065053a16630d2674b">revision 337, 8be5b39</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/bdc7bda85518285fdf6fb38341b3a43d197156d2/analysis/20170906_Overview_TORUS_Estimate_Alpha.ipynb"><code>analysis/20170906_Overview_TORUS_Estimate_Alpha.ipynb</code></a> committed by Min Qiao on Sun Oct 8 20:58:29 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/bdc7bda85518285fdf6fb38341b3a43d197156d2">revision 344, bdc7bda</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
