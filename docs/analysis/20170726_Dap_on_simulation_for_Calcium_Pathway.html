@@ -168,7 +168,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="DAP-on-simulation-results">DAP on simulation results<a class="anchor-link" href="#DAP-on-simulation-results">&#182;</a></h1>
+<h1 id="DAP-on-simulation-results-for-calcium-pathway">DAP on simulation results for calcium pathway<a class="anchor-link" href="#DAP-on-simulation-results-for-calcium-pathway">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -190,19 +190,8 @@ body {
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;data/calcium_pathway_4000_shape_25.data.blocks.pkl&quot;</span>
 <span class="n">fileout</span> <span class="o">=</span> <span class="s2">&quot;data/calcium_pathway_4000_shape_25.data&quot;</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">fileout</span><span class="p">)</span>
+<span class="c1"># print(fileout)</span>
 </pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>data/calcium_pathway_4000_shape_25.data
-</pre>
-</div>
 </div>
 </div>
 </div>
@@ -249,215 +238,22 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># there are 0~1847 blocks, block #776 has the most genes involved</span>
+<span class="c1"># i = 0</span>
+<span class="c1"># for dat in data[&quot;data&quot;]:</span>
+<span class="c1">#     print (len(dat.columns.values[1:].tolist()), i)</span>
+<span class="c1">#     i+=1</span>
 </pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>      phenotype  ADIPOR1  ADORA1  ARL8A  ASCL5  ATP2B4  ATP6V1G3  AVPR1B  \
-0             1        0       0      0      0       0         0       0   
-1             1        0       0      0      0       0         0       0   
-2             1        0       0      0      0       0         0       0   
-3             1        0       0      0      0       0         0       0   
-4             1        0       0      0      0       0         0       0   
-5             1        0       0      0      0       0         0       0   
-6             1        0       0      0      0       0         0       0   
-7             1        1       1      0      0       1         0       0   
-8             1        0       0      0      0       0         0       0   
-9             1        0       0      0      0       0         0       0   
-10            1        0       0      0      0       0         0       0   
-11            1        0       0      0      0       0         0       0   
-12            1        0       0      0      0       0         0       0   
-13            1        0       0      0      0       0         0       0   
-14            1        0       0      0      0       0         0       0   
-15            1        0       0      0      0       0         0       0   
-16            1        0       0      0      0       0         0       0   
-17            1        0       0      0      0       0         0       0   
-18            1        0       0      0      0       0         0       0   
-19            1        0       0      0      0       0         0       0   
-20            1        0       0      0      0       0         0       0   
-21            1        0       0      0      0       0         0       0   
-22            1        0       0      0      0       0         0       0   
-23            1        0       0      0      0       0         0       0   
-24            1        0       0      0      0       0         0       0   
-25            1        0       0      0      0       0         0       0   
-26            1        0       0      0      0       0         0       0   
-27            1        0       0      0      0       0         0       0   
-28            1        0       0      0      0       0         0       0   
-29            1        0       0      0      0       0         0       0   
-...         ...      ...     ...    ...    ...     ...       ...     ...   
-3970          0        0       0      0      0       0         0       0   
-3971          0        0       0      0      0       0         0       0   
-3972          0        0       0      0      0       0         0       0   
-3973          0        0       0      0      0       0         0       0   
-3974          0        0       0      0      0       0         0       0   
-3975          0        0       0      0      0       0         0       0   
-3976          0        0       0      0      0       0         0       0   
-3977          0        0       0      0      0       0         0       0   
-3978          0        0       0      0      0       0         0       0   
-3979          0        0       0      0      0       0         0       0   
-3980          0        0       0      0      0       0         0       0   
-3981          0        0       0      0      0       0         0       0   
-3982          0        0       0      0      0       0         0       0   
-3983          0        0       0      0      0       0         0       0   
-3984          0        0       0      0      0       0         0       0   
-3985          0        0       0      0      0       0         0       0   
-3986          0        0       0      0      0       0         0       0   
-3987          0        0       0      0      0       0         0       0   
-3988          0        0       0      0      0       0         0       0   
-3989          0        0       0      0      0       0         0       0   
-3990          0        0       0      0      0       0         0       0   
-3991          0        0       0      0      0       0         0       0   
-3992          0        0       0      0      0       0         0       0   
-3993          0        0       0      0      0       0         0       0   
-3994          0        0       0      0      0       0         0       0   
-3995          0        0       0      0      0       0         0       0   
-3996          0        0       0      0      0       0         0       0   
-3997          0        0       0      0      0       0         0       0   
-3998          0        0       0      0      0       0         0       0   
-3999          0        0       0      0      0       0         0       0   
-      BLACAT1  BTG2   ...    TMEM183B  TMEM81  TMEM9  TNNI1  TNNT2  UBE2T  \
-0           0     0   ...           0       0      0      0      0      0   
-1           0     0   ...           0       0      0      0      0      0   
-2           0     0   ...           0       0      0      0      0      0   
-3           0     0   ...           0       0      0      0      0      0   
-4           0     0   ...           0       0      0      0      0      0   
-5           0     0   ...           0       0      0      0      0      0   
-6           0     0   ...           0       0      0      0      0      0   
-7           0     1   ...           1       0      0      0      0      0   
-8           0     0   ...           0       0      0      0      0      0   
-9           0     0   ...           0       0      0      0      0      0   
-10          0     0   ...           0       0      0      0      0      0   
-11          0     0   ...           0       0      0      0      0      0   
-12          0     0   ...           0       0      0      0      0      0   
-13          0     0   ...           0       0      0      0      0      0   
-14          0     0   ...           0       0      0      0      0      0   
-15          0     0   ...           0       0      0      0      0      0   
-16          0     0   ...           0       0      0      0      0      0   
-17          0     0   ...           0       0      0      0      0      0   
-18          0     0   ...           0       0      0      0      0      0   
-19          0     0   ...           0       0      0      0      0      0   
-20          0     0   ...           0       0      0      0      0      0   
-21          0     0   ...           0       0      0      0      0      0   
-22          0     0   ...           0       0      0      0      0      0   
-23          0     0   ...           0       0      0      0      0      0   
-24          0     0   ...           0       0      0      0      0      0   
-25          0     0   ...           0       0      0      0      0      0   
-26          0     0   ...           0       0      0      0      0      0   
-27          0     0   ...           0       0      0      0      0      0   
-28          0     0   ...           0       0      0      0      0      0   
-29          0     0   ...           0       0      0      0      0      0   
-...       ...   ...   ...         ...     ...    ...    ...    ...    ...   
-3970        0     0   ...           0       0      0      0      0      0   
-3971        0     0   ...           0       0      0      0      0      0   
-3972        0     0   ...           0       0      0      0      0      0   
-3973        0     0   ...           0       0      0      0      0      0   
-3974        0     0   ...           0       0      0      0      0      0   
-3975        0     0   ...           0       0      0      0      0      0   
-3976        0     0   ...           0       0      0      0      0      0   
-3977        0     0   ...           0       0      0      0      0      0   
-3978        0     0   ...           0       0      0      0      0      0   
-3979        0     0   ...           0       0      0      0      0      0   
-3980        0     0   ...           0       0      0      0      0      0   
-3981        0     0   ...           0       0      0      0      0      0   
-3982        0     0   ...           0       0      0      0      0      0   
-3983        0     0   ...           0       0      0      0      0      0   
-3984        0     0   ...           0       0      0      0      0      0   
-3985        0     0   ...           0       0      0      0      0      0   
-3986        0     0   ...           0       0      0      0      0      0   
-3987        0     0   ...           0       0      0      0      0      0   
-3988        0     0   ...           0       0      0      0      0      0   
-3989        0     0   ...           0       0      0      0      0      0   
-3990        0     0   ...           0       0      0      0      0      0   
-3991        0     0   ...           0       0      0      0      0      0   
-3992        0     0   ...           0       0      0      0      0      0   
-3993        0     0   ...           0       0      0      0      0      0   
-3994        0     0   ...           0       0      0      0      0      0   
-3995        0     0   ...           0       0      0      0      0      0   
-3996        0     0   ...           0       0      0      0      0      0   
-3997        0     0   ...           0       0      0      0      0      0   
-3998        0     0   ...           0       0      0      0      0      0   
-3999        0     0   ...           0       0      0      0      0      0   
-      YOD1  ZBED6  ZC3H11A  ZNF281  
-0        0      0        0       0  
-1        0      0        0       0  
-2        0      0        0       0  
-3        0      0        0       0  
-4        0      0        0       0  
-5        0      0        0       0  
-6        0      0        0       0  
-7        0      1        1       0  
-8        0      0        0       0  
-9        0      0        0       0  
-10       0      0        0       0  
-11       0      0        0       0  
-12       0      0        0       0  
-13       0      0        0       0  
-14       0      0        0       0  
-15       0      0        0       0  
-16       0      0        0       0  
-17       0      0        0       0  
-18       0      0        0       0  
-19       0      0        0       0  
-20       0      0        0       0  
-21       0      0        0       0  
-22       0      0        0       0  
-23       0      0        0       0  
-24       0      0        0       0  
-25       0      0        0       0  
-26       0      0        0       0  
-27       0      0        0       0  
-28       0      0        0       0  
-29       0      0        0       0  
-...    ...    ...      ...     ...  
-3970     0      0        0       0  
-3971     0      0        0       0  
-3972     0      0        0       0  
-3973     0      0        0       0  
-3974     0      0        0       0  
-3975     0      0        0       0  
-3976     0      0        0       0  
-3977     0      0        0       0  
-3978     0      0        0       0  
-3979     0      0        0       0  
-3980     0      0        0       0  
-3981     0      0        0       0  
-3982     0      0        0       0  
-3983     0      0        0       0  
-3984     0      0        0       0  
-3985     0      0        0       0  
-3986     0      0        0       0  
-3987     0      0        0       0  
-3988     0      0        0       0  
-3989     0      0        0       0  
-3990     0      0        0       0  
-3991     0      0        0       0  
-3992     0      0        0       0  
-3993     0      0        0       0  
-3994     0      0        0       0  
-3995     0      0        0       0  
-3996     0      0        0       0  
-3997     0      0        0       0  
-3998     0      0        0       0  
-3999     0      0        0       0  
-[4000 rows x 155 columns]
-</pre>
-</div>
 </div>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create prior file</span>
@@ -476,7 +272,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">calpath_gene_pos</span><span class="p">[</span><span class="s2">&quot;chr.gene&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]),</span> 
@@ -489,12 +285,345 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="n">z_mu</span>
 <span class="n">y_tran</span> <span class="o">=</span> <span class="n">t</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Run-TORUS">Run TORUS<a class="anchor-link" href="#Run-TORUS">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># from get_sum_stats_for_torus import get_summary_stats</span>
+<span class="kn">import</span> <span class="nn">fisher</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_sum_stats_cal_simu</span><span class="p">(</span><span class="n">gene_df</span><span class="p">,</span> <span class="n">causal</span><span class="p">,</span> <span class="n">cat</span><span class="p">,</span> <span class="n">multi_cat</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">subst</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="n">chrom</span> <span class="o">=</span> <span class="s2">&quot;chr6&quot;</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">999</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;get summary statistics (e.g. t-statistic, p-value) to be used for TORUS, then transfer p-value to z-score</span>
+<span class="sd">       Actually do NOT need SNP (gene) map and gene (chromosome) map</span>
+<span class="sd">       If multi_cat!=0, then cat must be multiple categories</span>
+<span class="sd">       If multi_cat==0, then cat can be any list (because it won&#39;t be used) but must be given</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">cases</span> <span class="o">=</span> <span class="n">gene_df</span><span class="p">[</span><span class="n">gene_df</span><span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">ctrls</span> <span class="o">=</span> <span class="n">gene_df</span><span class="p">[</span><span class="n">gene_df</span><span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">df_cal_bf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">df_cal_beta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">df_cal_zscore</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">SNP_anno_cal</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">gene_df</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="n">n_gene_case</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cases</span><span class="p">[</span><span class="n">cases</span><span class="p">[</span><span class="n">gene</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">n_nogene_case</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cases</span><span class="p">[</span><span class="n">cases</span><span class="p">[</span><span class="n">gene</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">n_gene_ctrl</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ctrls</span><span class="p">[</span><span class="n">ctrls</span><span class="p">[</span><span class="n">gene</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">n_nogene_ctrl</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ctrls</span><span class="p">[</span><span class="n">ctrls</span><span class="p">[</span><span class="n">gene</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">n_gene_case</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n_gene_ctrl</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">odds_ratio</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">odds_ratio</span> <span class="o">=</span> <span class="n">n_gene_case</span> <span class="o">*</span> <span class="n">n_nogene_ctrl</span> <span class="o">/</span> <span class="n">n_gene_ctrl</span> <span class="o">/</span> <span class="n">n_nogene_case</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">n_gene_case</span><span class="p">,</span> <span class="n">n_nogene_case</span><span class="p">,</span> <span class="n">n_gene_ctrl</span><span class="p">,</span> <span class="n">n_nogene_ctrl</span><span class="p">,</span> <span class="n">odds_ratio</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">odds_ratio</span><span class="p">):</span>
+            <span class="n">beta1</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="k">elif</span> <span class="n">odds_ratio</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">beta1</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">beta1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">odds_ratio</span><span class="p">)</span>
+        <span class="n">fisher_stats</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">pvalue</span><span class="p">(</span><span class="n">n_gene_case</span><span class="p">,</span> <span class="n">n_gene_ctrl</span><span class="p">,</span> <span class="n">n_nogene_case</span><span class="p">,</span> <span class="n">n_nogene_ctrl</span><span class="p">)</span>
+        <span class="n">p_value_two</span> <span class="o">=</span> <span class="n">fisher_stats</span><span class="o">.</span><span class="n">two_tail</span>
+        <span class="n">p_value_left</span> <span class="o">=</span> <span class="n">fisher_stats</span><span class="o">.</span><span class="n">left_tail</span>
+        <span class="n">p_value_right</span> <span class="o">=</span> <span class="n">fisher_stats</span><span class="o">.</span><span class="n">right_tail</span>
+        <span class="k">if</span> <span class="n">p_value_right</span> <span class="o">&lt;</span> <span class="mf">0.5</span> <span class="ow">and</span> <span class="n">p_value_two</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">z_score</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p_value_right</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">p_value_left</span> <span class="o">&lt;</span> <span class="mf">0.5</span> <span class="ow">and</span> <span class="n">p_value_two</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">z_score</span> <span class="o">=</span> <span class="o">-</span><span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p_value_left</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">z_score</span> <span class="o">=</span> <span class="n">subst</span>
+        <span class="n">df_cal_bf</span> <span class="o">=</span> <span class="n">df_cal_bf</span><span class="o">.</span><span class="n">append</span><span class="p">([(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chrom</span><span class="p">,</span> <span class="n">gene</span><span class="p">),</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">odds_ratio</span><span class="p">)])</span>
+        <span class="n">df_cal_beta</span> <span class="o">=</span> <span class="n">df_cal_beta</span><span class="o">.</span><span class="n">append</span><span class="p">([(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chrom</span><span class="p">,</span> <span class="n">gene</span><span class="p">),</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">beta1</span><span class="p">,</span> <span class="n">z_score</span><span class="p">,</span> <span class="n">p_value_two</span><span class="o">/</span><span class="mi">2</span><span class="p">)])</span>
+        <span class="n">df_cal_zscore</span> <span class="o">=</span> <span class="n">df_cal_zscore</span><span class="o">.</span><span class="n">append</span><span class="p">([(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chrom</span><span class="p">,</span> <span class="n">gene</span><span class="p">),</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">z_score</span><span class="p">)])</span>
+        <span class="c1">### gene annotation needs to be determined</span>
+        <span class="k">if</span> <span class="n">multi_cat</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">SNP_anno_cal</span> <span class="o">=</span> <span class="n">SNP_anno_cal</span><span class="o">.</span><span class="n">append</span><span class="p">([(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chrom</span><span class="p">,</span> <span class="n">gene</span><span class="p">),</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">causal</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">rand_cat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
+            <span class="n">SNP_anno_cal</span> <span class="o">=</span> <span class="n">SNP_anno_cal</span><span class="o">.</span><span class="n">append</span><span class="p">([(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chrom</span><span class="p">,</span> <span class="n">gene</span><span class="p">),</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">causal</span> <span class="k">else</span> <span class="n">rand_cat</span><span class="p">)])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">(</span><span class="n">gene</span><span class="p">[</span><span class="mi">4</span><span class="p">:])</span> <span class="ow">in</span> <span class="n">causal</span><span class="p">:</span>
+                <span class="n">cat</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">rand_cat</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">df_cal_bf</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;SNP&quot;</span><span class="p">,</span> <span class="s2">&quot;gene&quot;</span><span class="p">,</span> <span class="s2">&quot;bf&quot;</span><span class="p">]</span>
+    <span class="n">df_cal_beta</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;SNP&quot;</span><span class="p">,</span> <span class="s2">&quot;gene&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;t-stat&quot;</span><span class="p">,</span> <span class="s2">&quot;p-value&quot;</span><span class="p">]</span>
+    <span class="n">df_cal_zscore</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;SNP&quot;</span><span class="p">,</span> <span class="s2">&quot;gene&quot;</span><span class="p">,</span> <span class="s2">&quot;z-score&quot;</span><span class="p">]</span>
+    <span class="n">SNP_anno_cal</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;SNP&quot;</span><span class="p">,</span> <span class="s2">&quot;binding_d&quot;</span><span class="p">]</span>
+    <span class="n">df_cal_bf</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;data/TORUS/calcium/bf_cal&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">df_cal_beta</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;data/TORUS/calcium/beta_cal&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">df_cal_zscore</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;data/TORUS/calcium/z_score_cal&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">SNP_anno_cal</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;data/TORUS/calcium/snp_anno_cal&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="c1">#     return df_cal_bf, df_cal_beta, df_cal_zscore, SNP_anno_cal</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># there are 0~1847 blocks, block #776 has the most genes involved</span>
+<span class="n">df_cal</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">df_cal</span><span class="p">)))</span>
+<span class="n">block_genes</span> <span class="o">=</span> <span class="n">df_cal</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="c1"># print ((block_genes))</span>
+<span class="n">n_gene</span> <span class="o">=</span> <span class="n">df_cal</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">pthway_genes</span> <span class="o">=</span> <span class="n">cal_pthwy_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">cat6</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">block_genes</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">pthway_genes</span><span class="p">:</span>
+        <span class="n">cat6</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="n">cat6</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1"># print (len(cat6))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>155
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_sum_stats_cal_simu</span><span class="p">(</span><span class="n">gene_df</span> <span class="o">=</span> <span class="n">df_cal</span><span class="p">,</span> <span class="n">causal</span> <span class="o">=</span> <span class="n">pthway_genes</span><span class="p">,</span> <span class="n">cat</span> <span class="o">=</span> <span class="n">cat6</span><span class="p">,</span> <span class="n">multi_cat</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">chrom</span> <span class="o">=</span> <span class="s2">&quot;chr19&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>4 1996 2 1998 2.002004008016032
+3 1997 1 1999 3.0030045067601403
+3 1997 0 2000 0
+13 1987 0 2000 0
+7 1993 1 1999 7.021073758153538
+3 1997 0 2000 0
+6 1994 1 1999 6.015045135406218
+3 1997 0 2000 0
+4 1996 0 2000 0
+8 1992 2 1998 4.0120481927710845
+2 1998 3 1997 0.666332999666333
+1 1999 2 1998 0.49974987493746875
+6 1994 1 1999 6.015045135406218
+3 1997 0 2000 0
+1 1999 3 1997 0.3329998332499583
+1 1999 3 1997 0.3329998332499583
+16 1984 2 1998 8.056451612903226
+6 1994 3 1997 2.0030090270812435
+1 1999 2 1998 0.49974987493746875
+1 1999 2 1998 0.49974987493746875
+3 1997 1 1999 3.0030045067601403
+4 1996 2 1998 2.002004008016032
+3 1997 0 2000 0
+3 1997 0 2000 0
+5 1995 0 2000 0
+1 1999 2 1998 0.49974987493746875
+0 2000 2 1998 0
+2 1998 1 1999 2.001001001001001
+6 1994 0 2000 0
+7 1993 1 1999 7.021073758153538
+4 1996 2 1998 2.002004008016032
+5 1995 1 1999 5.010025062656641
+4 1996 1 1999 4.006012024048096
+5 1995 0 2000 0
+4 1996 1 1999 4.006012024048096
+4 1996 1 1999 4.006012024048096
+2 1998 2 1998 1.0
+4 1996 2 1998 2.002004008016032
+5 1995 0 2000 0
+4 1996 1 1999 4.006012024048096
+4 1996 3 1997 1.334001336005344
+1 1999 1 1999 1.0
+1 1999 1 1999 1.0
+4 1996 0 2000 0
+5 1995 0 2000 0
+7 1993 3 1997 2.338016390700786
+3 1997 0 2000 0
+10 1990 0 2000 0
+3 1997 1 1999 3.0030045067601403
+4 1996 1 1999 4.006012024048096
+4 1996 1 1999 4.006012024048096
+1 1999 1 1999 1.0
+1 1999 1 1999 1.0
+4 1996 1 1999 4.006012024048096
+5 1995 1 1999 5.010025062656641
+4 1996 2 1998 2.002004008016032
+5 1995 1 1999 5.010025062656641
+12 1988 2 1998 6.030181086519114
+5 1995 0 2000 0
+3 1997 0 2000 0
+5 1995 2 1998 2.5037593984962405
+6 1994 0 2000 0
+7 1993 1 1999 7.021073758153538
+3 1997 0 2000 0
+3 1997 0 2000 0
+4 1996 2 1998 2.002004008016032
+3 1997 1 1999 3.0030045067601403
+7 1993 1 1999 7.021073758153538
+5 1995 0 2000 0
+3 1997 0 2000 0
+4 1996 1 1999 4.006012024048096
+4 1996 0 2000 0
+4 1996 0 2000 0
+6 1994 0 2000 0
+4 1996 0 2000 0
+3 1997 2 1998 1.500751126690035
+4 1996 2 1998 2.002004008016032
+6 1994 1 1999 6.015045135406218
+5 1995 0 2000 0
+1 1999 2 1998 0.49974987493746875
+4 1996 1 1999 4.006012024048096
+4 1996 2 1998 2.002004008016032
+3 1997 4 1996 0.7496244366549825
+4 1996 0 2000 0
+4 1996 1 1999 4.006012024048096
+3 1997 1 1999 3.0030045067601403
+4 1996 2 1998 2.002004008016032
+5 1995 2 1998 2.5037593984962405
+4 1996 1 1999 4.006012024048096
+3 1997 0 2000 0
+6 1994 0 2000 0
+8 1992 0 2000 0
+6 1994 0 2000 0
+1 1999 2 1998 0.49974987493746875
+1 1999 2 1998 0.49974987493746875
+4 1996 1 1999 4.006012024048096
+4 1996 1 1999 4.006012024048096
+2 1998 2 1998 1.0
+3 1997 1 1999 3.0030045067601403
+3 1997 0 2000 0
+3 1997 2 1998 1.500751126690035
+6 1994 1 1999 6.015045135406218
+4 1996 0 2000 0
+5 1995 0 2000 0
+3 1997 1 1999 3.0030045067601403
+3 1997 0 2000 0
+3 1997 3 1997 1.0
+3 1997 0 2000 0
+4 1996 2 1998 2.002004008016032
+1 1999 3 1997 0.3329998332499583
+6 1994 0 2000 0
+1 1999 1 1999 1.0
+3 1997 1 1999 3.0030045067601403
+8 1992 0 2000 0
+5 1995 0 2000 0
+2 1998 2 1998 1.0
+3 1997 3 1997 1.0
+4 1996 2 1998 2.002004008016032
+4 1996 3 1997 1.334001336005344
+3 1997 0 2000 0
+3 1997 0 2000 0
+3 1997 0 2000 0
+6 1994 0 2000 0
+4 1996 0 2000 0
+3 1997 3 1997 1.0
+4 1996 1 1999 4.006012024048096
+4 1996 1 1999 4.006012024048096
+5 1995 0 2000 0
+5 1995 0 2000 0
+2 1998 2 1998 1.0
+5 1995 0 2000 0
+4 1996 1 1999 4.006012024048096
+2 1998 4 1996 0.4994994994994995
+3 1997 2 1998 1.500751126690035
+4 1996 3 1997 1.334001336005344
+7 1993 1 1999 7.021073758153538
+5 1995 0 2000 0
+6 1994 0 2000 0
+3 1997 1 1999 3.0030045067601403
+4 1996 3 1997 1.334001336005344
+3 1997 2 1998 1.500751126690035
+2 1998 2 1998 1.0
+4 1996 0 2000 0
+4 1996 2 1998 2.002004008016032
+4 1996 2 1998 2.002004008016032
+5 1995 0 2000 0
+11 1989 0 2000 0
+6 1994 0 2000 0
+6 1994 0 2000 0
+2 1998 1 1999 2.001001001001001
+1 1999 3 1997 0.3329998332499583
+7 1993 0 2000 0
+7 1993 0 2000 0
+4 1996 1 1999 4.006012024048096
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>rm data/TORUS/calcium/*.gz
+<span class="o">!</span>gzip data/TORUS/calcium/*
+<span class="o">!</span>torus.sh -d data/TORUS/calcium/beta_cal.gz -annot data/TORUS/calcium/snp_anno_cal.gz -est &gt; data/TORUS/calcium/cal_block_beta.est
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Read in 1 loci, 154 locus-SNP pairs ... 
+Loading annotations ... 
+Initializing ... 
+Starting EM ... 
+  Iter          loglik          Intercept    binding.1	
+   1            42.005           -5.011    -43.156  
+   2            43.052           -5.011    -86.311  
+   3            43.052           -5.011   -129.467  
+</pre>
+</div>
 </div>
 </div>
 </div>
@@ -2453,7 +2582,7 @@ Job 1848/1848, elapsed 0.02s prepare &amp; 0.52s DAP
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/dbb42c21fb4c39612f25c5ea028084e0d1e976ad/analysis/20170726_Dap_on_simulation.ipynb"><code>analysis/20170726_Dap_on_simulation.ipynb</code></a> committed by Min Qiao on Fri Oct 6 19:07:54 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/dbb42c21fb4c39612f25c5ea028084e0d1e976ad">revision 343, dbb42c2</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/dfd84ddd1e708bfd2c74f19995b02136239caff9/analysis/20170726_Dap_on_simulation_for_Calcium_Pathway.ipynb"><code>analysis/20170726_Dap_on_simulation_for_Calcium_Pathway.ipynb</code></a> committed by Min Qiao on Tue Oct 10 16:11:21 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/dfd84ddd1e708bfd2c74f19995b02136239caff9">revision 350, dfd84dd</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

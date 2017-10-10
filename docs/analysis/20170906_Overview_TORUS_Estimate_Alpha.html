@@ -177,7 +177,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h3><p>Generate summary statistics and snp(gene) annotation file: z_score and snp_anno.</p>
+<h3 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h3><p>Generate summary statistics and snp(gene) annotation file: beta, z_score, p-value and snp_anno.</p>
 </div>
 </div>
 </div>
@@ -186,7 +186,7 @@ body {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h3><h4 id="Gene-annotation-has-two-categories,-0-for-non-causal-genes-and-1-for-causal-genes.">Gene annotation has two categories, 0 for non-causal genes and 1 for causal genes.<a class="anchor-link" href="#Gene-annotation-has-two-categories,-0-for-non-causal-genes-and-1-for-causal-genes.">&#182;</a></h4><p>The results for enrichment analysis is directly output to the screen. 1st column represents the annotation name and its corresponding level; 2nd column is the point estimate (MLE) of the log odds ratio.</p>
+<h3 id="Results-for-toy-example">Results for toy example<a class="anchor-link" href="#Results-for-toy-example">&#182;</a></h3><h4 id="Gene-annotation-has-two-categories,-0-for-non-causal-genes-and-1-for-causal-genes.">Gene annotation has two categories, 0 for non-causal genes and 1 for causal genes.<a class="anchor-link" href="#Gene-annotation-has-two-categories,-0-for-non-causal-genes-and-1-for-causal-genes.">&#182;</a></h4><p>The results for enrichment analysis is directly output to the screen. 1st column represents the annotation name and its corresponding level; 2nd column is the point estimate (MLE) of the log odds ratio.</p>
 <pre><code>Read in 1 loci, 15 locus-SNP pairs ... 
 Loading annotations ... 
 Initializing ... 
@@ -223,18 +223,82 @@ Starting EM ...
 </code></pre>
 <h4 id="Another-random-selection-of-category-for-noncausal">Another random selection of category for noncausal<a class="anchor-link" href="#Another-random-selection-of-category-for-noncausal">&#182;</a></h4><div class="highlight"><pre><span></span>cat toy_multi_beta.est
 </pre></div>
-<pre><code>            Intercept    -28.087       -33.866    -22.307
-            binding.1     28.086        15.265     40.908
-            binding.2     -3.876     -53718.653  53710.902
-            binding.3     -4.238     -58741.484  58733.008
-            binding.4      0.002       -24.583     24.587
-            binding.5      0.002       -27.656     27.660</code></pre>
+<pre><code>            Intercept    -24.357       -30.950    -17.765
+            binding.1     24.357        13.238     35.477
+            binding.2     -3.519     -48780.499  48773.460
+            binding.3     -9.031     -125166.806  125148.745
+            binding.4     -8.069     -111841.390  111825.252
+            binding.5     -0.332     -4604.324   4603.660</code></pre>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Results-for-simulation-of-calcium-pathway">Results for simulation of calcium pathway<a class="anchor-link" href="#Results-for-simulation-of-calcium-pathway">&#182;</a></h3><p>For a block with 154 genes and 3 pathway genes.</p>
+<pre><code>Read in 1 loci, 154 locus-SNP pairs ... 
+Loading annotations ... 
+Initializing ... 
+Starting EM ... 
+  Iter          loglik          Intercept    binding.1  
+   1            42.135           -5.011    -43.163  
+   2            43.182           -5.011    -86.325  
+   3            43.182           -5.011   -129.488  
+            Intercept     -5.011        -5.710     -4.311
+            binding.1   -129.467     -1400.350   1141.417
+</code></pre>
+<p>The results are not good as toy example. Possible reason: the number of pathway genes in the block are too small, and less enriched.</p>
+<div class="highlight"><pre><span></span>zcat beta_cal.gz <span class="p">|</span> sort -g -k5 <span class="p">|</span> head
+</pre></div>
+<pre><code>SNP gene    beta    t-stat  p-value
+chr19.ASCL5 chr19   3.302356447773132   3.6733285254284995  0.00011970567845299007
+chr19.TMEM9 chr19   3.141008014359456   3.3010632133531606  0.0004815958936069019
+chr19.CACNA1S   chr19   1.8940995549606379  3.219950830145122   0.0006410629282641708
+chr19.IGFN1 chr19   3.049533723580341   3.100610144021824   0.0009656118670804268
+chr19.MIR181A1HG    chr19   2.837220361689136   2.6624286527569483  0.003878950707512544
+chr19.PKP1  chr19   2.837220361689136   2.6624286527569483  0.003878950707512544
+chr19.KIF21B    chr19   1.6144542259377332  2.4895674361761717  0.006394932614636361
+chr19.ZBED6 chr19   2.71155546257809    2.4194721508291135  0.007771525426482575
+chr19.ZC3H11A   chr19   2.71155546257809    2.4194721508291135  0.007771525426482575
+</code></pre>
+<div class="highlight"><pre><span></span>grep <span class="s1">&#39;1$&#39;</span> &lt;<span class="o">(</span>zcat snp_anno_cal.gz<span class="o">)</span> <span class="p">|</span> cut -f1 <span class="p">|</span>grep -f /dev/stdin &lt;<span class="o">(</span>zcat beta_cal.gz<span class="o">)</span>
+</pre></div>
+<pre><code>chr19.ATP2B4    chr19   1.6124431738995637  1.8116577421270705  0.03501954845978576
+chr19.AVPR1B    chr19   1.4688408257348389  1.535456261112781   0.0623358965251952
+chr19.CACNA1S   chr19   1.8940995549606379  3.219950830145122   0.0006410629282641708</code></pre>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Use-Sweden-Schizophrenia-data---calcium-pathway,-to-perform-TORUS">Use Sweden Schizophrenia data - calcium pathway, to perform TORUS<a class="anchor-link" href="#Use-Sweden-Schizophrenia-data---calcium-pathway,-to-perform-TORUS">&#182;</a></h3><ol>
+<li><p>There are 178 genes in calcium pathway, need to find start and end positions for each gene to determine which and how many genes are overlapped with CNV(s).</p>
+</li>
+<li><p>The Sweden data are not perfect individual level data, need to transform to what we need for analysis.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+</div>
 </div>
 </div>
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/3669059900a06ad0b27b299af9a6bd1a5f0f9598/analysis/20170906_Overview_TORUS_Estimate_Alpha.ipynb"><code>analysis/20170906_Overview_TORUS_Estimate_Alpha.ipynb</code></a> committed by Min Qiao on Mon Oct 9 17:18:19 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/3669059900a06ad0b27b299af9a6bd1a5f0f9598">revision 348, 3669059</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/49c48227d80e4700f11cc7ffd84263a0628ee4df/analysis/20170906_Overview_TORUS_Estimate_Alpha.ipynb"><code>analysis/20170906_Overview_TORUS_Estimate_Alpha.ipynb</code></a> committed by Min Qiao on Tue Oct 10 16:31:36 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/49c48227d80e4700f11cc7ffd84263a0628ee4df">revision 351, 49c4822</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

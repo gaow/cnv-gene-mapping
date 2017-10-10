@@ -174,7 +174,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -200,7 +200,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sw_pheno</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/swcnv/swcnv.pheno&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span>
@@ -218,6 +218,299 @@ body {
 <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sw_cluster_cnv_indiv</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;CNV_LEN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;BP2&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;BP1&quot;</span><span class="p">])</span><span class="o">/</span><span class="mi">1000</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>          FID  IID            tr  CHR        BP1        BP2  TYPE     SCORE  \
+0     PT-BPTP    1  scz_s234_eur    7    9128802    9229882     1   65.0100   
+1     PT-BPAI    1  scz_s234_eur   16   18228118   18727232     3   13.1300   
+2     PT-BSLJ    1  scz_s234_eur    1   16869363   17005978     3   38.6800   
+3     PT-BQP5    1  scz_s234_eur   16   18830938   19075191     3   97.8900   
+4     PT-BP9I    1  scz_s234_eur   21   37481955   37619514     4  147.0000   
+5     PT-BQGK    1  scz_s234_eur   15   97984319   99176197     3  811.3100   
+6     PT-BSRL    1  scz_s234_eur   11   54773893   56010199     3  436.6850   
+7     PT-BPTX    1  scz_s234_eur    6  119714337  119951785     1  171.4600   
+8     PT-BPYW    1  scz_s234_eur    9   11919831   12182949     1  313.6600   
+9     PT-BRL3    1  scz_s234_eur   16   15072787   15241308     3   41.4400   
+10    PT-BRL3    1  scz_s234_eur   22   23689983   25070067     3  322.4150   
+11    PT-BQ15    1  scz_s234_eur    7  125640231  125772441     1  130.6000   
+12    PT-BQ15    1  scz_s234_eur   15   22673399   23241449     3  168.9300   
+13    PT-BRLU    1  scz_s234_eur   22   16864898   17288220     3  116.7500   
+14    PT-BQYE    1  scz_s234_eur    7   88150798   90161919     3   83.0420   
+15    PT-BQ64    1  scz_s234_eur    6   57656301   58082951     3  148.1100   
+16    PT-BQ64    1  scz_s234_eur    6   61930020   62123362     3   79.7500   
+17    PT-BQ64    1  scz_s234_eur    9   45368770   46210382     1   14.4300   
+18    PT-BQ64    1  scz_s234_eur    9   68837844   69186411     1   17.9000   
+19    PT-BQ64    1  scz_s234_eur    9   69685271   69978022     1   33.2200   
+20    PT-BSY2    1  scz_s234_eur    1  248249108  248434821     3  112.9500   
+21    PT-BSY2    1  scz_s234_eur   11  134348915  134719568     3  254.7000   
+22    PT-BSY2    1  scz_s234_eur   17   26835922   27055440     3   49.8600   
+23    PT-BRMS    1  scz_s234_eur    4  181479865  181583203     3  141.5200   
+24    PT-BRMS    1  scz_s234_eur   22   33538320   33848010     3  340.3100   
+25    PT-BRLT    1  scz_s234_eur    1  104163499  104303639     4   15.5600   
+26    PT-BRLT    1  scz_s234_eur    9   41475106   42065343     3   11.7800   
+27    PT-BRLT    1  scz_s234_eur    9   45054940   46331526     3   11.2600   
+28    PT-BRLT    1  scz_s234_eur    9   68995234   69958201     3   19.1300   
+29    PT-BRLT    1  scz_s234_eur   10   88997299   89117300     4   11.0700   
+...       ...  ...           ...  ...        ...        ...   ...       ...   
+9693  PT-P29A    1  scz_swe6_eur   12    6079058    6402340     3  105.2600   
+9694  PT-P29F    1  scz_swe6_eur    6  169021311  170116319     1   83.4267   
+9695  PT-P29L    1  scz_swe6_eur   15   94242985   94402204     3   46.9200   
+9696  PT-P29N    1  scz_swe6_eur    3   35826707   35938795     3   33.5400   
+9697  PT-P29P    1  scz_swe6_eur   12   19469320   19578107     3   15.8100   
+9698  PT-P29U    1  scz_swe6_eur    2  110863095  110980346     3   43.9400   
+9699  PT-P29U    1  scz_swe6_eur   13   58977716   59091043     3   32.8800   
+9700  PT-P2A5    1  scz_swe6_eur    8   16416711   16526958     1   83.2600   
+9701  PT-P2A6    1  scz_swe6_eur    2   35819686   36087642     1  150.2800   
+9702  PT-P2A6    1  scz_swe6_eur    3  109621818  109727353     1   49.3600   
+9703  PT-P2A6    1  scz_swe6_eur    7    9283620    9458495     1   77.9600   
+9704  PT-P2A9    1  scz_swe6_eur    9     312134     594579     3  184.1000   
+9705  PT-P2AB    1  scz_swe6_eur    9  138182186  138284278     3   37.6200   
+9706  PT-P2AE    1  scz_swe6_eur    7  110892226  111122474     1   61.6700   
+9707  PT-P2AJ    1  scz_swe6_eur    2   89620837   91732866     1   17.2000   
+9708  PT-P2AJ    1  scz_swe6_eur    3  141835715  142085310     3   46.8900   
+9709  PT-P2AM    1  scz_swe6_eur    1   12852872   12961019     1   28.2800   
+9710  PT-P2AP    1  scz_swe6_eur    4   12374586   12643903     3   49.6900   
+9711  PT-P2AP    1  scz_swe6_eur    7  110892226  111023322     1   58.6300   
+9712  PT-P2AV    1  scz_swe6_eur    8   78863442   79059629     1   77.0800   
+9713  PT-P2AW    1  scz_swe6_eur    9  120869313  121385397     3   94.1350   
+9714  PT-P2AX    1  scz_swe6_eur   13   43544964   43732555     3  108.8700   
+9715  PT-P2AX    1  scz_swe6_eur   19   43663086   43835935     1   32.4500   
+9716  PT-P2AY    1  scz_swe6_eur    1   25447125   25760920     3   41.0100   
+9717  PT-P2AY    1  scz_swe6_eur   19    6898681    7103542     3   64.8900   
+9718  PT-P2B1    1  scz_swe6_eur    1  102667388  102846147     1   98.9900   
+9719  PT-P2BA    1  scz_swe6_eur    8   13285702   13417869     1   69.9800   
+9720  PT-P2BE    1  scz_swe6_eur   13   84559815   84669950     1   18.6900   
+9721  PT-P2BG    1  scz_swe6_eur   15   32018731   32620127     3   61.9050   
+9722  PT-P2BI    1  scz_swe6_eur   14   35398428   35624831     3   40.2900   
+      SITES  PHE  NSEG        KB     KBAVG   CNV_LEN  
+0        86    1     1   101.080   101.080   101.080  
+1        41    1     1   499.114   499.114   499.114  
+2        55    1     1   136.615   136.615   136.615  
+3       113    1     1   244.253   244.253   244.253  
+4       100    1     1   137.559   137.559   137.559  
+5       934    1     1  1191.880  1191.880  1191.878  
+6       623    1     1  1236.310  1236.310  1236.306  
+7       133    1     1   237.448   237.448   237.448  
+8       223    1     1   263.118   263.118   263.118  
+9        62    1     2  1548.610   774.303   168.521  
+10      757    1     2  1548.610   774.303  1380.084  
+11      110    1     2   700.260   350.130   132.210  
+12      305    1     2   700.260   350.130   568.050  
+13      179    1     1   423.322   423.322   423.322  
+14     1204    1     1  2011.120  2011.120  2011.121  
+15      165    1     5  2102.920   420.584   426.650  
+16       84    1     5  2102.920   420.584   193.342  
+17       49    1     5  2102.920   420.584   841.612  
+18       34    1     5  2102.920   420.584   348.567  
+19       68    1     5  2102.920   420.584   292.751  
+20      106    1     3   775.884   258.628   185.713  
+21      342    1     3   775.884   258.628   370.653  
+22       80    1     3   775.884   258.628   219.518  
+23       81    1     2   413.028   206.514   103.338  
+24      276    1     2   413.028   206.514   309.690  
+25       30    1     6  3208.220   534.704   140.140  
+26       48    1     6  3208.220   534.704   590.237  
+27       65    1     6  3208.220   534.704  1276.586  
+28      111    1     6  3208.220   534.704   962.967  
+29       18    1     6  3208.220   534.704   120.001  
+...     ...  ...   ...       ...       ...       ...  
+9693    101    0     2   682.496   341.248   323.282  
+9694    322    0     1  1095.010  1095.010  1095.008  
+9695     39    0     1   159.219   159.219   159.219  
+9696     20    0     1   112.088   112.088   112.088  
+9697     20    0     1   108.787   108.787   108.787  
+9698     27    0     2   230.578   115.289   117.251  
+9699     18    0     2   230.578   115.289   113.327  
+9700     35    0     1   110.247   110.247   110.247  
+9701     88    0     3   548.366   182.789   267.956  
+9702     24    0     3   548.366   182.789   105.535  
+9703     46    0     3   548.366   182.789   174.875  
+9704    164    0     1   282.445   282.445   282.445  
+9705     41    0     1   102.092   102.092   102.092  
+9706     38    0     1   230.248   230.248   230.248  
+9707     17    0     2  2361.620  1180.810  2112.029  
+9708     37    0     2  2361.620  1180.810   249.595  
+9709     17    0     1   108.147   108.147   108.147  
+9710     58    0     2   400.413   200.207   269.317  
+9711     25    0     2   400.413   200.207   131.096  
+9712     40    0     1   196.187   196.187   196.187  
+9713    124    0     1   516.084   516.084   516.084  
+9714     75    0     2   360.440   180.220   187.591  
+9715     20    0     2   360.440   180.220   172.849  
+9716     50    0     2   518.656   259.328   313.795  
+9717     66    0     2   518.656   259.328   204.861  
+9718     41    0     1   178.759   178.759   178.759  
+9719     52    0     1   132.167   132.167   132.167  
+9720     21    0     1   110.135   110.135   110.135  
+9721    108    0     1   601.396   601.396   601.396  
+9722     36    0     1   226.403   226.403   226.403  
+[9723 rows x 14 columns]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sw_indiv2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">sw_cluster_cnv</span><span class="p">,</span> <span class="n">sw_indiv</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;IID&quot;</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">sw_indiv2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>           FID  IID            tr   CHR          BP1          BP2  TYPE  \
+0      PT-BPTP    1  scz_s234_eur   7.0    9128802.0    9229882.0   1.0   
+1      PT-BPAI    1  scz_s234_eur  16.0   18228118.0   18727232.0   3.0   
+2      PT-BSLJ    1  scz_s234_eur   1.0   16869363.0   17005978.0   3.0   
+3      PT-BQP5    1  scz_s234_eur  16.0   18830938.0   19075191.0   3.0   
+4      PT-BP9I    1  scz_s234_eur  21.0   37481955.0   37619514.0   4.0   
+5      PT-BQGK    1  scz_s234_eur  15.0   97984319.0   99176197.0   3.0   
+6      PT-BSRL    1  scz_s234_eur  11.0   54773893.0   56010199.0   3.0   
+7      PT-BPTX    1  scz_s234_eur   6.0  119714337.0  119951785.0   1.0   
+8      PT-BPYW    1  scz_s234_eur   9.0   11919831.0   12182949.0   1.0   
+9      PT-BRL3    1  scz_s234_eur  16.0   15072787.0   15241308.0   3.0   
+10     PT-BRL3    1  scz_s234_eur  22.0   23689983.0   25070067.0   3.0   
+11     PT-BQ15    1  scz_s234_eur   7.0  125640231.0  125772441.0   1.0   
+12     PT-BQ15    1  scz_s234_eur  15.0   22673399.0   23241449.0   3.0   
+13     PT-BRLU    1  scz_s234_eur  22.0   16864898.0   17288220.0   3.0   
+14     PT-BQYE    1  scz_s234_eur   7.0   88150798.0   90161919.0   3.0   
+15     PT-BQ64    1  scz_s234_eur   6.0   57656301.0   58082951.0   3.0   
+16     PT-BQ64    1  scz_s234_eur   6.0   61930020.0   62123362.0   3.0   
+17     PT-BQ64    1  scz_s234_eur   9.0   45368770.0   46210382.0   1.0   
+18     PT-BQ64    1  scz_s234_eur   9.0   68837844.0   69186411.0   1.0   
+19     PT-BQ64    1  scz_s234_eur   9.0   69685271.0   69978022.0   1.0   
+20     PT-BSY2    1  scz_s234_eur   1.0  248249108.0  248434821.0   3.0   
+21     PT-BSY2    1  scz_s234_eur  11.0  134348915.0  134719568.0   3.0   
+22     PT-BSY2    1  scz_s234_eur  17.0   26835922.0   27055440.0   3.0   
+23     PT-BRMS    1  scz_s234_eur   4.0  181479865.0  181583203.0   3.0   
+24     PT-BRMS    1  scz_s234_eur  22.0   33538320.0   33848010.0   3.0   
+25     PT-BRLT    1  scz_s234_eur   1.0  104163499.0  104303639.0   4.0   
+26     PT-BRLT    1  scz_s234_eur   9.0   41475106.0   42065343.0   3.0   
+27     PT-BRLT    1  scz_s234_eur   9.0   45054940.0   46331526.0   3.0   
+28     PT-BRLT    1  scz_s234_eur   9.0   68995234.0   69958201.0   3.0   
+29     PT-BRLT    1  scz_s234_eur  10.0   88997299.0   89117300.0   4.0   
+...        ...  ...           ...   ...          ...          ...   ...   
+14225  PT-OPXC    1           NaN   NaN          NaN          NaN   NaN   
+14226  PT-OPF8    1           NaN   NaN          NaN          NaN   NaN   
+14227  PT-OPF6    1           NaN   NaN          NaN          NaN   NaN   
+14228  PT-ONZ5    1           NaN   NaN          NaN          NaN   NaN   
+14229  PT-ONVU    1           NaN   NaN          NaN          NaN   NaN   
+14230  PT-OPMI    1           NaN   NaN          NaN          NaN   NaN   
+14231  PT-ONVB    1           NaN   NaN          NaN          NaN   NaN   
+14232  PT-OP8J    1           NaN   NaN          NaN          NaN   NaN   
+14233  PT-OOR5    1           NaN   NaN          NaN          NaN   NaN   
+14234  PT-OPDG    1           NaN   NaN          NaN          NaN   NaN   
+14235  PT-OQ2I    1           NaN   NaN          NaN          NaN   NaN   
+14236  PT-OOQS    1           NaN   NaN          NaN          NaN   NaN   
+14237  PT-P2AD    1           NaN   NaN          NaN          NaN   NaN   
+14238  PT-OOWU    1           NaN   NaN          NaN          NaN   NaN   
+14239  PT-ONJH    1           NaN   NaN          NaN          NaN   NaN   
+14240  PT-OP98    1           NaN   NaN          NaN          NaN   NaN   
+14241  PT-OO1T    1           NaN   NaN          NaN          NaN   NaN   
+14242  PT-ONTV    1           NaN   NaN          NaN          NaN   NaN   
+14243  PT-8W4J    1           NaN   NaN          NaN          NaN   NaN   
+14244  PT-8K2E    1           NaN   NaN          NaN          NaN   NaN   
+14245  PT-M82Q    1           NaN   NaN          NaN          NaN   NaN   
+14246  PT-M8EA    1           NaN   NaN          NaN          NaN   NaN   
+14247  PT-M8A2    1           NaN   NaN          NaN          NaN   NaN   
+14248  PT-M7ND    1           NaN   NaN          NaN          NaN   NaN   
+14249  PT-M7WL    1           NaN   NaN          NaN          NaN   NaN   
+14250  PT-8K3C    1           NaN   NaN          NaN          NaN   NaN   
+14251  PT-COVS    1           NaN   NaN          NaN          NaN   NaN   
+14252  PT-CP7D    1           NaN   NaN          NaN          NaN   NaN   
+14253  PT-CP85    1           NaN   NaN          NaN          NaN   NaN   
+14254  PT-CP1D    1           NaN   NaN          NaN          NaN   NaN   
+         SCORE   SITES  PHE  NSEG        KB     KBAVG  
+0       65.010    86.0    2     1   101.080   101.080  
+1       13.130    41.0    2     1   499.114   499.114  
+2       38.680    55.0    2     1   136.615   136.615  
+3       97.890   113.0    2     1   244.253   244.253  
+4      147.000   100.0    2     1   137.559   137.559  
+5      811.310   934.0    2     1  1191.880  1191.880  
+6      436.685   623.0    2     1  1236.310  1236.310  
+7      171.460   133.0    2     1   237.448   237.448  
+8      313.660   223.0    2     1   263.118   263.118  
+9       41.440    62.0    2     2  1548.610   774.303  
+10     322.415   757.0    2     2  1548.610   774.303  
+11     130.600   110.0    2     2   700.260   350.130  
+12     168.930   305.0    2     2   700.260   350.130  
+13     116.750   179.0    2     1   423.322   423.322  
+14      83.042  1204.0    2     1  2011.120  2011.120  
+15     148.110   165.0    2     5  2102.920   420.584  
+16      79.750    84.0    2     5  2102.920   420.584  
+17      14.430    49.0    2     5  2102.920   420.584  
+18      17.900    34.0    2     5  2102.920   420.584  
+19      33.220    68.0    2     5  2102.920   420.584  
+20     112.950   106.0    2     3   775.884   258.628  
+21     254.700   342.0    2     3   775.884   258.628  
+22      49.860    80.0    2     3   775.884   258.628  
+23     141.520    81.0    2     2   413.028   206.514  
+24     340.310   276.0    2     2   413.028   206.514  
+25      15.560    30.0    2     6  3208.220   534.704  
+26      11.780    48.0    2     6  3208.220   534.704  
+27      11.260    65.0    2     6  3208.220   534.704  
+28      19.130   111.0    2     6  3208.220   534.704  
+29      11.070    18.0    2     6  3208.220   534.704  
+...        ...     ...  ...   ...       ...       ...  
+14225      NaN     NaN    1     0     0.000     0.000  
+14226      NaN     NaN    1     0     0.000     0.000  
+14227      NaN     NaN    1     0     0.000     0.000  
+14228      NaN     NaN    1     0     0.000     0.000  
+14229      NaN     NaN    1     0     0.000     0.000  
+14230      NaN     NaN    1     0     0.000     0.000  
+14231      NaN     NaN    1     0     0.000     0.000  
+14232      NaN     NaN    1     0     0.000     0.000  
+14233      NaN     NaN    1     0     0.000     0.000  
+14234      NaN     NaN    1     0     0.000     0.000  
+14235      NaN     NaN    1     0     0.000     0.000  
+14236      NaN     NaN    1     0     0.000     0.000  
+14237      NaN     NaN    1     0     0.000     0.000  
+14238      NaN     NaN    1     0     0.000     0.000  
+14239      NaN     NaN    1     0     0.000     0.000  
+14240      NaN     NaN    1     0     0.000     0.000  
+14241      NaN     NaN    1     0     0.000     0.000  
+14242      NaN     NaN    1     0     0.000     0.000  
+14243      NaN     NaN    1     0     0.000     0.000  
+14244      NaN     NaN    2     0     0.000     0.000  
+14245      NaN     NaN    2     0     0.000     0.000  
+14246      NaN     NaN    2     0     0.000     0.000  
+14247      NaN     NaN    2     0     0.000     0.000  
+14248      NaN     NaN    2     0     0.000     0.000  
+14249      NaN     NaN    2     0     0.000     0.000  
+14250      NaN     NaN    2     0     0.000     0.000  
+14251      NaN     NaN    2     0     0.000     0.000  
+14252      NaN     NaN    2     0     0.000     0.000  
+14253      NaN     NaN    2     0     0.000     0.000  
+14254      NaN     NaN    2     0     0.000     0.000  
+[14255 rows x 13 columns]
+</pre>
+</div>
 </div>
 </div>
 </div>
@@ -4121,7 +4414,7 @@ dtype: int64</pre>
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/7dd442e8c8bbac9067b70dcffe65ff3882eaed79/analysis/20170721_swcnv.ipynb"><code>analysis/20170721_swcnv.ipynb</code></a> committed by Min Qiao on Fri Oct 6 10:16:51 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/7dd442e8c8bbac9067b70dcffe65ff3882eaed79">revision 341, 7dd442e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/dfd84ddd1e708bfd2c74f19995b02136239caff9/analysis/20170721_swcnv.ipynb"><code>analysis/20170721_swcnv.ipynb</code></a> committed by Min Qiao on Tue Oct 10 16:11:21 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/dfd84ddd1e708bfd2c74f19995b02136239caff9">revision 350, dfd84dd</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
