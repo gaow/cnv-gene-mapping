@@ -188,7 +188,9 @@ body {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pandasql</span> <span class="k">import</span> <span class="n">sqldf</span>
-<span class="kn">from</span> <span class="nn">utils</span> <span class="k">import</span> <span class="n">load_reference_gene</span>
+<span class="kn">from</span> <span class="nn">utils</span> <span class="k">import</span> <span class="n">load_reference_gene</span><span class="p">,</span> <span class="n">load_data</span><span class="p">,</span> <span class="n">save_data</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
 </pre></div>
 </div>
 </div>
@@ -196,12 +198,38 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># load reference genes and Sweden CNV data</span>
 <span class="n">ref_genes</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="s2">&quot;../data/refGene.txt.gz&quot;</span><span class="p">)</span>
-<span class="n">sw_cnv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/swcnv/swcnv.qc6.cnv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span>
+<span class="n">ref_genes</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref_genes</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">][</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> 
+                                     <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;^[c,h,r,0-9]*$&quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">][:</span><span class="mi">5</span><span class="p">])</span> <span class="k">else</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">][</span><span class="mi">3</span><span class="p">:</span><span class="mi">4</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ref_genes</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref_genes</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="mi">23</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">chromosome</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">24</span><span class="p">))</span>
+<span class="n">ref_genes</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref_genes</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">])</span> <span class="ow">in</span> <span class="n">chromosome</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ref_genes</span> <span class="o">=</span> <span class="n">ref_genes</span><span class="p">[</span><span class="n">ref_genes</span><span class="o">.</span><span class="n">chrom</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sw_cnv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/swcnv/swcnv.qc6.cnv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span>
 <span class="n">sw_indiv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/swcnv/swcnv.qc6.cnv.indiv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span> <span class="c1"># &quot;NSEG&quot;: number of CNV in each sample</span>
 <span class="n">sw_cnv_indiv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">sw_cnv</span><span class="p">,</span> <span class="n">sw_indiv</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;IID&quot;</span><span class="p">])</span>
 <span class="n">sw_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sw_cnv_indiv</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -212,7 +240,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># calcium pathway genes</span>
@@ -226,7 +254,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
@@ -243,14 +271,14 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">diff</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">calpath_genes_list</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">calpath_genes_pos</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
-<span class="n">calpath_genes_pos</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">calpath_genes_pos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="n">diff</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;chr2&quot;</span><span class="p">,</span> <span class="mi">65205076</span><span class="p">,</span> <span class="mi">65206278</span><span class="p">]</span>
-<span class="n">calpath_genes_pos</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">calpath_genes_pos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="n">diff</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;chr15&quot;</span><span class="p">,</span> <span class="mi">41231149</span><span class="p">,</span> <span class="mi">41281887</span><span class="p">]</span>
-<span class="n">calpath_genes_pos</span><span class="p">[</span><span class="s2">&quot;chr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calpath_genes_pos</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">][</span><span class="mi">3</span><span class="p">:])</span> 
-                                                   <span class="k">if</span> <span class="ow">not</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">][</span><span class="mi">3</span><span class="p">:]</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="mi">23</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">calpath_genes_pos</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">calpath_genes_pos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="n">diff</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="mi">65205076</span><span class="p">,</span> <span class="mi">65206278</span><span class="p">]</span>
+<span class="n">calpath_genes_pos</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">calpath_genes_pos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="n">diff</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;15&quot;</span><span class="p">,</span> <span class="mi">41231149</span><span class="p">,</span> <span class="mi">41281887</span><span class="p">]</span>
+<span class="n">calpath_genes_pos</span><span class="p">[</span><span class="s2">&quot;chr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calpath_genes_pos</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">])</span> 
+                                                <span class="k">if</span> <span class="ow">not</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="mi">23</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -258,157 +286,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">sw_cnv_indiv</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>               FID  IID  CHR        BP1        BP2  TYPE     SCORE  SITES  \
-0          PT-8K8C    1    8   30371917   30849740     3    95.760     97   
-1          PT-8UHJ    1    7  143218408  143532998     3    20.780     74   
-2          PT-8UHU    1    2  117775371  117925547     3    69.060     73   
-3          PT-8UHU    1    2  230714025  230902238     3    53.580     73   
-4          PT-8UHU    1   15   24578499   24778891     4    91.330    102   
-5          PT-8K6N    1    4    2058475    2316874     3    29.670     51   
-6          PT-8K6N    1    7  157925600  158260724     1    52.935     73   
-7          PT-8TUA    1    2   83597659   83749480     3    46.110     82   
-8          PT-8UCU    1    7   57481104   57636170     3    54.280    117   
-9          PT-8UD3    1    7  143444216  143568059     1    13.750     51   
-10         PT-8UD3    1   21   10736871   11002646     3    18.440     80   
-11         PT-8K79    1   18    1725758    1839387     1   110.920     42   
-12         PT-8UI7    1    2  110833642  110983681     1    79.090     85   
-13         PT-8UGZ    1    5  180414294  180527309     3    50.070     72   
-14         PT-8UI6    1   10   68274044   68374084     1    90.850     76   
-15         PT-8K6H    1   20   41594361   41743989     1    28.175     40   
-16         PT-9ZKC    1   17   18317113   18510158     3    10.770     43   
-17         PT-9ZKC    1   17   20462736   20595662     1    17.150     41   
-18         PT-8K7Z    1   12  100302473  100430017     3    37.790     23   
-19         PT-8UGW    1    7   65066173   65339891     3    38.130     95   
-20         PT-8UGW    1    8   87185470   87334194     3   105.240     96   
-21         PT-8UGW    1   10   51784591   52164585     3   153.150    172   
-22         PT-8UGW    1   13   77430611   77634191     3   159.910    136   
-23         PT-8K7E    1    1   12858053   12961019     3    11.210     16   
-24         PT-8UHA    1    7  111069414  111199356     1    59.430     65   
-25         PT-8UHA    1   11   51095992   51551406     3    82.960    146   
-26         PT-8UHA    1   11   54794679   54940342     3    16.590     24   
-27         PT-8UHA    1   11   55039257   55197211     3    60.600     81   
-28         PT-8UH9    1    1  102656193  102852850     1   147.990    152   
-29         PT-8K7B    1    6  138791986  138922044     3    36.320     44   
-...            ...  ...  ...        ...        ...   ...       ...    ...   
-9693  PT-8VFS_dup1    1   22   18738296   18981563     3    33.790     44   
-9694  PT-8W4V_dup2    1    1  102673499  102846147     1   106.340     40   
-9695  PT-8W4V_dup2    1   19   43663086   43826085     1    31.010     18   
-9696       PT-M8JR    1   17   35113905   36195934     3    43.655    243   
-9697       PT-M8J9    1   15   30940398   31067205     3    22.360     23   
-9698       PT-M89N    1    5   27231314   27379706     1    62.480     23   
-9699       PT-M7M2    1    1  145625979  145762959     3    37.320     31   
-9700       PT-M7M2    1    7   62043624   62705018     3    71.240     43   
-9701       PT-M7M2    1   19   20842765   20989664     3    45.790     28   
-9702       PT-COVF    1    1  104155643  104268222     1    10.150     35   
-9703       PT-COVF    1    3      96855    2142786     1  1850.000   1850   
-9704       PT-COVF    1    4    3586240    3709627     3    86.130     80   
-9705       PT-COVF    1    9   11982424   12110055     1   121.920    106   
-9706       PT-COUH    1    1   16869363   17005978     3    33.640     55   
-9707       PT-COUH    1   16   14978969   15108587     3    18.520     67   
-9708       PT-COWA    1    3  100340068  100442478     3    18.405     53   
-9709       PT-COWA    1    8   87177380   87335197     3    55.750    100   
-9710       PT-CPJA    1    1  161513759  161637210     1    11.070     46   
-9711       PT-CPJA    1   11   47954136   48849414     3    67.415    409   
-9712       PT-CPJM    1   21   10736871   10943554     3    13.180     35   
-9713       PT-CPJP    1    1  104109238  104303639     3    15.990     56   
-9714       PT-CPJP    1    6  161354204  161562267     3   218.750    164   
-9715       PT-CPJP    1    7  143218408  143532998     3    16.895     76   
-9716       PT-CP2K    1    9   82919030   83076201     3   165.370    151   
-9717       PT-CP33    1    7  143223081  143574781     1    22.725     87   
-9718       PT-COOS    1    1   12857863   13182599     1    17.410     46   
-9719       PT-COOS    1   12   19475072   19576936     3    35.020     51   
-9720       PT-CDKY    1   21   10829682   10956152     1    14.320     40   
-9721       PT-CDMY    1    1   16869363   16986851     3    15.200     52   
-9722       PT-CDMY    1   22   16077141   16399151     3    10.160     55   
-      PHE  NSEG        KB     KBAVG  
-0       0     1   477.823   477.823  
-1       0     1   314.590   314.590  
-2       0     3   538.781   179.594  
-3       0     3   538.781   179.594  
-4       0     3   538.781   179.594  
-5       0     2   593.523   296.762  
-6       0     2   593.523   296.762  
-7       0     1   151.821   151.821  
-8       0     1   155.066   155.066  
-9       0     2   389.618   194.809  
-10      0     2   389.618   194.809  
-11      0     1   113.629   113.629  
-12      0     1   150.039   150.039  
-13      0     1   113.015   113.015  
-14      0     1   100.040   100.040  
-15      0     1   149.628   149.628  
-16      0     2   325.971   162.986  
-17      0     2   325.971   162.986  
-18      0     1   127.544   127.544  
-19      0     4  1006.020   251.504  
-20      0     4  1006.020   251.504  
-21      0     4  1006.020   251.504  
-22      0     4  1006.020   251.504  
-23      0     1   102.966   102.966  
-24      0     4   888.973   222.243  
-25      0     4   888.973   222.243  
-26      0     4   888.973   222.243  
-27      0     4   888.973   222.243  
-28      0     1   196.657   196.657  
-29      0     3   994.905   331.635  
-...   ...   ...       ...       ...  
-9693    0     1   243.267   243.267  
-9694    1     2   335.647   167.823  
-9695    1     2   335.647   167.823  
-9696    1     1  1082.030  1082.030  
-9697    1     1   126.807   126.807  
-9698    1     1   148.392   148.392  
-9699    1     3   945.273   315.091  
-9700    1     3   945.273   315.091  
-9701    1     3   945.273   315.091  
-9702    1     4  2409.530   602.382  
-9703    1     4  2409.530   602.382  
-9704    1     4  2409.530   602.382  
-9705    1     4  2409.530   602.382  
-9706    1     2   266.233   133.117  
-9707    1     2   266.233   133.117  
-9708    1     2   260.227   130.113  
-9709    1     2   260.227   130.113  
-9710    1     2  1018.730   509.365  
-9711    1     2  1018.730   509.365  
-9712    1     1   206.683   206.683  
-9713    1     3   717.054   239.018  
-9714    1     3   717.054   239.018  
-9715    1     3   717.054   239.018  
-9716    1     1   157.171   157.171  
-9717    1     1   351.700   351.700  
-9718    1     2   426.600   213.300  
-9719    1     2   426.600   213.300  
-9720    1     1   126.470   126.470  
-9721    1     2   439.498   219.749  
-9722    1     2   439.498   219.749  
-[9723 rows x 12 columns]
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># need to change</span>
-<span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">SELECT sw.FID, sw.PHE, sw.CHR, sw.BP1, sw.BP2, sw.TYPE, cal.gene_name</span>
 <span class="s1">FROM calpath_genes_pos cal LEFT JOIN sw_cnv_indiv sw</span>
 <span class="s1">WHERE sw.CHR == cal.chr</span>
@@ -432,7 +313,20 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">overlap_CNV_gene</span> <span class="o">=</span> <span class="n">overlap_CNV_gene</span><span class="o">.</span><span class="n">groupby</span><span class="p">((</span><span class="s2">&quot;PHE&quot;</span><span class="p">,</span> <span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;BP1&quot;</span><span class="p">,</span> <span class="s2">&quot;BP2&quot;</span><span class="p">,</span> <span class="s2">&quot;TYPE&quot;</span><span class="p">))</span>
+<span class="n">overlap_CNV_gene</span> <span class="o">=</span> <span class="n">overlap_CNV_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<span class="n">overlap_CNV_gene</span> <span class="o">=</span> <span class="n">overlap_CNV_gene</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">overlap_CNV_gene</span>
@@ -443,7 +337,7 @@ body {
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="prompt output_prompt">Out[14]:</div>
+<div class="prompt output_prompt">Out[50]:</div>
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <style>
@@ -461,9 +355,8 @@ body {
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>index</th>
-      <th>FID</th>
       <th>PHE</th>
+      <th>FID</th>
       <th>CHR</th>
       <th>BP1</th>
       <th>BP2</th>
@@ -475,332 +368,302 @@ body {
     <tr>
       <th>0</th>
       <td>0</td>
-      <td>PT-8TWI</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1804302</td>
-      <td>2047584</td>
+      <td>PT-1RV1</td>
+      <td>23</td>
+      <td>2830696</td>
+      <td>3649902</td>
       <td>3</td>
-      <td>CALML6</td>
+      <td>[PRKX]</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>1</td>
-      <td>PT-BQT1</td>
       <td>0</td>
-      <td>1</td>
-      <td>239678115</td>
-      <td>239800921</td>
+      <td>PT-1S1Z</td>
+      <td>23</td>
+      <td>3231040</td>
+      <td>3539248</td>
       <td>3</td>
-      <td>CHRM3</td>
+      <td>[PRKX]</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>2</td>
-      <td>PT-BRNL</td>
       <td>0</td>
-      <td>2</td>
-      <td>218749319</td>
-      <td>219480897</td>
+      <td>PT-1S24</td>
+      <td>23</td>
+      <td>2850801</td>
+      <td>3659193</td>
       <td>3</td>
-      <td>PLCD4</td>
+      <td>[PRKX]</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>3</td>
-      <td>PT-L1G8</td>
       <td>0</td>
-      <td>2</td>
-      <td>40674308</td>
-      <td>41559590</td>
+      <td>PT-1S2E</td>
+      <td>23</td>
+      <td>2830696</td>
+      <td>3659193</td>
       <td>3</td>
-      <td>SLC8A1</td>
+      <td>[PRKX]</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>4</td>
-      <td>PT-L31A</td>
       <td>0</td>
-      <td>2</td>
-      <td>74969763</td>
-      <td>75323267</td>
+      <td>PT-1SBE</td>
+      <td>23</td>
+      <td>2830696</td>
+      <td>3626408</td>
       <td>3</td>
-      <td>TACR1</td>
+      <td>[PRKX]</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>5</td>
-      <td>PT-ESLA</td>
       <td>0</td>
+      <td>PT-1SBN</td>
+      <td>23</td>
+      <td>2741339</td>
+      <td>3659193</td>
       <td>3</td>
-      <td>123486169</td>
-      <td>123634548</td>
-      <td>1</td>
-      <td>MYLK</td>
+      <td>[PRKX]</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>6</td>
-      <td>PT-FFX5</td>
       <td>0</td>
+      <td>PT-1SC5</td>
+      <td>23</td>
+      <td>2916735</td>
+      <td>3554481</td>
       <td>3</td>
-      <td>4317445</td>
-      <td>4747247</td>
-      <td>3</td>
-      <td>ITPR1</td>
+      <td>[PRKX]</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>7</td>
-      <td>PT-8U8J</td>
       <td>0</td>
-      <td>4</td>
-      <td>9688014</td>
-      <td>9794193</td>
+      <td>PT-1SCT</td>
+      <td>23</td>
+      <td>2850801</td>
+      <td>3659193</td>
       <td>3</td>
-      <td>DRD5</td>
+      <td>[PRKX]</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>8</td>
-      <td>PT-OPJ8</td>
       <td>0</td>
-      <td>4</td>
-      <td>104179046</td>
-      <td>104766986</td>
-      <td>1</td>
-      <td>TACR3</td>
+      <td>PT-1TAY</td>
+      <td>23</td>
+      <td>2979529</td>
+      <td>3659193</td>
+      <td>3</td>
+      <td>[PRKX]</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>9</td>
-      <td>PT-27QK</td>
       <td>0</td>
+      <td>PT-1TC6</td>
+      <td>23</td>
+      <td>2830696</td>
+      <td>3659193</td>
+      <td>3</td>
+      <td>[PRKX]</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0</td>
+      <td>PT-1TCL</td>
+      <td>23</td>
+      <td>2830696</td>
+      <td>3626408</td>
+      <td>3</td>
+      <td>[PRKX]</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0</td>
+      <td>PT-27QK</td>
       <td>6</td>
       <td>118701889</td>
       <td>118900024</td>
       <td>3</td>
-      <td>PLN</td>
+      <td>[PLN]</td>
     </tr>
     <tr>
-      <th>10</th>
-      <td>10</td>
-      <td>PT-29AJ</td>
+      <th>12</th>
       <td>0</td>
+      <td>PT-28A1</td>
+      <td>16</td>
+      <td>360932</td>
+      <td>1341019</td>
+      <td>3</td>
+      <td>[CACNA1H]</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>0</td>
+      <td>PT-29AJ</td>
       <td>6</td>
       <td>118853079</td>
       <td>119033109</td>
       <td>3</td>
-      <td>PLN</td>
+      <td>[PLN]</td>
     </tr>
     <tr>
-      <th>11</th>
-      <td>11</td>
-      <td>PT-2M7G</td>
+      <th>14</th>
       <td>0</td>
+      <td>PT-29B7</td>
+      <td>16</td>
+      <td>46503206</td>
+      <td>46842785</td>
+      <td>3</td>
+      <td>[MYLK3]</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>0</td>
+      <td>PT-2M35</td>
+      <td>17</td>
+      <td>3708034</td>
+      <td>4178200</td>
+      <td>3</td>
+      <td>[ATP2A3, P2RX1]</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>0</td>
+      <td>PT-2M6K</td>
+      <td>17</td>
+      <td>15613135</td>
+      <td>15971651</td>
+      <td>3</td>
+      <td>[ADORA2B]</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>0</td>
+      <td>PT-2M7G</td>
       <td>6</td>
       <td>118842321</td>
       <td>119039482</td>
       <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>12</td>
-      <td>PT-8W9S</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118835126</td>
-      <td>119032859</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>13</td>
-      <td>PT-8WJQ</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118691108</td>
-      <td>119101336</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>14</td>
-      <td>PT-9YVZ</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118835126</td>
-      <td>119033109</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>15</td>
-      <td>PT-BPIQ</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118701889</td>
-      <td>118900024</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>16</td>
-      <td>PT-ESKZ</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118786486</td>
-      <td>119048269</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>17</td>
-      <td>PT-ET7H</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118868953</td>
-      <td>119048269</td>
-      <td>3</td>
-      <td>PLN</td>
+      <td>[PLN]</td>
     </tr>
     <tr>
       <th>18</th>
-      <td>18</td>
-      <td>PT-FFKU</td>
       <td>0</td>
-      <td>6</td>
-      <td>118786486</td>
-      <td>119056733</td>
-      <td>3</td>
-      <td>PLN</td>
+      <td>PT-3MG4</td>
+      <td>16</td>
+      <td>47502638</td>
+      <td>47654226</td>
+      <td>1</td>
+      <td>[PHKB]</td>
     </tr>
     <tr>
       <th>19</th>
-      <td>19</td>
-      <td>PT-FG7N</td>
       <td>0</td>
-      <td>6</td>
-      <td>118719413</td>
-      <td>118891582</td>
+      <td>PT-3MH1</td>
+      <td>15</td>
+      <td>32458661</td>
+      <td>32776211</td>
       <td>3</td>
-      <td>PLN</td>
+      <td>[CHRNA7]</td>
     </tr>
     <tr>
       <th>20</th>
-      <td>20</td>
-      <td>PT-FGHQ</td>
       <td>0</td>
-      <td>6</td>
-      <td>118695049</td>
-      <td>118891582</td>
-      <td>3</td>
-      <td>PLN</td>
+      <td>PT-3MH6</td>
+      <td>15</td>
+      <td>30920624</td>
+      <td>32512220</td>
+      <td>1</td>
+      <td>[CHRNA7]</td>
     </tr>
     <tr>
       <th>21</th>
-      <td>21</td>
-      <td>PT-OO6J</td>
       <td>0</td>
-      <td>6</td>
-      <td>118690822</td>
-      <td>119080379</td>
+      <td>PT-8TFK</td>
+      <td>15</td>
+      <td>30491387</td>
+      <td>32859858</td>
       <td>3</td>
-      <td>PLN</td>
+      <td>[CHRNA7]</td>
     </tr>
     <tr>
       <th>22</th>
-      <td>22</td>
-      <td>PT-OPDH</td>
       <td>0</td>
-      <td>6</td>
-      <td>118791804</td>
-      <td>119018502</td>
+      <td>PT-8TJT</td>
+      <td>16</td>
+      <td>28832686</td>
+      <td>29043875</td>
       <td>3</td>
-      <td>PLN</td>
+      <td>[ATP2A1]</td>
     </tr>
     <tr>
       <th>23</th>
-      <td>23</td>
-      <td>PT-OPY7</td>
       <td>0</td>
-      <td>6</td>
-      <td>118700137</td>
-      <td>118891582</td>
+      <td>PT-8TUB</td>
+      <td>15</td>
+      <td>32017892</td>
+      <td>32444196</td>
       <td>3</td>
-      <td>PLN</td>
+      <td>[CHRNA7]</td>
     </tr>
     <tr>
       <th>24</th>
-      <td>24</td>
-      <td>PT-8VX9</td>
       <td>0</td>
+      <td>PT-8TWI</td>
+      <td>1</td>
+      <td>1804302</td>
+      <td>2047584</td>
+      <td>3</td>
+      <td>[CALML6]</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>0</td>
+      <td>PT-8U8J</td>
+      <td>4</td>
+      <td>9688014</td>
+      <td>9794193</td>
+      <td>3</td>
+      <td>[DRD5]</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>0</td>
+      <td>PT-8UDI</td>
+      <td>22</td>
+      <td>18770421</td>
+      <td>21611349</td>
+      <td>3</td>
+      <td>[P2RX6]</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>0</td>
+      <td>PT-8UXD</td>
+      <td>23</td>
+      <td>3502739</td>
+      <td>3673759</td>
+      <td>3</td>
+      <td>[PRKX]</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>0</td>
+      <td>PT-8VSN</td>
+      <td>15</td>
+      <td>32011489</td>
+      <td>32512220</td>
+      <td>3</td>
+      <td>[CHRNA7]</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>0</td>
+      <td>PT-8VX9</td>
       <td>7</td>
       <td>32209359</td>
       <td>32426450</td>
       <td>3</td>
-      <td>PDE1C</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>25</td>
-      <td>PT-8VYD</td>
-      <td>0</td>
-      <td>7</td>
-      <td>32210926</td>
-      <td>32423399</td>
-      <td>3</td>
-      <td>PDE1C</td>
-    </tr>
-    <tr>
-      <th>26</th>
-      <td>26</td>
-      <td>PT-8WP8</td>
-      <td>0</td>
-      <td>7</td>
-      <td>32209359</td>
-      <td>32431274</td>
-      <td>3</td>
-      <td>PDE1C</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>27</td>
-      <td>PT-BQAQ</td>
-      <td>0</td>
-      <td>7</td>
-      <td>32210926</td>
-      <td>32423399</td>
-      <td>3</td>
-      <td>PDE1C</td>
-    </tr>
-    <tr>
-      <th>28</th>
-      <td>28</td>
-      <td>PT-BQH5</td>
-      <td>0</td>
-      <td>7</td>
-      <td>32210926</td>
-      <td>32412682</td>
-      <td>3</td>
-      <td>PDE1C</td>
-    </tr>
-    <tr>
-      <th>29</th>
-      <td>29</td>
-      <td>PT-FFVB</td>
-      <td>0</td>
-      <td>7</td>
-      <td>32209459</td>
-      <td>32423399</td>
-      <td>3</td>
-      <td>PDE1C</td>
+      <td>[PDE1C]</td>
     </tr>
     <tr>
       <th>...</th>
@@ -811,341 +674,310 @@ body {
       <td>...</td>
       <td>...</td>
       <td>...</td>
-      <td>...</td>
     </tr>
     <tr>
-      <th>164</th>
-      <td>164</td>
-      <td>PT-3MHL</td>
+      <th>159</th>
       <td>1</td>
-      <td>22</td>
-      <td>18876428</td>
-      <td>21465835</td>
-      <td>1</td>
-      <td>P2RX6</td>
-    </tr>
-    <tr>
-      <th>165</th>
-      <td>165</td>
-      <td>PT-8WLE</td>
-      <td>1</td>
-      <td>22</td>
-      <td>18876428</td>
-      <td>21465835</td>
-      <td>1</td>
-      <td>P2RX6</td>
-    </tr>
-    <tr>
-      <th>166</th>
-      <td>166</td>
-      <td>PT-8WQ7</td>
-      <td>1</td>
-      <td>22</td>
-      <td>18876428</td>
-      <td>21465835</td>
-      <td>1</td>
-      <td>P2RX6</td>
-    </tr>
-    <tr>
-      <th>167</th>
-      <td>167</td>
-      <td>PT-9ZCE</td>
-      <td>1</td>
-      <td>22</td>
-      <td>18876428</td>
-      <td>21542615</td>
-      <td>1</td>
-      <td>P2RX6</td>
-    </tr>
-    <tr>
-      <th>168</th>
-      <td>168</td>
-      <td>PT-BQ5V</td>
-      <td>1</td>
-      <td>22</td>
-      <td>22997811</td>
-      <td>25076598</td>
+      <td>PT-ET3P</td>
+      <td>15</td>
+      <td>32079959</td>
+      <td>32514341</td>
       <td>3</td>
-      <td>ADORA2A</td>
+      <td>[CHRNA7]</td>
     </tr>
     <tr>
-      <th>169</th>
-      <td>169</td>
-      <td>PT-BQA6</td>
+      <th>160</th>
       <td>1</td>
-      <td>22</td>
-      <td>22997811</td>
-      <td>24997309</td>
-      <td>3</td>
-      <td>ADORA2A</td>
+      <td>PT-ETK7</td>
+      <td>1</td>
+      <td>237151125</td>
+      <td>237493362</td>
+      <td>1</td>
+      <td>[RYR2]</td>
     </tr>
     <tr>
-      <th>170</th>
-      <td>170</td>
-      <td>PT-BRL3</td>
+      <th>161</th>
       <td>1</td>
-      <td>22</td>
-      <td>23689983</td>
-      <td>25070067</td>
-      <td>3</td>
-      <td>ADORA2A</td>
+      <td>PT-ETO6</td>
+      <td>16</td>
+      <td>28484556</td>
+      <td>29412503</td>
+      <td>1</td>
+      <td>[ATP2A1]</td>
     </tr>
     <tr>
-      <th>171</th>
-      <td>171</td>
-      <td>PT-BS88</td>
+      <th>162</th>
       <td>1</td>
-      <td>22</td>
-      <td>23689983</td>
-      <td>24914451</td>
-      <td>3</td>
-      <td>ADORA2A</td>
-    </tr>
-    <tr>
-      <th>172</th>
-      <td>172</td>
-      <td>PT-ERRP</td>
-      <td>1</td>
-      <td>22</td>
-      <td>19634877</td>
-      <td>21463730</td>
-      <td>1</td>
-      <td>P2RX6</td>
-    </tr>
-    <tr>
-      <th>173</th>
-      <td>173</td>
-      <td>PT-ERRZ</td>
-      <td>1</td>
-      <td>22</td>
-      <td>18861748</td>
-      <td>21462353</td>
-      <td>1</td>
-      <td>P2RX6</td>
-    </tr>
-    <tr>
-      <th>174</th>
-      <td>174</td>
-      <td>PT-ISV8</td>
-      <td>1</td>
-      <td>22</td>
-      <td>20753615</td>
-      <td>21463730</td>
-      <td>1</td>
-      <td>P2RX6</td>
-    </tr>
-    <tr>
-      <th>175</th>
-      <td>175</td>
-      <td>PT-ITRD</td>
-      <td>1</td>
-      <td>22</td>
-      <td>23692738</td>
-      <td>25064809</td>
-      <td>3</td>
-      <td>ADORA2A</td>
-    </tr>
-    <tr>
-      <th>176</th>
-      <td>176</td>
-      <td>PT-OPSY</td>
-      <td>1</td>
-      <td>22</td>
-      <td>20789074</td>
-      <td>21463730</td>
-      <td>1</td>
-      <td>P2RX6</td>
-    </tr>
-    <tr>
-      <th>177</th>
-      <td>177</td>
-      <td>PT-OPXM</td>
-      <td>1</td>
-      <td>22</td>
-      <td>24447288</td>
-      <td>25032774</td>
-      <td>3</td>
-      <td>ADORA2A</td>
-    </tr>
-    <tr>
-      <th>178</th>
-      <td>178</td>
-      <td>PT-1RZS</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2703391</td>
-      <td>4505504</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>179</th>
-      <td>179</td>
-      <td>PT-1S19</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2850801</td>
-      <td>3659193</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>180</th>
-      <td>180</td>
-      <td>PT-1S1P</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2916735</td>
-      <td>3659193</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>181</th>
-      <td>181</td>
-      <td>PT-1S1Y</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2850801</td>
-      <td>3637916</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>182</th>
-      <td>182</td>
-      <td>PT-1S66</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2703391</td>
-      <td>3659193</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>183</th>
-      <td>183</td>
-      <td>PT-1S6I</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2741339</td>
-      <td>3649902</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>184</th>
-      <td>184</td>
-      <td>PT-1S7B</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2741339</td>
-      <td>3649902</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>185</th>
-      <td>185</td>
-      <td>PT-1S7C</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2916735</td>
-      <td>3539248</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>186</th>
-      <td>186</td>
-      <td>PT-1S7P</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2979529</td>
-      <td>3659193</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>187</th>
-      <td>187</td>
-      <td>PT-1S7Z</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2741339</td>
-      <td>3649902</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>188</th>
-      <td>188</td>
-      <td>PT-1S8F</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2839942</td>
-      <td>3678164</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>189</th>
-      <td>189</td>
-      <td>PT-1SBT</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2811119</td>
-      <td>7355636</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>190</th>
-      <td>190</td>
-      <td>PT-1SC1</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2802568</td>
-      <td>4859798</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>191</th>
-      <td>191</td>
-      <td>PT-1SC9</td>
-      <td>1</td>
-      <td>23</td>
-      <td>3070182</td>
-      <td>4736479</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>192</th>
-      <td>192</td>
-      <td>PT-1SCR</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2979529</td>
-      <td>3539248</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>193</th>
-      <td>193</td>
       <td>PT-FFLF</td>
-      <td>1</td>
       <td>23</td>
       <td>2712661</td>
       <td>7044081</td>
       <td>1</td>
-      <td>PRKX</td>
+      <td>[PRKX]</td>
+    </tr>
+    <tr>
+      <th>163</th>
+      <td>1</td>
+      <td>PT-FGE8</td>
+      <td>15</td>
+      <td>30936285</td>
+      <td>32833659</td>
+      <td>3</td>
+      <td>[CHRNA7]</td>
+    </tr>
+    <tr>
+      <th>164</th>
+      <td>1</td>
+      <td>PT-FGI4</td>
+      <td>16</td>
+      <td>28825605</td>
+      <td>28997997</td>
+      <td>1</td>
+      <td>[ATP2A1]</td>
+    </tr>
+    <tr>
+      <th>165</th>
+      <td>1</td>
+      <td>PT-FGJ3</td>
+      <td>15</td>
+      <td>32086180</td>
+      <td>32514341</td>
+      <td>3</td>
+      <td>[CHRNA7]</td>
+    </tr>
+    <tr>
+      <th>166</th>
+      <td>1</td>
+      <td>PT-FGJH</td>
+      <td>15</td>
+      <td>32054666</td>
+      <td>32418038</td>
+      <td>1</td>
+      <td>[CHRNA7]</td>
+    </tr>
+    <tr>
+      <th>167</th>
+      <td>1</td>
+      <td>PT-FGTG</td>
+      <td>17</td>
+      <td>48501657</td>
+      <td>48644537</td>
+      <td>3</td>
+      <td>[CACNA1G]</td>
+    </tr>
+    <tr>
+      <th>168</th>
+      <td>1</td>
+      <td>PT-IS46</td>
+      <td>15</td>
+      <td>30936285</td>
+      <td>32514341</td>
+      <td>1</td>
+      <td>[CHRNA7]</td>
+    </tr>
+    <tr>
+      <th>169</th>
+      <td>1</td>
+      <td>PT-ISE7</td>
+      <td>14</td>
+      <td>96460254</td>
+      <td>96692673</td>
+      <td>1</td>
+      <td>[BDKRB2]</td>
+    </tr>
+    <tr>
+      <th>170</th>
+      <td>1</td>
+      <td>PT-ISV8</td>
+      <td>22</td>
+      <td>20753615</td>
+      <td>21463730</td>
+      <td>1</td>
+      <td>[P2RX6]</td>
+    </tr>
+    <tr>
+      <th>171</th>
+      <td>1</td>
+      <td>PT-IT7C</td>
+      <td>5</td>
+      <td>7532066</td>
+      <td>10040087</td>
+      <td>3</td>
+      <td>[ADCY2]</td>
+    </tr>
+    <tr>
+      <th>172</th>
+      <td>1</td>
+      <td>PT-IT7T</td>
+      <td>15</td>
+      <td>32096504</td>
+      <td>32418038</td>
+      <td>3</td>
+      <td>[CHRNA7]</td>
+    </tr>
+    <tr>
+      <th>173</th>
+      <td>1</td>
+      <td>PT-ITFO</td>
+      <td>15</td>
+      <td>32019919</td>
+      <td>32514341</td>
+      <td>3</td>
+      <td>[CHRNA7]</td>
+    </tr>
+    <tr>
+      <th>174</th>
+      <td>1</td>
+      <td>PT-ITRD</td>
+      <td>22</td>
+      <td>23692738</td>
+      <td>25064809</td>
+      <td>3</td>
+      <td>[ADORA2A]</td>
+    </tr>
+    <tr>
+      <th>175</th>
+      <td>1</td>
+      <td>PT-L1BH</td>
+      <td>16</td>
+      <td>28525305</td>
+      <td>29159435</td>
+      <td>1</td>
+      <td>[ATP2A1]</td>
+    </tr>
+    <tr>
+      <th>176</th>
+      <td>1</td>
+      <td>PT-L1BJ</td>
+      <td>2</td>
+      <td>183023392</td>
+      <td>183126288</td>
+      <td>1</td>
+      <td>[PDE1A]</td>
+    </tr>
+    <tr>
+      <th>177</th>
+      <td>1</td>
+      <td>PT-L1NF</td>
+      <td>16</td>
+      <td>46532286</td>
+      <td>46952031</td>
+      <td>3</td>
+      <td>[MYLK3]</td>
+    </tr>
+    <tr>
+      <th>178</th>
+      <td>1</td>
+      <td>PT-L1NI</td>
+      <td>15</td>
+      <td>32018731</td>
+      <td>32514341</td>
+      <td>3</td>
+      <td>[CHRNA7]</td>
+    </tr>
+    <tr>
+      <th>179</th>
+      <td>1</td>
+      <td>PT-L1SX</td>
+      <td>15</td>
+      <td>32019919</td>
+      <td>32514341</td>
+      <td>3</td>
+      <td>[CHRNA7]</td>
+    </tr>
+    <tr>
+      <th>180</th>
+      <td>1</td>
+      <td>PT-L24S</td>
+      <td>7</td>
+      <td>32273107</td>
+      <td>32376953</td>
+      <td>3</td>
+      <td>[PDE1C]</td>
+    </tr>
+    <tr>
+      <th>181</th>
+      <td>1</td>
+      <td>PT-L36Q</td>
+      <td>15</td>
+      <td>30943512</td>
+      <td>32514341</td>
+      <td>1</td>
+      <td>[CHRNA7]</td>
+    </tr>
+    <tr>
+      <th>182</th>
+      <td>1</td>
+      <td>PT-ONKS</td>
+      <td>15</td>
+      <td>32096991</td>
+      <td>32418038</td>
+      <td>3</td>
+      <td>[CHRNA7]</td>
+    </tr>
+    <tr>
+      <th>183</th>
+      <td>1</td>
+      <td>PT-OOFE</td>
+      <td>15</td>
+      <td>32018731</td>
+      <td>32514341</td>
+      <td>3</td>
+      <td>[CHRNA7]</td>
+    </tr>
+    <tr>
+      <th>184</th>
+      <td>1</td>
+      <td>PT-OOZM</td>
+      <td>9</td>
+      <td>80070911</td>
+      <td>80198591</td>
+      <td>3</td>
+      <td>[GNA14]</td>
+    </tr>
+    <tr>
+      <th>185</th>
+      <td>1</td>
+      <td>PT-OP1R</td>
+      <td>15</td>
+      <td>30936285</td>
+      <td>32514341</td>
+      <td>1</td>
+      <td>[CHRNA7]</td>
+    </tr>
+    <tr>
+      <th>186</th>
+      <td>1</td>
+      <td>PT-OPSY</td>
+      <td>22</td>
+      <td>20789074</td>
+      <td>21463730</td>
+      <td>1</td>
+      <td>[P2RX6]</td>
+    </tr>
+    <tr>
+      <th>187</th>
+      <td>1</td>
+      <td>PT-OPWH</td>
+      <td>6</td>
+      <td>118868953</td>
+      <td>119016202</td>
+      <td>3</td>
+      <td>[PLN]</td>
+    </tr>
+    <tr>
+      <th>188</th>
+      <td>1</td>
+      <td>PT-OPXM</td>
+      <td>22</td>
+      <td>24447288</td>
+      <td>25032774</td>
+      <td>3</td>
+      <td>[ADORA2A]</td>
     </tr>
   </tbody>
 </table>
-<p>194 rows × 8 columns</p>
+<p>189 rows × 7 columns</p>
 </div>
 </div>
 </div>
@@ -1154,23 +986,17 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[62]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">overlap_CNV_gene</span> <span class="o">=</span> <span class="n">overlap_CNV_gene</span><span class="o">.</span><span class="n">groupby</span><span class="p">((</span><span class="s2">&quot;PHE&quot;</span><span class="p">,</span> <span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;BP1&quot;</span><span class="p">,</span> <span class="s2">&quot;BP2&quot;</span><span class="p">,</span> <span class="s2">&quot;TYPE&quot;</span><span class="p">))</span>
-<span class="n">overlap_CNV_gene</span> <span class="o">=</span> <span class="n">overlap_CNV_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
-<span class="n">overlap_CNV_gene</span> <span class="o">=</span> <span class="n">overlap_CNV_gene</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">overlap_CNV_gene</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">SELECT chrom, gene_name, min(tx_start), max(tx_end)</span>
+<span class="s1">FROM ref_genes</span>
+<span class="s1">GROUP BY chrom, gene_name</span>
+<span class="s1">&#39;&#39;&#39;</span>
+<span class="n">ref_genes</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="n">ref_genes</span> <span class="o">=</span> <span class="n">ref_genes</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min(tx_start)&quot;</span><span class="p">:</span> <span class="s2">&quot;gene_start&quot;</span><span class="p">,</span> <span class="s2">&quot;max(tx_end)&quot;</span><span class="p">:</span> <span class="s2">&quot;gene_end&quot;</span><span class="p">})</span>
+<span class="n">ref_genes</span>
 </pre></div>
 </div>
 </div>
@@ -1178,397 +1004,462 @@ body {
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="prompt output_prompt">Out[16]:</div>
-<div class="output_text output_subarea output_execute_result">
-<pre>[3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 1,
- 3,
- 1,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 1,
- 1,
- 3,
- 3,
- 1,
- 1,
- 3,
- 1,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 1,
- 3,
- 3,
- 1,
- 3,
- 3,
- 3,
- 1,
- 1,
- 3,
- 1,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 1,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 1,
- 3,
- 3,
- 3,
- 1,
- 3,
- 3,
- 3,
- 3,
- 1,
- 1,
- 3,
- 1,
- 3,
- 3,
- 1,
- 3,
- 3,
- 3,
- 3,
- 1,
- 1,
- 1,
- 1,
- 3,
- 3,
- 3,
- 3,
- 3,
- 1,
- 3,
- 1,
- 1,
- 1,
- 1,
- 1,
- 3,
- 3,
- 1,
- 3,
- 3,
- 3,
- 1,
- 1,
- 3,
- 1,
- 1,
- 3,
- 3,
- 3,
- 3,
- 3,
- 3,
- 1,
- 1,
- 1,
- 3,
- 1,
- 3,
- 1,
- 3,
- 1,
- 1,
- 1,
- 3,
- 3,
- 3,
- 3,
- 1,
- 1,
- 3,
- 3,
- 3,
- 3,
- 1,
- 3,
- 3,
- 3,
- 1,
- 1,
- 3,
- 3]</pre>
+<div class="prompt output_prompt">Out[62]:</div>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+    .dataframe thead th {
+        text-align: left;
+    }
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>chrom</th>
+      <th>gene_name</th>
+      <th>gene_start</th>
+      <th>gene_end</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>A3GALT2</td>
+      <td>33772366</td>
+      <td>33786699</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>AADACL3</td>
+      <td>12776117</td>
+      <td>12788726</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>AADACL4</td>
+      <td>12704565</td>
+      <td>12727097</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>ABCA4</td>
+      <td>94458393</td>
+      <td>94586705</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>ABCB10</td>
+      <td>229652328</td>
+      <td>229694442</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1</td>
+      <td>ABCD3</td>
+      <td>94883932</td>
+      <td>94984219</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1</td>
+      <td>ABL2</td>
+      <td>179068461</td>
+      <td>179198819</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1</td>
+      <td>ACADM</td>
+      <td>76190031</td>
+      <td>76229363</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1</td>
+      <td>ACAP3</td>
+      <td>1227763</td>
+      <td>1243269</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1</td>
+      <td>ACBD3</td>
+      <td>226332379</td>
+      <td>226374423</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>1</td>
+      <td>ACBD6</td>
+      <td>180257351</td>
+      <td>180472022</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>1</td>
+      <td>ACKR1</td>
+      <td>159173802</td>
+      <td>159176290</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>1</td>
+      <td>ACOT11</td>
+      <td>55013806</td>
+      <td>55100417</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>1</td>
+      <td>ACOT7</td>
+      <td>6324331</td>
+      <td>6453826</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>1</td>
+      <td>ACP6</td>
+      <td>147119167</td>
+      <td>147142665</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>1</td>
+      <td>ACTA1</td>
+      <td>229566992</td>
+      <td>229569843</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>1</td>
+      <td>ACTG1P20</td>
+      <td>27650364</td>
+      <td>27653016</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>1</td>
+      <td>ACTG1P4</td>
+      <td>104112025</td>
+      <td>104114008</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>1</td>
+      <td>ACTL8</td>
+      <td>18081807</td>
+      <td>18153558</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>1</td>
+      <td>ACTN2</td>
+      <td>236849753</td>
+      <td>236927927</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>1</td>
+      <td>ACTRT2</td>
+      <td>2938045</td>
+      <td>2939467</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>1</td>
+      <td>ADAM15</td>
+      <td>155023747</td>
+      <td>155035252</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>1</td>
+      <td>ADAM30</td>
+      <td>120436155</td>
+      <td>120439147</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>1</td>
+      <td>ADAMTS4</td>
+      <td>161159518</td>
+      <td>161168843</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>1</td>
+      <td>ADAMTSL4</td>
+      <td>150521844</td>
+      <td>150533412</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>1</td>
+      <td>ADAMTSL4-AS1</td>
+      <td>150533370</td>
+      <td>150547028</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>1</td>
+      <td>ADAR</td>
+      <td>154554533</td>
+      <td>154600456</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>1</td>
+      <td>ADCY10</td>
+      <td>167778624</td>
+      <td>167883464</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>1</td>
+      <td>ADGRB2</td>
+      <td>32192705</td>
+      <td>32229664</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>1</td>
+      <td>ADGRL2</td>
+      <td>82165454</td>
+      <td>82458422</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>26943</th>
+      <td>9</td>
+      <td>WHRN</td>
+      <td>117164359</td>
+      <td>117267736</td>
+    </tr>
+    <tr>
+      <th>26944</th>
+      <td>9</td>
+      <td>WNK2</td>
+      <td>95947211</td>
+      <td>96082854</td>
+    </tr>
+    <tr>
+      <th>26945</th>
+      <td>9</td>
+      <td>XLOC_007697</td>
+      <td>44181510</td>
+      <td>44182719</td>
+    </tr>
+    <tr>
+      <th>26946</th>
+      <td>9</td>
+      <td>XPA</td>
+      <td>100437190</td>
+      <td>100459691</td>
+    </tr>
+    <tr>
+      <th>26947</th>
+      <td>9</td>
+      <td>ZBTB26</td>
+      <td>125680307</td>
+      <td>125693830</td>
+    </tr>
+    <tr>
+      <th>26948</th>
+      <td>9</td>
+      <td>ZBTB34</td>
+      <td>129622943</td>
+      <td>129648156</td>
+    </tr>
+    <tr>
+      <th>26949</th>
+      <td>9</td>
+      <td>ZBTB43</td>
+      <td>129567284</td>
+      <td>129600487</td>
+    </tr>
+    <tr>
+      <th>26950</th>
+      <td>9</td>
+      <td>ZBTB5</td>
+      <td>37438099</td>
+      <td>37465407</td>
+    </tr>
+    <tr>
+      <th>26951</th>
+      <td>9</td>
+      <td>ZBTB6</td>
+      <td>125670334</td>
+      <td>125675607</td>
+    </tr>
+    <tr>
+      <th>26952</th>
+      <td>9</td>
+      <td>ZCCHC6</td>
+      <td>88902647</td>
+      <td>88969402</td>
+    </tr>
+    <tr>
+      <th>26953</th>
+      <td>9</td>
+      <td>ZCCHC7</td>
+      <td>37120468</td>
+      <td>37358145</td>
+    </tr>
+    <tr>
+      <th>26954</th>
+      <td>9</td>
+      <td>ZDHHC12</td>
+      <td>131483148</td>
+      <td>131486408</td>
+    </tr>
+    <tr>
+      <th>26955</th>
+      <td>9</td>
+      <td>ZDHHC21</td>
+      <td>14611068</td>
+      <td>14693480</td>
+    </tr>
+    <tr>
+      <th>26956</th>
+      <td>9</td>
+      <td>ZER1</td>
+      <td>131492066</td>
+      <td>131534213</td>
+    </tr>
+    <tr>
+      <th>26957</th>
+      <td>9</td>
+      <td>ZFAND5</td>
+      <td>74966340</td>
+      <td>74980163</td>
+    </tr>
+    <tr>
+      <th>26958</th>
+      <td>9</td>
+      <td>ZFP37</td>
+      <td>115804094</td>
+      <td>115819071</td>
+    </tr>
+    <tr>
+      <th>26959</th>
+      <td>9</td>
+      <td>ZMYND19</td>
+      <td>140476530</td>
+      <td>140484937</td>
+    </tr>
+    <tr>
+      <th>26960</th>
+      <td>9</td>
+      <td>ZNF169</td>
+      <td>97021547</td>
+      <td>97064111</td>
+    </tr>
+    <tr>
+      <th>26961</th>
+      <td>9</td>
+      <td>ZNF189</td>
+      <td>104161135</td>
+      <td>104172942</td>
+    </tr>
+    <tr>
+      <th>26962</th>
+      <td>9</td>
+      <td>ZNF367</td>
+      <td>99148224</td>
+      <td>99180669</td>
+    </tr>
+    <tr>
+      <th>26963</th>
+      <td>9</td>
+      <td>ZNF462</td>
+      <td>109625377</td>
+      <td>109773796</td>
+    </tr>
+    <tr>
+      <th>26964</th>
+      <td>9</td>
+      <td>ZNF483</td>
+      <td>114287438</td>
+      <td>114340124</td>
+    </tr>
+    <tr>
+      <th>26965</th>
+      <td>9</td>
+      <td>ZNF484</td>
+      <td>95607312</td>
+      <td>95640320</td>
+    </tr>
+    <tr>
+      <th>26966</th>
+      <td>9</td>
+      <td>ZNF510</td>
+      <td>99516830</td>
+      <td>99540411</td>
+    </tr>
+    <tr>
+      <th>26967</th>
+      <td>9</td>
+      <td>ZNF618</td>
+      <td>116638561</td>
+      <td>116818875</td>
+    </tr>
+    <tr>
+      <th>26968</th>
+      <td>9</td>
+      <td>ZNF658</td>
+      <td>40760699</td>
+      <td>40792116</td>
+    </tr>
+    <tr>
+      <th>26969</th>
+      <td>9</td>
+      <td>ZNF658B</td>
+      <td>39443813</td>
+      <td>41609544</td>
+    </tr>
+    <tr>
+      <th>26970</th>
+      <td>9</td>
+      <td>ZNF782</td>
+      <td>99579272</td>
+      <td>99616389</td>
+    </tr>
+    <tr>
+      <th>26971</th>
+      <td>9</td>
+      <td>ZNF79</td>
+      <td>130186652</td>
+      <td>130207651</td>
+    </tr>
+    <tr>
+      <th>26972</th>
+      <td>9</td>
+      <td>ZNF883</td>
+      <td>115759399</td>
+      <td>115774472</td>
+    </tr>
+  </tbody>
+</table>
+<p>26973 rows × 4 columns</p>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">calpath_genes_list</span><span class="p">:</span>
-    <span class="nb">print</span> <span class="p">(</span><span class="n">gene</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>ADCY1
-ADCY2
-ADCY3
-ADCY4
-ADCY7
-ADCY8
-ADCY9
-ADORA2A
-ADORA2B
-ADRA1A
-ADRA1B
-ADRA1D
-ADRB1
-ADRB2
-ADRB3
-AGTR1
-ATP2A1
-ATP2A2
-ATP2A3
-ATP2B1
-ATP2B2
-ATP2B3
-ATP2B4
-AVPR1A
-AVPR1B
-BDKRB1
-BDKRB2
-BST1
-CACNA1A
-CACNA1B
-CACNA1C
-CACNA1D
-CACNA1E
-CACNA1F
-CACNA1G
-CACNA1H
-CACNA1I
-CACNA1S
-CALM1
-CALM2
-CALM3
-CALML3
-CALML5
-CALML6
-CAMK2A
-CAMK2B
-CAMK2D
-CAMK2G
-CAMK4
-CCKAR
-CCKBR
-CD38
-CHP
-CHP2
-CHRM1
-CHRM2
-CHRM3
-CHRM5
-CHRNA7
-CYSLTR1
-CYSLTR2
-DRD1
-DRD5
-EDNRA
-EDNRB
-EGFR
-ERBB2
-ERBB3
-ERBB4
-F2R
-GNA11
-GNA14
-GNA15
-GNAL
-GNAQ
-GNAS
-GRIN1
-GRIN2A
-GRIN2C
-GRIN2D
-GRM1
-GRM5
-GRPR
-HRH1
-HRH2
-HTR2A
-HTR2B
-HTR2C
-HTR4
-HTR5A
-HTR6
-HTR7
-ITPKA
-ITPKB
-ITPR1
-ITPR2
-ITPR3
-LHCGR
-LOC729317
-LTB4R2
-MYLK
-MYLK2
-MYLK3
-NOS1
-NOS2
-NOS3
-NTSR1
-OXTR
-P2RX1
-P2RX2
-P2RX3
-P2RX4
-P2RX5
-P2RX6
-P2RX7
-PDE1A
-PDE1B
-PDE1C
-PDGFRA
-PDGFRB
-PHKA1
-PHKA2
-PHKB
-PHKG1
-PHKG2
-PLCB1
-PLCB2
-PLCB3
-PLCB4
-PLCD1
-PLCD3
-PLCD4
-PLCE1
-PLCG1
-PLCG2
-PLCZ1
-PLN
-PPID
-PPP3CA
-PPP3CB
-PPP3CC
-PPP3R1
-PPP3R2
-PRKACA
-PRKACB
-PRKACG
-PRKCA
-PRKCB
-PRKCG
-PRKX
-PTAFR
-PTGER1
-PTGER3
-PTGFR
-PTK2B
-RYR1
-RYR2
-RYR3
-SLC25A31
-SLC25A4
-SLC25A5
-SLC25A6
-SLC8A1
-SLC8A2
-SLC8A3
-SPHK1
-SPHK2
-TACR1
-TACR2
-TACR3
-TBXA2R
-TNNC1
-TNNC2
-TRHR
-TRPC1
-VDAC1
-VDAC2
-VDAC3
-</pre>
 </div>
 </div>
 </div>
@@ -1579,7 +1470,1711 @@ VDAC3
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># needs to be modified, does not work</span>
+<span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">SELECT sw.FID, sw.PHE, sw.CHR, sw.BP1, sw.BP2, sw.TYPE, ref.gene_name, ref.chrom, ref.tx_start, ref.tx_end</span>
+<span class="s1">FROM ref_genes ref LEFT JOIN sw_cnv_indiv sw</span>
+<span class="s1">WHERE sw.CHR == cal.chr</span>
+<span class="s1">AND (</span>
+<span class="s1">(sw.BP1 &gt;= cal.gene_start AND sw.BP1 &lt;= cal.gene_end)</span>
+<span class="s1">OR</span>
+<span class="s1">(sw.BP2 &gt;= cal.gene_start AND sw.BP2 &lt;= cal.gene_end)</span>
+<span class="s1">OR</span>
+<span class="s1">(sw.BP1 &lt;= cal.gene_start AND sw.BP2 &gt;= cal.gene_end)</span>
+<span class="s1">OR</span>
+<span class="s1">(sw.BP1 &gt;= cal.gene_start AND sw.BP2 &lt;= cal.gene_end)</span>
+<span class="s1">)</span>
+<span class="s1">GROUP BY sw.PHE, sw.CHR, sw.FID, sw.BP1, sw.BP2, sw.TYPE, cal.gene_name</span>
+<span class="s1">&#39;&#39;&#39;</span>
+<span class="n">cnv_gene_overlap</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;PHE&quot;</span><span class="p">,</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;BP1&quot;</span><span class="p">,</span> <span class="s2">&quot;BP2&quot;</span><span class="p">,</span> <span class="s2">&quot;TYPE&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">))</span>
+<span class="c1"># cnv_gene_overlap.reset_index(inplace=True)</span>
+<span class="c1"># sw_cluster_indiv = pd.merge(sw_cluster, sw_indiv, how=&quot;inner&quot;, on=[&quot;FID&quot;, &quot;IID&quot;])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[16]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;case&#39;: [   chrom  cnv_start  cnv_terminate    tx_name gene_name
+  0  chr16   12298062       12418629  NM_032167     SNX29
+  1   chr2   43953144       44109485  NM_015522  DYNC2LI1
+  3   chr2   43953144       44109485  NM_022436     ABCG5
+  4   chr2   43953144       44109485  NM_022437     ABCG8
+  5   chr2   43953144       44109485  NM_172069   PLEKHH2,
+      chrom  cnv_start  cnv_terminate       tx_name     gene_name
+  0    chr1  109136721      109276393  NM_001010883       FAM102B
+  1    chr1  109136721      109276393  NM_001102592        HENMT1
+  2    chr1  109136721      109276393  NM_001144937         FNDC7
+  3    chr1  109136721      109276393     NM_018061       PRPF38B
+  6   chr10  125701683      126316176  NM_001146340        NKX1-2
+  7   chr10  125701683      126316176  NM_001167880          LHPP
+  8   chr10  125701683      126316176  NM_001270764        CHST15
+  11  chr10  125701683      126316176  NM_001322971           OAT
+  12  chr10  125701683      126316176     NM_014661        FAM53B
+  15  chr15   97962881       99356190  NM_001291858         IGF1R
+  16  chr15   97962881       99356190     NM_182562       FAM169B
+  17  chr15   97962881       99356190     NM_183376        ARRDC4
+  18  chr15   97962881       99356190     NR_024172     LINC00923
+  19  chr15   97962881       99356190     NR_039864       MIR4714
+  20  chr15   97962881       99356190     NR_110756  LOC101927310
+  21  chr15   97962881       99356190     NR_120324  LOC101927286
+  22  chr15   97962881       99356190     NR_120325     LINC01582
+  23  chr15   97962881       99356190     NR_126453         IRAIN
+  24   chr3   12820470       12968290     NM_000994         RPL32
+  26   chr3   12820470       12968290  NM_001134382        IQSEC1
+  27   chr3   12820470       12968290  NM_001162499         CAND2
+  30   chr3   12820470       12968290     NR_002582       SNORA7A
+  31   chr3   12820470       12968290     NR_136189  LOC105376955
+  32   chr5   56977321       57199036     NR_109900  LOC101928539
+  33   chr7  100618035      100830680     NM_000602      SERPINE1
+  34   chr7  100618035      100830680  NM_001040105         MUC17
+  35   chr7  100618035      100830680  NM_001164462         MUC12
+  36   chr7  100618035      100830680     NM_001283         AP1S1
+  37   chr7  100618035      100830680     NM_003378           VGF
+  38   chr7  100618035      100830680     NM_030961        TRIM56
+  39   chr7  100618035      100830680     NM_198571         NAT16
+  40   chr7  100618035      100830680     NR_039797       MIR4653
+  41   chr7  100618035      100830680     NR_120519  LOC102724094,
+      chrom  cnv_start  cnv_terminate       tx_name     gene_name
+  0    chr1   45396128       45557311     NM_000374          UROD
+  1    chr1   45396128       45557311  NM_001166588        EIF2B3
+  3    chr1   45396128       45557311     NM_020883        ZSWIM5
+  4    chr1   45396128       45557311     NM_024602        HECTD3
+  5   chr16   83795485       84117760  NM_001080442       SLC38A8
+  6   chr16   83795485       84117760  NM_001220488         CDH13
+  7   chr16   83795485       84117760     NM_001537         HSBP1
+  8   chr16   83795485       84117760     NM_003791        MBTPS1
+  9   chr16   83795485       84117760     NM_012213         MLYCD
+  10  chr16   83795485       84117760     NM_019065        NECAB2
+  11  chr16   83795485       84117760     NM_182981        OSGIN1
+  12  chr16   83795485       84117760     NR_120308  LOC102724163
+  13   chr6   89425662       89546803  NM_001286428         RNGTT,
+      chrom  cnv_start  cnv_terminate       tx_name    gene_name
+  0   chr10   67951506       68066723  NM_001127384       CTNNA3
+  2   chr13  103337223      103437421  NM_001010977     METTL21C
+  3   chr13  103337223      103437421  NM_001146197      CCDC168
+  4   chr13  103337223      103437421  NM_001286775        TEX30
+  5   chr13  103337223      103437421     NM_024089       KDELC1
+  6   chr14   65141157       65447428     NM_000347         SPTB
+  8   chr14   65141157       65447428  NM_001202559  CHURC1-FNTB
+  9   chr14   65141157       65447428  NM_001204063       CHURC1
+  10  chr14   65141157       65447428  NM_001308147      PLEKHG3
+  11  chr14   65141157       65447428  NM_001308154        RAB15
+  13  chr14   65141157       65447428     NM_002083         GPX2
+  14  chr14   65141157       65447428     NR_107009      MIR7855
+  15   chr2   40525079       40668857  NM_001112800       SLC8A1
+  17  chr20   19746944       20056579  NM_001167816       CFAP61
+  18  chr20   19746944       20056579  NM_001242581         RIN2
+  19  chr20   19746944       20056579  NM_001278627       CRNKL1
+  23  chr20   19746944       20056579     NM_181527        NAA20
+  25   chr9  128577975      128696091  NM_001134778         PBX3,
+     chrom  cnv_start  cnv_terminate       tx_name     gene_name
+  0  chr22   17192980       17352692     NM_175878          XKR3
+  1  chr22   17192980       17352692     NR_003607       HSFY1P1
+  2  chr22   17192980       17352692     NR_134584  LOC101929350
+  3   chr7   31494275       31810942  NM_001145123       PPP1R17
+  4   chr7   31494275       31810942  NM_001191057         PDE1C
+  6   chr7   31494275       31810942  NM_001257967       CCDC129,
+    chrom  cnv_start  cnv_terminate    tx_name     gene_name
+  0  chr5   66918327       67275319  NR_130779  LOC101928858
+  1  chr7  152286459      152407567  NM_005431         XRCC2
+  2  chr9   44284730       44500056  NR_121564  LOC101927827
+  3  chr9   44284730       44500056  NR_126050  LOC103908605,
+       chrom  cnv_start  cnv_terminate       tx_name     gene_name
+  0     chr1   46327547       46476148  NM_001319245         MAST2
+  3    chr10   94539432       94836163     NM_000783       CYP26A1
+  4    chr10   94539432       94836163  NM_001013848         EXOC6
+  8    chr10   94539432       94836163     NM_183374       CYP26C1
+  9    chr16   61365858       69097019     NM_000196       HSD11B2
+  10   chr16   61365858       69097019     NM_000229          LCAT
+  11   chr16   61365858       69097019  NM_001004055        LRRC29
+  12   chr16   61365858       69097019  NM_001012984      C16orf86
+  13   chr16   61365858       69097019  NM_001014435           CA7
+  14   chr16   61365858       69097019  NM_001040715     KIAA0895L
+  15   chr16   61365858       69097019  NM_001076785        SLC7A6
+  16   chr16   61365858       69097019  NM_001082486           ACD
+  17   chr16   61365858       69097019  NM_001100915        KCTD19
+  18   chr16   61365858       69097019  NM_001129727       PLEKHG4
+  21   chr16   61365858       69097019  NM_001129758         DPEP3
+  22   chr16   61365858       69097019  NM_001136106         BEAN1
+  23   chr16   61365858       69097019  NM_001136505         TERB1
+  24   chr16   61365858       69097019     NM_001138          AGRP
+  25   chr16   61365858       69097019  NM_001145961       SLC12A4
+  28   chr16   61365858       69097019  NM_001161575        LRRC36
+  29   chr16   61365858       69097019  NM_001185057          NOL3
+  30   chr16   61365858       69097019  NM_001185176          CES3
+  31   chr16   61365858       69097019  NM_001190201         CES4A
+  32   chr16   61365858       69097019  NM_001191022          CTCF
+  33   chr16   61365858       69097019  NM_001193522        FAM65A
+  37   chr16   61365858       69097019  NM_001199317         CMTM2
+  38   chr16   61365858       69097019  NM_001202509    CKLF-CMTM1
+  39   chr16   61365858       69097019  NM_001204744         CDH16
+  40   chr16   61365858       69097019  NM_001243650         GFOD2
+  41   chr16   61365858       69097019  NM_001271762          DUS2
+  ..     ...        ...            ...           ...           ...
+  105  chr16   61365858       69097019     NM_032140         ENKD1
+  106  chr16   61365858       69097019     NM_032178      SLC7A6OS
+  107  chr16   61365858       69097019     NM_033309        B3GNT9
+  108  chr16   61365858       69097019     NM_052999         CMTM1
+  109  chr16   61365858       69097019     NM_144601         CMTM3
+  111  chr16   61365858       69097019     NM_178516       EXOC3L1
+  113  chr16   61365858       69097019     NM_181521         CMTM4
+  115  chr16   61365858       69097019     NM_198443         NRN1L
+  116  chr16   61365858       69097019     NR_027755     LINC00922
+  117  chr16   61365858       69097019     NR_029887        MIR328
+  121  chr16   61365858       69097019     NR_046109        FAM96B
+  122  chr16   61365858       69097019     NR_046242     LINC00920
+  123  chr16   61365858       69097019     NR_104656  LOC100505942
+  124  chr16   61365858       69097019     NR_106831       MIR6773
+  125  chr16   61365858       69097019     NR_106988     MIR7641-2
+  126  chr16   61365858       69097019     NR_109960     BEAN1-AS1
+  127  chr16   61365858       69097019     NR_110918  LOC101927650
+  128  chr16   61365858       69097019     NR_133569  LOC106699570
+  132   chr2  209323645      210171589  NM_001309516         PTH2R
+  134   chr2  209323645      210171589     NR_136588  LOC101927960
+  135   chr3  193321155      193477749     NM_015560          OPA1
+  136   chr3  193321155      193477749     NR_046634      OPA1-AS1
+  137   chr5   21647028       23317674  NM_001317227         CDH12
+  140   chr5   21647028       23317674     NR_003921        PMCHL1
+  141   chr5   21647028       23317674     NR_132787     SNORA105A
+  142   chr5   54800644       55006881  NM_001258286       SLC38A9
+  144   chr5   54800644       55006881     NM_176895         PLPP1
+  145   chr5   54800644       55006881     NR_001575      RNF138P1
+  146   chr5   54800644       55006881     NR_049869       MIR5687
+  147   chr6  144853923      144955005     NM_007124          UTRN
+  [106 rows x 5 columns],
+      chrom  cnv_start  cnv_terminate       tx_name      gene_name
+  0    chr1   84270433       84410105     NM_024686          TTLL7
+  1    chr1   84270433       84410105     NR_119374   LOC101927560
+  2    chr1   84270433       84410105     NR_119375   LOC101927587
+  3   chr10  133468942      133811887  NM_001291310        PPP2R2D
+  4   chr10  133468942      133811887     NM_004052          BNIP3
+  6   chr10  133468942      133811887     NR_038365      LINC01164
+  7   chr12  117674086      117786511     NM_000620           NOS1
+  10  chr17   66920745       67046912     NM_007168          ABCA8
+  11  chr17   66920745       67046912     NM_080283          ABCA9
+  12  chr17   66920745       67046912     NR_126414      ABCA9-AS1
+  13  chr18   33255206       33394707     NM_020474         GALNT1
+  14   chr2   48740270       48966018     NM_000233          LHCGR
+  15   chr2   48740270       48966018  NM_001135629        PPP1R21
+  16   chr2   48740270       48966018  NM_001193487        GTF2A1L
+  17   chr2   48740270       48966018  NM_001198593  STON1-GTF2A1L
+  19   chr2   48740270       48966018     NM_006873          STON1
+  21   chr2   50771501       51168721  NM_001330079          NRXN1
+  24   chr2   50771501       51168721     NR_130470        MIR8485
+  25   chr3   23771361       23902374  NM_001202476         UBE2E1
+  27   chr3   23771361       23902374     NR_046652     UBE2E1-AS1
+  28   chr5   58091108       58226426  NM_001317915          RAB3C,
+      chrom  cnv_start  cnv_terminate       tx_name gene_name
+  0   chr11   82997288       83192561  NM_001142699      DLG2
+  4   chr11   82997288       83192561  NM_001286116   CCDC90B
+  6    chr4   93394913       93506429     NM_001510     GRID2
+  7    chr4  102702983      102850382  NM_001083907     BANK1
+  9    chr7   94743684       95017661     NM_000446      PON1
+  10   chr7   94743684       95017661     NM_000940      PON3
+  11   chr7   94743684       95017661  NM_001166160   PPP1R9A,
+      chrom  cnv_start  cnv_terminate    tx_name        gene_name
+  0   chr10   25401335       26629677  NM_000818             GAD2
+  2   chr10   25401335       26629677  NM_017433            MYO3A
+  3   chr10   25401335       26629677  NM_020752           GPR158
+  4   chr10   25401335       26629677  NR_027333       GPR158-AS1
+  5   chr10   25401335       26629677  NR_108067        LINC00836
+  7   chr10   25401335       26629677  NR_120649        LINC01516
+  8   chr10   25401335       26629677  NR_120650     LOC101929073
+  9   chr16   80238567       80360764  NR_120307     LOC102724084
+  10   chr2  110866620      111172684  NM_000272            NPHP1
+  11   chr2  110866620      111172684  NM_005434             MALL
+  12   chr2  110866620      111172684  NR_027063        LINC00116
+  13   chr2  110866620      111172684  NR_027142        LOC440895
+  14   chr2  110866620      111172684  NR_027145  LIMS3-LOC440895
+  15   chr2  110866620      111172684  NR_027244        LINC01106
+  16   chr2  110866620      111172684  NR_037626     LOC100507334
+  17   chr2  110866620      111172684  NR_039941        MIR4436B1
+  18   chr2  110866620      111172684  NR_046110        LINC01123
+  19   chr3   61914123       62036296  NM_002841            PTPRG
+  20   chr3  179093499      179199743  NM_021629             GNB4
+  21   chr3  179093499      179199743  NM_033540             MFN1
+  22   chr8   73685333       74009869  NM_003218            TERF1
+  23   chr8   73685333       74009869  NM_004770            KCNB2
+  24   chr8   73685333       74009869  NM_153225           SBSPON],
+ &#39;ctrl&#39;: [    chrom  cnv_start  cnv_terminate       tx_name    gene_name
+  0    chr1   42687025       43128455  NM_001077447         PPCS
+  1    chr1   42687025       43128455  NM_001080850       CCDC30
+  2    chr1   42687025       43128455  NM_001198850        FOXJ3
+  7    chr1   42687025       43128455     NM_006347         PPIH
+  9    chr1   42687025       43128455     NM_032257      ZMYND12
+  10   chr1   42687025       43128455     NM_173642       RIMKLA
+  11  chr20   14833449       14948259     NM_080676      MACROD2
+  12  chr20   14833449       14948259     NR_037841  MACROD2-AS1
+  14   chr3    4149178        4447788  NM_001164675        SUMF1
+  15   chr3    4149178        4447788  NM_001243723       SETMAR
+  17   chr5  140212863      140362074     NM_014005       PCDHA9
+  18   chr5  140212863      140362074     NM_018898      PCDHAC1
+  19   chr5  140212863      140362074     NM_018899      PCDHAC2
+  20   chr5  140212863      140362074     NM_018900       PCDHA1
+  21   chr5  140212863      140362074     NM_018901      PCDHA10
+  22   chr5  140212863      140362074     NM_018902      PCDHA11
+  23   chr5  140212863      140362074     NM_018903      PCDHA12
+  24   chr5  140212863      140362074     NM_018904      PCDHA13
+  25   chr5  140212863      140362074     NM_018905       PCDHA2
+  26   chr5  140212863      140362074     NM_018906       PCDHA3
+  27   chr5  140212863      140362074     NM_018907       PCDHA4
+  28   chr5  140212863      140362074     NM_018908       PCDHA5
+  29   chr5  140212863      140362074     NM_018909       PCDHA6
+  30   chr5  140212863      140362074     NM_018910       PCDHA7
+  31   chr5  140212863      140362074     NM_018911       PCDHA8
+  41   chr8  102114487      102220177  NM_001042510       ZNF706,
+      chrom  cnv_start  cnv_terminate       tx_name  gene_name
+  0    chr1  185877712      186231634     NM_031935      HMCN1
+  1   chr10   55754365       55989893  NM_001142770     PCDH15
+  4   chr21   30118980       30740499     NM_001186      BACH1
+  5   chr21   30118980       30740499  NM_001286619   MAP3K7CL
+  9   chr21   30118980       30740499  NM_001320724     RWDD2B
+  10  chr21   30118980       30740499  NM_001320766       LTN1
+  11  chr21   30118980       30740499     NM_006447      USP16
+  12  chr21   30118980       30740499     NM_006585       CCT8
+  13  chr21   30118980       30740499     NM_013240     N6AMT1
+  18  chr21   30118980       30740499     NR_027072  LINC00189,
+     chrom  cnv_start  cnv_terminate       tx_name gene_name
+  0  chr19   21021674       21131337  NM_001256171     ZNF85,
+      chrom  cnv_start  cnv_terminate       tx_name     gene_name
+  0   chr11  130112662      130265535  NM_001301098        ZBTB44
+  1   chr13   99413110      101087537     NM_000282          PCCA
+  2   chr13   99413110      101087537  NM_001130048         DOCK9
+  5   chr13   99413110      101087537  NM_001144072         UBAC2
+  7   chr13   99413110      101087537     NM_004800        TM9SF2
+  8   chr13   99413110      101087537     NM_004951        GPR183
+  9   chr13   99413110      101087537     NM_005292         GPR18
+  10  chr13   99413110      101087537     NM_007129          ZIC2
+  11  chr13   99413110      101087537     NM_033132          ZIC5
+  13  chr13   99413110      101087537     NM_206808         CLYBL
+  14  chr13   99413110      101087537     NR_024013        FKSG29
+  15  chr13   99413110      101087537     NR_030353        MIR623
+  16  chr13   99413110      101087537     NR_036191       MIR4306
+  17  chr13   99413110      101087537     NR_036531     UBAC2-AS1
+  19  chr13   99413110      101087537     NR_046525     CLYBL-AS1
+  20  chr13   99413110      101087537     NR_046526     CLYBL-AS2
+  21  chr13   99413110      101087537     NR_046663     DOCK9-AS1
+  22  chr13   99413110      101087537     NR_047482     DOCK9-AS2
+  23  chr13   99413110      101087537     NR_047483     LINC00554
+  25  chr13   99413110      101087537     NR_110731     LINC01232
+  27  chr13   99413110      101087537     NR_120421  LOC101927437
+  28  chr13   99413110      101087537     NR_126390     LINC01039
+  29  chr13   99413110      101087537     NR_132422  LOC105370333
+  30  chr13   99413110      101087537     NR_133664     LINC00449
+  31   chr3  124180557      124415300  NM_001024660         KALRN
+  36   chr5   58443338       58563788  NM_001104631         PDE4D
+  42   chr7   29551710       29929565  NM_001080529         WIPF3
+  43   chr7   29551710       29929565  NM_001293069          CHN2
+  47   chr7   29551710       29929565  NM_001329997         PRR15
+  50   chr7   29551710       29929565     NR_024278     LOC646762
+  51   chr7   29551710       29929565     NR_027347       ZNRF2P2
+  52   chr7   29551710       29929565     NR_036482     DPY19L2P3
+  53   chr7   29551710       29929565     NR_039600      MIR550A3,
+     chrom  cnv_start  cnv_terminate       tx_name gene_name
+  0   chr1   64285541       64474159  NM_001083592      ROR1
+  2  chr13   28961450       29115546  NM_001159920      FLT1
+  6   chr8   92970882       93096514  NM_001198628   RUNX1T1,
+     chrom  cnv_start  cnv_terminate       tx_name     gene_name
+  0  chr21   42395926       42531871     NR_024100     LINC00323
+  1   chr4    3652874        3855320     NM_000683        ADRA2C
+  2   chr4    3652874        3855320     NR_034136  LOC100133461
+  3   chr9     291823         696919  NM_001190458         DOCK8
+  4   chr9     291823         696919  NM_001256876         KANK1,
+    chrom  cnv_start  cnv_terminate       tx_name     gene_name
+  0  chr1   29272644       29395495  NM_001166006         EPB41
+  2  chr6   18399709       19125040     NM_182757       RNF144B
+  3  chr6   18399709       19125040     NR_030312      MIR548A1
+  4  chr6   18399709       19125040     NR_110860  LOC101928519,
+     chrom  cnv_start  cnv_terminate    tx_name gene_name
+  0  chr13   83369582       84473073  NM_052910   SLITRK1
+  1  chr17   16173274       16281167  NM_004278      PIGL
+  2  chr17   16173274       16281167  NM_181716     CENPV
+  3  chr17   16173274       16281167  NR_031698   MIR1288
+  4   chr5  161126159      161259318  NM_000811    GABRA6,
+      chrom  cnv_start  cnv_terminate       tx_name     gene_name
+  0   chr12   10595130       10980119  NM_001300739        MAGOHB
+  1   chr12   10595130       10980119  NM_001304448         KLRC1
+  3   chr12   10595130       10980119     NM_003651          YBX3
+  5   chr12   10595130       10980119     NM_018423         STYK1
+  6   chr12   10595130       10980119     NM_023917        TAS2R9
+  7   chr12   10595130       10980119     NM_023918        TAS2R8
+  8   chr12   10595130       10980119     NM_023919        TAS2R7
+  9   chr12   10595130       10980119     NM_023921       TAS2R10
+  11  chr12   10595130       10980119     NR_028045        KLRA1P
+  12  chr12   10595130       10980119     NR_120463  LOC101928162
+  13  chr18   28938560       29132799     NM_001942          DSG1
+  14  chr18   28938560       29132799     NM_001943          DSG2
+  15  chr18   28938560       29132799     NM_001944          DSG3
+  16  chr18   28938560       29132799     NM_177986          DSG4
+  17  chr18   28938560       29132799     NR_045216      DSG2-AS1
+  18  chr18   28938560       29132799     NR_110788      DSG1-AS1
+  19   chr7   75440586       75567097     NM_000941           POR
+  20   chr7   75440586       75567097  NM_001040457        RHBDD2
+  21   chr7   75440586       75567097     NM_002991         CCL24
+  22   chr7   75440586       75567097     NR_039795       MIR4651
+  23   chr9   28524556       28626286  NM_001258282        LINGO2,
+    chrom  cnv_start  cnv_terminate       tx_name gene_name
+  0  chr4  151838996      152267881     NM_001006     RPS3A
+  1  chr4  151838996      152267881  NM_001009555    SH3D19
+  3  chr4  151838996      152267881  NM_001199282      LRBA
+  7  chr4  151838996      152267881     NM_183375    PRSS48
+  8  chr4  151838996      152267881     NR_000007  SNORD73A],
+ &#39;debug&#39;: {&#39;args&#39;: {&#39;avg_cnv_per_individual&#39;: 5,
+   &#39;block_size&#39;: 100000,
+   &#39;case_dataset&#39;: &#39;delCases&#39;,
+   &#39;cnv_file&#39;: &#39;../data/ISC-r1.CNV.bed&#39;,
+   &#39;ctrl_dataset&#39;: &#39;delControls&#39;,
+   &#39;n_case&#39;: 10,
+   &#39;n_causal_gene&#39;: 200,
+   &#39;n_ctrl&#39;: 10,
+   &#39;odds_ratio_params&#39;: {&#39;scale&#39;: 1, &#39;shape&#39;: 5},
+   &#39;output&#39;: &#39;del_sample&#39;,
+   &#39;prevalence&#39;: 0.005,
+   &#39;pthwy_gene_file&#39;: &#39;../data/calciumgeneset.txt&#39;,
+   &#39;refgene_file&#39;: &#39;../data/refGene.txt.gz&#39;},
+  &#39;causal genes&#39;: [&#39;ADCY1&#39;,
+   &#39;ADCY2&#39;,
+   &#39;ADCY3&#39;,
+   &#39;ADCY4&#39;,
+   &#39;ADCY7&#39;,
+   &#39;ADCY8&#39;,
+   &#39;ADCY9&#39;,
+   &#39;ADORA2A&#39;,
+   &#39;ADORA2B&#39;,
+   &#39;ADRA1A&#39;,
+   &#39;ADRA1B&#39;,
+   &#39;ADRA1D&#39;,
+   &#39;ADRB1&#39;,
+   &#39;ADRB2&#39;,
+   &#39;ADRB3&#39;,
+   &#39;AGTR1&#39;,
+   &#39;ATP2A1&#39;,
+   &#39;ATP2A2&#39;,
+   &#39;ATP2A3&#39;,
+   &#39;ATP2B1&#39;,
+   &#39;ATP2B2&#39;,
+   &#39;ATP2B3&#39;,
+   &#39;ATP2B4&#39;,
+   &#39;AVPR1A&#39;,
+   &#39;AVPR1B&#39;,
+   &#39;BDKRB1&#39;,
+   &#39;BDKRB2&#39;,
+   &#39;BST1&#39;,
+   &#39;CACNA1A&#39;,
+   &#39;CACNA1B&#39;,
+   &#39;CACNA1C&#39;,
+   &#39;CACNA1D&#39;,
+   &#39;CACNA1E&#39;,
+   &#39;CACNA1F&#39;,
+   &#39;CACNA1G&#39;,
+   &#39;CACNA1H&#39;,
+   &#39;CACNA1I&#39;,
+   &#39;CACNA1S&#39;,
+   &#39;CALM1&#39;,
+   &#39;CALM2&#39;,
+   &#39;CALM3&#39;,
+   &#39;CALML3&#39;,
+   &#39;CALML5&#39;,
+   &#39;CALML6&#39;,
+   &#39;CAMK2A&#39;,
+   &#39;CAMK2B&#39;,
+   &#39;CAMK2D&#39;,
+   &#39;CAMK2G&#39;,
+   &#39;CAMK4&#39;,
+   &#39;CCKAR&#39;,
+   &#39;CCKBR&#39;,
+   &#39;CD38&#39;,
+   &#39;CHP&#39;,
+   &#39;CHP2&#39;,
+   &#39;CHRM1&#39;,
+   &#39;CHRM2&#39;,
+   &#39;CHRM3&#39;,
+   &#39;CHRM5&#39;,
+   &#39;CHRNA7&#39;,
+   &#39;CYSLTR1&#39;,
+   &#39;CYSLTR2&#39;,
+   &#39;DRD1&#39;,
+   &#39;DRD5&#39;,
+   &#39;EDNRA&#39;,
+   &#39;EDNRB&#39;,
+   &#39;EGFR&#39;,
+   &#39;ERBB2&#39;,
+   &#39;ERBB3&#39;,
+   &#39;ERBB4&#39;,
+   &#39;F2R&#39;,
+   &#39;GNA11&#39;,
+   &#39;GNA14&#39;,
+   &#39;GNA15&#39;,
+   &#39;GNAL&#39;,
+   &#39;GNAQ&#39;,
+   &#39;GNAS&#39;,
+   &#39;GRIN1&#39;,
+   &#39;GRIN2A&#39;,
+   &#39;GRIN2C&#39;,
+   &#39;GRIN2D&#39;,
+   &#39;GRM1&#39;,
+   &#39;GRM5&#39;,
+   &#39;GRPR&#39;,
+   &#39;HRH1&#39;,
+   &#39;HRH2&#39;,
+   &#39;HTR2A&#39;,
+   &#39;HTR2B&#39;,
+   &#39;HTR2C&#39;,
+   &#39;HTR4&#39;,
+   &#39;HTR5A&#39;,
+   &#39;HTR6&#39;,
+   &#39;HTR7&#39;,
+   &#39;ITPKA&#39;,
+   &#39;ITPKB&#39;,
+   &#39;ITPR1&#39;,
+   &#39;ITPR2&#39;,
+   &#39;ITPR3&#39;,
+   &#39;LHCGR&#39;,
+   &#39;LOC729317&#39;,
+   &#39;LTB4R2&#39;,
+   &#39;MYLK&#39;,
+   &#39;MYLK2&#39;,
+   &#39;MYLK3&#39;,
+   &#39;NOS1&#39;,
+   &#39;NOS2&#39;,
+   &#39;NOS3&#39;,
+   &#39;NTSR1&#39;,
+   &#39;OXTR&#39;,
+   &#39;P2RX1&#39;,
+   &#39;P2RX2&#39;,
+   &#39;P2RX3&#39;,
+   &#39;P2RX4&#39;,
+   &#39;P2RX5&#39;,
+   &#39;P2RX6&#39;,
+   &#39;P2RX7&#39;,
+   &#39;PDE1A&#39;,
+   &#39;PDE1B&#39;,
+   &#39;PDE1C&#39;,
+   &#39;PDGFRA&#39;,
+   &#39;PDGFRB&#39;,
+   &#39;PHKA1&#39;,
+   &#39;PHKA2&#39;,
+   &#39;PHKB&#39;,
+   &#39;PHKG1&#39;,
+   &#39;PHKG2&#39;,
+   &#39;PLCB1&#39;,
+   &#39;PLCB2&#39;,
+   &#39;PLCB3&#39;,
+   &#39;PLCB4&#39;,
+   &#39;PLCD1&#39;,
+   &#39;PLCD3&#39;,
+   &#39;PLCD4&#39;,
+   &#39;PLCE1&#39;,
+   &#39;PLCG1&#39;,
+   &#39;PLCG2&#39;,
+   &#39;PLCZ1&#39;,
+   &#39;PLN&#39;,
+   &#39;PPID&#39;,
+   &#39;PPP3CA&#39;,
+   &#39;PPP3CB&#39;,
+   &#39;PPP3CC&#39;,
+   &#39;PPP3R1&#39;,
+   &#39;PPP3R2&#39;,
+   &#39;PRKACA&#39;,
+   &#39;PRKACB&#39;,
+   &#39;PRKACG&#39;,
+   &#39;PRKCA&#39;,
+   &#39;PRKCB&#39;,
+   &#39;PRKCG&#39;,
+   &#39;PRKX&#39;,
+   &#39;PTAFR&#39;,
+   &#39;PTGER1&#39;,
+   &#39;PTGER3&#39;,
+   &#39;PTGFR&#39;,
+   &#39;PTK2B&#39;,
+   &#39;RYR1&#39;,
+   &#39;RYR2&#39;,
+   &#39;RYR3&#39;,
+   &#39;SLC25A31&#39;,
+   &#39;SLC25A4&#39;,
+   &#39;SLC25A5&#39;,
+   &#39;SLC25A6&#39;,
+   &#39;SLC8A1&#39;,
+   &#39;SLC8A2&#39;,
+   &#39;SLC8A3&#39;,
+   &#39;SPHK1&#39;,
+   &#39;SPHK2&#39;,
+   &#39;TACR1&#39;,
+   &#39;TACR2&#39;,
+   &#39;TACR3&#39;,
+   &#39;TBXA2R&#39;,
+   &#39;TNNC1&#39;,
+   &#39;TNNC2&#39;,
+   &#39;TRHR&#39;,
+   &#39;TRPC1&#39;,
+   &#39;VDAC1&#39;,
+   &#39;VDAC2&#39;,
+   &#39;VDAC3&#39;],
+  &#39;niter&#39;: 1159,
+  &#39;number of causal genes in case&#39;: [0, 0, 0, 1, 1, 0, 0, 2, 0, 0],
+  &#39;number of causal genes in ctrl&#39;: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  &#39;number of genes overlap CNV&#39;: [26,
+   10,
+   1,
+   33,
+   3,
+   5,
+   4,
+   5,
+   21,
+   5,
+   6,
+   54,
+   6,
+   10,
+   5,
+   3,
+   5,
+   12,
+   17,
+   22,
+   5,
+   21,
+   12,
+   18,
+   12,
+   12,
+   7,
+   10,
+   7,
+   13,
+   7,
+   8,
+   10,
+   1,
+   7,
+   22,
+   21,
+   16,
+   6,
+   15,
+   11,
+   10,
+   8,
+   10,
+   11,
+   7,
+   9,
+   19,
+   9,
+   34,
+   4,
+   33,
+   5,
+   8,
+   10,
+   11,
+   11,
+   10,
+   20,
+   25,
+   25,
+   17,
+   9,
+   7,
+   14,
+   2,
+   14,
+   9,
+   16,
+   20,
+   1,
+   22,
+   14,
+   8,
+   25,
+   1,
+   13,
+   1,
+   10,
+   12,
+   3,
+   11,
+   5,
+   15,
+   8,
+   23,
+   3,
+   8,
+   2,
+   7,
+   35,
+   2,
+   2,
+   6,
+   20,
+   11,
+   15,
+   0,
+   88,
+   31,
+   5,
+   20,
+   11,
+   7,
+   6,
+   8,
+   16,
+   14,
+   5,
+   18,
+   2,
+   10,
+   10,
+   4,
+   13,
+   6,
+   18,
+   4,
+   8,
+   18,
+   10,
+   24,
+   9,
+   4,
+   25,
+   6,
+   7,
+   22,
+   6,
+   21,
+   21,
+   18,
+   9,
+   12,
+   4,
+   7,
+   48,
+   3,
+   3,
+   11,
+   24,
+   2,
+   4,
+   5,
+   66,
+   13,
+   17,
+   6,
+   19,
+   9,
+   3,
+   19,
+   32,
+   16,
+   11,
+   9,
+   9,
+   2,
+   4,
+   12,
+   9,
+   15,
+   20,
+   8,
+   3,
+   27,
+   5,
+   26,
+   9,
+   16,
+   27,
+   14,
+   15,
+   24,
+   3,
+   10,
+   20,
+   9,
+   38,
+   15,
+   8,
+   5,
+   10,
+   21,
+   18,
+   19,
+   16,
+   10,
+   3,
+   66,
+   0,
+   60,
+   1,
+   10,
+   11,
+   25,
+   6,
+   16,
+   14,
+   24,
+   8,
+   45,
+   16,
+   4,
+   7,
+   24,
+   8,
+   7,
+   14,
+   10,
+   11,
+   5,
+   5,
+   19,
+   12,
+   8,
+   4,
+   10,
+   6,
+   24,
+   20,
+   19,
+   23,
+   3,
+   21,
+   26,
+   6,
+   15,
+   1,
+   1,
+   3,
+   18,
+   1,
+   0,
+   20,
+   10,
+   8,
+   29,
+   15,
+   5,
+   21,
+   40,
+   20,
+   44,
+   8,
+   6,
+   12,
+   57,
+   8,
+   2,
+   45,
+   14,
+   20,
+   5,
+   20,
+   21,
+   9,
+   10,
+   32,
+   4,
+   13,
+   8,
+   20,
+   21,
+   10,
+   25,
+   23,
+   1,
+   28,
+   35,
+   17,
+   10,
+   26,
+   12,
+   14,
+   21,
+   25,
+   8,
+   10,
+   3,
+   13,
+   4,
+   8,
+   14,
+   9,
+   2,
+   3,
+   8,
+   10,
+   21,
+   2,
+   22,
+   14,
+   6,
+   0,
+   14,
+   3,
+   37,
+   13,
+   4,
+   19,
+   31,
+   0,
+   16,
+   14,
+   16,
+   18,
+   37,
+   5,
+   9,
+   6,
+   12,
+   16,
+   36,
+   9,
+   13,
+   3,
+   32,
+   14,
+   45,
+   1,
+   7,
+   13,
+   10,
+   17,
+   21,
+   5,
+   16,
+   7,
+   16,
+   29,
+   18,
+   8,
+   72,
+   12,
+   0,
+   1,
+   0,
+   6,
+   3,
+   6,
+   10,
+   1,
+   9,
+   19,
+   8,
+   14,
+   15,
+   7,
+   10,
+   11,
+   3,
+   8,
+   2,
+   11,
+   26,
+   5,
+   10,
+   13,
+   8,
+   28,
+   30,
+   28,
+   8,
+   12,
+   35,
+   0,
+   23,
+   2,
+   22,
+   11,
+   19,
+   19,
+   25,
+   35,
+   1,
+   6,
+   2,
+   9,
+   1,
+   42,
+   15,
+   19,
+   3,
+   40,
+   10,
+   23,
+   12,
+   4,
+   7,
+   6,
+   17,
+   62,
+   6,
+   10,
+   14,
+   66,
+   19,
+   8,
+   6,
+   36,
+   12,
+   12,
+   6,
+   13,
+   6,
+   10,
+   13,
+   0,
+   14,
+   27,
+   14,
+   20,
+   9,
+   1,
+   4,
+   20,
+   5,
+   16,
+   8,
+   12,
+   3,
+   17,
+   28,
+   8,
+   11,
+   12,
+   11,
+   10,
+   13,
+   16,
+   23,
+   7,
+   4,
+   25,
+   17,
+   17,
+   25,
+   5,
+   3,
+   4,
+   32,
+   4,
+   13,
+   5,
+   63,
+   66,
+   3,
+   22,
+   7,
+   4,
+   24,
+   13,
+   7,
+   12,
+   1,
+   6,
+   50,
+   4,
+   9,
+   20,
+   37,
+   16,
+   27,
+   15,
+   27,
+   4,
+   7,
+   24,
+   40,
+   13,
+   5,
+   12,
+   12,
+   20,
+   98,
+   47,
+   13,
+   6,
+   6,
+   14,
+   9,
+   23,
+   14,
+   14,
+   14,
+   48,
+   19,
+   0,
+   14,
+   5,
+   53,
+   5,
+   3,
+   23,
+   10,
+   15,
+   21,
+   15,
+   21,
+   1,
+   8,
+   3,
+   16,
+   4,
+   6,
+   28,
+   10,
+   32,
+   117,
+   31,
+   3,
+   20,
+   24,
+   1,
+   17,
+   10,
+   13,
+   5,
+   9,
+   13,
+   32,
+   1,
+   35,
+   4,
+   5,
+   4,
+   12,
+   19,
+   14,
+   14,
+   24,
+   8,
+   16,
+   15,
+   4,
+   29,
+   23,
+   2,
+   21,
+   37,
+   57,
+   13,
+   3,
+   5,
+   15,
+   23,
+   21,
+   1,
+   25,
+   5,
+   32,
+   35,
+   27,
+   29,
+   9,
+   12,
+   16,
+   2,
+   4,
+   16,
+   10,
+   13,
+   66,
+   11,
+   14,
+   39,
+   2,
+   2,
+   39,
+   15,
+   4,
+   4,
+   12,
+   6,
+   10,
+   60,
+   22,
+   17,
+   3,
+   4,
+   11,
+   1,
+   5,
+   10,
+   7,
+   1,
+   4,
+   3,
+   11,
+   16,
+   42,
+   21,
+   11,
+   12,
+   7,
+   4,
+   3,
+   8,
+   25,
+   2,
+   5,
+   13,
+   33,
+   18,
+   24,
+   10,
+   2,
+   61,
+   6,
+   27,
+   6,
+   12,
+   3,
+   26,
+   12,
+   7,
+   5,
+   19,
+   7,
+   6,
+   29,
+   60,
+   18,
+   11,
+   6,
+   10,
+   12,
+   6,
+   22,
+   1,
+   44,
+   16,
+   18,
+   3,
+   4,
+   21,
+   11,
+   0,
+   3,
+   14,
+   32,
+   13,
+   11,
+   19,
+   10,
+   22,
+   9,
+   4,
+   13,
+   17,
+   9,
+   45,
+   19,
+   13,
+   18,
+   10,
+   0,
+   7,
+   8,
+   26,
+   10,
+   5,
+   3,
+   15,
+   6,
+   24,
+   3,
+   3,
+   4,
+   10,
+   24,
+   10,
+   30,
+   1,
+   6,
+   9,
+   8,
+   22,
+   2,
+   9,
+   17,
+   10,
+   3,
+   9,
+   9,
+   7,
+   13,
+   11,
+   4,
+   38,
+   19,
+   16,
+   8,
+   23,
+   8,
+   10,
+   60,
+   0,
+   9,
+   37,
+   32,
+   32,
+   11,
+   36,
+   14,
+   0,
+   13,
+   4,
+   23,
+   4,
+   0,
+   46,
+   15,
+   4,
+   9,
+   19,
+   21,
+   12,
+   18,
+   6,
+   21,
+   17,
+   24,
+   25,
+   3,
+   22,
+   9,
+   17,
+   9,
+   12,
+   47,
+   7,
+   0,
+   10,
+   27,
+   22,
+   0,
+   43,
+   56,
+   6,
+   6,
+   20,
+   8,
+   19,
+   10,
+   26,
+   7,
+   5,
+   14,
+   15,
+   12,
+   3,
+   15,
+   49,
+   22,
+   17,
+   13,
+   4,
+   26,
+   3,
+   11,
+   12,
+   46,
+   9,
+   21,
+   38,
+   7,
+   13,
+   7,
+   20,
+   32,
+   2,
+   7,
+   8,
+   27,
+   24,
+   7,
+   8,
+   2,
+   8,
+   20,
+   3,
+   4,
+   49,
+   13,
+   16,
+   5,
+   24,
+   41,
+   2,
+   22,
+   4,
+   19,
+   22,
+   12,
+   24,
+   12,
+   3,
+   4,
+   26,
+   25,
+   0,
+   20,
+   3,
+   13,
+   14,
+   13,
+   26,
+   21,
+   10,
+   26,
+   32,
+   2,
+   3,
+   7,
+   13,
+   22,
+   18,
+   30,
+   6,
+   12,
+   23,
+   4,
+   6,
+   4,
+   12,
+   8,
+   10,
+   16,
+   12,
+   7,
+   106,
+   60,
+   13,
+   5,
+   6,
+   9,
+   8,
+   4,
+   6,
+   11,
+   12,
+   10,
+   18,
+   8,
+   36,
+   9,
+   1,
+   3,
+   76,
+   3,
+   2,
+   8,
+   23,
+   9,
+   14,
+   2,
+   30,
+   9,
+   22,
+   26,
+   28,
+   4,
+   2,
+   16,
+   25,
+   1,
+   23,
+   32,
+   19,
+   37,
+   6,
+   68,
+   19,
+   16,
+   11,
+   11,
+   9,
+   4,
+   6,
+   4,
+   25,
+   2,
+   28,
+   16,
+   25,
+   1,
+   16,
+   49,
+   21,
+   28,
+   58,
+   7,
+   13,
+   26,
+   11,
+   4,
+   9,
+   11,
+   3,
+   55,
+   25,
+   5,
+   25,
+   2,
+   7,
+   30,
+   4,
+   0,
+   5,
+   7,
+   4,
+   1,
+   8,
+   7,
+   23,
+   22,
+   9,
+   9,
+   14,
+   19,
+   6,
+   12,
+   16,
+   10,
+   11,
+   27,
+   9,
+   18,
+   8,
+   6,
+   17,
+   14,
+   6,
+   3,
+   8,
+   5,
+   9,
+   19,
+   16,
+   9,
+   1,
+   13,
+   17,
+   9,
+   27,
+   13,
+   14,
+   15,
+   20,
+   10,
+   23,
+   38,
+   7,
+   5,
+   8,
+   3,
+   13,
+   1,
+   37,
+   8,
+   3,
+   2,
+   6,
+   16,
+   26,
+   21,
+   12,
+   33,
+   11,
+   3,
+   21,
+   21,
+   9,
+   34,
+   19,
+   20,
+   12,
+   16,
+   21,
+   6,
+   21,
+   8,
+   8,
+   3,
+   10,
+   1,
+   17,
+   10,
+   18,
+   6,
+   0,
+   7,
+   10,
+   13,
+   4,
+   19,
+   5,
+   27,
+   ...],
+  &#39;p&#39;: [0.005,
+   0.005,
+   0.005,
+   0.005,
+   0.005,
+   0.005,
+   0.005,
+   0.005,
+   0.005,
+   0.005,
+   0.005,
+   0.005,
+   0.005,
+   0.024074550780646218,
+   0.033820670083440071,
+   0.005,
+   0.005,
+   0.098285718585676057,
+   0.005,
+   0.005],
+  &#39;seed&#39;: 12,
+  &#39;simulated CNV length in case&#39;: [1418121,
+   203387,
+   120567,
+   156341,
+   139672,
+   614493,
+   131969,
+   1393309,
+   103664,
+   147820,
+   221715,
+   212645,
+   161183,
+   322275,
+   121141,
+   115217,
+   100198,
+   306271,
+   143778,
+   309635,
+   118116,
+   159712,
+   108215,
+   316667,
+   356992,
+   121108,
+   215326,
+   148601,
+   120394,
+   296731,
+   7731161,
+   847944,
+   156594,
+   1670646,
+   206237,
+   101082,
+   139672,
+   342945,
+   112425,
+   126167,
+   139501,
+   225748,
+   397220,
+   131013,
+   135318,
+   195273,
+   111516,
+   147399,
+   273977,
+   125296,
+   1228342,
+   122197,
+   306064,
+   122173,
+   106244,
+   324536],
+  &#39;simulated CNV length in ctrl&#39;: [441430,
+   114810,
+   298610,
+   149211,
+   105690,
+   353922,
+   235528,
+   183842,
+   621519,
+   109663,
+   152873,
+   1674427,
+   174638,
+   234743,
+   120450,
+   377855,
+   188618,
+   180835,
+   154096,
+   151374,
+   125632,
+   135945,
+   202446,
+   405096,
+   122851,
+   105842,
+   725331,
+   142463,
+   1103491,
+   107893,
+   142044,
+   133159,
+   384989,
+   194239,
+   126511,
+   101730,
+   157318,
+   428885],
+  &#39;time&#39;: [&#39;2017-08-15 17:03:42.501968&#39;, &#39;2017-08-15 17:11:24.858267&#39;]}}</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">pkl_to_matrix</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">make_block</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">):</span>
+    <span class="n">dat</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+    <span class="n">ref</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="s2">&quot;../data/refGene.txt.gz&quot;</span><span class="p">)</span>
+    <span class="n">genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">])))</span>
+    <span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">genes</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span> 
+                                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]])</span>
+    <span class="n">phenotype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">phenotype</span><span class="p">,</span> <span class="n">regression_data</span><span class="p">))</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">regression_data</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">genes</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+    <span class="n">newdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">newdf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">continue</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">make_block</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">newdf</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">blocks</span> <span class="o">=</span> <span class="n">get_analysis_blocks</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">]),</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">])]))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">newdf</span><span class="p">[[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">item</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">res</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -1587,7 +3182,7 @@ VDAC3
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/0afc26b53515fd72fdd36d69bda75fe663ef7c94/analysis/20171010_swcnv_TORUS.ipynb"><code>analysis/20171010_swcnv_TORUS.ipynb</code></a> committed by Min Qiao on Thu Oct 12 18:15:18 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/0afc26b53515fd72fdd36d69bda75fe663ef7c94">revision 357, 0afc26b</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/a72aee2b0282d2b905a12b52a705a14a4eb015d3/analysis/20171010_swcnv_TORUS.ipynb"><code>analysis/20171010_swcnv_TORUS.ipynb</code></a> committed by Min Qiao on Fri Oct 13 19:44:52 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/a72aee2b0282d2b905a12b52a705a14a4eb015d3">revision 359, a72aee2</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
