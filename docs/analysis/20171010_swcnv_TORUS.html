@@ -188,10 +188,12 @@ body {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pandasql</span> <span class="k">import</span> <span class="n">sqldf</span>
-<span class="kn">from</span> <span class="nn">utils</span> <span class="k">import</span> <span class="n">load_reference_gene</span><span class="p">,</span> <span class="n">load_data</span><span class="p">,</span> <span class="n">save_data</span>
+<span class="kn">from</span> <span class="nn">utils</span> <span class="k">import</span> <span class="n">load_reference_gene</span><span class="p">,</span> <span class="n">load_data</span><span class="p">,</span> <span class="n">save_data</span><span class="p">,</span> <span class="n">get_analysis_blocks</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">fisher</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
 </pre></div>
 </div>
 </div>
@@ -305,9 +307,9 @@ body {
 <span class="s1">)</span>
 <span class="s1">GROUP BY sw.PHE, sw.CHR, sw.FID, sw.BP1, sw.BP2, sw.TYPE, cal.gene_name</span>
 <span class="s1">&#39;&#39;&#39;</span>
-<span class="n">overlap_CNV_gene_calpath</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;PHE&quot;</span><span class="p">,</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;BP1&quot;</span><span class="p">,</span> <span class="s2">&quot;BP2&quot;</span><span class="p">,</span> <span class="s2">&quot;TYPE&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">))</span>
-<span class="n">overlap_CNV_gene_calpath</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">overlap_CNV_gene_calpath</span>
+<span class="n">cnv_gene_overlap_calpath</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;PHE&quot;</span><span class="p">,</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;BP1&quot;</span><span class="p">,</span> <span class="s2">&quot;BP2&quot;</span><span class="p">,</span> <span class="s2">&quot;TYPE&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">))</span>
+<span class="n">cnv_gene_overlap_calpath</span><span class="p">[</span><span class="s2">&quot;tx_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;test_ABCDE&quot;</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">cnv_gene_overlap_calpath</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -315,724 +317,73 @@ body {
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="prompt output_prompt">Out[8]:</div>
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-    .dataframe thead th {
-        text-align: left;
-    }
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>index</th>
-      <th>FID</th>
-      <th>PHE</th>
-      <th>CHR</th>
-      <th>BP1</th>
-      <th>BP2</th>
-      <th>TYPE</th>
-      <th>gene_name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0</td>
-      <td>PT-8TWI</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1804302</td>
-      <td>2047584</td>
-      <td>3</td>
-      <td>CALML6</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1</td>
-      <td>PT-BQT1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>239678115</td>
-      <td>239800921</td>
-      <td>3</td>
-      <td>CHRM3</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2</td>
-      <td>PT-BRNL</td>
-      <td>0</td>
-      <td>2</td>
-      <td>218749319</td>
-      <td>219480897</td>
-      <td>3</td>
-      <td>PLCD4</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>3</td>
-      <td>PT-L1G8</td>
-      <td>0</td>
-      <td>2</td>
-      <td>40674308</td>
-      <td>41559590</td>
-      <td>3</td>
-      <td>SLC8A1</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>4</td>
-      <td>PT-L31A</td>
-      <td>0</td>
-      <td>2</td>
-      <td>74969763</td>
-      <td>75323267</td>
-      <td>3</td>
-      <td>TACR1</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>5</td>
-      <td>PT-ESLA</td>
-      <td>0</td>
-      <td>3</td>
-      <td>123486169</td>
-      <td>123634548</td>
-      <td>1</td>
-      <td>MYLK</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>6</td>
-      <td>PT-FFX5</td>
-      <td>0</td>
-      <td>3</td>
-      <td>4317445</td>
-      <td>4747247</td>
-      <td>3</td>
-      <td>ITPR1</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>7</td>
-      <td>PT-8U8J</td>
-      <td>0</td>
-      <td>4</td>
-      <td>9688014</td>
-      <td>9794193</td>
-      <td>3</td>
-      <td>DRD5</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>8</td>
-      <td>PT-OPJ8</td>
-      <td>0</td>
-      <td>4</td>
-      <td>104179046</td>
-      <td>104766986</td>
-      <td>1</td>
-      <td>TACR3</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>9</td>
-      <td>PT-27QK</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118701889</td>
-      <td>118900024</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>10</td>
-      <td>PT-29AJ</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118853079</td>
-      <td>119033109</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>11</td>
-      <td>PT-2M7G</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118842321</td>
-      <td>119039482</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>12</td>
-      <td>PT-8W9S</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118835126</td>
-      <td>119032859</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>13</td>
-      <td>PT-8WJQ</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118691108</td>
-      <td>119101336</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>14</td>
-      <td>PT-9YVZ</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118835126</td>
-      <td>119033109</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>15</td>
-      <td>PT-BPIQ</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118701889</td>
-      <td>118900024</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>16</td>
-      <td>PT-ESKZ</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118786486</td>
-      <td>119048269</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>17</td>
-      <td>PT-ET7H</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118868953</td>
-      <td>119048269</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>18</td>
-      <td>PT-FFKU</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118786486</td>
-      <td>119056733</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>19</td>
-      <td>PT-FG7N</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118719413</td>
-      <td>118891582</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>20</td>
-      <td>PT-FGHQ</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118695049</td>
-      <td>118891582</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>21</td>
-      <td>PT-OO6J</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118690822</td>
-      <td>119080379</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>22</td>
-      <td>PT-OPDH</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118791804</td>
-      <td>119018502</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>23</td>
-      <td>PT-OPY7</td>
-      <td>0</td>
-      <td>6</td>
-      <td>118700137</td>
-      <td>118891582</td>
-      <td>3</td>
-      <td>PLN</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>24</td>
-      <td>PT-8VX9</td>
-      <td>0</td>
-      <td>7</td>
-      <td>32209359</td>
-      <td>32426450</td>
-      <td>3</td>
-      <td>PDE1C</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>25</td>
-      <td>PT-8VYD</td>
-      <td>0</td>
-      <td>7</td>
-      <td>32210926</td>
-      <td>32423399</td>
-      <td>3</td>
-      <td>PDE1C</td>
-    </tr>
-    <tr>
-      <th>26</th>
-      <td>26</td>
-      <td>PT-8WP8</td>
-      <td>0</td>
-      <td>7</td>
-      <td>32209359</td>
-      <td>32431274</td>
-      <td>3</td>
-      <td>PDE1C</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>27</td>
-      <td>PT-BQAQ</td>
-      <td>0</td>
-      <td>7</td>
-      <td>32210926</td>
-      <td>32423399</td>
-      <td>3</td>
-      <td>PDE1C</td>
-    </tr>
-    <tr>
-      <th>28</th>
-      <td>28</td>
-      <td>PT-BQH5</td>
-      <td>0</td>
-      <td>7</td>
-      <td>32210926</td>
-      <td>32412682</td>
-      <td>3</td>
-      <td>PDE1C</td>
-    </tr>
-    <tr>
-      <th>29</th>
-      <td>29</td>
-      <td>PT-FFVB</td>
-      <td>0</td>
-      <td>7</td>
-      <td>32209459</td>
-      <td>32423399</td>
-      <td>3</td>
-      <td>PDE1C</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>164</th>
-      <td>164</td>
-      <td>PT-3MHL</td>
-      <td>1</td>
-      <td>22</td>
-      <td>18876428</td>
-      <td>21465835</td>
-      <td>1</td>
-      <td>P2RX6</td>
-    </tr>
-    <tr>
-      <th>165</th>
-      <td>165</td>
-      <td>PT-8WLE</td>
-      <td>1</td>
-      <td>22</td>
-      <td>18876428</td>
-      <td>21465835</td>
-      <td>1</td>
-      <td>P2RX6</td>
-    </tr>
-    <tr>
-      <th>166</th>
-      <td>166</td>
-      <td>PT-8WQ7</td>
-      <td>1</td>
-      <td>22</td>
-      <td>18876428</td>
-      <td>21465835</td>
-      <td>1</td>
-      <td>P2RX6</td>
-    </tr>
-    <tr>
-      <th>167</th>
-      <td>167</td>
-      <td>PT-9ZCE</td>
-      <td>1</td>
-      <td>22</td>
-      <td>18876428</td>
-      <td>21542615</td>
-      <td>1</td>
-      <td>P2RX6</td>
-    </tr>
-    <tr>
-      <th>168</th>
-      <td>168</td>
-      <td>PT-BQ5V</td>
-      <td>1</td>
-      <td>22</td>
-      <td>22997811</td>
-      <td>25076598</td>
-      <td>3</td>
-      <td>ADORA2A</td>
-    </tr>
-    <tr>
-      <th>169</th>
-      <td>169</td>
-      <td>PT-BQA6</td>
-      <td>1</td>
-      <td>22</td>
-      <td>22997811</td>
-      <td>24997309</td>
-      <td>3</td>
-      <td>ADORA2A</td>
-    </tr>
-    <tr>
-      <th>170</th>
-      <td>170</td>
-      <td>PT-BRL3</td>
-      <td>1</td>
-      <td>22</td>
-      <td>23689983</td>
-      <td>25070067</td>
-      <td>3</td>
-      <td>ADORA2A</td>
-    </tr>
-    <tr>
-      <th>171</th>
-      <td>171</td>
-      <td>PT-BS88</td>
-      <td>1</td>
-      <td>22</td>
-      <td>23689983</td>
-      <td>24914451</td>
-      <td>3</td>
-      <td>ADORA2A</td>
-    </tr>
-    <tr>
-      <th>172</th>
-      <td>172</td>
-      <td>PT-ERRP</td>
-      <td>1</td>
-      <td>22</td>
-      <td>19634877</td>
-      <td>21463730</td>
-      <td>1</td>
-      <td>P2RX6</td>
-    </tr>
-    <tr>
-      <th>173</th>
-      <td>173</td>
-      <td>PT-ERRZ</td>
-      <td>1</td>
-      <td>22</td>
-      <td>18861748</td>
-      <td>21462353</td>
-      <td>1</td>
-      <td>P2RX6</td>
-    </tr>
-    <tr>
-      <th>174</th>
-      <td>174</td>
-      <td>PT-ISV8</td>
-      <td>1</td>
-      <td>22</td>
-      <td>20753615</td>
-      <td>21463730</td>
-      <td>1</td>
-      <td>P2RX6</td>
-    </tr>
-    <tr>
-      <th>175</th>
-      <td>175</td>
-      <td>PT-ITRD</td>
-      <td>1</td>
-      <td>22</td>
-      <td>23692738</td>
-      <td>25064809</td>
-      <td>3</td>
-      <td>ADORA2A</td>
-    </tr>
-    <tr>
-      <th>176</th>
-      <td>176</td>
-      <td>PT-OPSY</td>
-      <td>1</td>
-      <td>22</td>
-      <td>20789074</td>
-      <td>21463730</td>
-      <td>1</td>
-      <td>P2RX6</td>
-    </tr>
-    <tr>
-      <th>177</th>
-      <td>177</td>
-      <td>PT-OPXM</td>
-      <td>1</td>
-      <td>22</td>
-      <td>24447288</td>
-      <td>25032774</td>
-      <td>3</td>
-      <td>ADORA2A</td>
-    </tr>
-    <tr>
-      <th>178</th>
-      <td>178</td>
-      <td>PT-1RZS</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2703391</td>
-      <td>4505504</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>179</th>
-      <td>179</td>
-      <td>PT-1S19</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2850801</td>
-      <td>3659193</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>180</th>
-      <td>180</td>
-      <td>PT-1S1P</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2916735</td>
-      <td>3659193</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>181</th>
-      <td>181</td>
-      <td>PT-1S1Y</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2850801</td>
-      <td>3637916</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>182</th>
-      <td>182</td>
-      <td>PT-1S66</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2703391</td>
-      <td>3659193</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>183</th>
-      <td>183</td>
-      <td>PT-1S6I</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2741339</td>
-      <td>3649902</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>184</th>
-      <td>184</td>
-      <td>PT-1S7B</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2741339</td>
-      <td>3649902</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>185</th>
-      <td>185</td>
-      <td>PT-1S7C</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2916735</td>
-      <td>3539248</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>186</th>
-      <td>186</td>
-      <td>PT-1S7P</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2979529</td>
-      <td>3659193</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>187</th>
-      <td>187</td>
-      <td>PT-1S7Z</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2741339</td>
-      <td>3649902</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>188</th>
-      <td>188</td>
-      <td>PT-1S8F</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2839942</td>
-      <td>3678164</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>189</th>
-      <td>189</td>
-      <td>PT-1SBT</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2811119</td>
-      <td>7355636</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>190</th>
-      <td>190</td>
-      <td>PT-1SC1</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2802568</td>
-      <td>4859798</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>191</th>
-      <td>191</td>
-      <td>PT-1SC9</td>
-      <td>1</td>
-      <td>23</td>
-      <td>3070182</td>
-      <td>4736479</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>192</th>
-      <td>192</td>
-      <td>PT-1SCR</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2979529</td>
-      <td>3539248</td>
-      <td>3</td>
-      <td>PRKX</td>
-    </tr>
-    <tr>
-      <th>193</th>
-      <td>193</td>
-      <td>PT-FFLF</td>
-      <td>1</td>
-      <td>23</td>
-      <td>2712661</td>
-      <td>7044081</td>
-      <td>1</td>
-      <td>PRKX</td>
-    </tr>
-  </tbody>
-</table>
-<p>194 rows × 8 columns</p>
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>         FID  PHE  CHR        BP1        BP2  TYPE gene_name     tx_name
+0    PT-8TWI    0    1    1804302    2047584     3    CALML6  test_ABCDE
+1    PT-BQT1    0    1  239678115  239800921     3     CHRM3  test_ABCDE
+2    PT-BRNL    0    2  218749319  219480897     3     PLCD4  test_ABCDE
+3    PT-L1G8    0    2   40674308   41559590     3    SLC8A1  test_ABCDE
+4    PT-L31A    0    2   74969763   75323267     3     TACR1  test_ABCDE
+5    PT-ESLA    0    3  123486169  123634548     1      MYLK  test_ABCDE
+6    PT-FFX5    0    3    4317445    4747247     3     ITPR1  test_ABCDE
+7    PT-8U8J    0    4    9688014    9794193     3      DRD5  test_ABCDE
+8    PT-OPJ8    0    4  104179046  104766986     1     TACR3  test_ABCDE
+9    PT-27QK    0    6  118701889  118900024     3       PLN  test_ABCDE
+10   PT-29AJ    0    6  118853079  119033109     3       PLN  test_ABCDE
+11   PT-2M7G    0    6  118842321  119039482     3       PLN  test_ABCDE
+12   PT-8W9S    0    6  118835126  119032859     3       PLN  test_ABCDE
+13   PT-8WJQ    0    6  118691108  119101336     3       PLN  test_ABCDE
+14   PT-9YVZ    0    6  118835126  119033109     3       PLN  test_ABCDE
+15   PT-BPIQ    0    6  118701889  118900024     3       PLN  test_ABCDE
+16   PT-ESKZ    0    6  118786486  119048269     3       PLN  test_ABCDE
+17   PT-ET7H    0    6  118868953  119048269     3       PLN  test_ABCDE
+18   PT-FFKU    0    6  118786486  119056733     3       PLN  test_ABCDE
+19   PT-FG7N    0    6  118719413  118891582     3       PLN  test_ABCDE
+20   PT-FGHQ    0    6  118695049  118891582     3       PLN  test_ABCDE
+21   PT-OO6J    0    6  118690822  119080379     3       PLN  test_ABCDE
+22   PT-OPDH    0    6  118791804  119018502     3       PLN  test_ABCDE
+23   PT-OPY7    0    6  118700137  118891582     3       PLN  test_ABCDE
+24   PT-8VX9    0    7   32209359   32426450     3     PDE1C  test_ABCDE
+25   PT-8VYD    0    7   32210926   32423399     3     PDE1C  test_ABCDE
+26   PT-8WP8    0    7   32209359   32431274     3     PDE1C  test_ABCDE
+27   PT-BQAQ    0    7   32210926   32423399     3     PDE1C  test_ABCDE
+28   PT-BQH5    0    7   32210926   32412682     3     PDE1C  test_ABCDE
+29   PT-FFVB    0    7   32209459   32423399     3     PDE1C  test_ABCDE
+..       ...  ...  ...        ...        ...   ...       ...         ...
+164  PT-3MHL    1   22   18876428   21465835     1     P2RX6  test_ABCDE
+165  PT-8WLE    1   22   18876428   21465835     1     P2RX6  test_ABCDE
+166  PT-8WQ7    1   22   18876428   21465835     1     P2RX6  test_ABCDE
+167  PT-9ZCE    1   22   18876428   21542615     1     P2RX6  test_ABCDE
+168  PT-BQ5V    1   22   22997811   25076598     3   ADORA2A  test_ABCDE
+169  PT-BQA6    1   22   22997811   24997309     3   ADORA2A  test_ABCDE
+170  PT-BRL3    1   22   23689983   25070067     3   ADORA2A  test_ABCDE
+171  PT-BS88    1   22   23689983   24914451     3   ADORA2A  test_ABCDE
+172  PT-ERRP    1   22   19634877   21463730     1     P2RX6  test_ABCDE
+173  PT-ERRZ    1   22   18861748   21462353     1     P2RX6  test_ABCDE
+174  PT-ISV8    1   22   20753615   21463730     1     P2RX6  test_ABCDE
+175  PT-ITRD    1   22   23692738   25064809     3   ADORA2A  test_ABCDE
+176  PT-OPSY    1   22   20789074   21463730     1     P2RX6  test_ABCDE
+177  PT-OPXM    1   22   24447288   25032774     3   ADORA2A  test_ABCDE
+178  PT-1RZS    1   23    2703391    4505504     3      PRKX  test_ABCDE
+179  PT-1S19    1   23    2850801    3659193     3      PRKX  test_ABCDE
+180  PT-1S1P    1   23    2916735    3659193     3      PRKX  test_ABCDE
+181  PT-1S1Y    1   23    2850801    3637916     3      PRKX  test_ABCDE
+182  PT-1S66    1   23    2703391    3659193     3      PRKX  test_ABCDE
+183  PT-1S6I    1   23    2741339    3649902     3      PRKX  test_ABCDE
+184  PT-1S7B    1   23    2741339    3649902     3      PRKX  test_ABCDE
+185  PT-1S7C    1   23    2916735    3539248     3      PRKX  test_ABCDE
+186  PT-1S7P    1   23    2979529    3659193     3      PRKX  test_ABCDE
+187  PT-1S7Z    1   23    2741339    3649902     3      PRKX  test_ABCDE
+188  PT-1S8F    1   23    2839942    3678164     3      PRKX  test_ABCDE
+189  PT-1SBT    1   23    2811119    7355636     3      PRKX  test_ABCDE
+190  PT-1SC1    1   23    2802568    4859798     3      PRKX  test_ABCDE
+191  PT-1SC9    1   23    3070182    4736479     3      PRKX  test_ABCDE
+192  PT-1SCR    1   23    2979529    3539248     3      PRKX  test_ABCDE
+193  PT-FFLF    1   23    2712661    7044081     1      PRKX  test_ABCDE
+[194 rows x 8 columns]
+</pre>
 </div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">overlap_CNV_gene_calpath</span> <span class="o">=</span> <span class="n">overlap_CNV_gene_calpath</span><span class="o">.</span><span class="n">groupby</span><span class="p">((</span><span class="s2">&quot;PHE&quot;</span><span class="p">,</span> <span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;BP1&quot;</span><span class="p">,</span> <span class="s2">&quot;BP2&quot;</span><span class="p">,</span> <span class="s2">&quot;TYPE&quot;</span><span class="p">))</span>
-<span class="n">overlap_CNV_gene_calpath</span> <span class="o">=</span> <span class="n">overlap_CNV_gene_calpath</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
-<span class="n">overlap_CNV_gene_calpath</span> <span class="o">=</span> <span class="n">overlap_CNV_gene_calpath</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-</pre></div>
 </div>
 </div>
 </div>
@@ -1042,657 +393,11 @@ body {
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">overlap_CNV_gene_calpath</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># cnv_gene_overlap_calpath.reset_index(inplace=True)</span>
+<span class="c1"># cnv_gene_overlap_calpath = cnv_gene_overlap_calpath.groupby((&quot;PHE&quot;, &quot;FID&quot;, &quot;CHR&quot;, &quot;BP1&quot;, &quot;BP2&quot;, &quot;TYPE&quot;))</span>
+<span class="c1"># cnv_gene_overlap_calpath = cnv_gene_overlap_calpath[&quot;gene_name&quot;].unique()</span>
+<span class="c1"># cnv_gene_overlap_calpath = cnv_gene_overlap_calpath.reset_index()</span>
 </pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="prompt output_prompt">Out[10]:</div>
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-    .dataframe thead th {
-        text-align: left;
-    }
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>PHE</th>
-      <th>FID</th>
-      <th>CHR</th>
-      <th>BP1</th>
-      <th>BP2</th>
-      <th>TYPE</th>
-      <th>gene_name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0</td>
-      <td>PT-1RV1</td>
-      <td>23</td>
-      <td>2830696</td>
-      <td>3649902</td>
-      <td>3</td>
-      <td>[PRKX]</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>0</td>
-      <td>PT-1S1Z</td>
-      <td>23</td>
-      <td>3231040</td>
-      <td>3539248</td>
-      <td>3</td>
-      <td>[PRKX]</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0</td>
-      <td>PT-1S24</td>
-      <td>23</td>
-      <td>2850801</td>
-      <td>3659193</td>
-      <td>3</td>
-      <td>[PRKX]</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0</td>
-      <td>PT-1S2E</td>
-      <td>23</td>
-      <td>2830696</td>
-      <td>3659193</td>
-      <td>3</td>
-      <td>[PRKX]</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0</td>
-      <td>PT-1SBE</td>
-      <td>23</td>
-      <td>2830696</td>
-      <td>3626408</td>
-      <td>3</td>
-      <td>[PRKX]</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>0</td>
-      <td>PT-1SBN</td>
-      <td>23</td>
-      <td>2741339</td>
-      <td>3659193</td>
-      <td>3</td>
-      <td>[PRKX]</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>0</td>
-      <td>PT-1SC5</td>
-      <td>23</td>
-      <td>2916735</td>
-      <td>3554481</td>
-      <td>3</td>
-      <td>[PRKX]</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>0</td>
-      <td>PT-1SCT</td>
-      <td>23</td>
-      <td>2850801</td>
-      <td>3659193</td>
-      <td>3</td>
-      <td>[PRKX]</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>0</td>
-      <td>PT-1TAY</td>
-      <td>23</td>
-      <td>2979529</td>
-      <td>3659193</td>
-      <td>3</td>
-      <td>[PRKX]</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>0</td>
-      <td>PT-1TC6</td>
-      <td>23</td>
-      <td>2830696</td>
-      <td>3659193</td>
-      <td>3</td>
-      <td>[PRKX]</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>0</td>
-      <td>PT-1TCL</td>
-      <td>23</td>
-      <td>2830696</td>
-      <td>3626408</td>
-      <td>3</td>
-      <td>[PRKX]</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>0</td>
-      <td>PT-27QK</td>
-      <td>6</td>
-      <td>118701889</td>
-      <td>118900024</td>
-      <td>3</td>
-      <td>[PLN]</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>0</td>
-      <td>PT-28A1</td>
-      <td>16</td>
-      <td>360932</td>
-      <td>1341019</td>
-      <td>3</td>
-      <td>[CACNA1H]</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>0</td>
-      <td>PT-29AJ</td>
-      <td>6</td>
-      <td>118853079</td>
-      <td>119033109</td>
-      <td>3</td>
-      <td>[PLN]</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>0</td>
-      <td>PT-29B7</td>
-      <td>16</td>
-      <td>46503206</td>
-      <td>46842785</td>
-      <td>3</td>
-      <td>[MYLK3]</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>0</td>
-      <td>PT-2M35</td>
-      <td>17</td>
-      <td>3708034</td>
-      <td>4178200</td>
-      <td>3</td>
-      <td>[ATP2A3, P2RX1]</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>0</td>
-      <td>PT-2M6K</td>
-      <td>17</td>
-      <td>15613135</td>
-      <td>15971651</td>
-      <td>3</td>
-      <td>[ADORA2B]</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>0</td>
-      <td>PT-2M7G</td>
-      <td>6</td>
-      <td>118842321</td>
-      <td>119039482</td>
-      <td>3</td>
-      <td>[PLN]</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>0</td>
-      <td>PT-3MG4</td>
-      <td>16</td>
-      <td>47502638</td>
-      <td>47654226</td>
-      <td>1</td>
-      <td>[PHKB]</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>0</td>
-      <td>PT-3MH1</td>
-      <td>15</td>
-      <td>32458661</td>
-      <td>32776211</td>
-      <td>3</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>0</td>
-      <td>PT-3MH6</td>
-      <td>15</td>
-      <td>30920624</td>
-      <td>32512220</td>
-      <td>1</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>0</td>
-      <td>PT-8TFK</td>
-      <td>15</td>
-      <td>30491387</td>
-      <td>32859858</td>
-      <td>3</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>0</td>
-      <td>PT-8TJT</td>
-      <td>16</td>
-      <td>28832686</td>
-      <td>29043875</td>
-      <td>3</td>
-      <td>[ATP2A1]</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>0</td>
-      <td>PT-8TUB</td>
-      <td>15</td>
-      <td>32017892</td>
-      <td>32444196</td>
-      <td>3</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>0</td>
-      <td>PT-8TWI</td>
-      <td>1</td>
-      <td>1804302</td>
-      <td>2047584</td>
-      <td>3</td>
-      <td>[CALML6]</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>0</td>
-      <td>PT-8U8J</td>
-      <td>4</td>
-      <td>9688014</td>
-      <td>9794193</td>
-      <td>3</td>
-      <td>[DRD5]</td>
-    </tr>
-    <tr>
-      <th>26</th>
-      <td>0</td>
-      <td>PT-8UDI</td>
-      <td>22</td>
-      <td>18770421</td>
-      <td>21611349</td>
-      <td>3</td>
-      <td>[P2RX6]</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>0</td>
-      <td>PT-8UXD</td>
-      <td>23</td>
-      <td>3502739</td>
-      <td>3673759</td>
-      <td>3</td>
-      <td>[PRKX]</td>
-    </tr>
-    <tr>
-      <th>28</th>
-      <td>0</td>
-      <td>PT-8VSN</td>
-      <td>15</td>
-      <td>32011489</td>
-      <td>32512220</td>
-      <td>3</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>29</th>
-      <td>0</td>
-      <td>PT-8VX9</td>
-      <td>7</td>
-      <td>32209359</td>
-      <td>32426450</td>
-      <td>3</td>
-      <td>[PDE1C]</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>159</th>
-      <td>1</td>
-      <td>PT-ET3P</td>
-      <td>15</td>
-      <td>32079959</td>
-      <td>32514341</td>
-      <td>3</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>160</th>
-      <td>1</td>
-      <td>PT-ETK7</td>
-      <td>1</td>
-      <td>237151125</td>
-      <td>237493362</td>
-      <td>1</td>
-      <td>[RYR2]</td>
-    </tr>
-    <tr>
-      <th>161</th>
-      <td>1</td>
-      <td>PT-ETO6</td>
-      <td>16</td>
-      <td>28484556</td>
-      <td>29412503</td>
-      <td>1</td>
-      <td>[ATP2A1]</td>
-    </tr>
-    <tr>
-      <th>162</th>
-      <td>1</td>
-      <td>PT-FFLF</td>
-      <td>23</td>
-      <td>2712661</td>
-      <td>7044081</td>
-      <td>1</td>
-      <td>[PRKX]</td>
-    </tr>
-    <tr>
-      <th>163</th>
-      <td>1</td>
-      <td>PT-FGE8</td>
-      <td>15</td>
-      <td>30936285</td>
-      <td>32833659</td>
-      <td>3</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>164</th>
-      <td>1</td>
-      <td>PT-FGI4</td>
-      <td>16</td>
-      <td>28825605</td>
-      <td>28997997</td>
-      <td>1</td>
-      <td>[ATP2A1]</td>
-    </tr>
-    <tr>
-      <th>165</th>
-      <td>1</td>
-      <td>PT-FGJ3</td>
-      <td>15</td>
-      <td>32086180</td>
-      <td>32514341</td>
-      <td>3</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>166</th>
-      <td>1</td>
-      <td>PT-FGJH</td>
-      <td>15</td>
-      <td>32054666</td>
-      <td>32418038</td>
-      <td>1</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>167</th>
-      <td>1</td>
-      <td>PT-FGTG</td>
-      <td>17</td>
-      <td>48501657</td>
-      <td>48644537</td>
-      <td>3</td>
-      <td>[CACNA1G]</td>
-    </tr>
-    <tr>
-      <th>168</th>
-      <td>1</td>
-      <td>PT-IS46</td>
-      <td>15</td>
-      <td>30936285</td>
-      <td>32514341</td>
-      <td>1</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>169</th>
-      <td>1</td>
-      <td>PT-ISE7</td>
-      <td>14</td>
-      <td>96460254</td>
-      <td>96692673</td>
-      <td>1</td>
-      <td>[BDKRB2]</td>
-    </tr>
-    <tr>
-      <th>170</th>
-      <td>1</td>
-      <td>PT-ISV8</td>
-      <td>22</td>
-      <td>20753615</td>
-      <td>21463730</td>
-      <td>1</td>
-      <td>[P2RX6]</td>
-    </tr>
-    <tr>
-      <th>171</th>
-      <td>1</td>
-      <td>PT-IT7C</td>
-      <td>5</td>
-      <td>7532066</td>
-      <td>10040087</td>
-      <td>3</td>
-      <td>[ADCY2]</td>
-    </tr>
-    <tr>
-      <th>172</th>
-      <td>1</td>
-      <td>PT-IT7T</td>
-      <td>15</td>
-      <td>32096504</td>
-      <td>32418038</td>
-      <td>3</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>173</th>
-      <td>1</td>
-      <td>PT-ITFO</td>
-      <td>15</td>
-      <td>32019919</td>
-      <td>32514341</td>
-      <td>3</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>174</th>
-      <td>1</td>
-      <td>PT-ITRD</td>
-      <td>22</td>
-      <td>23692738</td>
-      <td>25064809</td>
-      <td>3</td>
-      <td>[ADORA2A]</td>
-    </tr>
-    <tr>
-      <th>175</th>
-      <td>1</td>
-      <td>PT-L1BH</td>
-      <td>16</td>
-      <td>28525305</td>
-      <td>29159435</td>
-      <td>1</td>
-      <td>[ATP2A1]</td>
-    </tr>
-    <tr>
-      <th>176</th>
-      <td>1</td>
-      <td>PT-L1BJ</td>
-      <td>2</td>
-      <td>183023392</td>
-      <td>183126288</td>
-      <td>1</td>
-      <td>[PDE1A]</td>
-    </tr>
-    <tr>
-      <th>177</th>
-      <td>1</td>
-      <td>PT-L1NF</td>
-      <td>16</td>
-      <td>46532286</td>
-      <td>46952031</td>
-      <td>3</td>
-      <td>[MYLK3]</td>
-    </tr>
-    <tr>
-      <th>178</th>
-      <td>1</td>
-      <td>PT-L1NI</td>
-      <td>15</td>
-      <td>32018731</td>
-      <td>32514341</td>
-      <td>3</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>179</th>
-      <td>1</td>
-      <td>PT-L1SX</td>
-      <td>15</td>
-      <td>32019919</td>
-      <td>32514341</td>
-      <td>3</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>180</th>
-      <td>1</td>
-      <td>PT-L24S</td>
-      <td>7</td>
-      <td>32273107</td>
-      <td>32376953</td>
-      <td>3</td>
-      <td>[PDE1C]</td>
-    </tr>
-    <tr>
-      <th>181</th>
-      <td>1</td>
-      <td>PT-L36Q</td>
-      <td>15</td>
-      <td>30943512</td>
-      <td>32514341</td>
-      <td>1</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>182</th>
-      <td>1</td>
-      <td>PT-ONKS</td>
-      <td>15</td>
-      <td>32096991</td>
-      <td>32418038</td>
-      <td>3</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>183</th>
-      <td>1</td>
-      <td>PT-OOFE</td>
-      <td>15</td>
-      <td>32018731</td>
-      <td>32514341</td>
-      <td>3</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>184</th>
-      <td>1</td>
-      <td>PT-OOZM</td>
-      <td>9</td>
-      <td>80070911</td>
-      <td>80198591</td>
-      <td>3</td>
-      <td>[GNA14]</td>
-    </tr>
-    <tr>
-      <th>185</th>
-      <td>1</td>
-      <td>PT-OP1R</td>
-      <td>15</td>
-      <td>30936285</td>
-      <td>32514341</td>
-      <td>1</td>
-      <td>[CHRNA7]</td>
-    </tr>
-    <tr>
-      <th>186</th>
-      <td>1</td>
-      <td>PT-OPSY</td>
-      <td>22</td>
-      <td>20789074</td>
-      <td>21463730</td>
-      <td>1</td>
-      <td>[P2RX6]</td>
-    </tr>
-    <tr>
-      <th>187</th>
-      <td>1</td>
-      <td>PT-OPWH</td>
-      <td>6</td>
-      <td>118868953</td>
-      <td>119016202</td>
-      <td>3</td>
-      <td>[PLN]</td>
-    </tr>
-    <tr>
-      <th>188</th>
-      <td>1</td>
-      <td>PT-OPXM</td>
-      <td>22</td>
-      <td>24447288</td>
-      <td>25032774</td>
-      <td>3</td>
-      <td>[ADORA2A]</td>
-    </tr>
-  </tbody>
-</table>
-<p>189 rows × 7 columns</p>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -1703,477 +408,13 @@ body {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">SELECT chrom, gene_name, min(tx_start), max(tx_end)</span>
+<span class="s1">SELECT chrom, gene_name, tx_name, min(tx_start), max(tx_end)</span>
 <span class="s1">FROM ref_genes</span>
 <span class="s1">GROUP BY chrom, gene_name</span>
 <span class="s1">&#39;&#39;&#39;</span>
 <span class="n">ref_genes</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;gene_name&quot;</span><span class="p">))</span>
 <span class="n">ref_genes</span> <span class="o">=</span> <span class="n">ref_genes</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min(tx_start)&quot;</span><span class="p">:</span> <span class="s2">&quot;gene_start&quot;</span><span class="p">,</span> <span class="s2">&quot;max(tx_end)&quot;</span><span class="p">:</span> <span class="s2">&quot;gene_end&quot;</span><span class="p">})</span>
-<span class="n">ref_genes</span>
 </pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="prompt output_prompt">Out[11]:</div>
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-    .dataframe thead th {
-        text-align: left;
-    }
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>chrom</th>
-      <th>gene_name</th>
-      <th>gene_start</th>
-      <th>gene_end</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1</td>
-      <td>A3GALT2</td>
-      <td>33772366</td>
-      <td>33786699</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1</td>
-      <td>AADACL3</td>
-      <td>12776117</td>
-      <td>12788726</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1</td>
-      <td>AADACL4</td>
-      <td>12704565</td>
-      <td>12727097</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1</td>
-      <td>ABCA4</td>
-      <td>94458393</td>
-      <td>94586705</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1</td>
-      <td>ABCB10</td>
-      <td>229652328</td>
-      <td>229694442</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>1</td>
-      <td>ABCD3</td>
-      <td>94883932</td>
-      <td>94984219</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>1</td>
-      <td>ABL2</td>
-      <td>179068461</td>
-      <td>179198819</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>1</td>
-      <td>ACADM</td>
-      <td>76190031</td>
-      <td>76229363</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>1</td>
-      <td>ACAP3</td>
-      <td>1227763</td>
-      <td>1243269</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>1</td>
-      <td>ACBD3</td>
-      <td>226332379</td>
-      <td>226374423</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>1</td>
-      <td>ACBD6</td>
-      <td>180257351</td>
-      <td>180472022</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>1</td>
-      <td>ACKR1</td>
-      <td>159173802</td>
-      <td>159176290</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>1</td>
-      <td>ACOT11</td>
-      <td>55013806</td>
-      <td>55100417</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>1</td>
-      <td>ACOT7</td>
-      <td>6324331</td>
-      <td>6453826</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>1</td>
-      <td>ACP6</td>
-      <td>147119167</td>
-      <td>147142665</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>1</td>
-      <td>ACTA1</td>
-      <td>229566992</td>
-      <td>229569843</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>1</td>
-      <td>ACTG1P20</td>
-      <td>27650364</td>
-      <td>27653016</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>1</td>
-      <td>ACTG1P4</td>
-      <td>104112025</td>
-      <td>104114008</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>1</td>
-      <td>ACTL8</td>
-      <td>18081807</td>
-      <td>18153558</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>1</td>
-      <td>ACTN2</td>
-      <td>236849753</td>
-      <td>236927927</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>1</td>
-      <td>ACTRT2</td>
-      <td>2938045</td>
-      <td>2939467</td>
-    </tr>
-    <tr>
-      <th>21</th>
-      <td>1</td>
-      <td>ADAM15</td>
-      <td>155023747</td>
-      <td>155035252</td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>1</td>
-      <td>ADAM30</td>
-      <td>120436155</td>
-      <td>120439147</td>
-    </tr>
-    <tr>
-      <th>23</th>
-      <td>1</td>
-      <td>ADAMTS4</td>
-      <td>161159518</td>
-      <td>161168843</td>
-    </tr>
-    <tr>
-      <th>24</th>
-      <td>1</td>
-      <td>ADAMTSL4</td>
-      <td>150521844</td>
-      <td>150533412</td>
-    </tr>
-    <tr>
-      <th>25</th>
-      <td>1</td>
-      <td>ADAMTSL4-AS1</td>
-      <td>150533370</td>
-      <td>150547028</td>
-    </tr>
-    <tr>
-      <th>26</th>
-      <td>1</td>
-      <td>ADAR</td>
-      <td>154554533</td>
-      <td>154600456</td>
-    </tr>
-    <tr>
-      <th>27</th>
-      <td>1</td>
-      <td>ADCY10</td>
-      <td>167778624</td>
-      <td>167883464</td>
-    </tr>
-    <tr>
-      <th>28</th>
-      <td>1</td>
-      <td>ADGRB2</td>
-      <td>32192705</td>
-      <td>32229664</td>
-    </tr>
-    <tr>
-      <th>29</th>
-      <td>1</td>
-      <td>ADGRL2</td>
-      <td>82165454</td>
-      <td>82458422</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>26943</th>
-      <td>9</td>
-      <td>WHRN</td>
-      <td>117164359</td>
-      <td>117267736</td>
-    </tr>
-    <tr>
-      <th>26944</th>
-      <td>9</td>
-      <td>WNK2</td>
-      <td>95947211</td>
-      <td>96082854</td>
-    </tr>
-    <tr>
-      <th>26945</th>
-      <td>9</td>
-      <td>XLOC_007697</td>
-      <td>44181510</td>
-      <td>44182719</td>
-    </tr>
-    <tr>
-      <th>26946</th>
-      <td>9</td>
-      <td>XPA</td>
-      <td>100437190</td>
-      <td>100459691</td>
-    </tr>
-    <tr>
-      <th>26947</th>
-      <td>9</td>
-      <td>ZBTB26</td>
-      <td>125680307</td>
-      <td>125693830</td>
-    </tr>
-    <tr>
-      <th>26948</th>
-      <td>9</td>
-      <td>ZBTB34</td>
-      <td>129622943</td>
-      <td>129648156</td>
-    </tr>
-    <tr>
-      <th>26949</th>
-      <td>9</td>
-      <td>ZBTB43</td>
-      <td>129567284</td>
-      <td>129600487</td>
-    </tr>
-    <tr>
-      <th>26950</th>
-      <td>9</td>
-      <td>ZBTB5</td>
-      <td>37438099</td>
-      <td>37465407</td>
-    </tr>
-    <tr>
-      <th>26951</th>
-      <td>9</td>
-      <td>ZBTB6</td>
-      <td>125670334</td>
-      <td>125675607</td>
-    </tr>
-    <tr>
-      <th>26952</th>
-      <td>9</td>
-      <td>ZCCHC6</td>
-      <td>88902647</td>
-      <td>88969402</td>
-    </tr>
-    <tr>
-      <th>26953</th>
-      <td>9</td>
-      <td>ZCCHC7</td>
-      <td>37120468</td>
-      <td>37358145</td>
-    </tr>
-    <tr>
-      <th>26954</th>
-      <td>9</td>
-      <td>ZDHHC12</td>
-      <td>131483148</td>
-      <td>131486408</td>
-    </tr>
-    <tr>
-      <th>26955</th>
-      <td>9</td>
-      <td>ZDHHC21</td>
-      <td>14611068</td>
-      <td>14693480</td>
-    </tr>
-    <tr>
-      <th>26956</th>
-      <td>9</td>
-      <td>ZER1</td>
-      <td>131492066</td>
-      <td>131534213</td>
-    </tr>
-    <tr>
-      <th>26957</th>
-      <td>9</td>
-      <td>ZFAND5</td>
-      <td>74966340</td>
-      <td>74980163</td>
-    </tr>
-    <tr>
-      <th>26958</th>
-      <td>9</td>
-      <td>ZFP37</td>
-      <td>115804094</td>
-      <td>115819071</td>
-    </tr>
-    <tr>
-      <th>26959</th>
-      <td>9</td>
-      <td>ZMYND19</td>
-      <td>140476530</td>
-      <td>140484937</td>
-    </tr>
-    <tr>
-      <th>26960</th>
-      <td>9</td>
-      <td>ZNF169</td>
-      <td>97021547</td>
-      <td>97064111</td>
-    </tr>
-    <tr>
-      <th>26961</th>
-      <td>9</td>
-      <td>ZNF189</td>
-      <td>104161135</td>
-      <td>104172942</td>
-    </tr>
-    <tr>
-      <th>26962</th>
-      <td>9</td>
-      <td>ZNF367</td>
-      <td>99148224</td>
-      <td>99180669</td>
-    </tr>
-    <tr>
-      <th>26963</th>
-      <td>9</td>
-      <td>ZNF462</td>
-      <td>109625377</td>
-      <td>109773796</td>
-    </tr>
-    <tr>
-      <th>26964</th>
-      <td>9</td>
-      <td>ZNF483</td>
-      <td>114287438</td>
-      <td>114340124</td>
-    </tr>
-    <tr>
-      <th>26965</th>
-      <td>9</td>
-      <td>ZNF484</td>
-      <td>95607312</td>
-      <td>95640320</td>
-    </tr>
-    <tr>
-      <th>26966</th>
-      <td>9</td>
-      <td>ZNF510</td>
-      <td>99516830</td>
-      <td>99540411</td>
-    </tr>
-    <tr>
-      <th>26967</th>
-      <td>9</td>
-      <td>ZNF618</td>
-      <td>116638561</td>
-      <td>116818875</td>
-    </tr>
-    <tr>
-      <th>26968</th>
-      <td>9</td>
-      <td>ZNF658</td>
-      <td>40760699</td>
-      <td>40792116</td>
-    </tr>
-    <tr>
-      <th>26969</th>
-      <td>9</td>
-      <td>ZNF658B</td>
-      <td>39443813</td>
-      <td>41609544</td>
-    </tr>
-    <tr>
-      <th>26970</th>
-      <td>9</td>
-      <td>ZNF782</td>
-      <td>99579272</td>
-      <td>99616389</td>
-    </tr>
-    <tr>
-      <th>26971</th>
-      <td>9</td>
-      <td>ZNF79</td>
-      <td>130186652</td>
-      <td>130207651</td>
-    </tr>
-    <tr>
-      <th>26972</th>
-      <td>9</td>
-      <td>ZNF883</td>
-      <td>115759399</td>
-      <td>115774472</td>
-    </tr>
-  </tbody>
-</table>
-<p>26910 rows × 4 columns</p>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -2189,12 +430,11 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># needs to be modified, does not work</span>
-<span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">SELECT sw.FID, sw.CHR, sw.BP1, sw.BP2, ref.gene_name, sw.PHE, sw.TYPE</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">SELECT sw.FID, sw.CHR, sw.BP1, sw.BP2, ref.gene_name, ref.tx_name, sw.PHE, sw.TYPE</span>
 <span class="s1">FROM ref_genes ref LEFT JOIN sw_cnv_indiv sw</span>
 <span class="s1">WHERE sw.CHR == ref.chrom</span>
 <span class="s1">AND (</span>
@@ -2216,13 +456,82 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">del_cnv</span> <span class="o">=</span> <span class="n">cnv_gene_overlap</span><span class="p">[</span><span class="n">cnv_gene_overlap</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">dup_cnv</span> <span class="o">=</span> <span class="n">cnv_gene_overlap</span><span class="p">[</span><span class="n">cnv_gene_overlap</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">3</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_block_matrix</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">ref_genes</span><span class="p">,</span> <span class="n">deletion</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">make_block</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;input_data is a dataframe from a query of overlapping of CNVs and genes. Controls come first, cases follow.</span>
+<span class="sd">       Therefore, controls (0) come first in &quot;phenotype&quot;, cases (1) follow, </span>
+<span class="sd">       in order to coordinate the format of input data.</span>
+<span class="sd">       The input_data may contain deletion and duplication. Separate them if needed.</span>
+<span class="sd">       ref_genes is a dataframe from a query of reference genes</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">deletion</span><span class="p">:</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">input_data</span><span class="p">[</span><span class="n">input_data</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">input_data</span><span class="p">[</span><span class="n">input_data</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">n_case</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="n">dat</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;FID&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;PHE&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">n_ctrl</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="n">dat</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;FID&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;PHE&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">n_case</span> <span class="o">+</span> <span class="n">n_ctrl</span><span class="p">)</span>
+    <span class="n">dat_select</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[[</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;BP1&quot;</span><span class="p">,</span> <span class="s2">&quot;BP2&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_name&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">]]</span>
+    <span class="n">dat_select</span> <span class="o">=</span> <span class="n">dat_select</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;CHR&quot;</span><span class="p">:</span> <span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;BP1&quot;</span><span class="p">:</span> <span class="s2">&quot;cnv_start&quot;</span><span class="p">,</span> <span class="s2">&quot;BP2&quot;</span><span class="p">:</span> <span class="s2">&quot;cnv_terminate&quot;</span><span class="p">})</span>
+    <span class="n">case</span> <span class="o">=</span> <span class="n">dat_select</span><span class="p">[</span><span class="n">dat</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">ctrl</span> <span class="o">=</span> <span class="n">dat_select</span><span class="p">[</span><span class="n">dat</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">genes</span> <span class="o">=</span> <span class="n">ref_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">genes</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
+    <span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">genes</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">dat</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">]</span><span class="o">==</span><span class="n">item</span><span class="p">][</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span> 
+                                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">dat</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;FID&quot;</span><span class="p">))[</span><span class="s2">&quot;FID&quot;</span><span class="p">]])</span>
+    <span class="n">phenotype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">n_ctrl</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">n_case</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">phenotype</span><span class="p">,</span> <span class="n">regression_data</span><span class="p">))</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">regression_data</span><span class="p">))</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">regression_data</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">genes</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+    <span class="n">newdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">newdf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">continue</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">make_block</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">newdf</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">blocks</span> <span class="o">=</span> <span class="n">get_analysis_blocks</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">case</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">]))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">newdf</span><span class="p">[[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">item</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">]</span>
+    <span class="n">save_data</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s2">&quot;data/calcium_pathway_Sweden_CNVs_</span><span class="si">{}</span><span class="s2">.data.blocks.pkl&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;del&quot;</span> <span class="k">if</span> <span class="n">deletion</span> <span class="k">else</span> <span class="s2">&quot;dup&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">res</span><span class="p">}</span>
 </pre></div>
 </div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">get_block_matrix</span><span class="p">(</span><span class="n">cnv_gene_overlap_calpath</span><span class="p">,</span> <span class="n">ref_genes</span><span class="p">,</span> <span class="n">make_block</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>47
+26910
+(47, 26911)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Run-TORUS">Run TORUS<a class="anchor-link" href="#Run-TORUS">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -2231,10 +540,9 @@ body {
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">del_cnv_case</span> <span class="o">=</span> <span class="n">del_cnv</span><span class="p">[</span><span class="n">del_cnv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">del_cnv_ctrl</span> <span class="o">=</span> <span class="n">del_cnv</span><span class="p">[</span><span class="n">del_cnv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">n_del_cnv_case</span> <span class="o">=</span> <span class="n">del_cnv_case</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;FID&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;PHE&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">n_del_cnv_ctrl</span> <span class="o">=</span> <span class="n">del_cnv_ctrl</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;FID&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;PHE&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># from get_summary_for_torus import get_sum_stats_cal_simu as get_sum_Sweden_for_torus</span>
+<span class="n">cal_pthwy_genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/calciumgeneset.txt&quot;</span><span class="p">,</span> <span class="n">skiprows</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
+<span class="n">causal_genes</span> <span class="o">=</span> <span class="n">cal_pthwy_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -2245,7 +553,32 @@ body {
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">n_del_cnv_case</span><span class="p">,</span> <span class="n">n_del_cnv_ctrl</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">col</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]:</span>
+    <span class="n">col</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">item</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+<span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="nb">max</span><span class="p">(</span><span class="n">col</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt output_prompt">Out[16]:</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="p">[</span><span class="n">gene</span> <span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">if</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">causal_genes</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -2255,7 +588,25 @@ body {
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>1048 1191
+<pre>0 [&#39;ITPKB&#39;]
+1 [&#39;RYR2&#39;]
+2 [&#39;SLC8A1&#39;]
+3 [&#39;PDE1A&#39;]
+4 [&#39;MYLK&#39;]
+5 [&#39;PPP3CA&#39;]
+6 [&#39;TACR3&#39;]
+7 [&#39;PDE1C&#39;]
+8 [&#39;CACNA1B&#39;]
+9 [&#39;P2RX2&#39;]
+10 [&#39;ITPR2&#39;]
+11 [&#39;BDKRB2&#39;]
+12 [&#39;CHRNA7&#39;]
+13 [&#39;ATP2A1&#39;]
+14 [&#39;PHKB&#39;]
+15 [&#39;PRKACA&#39;]
+16 [&#39;PLCB1&#39;]
+17 [&#39;P2RX6&#39;]
+18 [&#39;PRKX&#39;]
 </pre>
 </div>
 </div>
@@ -2264,31 +615,17 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">genes</span> <span class="o">=</span> <span class="n">ref_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span>
-<span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">genes</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">del_cnv</span><span class="p">[</span><span class="n">del_cnv</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">]</span><span class="o">==</span><span class="n">item</span><span class="p">][</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span> 
-                            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">del_cnv</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;FID&quot;</span><span class="p">))[</span><span class="s2">&quot;FID&quot;</span><span class="p">]])</span>
-<span class="n">phenotype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">n_del_cnv_ctrl</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">n_del_cnv_case</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-<span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">phenotype</span><span class="p">,</span> <span class="n">regression_data</span><span class="p">))</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">regression_data</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">genes</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">newdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
-    <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">newdf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">max_block</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="mi">25</span><span class="p">]</span>
+<span class="n">block_genes</span> <span class="o">=</span> <span class="n">max_block</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">pheno</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">block_genes</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">causal_genes</span><span class="p">:</span>
+        <span class="n">pheno</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span> 
-        <span class="k">continue</span>
+        <span class="n">pheno</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2299,368 +636,69 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="k">import</span> <span class="n">get_analysis_blocks</span>
-<span class="n">make_block</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span>
-<span class="c1"># change column name, may need to add tx_name in ref_genes</span>
-<span class="n">del_cnv</span>
-<span class="n">case</span> <span class="o">=</span> <span class="n">del_cnv</span><span class="p">[</span><span class="n">del_cnv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">ctrl</span> <span class="o">=</span> <span class="n">del_cnv</span><span class="p">[</span><span class="n">del_cnv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span>
-<span class="k">if</span> <span class="ow">not</span> <span class="n">make_block</span><span class="p">:</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">newdf</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="n">blocks</span> <span class="o">=</span> <span class="n">get_analysis_blocks</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">case</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">]))</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">newdf</span><span class="p">[[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">item</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_sum_Sweden_for_torus</span><span class="p">(</span><span class="n">gene_df</span><span class="p">,</span> <span class="n">causal</span><span class="p">,</span> <span class="n">cat</span><span class="p">,</span> <span class="n">multi_cat</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">subst</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="n">chrom</span> <span class="o">=</span> <span class="s2">&quot;chr6&quot;</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">999</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;get summary statistics (e.g. t-statistic, p-value) to be used for TORUS, then transfer p-value to z-score</span>
+<span class="sd">       Actually do NOT need SNP (gene) map and gene (chromosome) map</span>
+<span class="sd">       If multi_cat!=0, then cat must be multiple categories</span>
+<span class="sd">       If multi_cat==0, then cat can be any list (because it won&#39;t be used) but must be given</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">cases</span> <span class="o">=</span> <span class="n">gene_df</span><span class="p">[</span><span class="n">gene_df</span><span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">ctrls</span> <span class="o">=</span> <span class="n">gene_df</span><span class="p">[</span><span class="n">gene_df</span><span class="p">[</span><span class="s2">&quot;phenotype&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">df_cal_bf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">df_cal_beta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">df_cal_zscore</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">SNP_anno_cal</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">gene_df</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">gene</span><span class="p">)</span>
+        <span class="n">n_gene_case</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cases</span><span class="p">[</span><span class="n">cases</span><span class="p">[</span><span class="n">gene</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">n_nogene_case</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cases</span><span class="p">[</span><span class="n">cases</span><span class="p">[</span><span class="n">gene</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">n_gene_ctrl</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ctrls</span><span class="p">[</span><span class="n">ctrls</span><span class="p">[</span><span class="n">gene</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">n_nogene_ctrl</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ctrls</span><span class="p">[</span><span class="n">ctrls</span><span class="p">[</span><span class="n">gene</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">n_gene_case</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n_gene_ctrl</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">odds_ratio</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">odds_ratio</span> <span class="o">=</span> <span class="n">n_gene_case</span> <span class="o">*</span> <span class="n">n_nogene_ctrl</span> <span class="o">/</span> <span class="n">n_gene_ctrl</span> <span class="o">/</span> <span class="n">n_nogene_case</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">n_gene_case</span><span class="p">,</span> <span class="n">n_nogene_case</span><span class="p">,</span> <span class="n">n_gene_ctrl</span><span class="p">,</span> <span class="n">n_nogene_ctrl</span><span class="p">,</span> <span class="n">odds_ratio</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">odds_ratio</span><span class="p">):</span>
+            <span class="n">beta1</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="k">elif</span> <span class="n">odds_ratio</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">beta1</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">beta1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">odds_ratio</span><span class="p">)</span>
+        <span class="n">fisher_stats</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">pvalue</span><span class="p">(</span><span class="n">n_gene_case</span><span class="p">,</span> <span class="n">n_gene_ctrl</span><span class="p">,</span> <span class="n">n_nogene_case</span><span class="p">,</span> <span class="n">n_nogene_ctrl</span><span class="p">)</span>
+        <span class="n">p_value_two</span> <span class="o">=</span> <span class="n">fisher_stats</span><span class="o">.</span><span class="n">two_tail</span>
+        <span class="n">p_value_left</span> <span class="o">=</span> <span class="n">fisher_stats</span><span class="o">.</span><span class="n">left_tail</span>
+        <span class="n">p_value_right</span> <span class="o">=</span> <span class="n">fisher_stats</span><span class="o">.</span><span class="n">right_tail</span>
+        <span class="k">if</span> <span class="n">p_value_right</span> <span class="o">&lt;</span> <span class="mf">0.5</span> <span class="ow">and</span> <span class="n">p_value_two</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">z_score</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p_value_right</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">p_value_left</span> <span class="o">&lt;</span> <span class="mf">0.5</span> <span class="ow">and</span> <span class="n">p_value_two</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">z_score</span> <span class="o">=</span> <span class="o">-</span><span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p_value_left</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">z_score</span> <span class="o">=</span> <span class="n">subst</span>
+        <span class="n">df_cal_bf</span> <span class="o">=</span> <span class="n">df_cal_bf</span><span class="o">.</span><span class="n">append</span><span class="p">([(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chrom</span><span class="p">,</span> <span class="n">gene</span><span class="p">),</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">odds_ratio</span><span class="p">)])</span>
+        <span class="n">df_cal_beta</span> <span class="o">=</span> <span class="n">df_cal_beta</span><span class="o">.</span><span class="n">append</span><span class="p">([(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chrom</span><span class="p">,</span> <span class="n">gene</span><span class="p">),</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">beta1</span><span class="p">,</span> <span class="n">z_score</span><span class="p">,</span> <span class="n">p_value_two</span><span class="o">/</span><span class="mi">2</span><span class="p">)])</span>
+        <span class="n">df_cal_zscore</span> <span class="o">=</span> <span class="n">df_cal_zscore</span><span class="o">.</span><span class="n">append</span><span class="p">([(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chrom</span><span class="p">,</span> <span class="n">gene</span><span class="p">),</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">z_score</span><span class="p">)])</span>
+        <span class="c1">### gene annotation needs to be determined</span>
+        <span class="k">if</span> <span class="n">multi_cat</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">SNP_anno_cal</span> <span class="o">=</span> <span class="n">SNP_anno_cal</span><span class="o">.</span><span class="n">append</span><span class="p">([(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chrom</span><span class="p">,</span> <span class="n">gene</span><span class="p">),</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">causal</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">rand_cat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
+            <span class="n">SNP_anno_cal</span> <span class="o">=</span> <span class="n">SNP_anno_cal</span><span class="o">.</span><span class="n">append</span><span class="p">([(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chrom</span><span class="p">,</span> <span class="n">gene</span><span class="p">),</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">causal</span> <span class="k">else</span> <span class="n">rand_cat</span><span class="p">)])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">causal</span><span class="p">:</span>
+                <span class="n">cat</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">rand_cat</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">df_cal_bf</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;SNP&quot;</span><span class="p">,</span> <span class="s2">&quot;gene&quot;</span><span class="p">,</span> <span class="s2">&quot;bf&quot;</span><span class="p">]</span>
+    <span class="n">df_cal_beta</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;SNP&quot;</span><span class="p">,</span> <span class="s2">&quot;gene&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;t-stat&quot;</span><span class="p">,</span> <span class="s2">&quot;p-value&quot;</span><span class="p">]</span>
+    <span class="n">df_cal_zscore</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;SNP&quot;</span><span class="p">,</span> <span class="s2">&quot;gene&quot;</span><span class="p">,</span> <span class="s2">&quot;z-score&quot;</span><span class="p">]</span>
+    <span class="n">SNP_anno_cal</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;SNP&quot;</span><span class="p">,</span> <span class="s2">&quot;binding_d&quot;</span><span class="p">]</span>
+    <span class="n">df_cal_bf</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;data/TORUS/calcium/bf_cal&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">df_cal_beta</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;data/TORUS/calcium/beta_cal&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">df_cal_zscore</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;data/TORUS/calcium/z_score_cal&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">SNP_anno_cal</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;data/TORUS/calcium/snp_anno_cal&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="k">import</span> <span class="n">load_data</span>
-<span class="n">test</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;data/calcium_pathway_20_shape_5.data.pkl&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">test</span><span class="p">[</span><span class="s2">&quot;case&quot;</span><span class="p">]</span><span class="o">+</span><span class="n">test</span><span class="p">[</span><span class="s2">&quot;ctrl&quot;</span><span class="p">]:</span>
-    <span class="nb">print</span> <span class="p">(</span><span class="n">item</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   chrom  cnv_start  cnv_terminate    tx_name gene_name
-0  chr16   12298062       12418629  NM_032167     SNX29
-1   chr2   43953144       44109485  NM_015522  DYNC2LI1
-3   chr2   43953144       44109485  NM_022436     ABCG5
-4   chr2   43953144       44109485  NM_022437     ABCG8
-5   chr2   43953144       44109485  NM_172069   PLEKHH2
-    chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0    chr1  109136721      109276393  NM_001010883       FAM102B
-1    chr1  109136721      109276393  NM_001102592        HENMT1
-2    chr1  109136721      109276393  NM_001144937         FNDC7
-3    chr1  109136721      109276393     NM_018061       PRPF38B
-6   chr10  125701683      126316176  NM_001146340        NKX1-2
-7   chr10  125701683      126316176  NM_001167880          LHPP
-8   chr10  125701683      126316176  NM_001270764        CHST15
-11  chr10  125701683      126316176  NM_001322971           OAT
-12  chr10  125701683      126316176     NM_014661        FAM53B
-15  chr15   97962881       99356190  NM_001291858         IGF1R
-16  chr15   97962881       99356190     NM_182562       FAM169B
-17  chr15   97962881       99356190     NM_183376        ARRDC4
-18  chr15   97962881       99356190     NR_024172     LINC00923
-19  chr15   97962881       99356190     NR_039864       MIR4714
-20  chr15   97962881       99356190     NR_110756  LOC101927310
-21  chr15   97962881       99356190     NR_120324  LOC101927286
-22  chr15   97962881       99356190     NR_120325     LINC01582
-23  chr15   97962881       99356190     NR_126453         IRAIN
-24   chr3   12820470       12968290     NM_000994         RPL32
-26   chr3   12820470       12968290  NM_001134382        IQSEC1
-27   chr3   12820470       12968290  NM_001162499         CAND2
-30   chr3   12820470       12968290     NR_002582       SNORA7A
-31   chr3   12820470       12968290     NR_136189  LOC105376955
-32   chr5   56977321       57199036     NR_109900  LOC101928539
-33   chr7  100618035      100830680     NM_000602      SERPINE1
-34   chr7  100618035      100830680  NM_001040105         MUC17
-35   chr7  100618035      100830680  NM_001164462         MUC12
-36   chr7  100618035      100830680     NM_001283         AP1S1
-37   chr7  100618035      100830680     NM_003378           VGF
-38   chr7  100618035      100830680     NM_030961        TRIM56
-39   chr7  100618035      100830680     NM_198571         NAT16
-40   chr7  100618035      100830680     NR_039797       MIR4653
-41   chr7  100618035      100830680     NR_120519  LOC102724094
-    chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0    chr1   45396128       45557311     NM_000374          UROD
-1    chr1   45396128       45557311  NM_001166588        EIF2B3
-3    chr1   45396128       45557311     NM_020883        ZSWIM5
-4    chr1   45396128       45557311     NM_024602        HECTD3
-5   chr16   83795485       84117760  NM_001080442       SLC38A8
-6   chr16   83795485       84117760  NM_001220488         CDH13
-7   chr16   83795485       84117760     NM_001537         HSBP1
-8   chr16   83795485       84117760     NM_003791        MBTPS1
-9   chr16   83795485       84117760     NM_012213         MLYCD
-10  chr16   83795485       84117760     NM_019065        NECAB2
-11  chr16   83795485       84117760     NM_182981        OSGIN1
-12  chr16   83795485       84117760     NR_120308  LOC102724163
-13   chr6   89425662       89546803  NM_001286428         RNGTT
-    chrom  cnv_start  cnv_terminate       tx_name    gene_name
-0   chr10   67951506       68066723  NM_001127384       CTNNA3
-2   chr13  103337223      103437421  NM_001010977     METTL21C
-3   chr13  103337223      103437421  NM_001146197      CCDC168
-4   chr13  103337223      103437421  NM_001286775        TEX30
-5   chr13  103337223      103437421     NM_024089       KDELC1
-6   chr14   65141157       65447428     NM_000347         SPTB
-8   chr14   65141157       65447428  NM_001202559  CHURC1-FNTB
-9   chr14   65141157       65447428  NM_001204063       CHURC1
-10  chr14   65141157       65447428  NM_001308147      PLEKHG3
-11  chr14   65141157       65447428  NM_001308154        RAB15
-13  chr14   65141157       65447428     NM_002083         GPX2
-14  chr14   65141157       65447428     NR_107009      MIR7855
-15   chr2   40525079       40668857  NM_001112800       SLC8A1
-17  chr20   19746944       20056579  NM_001167816       CFAP61
-18  chr20   19746944       20056579  NM_001242581         RIN2
-19  chr20   19746944       20056579  NM_001278627       CRNKL1
-23  chr20   19746944       20056579     NM_181527        NAA20
-25   chr9  128577975      128696091  NM_001134778         PBX3
-   chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0  chr22   17192980       17352692     NM_175878          XKR3
-1  chr22   17192980       17352692     NR_003607       HSFY1P1
-2  chr22   17192980       17352692     NR_134584  LOC101929350
-3   chr7   31494275       31810942  NM_001145123       PPP1R17
-4   chr7   31494275       31810942  NM_001191057         PDE1C
-6   chr7   31494275       31810942  NM_001257967       CCDC129
-  chrom  cnv_start  cnv_terminate    tx_name     gene_name
-0  chr5   66918327       67275319  NR_130779  LOC101928858
-1  chr7  152286459      152407567  NM_005431         XRCC2
-2  chr9   44284730       44500056  NR_121564  LOC101927827
-3  chr9   44284730       44500056  NR_126050  LOC103908605
-     chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0     chr1   46327547       46476148  NM_001319245         MAST2
-3    chr10   94539432       94836163     NM_000783       CYP26A1
-4    chr10   94539432       94836163  NM_001013848         EXOC6
-8    chr10   94539432       94836163     NM_183374       CYP26C1
-9    chr16   61365858       69097019     NM_000196       HSD11B2
-10   chr16   61365858       69097019     NM_000229          LCAT
-11   chr16   61365858       69097019  NM_001004055        LRRC29
-12   chr16   61365858       69097019  NM_001012984      C16orf86
-13   chr16   61365858       69097019  NM_001014435           CA7
-14   chr16   61365858       69097019  NM_001040715     KIAA0895L
-15   chr16   61365858       69097019  NM_001076785        SLC7A6
-16   chr16   61365858       69097019  NM_001082486           ACD
-17   chr16   61365858       69097019  NM_001100915        KCTD19
-18   chr16   61365858       69097019  NM_001129727       PLEKHG4
-21   chr16   61365858       69097019  NM_001129758         DPEP3
-22   chr16   61365858       69097019  NM_001136106         BEAN1
-23   chr16   61365858       69097019  NM_001136505         TERB1
-24   chr16   61365858       69097019     NM_001138          AGRP
-25   chr16   61365858       69097019  NM_001145961       SLC12A4
-28   chr16   61365858       69097019  NM_001161575        LRRC36
-29   chr16   61365858       69097019  NM_001185057          NOL3
-30   chr16   61365858       69097019  NM_001185176          CES3
-31   chr16   61365858       69097019  NM_001190201         CES4A
-32   chr16   61365858       69097019  NM_001191022          CTCF
-33   chr16   61365858       69097019  NM_001193522        FAM65A
-37   chr16   61365858       69097019  NM_001199317         CMTM2
-38   chr16   61365858       69097019  NM_001202509    CKLF-CMTM1
-39   chr16   61365858       69097019  NM_001204744         CDH16
-40   chr16   61365858       69097019  NM_001243650         GFOD2
-41   chr16   61365858       69097019  NM_001271762          DUS2
-..     ...        ...            ...           ...           ...
-105  chr16   61365858       69097019     NM_032140         ENKD1
-106  chr16   61365858       69097019     NM_032178      SLC7A6OS
-107  chr16   61365858       69097019     NM_033309        B3GNT9
-108  chr16   61365858       69097019     NM_052999         CMTM1
-109  chr16   61365858       69097019     NM_144601         CMTM3
-111  chr16   61365858       69097019     NM_178516       EXOC3L1
-113  chr16   61365858       69097019     NM_181521         CMTM4
-115  chr16   61365858       69097019     NM_198443         NRN1L
-116  chr16   61365858       69097019     NR_027755     LINC00922
-117  chr16   61365858       69097019     NR_029887        MIR328
-121  chr16   61365858       69097019     NR_046109        FAM96B
-122  chr16   61365858       69097019     NR_046242     LINC00920
-123  chr16   61365858       69097019     NR_104656  LOC100505942
-124  chr16   61365858       69097019     NR_106831       MIR6773
-125  chr16   61365858       69097019     NR_106988     MIR7641-2
-126  chr16   61365858       69097019     NR_109960     BEAN1-AS1
-127  chr16   61365858       69097019     NR_110918  LOC101927650
-128  chr16   61365858       69097019     NR_133569  LOC106699570
-132   chr2  209323645      210171589  NM_001309516         PTH2R
-134   chr2  209323645      210171589     NR_136588  LOC101927960
-135   chr3  193321155      193477749     NM_015560          OPA1
-136   chr3  193321155      193477749     NR_046634      OPA1-AS1
-137   chr5   21647028       23317674  NM_001317227         CDH12
-140   chr5   21647028       23317674     NR_003921        PMCHL1
-141   chr5   21647028       23317674     NR_132787     SNORA105A
-142   chr5   54800644       55006881  NM_001258286       SLC38A9
-144   chr5   54800644       55006881     NM_176895         PLPP1
-145   chr5   54800644       55006881     NR_001575      RNF138P1
-146   chr5   54800644       55006881     NR_049869       MIR5687
-147   chr6  144853923      144955005     NM_007124          UTRN
-[106 rows x 5 columns]
-    chrom  cnv_start  cnv_terminate       tx_name      gene_name
-0    chr1   84270433       84410105     NM_024686          TTLL7
-1    chr1   84270433       84410105     NR_119374   LOC101927560
-2    chr1   84270433       84410105     NR_119375   LOC101927587
-3   chr10  133468942      133811887  NM_001291310        PPP2R2D
-4   chr10  133468942      133811887     NM_004052          BNIP3
-6   chr10  133468942      133811887     NR_038365      LINC01164
-7   chr12  117674086      117786511     NM_000620           NOS1
-10  chr17   66920745       67046912     NM_007168          ABCA8
-11  chr17   66920745       67046912     NM_080283          ABCA9
-12  chr17   66920745       67046912     NR_126414      ABCA9-AS1
-13  chr18   33255206       33394707     NM_020474         GALNT1
-14   chr2   48740270       48966018     NM_000233          LHCGR
-15   chr2   48740270       48966018  NM_001135629        PPP1R21
-16   chr2   48740270       48966018  NM_001193487        GTF2A1L
-17   chr2   48740270       48966018  NM_001198593  STON1-GTF2A1L
-19   chr2   48740270       48966018     NM_006873          STON1
-21   chr2   50771501       51168721  NM_001330079          NRXN1
-24   chr2   50771501       51168721     NR_130470        MIR8485
-25   chr3   23771361       23902374  NM_001202476         UBE2E1
-27   chr3   23771361       23902374     NR_046652     UBE2E1-AS1
-28   chr5   58091108       58226426  NM_001317915          RAB3C
-    chrom  cnv_start  cnv_terminate       tx_name gene_name
-0   chr11   82997288       83192561  NM_001142699      DLG2
-4   chr11   82997288       83192561  NM_001286116   CCDC90B
-6    chr4   93394913       93506429     NM_001510     GRID2
-7    chr4  102702983      102850382  NM_001083907     BANK1
-9    chr7   94743684       95017661     NM_000446      PON1
-10   chr7   94743684       95017661     NM_000940      PON3
-11   chr7   94743684       95017661  NM_001166160   PPP1R9A
-    chrom  cnv_start  cnv_terminate    tx_name        gene_name
-0   chr10   25401335       26629677  NM_000818             GAD2
-2   chr10   25401335       26629677  NM_017433            MYO3A
-3   chr10   25401335       26629677  NM_020752           GPR158
-4   chr10   25401335       26629677  NR_027333       GPR158-AS1
-5   chr10   25401335       26629677  NR_108067        LINC00836
-7   chr10   25401335       26629677  NR_120649        LINC01516
-8   chr10   25401335       26629677  NR_120650     LOC101929073
-9   chr16   80238567       80360764  NR_120307     LOC102724084
-10   chr2  110866620      111172684  NM_000272            NPHP1
-11   chr2  110866620      111172684  NM_005434             MALL
-12   chr2  110866620      111172684  NR_027063        LINC00116
-13   chr2  110866620      111172684  NR_027142        LOC440895
-14   chr2  110866620      111172684  NR_027145  LIMS3-LOC440895
-15   chr2  110866620      111172684  NR_027244        LINC01106
-16   chr2  110866620      111172684  NR_037626     LOC100507334
-17   chr2  110866620      111172684  NR_039941        MIR4436B1
-18   chr2  110866620      111172684  NR_046110        LINC01123
-19   chr3   61914123       62036296  NM_002841            PTPRG
-20   chr3  179093499      179199743  NM_021629             GNB4
-21   chr3  179093499      179199743  NM_033540             MFN1
-22   chr8   73685333       74009869  NM_003218            TERF1
-23   chr8   73685333       74009869  NM_004770            KCNB2
-24   chr8   73685333       74009869  NM_153225           SBSPON
-    chrom  cnv_start  cnv_terminate       tx_name    gene_name
-0    chr1   42687025       43128455  NM_001077447         PPCS
-1    chr1   42687025       43128455  NM_001080850       CCDC30
-2    chr1   42687025       43128455  NM_001198850        FOXJ3
-7    chr1   42687025       43128455     NM_006347         PPIH
-9    chr1   42687025       43128455     NM_032257      ZMYND12
-10   chr1   42687025       43128455     NM_173642       RIMKLA
-11  chr20   14833449       14948259     NM_080676      MACROD2
-12  chr20   14833449       14948259     NR_037841  MACROD2-AS1
-14   chr3    4149178        4447788  NM_001164675        SUMF1
-15   chr3    4149178        4447788  NM_001243723       SETMAR
-17   chr5  140212863      140362074     NM_014005       PCDHA9
-18   chr5  140212863      140362074     NM_018898      PCDHAC1
-19   chr5  140212863      140362074     NM_018899      PCDHAC2
-20   chr5  140212863      140362074     NM_018900       PCDHA1
-21   chr5  140212863      140362074     NM_018901      PCDHA10
-22   chr5  140212863      140362074     NM_018902      PCDHA11
-23   chr5  140212863      140362074     NM_018903      PCDHA12
-24   chr5  140212863      140362074     NM_018904      PCDHA13
-25   chr5  140212863      140362074     NM_018905       PCDHA2
-26   chr5  140212863      140362074     NM_018906       PCDHA3
-27   chr5  140212863      140362074     NM_018907       PCDHA4
-28   chr5  140212863      140362074     NM_018908       PCDHA5
-29   chr5  140212863      140362074     NM_018909       PCDHA6
-30   chr5  140212863      140362074     NM_018910       PCDHA7
-31   chr5  140212863      140362074     NM_018911       PCDHA8
-41   chr8  102114487      102220177  NM_001042510       ZNF706
-    chrom  cnv_start  cnv_terminate       tx_name  gene_name
-0    chr1  185877712      186231634     NM_031935      HMCN1
-1   chr10   55754365       55989893  NM_001142770     PCDH15
-4   chr21   30118980       30740499     NM_001186      BACH1
-5   chr21   30118980       30740499  NM_001286619   MAP3K7CL
-9   chr21   30118980       30740499  NM_001320724     RWDD2B
-10  chr21   30118980       30740499  NM_001320766       LTN1
-11  chr21   30118980       30740499     NM_006447      USP16
-12  chr21   30118980       30740499     NM_006585       CCT8
-13  chr21   30118980       30740499     NM_013240     N6AMT1
-18  chr21   30118980       30740499     NR_027072  LINC00189
-   chrom  cnv_start  cnv_terminate       tx_name gene_name
-0  chr19   21021674       21131337  NM_001256171     ZNF85
-    chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0   chr11  130112662      130265535  NM_001301098        ZBTB44
-1   chr13   99413110      101087537     NM_000282          PCCA
-2   chr13   99413110      101087537  NM_001130048         DOCK9
-5   chr13   99413110      101087537  NM_001144072         UBAC2
-7   chr13   99413110      101087537     NM_004800        TM9SF2
-8   chr13   99413110      101087537     NM_004951        GPR183
-9   chr13   99413110      101087537     NM_005292         GPR18
-10  chr13   99413110      101087537     NM_007129          ZIC2
-11  chr13   99413110      101087537     NM_033132          ZIC5
-13  chr13   99413110      101087537     NM_206808         CLYBL
-14  chr13   99413110      101087537     NR_024013        FKSG29
-15  chr13   99413110      101087537     NR_030353        MIR623
-16  chr13   99413110      101087537     NR_036191       MIR4306
-17  chr13   99413110      101087537     NR_036531     UBAC2-AS1
-19  chr13   99413110      101087537     NR_046525     CLYBL-AS1
-20  chr13   99413110      101087537     NR_046526     CLYBL-AS2
-21  chr13   99413110      101087537     NR_046663     DOCK9-AS1
-22  chr13   99413110      101087537     NR_047482     DOCK9-AS2
-23  chr13   99413110      101087537     NR_047483     LINC00554
-25  chr13   99413110      101087537     NR_110731     LINC01232
-27  chr13   99413110      101087537     NR_120421  LOC101927437
-28  chr13   99413110      101087537     NR_126390     LINC01039
-29  chr13   99413110      101087537     NR_132422  LOC105370333
-30  chr13   99413110      101087537     NR_133664     LINC00449
-31   chr3  124180557      124415300  NM_001024660         KALRN
-36   chr5   58443338       58563788  NM_001104631         PDE4D
-42   chr7   29551710       29929565  NM_001080529         WIPF3
-43   chr7   29551710       29929565  NM_001293069          CHN2
-47   chr7   29551710       29929565  NM_001329997         PRR15
-50   chr7   29551710       29929565     NR_024278     LOC646762
-51   chr7   29551710       29929565     NR_027347       ZNRF2P2
-52   chr7   29551710       29929565     NR_036482     DPY19L2P3
-53   chr7   29551710       29929565     NR_039600      MIR550A3
-   chrom  cnv_start  cnv_terminate       tx_name gene_name
-0   chr1   64285541       64474159  NM_001083592      ROR1
-2  chr13   28961450       29115546  NM_001159920      FLT1
-6   chr8   92970882       93096514  NM_001198628   RUNX1T1
-   chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0  chr21   42395926       42531871     NR_024100     LINC00323
-1   chr4    3652874        3855320     NM_000683        ADRA2C
-2   chr4    3652874        3855320     NR_034136  LOC100133461
-3   chr9     291823         696919  NM_001190458         DOCK8
-4   chr9     291823         696919  NM_001256876         KANK1
-  chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0  chr1   29272644       29395495  NM_001166006         EPB41
-2  chr6   18399709       19125040     NM_182757       RNF144B
-3  chr6   18399709       19125040     NR_030312      MIR548A1
-4  chr6   18399709       19125040     NR_110860  LOC101928519
-   chrom  cnv_start  cnv_terminate    tx_name gene_name
-0  chr13   83369582       84473073  NM_052910   SLITRK1
-1  chr17   16173274       16281167  NM_004278      PIGL
-2  chr17   16173274       16281167  NM_181716     CENPV
-3  chr17   16173274       16281167  NR_031698   MIR1288
-4   chr5  161126159      161259318  NM_000811    GABRA6
-    chrom  cnv_start  cnv_terminate       tx_name     gene_name
-0   chr12   10595130       10980119  NM_001300739        MAGOHB
-1   chr12   10595130       10980119  NM_001304448         KLRC1
-3   chr12   10595130       10980119     NM_003651          YBX3
-5   chr12   10595130       10980119     NM_018423         STYK1
-6   chr12   10595130       10980119     NM_023917        TAS2R9
-7   chr12   10595130       10980119     NM_023918        TAS2R8
-8   chr12   10595130       10980119     NM_023919        TAS2R7
-9   chr12   10595130       10980119     NM_023921       TAS2R10
-11  chr12   10595130       10980119     NR_028045        KLRA1P
-12  chr12   10595130       10980119     NR_120463  LOC101928162
-13  chr18   28938560       29132799     NM_001942          DSG1
-14  chr18   28938560       29132799     NM_001943          DSG2
-15  chr18   28938560       29132799     NM_001944          DSG3
-16  chr18   28938560       29132799     NM_177986          DSG4
-17  chr18   28938560       29132799     NR_045216      DSG2-AS1
-18  chr18   28938560       29132799     NR_110788      DSG1-AS1
-19   chr7   75440586       75567097     NM_000941           POR
-20   chr7   75440586       75567097  NM_001040457        RHBDD2
-21   chr7   75440586       75567097     NM_002991         CCL24
-22   chr7   75440586       75567097     NR_039795       MIR4651
-23   chr9   28524556       28626286  NM_001258282        LINGO2
-  chrom  cnv_start  cnv_terminate       tx_name gene_name
-0  chr4  151838996      152267881     NM_001006     RPS3A
-1  chr4  151838996      152267881  NM_001009555    SH3D19
-3  chr4  151838996      152267881  NM_001199282      LRBA
-7  chr4  151838996      152267881     NM_183375    PRSS48
-8  chr4  151838996      152267881     NR_000007  SNORD73A
-</pre>
-</div>
 </div>
 </div>
 </div>
@@ -2670,26 +708,42 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">pkl_to_matrix</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">make_block</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">):</span>
-    <span class="n">dat</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
-    <span class="n">ref</span> <span class="o">=</span> <span class="n">load_reference_gene</span><span class="p">(</span><span class="s2">&quot;../data/refGene.txt.gz&quot;</span><span class="p">)</span>
-    <span class="n">genes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">])))</span>
-    <span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">genes</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span> 
-                                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]])</span>
-    <span class="n">phenotype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span>
-    <span class="n">regression_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">phenotype</span><span class="p">,</span> <span class="n">regression_data</span><span class="p">))</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">regression_data</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">genes</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-    <span class="n">newdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">newdf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span> <span class="k">continue</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">make_block</span><span class="p">:</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">newdf</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">blocks</span> <span class="o">=</span> <span class="n">get_analysis_blocks</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;case&#39;</span><span class="p">]),</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s1">&#39;ctrl&#39;</span><span class="p">])]))</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">newdf</span><span class="p">[[</span><span class="s1">&#39;phenotype&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">item</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">]</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">res</span><span class="p">}</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_sum_Sweden_for_torus</span><span class="p">(</span><span class="n">gene_df</span> <span class="o">=</span> <span class="n">max_block</span><span class="p">,</span> <span class="n">causal</span> <span class="o">=</span> <span class="n">causal_genes</span><span class="p">,</span> <span class="n">cat</span> <span class="o">=</span> <span class="n">pheno</span><span class="p">,</span> <span class="n">multi_cat</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>rm data/TORUS/calcium/*.gz
+<span class="o">!</span>gzip data/TORUS/calcium/*_cal
+<span class="o">!</span>torus.sh -d data/TORUS/calcium/beta_cal.gz -annot data/TORUS/calcium/snp_anno_cal.gz -est &gt; data/TORUS/calcium/cal_block_beta.est
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">block_genes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 </div>
 </div>
@@ -2697,7 +751,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/417cc005fdb931386be99709841524ae76e28c61/analysis/20171010_swcnv_TORUS.ipynb"><code>analysis/20171010_swcnv_TORUS.ipynb</code></a> committed by Min Qiao on Tue Oct 24 19:51:32 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/417cc005fdb931386be99709841524ae76e28c61">revision 365, 417cc00</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/a28974751957a328cc340b71662924dbeeb93d97/analysis/20171010_swcnv_TORUS.ipynb"><code>analysis/20171010_swcnv_TORUS.ipynb</code></a> committed by Min Qiao on Wed Oct 25 20:37:28 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/a28974751957a328cc340b71662924dbeeb93d97">revision 369, a289747</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
