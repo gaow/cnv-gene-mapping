@@ -202,14 +202,14 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># only for calcium pathway analysis</span>
 <span class="kn">import</span> <span class="nn">pickle</span><span class="o">,</span> <span class="nn">feather</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">Simulation_calcium</span> <span class="k">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">load_reference_gene</span><span class="p">,</span> <span class="n">pkl_to_matrix</span>
+<span class="kn">from</span> <span class="nn">utils</span> <span class="k">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">load_reference_gene</span><span class="p">,</span> <span class="n">pkl_to_matrix</span>
 <span class="n">args</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 <span class="kn">import</span> <span class="nn">random</span>
 </pre></div>
@@ -224,7 +224,7 @@ body {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_feather</span><span class="p">(</span><span class="n">input_data</span><span class="p">):</span>
     <span class="n">output_data</span> <span class="o">=</span> <span class="n">pkl_to_matrix</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
-    <span class="n">feather</span><span class="o">.</span><span class="n">write_dataframe</span><span class="p">(</span><span class="n">otuput_data</span><span class="p">,</span> <span class="s2">&quot;data/calcium_pathway_N</span><span class="si">{}</span><span class="s2">_shape</span><span class="si">{}</span><span class="s2">_nomask.data.feather&quot;</span>
+    <span class="n">feather</span><span class="o">.</span><span class="n">write_dataframe</span><span class="p">(</span><span class="n">output_data</span><span class="p">,</span> <span class="s2">&quot;data/calcium_pathway_N</span><span class="si">{}</span><span class="s2">_shape</span><span class="si">{}</span><span class="s2">_nomask.data.feather&quot;</span>
                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">][</span><span class="s2">&quot;args&quot;</span><span class="p">][</span><span class="s2">&quot;n_case&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">][</span><span class="s2">&quot;args&quot;</span><span class="p">][</span><span class="s2">&quot;n_ctrl&quot;</span><span class="p">],</span> 
                                     <span class="n">dat</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">][</span><span class="s2">&quot;args&quot;</span><span class="p">][</span><span class="s2">&quot;odds_ratio_params&quot;</span><span class="p">][</span><span class="s2">&quot;shape&quot;</span><span class="p">]))</span>
     <span class="k">return</span> <span class="n">output_data</span>
@@ -1095,7 +1095,7 @@ numpy boolean negative, the `-` operator, is deprecated, use the `~` operator or
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/35f31793cceaa0b2a9f4000a04c29402bed006b3/analysis/20170425_feather.ipynb"><code>analysis/20170425_feather.ipynb</code></a> committed by Min Qiao on Sun Aug 20 13:42:54 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/35f31793cceaa0b2a9f4000a04c29402bed006b3">revision 290, 35f3179</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/ff68b45d56c7feca8a9a2b31a3bce19e2822aa64/analysis/20170425_feather.ipynb"><code>analysis/20170425_feather.ipynb</code></a> committed by Min Qiao on Mon Nov 6 15:35:07 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/ff68b45d56c7feca8a9a2b31a3bce19e2822aa64">revision 375, ff68b45</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

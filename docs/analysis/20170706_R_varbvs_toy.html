@@ -174,7 +174,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">library</span><span class="p">(</span><span class="n">feather</span><span class="p">)</span>
@@ -186,7 +186,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">get_rds_toy</span> <span class="o">&lt;-</span> <span class="n">function</span><span class="p">(</span><span class="n">datalist</span><span class="p">){</span>
@@ -211,11 +211,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="c1"># get_rds_toy(c(&quot;data/toy_n000_600_n100_100_n010_100_n001_100_n110_100_n011_100_n111_100.feather&quot;))</span>
-<span class="n">get_rds_toy</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s2">&quot;data/toy_n2000_p0.9_causal5_const1.0_0.05.feather&quot;</span><span class="p">))</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">get_rds_toy</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s2">&quot;data/Sweden_cnv_gene_overlap_config.feather&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -228,11 +227,42 @@ body {
 <table>
 <thead><tr><th scope=col>index</th><th scope=col>variable</th><th scope=col>prob</th><th scope=col>PVE</th><th scope=col>coef</th><th scope=col>Pr(coef.&gt;0.95)</th></tr></thead>
 <tbody>
-	<tr><td> 5             </td><td>gene5          </td><td>0.99231132     </td><td>NA             </td><td> 1.5274483     </td><td>[+0.875,+2.219]</td></tr>
-	<tr><td> 9             </td><td>gene9          </td><td>0.06996630     </td><td>NA             </td><td> 0.6993455     </td><td>[-0.248,+1.583]</td></tr>
-	<tr><td> 8             </td><td>gene8          </td><td>0.06341389     </td><td>NA             </td><td>-0.6179053     </td><td>[-1.383,+0.125]</td></tr>
-	<tr><td> 2             </td><td>gene2          </td><td>0.05923688     </td><td>NA             </td><td>-0.5586378     </td><td>[-1.252,+0.136]</td></tr>
-	<tr><td>10             </td><td>gene10         </td><td>0.04930603     </td><td>NA             </td><td> 0.0000000     </td><td>[-1.910,+1.988]</td></tr>
+	<tr><td>18563          </td><td>BDH1           </td><td>0.01937443     </td><td>NA             </td><td> 1.3918208     </td><td>[+0.322,+2.527]</td></tr>
+	<tr><td>18744          </td><td>DLG1           </td><td>0.01918658     </td><td>NA             </td><td> 1.3900386     </td><td>[+0.268,+2.525]</td></tr>
+	<tr><td>12843          </td><td>MBD3L2         </td><td>0.01451590     </td><td>NA             </td><td>-0.7548205     </td><td>[-1.319,-0.146]</td></tr>
+	<tr><td>12844          </td><td>MBD3L3         </td><td>0.01451317     </td><td>NA             </td><td>-0.7548138     </td><td>[-1.353,-0.234]</td></tr>
+	<tr><td>12845          </td><td>MBD3L4         </td><td>0.01451019     </td><td>NA             </td><td>-0.7548067     </td><td>[-1.354,-0.177]</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># get_rds_toy(c(&quot;data/toy_n000_600_n100_100_n010_100_n001_100_n110_100_n011_100_n111_100.feather&quot;))</span>
+<span class="n">get_rds_toy</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s2">&quot;data/Sweden_genes_overlap_cnv.feather&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr><th scope=col>index</th><th scope=col>variable</th><th scope=col>prob</th><th scope=col>PVE</th><th scope=col>coef</th><th scope=col>Pr(coef.&gt;0.95)</th></tr></thead>
+<tbody>
+	<tr><td>4738           </td><td>BDH1           </td><td>0.01937443     </td><td>NA             </td><td> 1.3918208     </td><td>[+0.302,+2.429]</td></tr>
+	<tr><td>4774           </td><td>DLG1           </td><td>0.01918657     </td><td>NA             </td><td> 1.3900386     </td><td>[+0.213,+2.404]</td></tr>
+	<tr><td>3335           </td><td>MBD3L2         </td><td>0.01451590     </td><td>NA             </td><td>-0.7548205     </td><td>[-1.314,-0.200]</td></tr>
+	<tr><td>3336           </td><td>MBD3L3         </td><td>0.01451317     </td><td>NA             </td><td>-0.7548138     </td><td>[-1.294,-0.158]</td></tr>
+	<tr><td>3337           </td><td>MBD3L4         </td><td>0.01451019     </td><td>NA             </td><td>-0.7548067     </td><td>[-1.280,-0.165]</td></tr>
 </tbody>
 </table>
 </div>
@@ -318,7 +348,7 @@ Top 5 variables by inclusion probability:
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/35f31793cceaa0b2a9f4000a04c29402bed006b3/analysis/20170706_R_varbvs_toy.ipynb"><code>analysis/20170706_R_varbvs_toy.ipynb</code></a> committed by Min Qiao on Sun Aug 20 13:42:54 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/35f31793cceaa0b2a9f4000a04c29402bed006b3">revision 290, 35f3179</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/8ae08ff935ee6467d90f8149ddaf78256a6a9340/analysis/20170706_R_varbvs_toy.ipynb"><code>analysis/20170706_R_varbvs_toy.ipynb</code></a> committed by Min Qiao on Wed Nov 8 19:37:05 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/8ae08ff935ee6467d90f8149ddaf78256a6a9340">revision 376, 8ae08ff</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

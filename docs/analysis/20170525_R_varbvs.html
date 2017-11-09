@@ -177,7 +177,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># install package &quot;varbvs&quot; and load data</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># install package &quot;varbvs&quot; and load data</span>
 <span class="n">library</span><span class="p">(</span><span class="n">varbvs</span><span class="p">)</span>
 <span class="n">library</span><span class="p">(</span><span class="n">feather</span><span class="p">)</span>
 </pre></div>
@@ -190,7 +190,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># trial</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># trial</span>
 <span class="n">data</span><span class="p">(</span><span class="n">leukemia</span><span class="p">)</span>
 <span class="c1"># names(leukemia)</span>
 <span class="k">print</span> <span class="p">(</span><span class="n">leukemia</span><span class="err">$</span><span class="n">y</span><span class="p">)</span>
@@ -217,7 +217,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">names</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">names</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
 <span class="c1"># Compute Monte Carlo estimates of credible intervals for coefficients in the fitted variable selection model</span>
 <span class="n">varbvscoefcred</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">&quot;X3441&quot;</span><span class="p">,</span> <span class="s2">&quot;X3038&quot;</span><span class="p">,</span> <span class="s2">&quot;X2141&quot;</span><span class="p">,</span> <span class="s2">&quot;X2230&quot;</span><span class="p">,</span> <span class="s2">&quot;X951&quot;</span><span class="p">))</span>
 </pre></div>
@@ -281,13 +281,13 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># read rds file</span>
-<span class="n">new</span> <span class="o">&lt;-</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;data/del_sim_scale5_shape1_N1000_M50_999.varbvs.rds&quot;</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># read rds file</span>
+<span class="n">new</span> <span class="o">&lt;-</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;data/Sweden_cnv_gene_overlap_config.feather.RDS&quot;</span><span class="p">)</span>
 <span class="n">names</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
-<span class="n">dim</span><span class="p">(</span><span class="n">new</span><span class="err">$</span><span class="n">mu</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">new</span><span class="err">$</span><span class="n">summary</span><span class="err">$</span><span class="n">top</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -319,17 +319,100 @@ body {
 	<li>'summary'</li>
 	<li>'w'</li>
 	<li>'pip'</li>
-	<li>'beta'</li>
 </ol>
 </div>
 </div>
 <div class="output_area">
 <div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>  index variable       prob PVE       coef  Pr(coef.&gt;0.95)
+1 18563     BDH1 0.01937443  NA  1.3918208 [+0.322,+2.527]
+2 18744     DLG1 0.01918658  NA  1.3900386 [+0.268,+2.525]
+3 12843   MBD3L2 0.01451590  NA -0.7548205 [-1.319,-0.146]
+4 12844   MBD3L3 0.01451317  NA -0.7548138 [-1.353,-0.234]
+5 12845   MBD3L4 0.01451019  NA -0.7548067 [-1.354,-0.177]
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">dim</span><span class="p">(</span><span class="n">read_feather</span><span class="p">(</span><span class="s2">&quot;data/Sweden_genes_overlap_cnv.feather&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
 <div class="output_html rendered_html output_subarea ">
 <ol class=list-inline>
-	<li>11312</li>
-	<li>26</li>
+	<li>5299</li>
+	<li>7030</li>
 </ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">new1</span> <span class="o">&lt;-</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;data/Sweden_genes_overlap_cnv.feather.RDS&quot;</span><span class="p">)</span>
+<span class="n">names</span><span class="p">(</span><span class="n">new1</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">new1</span><span class="err">$</span><span class="n">summary</span><span class="err">$</span><span class="n">top</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>'family'</li>
+	<li>'n'</li>
+	<li>'n0'</li>
+	<li>'mu.cov'</li>
+	<li>'sa0'</li>
+	<li>'update.sigma'</li>
+	<li>'update.sa'</li>
+	<li>'optimize.eta'</li>
+	<li>'prior.same'</li>
+	<li>'logw'</li>
+	<li>'sigma'</li>
+	<li>'sa'</li>
+	<li>'logodds'</li>
+	<li>'alpha'</li>
+	<li>'mu'</li>
+	<li>'s'</li>
+	<li>'eta'</li>
+	<li>'model.pve'</li>
+	<li>'summary'</li>
+	<li>'w'</li>
+	<li>'pip'</li>
+</ol>
+</div>
+</div>
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>  index variable       prob PVE       coef  Pr(coef.&gt;0.95)
+1  4738     BDH1 0.01937443  NA  1.3918208 [+0.302,+2.429]
+2  4774     DLG1 0.01918657  NA  1.3900386 [+0.213,+2.404]
+3  3335   MBD3L2 0.01451590  NA -0.7548205 [-1.314,-0.200]
+4  3336   MBD3L3 0.01451317  NA -0.7548138 [-1.294,-0.158]
+5  3337   MBD3L4 0.01451019  NA -0.7548067 [-1.280,-0.165]
+</pre>
 </div>
 </div>
 </div>
@@ -340,7 +423,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># get_summary &lt;- function(datalist){</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># get_summary &lt;- function(datalist){</span>
 <span class="c1">#     for (data in datalist){</span>
 <span class="c1">#         newdat = readRDS(data)</span>
 <span class="c1">#         print (newdat$summary$top.vars)</span>
@@ -359,10 +442,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1"># different prior for each gene, (1-pi)*p + pi*N(0,s^2)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># different prior for each gene, (1-pi)*p + pi*N(0,s^2)</span>
 </pre></div>
 </div>
 </div>
@@ -373,7 +456,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">get_varbvs_rds</span> <span class="o">&lt;-</span> <span class="n">function</span><span class="p">(</span><span class="n">datalist</span><span class="p">){</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">get_varbvs_rds</span> <span class="o">&lt;-</span> <span class="n">function</span><span class="p">(</span><span class="n">datalist</span><span class="p">){</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">dat</span> <span class="ow">in</span> <span class="n">datalist</span><span class="p">){</span>
         <span class="n">newdat</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">read_feather</span><span class="p">(</span><span class="n">dat</span><span class="p">))</span>
         <span class="k">print</span> <span class="p">(</span><span class="n">dim</span><span class="p">(</span><span class="n">newdat</span><span class="p">))</span>
@@ -396,16 +479,27 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">get_varbvs_rds</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s2">&quot;data/Sweden_cnv_gene_overlap_config.feather&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">get_varbvs_rds</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s2">&quot;data/del_sim_shape9_scale1_p0.005_N4000_M100_12.data.feather&quot;</span><span class="p">,</span>  
+<div class=" highlight hl-sos"><pre><span></span><span class="n">get_varbvs_rds</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s2">&quot;data/del_sim_shape9_scale1_p0.005_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
                  <span class="s2">&quot;data/del_sim_shape9_scale1_p0.005_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
                  <span class="s2">&quot;data/del_sim_shape5_scale1_p0.005_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
                  <span class="s2">&quot;data/del_sim_shape5_scale1_p0.005_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
                  <span class="s2">&quot;data/del_sim_shape3_scale1_p0.005_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
                  <span class="s2">&quot;data/del_sim_shape3_scale1_p0.005_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
-                 <span class="s2">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M100_12.data.feather&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
                  <span class="s2">&quot;data/del_sim_shape3_scale1_p0.01_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
                  <span class="s2">&quot;data/del_sim_shape3_scale1_p0.01_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
                  <span class="s2">&quot;data/del_sim_shape9_scale1_p0.01_N4000_M100_12.data.feather&quot;</span><span class="p">,</span> 
@@ -695,7 +789,7 @@ Top 5 variables by inclusion probability:
 <div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">aa</span> <span class="o">&lt;-</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;data/del_sim_shape3_scale1_p0.01_N4000_M100_12.data.varbvs.rds&quot;</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">aa</span> <span class="o">&lt;-</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;data/del_sim_shape3_scale1_p0.01_N4000_M100_12.data.varbvs.rds&quot;</span><span class="p">)</span>
 <span class="n">names</span><span class="p">(</span><span class="n">aa</span><span class="p">)</span>
 <span class="n">dim</span><span class="p">(</span><span class="n">aa</span><span class="err">$</span><span class="n">mu</span><span class="p">)</span>
 </pre></div>
@@ -747,7 +841,7 @@ Top 5 variables by inclusion probability:
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e/analysis/20170525_R_varbvs.ipynb"><code>analysis/20170525_R_varbvs.ipynb</code></a> committed by Min Qiao on Sat Aug 19 11:37:36 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/88e778504f3a5557a74f7f4fd32ac8ca1cf8db8e">revision 284, 88e7785</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/8e1021e7b36132668bec5c090187e4b335b5c8d5/analysis/20170525_R_varbvs.ipynb"><code>analysis/20170525_R_varbvs.ipynb</code></a> committed by Min Qiao on Wed Nov 8 20:35:07 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/8e1021e7b36132668bec5c090187e4b335b5c8d5">revision 377, 8e1021e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
