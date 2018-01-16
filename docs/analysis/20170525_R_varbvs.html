@@ -1,11 +1,15 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.2" />
+<meta name="ipynb_website:version" content="0.9.3" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
+
 <link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
 <link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
 <link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
@@ -14,9 +18,11 @@
 <script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
 <link rel="stylesheet"
       href="../site_libs/highlight/textmate.css"
       type="text/css" />
+
 <script src="../site_libs/highlight/highlight.js"></script>
 <script type="text/javascript">
 if (window.hljs && document.readyState && document.readyState === "complete") {
@@ -25,8 +31,10 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
    }, 0);
 }
 </script>
+
 <script src="../js/toc2.js"></script>
 <script src="../js/docs.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
 <script>
     MathJax.Hub.Config({
@@ -49,6 +57,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
         }
     });
 </script>
+
 <script>
 $( document ).ready(function(){
             var cfg={'threshold':3,     // depth of toc (number of levels)
@@ -88,6 +97,7 @@ $( document ).ready(function(){
             $("#toc-header").hide();
     });
 </script>
+
 <script>
 // manage active state of menu based on current page
 $(document).ready(function () {
@@ -111,7 +121,11 @@ $(document).ready(function () {
   window.buildTabsets("TOC");
 });
 </script>
+
+
+
 <title>Gene Mapping with CNV</title>
+
 <style type = "text/css">
 body {
   font-family: "Droid Sans";
@@ -120,10 +134,13 @@ body {
 }
 </style>
 </head>
+
 <body>
 <div tabindex="-1" id="notebook" class="border-box-sizing">
 <div class="container" id="notebook-container">
+
 <!-- code folding -->
+
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -136,35 +153,43 @@ body {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+        
 <li>
   <a href="../index.html">Overview</a>
 </li>
+        
 <li>
   <a href="../analysis.html">Analysis</a>
 </li>
+        
 <li>
   <a href="../prototype.html">Prototype</a>
 </li>
+        
 <li>
   <a href="../utils.html">Utils</a>
 </li>
+        
 <li>
   <a href="../setup.html">Setup</a>
 </li>
+        
 <li>
   <a href="../writeup.html">Writeup</a>
 </li>
+        
       </ul>
+        
 <ul class="nav navbar-nav navbar-right">
 <li>
    <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
 </li>
 </ul>
+        
       </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -181,9 +206,11 @@ body {
 <span class="n">library</span><span class="p">(</span><span class="n">varbvs</span><span class="p">)</span>
 <span class="n">library</span><span class="p">(</span><span class="n">feather</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -196,21 +223,30 @@ body {
 <span class="k">print</span> <span class="p">(</span><span class="n">leukemia</span><span class="err">$</span><span class="n">y</span><span class="p">)</span>
 <span class="n">fit</span> <span class="o">&lt;-</span> <span class="n">varbvs</span><span class="p">(</span><span class="n">leukemia</span><span class="err">$</span><span class="n">x</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">leukemia</span><span class="err">$</span><span class="n">y</span><span class="p">,</span> <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;binomial&quot;</span><span class="p">,</span> <span class="n">logodds</span> <span class="o">=</span> <span class="n">seq</span><span class="p">(</span><span class="o">-</span><span class="mf">3.5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">sa</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre> [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1
 [39] 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 0 0 1 1 0 1 1 1 1 1 1 1 0 0 0 0 0 0
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -221,13 +257,21 @@ body {
 <span class="c1"># Compute Monte Carlo estimates of credible intervals for coefficients in the fitted variable selection model</span>
 <span class="n">varbvscoefcred</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">&quot;X3441&quot;</span><span class="p">,</span> <span class="s2">&quot;X3038&quot;</span><span class="p">,</span> <span class="s2">&quot;X2141&quot;</span><span class="p">,</span> <span class="s2">&quot;X2230&quot;</span><span class="p">,</span> <span class="s2">&quot;X951&quot;</span><span class="p">))</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
+
 <div class="output_html rendered_html output_subarea ">
 <ol class=list-inline>
 	<li>'family'</li>
@@ -249,10 +293,17 @@ body {
 	<li>'eta'</li>
 	<li>'model.pve'</li>
 </ol>
+
 </div>
+
 </div>
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
+
 <div class="output_html rendered_html output_subarea ">
 <dl>
 	<dt>$a</dt>
@@ -274,10 +325,14 @@ body {
 </ol>
 </dd>
 </dl>
+
+</div>
+
+</div>
+
 </div>
 </div>
-</div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -289,13 +344,21 @@ body {
 <span class="n">names</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
 <span class="k">print</span> <span class="p">(</span><span class="n">new</span><span class="err">$</span><span class="n">summary</span><span class="err">$</span><span class="n">top</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
+
 <div class="output_html rendered_html output_subarea ">
 <ol class=list-inline>
 	<li>'family'</li>
@@ -320,10 +383,16 @@ body {
 	<li>'w'</li>
 	<li>'pip'</li>
 </ol>
+
 </div>
+
 </div>
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>  index variable       prob PVE       coef  Pr(coef.&gt;0.95)
 1 18563     BDH1 0.01937443  NA  1.3918208 [+0.322,+2.527]
@@ -334,8 +403,10 @@ body {
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -344,22 +415,34 @@ body {
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">dim</span><span class="p">(</span><span class="n">read_feather</span><span class="p">(</span><span class="s2">&quot;data/Sweden_genes_overlap_cnv.feather&quot;</span><span class="p">))</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
+
 <div class="output_html rendered_html output_subarea ">
 <ol class=list-inline>
 	<li>5299</li>
 	<li>7030</li>
 </ol>
+
+</div>
+
+</div>
+
 </div>
 </div>
-</div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -370,13 +453,21 @@ body {
 <span class="n">names</span><span class="p">(</span><span class="n">new1</span><span class="p">)</span>
 <span class="k">print</span> <span class="p">(</span><span class="n">new1</span><span class="err">$</span><span class="n">summary</span><span class="err">$</span><span class="n">top</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
+
 <div class="output_html rendered_html output_subarea ">
 <ol class=list-inline>
 	<li>'family'</li>
@@ -401,10 +492,16 @@ body {
 	<li>'w'</li>
 	<li>'pip'</li>
 </ol>
+
 </div>
+
 </div>
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>  index variable       prob PVE       coef  Pr(coef.&gt;0.95)
 1  4738     BDH1 0.01937443  NA  1.3918208 [+0.302,+2.429]
@@ -415,8 +512,10 @@ body {
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -436,9 +535,11 @@ body {
 <span class="c1">#               &quot;data/del_sim_scale5_shape1_N1000_M50_999.varbvs.rds&quot;, </span>
 <span class="c1">#               &quot;data/del_sim_scale5_shape1_N1000_M100_999.varbvs.rds&quot;))</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -447,9 +548,11 @@ body {
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># different prior for each gene, (1-pi)*p + pi*N(0,s^2)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -473,9 +576,11 @@ body {
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -484,9 +589,11 @@ body {
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">get_varbvs_rds</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s2">&quot;data/Sweden_cnv_gene_overlap_config.feather&quot;</span><span class="p">))</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -506,13 +613,20 @@ body {
                  <span class="s2">&quot;data/del_sim_shape5_scale1_p0.01_N4000_M200_12.data.feather&quot;</span><span class="p">,</span> 
                  <span class="s2">&quot;data/del_sim_shape9_scale1_p0.01_N4000_M200_12.data.feather&quot;</span><span class="p">))</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>[1]  4000 21756
 Summary of fitted Bayesian variable selection model:
@@ -781,8 +895,10 @@ Top 5 variables by inclusion probability:
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -793,13 +909,21 @@ Top 5 variables by inclusion probability:
 <span class="n">names</span><span class="p">(</span><span class="n">aa</span><span class="p">)</span>
 <span class="n">dim</span><span class="p">(</span><span class="n">aa</span><span class="err">$</span><span class="n">mu</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
+
 <div class="output_html rendered_html output_subarea ">
 <ol class=list-inline>
 	<li>'family'</li>
@@ -825,23 +949,34 @@ Top 5 variables by inclusion probability:
 	<li>'pip'</li>
 	<li>'beta'</li>
 </ol>
+
 </div>
+
 </div>
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
+
 <div class="output_html rendered_html output_subarea ">
 <ol class=list-inline>
 	<li>5046</li>
 	<li>26</li>
 </ol>
+
+</div>
+
+</div>
+
 </div>
 </div>
-</div>
-</div>
+
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/8e1021e7b36132668bec5c090187e4b335b5c8d5/analysis/20170525_R_varbvs.ipynb"><code>analysis/20170525_R_varbvs.ipynb</code></a> committed by Min Qiao on Wed Nov 8 20:35:07 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/8e1021e7b36132668bec5c090187e4b335b5c8d5">revision 377, 8e1021e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/8e1021e7b36132668bec5c090187e4b335b5c8d5/analysis/20170525_R_varbvs.ipynb"><code>analysis/20170525_R_varbvs.ipynb</code></a> committed by Min Qiao on Wed Nov 8 20:35:07 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/8e1021e7b36132668bec5c090187e4b335b5c8d5">revision 6, 8e1021e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

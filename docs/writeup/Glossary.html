@@ -1,11 +1,15 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.2" />
+<meta name="ipynb_website:version" content="0.9.3" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
+
 <link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
 <link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
 <link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
@@ -14,9 +18,11 @@
 <script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
 <link rel="stylesheet"
       href="../site_libs/highlight/textmate.css"
       type="text/css" />
+
 <script src="../site_libs/highlight/highlight.js"></script>
 <script type="text/javascript">
 if (window.hljs && document.readyState && document.readyState === "complete") {
@@ -25,8 +31,10 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
    }, 0);
 }
 </script>
+
 <script src="../js/toc2.js"></script>
 <script src="../js/docs.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
 <script>
     MathJax.Hub.Config({
@@ -49,6 +57,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
         }
     });
 </script>
+
 <script>
 $( document ).ready(function(){
             var cfg={'threshold':3,     // depth of toc (number of levels)
@@ -88,6 +97,7 @@ $( document ).ready(function(){
             $("#toc-header").hide();
     });
 </script>
+
 <script>
 // manage active state of menu based on current page
 $(document).ready(function () {
@@ -111,7 +121,11 @@ $(document).ready(function () {
   window.buildTabsets("TOC");
 });
 </script>
+
+
+
 <title>Gene Mapping with CNV</title>
+
 <style type = "text/css">
 body {
   font-family: "Droid Sans";
@@ -120,10 +134,13 @@ body {
 }
 </style>
 </head>
+
 <body>
 <div tabindex="-1" id="notebook" class="border-box-sizing">
 <div class="container" id="notebook-container">
+
 <!-- code folding -->
+
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -136,35 +153,43 @@ body {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+        
 <li>
   <a href="../index.html">Overview</a>
 </li>
+        
 <li>
   <a href="../analysis.html">Analysis</a>
 </li>
+        
 <li>
   <a href="../prototype.html">Prototype</a>
 </li>
+        
 <li>
   <a href="../utils.html">Utils</a>
 </li>
+        
 <li>
   <a href="../setup.html">Setup</a>
 </li>
+        
 <li>
   <a href="../writeup.html">Writeup</a>
 </li>
+        
       </ul>
+        
 <ul class="nav navbar-nav navbar-right">
 <li>
    <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
 </li>
 </ul>
+        
       </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -172,8 +197,7 @@ body {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -193,11 +217,11 @@ body {
 <h3 id="Bioinformatics-resource">Bioinformatics resource<a class="anchor-link" href="#Bioinformatics-resource">&#182;</a></h3><p>NCBI: national center for biotechnology information, NIH</p>
 <p>EBI: European bioinformatics institute</p>
 <p>UCSC genome bioinformatics, a good example of centralized genome resource</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -221,11 +245,11 @@ CNVs &gt; 20kb are studied more extensively because they are easier to detect. M
 </li>
 </ol>
 <p>Haploinsufficiency is the phenomenon where a diploid organism has only a single functional copy of a gene (with the other copy inactivated by mutation) and the single functional copy of the gene does not produce enough gene product (typically a protein) to bring about a wild-type condition, leading to an abnormal or diseased state.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -235,11 +259,11 @@ CNVs &gt; 20kb are studied more extensively because they are easier to detect. M
 <p>Whole exome sequencing and targeted sequencing</p>
 <h4 id="Main-Applications-of-NGS-in-Genetics">Main Applications of NGS in Genetics<a class="anchor-link" href="#Main-Applications-of-NGS-in-Genetics">&#182;</a></h4><p>Discover rare variants of Mendelian Diseases</p>
 <p>Rare variants in common complex diseases, often in case-control settings</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -250,12 +274,13 @@ CNVs &gt; 20kb are studied more extensively because they are easier to detect. M
 <h3 id="Hybridization-based-microarray-approaches">Hybridization-based microarray approaches<a class="anchor-link" href="#Hybridization-based-microarray-approaches">&#182;</a></h3><h4 id="Array-CGH">Array CGH<a class="anchor-link" href="#Array-CGH">&#182;</a></h4><p>Array CGH platforms are based on the principle of comparative hybridization of two labeled samples (test and reference) to a set of hybridization targets.</p>
 <h4 id="SNP-arrays">SNP arrays<a class="anchor-link" href="#SNP-arrays">&#182;</a></h4><p>a key advantage of SNP microarrays is the use of SNP allele-specific probes to increase CNV sensitivity</p>
 <p>SNP arrays have proved popular in CNV-detection studies</p>
+
 </div>
 </div>
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/2e5e756a767d6c7785fe8b1fc712677d08c1dd56/writeup/Glossary.ipynb"><code>writeup/Glossary.ipynb</code></a> committed by Min Qiao on Sat Aug 19 09:11:23 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/2e5e756a767d6c7785fe8b1fc712677d08c1dd56">revision 251, 2e5e756</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/2e5e756a767d6c7785fe8b1fc712677d08c1dd56/writeup/Glossary.ipynb"><code>writeup/Glossary.ipynb</code></a> committed by Min Qiao on Sat Aug 19 09:11:23 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/2e5e756a767d6c7785fe8b1fc712677d08c1dd56">revision 1, 2e5e756</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

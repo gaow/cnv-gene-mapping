@@ -1,11 +1,15 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.2" />
+<meta name="ipynb_website:version" content="0.9.3" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
+
 <link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
 <link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
 <link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
@@ -14,9 +18,11 @@
 <script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
 <link rel="stylesheet"
       href="../site_libs/highlight/textmate.css"
       type="text/css" />
+
 <script src="../site_libs/highlight/highlight.js"></script>
 <script type="text/javascript">
 if (window.hljs && document.readyState && document.readyState === "complete") {
@@ -25,8 +31,10 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
    }, 0);
 }
 </script>
+
 <script src="../js/toc2.js"></script>
 <script src="../js/docs.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
 <script>
     MathJax.Hub.Config({
@@ -49,6 +57,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
         }
     });
 </script>
+
 <script>
 $( document ).ready(function(){
             var cfg={'threshold':3,     // depth of toc (number of levels)
@@ -88,6 +97,7 @@ $( document ).ready(function(){
             $("#toc-header").hide();
     });
 </script>
+
 <script>
 // manage active state of menu based on current page
 $(document).ready(function () {
@@ -111,7 +121,11 @@ $(document).ready(function () {
   window.buildTabsets("TOC");
 });
 </script>
+
+
+
 <title>Gene Mapping with CNV</title>
+
 <style type = "text/css">
 body {
   font-family: "Droid Sans";
@@ -120,10 +134,13 @@ body {
 }
 </style>
 </head>
+
 <body>
 <div tabindex="-1" id="notebook" class="border-box-sizing">
 <div class="container" id="notebook-container">
+
 <!-- code folding -->
+
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -136,35 +153,43 @@ body {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+        
 <li>
   <a href="../index.html">Overview</a>
 </li>
+        
 <li>
   <a href="../analysis.html">Analysis</a>
 </li>
+        
 <li>
   <a href="../prototype.html">Prototype</a>
 </li>
+        
 <li>
   <a href="../utils.html">Utils</a>
 </li>
+        
 <li>
   <a href="../setup.html">Setup</a>
 </li>
+        
 <li>
   <a href="../writeup.html">Writeup</a>
 </li>
+        
       </ul>
+        
 <ul class="nav navbar-nav navbar-right">
 <li>
    <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
 </li>
 </ul>
+        
       </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -185,12 +210,13 @@ body {
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">stats</span>
 <span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -218,9 +244,11 @@ body {
 <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sw_cluster_cnv_indiv</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;CNV_LEN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;BP2&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">sw_cluster_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;BP1&quot;</span><span class="p">])</span><span class="o">/</span><span class="mi">1000</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -229,13 +257,20 @@ body {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">sw_cluster_cnv_indiv</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>          FID  IID            tr  CHR        BP1        BP2  TYPE     SCORE  \
 0     PT-BPTP    1  scz_s234_eur    7    9128802    9229882     1   65.0100   
@@ -299,6 +334,7 @@ body {
 9720  PT-P2BE    1  scz_swe6_eur   13   84559815   84669950     1   18.6900   
 9721  PT-P2BG    1  scz_swe6_eur   15   32018731   32620127     3   61.9050   
 9722  PT-P2BI    1  scz_swe6_eur   14   35398428   35624831     3   40.2900   
+
       SITES  PHE  NSEG        KB     KBAVG   CNV_LEN  
 0        86    1     1   101.080   101.080   101.080  
 1        41    1     1   499.114   499.114   499.114  
@@ -361,12 +397,15 @@ body {
 9720     21    0     1   110.135   110.135   110.135  
 9721    108    0     1   601.396   601.396   601.396  
 9722     36    0     1   226.403   226.403   226.403  
+
 [9723 rows x 14 columns]
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -376,13 +415,20 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sw_indiv2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">sw_cluster_cnv</span><span class="p">,</span> <span class="n">sw_indiv</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;IID&quot;</span><span class="p">])</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">sw_indiv2</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>           FID  IID            tr   CHR          BP1          BP2  TYPE  \
 0      PT-BPTP    1  scz_s234_eur   7.0    9128802.0    9229882.0   1.0   
@@ -446,6 +492,7 @@ body {
 14252  PT-CP7D    1           NaN   NaN          NaN          NaN   NaN   
 14253  PT-CP85    1           NaN   NaN          NaN          NaN   NaN   
 14254  PT-CP1D    1           NaN   NaN          NaN          NaN   NaN   
+
          SCORE   SITES  PHE  NSEG        KB     KBAVG  
 0       65.010    86.0    2     1   101.080   101.080  
 1       13.130    41.0    2     1   499.114   499.114  
@@ -508,12 +555,15 @@ body {
 14252      NaN     NaN    2     0     0.000     0.000  
 14253      NaN     NaN    2     0     0.000     0.000  
 14254      NaN     NaN    2     0     0.000     0.000  
+
 [14255 rows x 13 columns]
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -523,22 +573,34 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Number of Cases and Controls, 2: cases, 1: controls</span>
 <span class="n">sw_fam</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;Case-Ctrl&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[3]:</div>
+
+
+
+
 <div class="output_text output_subarea output_execute_result">
 <pre>Case-Ctrl
 1    5917
 2    4719
 dtype: int64</pre>
 </div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -549,13 +611,20 @@ dtype: int64</pre>
 <span class="n">sex_by_casectrl</span> <span class="o">=</span> <span class="n">sw_fam</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;Case-Ctrl&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">sex_by_casectrl</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Case-Ctrl  sex
 1          1      3034
@@ -566,8 +635,10 @@ dtype: int64
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -579,21 +650,30 @@ dtype: int64
 <span class="n">prp_male_ctrl</span> <span class="o">=</span> <span class="n">sex_by_casectrl</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">sex_by_casectrl</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">sex_by_casectrl</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">prp_male_ctrl</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>0.598855689765
 0.512759844516
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -602,13 +682,20 @@ dtype: int64
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">sw_cluster_indiv</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;tr&quot;</span><span class="p">,</span> <span class="s2">&quot;PHE&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>tr            PHE
 scz_s234_eur  1      2137
@@ -623,8 +710,10 @@ dtype: int64
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -655,13 +744,20 @@ dtype: int64
 <span class="n">mean_cnv_ctrl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;NSEG&quot;</span><span class="p">][</span><span class="n">sw_cluster_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">mean_cnv_case</span><span class="p">,</span> <span class="n">mean_cnv_ctrl</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>1.05797101449 0.844660194175
 1.2360584732 1.20870379036
@@ -670,8 +766,10 @@ dtype: int64
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -684,21 +782,30 @@ dtype: int64
 <span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_case</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_case</span><span class="p">))</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_ctrl</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_ctrl</span><span class="p">))</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>0.38182622153437984
 0.38211538461538463
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -710,21 +817,30 @@ dtype: int64
 <span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_case_sw1</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_case_sw1</span><span class="p">))</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_ctrl_sw1</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_ctrl_sw1</span><span class="p">))</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>0.4794520547945205
 0.39080459770114945
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -736,21 +852,30 @@ dtype: int64
 <span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_case_sw234</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_case_sw234</span><span class="p">))</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_ctrl_sw234</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_ctrl_sw234</span><span class="p">))</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>0.3587385019710907
 0.36624080526519553
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -762,21 +887,30 @@ dtype: int64
 <span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_case_sw56</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_case_sw56</span><span class="p">))</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">prp_del_ctrl_sw56</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">prp_del_ctrl_sw56</span><span class="p">))</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>0.39864355689525244
 0.4088235294117647
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -788,21 +922,30 @@ dtype: int64
 <span class="nb">print</span> <span class="p">(</span><span class="n">median_cnv_len_case</span><span class="p">)</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">median_cnv_len_ctrl</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>188.797
 182.711
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -814,21 +957,30 @@ dtype: int64
 <span class="nb">print</span> <span class="p">(</span><span class="n">median_cnv_len_case_sw1</span><span class="p">)</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">median_cnv_len_ctrl_sw1</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>178.016
 181.313
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -840,21 +992,30 @@ dtype: int64
 <span class="nb">print</span> <span class="p">(</span><span class="n">median_cnv_len_case_sw234</span><span class="p">)</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">median_cnv_len_ctrl_sw234</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>188.213
 182.211
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -866,24 +1027,32 @@ dtype: int64
 <span class="nb">print</span> <span class="p">(</span><span class="n">median_cnv_len_case_sw56</span><span class="p">)</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">median_cnv_len_ctrl_sw56</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>191.854
 182.507
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -901,9 +1070,11 @@ dtype: int64
 <span class="n">sw_cluster_indiv_cnv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sw_cluster_indiv_cnv</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="c1"># sw_cluster_indiv_cnv</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -925,13 +1096,21 @@ dtype: int64
                                 <span class="k">else</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;tr&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;scz_s234_eur&quot;</span> <span class="k">else</span> <span class="mi">3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">sw_indiv_adj</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[17]:</div>
+
+
+
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <table border="1" class="dataframe">
@@ -1625,9 +1804,12 @@ dtype: int64
 <p>10636 rows × 8 columns</p>
 </div>
 </div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -1641,13 +1823,20 @@ dtype: int64
 <span class="nb">print</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">params</span><span class="p">))</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Optimization terminated successfully.
          Current function value: 0.685450
@@ -1673,8 +1862,10 @@ dtype: float64
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -1692,13 +1883,20 @@ dtype: float64
 <span class="nb">print</span> <span class="p">(</span><span class="n">sw_indiv_adj</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;PHE&quot;</span><span class="p">,</span> <span class="s2">&quot;TYPE&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
 <span class="n">stats</span><span class="o">.</span><span class="n">fisher_exact</span><span class="p">([[</span><span class="mi">1659</span><span class="o">+</span><span class="mi">1083</span><span class="o">+</span><span class="mi">50</span><span class="o">+</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1969</span><span class="o">+</span><span class="mi">1288</span><span class="o">+</span><span class="mi">46</span><span class="o">+</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">1922</span><span class="p">,</span> <span class="mi">2610</span><span class="p">]])[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>   PHE  TYPE  count(FID)
 0    0   NaN        2610
@@ -1724,14 +1922,23 @@ dtype: int64
 </pre>
 </div>
 </div>
+
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[19]:</div>
+
+
+
+
 <div class="output_text output_subarea output_execute_result">
 <pre>1.1485380709477924</pre>
 </div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -1740,13 +1947,21 @@ dtype: int64
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sw_cluster_cnv_indiv</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[20]:</div>
+
+
+
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <table border="1" class="dataframe">
@@ -2812,9 +3027,12 @@ dtype: int64
 <p>9723 rows × 14 columns</p>
 </div>
 </div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -2838,9 +3056,11 @@ dtype: int64
 <span class="n">single_CNV</span> <span class="o">=</span> <span class="n">n_CNV_occur</span><span class="p">[</span><span class="n">n_CNV_occur</span><span class="p">[</span><span class="s2">&quot;n_CNV_occur&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
 <span class="c1"># print (single_CNV)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -2862,13 +3082,21 @@ dtype: int64
     <span class="k">else</span><span class="p">:</span> <span class="k">continue</span>
 <span class="n">single_CNV_test</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[22]:</div>
+
+
+
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <table border="1" class="dataframe">
@@ -3438,9 +3666,12 @@ dtype: int64
 <p>948 rows × 6 columns</p>
 </div>
 </div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -3459,9 +3690,11 @@ dtype: int64
 <span class="n">single_CNV_test2</span> <span class="o">=</span> <span class="n">single_CNV_test2</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;count(n_CNV_occur)&quot;</span><span class="p">:</span> <span class="s2">&quot;single_CNV_count&quot;</span><span class="p">})</span>
 <span class="c1"># print (single_CNV_test2)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -3474,13 +3707,20 @@ dtype: int64
 <span class="nb">print</span> <span class="p">(</span><span class="n">res2</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
 <span class="nb">print</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">res2</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Optimization terminated successfully.
          Current function value: 0.685471
@@ -3504,30 +3744,10 @@ tr_adj              -0.0987      0.008    -12.716      0.000      -0.114      -0
 </pre>
 </div>
 </div>
+
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-</div>
-</div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -3547,9 +3767,11 @@ tr_adj              -0.0987      0.008    -12.716      0.000      -0.114      -0
 <span class="n">single_CNV_indiv</span><span class="p">[</span><span class="s2">&quot;tmp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">single_CNV_indiv</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;single_CNV_count&quot;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="c1"># print (single_CNV_indiv)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -3562,13 +3784,20 @@ tr_adj              -0.0987      0.008    -12.716      0.000      -0.114      -0
 <span class="nb">print</span> <span class="p">(</span><span class="n">res1</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">res1</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Optimization terminated successfully.
          Current function value: 0.685408
@@ -3592,8 +3821,10 @@ tr_adj              -0.1079      0.009    -12.390      0.000      -0.125      -0
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -3602,13 +3833,22 @@ tr_adj              -0.1079      0.009    -12.390      0.000      -0.125      -0
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">n_CNV_occur</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;n_CNV_occur&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[30]:</div>
+
+
+
+
 <div class="output_text output_subarea output_execute_result">
 <pre>n_CNV_occur
 1     5373
@@ -3646,9 +3886,12 @@ tr_adj              -0.1079      0.009    -12.390      0.000      -0.125      -0
 51       1
 dtype: int64</pre>
 </div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -3657,19 +3900,31 @@ dtype: int64</pre>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">n_CNV_occur</span><span class="p">[</span><span class="s2">&quot;n_CNV_occur&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[31]:</div>
+
+
+
+
 <div class="output_text output_subarea output_execute_result">
 <pre>9723</pre>
 </div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -3697,13 +3952,20 @@ dtype: int64</pre>
 <span class="s1">&#39;&#39;&#39;</span>
 <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>          FID  CHR         BP1         BP2  PHE  n_CNV_occur
 0     PT-P29N    3  35,826,707  35,938,795    0           30
@@ -3767,12 +4029,18 @@ dtype: int64</pre>
 7091  PT-FFQW   23 154,453,339 154,563,670    0            1
 7092  PT-IT78   23 154,453,339 154,563,670    1            1
 7093  PT-BQT2   23 154,582,472 154,739,717    1            1
+
 [7094 rows x 6 columns]
 </pre>
 </div>
 </div>
+
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[32]:</div>
+
+
+
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <table border="1" class="dataframe">
@@ -4280,9 +4548,12 @@ dtype: int64</pre>
 <p>881 rows × 5 columns</p>
 </div>
 </div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -4301,9 +4572,11 @@ dtype: int64</pre>
 <span class="c1">#         i += 1</span>
 <span class="c1"># print (res1)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -4312,19 +4585,31 @@ dtype: int64</pre>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sw_indiv</span><span class="p">[</span><span class="s2">&quot;NSEG&quot;</span><span class="p">][</span><span class="n">sw_indiv</span><span class="p">[</span><span class="s2">&quot;NSEG&quot;</span><span class="p">]</span><span class="o">!=</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[34]:</div>
+
+
+
+
 <div class="output_text output_subarea output_execute_result">
 <pre>6104</pre>
 </div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -4333,19 +4618,31 @@ dtype: int64</pre>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sw_indiv</span><span class="p">[</span><span class="s2">&quot;NSEG&quot;</span><span class="p">][</span><span class="n">sw_indiv</span><span class="p">[</span><span class="s2">&quot;NSEG&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[35]:</div>
+
+
+
+
 <div class="output_text output_subarea output_execute_result">
 <pre>4532</pre>
 </div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -4354,19 +4651,31 @@ dtype: int64</pre>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">single_CNV</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt output_prompt">Out[36]:</div>
+
+
+
+
 <div class="output_text output_subarea output_execute_result">
 <pre>5373</pre>
 </div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -4375,9 +4684,11 @@ dtype: int64</pre>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sw_mds</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;../data/swcnv/swcnv.mds&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -4386,9 +4697,11 @@ dtype: int64</pre>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C_sum&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C1&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C2&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C3&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C4&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C5&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C6&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C7&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C8&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C9&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C10&quot;</span><span class="p">]</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -4397,24 +4710,33 @@ dtype: int64</pre>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">sw_mds</span><span class="p">[</span><span class="s2">&quot;C_sum&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())))</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>1.00015782373
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/dfd84ddd1e708bfd2c74f19995b02136239caff9/analysis/20170721_swcnv.ipynb"><code>analysis/20170721_swcnv.ipynb</code></a> committed by Min Qiao on Tue Oct 10 16:11:21 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/dfd84ddd1e708bfd2c74f19995b02136239caff9">revision 350, dfd84dd</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/dfd84ddd1e708bfd2c74f19995b02136239caff9/analysis/20170721_swcnv.ipynb"><code>analysis/20170721_swcnv.ipynb</code></a> committed by Min Qiao on Tue Oct 10 16:11:21 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/dfd84ddd1e708bfd2c74f19995b02136239caff9">revision 8, dfd84dd</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

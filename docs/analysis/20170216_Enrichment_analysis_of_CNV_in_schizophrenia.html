@@ -1,11 +1,15 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.2" />
+<meta name="ipynb_website:version" content="0.9.3" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
+
 <link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
 <link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
 <link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
@@ -14,9 +18,11 @@
 <script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
 <link rel="stylesheet"
       href="../site_libs/highlight/textmate.css"
       type="text/css" />
+
 <script src="../site_libs/highlight/highlight.js"></script>
 <script type="text/javascript">
 if (window.hljs && document.readyState && document.readyState === "complete") {
@@ -25,8 +31,10 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
    }, 0);
 }
 </script>
+
 <script src="../js/toc2.js"></script>
 <script src="../js/docs.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
 <script>
     MathJax.Hub.Config({
@@ -49,6 +57,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
         }
     });
 </script>
+
 <script>
 $( document ).ready(function(){
             var cfg={'threshold':3,     // depth of toc (number of levels)
@@ -88,6 +97,7 @@ $( document ).ready(function(){
             $("#toc-header").hide();
     });
 </script>
+
 <script>
 // manage active state of menu based on current page
 $(document).ready(function () {
@@ -111,7 +121,11 @@ $(document).ready(function () {
   window.buildTabsets("TOC");
 });
 </script>
+
+
+
 <title>Gene Mapping with CNV</title>
+
 <style type = "text/css">
 body {
   font-family: "Droid Sans";
@@ -120,10 +134,13 @@ body {
 }
 </style>
 </head>
+
 <body>
 <div tabindex="-1" id="notebook" class="border-box-sizing">
 <div class="container" id="notebook-container">
+
 <!-- code folding -->
+
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -136,35 +153,43 @@ body {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+        
 <li>
   <a href="../index.html">Overview</a>
 </li>
+        
 <li>
   <a href="../analysis.html">Analysis</a>
 </li>
+        
 <li>
   <a href="../prototype.html">Prototype</a>
 </li>
+        
 <li>
   <a href="../utils.html">Utils</a>
 </li>
+        
 <li>
   <a href="../setup.html">Setup</a>
 </li>
+        
 <li>
   <a href="../writeup.html">Writeup</a>
 </li>
+        
       </ul>
+        
 <ul class="nav navbar-nav navbar-right">
 <li>
    <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
 </li>
 </ul>
+        
       </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -172,8 +197,7 @@ body {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -186,6 +210,7 @@ body {
 <li>Perform Fisher Exact tests for each gene which is overlapped with CNVs in deletion and duplication.</li>
 <li>Draw barplots for deletion and duplication.</li>
 </ol>
+
 </div>
 </div>
 </div>
@@ -204,17 +229,19 @@ body {
 <span class="c1"># for the plot to be showed in Jupyter notebook</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Load-CNV-and-drop-duplicates">Load CNV and drop duplicates<a class="anchor-link" href="#Load-CNV-and-drop-duplicates">&#182;</a></h2><p>CNV file in <code>bed</code> format is downloaded from <a href="http://pngu.mgh.harvard.edu/isc/isc-r1.cnv.bed">http://pngu.mgh.harvard.edu/isc/isc-r1.cnv.bed</a>. It includes four separate datasets, deletion cases, deletion controls, duplication cases and duplication controls. The sample sizes for the four datasets are 1374, 1278, 2228 and 1873, respectively. Every line in each dataset represents a CNV (chromosome, start and end position). Similar start and end positions exit. Some of them are only different by hundreds to thousands of SNPs.</p>
 <p>Import <code>CNV.bed</code> file first, divide into four datasets. Each dataset includes 22 chromosome and CNV start/end positions on each chromosome. Then, sort start/end position by ascending order. The CNV.bed file does not include sex chromosome.</p>
+
 </div>
 </div>
 </div>
@@ -235,20 +262,23 @@ body {
     <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">cnvbed</span><span class="p">[</span><span class="n">dataset</span><span class="p">]:</span>
         <span class="n">cnvbed</span><span class="p">[</span><span class="n">dataset</span><span class="p">][</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">cnvbed</span><span class="p">[</span><span class="n">dataset</span><span class="p">][</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">])))</span>
+    
 <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="n">cnvbed</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
     <span class="k">for</span> <span class="n">chrom</span> <span class="ow">in</span> <span class="n">cnvbed</span><span class="p">[</span><span class="n">dataset</span><span class="p">]:</span>
         <span class="n">cnvbed</span><span class="p">[</span><span class="n">dataset</span><span class="p">][</span><span class="n">chrom</span><span class="p">]</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Use <code>pandas</code> to transfer dictionaries from last step to a <code>DataFrame</code>, which contains four parts, cases and controls for deletion and duplication, then drop cuplicates if CNVs share identical chromosome, start and end position.</p>
+
 </div>
 </div>
 </div>
@@ -269,18 +299,20 @@ body {
                                             <span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_start&quot;</span><span class="p">,</span> <span class="s2">&quot;cnv_end&quot;</span><span class="p">))</span>
 <span class="c1">#print (cnvbed_df)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Load-reference-gene-database-and-drop-duplicates">Load reference gene database and drop duplicates<a class="anchor-link" href="#Load-reference-gene-database-and-drop-duplicates">&#182;</a></h2><p>The database for reference gene can be downloaded from <a href="http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/refGene.txt.gz">http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/refGene.txt.gz</a>. The meta information is described here <a href="http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/refGene.sql">http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/refGene.sql</a>.</p>
 <p>Import reference transcripts and their chromosome, start and end position as a table using pandas.</p>
 <p>Use sqldf to query DataFrame. Combine gene by dropping duplicates if they share identical chromosome, start and end position.</p>
+
 </div>
 </div>
 </div>
@@ -292,17 +324,25 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s2">&quot;data/refGene.txt.gz&quot;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> 
                          <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> 
                          <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;tx_name&quot;</span><span class="p">,</span> <span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
+
 <span class="n">gene_df</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_start&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_end&quot;</span><span class="p">))</span>
 <span class="c1">#gene_df = gene_df.rename(columns={&quot;tx_start&quot;: &quot;gene_start&quot;, &quot;tx_end&quot;: &quot;gene_end&quot;})</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">gene_df</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>         tx_name  chrom   tx_start     tx_end     gene_name
 0      NR_046018   chr1      11873      14409       DDX11L1
@@ -318,11 +358,12 @@ body {
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -387,6 +428,7 @@ body {
 <ul>
 <li>Count the number of CNVs overlap with each gene in cases vs controls.</li>
 </ul>
+
 </div>
 </div>
 </div>
@@ -420,16 +462,18 @@ body {
 <span class="s2">    &quot;&quot;&quot;</span>
     <span class="n">cnv_counts</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>CNV annotated by gene names:</p>
+
 </div>
 </div>
 </div>
@@ -440,13 +484,20 @@ body {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">cnv_in_gene</span><span class="p">[</span><span class="s2">&quot;delCases&quot;</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>  chrom  cnv_start  cnv_end       tx_name gene_name
 0  chr5      68532   191461     NM_052909  PLEKHG4B
@@ -462,15 +513,17 @@ body {
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Number of CNVs per gene:</p>
+
 </div>
 </div>
 </div>
@@ -481,13 +534,20 @@ body {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">cnv_counts</span><span class="p">[</span><span class="s2">&quot;delCases&quot;</span><span class="p">][:</span><span class="mi">10</span><span class="p">])</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>  chrom  gene_name  count(gene_name)  cnv_start    cnv_end
 0  chr7     IMMP2L                26  110799758  110973658
@@ -503,15 +563,17 @@ body {
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Question">Question<a class="anchor-link" href="#Question">&#182;</a></h3><p>Some genes may spread widely as the two tables showed below, so the CNV overlapping may be complex.</p>
+
 </div>
 </div>
 </div>
@@ -526,6 +588,7 @@ body {
 <span class="s2">where gene_name = &quot;LOC101928381&quot;</span>
 <span class="s2">&quot;&quot;&quot;</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">))</span>
+
 <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">select gene_name, chrom, tx_name, tx_start, tx_end</span>
 <span class="s2">from ref_gene </span>
@@ -533,13 +596,20 @@ body {
 <span class="s2">&quot;&quot;&quot;</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">))</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>      gene_name chrom    tx_name  tx_start    tx_end
 0  LOC101928381  chr9  NR_121570  42771707  42782614
@@ -557,17 +627,19 @@ body {
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Enrichment-analyses-(Fisher-Exact-test)">Enrichment analyses (Fisher Exact test)<a class="anchor-link" href="#Enrichment-analyses-(Fisher-Exact-test)">&#182;</a></h2><ul>
 <li>Combine deletion cases and controls to generate 2 by 2 table for Fisher exact test.</li>
 </ul>
+
 </div>
 </div>
 </div>
@@ -589,18 +661,20 @@ body {
 <span class="n">del_table</span><span class="p">[</span><span class="s2">&quot;n_delctrl_nogene&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_delCtrls</span> <span class="o">-</span> <span class="n">del_table</span><span class="p">[</span><span class="s2">&quot;n_delctrl_gene&quot;</span><span class="p">]</span>
 <span class="n">del_table</span> <span class="o">=</span> <span class="n">del_table</span><span class="p">[[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">,</span> <span class="s2">&quot;n_delcase_gene&quot;</span><span class="p">,</span> <span class="s2">&quot;n_delctrl_gene&quot;</span><span class="p">,</span> <span class="s2">&quot;n_delcase_nogene&quot;</span><span class="p">,</span> <span class="s2">&quot;n_delctrl_nogene&quot;</span><span class="p">]]</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
 <li>Combine duplication cases and controls to generate 2 by 2 table for Fisher exact test.</li>
 </ul>
+
 </div>
 </div>
 </div>
@@ -622,18 +696,20 @@ body {
 <span class="n">dup_table</span><span class="p">[</span><span class="s2">&quot;n_dupctrl_nogene&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_dupCtrls</span> <span class="o">-</span> <span class="n">dup_table</span><span class="p">[</span><span class="s2">&quot;n_dupctrl_gene&quot;</span><span class="p">]</span>
 <span class="n">dup_table</span> <span class="o">=</span> <span class="n">dup_table</span><span class="p">[[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">,</span> <span class="s2">&quot;n_dupcase_gene&quot;</span><span class="p">,</span> <span class="s2">&quot;n_dupctrl_gene&quot;</span><span class="p">,</span> <span class="s2">&quot;n_dupcase_nogene&quot;</span><span class="p">,</span> <span class="s2">&quot;n_dupctrl_nogene&quot;</span><span class="p">]]</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
 <li>Calculate Fisher Exact test results, two-sided, for deletion cases and controls.</li>
 </ul>
+
 </div>
 </div>
 </div>
@@ -657,29 +733,38 @@ body {
 <span class="n">top_or_gene_del</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">or_del</span><span class="p">[:</span><span class="mi">100</span><span class="p">]]</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">top_gene_list_del</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>[&#39;RAB2B&#39;, &#39;CHD8&#39;, &#39;TOX4&#39;, &#39;SNORD8&#39;, &#39;METTL3&#39;, &#39;SALL2&#39;, &#39;SNORD9&#39;, &#39;SUPT16H&#39;, &#39;RPGRIP1&#39;, &#39;MIR3180-3&#39;, &#39;MIR3670-1&#39;, &#39;NOMO2&#39;, &#39;MIR6511A4&#39;, &#39;NPIPA8&#39;, &#39;FSIP2&#39;, &#39;FSIP2-AS1&#39;, &#39;LOC101927196&#39;, &#39;ATP6V1E1&#39;, &#39;BCL2L13&#39;, &#39;BID&#39;, &#39;CECR1&#39;, &#39;CECR2&#39;, &#39;CECR3&#39;, &#39;CECR5&#39;, &#39;CECR5-AS1&#39;, &#39;CECR6&#39;, &#39;CECR7&#39;, &#39;FLJ41941&#39;, &#39;GAB4&#39;, &#39;IL17RA&#39;, &#39;LINC00528&#39;, &#39;LOC100996342&#39;, &#39;LOC100996415&#39;, &#39;LOC101929372&#39;, &#39;LOC105379550&#39;, &#39;MICAL3&#39;, &#39;MIR3198-1&#39;, &#39;MIR648&#39;, &#39;PEX26&#39;, &#39;SLC25A18&#39;, &#39;TUBA8&#39;, &#39;USP18&#39;, &#39;FAM72C&#39;, &#39;FAM72D&#39;, &#39;LINC01138&#39;, &#39;NBPF8&#39;, &#39;PPIAL4G&#39;, &#39;MIR6770-2&#39;, &#39;MIR3179-1&#39;, &#39;MIR3180-2&#39;, &#39;MACROD2&#39;, &#39;FAM189A1&#39;, &#39;LOC100130111&#39;, &#39;MACROD2-AS1&#39;, &#39;LINC00623&#39;, &#39;LINC00869&#39;, &#39;PPIAL4C&#39;, &#39;MIR3680-2&#39;, &#39;ABCC6P1&#39;, &#39;HNRNPC&#39;, &#39;APBA2&#39;, &#39;C22orf39&#39;, &#39;CDC45&#39;, &#39;CLDN5&#39;, &#39;CLTCL1&#39;, &#39;DGCR14&#39;, &#39;DGCR2&#39;, &#39;GNB1L&#39;, &#39;GOLGA6L7P&#39;, &#39;GOLGA8M&#39;, &#39;GP1BB&#39;, &#39;GSC2&#39;, &#39;HIRA&#39;, &#39;LINC00895&#39;, &#39;LINC01311&#39;, &#39;LOC100289656&#39;, &#39;MRPL40&#39;, &#39;NPIPB4&#39;, &#39;NSMCE3&#39;, &#39;PDCD6IPP2&#39;, &#39;SEPT5&#39;, &#39;SEPT5-GP1BB&#39;, &#39;SLC25A1&#39;, &#39;TBX1&#39;, &#39;TSSK2&#39;, &#39;UFD1L&#39;, &#39;WHAMMP2&#39;, &#39;HSFY1P1&#39;, &#39;PFN1P2&#39;, &#39;XKR3&#39;, &#39;OR4A47&#39;, &#39;C5orf17&#39;, &#39;CNTN4&#39;, &#39;EXOC4&#39;, &#39;LINC00540&#39;, &#39;LOC101927967&#39;, &#39;LRRC4C&#39;, &#39;SMG1P2&#39;, &#39;SPRY2&#39;, &#39;LOC100288162&#39;]
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
 <li>Calculate Fisher Exact test results, two-sided, for duplication cases and controls.</li>
 </ul>
+
 </div>
 </div>
 </div>
@@ -691,6 +776,7 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">res_dup</span> <span class="o">=</span> <span class="p">[(</span><span class="n">pvalue</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupcase_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupctrl_gene&quot;</span><span class="p">],</span> 
                <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupcase_nogene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupctrl_nogene&quot;</span><span class="p">]),</span>
         <span class="n">row</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">dup_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
+
 <span class="n">or_dup</span> <span class="o">=</span> <span class="p">[(</span><span class="n">stats</span><span class="o">.</span><span class="n">fisher_exact</span><span class="p">([[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupcase_gene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupctrl_gene&quot;</span><span class="p">]],</span> 
                                <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupcase_nogene&quot;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;n_dupctrl_nogene&quot;</span><span class="p">]]])[</span><span class="mi">0</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
           <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">dup_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
@@ -703,29 +789,38 @@ body {
 <span class="n">top_or_gene_dup</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">or_dup</span><span class="p">[:</span><span class="mi">100</span><span class="p">]]</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">top_gene_list_dup</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>[&#39;CHN2&#39;, &#39;ESYT2&#39;, &#39;KIF26B&#39;, &#39;RPGRIP1&#39;, &#39;C22orf39&#39;, &#39;CDAN1&#39;, &#39;CDC45&#39;, &#39;CLDN5&#39;, &#39;GNB1L&#39;, &#39;GP1BB&#39;, &#39;HIRA&#39;, &#39;LINC00895&#39;, &#39;MRPL40&#39;, &#39;SEPT5&#39;, &#39;SEPT5-GP1BB&#39;, &#39;STARD9&#39;, &#39;TBX1&#39;, &#39;TTBK2&#39;, &#39;UFD1L&#39;, &#39;LOC283177&#39;, &#39;AGAP6&#39;, &#39;COL18A1&#39;, &#39;COL18A1-AS1&#39;, &#39;FAM21EP&#39;, &#39;LOC440910&#39;, &#39;MIR6815&#39;, &#39;POTEE&#39;, &#39;SLC19A1&#39;, &#39;TIMM23B&#39;, &#39;VAV2&#39;, &#39;WASHC2A&#39;, &#39;PTPRN2&#39;, &#39;ANO2&#39;, &#39;CCNDBP1&#39;, &#39;COLEC12&#39;, &#39;EPB42&#39;, &#39;FAM118A&#39;, &#39;FAM160A1&#39;, &#39;FBLN1&#39;, &#39;KIAA0930&#39;, &#39;LINC01589&#39;, &#39;LOC100996325&#39;, &#39;LOC728613&#39;, &#39;LRRIQ3&#39;, &#39;MACROD2&#39;, &#39;MIR1249&#39;, &#39;NUP153&#39;, &#39;NUP50&#39;, &#39;NUP50-AS1&#39;, &#39;PRSS48&#39;, &#39;RAP1GAP2&#39;, &#39;RBM47&#39;, &#39;RIBC2&#39;, &#39;SH3D19&#39;, &#39;SMC1B&#39;, &#39;TGM5&#39;, &#39;TMEM62&#39;, &#39;UPK3A&#39;, &#39;VWF&#39;, &#39;DGKH&#39;, &#39;KIF13A&#39;, &#39;LINC01266&#39;, &#39;VWA8&#39;, &#39;VWA8-AS1&#39;, &#39;CRYM-AS1&#39;, &#39;SNX29P1&#39;, &#39;KCNJ12&#39;, &#39;KCNJ18&#39;, &#39;BNC1&#39;, &#39;LOC105375545&#39;, &#39;MIR128-2&#39;, &#39;AGAP7P&#39;, &#39;BTBD11&#39;, &#39;C3orf67&#39;, &#39;CHD8&#39;, &#39;COL18A1-AS2&#39;, &#39;FAM110C&#39;, &#39;GMDS&#39;, &#39;HIRIP3&#39;, &#39;INO80E&#39;, &#39;LINC01022&#39;, &#39;MARK3&#39;, &#39;MIR5707&#39;, &#39;MSMB&#39;, &#39;NCAPG2&#39;, &#39;NCOA4&#39;, &#39;PAK5&#39;, &#39;PLEKHB2&#39;, &#39;PWP1&#39;, &#39;RAB2B&#39;, &#39;RNF103-CHMP3&#39;, &#39;SNORD8&#39;, &#39;SNORD9&#39;, &#39;SUPT16H&#39;, &#39;TIMM23&#39;, &#39;ZCCHC14&#39;, &#39;C17orf51&#39;, &#39;COX20&#39;, &#39;DLG1&#39;, &#39;EFCAB2&#39;]
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Visualize-enrichment-analyses">Visualize enrichment analyses<a class="anchor-link" href="#Visualize-enrichment-analyses">&#182;</a></h2><ul>
 <li>Draw barplot of $-\log_{10}(p_\text{2-sided})$ for deletion.</li>
 </ul>
+
 </div>
 </div>
 </div>
@@ -740,13 +835,22 @@ body {
 <span class="n">p_df_del</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;logp_2side_del&quot;</span><span class="p">:</span> <span class="n">top_logp_2side_del</span><span class="p">,</span> <span class="s2">&quot;gene_name_del&quot;</span><span class="p">:</span> <span class="n">top_gene_list_del</span><span class="p">})</span>
 <span class="n">plot_del</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;logp_2side_del&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;gene_name_del&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">p_df_del</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;log pvalue 2-sided&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
+
+
 <div class="output_png output_subarea ">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAi0AAASJCAYAAAAUtCywAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAALEgAACxIB0t1+/AAAIABJREFUeJzs3XlAVdXe//H3OQhOqGR6NQVxJM2uFT7XIc1s0NLMHFDU
@@ -2141,9 +2245,12 @@ ApUl23wAAAAASUVORK5CYII=
 "
 >
 </div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -2156,13 +2263,22 @@ ApUl23wAAAAASUVORK5CYII=
 <span class="n">p_df_del</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;or_del&quot;</span><span class="p">:</span> <span class="n">top_or_del</span><span class="p">,</span> <span class="s2">&quot;gene_name_del&quot;</span><span class="p">:</span> <span class="n">top_or_gene_del</span><span class="p">})</span>
 <span class="n">plot_del</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;or_del&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;gene_name_del&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">p_df_del</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;OR&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
+
+
 <div class="output_png output_subarea ">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiwAAASJCAYAAAD7dkeOAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAALEgAACxIB0t1+/AAAIABJREFUeJzs3XlcVXX+x/HXuXAvCQiEJrmQFzU0bFMbTUUr0zRFzB0X
@@ -3466,18 +3582,21 @@ RByeEhYRERFxeEpYRERExOH9P/H/3aeT8tJOAAAAAElFTkSuQmCC
 "
 >
 </div>
+
+</div>
+
 </div>
 </div>
+
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
 <li>Draw barplot of -log10(p_2sided) for duplication.</li>
 </ul>
+
 </div>
 </div>
 </div>
@@ -3492,13 +3611,22 @@ RByeEhYRERFxeEpYRERExOH9P/H/3aeT8tJOAAAAAElFTkSuQmCC
 <span class="n">p_df_dup</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;logp_2side_dup&quot;</span><span class="p">:</span> <span class="n">top_logp_2side_dup</span><span class="p">,</span> <span class="s2">&quot;gene_name_dup&quot;</span><span class="p">:</span> <span class="n">top_gene_list_dup</span><span class="p">})</span>
 <span class="n">plot_dup</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;logp_2side_dup&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;gene_name_dup&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">p_df_dup</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;log pvalue 2-sided&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
+
+
 <div class="output_png output_subarea ">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAjUAAASJCAYAAAAgze2sAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz
 AAALEgAACxIB0t1+/AAAIABJREFUeJzs3XtgznX/x/HnddnGGFuLnCabkCLd6HZKcru7hYS0muOU
@@ -4885,9 +5013,12 @@ BRU1IiIiYhdU1IiIiIhdUFEjIiIidkFFjYiIiNiF/wecmnO72zDMLAAAAABJRU5ErkJggg==
 "
 >
 </div>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -4896,24 +5027,32 @@ BRU1IiIiYhdU1IiIiIhdUFEjIiIidkFFjYiIiNiF/wecmnO72zDMLAAAAABJRU5ErkJggg==
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> jupyter nbconvert --to script enrichment_analysis_of_CNV_in_schizophrenia.ipynb
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>[NbConvertApp] Converting notebook enrichment_analysis_of_CNV_in_schizophrenia.ipynb to script
 [NbConvertApp] Writing 11744 bytes to enrichment_analysis_of_CNV_in_schizophrenia.py
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -4925,12 +5064,13 @@ BRU1IiIiYhdU1IiIiIhdUFEjIiIidkFFjYiIiNiF/wecmnO72zDMLAAAAABJRU5ErkJggg==
 <li><p>Use pandas and <a href="https://pypi.python.org/pypi/pandasql">pandasql</a> to transfer dictionary to DataFrame and to query pandas DataFrames using SQL syntax.</p>
 </li>
 </ul>
+
 </div>
 </div>
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/35f31793cceaa0b2a9f4000a04c29402bed006b3/analysis/20170216_Enrichment_analysis_of_CNV_in_schizophrenia.ipynb"><code>analysis/20170216_Enrichment_analysis_of_CNV_in_schizophrenia.ipynb</code></a> committed by Min Qiao on Sun Aug 20 13:42:54 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/35f31793cceaa0b2a9f4000a04c29402bed006b3">revision 290, 35f3179</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/35f31793cceaa0b2a9f4000a04c29402bed006b3/analysis/20170216_Enrichment_analysis_of_CNV_in_schizophrenia.ipynb"><code>analysis/20170216_Enrichment_analysis_of_CNV_in_schizophrenia.ipynb</code></a> committed by Min Qiao on Sun Aug 20 13:42:54 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/35f31793cceaa0b2a9f4000a04c29402bed006b3">revision 4, 35f3179</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

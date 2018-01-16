@@ -1,11 +1,15 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.2" />
+<meta name="ipynb_website:version" content="0.9.3" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
+
 <link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
 <link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
 <link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
@@ -14,9 +18,11 @@
 <script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
 <link rel="stylesheet"
       href="../site_libs/highlight/textmate.css"
       type="text/css" />
+
 <script src="../site_libs/highlight/highlight.js"></script>
 <script type="text/javascript">
 if (window.hljs && document.readyState && document.readyState === "complete") {
@@ -25,8 +31,10 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
    }, 0);
 }
 </script>
+
 <script src="../js/toc2.js"></script>
 <script src="../js/docs.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
 <script>
     MathJax.Hub.Config({
@@ -49,6 +57,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
         }
     });
 </script>
+
 <script>
 $( document ).ready(function(){
             var cfg={'threshold':3,     // depth of toc (number of levels)
@@ -88,6 +97,7 @@ $( document ).ready(function(){
             $("#toc-header").hide();
     });
 </script>
+
 <script>
 // manage active state of menu based on current page
 $(document).ready(function () {
@@ -111,7 +121,11 @@ $(document).ready(function () {
   window.buildTabsets("TOC");
 });
 </script>
+
+
+
 <title>Gene Mapping with CNV</title>
+
 <style type = "text/css">
 body {
   font-family: "Droid Sans";
@@ -120,10 +134,13 @@ body {
 }
 </style>
 </head>
+
 <body>
 <div tabindex="-1" id="notebook" class="border-box-sizing">
 <div class="container" id="notebook-container">
+
 <!-- code folding -->
+
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -136,35 +153,43 @@ body {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+        
 <li>
   <a href="../index.html">Overview</a>
 </li>
+        
 <li>
   <a href="../analysis.html">Analysis</a>
 </li>
+        
 <li>
   <a href="../prototype.html">Prototype</a>
 </li>
+        
 <li>
   <a href="../utils.html">Utils</a>
 </li>
+        
 <li>
   <a href="../setup.html">Setup</a>
 </li>
+        
 <li>
   <a href="../writeup.html">Writeup</a>
 </li>
+        
       </ul>
+        
 <ul class="nav navbar-nav navbar-right">
 <li>
    <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
 </li>
 </ul>
+        
       </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -172,12 +197,12 @@ body {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This notebook explores using <a href="https://github.com/xqwen/dap">DAP</a> software directly to analyze our CNV data, on a toy example. It largely follows from <a href="https://github.com/xqwen/dap/wiki/Case-study:-multi-SNP-fine-mapping">this tutorial</a>.</p>
+
 </div>
 </div>
 </div>
@@ -188,16 +213,18 @@ body {
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># ! cd ~/GIT/software; git clone https://github.com/xqwen/dap</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Here is Python codes to prepare DAP input data, from a matrix where the first column is response and the rest are regressors. In the case of our toy data the first column is disease status and the rest columns are indicators of whether a gene harbors a CNV.</p>
+
 </div>
 </div>
 </div>
@@ -208,32 +235,43 @@ body {
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">feather</span>
 <span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">run_dap_lite</span>
+
 <span class="n">fn</span> <span class="o">=</span> <span class="s2">&quot;data/toy_n2000_p0.5_causal5.feather&quot;</span>
 <span class="n">fout</span> <span class="o">=</span> <span class="s2">&quot;data/toy_n2000_p0.5_causal5_test.dap&quot;</span>
+
 <span class="n">input_file</span> <span class="o">=</span> <span class="n">feather</span><span class="o">.</span><span class="n">read_dataframe</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
 <span class="k">print</span> <span class="p">(</span><span class="n">input_file</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>(2000, 11)
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To run DAP:</p>
+
 </div>
 </div>
 </div>
@@ -244,65 +282,78 @@ body {
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">run_dap_lite</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="n">fout</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>2017-08-06 16:46:21.754220
 2017-08-06 16:46:26.263577
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>%preview -n data/toy_4genes_n_1280.dap</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+
 <pre><code>1   7.2437e-01    2      7.465   [chr6.100001] [chr6.100003]
 2   2.1527e-01    1      6.938   [chr6.100001]
+
 </code></pre>
 <p>Posterior expected model size: 1.664 (sd = 0.586)</p>
 <p>LogNC = 17.51028 ( Log10NC = 7.605 )</p>
 <p>Posterior inclusion probability</p>
+
 <pre><code>1 chr6.100001   9.39636e-01      7.914
 2 chr6.100003   7.24368e-01     -1.392</code></pre>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The first line ranks the high-probability association models.</p>
 <p>The posterior probability of the association model for [chr6.100001] and [chr6.100003] is $0.72437$.</p>
 <p>The unnormalized posterior score $\text{log}_{10}$(prior)+$\text{log}_{BF}$ is $7.465$.</p>
+
 <pre><code>1   7.2437e-01    2      7.465   [chr6.100001] [chr6.100003]
 </code></pre>
 <p>The last section of the output is the posterior inclusion probabilities (PIP) for top ranked genes, for example, PIP for gene1 is $0.9396$.</p>
 <p>The last column gives $\text{log}_{10}$ Bayes factor of the corresponding SNP/gene in single-SNP/gene testing.</p>
+
 </div>
 </div>
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/c3f27b602d65b4636b54fa22ccdc4b419e1043e0/prototype/20170710_dap_on_toy.ipynb"><code>prototype/20170710_dap_on_toy.ipynb</code></a> committed by Min Qiao on Tue Aug 22 19:32:10 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/c3f27b602d65b4636b54fa22ccdc4b419e1043e0">revision 296, c3f27b6</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/c3f27b602d65b4636b54fa22ccdc4b419e1043e0/prototype/20170710_dap_on_toy.ipynb"><code>prototype/20170710_dap_on_toy.ipynb</code></a> committed by Min Qiao on Tue Aug 22 19:32:10 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/c3f27b602d65b4636b54fa22ccdc4b419e1043e0">revision 2, c3f27b6</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

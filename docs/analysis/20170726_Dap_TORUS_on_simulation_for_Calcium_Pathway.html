@@ -1,11 +1,15 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.2" />
+<meta name="ipynb_website:version" content="0.9.3" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
+
 <link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
 <link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
 <link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
@@ -14,9 +18,11 @@
 <script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
 <link rel="stylesheet"
       href="../site_libs/highlight/textmate.css"
       type="text/css" />
+
 <script src="../site_libs/highlight/highlight.js"></script>
 <script type="text/javascript">
 if (window.hljs && document.readyState && document.readyState === "complete") {
@@ -25,8 +31,10 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
    }, 0);
 }
 </script>
+
 <script src="../js/toc2.js"></script>
 <script src="../js/docs.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
 <script>
     MathJax.Hub.Config({
@@ -49,6 +57,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
         }
     });
 </script>
+
 <script>
 $( document ).ready(function(){
             var cfg={'threshold':3,     // depth of toc (number of levels)
@@ -88,6 +97,7 @@ $( document ).ready(function(){
             $("#toc-header").hide();
     });
 </script>
+
 <script>
 // manage active state of menu based on current page
 $(document).ready(function () {
@@ -111,7 +121,11 @@ $(document).ready(function () {
   window.buildTabsets("TOC");
 });
 </script>
+
+
+
 <title>Gene Mapping with CNV</title>
+
 <style type = "text/css">
 body {
   font-family: "Droid Sans";
@@ -120,10 +134,13 @@ body {
 }
 </style>
 </head>
+
 <body>
 <div tabindex="-1" id="notebook" class="border-box-sizing">
 <div class="container" id="notebook-container">
+
 <!-- code folding -->
+
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -136,35 +153,43 @@ body {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+        
 <li>
   <a href="../index.html">Overview</a>
 </li>
+        
 <li>
   <a href="../analysis.html">Analysis</a>
 </li>
+        
 <li>
   <a href="../prototype.html">Prototype</a>
 </li>
+        
 <li>
   <a href="../utils.html">Utils</a>
 </li>
+        
 <li>
   <a href="../setup.html">Setup</a>
 </li>
+        
 <li>
   <a href="../writeup.html">Writeup</a>
 </li>
+        
       </ul>
+        
 <ul class="nav navbar-nav navbar-right">
 <li>
    <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
 </li>
 </ul>
+        
       </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -192,12 +217,13 @@ body {
 <span class="n">fileout</span> <span class="o">=</span> <span class="s2">&quot;data/calcium_pathway_4000_shape_25.data&quot;</span>
 <span class="c1"># print(fileout)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -221,20 +247,29 @@ body {
 <span class="n">z_mu</span> <span class="o">=</span> <span class="n">t</span> <span class="o">-</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">RR</span><span class="o">*</span><span class="n">prevalence</span><span class="p">)</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">z_mu</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>2.57582930355 0.334426575944
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -247,9 +282,11 @@ body {
 <span class="c1">#     print (len(dat.columns.values[1:].tolist()), i)</span>
 <span class="c1">#     i+=1</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -266,9 +303,11 @@ body {
 <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chr2&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">diff</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span>
 <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chr15&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">diff</span><span class="p">)[</span><span class="mi">1</span><span class="p">]]</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -279,9 +318,11 @@ body {
                                                       <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">calpath_gene_pos</span><span class="p">[</span><span class="s2">&quot;prior.pr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">z_mu</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -291,12 +332,13 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="n">z_mu</span>
 <span class="n">y_tran</span> <span class="o">=</span> <span class="n">t</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -312,9 +354,11 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># from get_sum_stats_for_torus import get_summary_stats</span>
 <span class="kn">import</span> <span class="nn">fisher</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -384,9 +428,11 @@ body {
     <span class="n">SNP_anno_cal</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;data/TORUS/calcium/snp_anno_cal&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 <span class="c1">#     return df_cal_bf, df_cal_beta, df_cal_zscore, SNP_anno_cal</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -407,20 +453,29 @@ body {
     <span class="k">else</span><span class="p">:</span> <span class="n">cat6</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="c1"># print (len(cat6))</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>155
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -429,13 +484,20 @@ body {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">df_cal</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>      phenotype  ADIPOR1  ADORA1  ARL8A  ASCL5  ATP2B4  ATP6V1G3  AVPR1B  \
 0             1        0       0      0      0       0         0       0   
@@ -499,6 +561,7 @@ body {
 3997          0        0       0      0      0       0         0       0   
 3998          0        0       0      0      0       0         0       0   
 3999          0        0       0      0      0       0         0       0   
+
       BLACAT1  BTG2   ...    TMEM183B  TMEM81  TMEM9  TNNI1  TNNT2  UBE2T  \
 0           0     0   ...           0       0      0      0      0      0   
 1           0     0   ...           0       0      0      0      0      0   
@@ -561,6 +624,7 @@ body {
 3997        0     0   ...           0       0      0      0      0      0   
 3998        0     0   ...           0       0      0      0      0      0   
 3999        0     0   ...           0       0      0      0      0      0   
+
       YOD1  ZBED6  ZC3H11A  ZNF281  
 0        0      0        0       0  
 1        0      0        0       0  
@@ -623,12 +687,15 @@ body {
 3997     0      0        0       0  
 3998     0      0        0       0  
 3999     0      0        0       0  
+
 [4000 rows x 155 columns]
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -637,13 +704,20 @@ body {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_sum_stats_cal_simu</span><span class="p">(</span><span class="n">gene_df</span> <span class="o">=</span> <span class="n">df_cal</span><span class="p">,</span> <span class="n">causal</span> <span class="o">=</span> <span class="n">pthway_genes</span><span class="p">,</span> <span class="n">cat</span> <span class="o">=</span> <span class="n">cat6</span><span class="p">,</span> <span class="n">multi_cat</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">chrom</span> <span class="o">=</span> <span class="s2">&quot;chr19&quot;</span><span class="p">)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>4 1996 2 1998 2.002004008016032
 3 1997 1 1999 3.0030045067601403
@@ -802,8 +876,10 @@ body {
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -814,13 +890,20 @@ body {
 <span class="o">!</span>gzip data/TORUS/calcium/*
 <span class="o">!</span>torus.sh -d data/TORUS/calcium/beta_cal.gz -annot data/TORUS/calcium/snp_anno_cal.gz -est &gt; data/TORUS/calcium/cal_block_beta.est
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Read in 1 loci, 154 locus-SNP pairs ... 
 Loading annotations ... 
@@ -833,11 +916,12 @@ Starting EM ...
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -864,13 +948,20 @@ Starting EM ...
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Job </span><span class="si">{2}</span><span class="s1">/</span><span class="si">{3}</span><span class="s1">, elapsed </span><span class="si">{0:.2f}</span><span class="s1">s prepare &amp; </span><span class="si">{1:.2f}</span><span class="s1">s DAP&#39;</span><span class="o">.</span>\
           <span class="nb">format</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">times</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])))</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Job 1/1848, elapsed 2.32s prepare &amp; 1382.34s DAP
 Job 2/1848, elapsed 0.09s prepare &amp; 1.35s DAP
@@ -2723,8 +2814,10 @@ Job 1848/1848, elapsed 0.02s prepare &amp; 0.52s DAP
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -2733,9 +2826,11 @@ Job 1848/1848, elapsed 0.02s prepare &amp; 0.52s DAP
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># dap/dap -d /tmp/F1503014064.6944265.dat -g /tmp/F1503014064.6944265.grid -it 0.05 -prior /tmp/F1503014064.6944265.prior -t 2 &gt; data/calcium_pathway_N4000_shape25_nomask.data.dap </span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -2745,20 +2840,29 @@ Job 1848/1848, elapsed 0.02s prepare &amp; 0.52s DAP
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># calpath_gene_pos.to_csv(&quot;test.csv&quot;, sep=&quot;\t&quot;)</span>
 <span class="nb">print</span> <span class="p">(</span><span class="n">cal_pthwy_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>[&#39;ADCY1&#39;, &#39;ADCY2&#39;, &#39;ADCY3&#39;, &#39;ADCY4&#39;, &#39;ADCY7&#39;, &#39;ADCY8&#39;, &#39;ADCY9&#39;, &#39;ADORA2A&#39;, &#39;ADORA2B&#39;, &#39;ADRA1A&#39;, &#39;ADRA1B&#39;, &#39;ADRA1D&#39;, &#39;ADRB1&#39;, &#39;ADRB2&#39;, &#39;ADRB3&#39;, &#39;AGTR1&#39;, &#39;ATP2A1&#39;, &#39;ATP2A2&#39;, &#39;ATP2A3&#39;, &#39;ATP2B1&#39;, &#39;ATP2B2&#39;, &#39;ATP2B3&#39;, &#39;ATP2B4&#39;, &#39;AVPR1A&#39;, &#39;AVPR1B&#39;, &#39;BDKRB1&#39;, &#39;BDKRB2&#39;, &#39;BST1&#39;, &#39;CACNA1A&#39;, &#39;CACNA1B&#39;, &#39;CACNA1C&#39;, &#39;CACNA1D&#39;, &#39;CACNA1E&#39;, &#39;CACNA1F&#39;, &#39;CACNA1G&#39;, &#39;CACNA1H&#39;, &#39;CACNA1I&#39;, &#39;CACNA1S&#39;, &#39;CALM1&#39;, &#39;CALM2&#39;, &#39;CALM3&#39;, &#39;CALML3&#39;, &#39;CALML5&#39;, &#39;CALML6&#39;, &#39;CAMK2A&#39;, &#39;CAMK2B&#39;, &#39;CAMK2D&#39;, &#39;CAMK2G&#39;, &#39;CAMK4&#39;, &#39;CCKAR&#39;, &#39;CCKBR&#39;, &#39;CD38&#39;, &#39;CHP&#39;, &#39;CHP2&#39;, &#39;CHRM1&#39;, &#39;CHRM2&#39;, &#39;CHRM3&#39;, &#39;CHRM5&#39;, &#39;CHRNA7&#39;, &#39;CYSLTR1&#39;, &#39;CYSLTR2&#39;, &#39;DRD1&#39;, &#39;DRD5&#39;, &#39;EDNRA&#39;, &#39;EDNRB&#39;, &#39;EGFR&#39;, &#39;ERBB2&#39;, &#39;ERBB3&#39;, &#39;ERBB4&#39;, &#39;F2R&#39;, &#39;GNA11&#39;, &#39;GNA14&#39;, &#39;GNA15&#39;, &#39;GNAL&#39;, &#39;GNAQ&#39;, &#39;GNAS&#39;, &#39;GRIN1&#39;, &#39;GRIN2A&#39;, &#39;GRIN2C&#39;, &#39;GRIN2D&#39;, &#39;GRM1&#39;, &#39;GRM5&#39;, &#39;GRPR&#39;, &#39;HRH1&#39;, &#39;HRH2&#39;, &#39;HTR2A&#39;, &#39;HTR2B&#39;, &#39;HTR2C&#39;, &#39;HTR4&#39;, &#39;HTR5A&#39;, &#39;HTR6&#39;, &#39;HTR7&#39;, &#39;ITPKA&#39;, &#39;ITPKB&#39;, &#39;ITPR1&#39;, &#39;ITPR2&#39;, &#39;ITPR3&#39;, &#39;LHCGR&#39;, &#39;LOC729317&#39;, &#39;LTB4R2&#39;, &#39;MYLK&#39;, &#39;MYLK2&#39;, &#39;MYLK3&#39;, &#39;NOS1&#39;, &#39;NOS2&#39;, &#39;NOS3&#39;, &#39;NTSR1&#39;, &#39;OXTR&#39;, &#39;P2RX1&#39;, &#39;P2RX2&#39;, &#39;P2RX3&#39;, &#39;P2RX4&#39;, &#39;P2RX5&#39;, &#39;P2RX6&#39;, &#39;P2RX7&#39;, &#39;PDE1A&#39;, &#39;PDE1B&#39;, &#39;PDE1C&#39;, &#39;PDGFRA&#39;, &#39;PDGFRB&#39;, &#39;PHKA1&#39;, &#39;PHKA2&#39;, &#39;PHKB&#39;, &#39;PHKG1&#39;, &#39;PHKG2&#39;, &#39;PLCB1&#39;, &#39;PLCB2&#39;, &#39;PLCB3&#39;, &#39;PLCB4&#39;, &#39;PLCD1&#39;, &#39;PLCD3&#39;, &#39;PLCD4&#39;, &#39;PLCE1&#39;, &#39;PLCG1&#39;, &#39;PLCG2&#39;, &#39;PLCZ1&#39;, &#39;PLN&#39;, &#39;PPID&#39;, &#39;PPP3CA&#39;, &#39;PPP3CB&#39;, &#39;PPP3CC&#39;, &#39;PPP3R1&#39;, &#39;PPP3R2&#39;, &#39;PRKACA&#39;, &#39;PRKACB&#39;, &#39;PRKACG&#39;, &#39;PRKCA&#39;, &#39;PRKCB&#39;, &#39;PRKCG&#39;, &#39;PRKX&#39;, &#39;PTAFR&#39;, &#39;PTGER1&#39;, &#39;PTGER3&#39;, &#39;PTGFR&#39;, &#39;PTK2B&#39;, &#39;RYR1&#39;, &#39;RYR2&#39;, &#39;RYR3&#39;, &#39;SLC25A31&#39;, &#39;SLC25A4&#39;, &#39;SLC25A5&#39;, &#39;SLC25A6&#39;, &#39;SLC8A1&#39;, &#39;SLC8A2&#39;, &#39;SLC8A3&#39;, &#39;SPHK1&#39;, &#39;SPHK2&#39;, &#39;TACR1&#39;, &#39;TACR2&#39;, &#39;TACR3&#39;, &#39;TBXA2R&#39;, &#39;TNNC1&#39;, &#39;TNNC2&#39;, &#39;TRHR&#39;, &#39;TRPC1&#39;, &#39;VDAC1&#39;, &#39;VDAC2&#39;, &#39;VDAC3&#39;]
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -2767,21 +2871,30 @@ Job 1848/1848, elapsed 0.02s prepare &amp; 0.52s DAP
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python ../utils/extract_function.py --from 20170726_Dap_TORUS_on_simulation_for_Calcium_Pathway.ipynb --to get_summary_for_torus.py
 </pre></div>
+
 </div>
 </div>
 </div>
+
 <div class="output_wrapper">
 <div class="output">
+
+
 <div class="output_area">
+
 <div class="prompt"></div>
+
+
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Extracting from 20170726_Dap_TORUS_on_simulation_for_Calcium_Pathway.ipynb
 Done!
 </pre>
 </div>
 </div>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -2792,9 +2905,11 @@ Done!
 <span class="c1"># chrom = [&quot;chr{}&quot;.format(i) for i in list(range(1,23))+[&quot;X&quot;]]</span>
 <span class="c1"># print ((chrom))</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -2807,13 +2922,15 @@ Done!
 <span class="c1"># [W 15:42:01.170 NotebookApp] WebSocket ping timeout after 92790 ms.</span>
 <span class="c1"># [I 15:44:57.820 NotebookApp] KernelRestarter: restarting kernel (1/5)</span>
 </pre></div>
+
 </div>
 </div>
 </div>
+
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/a28974751957a328cc340b71662924dbeeb93d97/analysis/20170726_Dap_TORUS_on_simulation_for_Calcium_Pathway.ipynb"><code>analysis/20170726_Dap_TORUS_on_simulation_for_Calcium_Pathway.ipynb</code></a> committed by Min Qiao on Wed Oct 25 20:37:28 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/a28974751957a328cc340b71662924dbeeb93d97">revision 369, a289747</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/a28974751957a328cc340b71662924dbeeb93d97/analysis/20170726_Dap_TORUS_on_simulation_for_Calcium_Pathway.ipynb"><code>analysis/20170726_Dap_TORUS_on_simulation_for_Calcium_Pathway.ipynb</code></a> committed by Min Qiao on Wed Oct 25 20:37:28 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/a28974751957a328cc340b71662924dbeeb93d97">revision 1, a289747</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

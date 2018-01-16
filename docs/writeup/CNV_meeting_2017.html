@@ -1,11 +1,15 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.2" />
+<meta name="ipynb_website:version" content="0.9.3" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
+
 <link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
 <link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
 <link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
@@ -14,9 +18,11 @@
 <script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
 <link rel="stylesheet"
       href="../site_libs/highlight/textmate.css"
       type="text/css" />
+
 <script src="../site_libs/highlight/highlight.js"></script>
 <script type="text/javascript">
 if (window.hljs && document.readyState && document.readyState === "complete") {
@@ -25,8 +31,10 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
    }, 0);
 }
 </script>
+
 <script src="../js/toc2.js"></script>
 <script src="../js/docs.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
 <script>
     MathJax.Hub.Config({
@@ -49,6 +57,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
         }
     });
 </script>
+
 <script>
 $( document ).ready(function(){
             var cfg={'threshold':3,     // depth of toc (number of levels)
@@ -88,6 +97,7 @@ $( document ).ready(function(){
             $("#toc-header").hide();
     });
 </script>
+
 <script>
 // manage active state of menu based on current page
 $(document).ready(function () {
@@ -111,7 +121,11 @@ $(document).ready(function () {
   window.buildTabsets("TOC");
 });
 </script>
+
+
+
 <title>Gene Mapping with CNV</title>
+
 <style type = "text/css">
 body {
   font-family: "Droid Sans";
@@ -120,10 +134,13 @@ body {
 }
 </style>
 </head>
+
 <body>
 <div tabindex="-1" id="notebook" class="border-box-sizing">
 <div class="container" id="notebook-container">
+
 <!-- code folding -->
+
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -136,35 +153,43 @@ body {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+        
 <li>
   <a href="../index.html">Overview</a>
 </li>
+        
 <li>
   <a href="../analysis.html">Analysis</a>
 </li>
+        
 <li>
   <a href="../prototype.html">Prototype</a>
 </li>
+        
 <li>
   <a href="../utils.html">Utils</a>
 </li>
+        
 <li>
   <a href="../setup.html">Setup</a>
 </li>
+        
 <li>
   <a href="../writeup.html">Writeup</a>
 </li>
+        
       </ul>
+        
 <ul class="nav navbar-nav navbar-right">
 <li>
    <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
 </li>
 </ul>
+        
       </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -172,8 +197,7 @@ body {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -189,11 +213,11 @@ body {
 <p>10) Set all constant to 0, and observe results generated from variational approximation and DAP</p>
 <p>11) Make two or more blocks instead of only one in current toy example:</p>
 <p>*** Estimation of $\alpha$: simulation procedure. (1) Many blocks per sample: sample genotypes; (2) Randomly choose a pathway; (3) Create causal gene list based on pathway. (4) Sample phenotypes: if a causal gene is disrupted, a larger $y$.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -202,11 +226,11 @@ body {
 <p>3) Then simulate case-control: the number of CNV in cases are supposed to be more than in controls. Samples who have CNV overlapping with causal gene are more likely to be cases, say 80%; samples who have CNV not overlapping with causal gene are equally likely to be cases or controls, i.e. 50%.</p>
 <p>4) Obtain $\alpha_0$: prior; Bayes factor: if sample size is small, pip would decrease, need to check Bayes factor</p>
 <p>5) Check Swedish data, figure 3/table 1</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -221,20 +245,20 @@ body {
 <p>(2) check 20170710_dap_on_toy: .feather (we can write feather file) and .dap are needed; generate prior ($\alpha$) using TORUS; grid</p>
 <p>3) DAP</p>
 <p>4) Real data</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>$f(k)=t, 1-\Phi(t)=k, y \in \{0,t\}$</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -243,11 +267,11 @@ body {
 <p>2) Use "toy simulation of multiple genes and overlapping CNVs in a block (one causal gene)" to perform multi-causal-gene toy.</p>
 <p>Perform Fisher test and DAP fine-mapping.</p>
 <p>Expectation: DAP is supposed to differentiate the causal genes and their adjecent non-causal genes better than Fisher test, by having smaller PIP than Fisher's p-value; or comparing by amount; or using corresponding cutoff; or transfering p-value to FDR.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -259,36 +283,29 @@ body {
 <p>input $\alpha$: set to a fixed value, 0.01~0.1</p>
 <p>4) Choose chromosome 16 to preprocess</p>
 <p>DAP-g: record running time, and if blocks are long or short; if long, partition into short parts.</p>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Notes-for-meeting-11/1717">Notes for meeting 11/1717<a class="anchor-link" href="#Notes-for-meeting-11/1717">&#182;</a></h4><p>Ask Peter about 2, 3, 4</p>
 <p>1) Summerize pathway data (format, annotation), test dataset; start from single pathway test.</p>
-<p>2) Specify prior $\pi_j$ (from exome sequencing or GWASs), if it is modularized. Or is it necessary to update $\theta_0$ and $\theta$, or take initial values?</p>
+<p>2) Specify prior $\pi_j$ (from exome sequencing or GWASs).Is it is modularized? Or is it necessary to update $\theta_0$ and $\theta$, or take initial values?</p>
 <p>3) Confirm whether $y$ could be binary in $\texttt{varbvs}$.</p>
 <p>4) Confirm whether the model includes covariates.</p>
 <p>5) We can fix prior $\bar{\beta}$ and $\sigma_{\beta}$; or find the parameter combination with greatest likelihood grid given a grid of them</p>
 <p>6) Simulate real dataset: use real genotype and CNVs, simulate phenotype and risk parameters. Use Fisher's test to find signals.</p>
 <p>7) How to account for deletion and duplication.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
+
 </div>
 </div>
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/6daf09f6054e7eec5d449d72fb6a339bcbe5070c/writeup/CNV_meeting_2017.ipynb"><code>writeup/CNV_meeting_2017.ipynb</code></a> committed by Min Qiao on Fri Nov 17 17:08:30 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/6daf09f6054e7eec5d449d72fb6a339bcbe5070c">revision 379, 6daf09f</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/594334f9629f577f24a4f40e789401ac8f69257a/writeup/CNV_meeting_2017.ipynb"><code>writeup/CNV_meeting_2017.ipynb</code></a> committed by Min Qiao on Mon Jan 15 23:06:03 2018 <a href="http://github.com/gaow/cnv-gene-mapping/commit/594334f9629f577f24a4f40e789401ac8f69257a">revision 11, 594334f</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
