@@ -2,6 +2,7 @@ import os
 import glob
 import re
 import json
+from hashlib import sha1
 from dateutil.parser import parse
 
 def is_date(string):
@@ -21,6 +22,26 @@ def get_output(cmd, show_command=False, prompt='$ '):
         return '{}{}\n{}'.format(prompt, cmd, output)
     else:
         return output.strip()
+
+def compare_versions(v1, v2):
+    # This will split both the versions by '.'
+    arr1 = v1.split(".")
+    arr2 = v2.split(".")
+    # Initializer for the version arrays
+    i = 0
+    # We have taken into consideration that both the
+    # versions will contains equal number of delimiters
+    while(i < len(arr1)):
+        # Version 2 is greater than version 1
+        if int(arr2[i]) > int(arr1[i]):
+            return -1
+        # Version 1 is greater than version 2
+        if int(arr1[i]) > int(arr2[i]):
+            return 1
+        # We can't conclude till now
+        i += 1
+    # Both the versions are equal
+    return 0
 
 def get_commit_link(repo, cid):
     bits = os.path.split(repo)
@@ -839,6 +860,16 @@ body {
            conf['footer'])
     return content
 
+def update_gitignore():
+    flag = True
+    if os.path.isfile('.gitignore'):
+      lines = [x.strip() for x in open('.gitignore').readlines()]
+      if '**/.sos' in lines:
+        flag = False
+    if flag:
+      with open('.gitignore', 'a') as f:
+        f.write('\n**/.sos\n**/.ipynb_checkpoints\n**/__pycache__')
+
 def make_template(conf, dirs, outdir):
     with open('{}/index.tpl'.format(outdir), 'w') as f:
         f.write(get_index_tpl(conf, dirs).strip())
@@ -1051,22 +1082,16 @@ def make_empty_nb(name):
  "nbformat_minor": 2
 }''' % name
 
-def compare_versions(v1, v2):
-    # This will split both the versions by '.'
-    arr1 = v1.split(".")
-    arr2 = v2.split(".")
-    # Initializer for the version arrays
-    i = 0
-    # We have taken into consideration that both the
-    # versions will contains equal number of delimiters
-    while(i < len(arr1)):
-        # Version 2 is greater than version 1
-        if int(arr2[i]) > int(arr1[i]):
-            return -1
-        # Version 1 is greater than version 2
-        if int(arr1[i]) > int(arr2[i]):
-            return 1
-        # We can't conclude till now
-        i += 1
-    # Both the versions are equal
-    return 0
+def protect_page(page, page_tpl, password):
+    # page: docs/{name}
+    page_dir, page_file = os.path.split(page)
+    page_file = '/'.join(page.split('/')[1:])
+    secret = page_dir + '/' + sha1((password + page_file).encode()).hexdigest() + '.html'
+    content = open(page).readlines()
+    content.insert(5, '<meta name="robots" content="noindex">\n')
+    with open(secret, 'w') as f:
+        f.write(''.join(content))
+    content = open(page_tpl).readlines()
+    with open(page, 'w') as f:
+        f.write(''.join(content).replace("TPL_PLACEHOLDER", page_file))
+    return os.path.basename(secret)
