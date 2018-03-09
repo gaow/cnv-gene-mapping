@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.3" />
+<meta name="ipynb_website:version" content="0.9.4" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
@@ -20,10 +20,10 @@
 <script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 
 <link rel="stylesheet"
-      href="../site_libs/highlight/textmate.css"
+      href="../site_libs/highlightjs-1.1/textmate.css"
       type="text/css" />
 
-<script src="../site_libs/highlight/highlight.js"></script>
+<script src="../site_libs/highlightjs-1.1/highlight.js"></script>
 <script type="text/javascript">
 if (window.hljs && document.readyState && document.readyState === "complete") {
    window.setTimeout(function() {
@@ -32,10 +32,10 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 }
 </script>
 
-<script src="../js/toc2.js"></script>
+<script src="../js/doc_toc.js"></script>
 <script src="../js/docs.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 <script>
     MathJax.Hub.Config({
         extensions: ["tex2jax.js"],
@@ -56,6 +56,66 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
             }
         }
     });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
 </script>
 
 <script>
@@ -84,17 +144,16 @@ $( document ).ready(function(){
             $("#toc-level0 a").css("color","#126dce");
             $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
             var docs=utilsArray;
+            var docs_map=utilsArrayMap;
             var pos=utilsArray.indexOf(file);
             for (var a=pos;a>=0;a--){
-                  var name=docs[a]
-                  $('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+                  $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
             }
             $('a[href="'+file+'.html'+'"]').css("color","#126dce");
             for (var a=pos+1;a<docs.length;a++){
-                  var name=docs[a]
-                  $(".toc #toc-level0").append('<li><a href="'+name+'.html"><font color="#073642"><b>'+name.replace(/_/g," ")+'</b></font></a></li>');
+                  $(".toc #toc-level0").append('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>');
             }
-            $("#toc-header").hide();
+            // $("#toc-header").hide(); // comment out because it prevents search bar from displaying
     });
 </script>
 
@@ -561,7 +620,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="k">def</span> <span class="nf">get_analysis_blocks</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
@@ -596,7 +655,7 @@ body {
     <span class="n">gene_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;case&quot;</span><span class="p">],</span> <span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;ctrl&quot;</span><span class="p">],</span> <span class="n">how</span> <span class="o">=</span> <span class="s2">&quot;outer&quot;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
     <span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;count(gene_name)_x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;count(gene_name)_y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">gene_table</span> <span class="o">=</span> <span class="n">gene_table</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;count(gene_name)_x&quot;</span><span class="p">:</span><span class="s2">&quot;n_case_gene&quot;</span><span class="p">,</span> <span class="s2">&quot;count(gene_name)_y&quot;</span><span class="p">:</span><span class="s2">&quot;n_ctrl_gene&quot;</span><span class="p">})</span>
+    <span class="n">gene_table</span> <span class="o">=</span> <span class="n">gene_table</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;count(gene_name)_x&quot;</span><span class="p">:</span> <span class="s2">&quot;n_case_gene&quot;</span><span class="p">,</span> <span class="s2">&quot;count(gene_name)_y&quot;</span><span class="p">:</span> <span class="s2">&quot;n_ctrl_gene&quot;</span><span class="p">})</span>
     <span class="n">n_gene_case</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;n_case_gene&quot;</span><span class="p">])</span>
     <span class="n">n_gene_ctrl</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;n_ctrl_gene&quot;</span><span class="p">])</span>
     <span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;n_case_nogene&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">n_gene_case</span> <span class="o">-</span> <span class="n">gene_table</span><span class="p">[</span><span class="s2">&quot;n_case_gene&quot;</span><span class="p">]</span>
@@ -625,7 +684,7 @@ body {
     <span class="sd">&#39;&#39;&#39;input data saved from run_simulate step: sample_dup and sample_del separately&#39;&#39;&#39;</span>
     <span class="n">input_data</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
     <span class="n">sample_gene_table</span> <span class="o">=</span> <span class="n">get_gene_table</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
-    <span class="n">sample_stats_table</span> <span class="o">=</span> <span class="n">get_stats</span><span class="p">(</span><span class="n">del_sample_gene</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="n">sort_data</span><span class="p">)</span>
+    <span class="n">sample_stats_table</span> <span class="o">=</span> <span class="n">get_stats</span><span class="p">(</span><span class="n">sample_gene_table</span><span class="p">,</span> <span class="n">sort</span> <span class="o">=</span> <span class="n">sort_data</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">sample_stats_table</span>
 
 <span class="k">def</span> <span class="nf">run_stats</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">output_data</span><span class="p">):</span>
@@ -1006,8 +1065,8 @@ Done!
 
 </div>
 <hr>
-&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, the University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/2a48ad8cf37148784ea4cf430558c050d49c2e7b/utils/Python_Utils.ipynb"><code>utils/Python_Utils.ipynb</code></a> committed by Min Qiao on Fri Jan 26 12:34:27 2018 <a href="http://github.com/gaow/cnv-gene-mapping/commit/2a48ad8cf37148784ea4cf430558c050d49c2e7b">revision 17, 2a48ad8</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/b9c341e84cd0222ba3384bbbac85cf2b9b2674aa/utils/Python_Utils.ipynb"><code>utils/Python_Utils.ipynb</code></a> committed by Min Qiao on Fri Feb 9 17:20:57 2018 <a href="http://github.com/gaow/cnv-gene-mapping/commit/b9c341e84cd0222ba3384bbbac85cf2b9b2674aa">revision 18, b9c341e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
