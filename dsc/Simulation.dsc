@@ -21,16 +21,16 @@ simulation: simulation_functions.py + Python(data = run_simulation(seed, ref_gen
     n_case: 2000
     n_ctrl: 2000
     id: 0
-    fn: "result/data.pkl"
+    fn: "data.pkl"
     $simu_res: data
 
 # analyze
 get_stats: analyze.py + Python(res = run_stats(x, stats_fn, plt_path, num, sort_option))
     num: 100
     sort_option: 1
-    plt_path: "result/plot.png"
+    plt_path: "plot.png"
     x: $simu_res
-    stats_fn: "result/stats.pkl"
+    stats_fn: "stats.pkl"
     $stats: res
 
 # score
