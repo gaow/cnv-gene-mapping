@@ -52,15 +52,15 @@ def get_stats_from_input(input_data, num, sort_data = 0):
     sample_stats_table = get_stats(sample_gene_table, num, sort = sort_data)
     return sample_stats_table
 
-def run_stats(input_data, output_data, plt_path, num = 100, sort_option = 0):
+def run_stats(input_data, plt_path = None, num = 100, sort_option = 0):
     stats_table = get_stats_from_input(input_data, num, sort_data = sort_option)
     stats_table['debug'] = {'simulation_args': input_data['debug']}
-    save_data(stats_table, output_data)
-    sns.set(style = "whitegrid")
-    sns.set_color_codes("pastel")
-    f, ax = plt.subplots(figsize = (8, 25))
-    p_df = pd.DataFrame({"-logp2side": stats_table["top_logp_2side"], "gene": stats_table["top_logp_gene"]})
-    plot = sns.barplot(x = "-logp2side", y = "gene", data = p_df, color = "blue")
-    plt.savefig(plt_path)
+    if plt_path is not None:
+      sns.set(style = "whitegrid")
+      sns.set_color_codes("pastel")
+      f, ax = plt.subplots(figsize = (8, 25))
+      p_df = pd.DataFrame({"-logp2side": stats_table["top_logp_2side"], "gene": stats_table["top_logp_gene"]})
+      plot = sns.barplot(x = "-logp2side", y = "gene", data = p_df, color = "blue")
+      plt.savefig(plt_path)
     return stats_table
 

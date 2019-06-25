@@ -8,10 +8,10 @@
 # $n_causal_gene: number of causal genes
 
 # simulation steps
-simulation: simulation_functions.py + Python(data = run_simulation(seed, ref_gene_fn, pathway_gene_fn, CNV_fn, indel, block_size, prevalence, avg_cnv_per_individual, odds_ratio_params, n_case, n_ctrl, id)) + Python(save_data(data, fn))
+simulation: simulation_functions.py + Python(data = run_simulation(seed, ref_gene_fn, pathway_gene_fn, CNV_fn, indel, block_size, prevalence, avg_cnv_per_individual, odds_ratio_params, n_case, n_ctrl, id)))
     seed: 999
-    ref_gene_fn: "../data/refGene.txt.gz"
-    pathway_gene_fn: "../data/calciumgeneset.txt"
+    ref_gene_fn: ${ref_gene}
+    pathway_gene_fn: ${pathway_gene}
     CNV_fn: "../data/ISC-r1.CNV.bed"
     indel: "del"
     block_size: 20000
@@ -21,16 +21,15 @@ simulation: simulation_functions.py + Python(data = run_simulation(seed, ref_gen
     n_case: 2000
     n_ctrl: 2000
     id: 0
-    fn: "data.pkl"
     $simu_res: data
 
 # analyze
-get_stats: analyze.py + Python(res = run_stats(x, stats_fn, plt_path, num, sort_option))
+fisher_test: analyze.py + Python(res = run_stats(x, plt_path, num, sort_option))
     num: 100
     sort_option: 1
-    plt_path: "plot.png"
+    plt_path: file(png)
+    # plt_path: None
     x: $simu_res
-    stats_fn: "stats.pkl"
     $stats: res
 
 # score
@@ -39,6 +38,9 @@ get_stats: analyze.py + Python(res = run_stats(x, stats_fn, plt_path, num, sort_
 DSC:
     define:
         simulate: simulation
-        analyze: get_stats
+        analyze: fisher_test
 #        score: 
     run: simulate * analyze
+    global:
+        ref_gene: "../data/refGene.txt.gz"
+	pathway_gene: "../data/calciumgeneset.txt"

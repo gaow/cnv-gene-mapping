@@ -38,7 +38,7 @@ def load_cnv_data(filename):
     for dataset in cnvbed.keys():
         cnvbed_df[dataset] = {"chrom": [], "cnv_start": [], "cnv_end": []}
         for chrom in cnvbed[dataset]:
-            start, end = tuple(zip(*cnvbed[dataset][chrom])) 
+            start, end = tuple(zip(*cnvbed[dataset][chrom]))
             cnvbed_df[dataset]["chrom"].extend([chrom] * len(start))
             cnvbed_df[dataset]["cnv_start"] += list(start)
             cnvbed_df[dataset]["cnv_end"] += list(end)
@@ -160,7 +160,6 @@ def run_simulation(seed, refgene_fn, pthwy_gene_fn, cnv_fn, indel, block_size, p
     cnv_data = load_cnv_data(cnv_fn)
     sample_data = simulate(ref_gene, pd.concat([cnv_data[indel + "Cases"], cnv_data[indel + "Controls"]]), causal_genes, 
                            block_size, prevalence, avg_cnv_per_individual, odds_ratio_params, n_case, n_ctrl, seed)
-    # save_data(sample_data, '../data/{}_{}.data.pkl'.format(indel + "_sample", simulation_id))
     return sample_data
 
 #     block_size: 20000
