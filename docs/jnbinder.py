@@ -116,9 +116,11 @@ def get_nav(dirs, home_label, prefix = './'):
     for item in dirs:
         out += '''
 <li>
-  <a href="{}{}.html">{}</a>
+  <a href="{}{}{}">{}</a>
 </li>
-        '''.format(prefix, item, ' '.join([x.capitalize() for x in item.split('_')]))
+        '''.format(prefix, item,
+                   '/index.html' if os.path.isfile(f'{item}/{item}.ipynb') or os.path.isfile(f'{item}/{item}.Rmd') else '.html',
+                   ' '.join([x.capitalize() if x.upper() != x else x for x in item.split('_')]))
     return out
 
 def get_right_nav(repo, source_label):
@@ -226,9 +228,18 @@ def get_index_tpl(conf, dirs):
 
 <style type="text/css">code{white-space: pre;}</style>
 <link rel="stylesheet"
-      href="site_libs/highlightjs-1.1/textmate.css"
+      href="site_libs/highlightjs/%s.min.css"
       type="text/css" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<script src="site_libs/highlightjs/highlight.%s.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
 <style type="text/css">
   div.input_prompt {display: none;}
   div.output_html {
@@ -241,13 +252,6 @@ def get_index_tpl(conf, dirs):
     background-color: white;
   }
 </style>
-<script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
-}
-</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 <script>
     MathJax.Hub.Config({
@@ -417,7 +421,9 @@ $(document).ready(function () {
 </body>
 </html>
 {%% endblock %%}
-	''' % (conf['__version__'], conf['name'], conf['theme'], get_font(conf['font']), conf['name'],
+	''' % (conf['__version__'], conf['name'], conf['theme'],
+           'null', conf['auto_highlight'][0],
+           get_font(conf['font']), conf['name'],
            get_nav([x for x in dirs if not x in conf['hide_navbar']], conf['homepage_label']),
            get_right_nav(conf['repo'], conf['source_label']), conf['footer'],
            get_disqus(conf['disqus']))
@@ -760,10 +766,11 @@ def get_notebook_tpl(conf, dirs, path):
 <script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 
 <link rel="stylesheet"
-      href="../site_libs/highlightjs-1.1/textmate.css"
+      href="../site_libs/highlightjs/%s.min.css"
       type="text/css" />
 
-<script src="../site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="../site_libs/highlightjs/highlight.%s.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 <script type="text/javascript">
 if (window.hljs && document.readyState && document.readyState === "complete") {
    window.setTimeout(function() {
@@ -933,7 +940,8 @@ body {
 	''' % (conf['__version__'],
            '<link rel="stylesheet" type="text/css" href="../css/%s.css">' % conf['jt_theme']
            if conf['jt_theme'] is not None else '',
-           conf['theme'], get_sidebar(path) if conf['notebook_toc'] else '',
+           conf['theme'], conf['auto_highlight'][1], conf['auto_highlight'][0],
+           get_sidebar(path) if conf['notebook_toc'] else '',
            get_sos_tpl('header' if conf['report_style'] is True else ''),
            conf['name'], get_font(conf['font']), conf['name'],
            get_nav([x for x in dirs if not x in conf['hide_navbar']], conf['homepage_label'], '../'),
@@ -1033,7 +1041,7 @@ def make_index_nb(path, exclude, long_description = False, reverse_alphabet = Fa
    "source": [
     "# %s"
    ]
-  },''' % os.path.basename(path.capitalize())
+  },''' % os.path.basename(path).replace('_', ' ').capitalize()
     if len(sos_files):
         out += '''
   {
@@ -1075,6 +1083,7 @@ def make_index_nb(path, exclude, long_description = False, reverse_alphabet = Fa
     "### %s\\n"
    ]
   },''' % date_section
+        html_link = (os.path.splitext(os.path.basename(fn))[0] + '.html') if os.path.splitext(os.path.basename(fn))[0] != os.path.basename(os.path.dirname(fn)) else 'index.html'
         if title != description:
             out += '''
   {
@@ -1084,7 +1093,7 @@ def make_index_nb(path, exclude, long_description = False, reverse_alphabet = Fa
     "[**%s**](%s/%s)<br>\\n",
     %s
    ]
-  },''' % (title, path, os.path.splitext(os.path.basename(fn))[0] + '.html', json.dumps("&nbsp; &nbsp;" + description))
+  },''' % (title, path, html_link, json.dumps("&nbsp; &nbsp;" + description))
         else:
             out += '''
   {
@@ -1093,7 +1102,7 @@ def make_index_nb(path, exclude, long_description = False, reverse_alphabet = Fa
    "source": [
     "[**%s**](%s/%s)<br>"
    ]
-  },''' % (title, path, os.path.splitext(os.path.basename(fn))[0] + '.html')
+  },''' % (title, path, html_link)
     if len(sos_files):
         out += '''
   {
