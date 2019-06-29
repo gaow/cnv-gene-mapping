@@ -12,7 +12,7 @@ simulation: simulation_functions.py + Python(data = run_simulation(seed, ref_gen
     seed: 999
     ref_gene_fn: ${ref_gene}
     pathway_gene_fn: ${pathway_gene}
-    CNV_fn: "../data/ISC-r1.CNV.bed"
+    CNV_fn: ${scz_cnv}
     indel: "del"
     block_size: 20000
     prevalence: 0.005
@@ -43,4 +43,5 @@ DSC:
     run: simulate * analyze
     global:
         ref_gene: "../data/refGene.txt.gz"
-	pathway_gene: "../data/calciumgeneset.txt"
+	    pathway_gene: "../data/calciumgeneset.txt"
+        scz_cnv: "../data/ISC-r1.CNV.bed"
