@@ -1,27 +1,12 @@
-# pipeline variables
-# $block_size: number of SNPs in a block
-# $avg_cnv_per_individual: number of CNV in each individual
-# $n_case: number of cases
-# $n_ctrl: number of controls
-# $odds_ratio_params: odds ratio parameters, Gamma distribution, shape and scale
-# $prevalence: ASD prevalence
-# $n_causal_gene: number of causal genes
-
-# simulation steps
-simulation: simulation_functions.py + Python(data = run_simulation(seed, ref_gene_fn, pathway_gene_fn, CNV_fn, indel, block_size, prevalence, avg_cnv_per_individual, odds_ratio_params, n_case, n_ctrl, id)))
+simulate: simulation_y.py + Python(x1, x2 = simulate_y(genotype_file, prevalence, shape, scale, ctrl_case_ratio, seed))
+    genotype_file: "deletion_geneblock.sample.1.gz"
+    prevalence: 0.05
+    shape: 3
+    scale: 1
+    ctrl_case_ratio: 1
     seed: 999
-    ref_gene_fn: ${ref_gene}
-    pathway_gene_fn: ${pathway_gene}
-    CNV_fn: ${scz_cnv}
-    indel: "del"
-    block_size: 20000
-    prevalence: 0.005
-    avg_cnv_per_individual: 5
-    odds_ratio_params: {'shape': 5, 'scale': 1}
-    n_case: 2000
-    n_ctrl: 2000
-    id: 0
-    $simu_res: data
+    $case: x1
+    $ctrl: x2
 
 # analyze
 fisher_test: analyze.py + Python(res = run_stats(x, plt_path, num, sort_option))
@@ -32,16 +17,15 @@ fisher_test: analyze.py + Python(res = run_stats(x, plt_path, num, sort_option))
     x: $simu_res
     $stats: res
 
-# score
-# score: Python(...)
+susie: R(y = c(rep(1,nrow(case), rep(0, nrow(ctrl)))); 
+	 res = susieR::susie(rbind(case,ctrl), y, L = L, scaled_prior_variance = pve))
+    case: $case
+    ctrl: $ctrl
+    L: 10
+    pve: 0.005
+    $result: res
 
 DSC:
     define:
-        simulate: simulation
-        analyze: fisher_test
-#        score: 
+        analyze: susie
     run: simulate * analyze
-    global:
-        ref_gene: "../data/refGene.txt.gz"
-	    pathway_gene: "../data/calciumgeneset.txt"
-        scz_cnv: "../data/ISC-r1.CNV.bed"
