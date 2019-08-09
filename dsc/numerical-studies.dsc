@@ -18,7 +18,7 @@ fisher_test: analyze.py + Python(res = run_stats(x, plt_path, num, sort_option))
     $stats: res
 
 susie: R(y = c(rep(1,nrow(case), rep(0, nrow(ctrl)))); 
-	 res = susieR::susie(rbind(case,ctrl), y, L = L, scaled_prior_variance = pve))
+	res = susieR::susie(rbind(case,ctrl), y, L = L, scaled_prior_variance = pve))
     case: $case
     ctrl: $ctrl
     L: 10
