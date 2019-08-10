@@ -1,9 +1,10 @@
-def simulate_y(genotype_file, prevalence, shape, scale, ctrl_case_ratio = 1, seed = 999):
+def simulate_y(genotype_file, prevalence, shape, scale, pi = 0.95, ctrl_case_ratio = 1, seed = 999):
   import pandas as pd, numpy as np
   np.random.seed(seed)
   data = pd.read_csv(genotype_file, compression = "gzip", sep = "\t", header = None)
   beta0 = np.log(prevalence/(1-prevalence))
   beta1s = np.log(np.random.gamma(shape, scale, data.shape[1])) # ORs follow gamma(5,1)
+  beta1s = [np.random.binomial(1, 1-pi) * i for i in beta1s]
   logit_y = np.matmul(data.values, beta1s) + beta0
   ys_p = np.exp(logit_y) / (1+np.exp(logit_y))
   ys = np.random.binomial(1, ys_p)
