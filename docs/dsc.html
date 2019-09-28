@@ -1,0 +1,439 @@
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.7" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Gene Mapping with CNV</title>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+<style type="text/css">
+  div.input_prompt {display: none;}
+  div.output_html {
+     font-family: "PT Mono", monospace;
+     font-size: 10.0pt;
+     color: #353535;
+     padding-bottom: 25px;
+ }
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'] ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+
+</head>
+
+<body>
+<style type = "text/css">
+@font-face {
+ font-family: 'Droid Sans';
+ font-weight: normal;
+ font-style: normal;
+ src: local('Droid Sans'), url('fonts/droid-sans.ttf') format('truetype');
+}
+@font-face {
+ font-family: 'Fira Code';
+ font-weight: normal;
+ font-style: normal;
+ src: local('Fira Code'), url('fonts/firacode.otf') format('opentype');
+}
+@font-face {
+ font-family: 'PT Mono';
+ font-weight: normal;
+ font-style: normal;
+ src: local('PT Mono'), url('fonts/ptmono.ttf') format('truetype');
+}
+
+body {
+  font-family: "Droid Sans";
+  font-size: 160%;
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 20px;
+ }
+
+a.anchor-link:link {
+  text-decoration: none;
+  padding: 0px 20px;
+  visibility: hidden;
+}
+
+h1:hover .anchor-link,
+h2:hover .anchor-link,
+h3:hover .anchor-link,
+h4:hover .anchor-link,
+h5:hover .anchor-link,
+h6:hover .anchor-link {
+  visibility: hidden;
+}
+
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="./index.html">Overview</a>
+</li>
+        
+<li>
+  <a href="./analysis.html">Analysis</a>
+</li>
+        
+<li>
+  <a href="./prototype.html">Prototype</a>
+</li>
+        
+<li>
+  <a href="./dsc.html">Dsc</a>
+</li>
+        
+<li>
+  <a href="./setup/index.html">Setup</a>
+</li>
+        
+<li>
+  <a href="./writeup.html">Writeup</a>
+</li>
+        
+      </ul>
+    
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+        
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Dsc">Dsc<a class="anchor-link" href="#Dsc">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="2019/06">2019/06<a class="anchor-link" href="#2019/06">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="dsc/20190627_Clean_RefGene.html"><strong>Obtain clean reference gene</strong></a><br>
+&nbsp; &nbsp;Use CNV individual level data (del and dup) and gene data to obtain individual (real, column) by gene (real, row) matrix (ideally two bed files, bedtools) - reference X matrix</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="dsc/20190628_Xmatrix.html"><strong>Obtain X matrix</strong></a><br>
+&nbsp; &nbsp;column: individual</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="dsc/20190628_Xmatrix_python_kernel.html"><strong>20190628 Xmatrix python kernel</strong></a><br>
+&nbsp; &nbsp;import pandas as pd, numpy as np</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="2019/07">2019/07<a class="anchor-link" href="#2019/07">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="dsc/20190710_dele_Genome_window.html"><strong>20190710 dele Genome window</strong></a><br>
+&nbsp; &nbsp;Obtain Genome Window (40~100 genes per window)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="dsc/20190712_dup_genome_window.html"><strong>20190712 dup genome window</strong></a><br>
+&nbsp; &nbsp;import pandas as pd, numpy as np</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="dsc/20190716_minimal_working_example_gene_block_matrix.html"><strong>20190716 minimal working example gene block matrix</strong></a><br>
+&nbsp; &nbsp;import pandas as pd, numpy as np</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="dsc/20190717_workflow.html"><strong>20190717 workflow</strong></a><br>
+&nbsp; &nbsp;Copy model simulation and analysis workflow</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="dsc/20190717_workflow_R_kernel_test.html"><strong>20190717 workflow R kernel test</strong></a><br>
+&nbsp; &nbsp;library(susieR)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="dsc/20190717_workflow_python_kernel_test.html"><strong>20190717 workflow python kernel test</strong></a><br>
+&nbsp; &nbsp;import pandas as pd, numpy as np</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="2019/08">2019/08<a class="anchor-link" href="#2019/08">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="dsc/20190819_workflow_report.html"><strong>20190819 workflow report</strong></a><br>
+&nbsp; &nbsp;Simulation, analyze and plots</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="dsc/20190827_simulation_result_analysis.html"><strong>20190827 simulation result analysis</strong></a><br>
+&nbsp; &nbsp;Simulation and analysis result overview</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="dsc/20190828_R_test.html"><strong>20190828 R test</strong></a><br>
+&nbsp; &nbsp;Evaluate copy model simulation</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="2019/09">2019/09<a class="anchor-link" href="#2019/09">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="dsc/20190908_proposal_manuscript.html"><strong>20190908 proposal manuscript</strong></a><br>
+&nbsp; &nbsp;Integrated fine-mapping of non-coding disease variants with functional genomics data</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="dsc/20190909_Boom_Spike_Slab.html"><strong>20190909 Boom Spike Slab</strong></a><br>
+&nbsp; &nbsp;Use BoomSpikeSlab</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="dsc/20190917_logitBvs.html"><strong>20190917 logitBvs</strong></a><br>
+&nbsp; &nbsp;library(pogit)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="dsc/20190918_report.html"><strong>20190918 report</strong></a><br>
+&nbsp; &nbsp;The results of <code>varbvs</code> result and <code>logitBvs</code></p>
+
+</div>
+</div>
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
+<!-- To enable disqus, uncomment the section below and provide your disqus_shortname -->
+
+</div>
+
+<script>
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+</html>

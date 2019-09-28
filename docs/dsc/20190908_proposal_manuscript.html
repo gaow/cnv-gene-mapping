@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.7" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=dscDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=dscArray;
+            var docs_map=dscArrayMap;
+            var pos=dscArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  $(".toc #toc-level0").append('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>');
+            }
+            // $("#toc-header").hide(); // comment out because it prevents search bar from displaying
+    });
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Gene Mapping with CNV</title>
+
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+        
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+        
+<li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+        
+<li>
+  <a href="../dsc.html">Dsc</a>
+</li>
+        
+<li>
+  <a href="../setup/index.html">Setup</a>
+</li>
+        
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Integrated-fine-mapping-of-non-coding-disease-variants-with-functional-genomics-data">Integrated fine-mapping of non-coding disease variants with functional genomics data<a class="anchor-link" href="#Integrated-fine-mapping-of-non-coding-disease-variants-with-functional-genomics-data">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Background-and-Significance">Background and Significance<a class="anchor-link" href="#Background-and-Significance">&#182;</a></h3><p>Abundant common disease risk variants have been found in various Genome-wide Association Studies (GWAS) over the past ten years. Most of these variants locate in non-coding regions of human genome, which are likely to be regulatory elements/sequences, such as introns, enhancers and promoters (1-3). Functional interpretation for most of these non-coding variants remains unanswered, and it is still challenging to even identify them.</p>
+<p>Chromatin's default tight coiling structure limits its accessibility. As a result, gene expression only happens when chromatin is in "opening" state. A new genomic technique, Assay for Transposase-Accessible Chromatin using sequencing (ATAC-seq), is widely used in recent years to access sequence on open chromatin, thus can map regions of transcription factor binding sites and nucleosome positions (4, 5). ATAC-seq takes advantage of next-generation sequencing (NGS) technology - the number of reads of a sequence is mainly determined by the extent of opening status of the chromatin region at a single nucleotide resolution.</p>
+<p>The fact that open chromatin regions (OCRs) often overlap with regulatory sequence can help detect functional non-coding risk variants for some neuropsychiatric disorders, such as schizophrenia, in induced pluripotent stem cells (iPSC)-derived neurons from adult (6, 7).</p>
+<p>Another promising approach to overcome the challenge is to focus on allele-specific open chromatin (ASoC) variants, characterized by allelic imbalance in sequencing reads at heterozygous single nucleotide polymorphism (SNP) sites. They can be mapped by comparing the chromatin accessibilities of both alleles (SNPs) in the same individual. The main advantage of ASoC mapping compared to another commonly used approach, expression quantitative trait loci (eQTL), lies in its direct identification of putative functional disease variants (8).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Aim">Aim<a class="anchor-link" href="#Aim">&#182;</a></h3><p>Schizophrenia is a type of mental disorder, typically starting to develop in late adolescence or early adulthood. Schizophrenia can be severe due to its cognitive impairment, difficulty in social activities, and even potential to cause disability (9). Children may also develop schizophrenia (10). The prevalence of schizophrenia ranges between 0.25% and 0.64% in the United States (11).</p>
+<p>The goal of this proposal is to explore the enrichment of schizophrenia GWAS signals, as well as other neurodevelopmental disorders and common phenotypes for comparison, in OCRs and ASoC SNPs obtained in experiments, and to precisely identify causal variants among ASoC variants associated with schizophrenia, then investigate the mechanism of non-coding regulatory elements.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Data">Data<a class="anchor-link" href="#Data">&#182;</a></h3><ol>
+<li><p>A set of 20 iPSC lines used open chromatin mapping are reprogrammed by collaborators. The cell lines then differentiated into neural progenitor cells (NPC), subsequently to glutamatergic (iN-Glut), GABAergic (iN-GA), and dopaminergic (iN-DN) neurons. ATAC-seq is utilized to call OCR peaks (FDR&lt;0.05) for each cell type. The median length for all 5 types of neuron cells is 335 base pair (bp), and all OCR peaks cover about 4% of the whole human genome.</p>
+</li>
+<li><p>ASoC SNPs are obtained by testing heterozygous SNPs that showed allelic imbalance in ATAC-seq reads in iN-Glut and NPC neurons.</p>
+</li>
+<li><p>Schizophrenia GWAS risk variants from Psychiatric Genomics Consortium (PGC).</p>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h3><h4 id="Statistical-model">Statistical model<a class="anchor-link" href="#Statistical-model">&#182;</a></h4><p>The statistical model to combine functional annotation with genetic fine-mapping is</p>
+<p>$$\beta_{l_j} = (1 - \pi_{l_j})\delta_0 + \pi_{l_j}g(\cdot)$$
+$$\log\big[\frac{\pi_{l_j}}{1 - \pi_{l_j}} \big] = \alpha_0 + \sum_{k=1}^m \alpha_k d_{{l_j}k}$$
+where $\pi_{l_j}$ is prior inclusion probability of SNP $\textit{j}$ in locus $\textit{l}$; $\alpha_k$ is enrichment of annotation $\textit{k}$ in causal variants.</p>
+<h4 id="Numerical-studies">Numerical studies<a class="anchor-link" href="#Numerical-studies">&#182;</a></h4><p>To assess advantage of this model compared to the conventional fine-mapping model where $\pi_j$ come from a uniform distribution, we perform numerical studies by simulating GWAS summary statistics and functional annotations under pre-specified fold of enrichment setting. We will fit the proposed model and compare with a version that does not incorporate the enrichment information, using several metric such as 1) type I and power to detect an association, 2) size of fine-mapped credible sets (CS), 3) average correlation between variables in detected CS and 4) the posterior inclusion probability (PIP) of the "true" causal variables.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="ORC-and-ASoC-informed-GWAS-fine-mapping-for-psychiatric-disorders">ORC and ASoC informed GWAS fine-mapping for psychiatric disorders<a class="anchor-link" href="#ORC-and-ASoC-informed-GWAS-fine-mapping-for-psychiatric-disorders">&#182;</a></h3><p>In order to perform SNP-based enrichment analyses, specifically, to explore whether schizophrenia associated signals (SNPs) from GWAS are enriched in certain types of functional genomic annotations, including 2 types of ASoC SNPs, ATAC-seq peaks called from 5 neuron cell types and commonly used functional regions, such as promoters, codings and introns, we will apply TORUS (12), a tool based on a Bayesian hierarchical model, for this purpose. We hypothesize that ASoC variants are even more enriched for functional disease variants.</p>
+<p>Ripke et al. identified 108 genome-wide significant schizophrenia loci in 2014 (13). We will employ SuSiE (14), a newly developed Bayesian variable selection and genetic fine-mapping software package, to determine each SNP of being causal based on PIP over the 108 schizophrenia significant loci, incorporated with external linkage disequilibrium (LD) from the 1000 Genomes project and prior inclusion probabilities as functions of genomic features for each SNP.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Reference">Reference<a class="anchor-link" href="#Reference">&#182;</a></h3><ol>
+<li>M. J. Gandal et al., Transcriptome-wide isoform-level dysregulation in ASD, schizophrenia, and bipolar disorder. Science (2018).</li>
+<li>P. Rajarajan et al., Neuron-specific signatures in the chromosomal connectome associated with schizophrenia risk. Science (2018).</li>
+<li>M. Li et al., Integrative functional genomic analysis of human brain development and neuropsychiatric risks. Science (2018).</li>
+<li>J. D. Buenrostro et al., Transposition of native chromatin for fast and sensitive epigenomic profiling of open chromatin, DNA-binding proteins and nucleosome position. Nature Methods (2013).</li>
+<li>J. D. Buenrostro et al., ATAC-seq: A Method for Assaying Chromatin Accessibility Genome-Wide. Current Protocols in Molecular Biology (2015).</li>
+<li>J. F. Degner et al., DNase I sensitivity QTLs are a major determinant of human expression variation. Nature 482, 390-394 (2012).</li>
+<li>R. E. Thurman et al., The accessible chromatin landscape of the human genome. Nature 489, 75-82 (2012).</li>
+<li>S. Zhang et al., Landscape of allele-specific open chromatin in human iPSC-differentiated neurons and its implication for mental disorders. European Neuropsychopharmacology 29 (2019).</li>
+<li>J. van Os et al., Schizophrenia. Lancet 374 (2009).</li>
+<li>American Psychiatric Association. Schizophrenia. 295.90 (F20.9). American Psychiatric Publishing (2013).</li>
+<li>E. Q. Wu et al., Annual prevalence of diagnosed schizophrenia in the USA: a claims data analysis approach. Psychol Med (2006).</li>
+<li>X. Wen et al., Molecular QTL discovery incorporating genomic annotations using Bayesian false discovery rate control. Ann Appl Stat 10,  (2016).</li>
+<li>C. Schizophrenia Working Group of the Psychiatric Genomics, Biological insights from 108 schizophrenia-associated genetic loci. Nature 511, (2014).</li>
+<li>G. Wang et al., A simple new approach to variable selection in regression, with application to genetic fine-mapping. biorxiv 2018</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="A-statistical-method-to-identify-causal-genes-in-copy-number-variation-data">A statistical method to identify causal genes in copy number variation data<a class="anchor-link" href="#A-statistical-method-to-identify-causal-genes-in-copy-number-variation-data">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Background-and-Significance">Background and Significance<a class="anchor-link" href="#Background-and-Significance">&#182;</a></h3><p>For over a decade, genome-wide association studies (GWAS) have been the main strategy to uncover genetic architecture of complex diseases and traits and detected tens of thousands of loci associated with some psychiatric disorders (1). GWAS typically focus on studying single nucleotide polymorphisms (SNPs). Despite their success in a wide range of disease applications, GWAS have major limitations: 1) Risk alleles are usually at low frequencies thus difficult to detect, especially for in early-onset cognitive development disorders such as Schizophrenia (SCZ) and autism (2); 2) Most loci have small effect sizes, not likely to be deleterious mutations (3); 3) Furthermore, causal variants or genes in GWAS loci are often unclear. Therefore, SNPs only explain limited heritability.</p>
+<p>Copy number variations (CNVs), on the other hand, are believed to play a critical role in complex disease etiology (4). CNVs are large genomic insertion or deletion events, which are a type of structural variation of an organism's chromosome. The length of CNVs vary enormously, often spread from 50 base pairs to kilo- or even mega-bases. Computational methods to call CNVs have been developed from sequencing data, making great opportunities for CNV analysis after DNA sequencing (5).</p>
+<p>Existing methods for analyzing CNV data are usually focused on either the detection of association of CNVs and disease risk, or the identification of gene sets with CNV burden (6, 7), for example, CNV deletions that affecting a gene set are more common in cases than controls.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Aim">Aim<a class="anchor-link" href="#Aim">&#182;</a></h3><p>Previous studies have suggested that CNVs are an important source of genetic variation affecting neurodevelopmental disorders. It is estimated that 10% of individuals with developmental delay carry at least one CNV larger than 500 kilo-bases (6). However, since the challenge is that CNVs often span multiple genes, distinguish the susceptible or causal gene(s) from other genes in the same CNV event is a difficult problem. Results of CNV associations are thus difficult to interpret. This hurdles the use of CNV data to unravel the genetics of complex diseases. The goal of this proposal is to develop a statistical framework that leverage genome-wide CNVs for mapping susceptibility genes of psychiatric diseases, and link these findings with those from single-nucleotide variants (SNVs) -based studies. The advantage of our method is that its highly integrative characteristic, which can use enrichment results to re-rank genes and avoid a fixed cutoff.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h3><p>To address the challenge we will develop a new approach that exploits large-scale genome-wide CNV data in case-control studies to map genes. It is inspired by statistical fine-mapping of causal variants in linkage-disequilibrium blocks from GWAS. Unlike existing approaches that directly test for CNV associations, our method seeks to identify in CNV events true susceptible genes in a rigorous statistical framework. Genome-wide CNV data are first clustered into disjoint analysis blocks, i.e. no CNV spans between any two blocks. For genes within a block we test for disease associations while accounting for correlations among genes induced by CNV in the same block. We accomplish this by extension of a recently developed Bayesian variable selection method, SuSiE (7). Our method thus selects a small number of putative risk genes among multiple correlated ones that best explain the CNV-phenotype data. Furthermore, we leverage knowledge of known biological pathways to set prior probabilities of genes in CNV events to increase power. Our model estimates posterior probabilities of all putative risk genes as well as 95% credible sets (i.e. the set of genes that cover all risk genes with high probability). Using this new approach we perform gene-level analysis in several case-control CNV datasets in SCZ. Since our method reports the statistical confidence of genes, it can be integrated with other gene-level datasets, e.g. results from exome-sequencing studies. This provides a powerful strategy to integrate data from independent sources.</p>
+<p>To infer CNV configuration $B(Z)$ from case-control data, we leverage the statisticalmachinery of Bayesian regression. Specifically, let $\beta_j$ be the effect size of the $j$-th CNV.</p>
+<p>$$\beta_j|Z_j = 0\sim0, \beta_j|Z_j = 1\sim N(\mu,\sigma^2), \text{logit P}(y_i = 1) = \beta_0+\rho w_i + \sum_j \beta_j x_{ij}$$
+where $w_i$ denotes possible covariates (such as the total number of CNVs in subject $i$) and $\rho$ their effects. Inference on this model leads to the support of each CNV configuration $B(Z)$.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Integrated-association-analysis-of-CNV-and-SNP-data-for-causal-genes-mapping-in-psychiatric-disorders">Integrated association analysis of CNV and SNP data for causal genes mapping in psychiatric disorders<a class="anchor-link" href="#Integrated-association-analysis-of-CNV-and-SNP-data-for-causal-genes-mapping-in-psychiatric-disorders">&#182;</a></h3><p>We will apply the method to individual-level schizophrenia CNV data and non-individual level case-control CNV data.</p>
+<ol>
+<li>Swedish Schizophrenia Population-Based Case-control Exome Sequencing CNV data from dbGAP.</li>
+<li>Schizophrenia case-control CNV data International Schizophrenia Consortium (ISC) study.</li>
+<li>Individual-level genotype and phenotype datasets specific for autism containing the CNV data from dbGAP.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Reference">Reference<a class="anchor-link" href="#Reference">&#182;</a></h3><ol>
+<li>J. Gratten et al., Large-scale genomics unveils the genetic architecture of psychiatric disorders. Nature Neuroscience 17 (2014).</li>
+<li>B. Devlin et al., Genetic architecture in autism spectrum disorder. Current Opinion in Genetics &amp; Development 22 (2012).</li>
+<li>J. Hardy et al., Genomewide association studies and human disease. The New England Journal of Medicine 360 (2009).</li>
+<li>C. Lowther et al., Genomic Disorders in Psychiatry-What Does the Clinician Need to Know? Current Psychiatry Reports 19 (2017).</li>
+<li>C. Alkan et al., Genome structural variation discovery and genotyping. Nature Reviews Genetics 12 (2011).</li>
+<li>S. Girirajan et al., Human copy number variation and complex genetic disease. Annual Review of Genetics 45 (2011).</li>
+<li>G. Wang et al., A simple new approach to variable selection in regression, with application to genetic fine-mapping. biorxiv 2018</li>
+</ol>
+
+</div>
+</div>
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/7233da3dc3da87536a14182030d73af0601271f3/dsc/20190908_proposal_manuscript.ipynb"><code>dsc/20190908_proposal_manuscript.ipynb</code></a> committed by Min Qiao on Mon Sep 16 00:18:07 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/7233da3dc3da87536a14182030d73af0601271f3">revision 4, 7233da3</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>

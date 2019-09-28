@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="ipynb_website:version" content="0.9.6" />
+<meta name="ipynb_website:version" content="0.9.7" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <link rel="stylesheet" type="text/css" href="../css/jt.css">
@@ -144,12 +144,12 @@ $( document ).ready(function(){
             st.toc_index=0;
             // fire the main function with these parameters
             table_of_contents(cfg, st);
-            var file=utilsDict[$("h1:first").attr("id")];
+            var file=dscDict[$("h1:first").attr("id")];
             $("#toc-level0 a").css("color","#126dce");
             $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
-            var docs=utilsArray;
-            var docs_map=utilsArrayMap;
-            var pos=utilsArray.indexOf(file);
+            var docs=dscArray;
+            var docs_map=dscArrayMap;
+            var pos=dscArray.indexOf(file);
             for (var a=pos;a>=0;a--){
                   $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
             }
@@ -230,7 +230,7 @@ body {
 </li>
         
 <li>
-  <a href="../utils.html">Utils</a>
+  <a href="../dsc.html">Dsc</a>
 </li>
         
 <li>

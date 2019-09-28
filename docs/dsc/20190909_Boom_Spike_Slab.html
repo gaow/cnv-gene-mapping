@@ -1,0 +1,1422 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.7" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=dscDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=dscArray;
+            var docs_map=dscArrayMap;
+            var pos=dscArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  $(".toc #toc-level0").append('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>');
+            }
+            // $("#toc-header").hide(); // comment out because it prevents search bar from displaying
+    });
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Gene Mapping with CNV</title>
+
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+        
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+        
+<li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+        
+<li>
+  <a href="../dsc.html">Dsc</a>
+</li>
+        
+<li>
+  <a href="../setup/index.html">Setup</a>
+</li>
+        
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Use-BoomSpikeSlab">Use BoomSpikeSlab<a class="anchor-link" href="#Use-BoomSpikeSlab">&#182;</a></h1><h2 id="First-check-the-result-of-varbvs-on-whole-genome">First check the result of varbvs on whole genome<a class="anchor-link" href="#First-check-the-result-of-varbvs-on-whole-genome">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="nf">readRDS</span><span class="p">(</span><span class="s">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.binomial.whole.genome.prior.varbvs.nologodds.updateb0.rds&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mu0</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">b0</span> <span class="o">*</span> <span class="n">res</span><span class="o">$</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mu0</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.777072111580423
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">sd0</span> <span class="o">=</span> <span class="nf">sqrt</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">sa</span> <span class="o">*</span> <span class="n">res</span><span class="o">$</span><span class="n">w</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">sd0</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.843650169910125
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">pi0</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">((</span><span class="m">10</span><span class="nf">^</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">logodds</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="m">1</span> <span class="o">+</span> <span class="m">10</span><span class="nf">^</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">logodds</span><span class="p">)))</span> <span class="o">*</span> <span class="n">res</span><span class="o">$</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">pi0</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.0437754961218526
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># library(varbvs)</span>
+<span class="c1"># help(varbvs)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># varbvs::varbvs</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">reticulate</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">susieR</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">BoomSpikeSlab</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Loading required package: Boom
+Loading required package: MASS
+
+Attaching package: ‘Boom’
+
+The following object is masked from ‘package:stats’:
+
+    rWishart
+
+
+Attaching package: ‘BoomSpikeSlab’
+
+The following object is masked from ‘package:stats’:
+
+    knots
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="nf">as.matrix</span><span class="p">(</span><span class="n">data.table</span><span class="o">::</span><span class="nf">fread</span><span class="p">(</span><span class="s">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/block_79_137/deletion.genes.block30.for_simu.sample.genes.block_79_137.gz&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">F</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>13412</li>
+	<li>59</li>
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># X = cbind(1, X)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">as.matrix</span><span class="p">(</span><span class="n">data.table</span><span class="o">::</span><span class="nf">fread</span><span class="p">(</span><span class="s">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.y&quot;</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">storage.mode</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="s">&#39;double&#39;</span>
+<span class="nf">storage.mode</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="s">&#39;double&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">log10</span><span class="p">(</span><span class="m">0.05</span><span class="o">/</span><span class="m">0.95</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+-1.27875360095283
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">prior</span> <span class="o">&lt;-</span> <span class="nf">LogitZellnerPrior</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">prior.success.probability</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">,</span> <span class="n">expected.model.size</span> <span class="o">=</span> <span class="m">3</span><span class="p">,</span> <span class="n">prior.information.weight</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">,</span> 
+                           <span class="n">diagonal.shrinkage</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">optional.coefficient.estimate</span> <span class="o">=</span> <span class="kc">NULL</span><span class="p">,</span> <span class="n">prior.inclusion.probabilities</span> <span class="o">=</span> <span class="kc">NULL</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">prior</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>'prior.inclusion.probabilities'</li>
+	<li>'mu'</li>
+	<li>'sigma.guess'</li>
+	<li>'prior.df'</li>
+	<li>'sigma.upper.limit'</li>
+	<li>'max.flips'</li>
+	<li>'siginv'</li>
+	<li>'prior.success.probability'</li>
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">prior_glm</span> <span class="o">&lt;-</span> <span class="nf">SpikeSlabGlmPrior</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="o">/</span><span class="nf">nrow</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="nf">nrow</span><span class="p">(</span><span class="n">X</span><span class="p">)),</span> <span class="n">prior.inclusion.probabilities</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="o">/</span><span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)),</span> <span class="n">expected.model.size</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> 
+                               <span class="n">optional.coefficient.estimate</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)),</span> <span class="n">mean.on.natural.scale</span> <span class="o">=</span> <span class="m">-1</span><span class="p">,</span> <span class="n">max.flips</span> <span class="o">=</span> <span class="m">5</span><span class="p">,</span> <span class="n">diagonal.shrinkage</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> 
+                               <span class="n">prior.information.weight</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">prior_glm</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>'prior.inclusion.probabilities'</li>
+	<li>'mu'</li>
+	<li>'sigma.guess'</li>
+	<li>'prior.df'</li>
+	<li>'sigma.upper.limit'</li>
+	<li>'max.flips'</li>
+	<li>'siginv'</li>
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">length</span><span class="p">(</span><span class="n">prior_glm</span><span class="o">$</span><span class="n">mu</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+59
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+59
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">prior1</span> <span class="o">&lt;-</span> <span class="n">prior</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">tmp_mu</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">18</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">3</span><span class="p">),</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">10</span><span class="p">),</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">7</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">18</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">prior1</span><span class="o">$</span><span class="n">prior.inclusion.probabilities</span> <span class="o">&lt;-</span> <span class="nf">rep</span><span class="p">(</span><span class="n">pi0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+<span class="n">prior1</span><span class="o">$</span><span class="n">mu</span> <span class="o">&lt;-</span> <span class="nf">rep</span><span class="p">(</span><span class="n">mu0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+<span class="n">prior1</span><span class="o">$</span><span class="n">sigma.guess</span> <span class="o">&lt;-</span> <span class="n">sd0</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">length</span><span class="p">(</span><span class="n">prior1</span><span class="o">$</span><span class="n">mu</span><span class="p">)</span> <span class="o">==</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+TRUE
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">model</span> <span class="o">&lt;-</span> <span class="nf">logit.spike</span><span class="p">(</span><span class="n">y</span> <span class="o">~</span> <span class="n">X</span><span class="p">,</span> <span class="n">niter</span> <span class="o">=</span> <span class="m">1000</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="n">prior_glm</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+Error in logit.spike(y ~ X, niter = 1000, prior = prior_glm): length(prior$mu) == ncol(design) is not TRUE
+Traceback:
+
+1. logit.spike(y ~ X, niter = 1000, prior = prior_glm)
+2. stopifnot(is.matrix(design), nrow(design) == length(response), 
+ .     length(prior$mu) == ncol(design), length(prior$prior.inclusion.probabilities) == 
+ .         ncol(design), all(ny &gt;= response), all(response &gt;= 0))</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>'beta'</li>
+	<li>'prior'</li>
+	<li>'xlevels'</li>
+	<li>'call'</li>
+	<li>'terms'</li>
+	<li>'log.likelihood'</li>
+	<li>'deviance.residuals'</li>
+	<li>'null.log.likelihood'</li>
+	<li>'fitted.probabilities'</li>
+	<li>'fitted.logits'</li>
+	<li>'response'</li>
+	<li>'training.data'</li>
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">colSums</span><span class="p">(</span><span class="n">model</span><span class="o">$</span><span class="n">beta</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<dl class=dl-horizontal>
+	<dt>XV1</dt>
+		<dd>-1.39757555092755</dd>
+	<dt>XV2</dt>
+		<dd>0</dd>
+	<dt>XV3</dt>
+		<dd>0</dd>
+	<dt>XV4</dt>
+		<dd>0</dd>
+	<dt>XV5</dt>
+		<dd>0</dd>
+	<dt>XV6</dt>
+		<dd>-0.403826567680958</dd>
+	<dt>XV7</dt>
+		<dd>0</dd>
+	<dt>XV8</dt>
+		<dd>0</dd>
+	<dt>XV9</dt>
+		<dd>0</dd>
+	<dt>XV10</dt>
+		<dd>0</dd>
+	<dt>XV11</dt>
+		<dd>0</dd>
+	<dt>XV12</dt>
+		<dd>0</dd>
+	<dt>XV13</dt>
+		<dd>0</dd>
+	<dt>XV14</dt>
+		<dd>0</dd>
+	<dt>XV15</dt>
+		<dd>0</dd>
+	<dt>XV16</dt>
+		<dd>0</dd>
+	<dt>XV17</dt>
+		<dd>0</dd>
+	<dt>XV18</dt>
+		<dd>0</dd>
+	<dt>XV19</dt>
+		<dd>0</dd>
+	<dt>XV20</dt>
+		<dd>0</dd>
+	<dt>XV21</dt>
+		<dd>0</dd>
+	<dt>XV22</dt>
+		<dd>0</dd>
+	<dt>XV23</dt>
+		<dd>0</dd>
+	<dt>XV24</dt>
+		<dd>0</dd>
+	<dt>XV25</dt>
+		<dd>0</dd>
+	<dt>XV26</dt>
+		<dd>0</dd>
+	<dt>XV27</dt>
+		<dd>0</dd>
+	<dt>XV28</dt>
+		<dd>0</dd>
+	<dt>XV29</dt>
+		<dd>0</dd>
+	<dt>XV30</dt>
+		<dd>0</dd>
+	<dt>XV31</dt>
+		<dd>0</dd>
+	<dt>XV32</dt>
+		<dd>0</dd>
+	<dt>XV33</dt>
+		<dd>0</dd>
+	<dt>XV34</dt>
+		<dd>0</dd>
+	<dt>XV35</dt>
+		<dd>0</dd>
+	<dt>XV36</dt>
+		<dd>0</dd>
+	<dt>XV37</dt>
+		<dd>0</dd>
+	<dt>XV38</dt>
+		<dd>0</dd>
+	<dt>XV39</dt>
+		<dd>0</dd>
+	<dt>XV40</dt>
+		<dd>0</dd>
+	<dt>XV41</dt>
+		<dd>0</dd>
+	<dt>XV42</dt>
+		<dd>0</dd>
+	<dt>XV43</dt>
+		<dd>0</dd>
+	<dt>XV44</dt>
+		<dd>0</dd>
+	<dt>XV45</dt>
+		<dd>0</dd>
+	<dt>XV46</dt>
+		<dd>0</dd>
+	<dt>XV47</dt>
+		<dd>0</dd>
+	<dt>XV48</dt>
+		<dd>0</dd>
+	<dt>XV49</dt>
+		<dd>0</dd>
+	<dt>XV50</dt>
+		<dd>0</dd>
+	<dt>XV51</dt>
+		<dd>0</dd>
+	<dt>XV52</dt>
+		<dd>0</dd>
+	<dt>XV53</dt>
+		<dd>0</dd>
+	<dt>XV54</dt>
+		<dd>0</dd>
+	<dt>XV55</dt>
+		<dd>0</dd>
+	<dt>XV56</dt>
+		<dd>0</dd>
+	<dt>XV57</dt>
+		<dd>0</dd>
+	<dt>XV58</dt>
+		<dd>0</dd>
+	<dt>XV59</dt>
+		<dd>0</dd>
+</dl>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[97]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">model</span><span class="o">$</span><span class="n">beta</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>100</li>
+	<li>59</li>
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[98]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">mean</span><span class="p">(</span><span class="n">model</span><span class="o">$</span><span class="n">beta[</span><span class="p">,</span> <span class="m">20</span><span class="n">]</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.00994830787243098
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">mean</span><span class="p">(</span><span class="n">model</span><span class="o">$</span><span class="n">beta[</span><span class="p">,</span> <span class="m">50</span><span class="n">]</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.00178724383993779
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">res1</span> <span class="o">=</span> <span class="nf">susie</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="m">3</span><span class="p">,</span> <span class="n">scaled_prior_variance</span> <span class="o">=</span> <span class="m">0.005</span><span class="p">,</span> <span class="n">estimate_prior_method</span> <span class="o">=</span> <span class="s">&quot;optim&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">max</span><span class="p">(</span><span class="n">res1</span><span class="o">$</span><span class="n">pip</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">res2</span> <span class="o">=</span> <span class="nf">readRDS</span><span class="p">(</span><span class="s">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/block_79_137/deletion.genes.block30.for_simu.sample.genes.block_79_137.varbvs.rds&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">res2</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>'fit'</li>
+	<li>'mu'</li>
+	<li>'beta'</li>
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">max</span><span class="p">(</span><span class="n">res2</span><span class="o">$</span><span class="n">fit</span><span class="o">$</span><span class="n">pip</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.0269814805603835
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Make input prior as the format of output of SpikeSlabPrior</strong></p>
+<p>pi: vector of prior.inclusion.probabilities</p>
+<p>b: optional.coefficient.estimate</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>spike.slab.prior Create a spike and slab prior for use with lm.spike.
+SpikeSlabPrior(x,
+y = NULL,
+expected.r2 = .5,
+prior.df = .01,
+expected.model.size = 1,
+prior.information.weight = .01,
+diagonal.shrinkage = .5,
+optional.coefficient.estimate = NULL,
+max.flips = -1,
+mean.y = mean(y, na.rm = TRUE),
+sdy = sd(as.numeric(y), na.rm = TRUE),
+prior.inclusion.probabilities = NULL,
+sigma.upper.limit = Inf)
+
+This object is intended for use with logit.spike.
+LogitZellnerPrior(
+predictors,
+successes = NULL,
+trials = NULL,
+prior.success.probability = NULL,
+expected.model.size = 1,
+prior.information.weight = .01,
+diagonal.shrinkage = .5,
+optional.coefficient.estimate = NULL,
+max.flips = -1,
+prior.inclusion.probabilities = NULL)</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>logit.spike    Spike and slab logistic regression
+logit.spike(formula,
+niter,
+data,
+subset,
+prior = NULL,
+na.action = options("na.action"),
+contrasts = NULL,
+drop.unused.levels = TRUE,
+initial.value = NULL,
+ping = niter / 10,
+nthreads = 0,
+clt.threshold = 2,
+mh.chunk.size = 10,
+proposal.df = 3,
+sampler.weights = c("DA" = .333, "RWM" = .333, "TIM" = .333),
+seed = NULL,
+...)
+
+lm.spike       Spike and slab regression
+lm.spike(formula,
+niter,
+data,
+subset,
+prior = NULL,
+error.distribution = c("gaussian", "student"),
+contrasts = NULL,
+drop.unused.levels = TRUE,
+model.options = SsvsOptions(),
+ping = niter / 10,
+seed = NULL,
+...)</code></pre>
+
+</div>
+</div>
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/4823c1683ad0bc01ae89377ae5009a7a21a8c88c/dsc/20190909_Boom_Spike_Slab.ipynb"><code>dsc/20190909_Boom_Spike_Slab.ipynb</code></a> committed by minqiao on Wed Sep 25 20:55:06 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/4823c1683ad0bc01ae89377ae5009a7a21a8c88c">revision 6, 4823c16</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>
