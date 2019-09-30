@@ -266,13 +266,13 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="c1"># block = c(79,137)</span>
-<span class="c1"># block_simu = c(1215, 1273)</span>
-<span class="n">block</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">23</span><span class="p">,</span> <span class="m">36</span><span class="p">)</span>
-<span class="n">block_simu</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">164</span><span class="p">,</span> <span class="m">177</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">block</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">79</span><span class="p">,</span><span class="m">137</span><span class="p">)</span>
+<span class="n">block_simu</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1215</span><span class="p">,</span> <span class="m">1273</span><span class="p">)</span>
+<span class="c1"># block = c(23, 36)</span>
+<span class="c1"># block_simu = c(164, 177)</span>
 </pre></div>
 
 </div>
@@ -282,7 +282,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">X_ori</span> <span class="o">&lt;-</span> <span class="nf">as.matrix</span><span class="p">(</span><span class="n">data.table</span><span class="o">::</span><span class="nf">fread</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/block_&quot;</span><span class="p">,</span> <span class="n">block[1]</span><span class="p">,</span> <span class="s">&quot;_&quot;</span> <span class="p">,</span> <span class="n">block[2]</span><span class="p">,</span> 
@@ -296,7 +296,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">X_center</span> <span class="o">&lt;-</span> <span class="nf">scale</span><span class="p">(</span><span class="n">X_ori</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
@@ -309,7 +309,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="nf">head</span><span class="p">(</span><span class="n">X_center</span><span class="p">)</span>
@@ -331,14 +331,14 @@ body {
 
 <div class="output_html rendered_html output_subarea ">
 <table>
-<thead><tr><th scope=col>V1</th><th scope=col>V2</th><th scope=col>V3</th><th scope=col>V4</th><th scope=col>V5</th><th scope=col>V6</th><th scope=col>V7</th><th scope=col>V8</th><th scope=col>V9</th><th scope=col>V10</th><th scope=col>V11</th><th scope=col>V12</th><th scope=col>V13</th><th scope=col>V14</th></tr></thead>
+<thead><tr><th scope=col>V1</th><th scope=col>V2</th><th scope=col>V3</th><th scope=col>V4</th><th scope=col>V5</th><th scope=col>V6</th><th scope=col>V7</th><th scope=col>V8</th><th scope=col>V9</th><th scope=col>V10</th><th scope=col>⋯</th><th scope=col>V50</th><th scope=col>V51</th><th scope=col>V52</th><th scope=col>V53</th><th scope=col>V54</th><th scope=col>V55</th><th scope=col>V56</th><th scope=col>V57</th><th scope=col>V58</th><th scope=col>V59</th></tr></thead>
 <tbody>
-	<tr><td>-0.0439159   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.02050403  </td><td>-0.0140173   </td><td>-0.001714882 </td><td>-0.001714882 </td><td>-0.001714882 </td><td>-0.0009692812</td><td>-0.0009692812</td><td>-0.0009692812</td></tr>
-	<tr><td>-0.0439159   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.02050403  </td><td>-0.0140173   </td><td>-0.001714882 </td><td>-0.001714882 </td><td>-0.001714882 </td><td>-0.0009692812</td><td>-0.0009692812</td><td>-0.0009692812</td></tr>
-	<tr><td>-0.0439159   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.02050403  </td><td>-0.0140173   </td><td>-0.001714882 </td><td>-0.001714882 </td><td>-0.001714882 </td><td>-0.0009692812</td><td>-0.0009692812</td><td>-0.0009692812</td></tr>
-	<tr><td>-0.0439159   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.02050403  </td><td>-0.0140173   </td><td>-0.001714882 </td><td>-0.001714882 </td><td>-0.001714882 </td><td>-0.0009692812</td><td>-0.0009692812</td><td>-0.0009692812</td></tr>
-	<tr><td>-0.0439159   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.02050403  </td><td>-0.0140173   </td><td>-0.001714882 </td><td>-0.001714882 </td><td>-0.001714882 </td><td>-0.0009692812</td><td>-0.0009692812</td><td>-0.0009692812</td></tr>
-	<tr><td>-0.0439159   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.0506263   </td><td>-0.02050403  </td><td>-0.0140173   </td><td>-0.001714882 </td><td>-0.001714882 </td><td>-0.001714882 </td><td>-0.0009692812</td><td>-0.0009692812</td><td>-0.0009692812</td></tr>
+	<tr><td>-0.005592007 </td><td>-0.0005219207</td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>⋯            </td><td>-0.003280644 </td><td>-0.002311363 </td><td>-0.002311363 </td><td>-0.0005964808</td><td>-0.0005964808</td><td>-0.0005964808</td><td>-0.0003728005</td><td>-0.0003728005</td><td>-7.45601e-05 </td><td>-7.45601e-05 </td></tr>
+	<tr><td>-0.005592007 </td><td>-0.0005219207</td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>⋯            </td><td>-0.003280644 </td><td>-0.002311363 </td><td>-0.002311363 </td><td>-0.0005964808</td><td>-0.0005964808</td><td>-0.0005964808</td><td>-0.0003728005</td><td>-0.0003728005</td><td>-7.45601e-05 </td><td>-7.45601e-05 </td></tr>
+	<tr><td>-0.005592007 </td><td>-0.0005219207</td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>⋯            </td><td>-0.003280644 </td><td>-0.002311363 </td><td>-0.002311363 </td><td>-0.0005964808</td><td>-0.0005964808</td><td>-0.0005964808</td><td>-0.0003728005</td><td>-0.0003728005</td><td>-7.45601e-05 </td><td>-7.45601e-05 </td></tr>
+	<tr><td>-0.005592007 </td><td>-0.0005219207</td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>⋯            </td><td>-0.003280644 </td><td>-0.002311363 </td><td>-0.002311363 </td><td>-0.0005964808</td><td>-0.0005964808</td><td>-0.0005964808</td><td>-0.0003728005</td><td>-0.0003728005</td><td>-7.45601e-05 </td><td>-7.45601e-05 </td></tr>
+	<tr><td>-0.005592007 </td><td>-0.0005219207</td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>⋯            </td><td>-0.003280644 </td><td>-0.002311363 </td><td>-0.002311363 </td><td>-0.0005964808</td><td>-0.0005964808</td><td>-0.0005964808</td><td>-0.0003728005</td><td>-0.0003728005</td><td>-7.45601e-05 </td><td>-7.45601e-05 </td></tr>
+	<tr><td>-0.005592007 </td><td>-0.0005219207</td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>-0.000820161 </td><td>⋯            </td><td>-0.003280644 </td><td>-0.002311363 </td><td>-0.002311363 </td><td>-0.0005964808</td><td>-0.0005964808</td><td>-0.0005964808</td><td>-0.0003728005</td><td>-0.0003728005</td><td>-7.45601e-05 </td><td>-7.45601e-05 </td></tr>
 </tbody>
 </table>
 
@@ -352,7 +352,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">X_ori</span><span class="p">)</span>
@@ -375,7 +375,7 @@ body {
 <div class="output_html rendered_html output_subarea ">
 <ol class=list-inline>
 	<li>13412</li>
-	<li>14</li>
+	<li>59</li>
 </ol>
 
 </div>
@@ -388,7 +388,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[92]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">as.matrix</span><span class="p">(</span><span class="n">data.table</span><span class="o">::</span><span class="nf">fread</span><span class="p">(</span><span class="s">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.y&quot;</span><span class="p">))</span>
@@ -401,7 +401,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[93]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="nf">length</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
@@ -459,7 +459,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">X_intercept</span> <span class="o">&lt;-</span> <span class="nf">cbind</span><span class="p">(</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="nf">nrow</span><span class="p">(</span><span class="n">X_ori</span><span class="p">)),</span> <span class="n">X_ori</span><span class="p">)</span>
@@ -472,7 +472,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[94]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">as.numeric</span><span class="p">(</span><span class="n">y[</span><span class="p">,</span><span class="m">1</span><span class="n">]</span><span class="p">)</span>
@@ -485,7 +485,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[95]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">N</span> <span class="o">&lt;-</span> <span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="nf">length</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
@@ -498,7 +498,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">prior</span> <span class="o">&lt;-</span> <span class="nf">readRDS</span><span class="p">(</span><span class="s">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.binomial.whole.genome.prior.varbvs.nologodds.updateb0.rds&quot;</span><span class="p">)</span>
@@ -511,7 +511,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">mu0</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">b0</span> <span class="o">*</span> <span class="n">prior</span><span class="o">$</span><span class="n">w</span><span class="p">)</span>
@@ -524,7 +524,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">mu0</span>
@@ -556,7 +556,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">var</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">sa</span> <span class="o">*</span> <span class="n">prior</span><span class="o">$</span><span class="n">w</span><span class="p">)</span>
@@ -569,7 +569,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">var</span>
@@ -601,7 +601,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">pi0</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">((</span><span class="m">10</span><span class="nf">^</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">logodds</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="m">1</span> <span class="o">+</span> <span class="m">10</span><span class="nf">^</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">logodds</span><span class="p">)))</span> <span class="o">*</span> <span class="n">prior</span><span class="o">$</span><span class="n">w</span><span class="p">)</span>
@@ -614,7 +614,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">pi0</span>
@@ -660,7 +660,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[90]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">X</span> <span class="o">&lt;-</span> <span class="n">X_center</span>
@@ -673,13 +673,58 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[110]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="c1"># res &lt;- logitBvs(y, N, X, prior = list(slab = &quot;Normal&quot;, aj0 = rep(mu0, ncol(X_ori)), V = var, w = c(wa0 = 1, wb0 = 1), pi = c(pa0 = 1.412, pb0 = 10)), </span>
-<span class="c1">#                 mcmc = list(M = 10000, burnin = 2000, msave = TRUE), BVS = FALSE)</span>
-<span class="n">res1</span> <span class="o">&lt;-</span> <span class="nf">logitBvs</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">slab</span> <span class="o">=</span> <span class="s">&quot;Normal&quot;</span><span class="p">,</span> <span class="n">aj0</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="n">mu0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X_ori</span><span class="p">)),</span> <span class="n">V</span> <span class="o">=</span> <span class="n">var</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">wa0</span> <span class="o">=</span> <span class="m">1.412</span><span class="p">,</span> <span class="n">wb0</span> <span class="o">=</span> <span class="m">10</span><span class="p">),</span> <span class="kc">pi</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">pa0</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">pb0</span> <span class="o">=</span> <span class="m">1</span><span class="p">)),</span> 
-                 <span class="n">mcmc</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">M</span> <span class="o">=</span> <span class="m">5</span><span class="p">,</span> <span class="n">burnin</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">msave</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">))</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">res</span> <span class="o">&lt;-</span> <span class="nf">logitBvs</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">slab</span> <span class="o">=</span> <span class="s">&quot;Normal&quot;</span><span class="p">,</span> <span class="n">aj0</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="n">mu0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X_ori</span><span class="p">)),</span> <span class="n">V</span> <span class="o">=</span> <span class="n">var</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">wa0</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">wb0</span> <span class="o">=</span> <span class="m">1</span><span class="p">),</span> <span class="kc">pi</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">pa0</span> <span class="o">=</span> <span class="m">1.412</span><span class="p">,</span> <span class="n">pb0</span> <span class="o">=</span> <span class="m">10</span><span class="p">)),</span> 
+                <span class="n">mcmc</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">M</span> <span class="o">=</span> <span class="m">5000</span><span class="p">,</span> <span class="n">burnin</span> <span class="o">=</span> <span class="m">1000</span><span class="p">,</span> <span class="n">msave</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">),</span> <span class="n">BVS</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+<span class="c1"># res1 &lt;- logitBvs(y, N, X, prior = list(slab = &quot;Normal&quot;, aj0 = rep(mu0, ncol(X_ori)), V = var, w = c(wa0 = 1.412, wb0 = 10), pi = c(pa0 = 1, pb0 = 1)), </span>
+<span class="c1">#                  mcmc = list(M = 5000, burnin = 1000, msave = TRUE), BVS = TRUE)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+MCMC for the binomial logit model:
+
+it = 1 /--- duration of MCMC so far: 25.1 sec.,  expected time to end: Inf  min. 
+it = 2 /--- duration of MCMC so far: 25.23 sec.,  expected time to end: 2522.18  min. 
+it = 3 /--- duration of MCMC so far: 25.37 sec.,  expected time to end: 1268.13  min. 
+it = 4 /--- duration of MCMC so far: 25.5 sec.,  expected time to end: 849.58  min. 
+it = 5 /--- duration of MCMC so far: 25.66 sec.,  expected time to end: 641.05  min. 
+it = 10 /--- duration of MCMC so far: 26.26 sec.,  expected time to end: 291.33  min. 
+it = 20 /--- duration of MCMC so far: 27.68 sec.,  expected time to end: 145.21  min. 
+it = 50 /--- duration of MCMC so far: 31.47 sec.,  expected time to end: 63.7  min. 
+it = 100 /--- duration of MCMC so far: 37.39 sec.,  expected time to end: 37.15  min. 
+it = 200 /--- duration of MCMC so far: 48.93 sec.,  expected time to end: 23.77  min. 
+it = 500 /--- duration of MCMC so far: 83.96 sec.,  expected time to end: 15.43  min. 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">res_pip</span> <span class="o">&lt;-</span> <span class="nf">logitBvs</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">slab</span> <span class="o">=</span> <span class="s">&quot;Normal&quot;</span><span class="p">,</span> <span class="n">aj0</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X_ori</span><span class="p">)),</span> <span class="n">V</span> <span class="o">=</span> <span class="n">var</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">wa0</span> <span class="o">=</span> <span class="m">1.412</span><span class="p">,</span> <span class="n">wb0</span> <span class="o">=</span> <span class="m">10</span><span class="p">),</span> <span class="kc">pi</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">pa0</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">pb0</span> <span class="o">=</span> <span class="m">1</span><span class="p">)),</span> 
+                    <span class="n">mcmc</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">M</span> <span class="o">=</span> <span class="m">5</span><span class="p">,</span> <span class="n">burnin</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">msave</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">),</span> <span class="n">BVS</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -697,8 +742,8 @@ body {
 
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>Warning message:
-“BVS is not performed if prior information on the regression parameters
- is available: &#39;BVS&#39; was set to FALSE”</pre>
+“invalid &#39;BVS&#39; or &#39;startsel&#39; argument:
+&#39;startsel&#39; was set to 0.5”</pre>
 </div>
 </div>
 
@@ -709,14 +754,14 @@ body {
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-MCMC for the binomial logit model:
+MCMC for the binomial logit model with variable selection:
 
-it = 1 /--- duration of MCMC so far: 27.91 sec.,  expected time to end: Inf  min. 
-it = 2 /--- duration of MCMC so far: 27.97 sec.,  expected time to end: 2.33  min. 
-it = 3 /--- duration of MCMC so far: 28.02 sec.,  expected time to end: 0.93  min. 
-it = 4 /--- duration of MCMC so far: 28.09 sec.,  expected time to end: 0.47  min. 
-it = 5 /--- duration of MCMC so far: 28.14 sec.,  expected time to end: 0.23  min. 
-it = 6 /--- duration of MCMC (total): 28.19 sec. 
+it = 1 /--- duration of MCMC so far: 25.22 sec.,  expected time to end: Inf  min. 
+it = 2 /--- duration of MCMC so far: 31.43 sec.,  expected time to end: 2.62  min. 
+it = 3 /--- duration of MCMC so far: 36.56 sec.,  expected time to end: 1.22  min. 
+it = 4 /--- duration of MCMC so far: 41.13 sec.,  expected time to end: 0.69  min. 
+it = 5 /--- duration of MCMC so far: 45.67 sec.,  expected time to end: 0.38  min. 
+it = 6 /--- duration of MCMC (total): 50.33 sec. 
  
 </pre>
 </div>
@@ -728,7 +773,33 @@ it = 6 /--- duration of MCMC (total): 28.19 sec.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[111]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">head</span><span class="p">(</span><span class="nf">summary</span><span class="p">(</span><span class="n">res_pip</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">res1</span><span class="p">)</span>
@@ -755,39 +826,93 @@ it = 6 /--- duration of MCMC (total): 28.19 sec.
 Call:
 logitBvs(y = y, N = N, X = X, prior = list(slab = &#34;Normal&#34;, aj0 = rep(mu0, 
     ncol(X_ori)), V = var, w = c(wa0 = 1.412, wb0 = 10), pi = c(pa0 = 1, 
-    pb0 = 1)), mcmc = list(M = 5, burnin = 1, msave = TRUE))
+    pb0 = 1)), mcmc = list(M = 5000, burnin = 1000, msave = TRUE), 
+    BVS = TRUE)
 
 
 MCMC:
-M = 5 draws after a burn-in of 1
+M = 5000 draws after a burn-in of 1000
 Thinning parameter: 1
 
 Prior: Normal prior [V=0.711745609189383]
 
  a0[0]  a0[1]  a0[2]  a0[3]  a0[4]  a0[5]  a0[6]  a0[7]  a0[8]  a0[9] a0[10] 
  0.000  0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777 
-a0[11] a0[12] a0[13] a0[14] 
- 0.777  0.777  0.777  0.777 
+a0[11] a0[12] a0[13] a0[14] a0[15] a0[16] a0[17] a0[18] a0[19] a0[20] a0[21] 
+ 0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777 
+a0[22] a0[23] a0[24] a0[25] a0[26] a0[27] a0[28] a0[29] a0[30] a0[31] a0[32] 
+ 0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777 
+a0[33] a0[34] a0[35] a0[36] a0[37] a0[38] a0[39] a0[40] a0[41] a0[42] a0[43] 
+ 0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777 
+a0[44] a0[45] a0[46] a0[47] a0[48] a0[49] a0[50] a0[51] a0[52] a0[53] a0[54] 
+ 0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777  0.777 
+a0[55] a0[56] a0[57] a0[58] a0[59] 
+ 0.777  0.777  0.777  0.777  0.777 
 
 
 Posterior means and 95%-HPD intervals:
 
             Estimate 95%-HPD[l] 95%-HPD[u]
-(Intercept)    0.013     -0.028      0.049
-alpha.1        0.292      0.015      0.595
-alpha.2        0.300     -0.349      1.559
-alpha.3        0.578     -0.253      1.283
-alpha.4        0.671      0.003      1.687
-alpha.5        0.369     -0.912      1.379
-alpha.6        0.064     -0.380      0.689
-alpha.7       -0.516     -0.662     -0.277
-alpha.8        0.214      0.006      0.359
-alpha.9       -0.038     -0.800      0.790
-alpha.10      -0.430     -1.340      0.452
-alpha.11      -0.027     -1.029      0.628
-alpha.12       0.730     -0.078      1.582
-alpha.13       0.598     -0.256      1.309
-alpha.14       0.152     -1.075      2.090
+(Intercept)    0.000     -0.040      0.041
+alpha.1       -0.544     -1.771      0.815
+alpha.2        0.536     -1.214      2.351
+alpha.3        0.001     -1.544      1.680
+alpha.4        0.015     -1.670      1.575
+alpha.5        0.009     -1.658      1.560
+alpha.6        0.012     -1.549      1.630
+alpha.7        0.013     -1.569      1.588
+alpha.8        0.011     -1.542      1.583
+alpha.9       -0.002     -1.531      1.586
+alpha.10      -0.013     -1.639      1.560
+alpha.11      -0.017     -1.629      1.583
+alpha.12       0.008     -1.600      1.524
+alpha.13       0.018     -1.531      1.637
+alpha.14       0.235     -1.109      1.733
+alpha.15       0.208     -1.201      1.615
+alpha.16      -0.698     -1.927      0.689
+alpha.17       0.650     -0.930      2.202
+alpha.18       0.643     -0.780      2.248
+alpha.19      -1.055     -2.684      0.470
+alpha.20       0.434     -0.643      1.548
+alpha.21      -0.010     -1.544      1.437
+alpha.22       0.008     -1.439      1.466
+alpha.23      -1.061     -2.575      0.589
+alpha.24       0.178     -1.348      1.854
+alpha.25       0.168     -1.377      1.744
+alpha.26       0.172     -1.370      1.766
+alpha.27       0.169     -1.358      1.808
+alpha.28       0.178     -1.377      1.733
+alpha.29      -0.314     -1.762      1.049
+alpha.30       0.183     -1.285      1.809
+alpha.31       0.166     -1.396      1.793
+alpha.32       0.159     -1.339      1.839
+alpha.33       0.173     -1.378      1.764
+alpha.34      -0.007     -1.497      1.592
+alpha.35      -0.031     -1.627      1.482
+alpha.36      -0.004     -1.502      1.657
+alpha.37      -0.028     -1.589      1.550
+alpha.38      -0.006     -1.433      1.626
+alpha.39      -0.002     -1.604      1.517
+alpha.40       0.696     -0.817      2.261
+alpha.41      -0.337     -1.800      1.105
+alpha.42      -0.448     -1.589      0.698
+alpha.43       0.997     -0.686      2.604
+alpha.44       1.008     -0.570      2.660
+alpha.45      -0.270     -1.759      1.169
+alpha.46      -0.256     -1.676      1.267
+alpha.47      -0.274     -1.697      1.173
+alpha.48      -0.246     -1.800      1.158
+alpha.49       0.325     -0.964      1.672
+alpha.50       0.312     -1.033      1.586
+alpha.51      -0.216     -1.609      1.148
+alpha.52      -0.211     -1.558      1.146
+alpha.53      -0.230     -1.665      1.244
+alpha.54      -0.237     -1.734      1.268
+alpha.55      -0.220     -1.820      1.165
+alpha.56       0.006     -1.603      1.659
+alpha.57       0.011     -1.609      1.653
+alpha.58       0.047     -1.684      1.732
+alpha.59       0.042     -1.615      1.824
 </pre>
 </div>
 
@@ -799,7 +924,7 @@ alpha.14       0.152     -1.075      2.090
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># saveRDS(res, paste(&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/logitBvs.block_&quot;, block[1], &quot;_&quot;, block[2],&quot;.var.selection.res.rds&quot;, sep = &quot;&quot;))</span>
@@ -825,10 +950,23 @@ alpha.14       0.152     -1.075      2.090
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">tmp</span> <span class="o">&lt;-</span> <span class="n">res1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -869,10 +1007,10 @@ alpha.14       0.152     -1.075      2.090
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">samplesL</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">tmp</span><span class="o">$</span><span class="n">samplesL</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -909,10 +1047,10 @@ alpha.14       0.152     -1.075      2.090
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">head</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">samplesL</span><span class="o">$</span><span class="n">alpha</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="nf">head</span><span class="p">(</span><span class="n">tmp</span><span class="o">$</span><span class="n">samplesL</span><span class="o">$</span><span class="n">alpha</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -931,14 +1069,14 @@ alpha.14       0.152     -1.075      2.090
 
 <div class="output_html rendered_html output_subarea ">
 <table>
-<thead><tr><th scope=col>alpha.0</th><th scope=col>alpha.1</th><th scope=col>alpha.2</th><th scope=col>alpha.3</th><th scope=col>alpha.4</th><th scope=col>alpha.5</th><th scope=col>alpha.6</th><th scope=col>alpha.7</th><th scope=col>alpha.8</th><th scope=col>alpha.9</th><th scope=col>alpha.10</th><th scope=col>alpha.11</th><th scope=col>alpha.12</th><th scope=col>alpha.13</th><th scope=col>alpha.14</th></tr></thead>
+<thead><tr><th scope=col>alpha.0</th><th scope=col>alpha.1</th><th scope=col>alpha.2</th><th scope=col>alpha.3</th><th scope=col>alpha.4</th><th scope=col>alpha.5</th><th scope=col>alpha.6</th><th scope=col>alpha.7</th><th scope=col>alpha.8</th><th scope=col>alpha.9</th><th scope=col>⋯</th><th scope=col>alpha.50</th><th scope=col>alpha.51</th><th scope=col>alpha.52</th><th scope=col>alpha.53</th><th scope=col>alpha.54</th><th scope=col>alpha.55</th><th scope=col>alpha.56</th><th scope=col>alpha.57</th><th scope=col>alpha.58</th><th scope=col>alpha.59</th></tr></thead>
 <tbody>
-	<tr><td> 0.02588799</td><td>-0.08031210</td><td>-3.8108579 </td><td>-0.09847573</td><td> 2.5284632 </td><td> 2.7676266 </td><td> 0.2328063 </td><td>-0.2479022 </td><td>-0.43668230</td><td>-0.8170005 </td><td> 1.7852814 </td><td>-1.640551  </td><td>-0.57939687</td><td> 0.2502257 </td><td> 1.6132132 </td></tr>
-	<tr><td> 0.02776211</td><td> 0.25931701</td><td> 1.5580872 </td><td> 1.67526108</td><td>-0.7651095 </td><td> 0.9760082 </td><td>-1.8054832 </td><td>-0.6622759 </td><td> 0.59409346</td><td> 1.6263201 </td><td>-0.1638737 </td><td>-1.371194  </td><td> 1.10402559</td><td>-1.0650517 </td><td> 0.6530346 </td></tr>
-	<tr><td> 0.02134579</td><td>-0.22414125</td><td>-0.5806039 </td><td> 2.41131444</td><td> 3.0438672 </td><td> 1.2936762 </td><td>-3.8210450 </td><td>-0.6662171 </td><td> 0.69720757</td><td> 0.8270126 </td><td>-1.7907756 </td><td>-1.309185  </td><td> 0.01275341</td><td> 1.1357786 </td><td> 1.8400763 </td></tr>
-	<tr><td>-0.01757827</td><td>-0.41759525</td><td>-1.4833220 </td><td> 2.81883805</td><td> 0.9241440 </td><td>-1.0427321 </td><td> 1.5718639 </td><td>-0.9505111 </td><td> 0.41749959</td><td>-1.7165860 </td><td>-2.9979802 </td><td> 2.628901  </td><td> 0.49467601</td><td> 2.0021976 </td><td>-0.3915729 </td></tr>
-	<tr><td> 0.04330657</td><td>-0.19419596</td><td> 1.4752619 </td><td> 0.62902329</td><td> 1.0554862 </td><td> 2.4702260 </td><td>-2.9173043 </td><td>-1.0724747 </td><td> 0.40705811</td><td>-2.8721099 </td><td> 0.7683869 </td><td> 1.480944  </td><td> 0.87816965</td><td>-0.5366791 </td><td> 0.4387426 </td></tr>
-	<tr><td> 0.05824466</td><td> 0.05285497</td><td>-2.1558232 </td><td>-0.45282329</td><td> 2.1595056 </td><td> 1.5152219 </td><td> 1.4442232 </td><td>-0.9233384 </td><td> 0.05519366</td><td> 0.4864597 </td><td> 3.1844824 </td><td>-3.936472  </td><td> 2.32489090</td><td>-0.5358907 </td><td>-1.0906857 </td></tr>
+	<tr><td>-0.008922104</td><td>-0.53034624 </td><td> 0.531186533</td><td> 0.4457819  </td><td> 0.1599986  </td><td>-1.3182861  </td><td> 0.09927597 </td><td> 0.040819133</td><td> 0.14441332 </td><td>-1.20171809 </td><td>⋯           </td><td>-0.4265390  </td><td> 0.3910205  </td><td> 0.46967763 </td><td> 0.5613216  </td><td> 1.324210991</td><td>-1.5534997  </td><td>-1.6478087  </td><td>-1.075354152</td><td> 0.1485861  </td><td> 1.2174901  </td></tr>
+	<tr><td> 0.008121581</td><td> 0.79518523 </td><td> 0.954229860</td><td>-0.1130958  </td><td>-0.7076055  </td><td> 1.0144555  </td><td> 0.06313414 </td><td> 0.500058544</td><td>-0.05249471 </td><td> 0.02847695 </td><td>⋯           </td><td>-0.5672389  </td><td>-0.2361822  </td><td> 0.69763880 </td><td>-0.9993369  </td><td>-0.003138283</td><td> 0.1564388  </td><td>-0.2261067  </td><td> 0.178268803</td><td> 0.8484847  </td><td> 1.5755036  </td></tr>
+	<tr><td> 0.004549283</td><td>-0.49674451 </td><td>-0.988052445</td><td>-0.5637793  </td><td> 1.0699240  </td><td> 1.3984557  </td><td>-0.06392324 </td><td>-0.002354454</td><td>-0.54175689 </td><td>-0.58197656 </td><td>⋯           </td><td> 1.4600980  </td><td>-0.9431929  </td><td>-0.52161259 </td><td> 0.3376865  </td><td>-0.529398446</td><td> 0.5669247  </td><td> 0.5654980  </td><td> 0.006672887</td><td> 0.2599798  </td><td>-0.6937189  </td></tr>
+	<tr><td>-0.015049224</td><td>-0.13860589 </td><td> 0.293100422</td><td>-0.1334541  </td><td> 1.2996531  </td><td> 1.4361739  </td><td>-1.19321224 </td><td> 0.508942331</td><td> 0.26084063 </td><td> 0.32264172 </td><td>⋯           </td><td> 0.2647752  </td><td>-1.3852779  </td><td> 0.78115515 </td><td> 0.1477897  </td><td>-0.534497911</td><td>-0.8138973  </td><td>-1.4152443  </td><td> 1.090435096</td><td>-0.7521541  </td><td> 0.9998119  </td></tr>
+	<tr><td>-0.035771400</td><td> 0.06670708 </td><td> 0.009164063</td><td>-0.7054603  </td><td> 0.3679066  </td><td>-1.3005890  </td><td>-0.02348997 </td><td> 0.197857705</td><td> 1.90309204 </td><td>-0.90931598 </td><td>⋯           </td><td>-0.2912868  </td><td> 0.6487994  </td><td>-0.07720553 </td><td>-0.3198757  </td><td>-0.346299501</td><td> 0.2265415  </td><td>-0.2786059  </td><td> 0.926508434</td><td>-0.5175433  </td><td>-1.0035232  </td></tr>
+	<tr><td>-0.015940786</td><td>-1.33713301 </td><td> 1.018747459</td><td>-1.2060913  </td><td>-0.7895486  </td><td>-0.3490836  </td><td> 0.63312591 </td><td> 1.465485144</td><td>-0.17208142 </td><td> 0.33057663 </td><td>⋯           </td><td>-0.2077031  </td><td> 0.5747511  </td><td>-0.31270666 </td><td> 0.4434742  </td><td>-1.602214803</td><td> 1.0651499  </td><td>-1.0111447  </td><td> 0.510094357</td><td>-0.8205276  </td><td>-0.5999659  </td></tr>
 </tbody>
 </table>
 
@@ -952,11 +1090,11 @@ alpha.14       0.152     -1.075      2.090
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">bhat</span> <span class="o">&lt;-</span> <span class="nf">colMeans</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">samplesL</span><span class="o">$</span><span class="n">alpha[</span><span class="p">,</span><span class="m">-1</span><span class="n">]</span><span class="p">)</span>
-<span class="n">bhat1</span> <span class="o">&lt;-</span> <span class="nf">colMeans</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">samplesL</span><span class="o">$</span><span class="n">alpha</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">bhat</span> <span class="o">&lt;-</span> <span class="nf">colMeans</span><span class="p">(</span><span class="n">tmp</span><span class="o">$</span><span class="n">samplesL</span><span class="o">$</span><span class="n">alpha[</span><span class="p">,</span><span class="m">-1</span><span class="n">]</span><span class="p">)</span>
+<span class="n">bhat1</span> <span class="o">&lt;-</span> <span class="nf">colMeans</span><span class="p">(</span><span class="n">tmp</span><span class="o">$</span><span class="n">samplesL</span><span class="o">$</span><span class="n">alpha</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -966,7 +1104,7 @@ alpha.14       0.152     -1.075      2.090
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># yhat &lt;- exp(X %*% bhat)/(1+exp(X %*% bhat))</span>
@@ -982,7 +1120,7 @@ alpha.14       0.152     -1.075      2.090
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="nf">min</span><span class="p">(</span><span class="n">yhat</span><span class="p">);</span> <span class="nf">max</span><span class="p">(</span><span class="n">yhat</span><span class="p">);</span> <span class="nf">mean</span><span class="p">(</span><span class="n">yhat</span><span class="p">);</span> <span class="nf">median</span><span class="p">(</span><span class="n">yhat</span><span class="p">)</span>
@@ -1003,7 +1141,7 @@ alpha.14       0.152     -1.075      2.090
 
 
 <div class="output_html rendered_html output_subarea ">
-0
+-1.07900361328641
 </div>
 
 </div>
@@ -1015,7 +1153,7 @@ alpha.14       0.152     -1.075      2.090
 
 
 <div class="output_html rendered_html output_subarea ">
-2.54998766299737
+1.65047347772882
 </div>
 
 </div>
@@ -1027,7 +1165,7 @@ alpha.14       0.152     -1.075      2.090
 
 
 <div class="output_html rendered_html output_subarea ">
-0.111293975657849
+0.00129559479633665
 </div>
 
 </div>
@@ -1050,7 +1188,7 @@ alpha.14       0.152     -1.075      2.090
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">b_all</span> <span class="o">&lt;-</span> <span class="nf">as.matrix</span><span class="p">(</span><span class="n">data.table</span><span class="o">::</span><span class="nf">fread</span><span class="p">(</span><span class="s">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.beta&quot;</span><span class="p">))</span>
@@ -1064,7 +1202,7 @@ alpha.14       0.152     -1.075      2.090
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># y &lt;- exp(X %*% b)/(1+exp(X %*% b))</span>
@@ -1078,7 +1216,7 @@ alpha.14       0.152     -1.075      2.090
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="nf">min</span><span class="p">(</span><span class="n">yb</span><span class="p">);</span> <span class="nf">max</span><span class="p">(</span><span class="n">yb</span><span class="p">);</span> <span class="nf">mean</span><span class="p">(</span><span class="n">yb</span><span class="p">);</span> <span class="nf">median</span><span class="p">(</span><span class="n">yb</span><span class="p">)</span>
@@ -1111,7 +1249,7 @@ alpha.14       0.152     -1.075      2.090
 
 
 <div class="output_html rendered_html output_subarea ">
-2.92414631248472
+0.957889221371214
 </div>
 
 </div>
@@ -1123,7 +1261,7 @@ alpha.14       0.152     -1.075      2.090
 
 
 <div class="output_html rendered_html output_subarea ">
-0.132801744847629
+0.00443809267985746
 </div>
 
 </div>
@@ -1146,10 +1284,10 @@ alpha.14       0.152     -1.075      2.090
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">cor</span><span class="p">(</span><span class="n">yb</span><span class="p">,</span> <span class="n">yhat1</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s">&quot;pearson&quot;</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="nf">cor</span><span class="p">(</span><span class="n">yb</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s">&quot;pearson&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1169,7 +1307,7 @@ alpha.14       0.152     -1.075      2.090
 <div class="output_html rendered_html output_subarea ">
 <table>
 <tbody>
-	<tr><td>0.9913522</td></tr>
+	<tr><td>0.3444027</td></tr>
 </tbody>
 </table>
 
@@ -1262,7 +1400,7 @@ sample estimates:
 <div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1825,7 +1963,7 @@ alpha.9        0.256  1.000      0.230      0.291
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/c6f058c7a83848b8239f454d0a51eb2a084543cb/dsc/20190917_logitBvs.ipynb"><code>dsc/20190917_logitBvs.ipynb</code></a> committed by minqiao on Sat Sep 28 00:48:08 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/c6f058c7a83848b8239f454d0a51eb2a084543cb">revision 6, c6f058c</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/06c26d7278f4b5ba04f4723c2e6628320610402d/dsc/20190917_logitBvs.ipynb"><code>dsc/20190917_logitBvs.ipynb</code></a> committed by minqiao on Mon Sep 30 17:51:00 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/06c26d7278f4b5ba04f4723c2e6628320610402d">revision 7, 06c26d7</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
