@@ -373,8 +373,13 @@ body {
 res = logitBvs(y, N, X, prior = list(slab = "Normal", aj0 = rep(mu0, ncol(X)-1), V = var, w = c(pa0 = 1.412, pb0 = 10), pi = c(wa0 = 1, wb0 = 1)), 
             mcmc = list(M = 10000, burnin = 2000, msave = TRUE), BVS = FALSE)</code></pre>
 </li>
-<li>PIP: only when <code>aj0</code> is set to default 0, PIPs are being calculated.</li>
-<li>Arguments $\omega$ and $\pi$: The results for setting either of them not as default does not make much difference.</li>
+<li><p>PIP: only when <code>aj0</code> is set to default 0, PIPs are being calculated.</p>
+<p><strong>If prior information on the regression parameters is available (I guess it means that<code>aj0</code> not 0), this information is encoded in a normal distribution instead of the spike and slab prior (BVS is set to FALSE).</strong> R package <code>pogit</code> <a href="https://cran.r-project.org/web/packages/pogit/pogit.pdf">manual link</a>. The description is on page 7. I doubt I did not use it correctly.</p>
+<p>When <code>aj0</code> != 0, PIPs are calculated and exported as a matrix of all 1's, the dimension is the number of MCMC iteration by the number of $\beta$'s.</p>
+<p>When <code>aj0</code> =0, PIP are calculated and exported as a matrix of numbers between 0 and 1.</p>
+</li>
+<li><p>Arguments $\omega$ and $\pi$: The results for setting either of them not as default does not make much difference.</p>
+</li>
 </ol>
 
 </div>
@@ -393,9 +398,145 @@ res = logitBvs(y, N, X, prior = list(slab = "Normal", aj0 = rep(mu0, ncol(X)-1),
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="BoomSpikeSlab-results"><code>BoomSpikeSlab</code> results<a class="anchor-link" href="#BoomSpikeSlab-results">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Use-function-LogitZellnerPrior-to-obtain-prior">Use function <code>LogitZellnerPrior</code> to obtain prior<a class="anchor-link" href="#Use-function-LogitZellnerPrior-to-obtain-prior">&#182;</a></h3>
+<pre><code>prior &lt;- LogitZellnerPrior(X(with intercept), y, N, prior.success.probability = NULL, expected.model.size = 1, prior.information.weight = 0.05, 
+                           diagonal.shrinkage = 0, optional.coefficient.estimate = NULL, prior.inclusion.probabilities = NULL)</code></pre>
+<p>X should be with intercept (all 1's).</p>
+<p>prior$mu, `prior$mu` will be all 0 except intercept.</p>
+
+<pre><code>-2.81430583840715
+0
+0
+0
+0
+...</code></pre>
+<p>prior$prior.inclusion.probabilities, same for all variables include intercept</p>
+
+<pre><code>0.0333333333333333
+0.0333333333333333
+0.0333333333333333
+0.0333333333333333
+0.0333333333333333
+...</code></pre>
+<p>prior$sigma.guess</p>
+
+<pre><code>0.707106781186548</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Use-function-logit.spike-for-MCMC,-1000-iteration">Use function <code>logit.spike</code> for MCMC, 1000 iteration<a class="anchor-link" href="#Use-function-logit.spike-for-MCMC,-1000-iteration">&#182;</a></h3>
+<pre><code>logit.spike(y ~ X, niter = 1000, prior = prior)</code></pre>
+<p>No intercept for X input. The result depends much on the prior $\mu$ provided. The results are not stable even with the same parameter. May because iteration not enough???</p>
+<p><code>prior.inclusion.probabilities</code> and <code>sigma</code> could be replaced without generating an error.</p>
+<ol>
+<li>No <code>prior</code> provided (If prior is supplied it will be used. Otherwise a prior distribution will constructed by calling <code>LogitZellnerPrior</code>.)</li>
+</ol>
+
+<pre><code>null log likelihood:            -1545.166 
+posterior mean log likelihood:  -1545.639 
+posterior max log likelihood:   -1545.166 
+mean deviance R-sq:             -0.0003057917 
+
+predicted vs observed success rates, by decile:
+                   predicted   observed
+(0.05666,0.05667] 0.05667028 0.05647325
+
+summary of coefficients:
+                mean      sd mean.inc sd.inc inc.prob
+(Intercept) -2.81000 0.05000    -2.81   0.05    1.000
+XV31        -0.00017 0.00539    -0.17   0.00    0.001
+XV59         0.00000 0.00000     0.00   0.00    0.000
+XV58         0.00000 0.00000     0.00   0.00    0.000
+XV57         0.00000 0.00000     0.00   0.00    0.000</code></pre>
+<ol>
+<li>Use prior from <code>LogitZellnerPrior</code></li>
+</ol>
+
+<pre><code>null log likelihood:            -1545.166 
+posterior mean log likelihood:  -1545.705 
+posterior max log likelihood:   -1545.166 
+mean deviance R-sq:             -0.0003486287 
+
+predicted vs observed success rates, by decile:
+                 predicted   observed
+(0.0566,0.0567] 0.05666383 0.04347826
+
+summary of coefficients:
+                 mean     sd mean.inc sd.inc inc.prob
+(Intercept) -2.810000 0.0534   -2.810 0.0534    1.000
+XV23         0.000387 0.0122    0.387 0.0000    0.001
+XV59         0.000000 0.0000    0.000 0.0000    0.000
+XV58         0.000000 0.0000    0.000 0.0000    0.000</code></pre>
+<ol>
+<li>If replace all predictor variables in <code>prior$mu</code> with the same positive number (e.g. mu from <code>varbvs</code>), <code>logit.spike</code> would generate error. </li>
+</ol>
+
+<pre><code>Error in logit.spike(y ~ X, niter = 1000, prior = prior1): Caught exception with the following error message: 
+BinomialLogitSpikeSlabSampler did not start with a legal configuration.
+Selector vector:  111111111111111111111111111111111111111111111111111111111111
+beta: -2.80456 -0.0448699 -105.725 -11.8131 -152.214 169.162 -61.8338 -60.5791 -93.9208 127.14 -121.228 21.1879 -97.2869 141.847 -0.0821741 -0.463076 -0.655192 -0.0626618 0.391438 -0.110333 -0.175838 0.341724 -0.343848 0.16436 -0.181421 0.118219 -0.247901 0.469834 0.639211 -0.00259735 0.0308668 -0.170393 0.533547 0.11682 -0.269742 0.11209 -0.355633 -0.162975 0.0557523 -0.152552 0.329034 0.102837 0.0438444 0.328603 0.0805891 -0.365102 -1.25351 -0.579535 1.57087 0.240165 0.161255 0.0372671 -0.0992332 -0.40193 -0.888907 -0.121898 0.80505 -0.29422 1.26817 0.71773</code></pre>
+<ol>
+<li>If replace a few of them (replacement cannot be greater than 2 consecutively) with mu0, , there would be either error or no error. So predictors cannot be replaced with all non-zero.</li>
+</ol>
+
+<pre><code>null log likelihood:            -1545.166 
+posterior mean log likelihood:  -1545.637 
+posterior max log likelihood:   -1544.987 
+mean deviance R-sq:             -0.0003043409 
+
+predicted vs observed success rates, by decile:
+                 predicted   observed
+(0.0564,0.0582] 0.05739954 0.05128205
+
+summary of coefficients:
+                 mean     sd mean.inc  sd.inc inc.prob
+(Intercept) -2.820000 0.0478  -2.8200 0.04780    1.000
+XV22         0.000816 0.1230   0.0742 1.23000    0.011
+XV55         0.002830 0.0449   0.7070 0.08550    0.004
+XV44         0.001430 0.0243   0.3580 0.16100    0.004
+XV33         0.003210 0.0506   0.8010 0.00488    0.004
+XV23         0.003010 0.0477   0.7540 0.04700    0.004
+XV11         0.004150 0.0664   1.0400 0.20300    0.004
+XV5         -0.000840 0.0266  -0.8400 0.00000    0.001
+XV59         0.000000 0.0000   0.0000 0.00000    0.000
+XV58         0.000000 0.0000   0.0000 0.00000    0.000</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>Interation 30000 with <code>LogitZellnerPrior</code> prior
+```</li>
+</ol>
+<p>```</p>
+
+</div>
+</div>
+</div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/06c26d7278f4b5ba04f4723c2e6628320610402d/dsc/20190918_report.ipynb"><code>dsc/20190918_report.ipynb</code></a> committed by minqiao on Mon Sep 30 17:51:00 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/06c26d7278f4b5ba04f4723c2e6628320610402d">revision 3, 06c26d7</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/3a8885b238d6e24d2e25ff2d630f5047592d174c/dsc/20190918_report.ipynb"><code>dsc/20190918_report.ipynb</code></a> committed by minqiao on Thu Oct 3 23:31:12 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/3a8885b238d6e24d2e25ff2d630f5047592d174c">revision 4, 3a8885b</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

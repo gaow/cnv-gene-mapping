@@ -407,7 +407,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># library(varbvs)</span>
@@ -421,7 +421,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># varbvs::varbvs</span>
@@ -434,7 +434,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span>
@@ -448,7 +448,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">susieR</span><span class="p">)</span>
@@ -495,7 +495,7 @@ The following object is masked from ‘package:stats’:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="nf">as.matrix</span><span class="p">(</span><span class="n">data.table</span><span class="o">::</span><span class="nf">fread</span><span class="p">(</span><span class="s">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/block_79_137/deletion.genes.block30.for_simu.sample.genes.block_79_137.gz&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">F</span><span class="p">))</span>
@@ -508,10 +508,66 @@ The following object is masked from ‘package:stats’:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">as.matrix</span><span class="p">(</span><span class="n">data.table</span><span class="o">::</span><span class="nf">fread</span><span class="p">(</span><span class="s">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.y&quot;</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">sampler</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="nf">sample</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="nf">sum</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="nf">sum</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="m">0.06</span><span class="p">),</span> <span class="nf">c</span><span class="p">((</span><span class="nf">sum</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="m">+1</span><span class="p">)</span><span class="o">:</span><span class="nf">length</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">y[sampler</span><span class="p">,</span> <span class="n">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X[sampler</span><span class="p">,</span> <span class="n">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">X_inter</span> <span class="o">=</span> <span class="nf">cbind</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">storage.mode</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="s">&#39;double&#39;</span>
+<span class="nf">storage.mode</span><span class="p">(</span><span class="n">X_inter</span><span class="p">)</span> <span class="o">=</span> <span class="s">&#39;double&#39;</span>
+<span class="nf">storage.mode</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="s">&#39;double&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">X_inter</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -530,8 +586,8 @@ The following object is masked from ‘package:stats’:
 
 <div class="output_html rendered_html output_subarea ">
 <ol class=list-inline>
-	<li>13412</li>
-	<li>59</li>
+	<li>7108</li>
+	<li>60</li>
 </ol>
 
 </div>
@@ -544,10 +600,10 @@ The following object is masked from ‘package:stats’:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="c1"># X = cbind(1, X)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="nf">length</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -557,10 +613,10 @@ The following object is masked from ‘package:stats’:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">as.matrix</span><span class="p">(</span><span class="n">data.table</span><span class="o">::</span><span class="nf">fread</span><span class="p">(</span><span class="s">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.y&quot;</span><span class="p">))</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">X_center</span> <span class="o">&lt;-</span> <span class="nf">scale</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -570,56 +626,10 @@ The following object is masked from ‘package:stats’:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">storage.mode</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="s">&#39;double&#39;</span>
-<span class="nf">storage.mode</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="s">&#39;double&#39;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">log10</span><span class="p">(</span><span class="m">0.05</span><span class="o">/</span><span class="m">0.95</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
--1.27875360095283
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">prior</span> <span class="o">&lt;-</span> <span class="nf">LogitZellnerPrior</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">prior.success.probability</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">,</span> <span class="n">expected.model.size</span> <span class="o">=</span> <span class="m">3</span><span class="p">,</span> <span class="n">prior.information.weight</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">,</span> 
+<div class=" highlight hl-r"><pre><span></span><span class="n">prior</span> <span class="o">&lt;-</span> <span class="nf">LogitZellnerPrior</span><span class="p">(</span><span class="n">X_inter</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">prior.success.probability</span> <span class="o">=</span> <span class="kc">NULL</span><span class="p">,</span> <span class="n">expected.model.size</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">prior.information.weight</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">,</span> 
                            <span class="n">diagonal.shrinkage</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">optional.coefficient.estimate</span> <span class="o">=</span> <span class="kc">NULL</span><span class="p">,</span> <span class="n">prior.inclusion.probabilities</span> <span class="o">=</span> <span class="kc">NULL</span><span class="p">)</span>
 </pre></div>
 
@@ -630,7 +640,7 @@ The following object is masked from ‘package:stats’:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">prior</span><span class="p">)</span>
@@ -672,12 +682,43 @@ The following object is masked from ‘package:stats’:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="prompt input_prompt">In&nbsp;[73]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">prior</span><span class="o">$</span><span class="n">sigma.guess</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.707106781186548
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">prior_glm</span> <span class="o">&lt;-</span> <span class="nf">SpikeSlabGlmPrior</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="o">/</span><span class="nf">nrow</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="nf">nrow</span><span class="p">(</span><span class="n">X</span><span class="p">)),</span> <span class="n">prior.inclusion.probabilities</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="o">/</span><span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)),</span> <span class="n">expected.model.size</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> 
-                               <span class="n">optional.coefficient.estimate</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)),</span> <span class="n">mean.on.natural.scale</span> <span class="o">=</span> <span class="m">-1</span><span class="p">,</span> <span class="n">max.flips</span> <span class="o">=</span> <span class="m">5</span><span class="p">,</span> <span class="n">diagonal.shrinkage</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> 
-                               <span class="n">prior.information.weight</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">)</span>
+                               <span class="n">optional.coefficient.estimate</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)),</span> <span class="n">mean.on.natural.scale</span> <span class="o">=</span> <span class="m">-1</span><span class="p">,</span> <span class="n">max.flips</span> <span class="o">=</span> <span class="m">5</span><span class="p">,</span> <span class="n">diagonal.shrinkage</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">prior.information.weight</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -687,7 +728,7 @@ The following object is masked from ‘package:stats’:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">prior_glm</span><span class="p">)</span>
@@ -728,71 +769,7 @@ The following object is masked from ‘package:stats’:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">length</span><span class="p">(</span><span class="n">prior_glm</span><span class="o">$</span><span class="n">mu</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-59
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[60]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-59
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="n">prior1</span> <span class="o">&lt;-</span> <span class="n">prior</span>
@@ -805,24 +782,56 @@ The following object is masked from ‘package:stats’:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">tmp_mu</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">18</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">3</span><span class="p">),</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">10</span><span class="p">),</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">7</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">18</span><span class="p">))</span>
+<div class=" highlight hl-r"><pre><span></span><span class="nf">length</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">mu</span><span class="p">);</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+60
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+59
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">prior1</span><span class="o">$</span><span class="n">prior.inclusion.probabilities</span> <span class="o">&lt;-</span> <span class="nf">rep</span><span class="p">(</span><span class="n">pi0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
-<span class="n">prior1</span><span class="o">$</span><span class="n">mu</span> <span class="o">&lt;-</span> <span class="nf">rep</span><span class="p">(</span><span class="n">mu0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">prior1</span><span class="o">$</span><span class="n">prior.inclusion.probabilities</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">prior.inclusion.probabilities[1]</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="n">pi0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)))</span>
+<span class="n">prior1</span><span class="o">$</span><span class="n">mu</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">mu[1]</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">9</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">10</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">10</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">4</span><span class="p">))</span>
+<span class="c1"># prior1$mu &lt;- c(prior$mu[1], colSums(X_inter)[2:ncol(X_inter)]*0.001)</span>
 <span class="n">prior1</span><span class="o">$</span><span class="n">sigma.guess</span> <span class="o">&lt;-</span> <span class="n">sd0</span>
 </pre></div>
 
@@ -833,10 +842,10 @@ The following object is masked from ‘package:stats’:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[64]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">length</span><span class="p">(</span><span class="n">prior1</span><span class="o">$</span><span class="n">mu</span><span class="p">)</span> <span class="o">==</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="nf">length</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">mu</span><span class="p">)</span> <span class="o">==</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -854,7 +863,7 @@ The following object is masked from ‘package:stats’:
 
 
 <div class="output_html rendered_html output_subarea ">
-TRUE
+FALSE
 </div>
 
 </div>
@@ -865,10 +874,10 @@ TRUE
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="prompt input_prompt">In&nbsp;[65]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">model</span> <span class="o">&lt;-</span> <span class="nf">logit.spike</span><span class="p">(</span><span class="n">y</span> <span class="o">~</span> <span class="n">X</span><span class="p">,</span> <span class="n">niter</span> <span class="o">=</span> <span class="m">1000</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="n">prior_glm</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">model1</span> <span class="o">&lt;-</span> <span class="nf">logit.spike</span><span class="p">(</span><span class="n">y</span> <span class="o">~</span> <span class="n">X</span><span class="p">,</span> <span class="n">niter</span> <span class="o">=</span> <span class="m">1000</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="n">prior1</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -884,15 +893,18 @@ TRUE
 <div class="prompt"></div>
 
 
-<div class="output_subarea output_text output_error">
-<pre>
-Error in logit.spike(y ~ X, niter = 1000, prior = prior_glm): length(prior$mu) == ncol(design) is not TRUE
-Traceback:
-
-1. logit.spike(y ~ X, niter = 1000, prior = prior_glm)
-2. stopifnot(is.matrix(design), nrow(design) == length(response), 
- .     length(prior$mu) == ncol(design), length(prior$prior.inclusion.probabilities) == 
- .         ncol(design), all(ny &gt;= response), all(response &gt;= 0))</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>=-=-=-=-= Iteration 0 Thu Oct  3 22:48:23 2019 =-=-=-=-=
+=-=-=-=-= Iteration 100 Thu Oct  3 22:48:53 2019 =-=-=-=-=
+=-=-=-=-= Iteration 200 Thu Oct  3 22:49:17 2019 =-=-=-=-=
+=-=-=-=-= Iteration 300 Thu Oct  3 22:49:46 2019 =-=-=-=-=
+=-=-=-=-= Iteration 400 Thu Oct  3 22:50:16 2019 =-=-=-=-=
+=-=-=-=-= Iteration 500 Thu Oct  3 22:50:45 2019 =-=-=-=-=
+=-=-=-=-= Iteration 600 Thu Oct  3 22:51:12 2019 =-=-=-=-=
+=-=-=-=-= Iteration 700 Thu Oct  3 22:51:41 2019 =-=-=-=-=
+=-=-=-=-= Iteration 800 Thu Oct  3 22:52:09 2019 =-=-=-=-=
+=-=-=-=-= Iteration 900 Thu Oct  3 22:52:33 2019 =-=-=-=-=
+</pre>
 </div>
 </div>
 
@@ -902,10 +914,50 @@ Traceback:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[70]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">model0</span> <span class="o">&lt;-</span> <span class="nf">logit.spike</span><span class="p">(</span><span class="n">y</span> <span class="o">~</span> <span class="n">X</span><span class="p">,</span> <span class="n">niter</span> <span class="o">=</span> <span class="m">1000</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>=-=-=-=-= Iteration 0 Thu Oct  3 23:21:08 2019 =-=-=-=-=
+=-=-=-=-= Iteration 100 Thu Oct  3 23:21:38 2019 =-=-=-=-=
+=-=-=-=-= Iteration 200 Thu Oct  3 23:22:05 2019 =-=-=-=-=
+=-=-=-=-= Iteration 300 Thu Oct  3 23:22:28 2019 =-=-=-=-=
+=-=-=-=-= Iteration 400 Thu Oct  3 23:22:55 2019 =-=-=-=-=
+=-=-=-=-= Iteration 500 Thu Oct  3 23:23:24 2019 =-=-=-=-=
+=-=-=-=-= Iteration 600 Thu Oct  3 23:23:48 2019 =-=-=-=-=
+=-=-=-=-= Iteration 700 Thu Oct  3 23:24:12 2019 =-=-=-=-=
+=-=-=-=-= Iteration 800 Thu Oct  3 23:24:39 2019 =-=-=-=-=
+=-=-=-=-= Iteration 900 Thu Oct  3 23:25:05 2019 =-=-=-=-=
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[71]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">model0</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -922,22 +974,79 @@ Traceback:
 
 
 
-<div class="output_html rendered_html output_subarea ">
-<ol class=list-inline>
-	<li>'beta'</li>
-	<li>'prior'</li>
-	<li>'xlevels'</li>
-	<li>'call'</li>
-	<li>'terms'</li>
-	<li>'log.likelihood'</li>
-	<li>'deviance.residuals'</li>
-	<li>'null.log.likelihood'</li>
-	<li>'fitted.probabilities'</li>
-	<li>'fitted.logits'</li>
-	<li>'response'</li>
-	<li>'training.data'</li>
-</ol>
 
+<div class="output_text output_subarea ">
+<pre>null log likelihood:            -1545.166 
+posterior mean log likelihood:  -1545.7 
+posterior max log likelihood:   -1545.166 
+mean deviance R-sq:             -0.0003451598 
+
+predicted vs observed success rates, by decile:
+                    predicted   observed
+(0.056818,0.056824] 0.0568237 0.05882353
+
+summary of coefficients:
+                 mean      sd mean.inc sd.inc inc.prob
+(Intercept) -2.810000 0.05300   -2.810  0.053    1.000
+XV17         0.000105 0.00331    0.105  0.000    0.001
+XV59         0.000000 0.00000    0.000  0.000    0.000
+XV58         0.000000 0.00000    0.000  0.000    0.000
+XV57         0.000000 0.00000    0.000  0.000    0.000
+XV56         0.000000 0.00000    0.000  0.000    0.000
+XV55         0.000000 0.00000    0.000  0.000    0.000
+XV54         0.000000 0.00000    0.000  0.000    0.000
+XV53         0.000000 0.00000    0.000  0.000    0.000
+XV52         0.000000 0.00000    0.000  0.000    0.000
+XV51         0.000000 0.00000    0.000  0.000    0.000
+XV50         0.000000 0.00000    0.000  0.000    0.000
+XV49         0.000000 0.00000    0.000  0.000    0.000
+XV48         0.000000 0.00000    0.000  0.000    0.000
+XV47         0.000000 0.00000    0.000  0.000    0.000
+XV46         0.000000 0.00000    0.000  0.000    0.000
+XV45         0.000000 0.00000    0.000  0.000    0.000
+XV44         0.000000 0.00000    0.000  0.000    0.000
+XV43         0.000000 0.00000    0.000  0.000    0.000
+XV42         0.000000 0.00000    0.000  0.000    0.000
+XV41         0.000000 0.00000    0.000  0.000    0.000
+XV40         0.000000 0.00000    0.000  0.000    0.000
+XV39         0.000000 0.00000    0.000  0.000    0.000
+XV38         0.000000 0.00000    0.000  0.000    0.000
+XV37         0.000000 0.00000    0.000  0.000    0.000
+XV36         0.000000 0.00000    0.000  0.000    0.000
+XV35         0.000000 0.00000    0.000  0.000    0.000
+XV34         0.000000 0.00000    0.000  0.000    0.000
+XV33         0.000000 0.00000    0.000  0.000    0.000
+XV32         0.000000 0.00000    0.000  0.000    0.000
+XV31         0.000000 0.00000    0.000  0.000    0.000
+XV30         0.000000 0.00000    0.000  0.000    0.000
+XV29         0.000000 0.00000    0.000  0.000    0.000
+XV28         0.000000 0.00000    0.000  0.000    0.000
+XV27         0.000000 0.00000    0.000  0.000    0.000
+XV26         0.000000 0.00000    0.000  0.000    0.000
+XV25         0.000000 0.00000    0.000  0.000    0.000
+XV24         0.000000 0.00000    0.000  0.000    0.000
+XV23         0.000000 0.00000    0.000  0.000    0.000
+XV22         0.000000 0.00000    0.000  0.000    0.000
+XV21         0.000000 0.00000    0.000  0.000    0.000
+XV20         0.000000 0.00000    0.000  0.000    0.000
+XV19         0.000000 0.00000    0.000  0.000    0.000
+XV18         0.000000 0.00000    0.000  0.000    0.000
+XV16         0.000000 0.00000    0.000  0.000    0.000
+XV15         0.000000 0.00000    0.000  0.000    0.000
+XV14         0.000000 0.00000    0.000  0.000    0.000
+XV13         0.000000 0.00000    0.000  0.000    0.000
+XV12         0.000000 0.00000    0.000  0.000    0.000
+XV11         0.000000 0.00000    0.000  0.000    0.000
+XV10         0.000000 0.00000    0.000  0.000    0.000
+XV9          0.000000 0.00000    0.000  0.000    0.000
+XV8          0.000000 0.00000    0.000  0.000    0.000
+XV7          0.000000 0.00000    0.000  0.000    0.000
+XV6          0.000000 0.00000    0.000  0.000    0.000
+XV5          0.000000 0.00000    0.000  0.000    0.000
+XV4          0.000000 0.00000    0.000  0.000    0.000
+XV3          0.000000 0.00000    0.000  0.000    0.000
+XV2          0.000000 0.00000    0.000  0.000    0.000
+XV1          0.000000 0.00000    0.000  0.000    0.000</pre>
 </div>
 
 </div>
@@ -948,10 +1057,312 @@ Traceback:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">colSums</span><span class="p">(</span><span class="n">model</span><span class="o">$</span><span class="n">beta</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">model</span> <span class="o">&lt;-</span> <span class="nf">logit.spike</span><span class="p">(</span><span class="n">y</span> <span class="o">~</span> <span class="n">X</span><span class="p">,</span> <span class="n">niter</span> <span class="o">=</span> <span class="m">30000</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="n">prior</span><span class="p">)</span>
+<span class="c1"># model &lt;- logit.spike(y ~ X_inter, niter = 100)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="c1"># prior 1000</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">model1</span><span class="p">)</span> <span class="c1"># prior1 1000</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>null log likelihood:            -1545.166 
+posterior mean log likelihood:  -1545.637 
+posterior max log likelihood:   -1544.987 
+mean deviance R-sq:             -0.0003043409 
+
+predicted vs observed success rates, by decile:
+                 predicted   observed
+(0.0564,0.0582] 0.05739954 0.05128205
+
+summary of coefficients:
+                 mean     sd mean.inc  sd.inc inc.prob
+(Intercept) -2.820000 0.0478  -2.8200 0.04780    1.000
+XV22         0.000816 0.1230   0.0742 1.23000    0.011
+XV55         0.002830 0.0449   0.7070 0.08550    0.004
+XV44         0.001430 0.0243   0.3580 0.16100    0.004
+XV33         0.003210 0.0506   0.8010 0.00488    0.004
+XV23         0.003010 0.0477   0.7540 0.04700    0.004
+XV11         0.004150 0.0664   1.0400 0.20300    0.004
+XV5         -0.000840 0.0266  -0.8400 0.00000    0.001
+XV59         0.000000 0.0000   0.0000 0.00000    0.000
+XV58         0.000000 0.0000   0.0000 0.00000    0.000
+XV57         0.000000 0.0000   0.0000 0.00000    0.000
+XV56         0.000000 0.0000   0.0000 0.00000    0.000
+XV54         0.000000 0.0000   0.0000 0.00000    0.000
+XV53         0.000000 0.0000   0.0000 0.00000    0.000
+XV52         0.000000 0.0000   0.0000 0.00000    0.000
+XV51         0.000000 0.0000   0.0000 0.00000    0.000
+XV50         0.000000 0.0000   0.0000 0.00000    0.000
+XV49         0.000000 0.0000   0.0000 0.00000    0.000
+XV48         0.000000 0.0000   0.0000 0.00000    0.000
+XV47         0.000000 0.0000   0.0000 0.00000    0.000
+XV46         0.000000 0.0000   0.0000 0.00000    0.000
+XV45         0.000000 0.0000   0.0000 0.00000    0.000
+XV43         0.000000 0.0000   0.0000 0.00000    0.000
+XV42         0.000000 0.0000   0.0000 0.00000    0.000
+XV41         0.000000 0.0000   0.0000 0.00000    0.000
+XV40         0.000000 0.0000   0.0000 0.00000    0.000
+XV39         0.000000 0.0000   0.0000 0.00000    0.000
+XV38         0.000000 0.0000   0.0000 0.00000    0.000
+XV37         0.000000 0.0000   0.0000 0.00000    0.000
+XV36         0.000000 0.0000   0.0000 0.00000    0.000
+XV35         0.000000 0.0000   0.0000 0.00000    0.000
+XV34         0.000000 0.0000   0.0000 0.00000    0.000
+XV32         0.000000 0.0000   0.0000 0.00000    0.000
+XV31         0.000000 0.0000   0.0000 0.00000    0.000
+XV30         0.000000 0.0000   0.0000 0.00000    0.000
+XV29         0.000000 0.0000   0.0000 0.00000    0.000
+XV28         0.000000 0.0000   0.0000 0.00000    0.000
+XV27         0.000000 0.0000   0.0000 0.00000    0.000
+XV26         0.000000 0.0000   0.0000 0.00000    0.000
+XV25         0.000000 0.0000   0.0000 0.00000    0.000
+XV24         0.000000 0.0000   0.0000 0.00000    0.000
+XV21         0.000000 0.0000   0.0000 0.00000    0.000
+XV20         0.000000 0.0000   0.0000 0.00000    0.000
+XV19         0.000000 0.0000   0.0000 0.00000    0.000
+XV18         0.000000 0.0000   0.0000 0.00000    0.000
+XV17         0.000000 0.0000   0.0000 0.00000    0.000
+XV16         0.000000 0.0000   0.0000 0.00000    0.000
+XV15         0.000000 0.0000   0.0000 0.00000    0.000
+XV14         0.000000 0.0000   0.0000 0.00000    0.000
+XV13         0.000000 0.0000   0.0000 0.00000    0.000
+XV12         0.000000 0.0000   0.0000 0.00000    0.000
+XV10         0.000000 0.0000   0.0000 0.00000    0.000
+XV9          0.000000 0.0000   0.0000 0.00000    0.000
+XV8          0.000000 0.0000   0.0000 0.00000    0.000
+XV7          0.000000 0.0000   0.0000 0.00000    0.000
+XV6          0.000000 0.0000   0.0000 0.00000    0.000
+XV4          0.000000 0.0000   0.0000 0.00000    0.000
+XV3          0.000000 0.0000   0.0000 0.00000    0.000
+XV2          0.000000 0.0000   0.0000 0.00000    0.000
+XV1          0.000000 0.0000   0.0000 0.00000    0.000</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">n</span> <span class="o">&lt;-</span> <span class="m">100</span>
+<span class="n">p</span> <span class="o">&lt;-</span> <span class="m">10</span>
+<span class="n">ngood</span> <span class="o">&lt;-</span> <span class="m">3</span>
+<span class="n">niter</span> <span class="o">&lt;-</span> <span class="m">1000</span>
+<span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">cbind</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="nf">matrix</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span><span class="m">-1</span><span class="p">)),</span> <span class="n">nrow</span><span class="o">=</span><span class="n">n</span><span class="p">))</span>
+<span class="n">beta</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">ngood</span><span class="p">),</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">p</span> <span class="o">-</span> <span class="n">ngood</span><span class="p">))</span>
+<span class="n">prob</span> <span class="o">&lt;-</span> <span class="nf">plogis</span><span class="p">(</span><span class="n">x</span> <span class="o">%*%</span> <span class="n">beta</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">runif</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">prob</span>
+<span class="n">x</span> <span class="o">&lt;-</span> <span class="n">x[</span><span class="p">,</span><span class="m">-1</span><span class="n">]</span>
+<span class="n">model</span> <span class="o">&lt;-</span> <span class="nf">logit.spike</span><span class="p">(</span><span class="n">y</span> <span class="o">~</span> <span class="n">x</span><span class="p">,</span> <span class="n">niter</span><span class="o">=</span><span class="n">niter</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>=-=-=-=-= Iteration 0 Wed Oct  2 22:00:39 2019 =-=-=-=-=
+=-=-=-=-= Iteration 100 Wed Oct  2 22:00:39 2019 =-=-=-=-=
+=-=-=-=-= Iteration 200 Wed Oct  2 22:00:39 2019 =-=-=-=-=
+=-=-=-=-= Iteration 300 Wed Oct  2 22:00:39 2019 =-=-=-=-=
+=-=-=-=-= Iteration 400 Wed Oct  2 22:00:39 2019 =-=-=-=-=
+=-=-=-=-= Iteration 500 Wed Oct  2 22:00:40 2019 =-=-=-=-=
+=-=-=-=-= Iteration 600 Wed Oct  2 22:00:40 2019 =-=-=-=-=
+=-=-=-=-= Iteration 700 Wed Oct  2 22:00:40 2019 =-=-=-=-=
+=-=-=-=-= Iteration 800 Wed Oct  2 22:00:40 2019 =-=-=-=-=
+=-=-=-=-= Iteration 900 Wed Oct  2 22:00:40 2019 =-=-=-=-=
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>null log likelihood:            -57.30569 
+posterior mean log likelihood:  -69.21457 
+posterior max log likelihood:   -67.30182 
+mean deviance R-sq:             -0.2078131 
+
+predicted vs observed success rates, by decile:
+              predicted observed
+(0.49,0.494]  0.4923392      0.0
+(0.494,0.496] 0.4952206      0.1
+(0.496,0.498] 0.4969029      0.2
+(0.498,0.499] 0.4983347      0.2
+(0.499,0.5]   0.4996715      0.4
+(0.5,0.502]   0.5011072      0.3
+(0.502,0.503] 0.5022994      0.0
+(0.503,0.504] 0.5036059      0.4
+(0.504,0.507] 0.5056010      0.3
+(0.507,0.512] 0.5090135      0.7
+
+summary of coefficients:
+        mean     sd mean.inc sd.inc inc.prob
+x5 -0.017700 0.0942   -0.455 0.1720    0.039
+x1 -0.011400 0.0738   -0.394 0.1940    0.029
+x9 -0.000636 0.0142   -0.318 0.0138    0.002
+x2 -0.001020 0.0228   -0.510 0.0000    0.002
+x8  0.000000 0.0000    0.000 0.0000    0.000
+x7  0.000000 0.0000    0.000 0.0000    0.000
+x6  0.000000 0.0000    0.000 0.0000    0.000
+x4  0.000000 0.0000    0.000 0.0000    0.000
+x3  0.000000 0.0000    0.000 0.0000    0.000</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>null log likelihood:            -67.68585 
+posterior mean log likelihood:  -69.297 
+posterior max log likelihood:   -67.94729 
+mean deviance R-sq:             -0.02380324 
+
+predicted vs observed success rates, by decile:
+                predicted  observed
+(0.4974,0.4986] 0.4982661 0.6666667
+(0.4986,0.499]  0.4988171 0.3000000
+(0.499,0.4995]  0.4991941 0.6000000
+(0.4995,0.4999] 0.4996560 0.5000000
+(0.4999,0.5002] 0.5000711 0.4000000
+(0.5002,0.5004] 0.5002891 0.8000000
+(0.5004,0.5007] 0.5005541 0.8000000
+(0.5007,0.501]  0.5009263 0.4000000
+(0.501,0.5014]  0.5011724 0.6000000
+(0.5014,0.5027] 0.5018429 0.9000000
+
+summary of coefficients:
+                 mean      sd mean.inc  sd.inc inc.prob
+x3           0.004290 0.04540   0.4290 0.16300    0.010
+x1           0.001960 0.02430   0.2450 0.12700    0.008
+x9          -0.000974 0.01540  -0.2440 0.00585    0.004
+x2          -0.000161 0.00413  -0.0536 0.06500    0.003
+x7          -0.000214 0.00483  -0.1070 0.01970    0.002
+x5           0.000281 0.00629   0.1410 0.00644    0.002
+x8           0.000000 0.00000   0.0000 0.00000    0.000
+x6           0.000000 0.00000   0.0000 0.00000    0.000
+x4           0.000000 0.00000   0.0000 0.00000    0.000
+(Intercept)  0.000000 0.00000   0.0000 0.00000    0.000</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">colSums</span><span class="p">(</span><span class="n">test</span><span class="o">$</span><span class="n">beta</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -970,124 +1381,26 @@ Traceback:
 
 <div class="output_html rendered_html output_subarea ">
 <dl class=dl-horizontal>
-	<dt>XV1</dt>
-		<dd>-1.39757555092755</dd>
-	<dt>XV2</dt>
+	<dt>(Intercept)</dt>
 		<dd>0</dd>
-	<dt>XV3</dt>
+	<dt>x1</dt>
+		<dd>1.96146004299969</dd>
+	<dt>x2</dt>
+		<dd>-0.16081442311462</dd>
+	<dt>x3</dt>
+		<dd>4.29328535410661</dd>
+	<dt>x4</dt>
 		<dd>0</dd>
-	<dt>XV4</dt>
+	<dt>x5</dt>
+		<dd>0.281467533823226</dd>
+	<dt>x6</dt>
 		<dd>0</dd>
-	<dt>XV5</dt>
+	<dt>x7</dt>
+		<dd>-0.214314657350521</dd>
+	<dt>x8</dt>
 		<dd>0</dd>
-	<dt>XV6</dt>
-		<dd>-0.403826567680958</dd>
-	<dt>XV7</dt>
-		<dd>0</dd>
-	<dt>XV8</dt>
-		<dd>0</dd>
-	<dt>XV9</dt>
-		<dd>0</dd>
-	<dt>XV10</dt>
-		<dd>0</dd>
-	<dt>XV11</dt>
-		<dd>0</dd>
-	<dt>XV12</dt>
-		<dd>0</dd>
-	<dt>XV13</dt>
-		<dd>0</dd>
-	<dt>XV14</dt>
-		<dd>0</dd>
-	<dt>XV15</dt>
-		<dd>0</dd>
-	<dt>XV16</dt>
-		<dd>0</dd>
-	<dt>XV17</dt>
-		<dd>0</dd>
-	<dt>XV18</dt>
-		<dd>0</dd>
-	<dt>XV19</dt>
-		<dd>0</dd>
-	<dt>XV20</dt>
-		<dd>0</dd>
-	<dt>XV21</dt>
-		<dd>0</dd>
-	<dt>XV22</dt>
-		<dd>0</dd>
-	<dt>XV23</dt>
-		<dd>0</dd>
-	<dt>XV24</dt>
-		<dd>0</dd>
-	<dt>XV25</dt>
-		<dd>0</dd>
-	<dt>XV26</dt>
-		<dd>0</dd>
-	<dt>XV27</dt>
-		<dd>0</dd>
-	<dt>XV28</dt>
-		<dd>0</dd>
-	<dt>XV29</dt>
-		<dd>0</dd>
-	<dt>XV30</dt>
-		<dd>0</dd>
-	<dt>XV31</dt>
-		<dd>0</dd>
-	<dt>XV32</dt>
-		<dd>0</dd>
-	<dt>XV33</dt>
-		<dd>0</dd>
-	<dt>XV34</dt>
-		<dd>0</dd>
-	<dt>XV35</dt>
-		<dd>0</dd>
-	<dt>XV36</dt>
-		<dd>0</dd>
-	<dt>XV37</dt>
-		<dd>0</dd>
-	<dt>XV38</dt>
-		<dd>0</dd>
-	<dt>XV39</dt>
-		<dd>0</dd>
-	<dt>XV40</dt>
-		<dd>0</dd>
-	<dt>XV41</dt>
-		<dd>0</dd>
-	<dt>XV42</dt>
-		<dd>0</dd>
-	<dt>XV43</dt>
-		<dd>0</dd>
-	<dt>XV44</dt>
-		<dd>0</dd>
-	<dt>XV45</dt>
-		<dd>0</dd>
-	<dt>XV46</dt>
-		<dd>0</dd>
-	<dt>XV47</dt>
-		<dd>0</dd>
-	<dt>XV48</dt>
-		<dd>0</dd>
-	<dt>XV49</dt>
-		<dd>0</dd>
-	<dt>XV50</dt>
-		<dd>0</dd>
-	<dt>XV51</dt>
-		<dd>0</dd>
-	<dt>XV52</dt>
-		<dd>0</dd>
-	<dt>XV53</dt>
-		<dd>0</dd>
-	<dt>XV54</dt>
-		<dd>0</dd>
-	<dt>XV55</dt>
-		<dd>0</dd>
-	<dt>XV56</dt>
-		<dd>0</dd>
-	<dt>XV57</dt>
-		<dd>0</dd>
-	<dt>XV58</dt>
-		<dd>0</dd>
-	<dt>XV59</dt>
-		<dd>0</dd>
+	<dt>x9</dt>
+		<dd>-0.974139610722915</dd>
 </dl>
 
 </div>
@@ -1100,7 +1413,7 @@ Traceback:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[97]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">model</span><span class="o">$</span><span class="n">beta</span><span class="p">)</span>
@@ -1122,8 +1435,8 @@ Traceback:
 
 <div class="output_html rendered_html output_subarea ">
 <ol class=list-inline>
-	<li>100</li>
-	<li>59</li>
+	<li>1000</li>
+	<li>60</li>
 </ol>
 
 </div>
@@ -1415,7 +1728,7 @@ seed = NULL,
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/4823c1683ad0bc01ae89377ae5009a7a21a8c88c/dsc/20190909_Boom_Spike_Slab.ipynb"><code>dsc/20190909_Boom_Spike_Slab.ipynb</code></a> committed by minqiao on Wed Sep 25 20:55:06 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/4823c1683ad0bc01ae89377ae5009a7a21a8c88c">revision 6, 4823c16</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/3a8885b238d6e24d2e25ff2d630f5047592d174c/dsc/20190909_Boom_Spike_Slab.ipynb"><code>dsc/20190909_Boom_Spike_Slab.ipynb</code></a> committed by minqiao on Thu Oct 3 23:31:12 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/3a8885b238d6e24d2e25ff2d630f5047592d174c">revision 7, 3a8885b</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
