@@ -254,7 +254,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">pogit</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kn">library</span><span class="p">(</span>pogit<span class="p">)</span>
 <span class="c1"># PIP, , what exactly do these 2 weights mean</span>
 <span class="c1"># how to deal with the intercept: did not make difference if centering</span>
 </pre></div>
@@ -269,8 +269,8 @@ body {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">block</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">79</span><span class="p">,</span><span class="m">137</span><span class="p">)</span>
-<span class="n">block_simu</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1215</span><span class="p">,</span> <span class="m">1273</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>block <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">79</span><span class="p">,</span><span class="m">137</span><span class="p">)</span>
+block_simu <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1215</span><span class="p">,</span> <span class="m">1273</span><span class="p">)</span>
 <span class="c1"># block = c(23, 36)</span>
 <span class="c1"># block_simu = c(164, 177)</span>
 </pre></div>
@@ -285,8 +285,8 @@ body {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">X_ori</span> <span class="o">&lt;-</span> <span class="nf">as.matrix</span><span class="p">(</span><span class="n">data.table</span><span class="o">::</span><span class="nf">fread</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/block_&quot;</span><span class="p">,</span> <span class="n">block[1]</span><span class="p">,</span> <span class="s">&quot;_&quot;</span> <span class="p">,</span> <span class="n">block[2]</span><span class="p">,</span> 
-                                           <span class="s">&quot;/deletion.genes.block30.for_simu.sample.genes.block_&quot;</span><span class="p">,</span> <span class="n">block[1]</span><span class="p">,</span> <span class="s">&quot;_&quot;</span> <span class="p">,</span> <span class="n">block[2]</span><span class="p">,</span> <span class="s">&quot;.gz&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">),</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">F</span><span class="p">))</span>
+<div class=" highlight hl-r"><pre><span></span>X_ori <span class="o">&lt;-</span> <span class="kp">as.matrix</span><span class="p">(</span>data.table<span class="o">::</span>fread<span class="p">(</span><span class="kp">paste</span><span class="p">(</span><span class="s">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/block_&quot;</span><span class="p">,</span> block<span class="p">[</span><span class="m">1</span><span class="p">],</span> <span class="s">&quot;_&quot;</span> <span class="p">,</span> block<span class="p">[</span><span class="m">2</span><span class="p">],</span> 
+                                           <span class="s">&quot;/deletion.genes.block30.for_simu.sample.genes.block_&quot;</span><span class="p">,</span> block<span class="p">[</span><span class="m">1</span><span class="p">],</span> <span class="s">&quot;_&quot;</span> <span class="p">,</span> block<span class="p">[</span><span class="m">2</span><span class="p">],</span> <span class="s">&quot;.gz&quot;</span><span class="p">,</span> sep <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">),</span> header <span class="o">=</span> <span class="bp">F</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -299,7 +299,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">X_center</span> <span class="o">&lt;-</span> <span class="nf">scale</span><span class="p">(</span><span class="n">X_ori</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>X_center <span class="o">&lt;-</span> <span class="kp">scale</span><span class="p">(</span>X_ori<span class="p">,</span> scale <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -312,7 +312,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">head</span><span class="p">(</span><span class="n">X_center</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">head</span><span class="p">(</span>X_center<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -355,7 +355,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">X_ori</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">dim</span><span class="p">(</span>X_ori<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -391,7 +391,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">as.matrix</span><span class="p">(</span><span class="n">data.table</span><span class="o">::</span><span class="nf">fread</span><span class="p">(</span><span class="s">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.y&quot;</span><span class="p">))</span>
+<div class=" highlight hl-r"><pre><span></span>y <span class="o">&lt;-</span> <span class="kp">as.matrix</span><span class="p">(</span>data.table<span class="o">::</span>fread<span class="p">(</span><span class="s">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.y&quot;</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -404,7 +404,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">length</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">length</span><span class="p">(</span>y<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -462,7 +462,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">X_intercept</span> <span class="o">&lt;-</span> <span class="nf">cbind</span><span class="p">(</span><span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="nf">nrow</span><span class="p">(</span><span class="n">X_ori</span><span class="p">)),</span> <span class="n">X_ori</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>X_intercept <span class="o">&lt;-</span> <span class="kp">cbind</span><span class="p">(</span><span class="kp">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="kp">nrow</span><span class="p">(</span>X_ori<span class="p">)),</span> X_ori<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -475,7 +475,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">as.numeric</span><span class="p">(</span><span class="n">y[</span><span class="p">,</span><span class="m">1</span><span class="n">]</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>y <span class="o">&lt;-</span> <span class="kp">as.numeric</span><span class="p">(</span>y<span class="p">[,</span><span class="m">1</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -488,7 +488,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">N</span> <span class="o">&lt;-</span> <span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="nf">length</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<div class=" highlight hl-r"><pre><span></span>N <span class="o">&lt;-</span> <span class="kp">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="kp">length</span><span class="p">(</span>y<span class="p">))</span>
 </pre></div>
 
 </div>
@@ -501,7 +501,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">prior</span> <span class="o">&lt;-</span> <span class="nf">readRDS</span><span class="p">(</span><span class="s">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.binomial.whole.genome.prior.varbvs.nologodds.updateb0.rds&quot;</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>prior <span class="o">&lt;-</span> <span class="kp">readRDS</span><span class="p">(</span><span class="s">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.binomial.whole.genome.prior.varbvs.nologodds.updateb0.rds&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -514,7 +514,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">mu0</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">b0</span> <span class="o">*</span> <span class="n">prior</span><span class="o">$</span><span class="n">w</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>mu0 <span class="o">=</span> <span class="kp">sum</span><span class="p">(</span>prior<span class="o">$</span>b0 <span class="o">*</span> prior<span class="o">$</span>w<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -527,7 +527,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">mu0</span>
+<div class=" highlight hl-r"><pre><span></span>mu0
 </pre></div>
 
 </div>
@@ -559,7 +559,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">var</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">sa</span> <span class="o">*</span> <span class="n">prior</span><span class="o">$</span><span class="n">w</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>var <span class="o">=</span> <span class="kp">sum</span><span class="p">(</span>prior<span class="o">$</span>sa <span class="o">*</span> prior<span class="o">$</span>w<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -572,7 +572,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">var</span>
+<div class=" highlight hl-r"><pre><span></span>var
 </pre></div>
 
 </div>
@@ -604,7 +604,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">pi0</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">((</span><span class="m">10</span><span class="nf">^</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">logodds</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="m">1</span> <span class="o">+</span> <span class="m">10</span><span class="nf">^</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">logodds</span><span class="p">)))</span> <span class="o">*</span> <span class="n">prior</span><span class="o">$</span><span class="n">w</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>pi0 <span class="o">=</span> <span class="kp">sum</span><span class="p">((</span><span class="m">10</span><span class="o">^</span><span class="p">(</span>prior<span class="o">$</span>logodds<span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="m">1</span> <span class="o">+</span> <span class="m">10</span><span class="o">^</span><span class="p">(</span>prior<span class="o">$</span>logodds<span class="p">)))</span> <span class="o">*</span> prior<span class="o">$</span>w<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -617,7 +617,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">pi0</span>
+<div class=" highlight hl-r"><pre><span></span>pi0
 </pre></div>
 
 </div>
@@ -663,7 +663,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">X</span> <span class="o">&lt;-</span> <span class="n">X_center</span>
+<div class=" highlight hl-r"><pre><span></span>X <span class="o">&lt;-</span> X_center
 </pre></div>
 
 </div>
@@ -676,8 +676,8 @@ body {
 <div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">res</span> <span class="o">&lt;-</span> <span class="nf">logitBvs</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">slab</span> <span class="o">=</span> <span class="s">&quot;Normal&quot;</span><span class="p">,</span> <span class="n">aj0</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="n">mu0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X_ori</span><span class="p">)),</span> <span class="n">V</span> <span class="o">=</span> <span class="n">var</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">wa0</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">wb0</span> <span class="o">=</span> <span class="m">1</span><span class="p">),</span> <span class="kc">pi</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">pa0</span> <span class="o">=</span> <span class="m">1.412</span><span class="p">,</span> <span class="n">pb0</span> <span class="o">=</span> <span class="m">10</span><span class="p">)),</span> 
-                <span class="n">mcmc</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">M</span> <span class="o">=</span> <span class="m">5000</span><span class="p">,</span> <span class="n">burnin</span> <span class="o">=</span> <span class="m">1000</span><span class="p">,</span> <span class="n">msave</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">),</span> <span class="n">BVS</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>res <span class="o">&lt;-</span> logitBvs<span class="p">(</span>y<span class="p">,</span> N<span class="p">,</span> X<span class="p">,</span> prior <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>slab <span class="o">=</span> <span class="s">&quot;Normal&quot;</span><span class="p">,</span> aj0 <span class="o">=</span> <span class="kp">rep</span><span class="p">(</span>mu0<span class="p">,</span> <span class="kp">ncol</span><span class="p">(</span>X_ori<span class="p">)),</span> V <span class="o">=</span> var<span class="p">,</span> w <span class="o">=</span> <span class="kt">c</span><span class="p">(</span>wa0 <span class="o">=</span> <span class="m">1</span><span class="p">,</span> wb0 <span class="o">=</span> <span class="m">1</span><span class="p">),</span> <span class="kc">pi</span> <span class="o">=</span> <span class="kt">c</span><span class="p">(</span>pa0 <span class="o">=</span> <span class="m">1.412</span><span class="p">,</span> pb0 <span class="o">=</span> <span class="m">10</span><span class="p">)),</span> 
+                mcmc <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>M <span class="o">=</span> <span class="m">5000</span><span class="p">,</span> burnin <span class="o">=</span> <span class="m">1000</span><span class="p">,</span> msave <span class="o">=</span> <span class="kc">TRUE</span><span class="p">),</span> BVS <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -733,7 +733,7 @@ it = 6000 /--- duration of MCMC (total): 774.03 sec.
 <div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">saveRDS</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="nf">paste</span><span class="p">(</span><span class="s">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/logitBvs.block_&quot;</span><span class="p">,</span> <span class="n">block[1]</span><span class="p">,</span> <span class="s">&quot;_&quot;</span><span class="p">,</span> <span class="n">block[2]</span><span class="p">,</span><span class="s">&quot;.pi.rds&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">))</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">saveRDS</span><span class="p">(</span>res<span class="p">,</span> <span class="kp">paste</span><span class="p">(</span><span class="s">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/logitBvs.block_&quot;</span><span class="p">,</span> block<span class="p">[</span><span class="m">1</span><span class="p">],</span> <span class="s">&quot;_&quot;</span><span class="p">,</span> block<span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="s">&quot;.pi.rds&quot;</span><span class="p">,</span> sep <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -746,8 +746,8 @@ it = 6000 /--- duration of MCMC (total): 774.03 sec.
 <div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">res1</span> <span class="o">&lt;-</span> <span class="nf">logitBvs</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">slab</span> <span class="o">=</span> <span class="s">&quot;Normal&quot;</span><span class="p">,</span> <span class="n">aj0</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="n">mu0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X_ori</span><span class="p">)),</span> <span class="n">V</span> <span class="o">=</span> <span class="n">var</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">wa0</span> <span class="o">=</span> <span class="m">1.412</span><span class="p">,</span> <span class="n">wb0</span> <span class="o">=</span> <span class="m">10</span><span class="p">),</span> <span class="kc">pi</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">pa0</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">pb0</span> <span class="o">=</span> <span class="m">1</span><span class="p">)),</span> 
-                 <span class="n">mcmc</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">M</span> <span class="o">=</span> <span class="m">5000</span><span class="p">,</span> <span class="n">burnin</span> <span class="o">=</span> <span class="m">1000</span><span class="p">,</span> <span class="n">msave</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">),</span> <span class="n">BVS</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>res1 <span class="o">&lt;-</span> logitBvs<span class="p">(</span>y<span class="p">,</span> N<span class="p">,</span> X<span class="p">,</span> prior <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>slab <span class="o">=</span> <span class="s">&quot;Normal&quot;</span><span class="p">,</span> aj0 <span class="o">=</span> <span class="kp">rep</span><span class="p">(</span>mu0<span class="p">,</span> <span class="kp">ncol</span><span class="p">(</span>X_ori<span class="p">)),</span> V <span class="o">=</span> var<span class="p">,</span> w <span class="o">=</span> <span class="kt">c</span><span class="p">(</span>wa0 <span class="o">=</span> <span class="m">1.412</span><span class="p">,</span> wb0 <span class="o">=</span> <span class="m">10</span><span class="p">),</span> <span class="kc">pi</span> <span class="o">=</span> <span class="kt">c</span><span class="p">(</span>pa0 <span class="o">=</span> <span class="m">1</span><span class="p">,</span> pb0 <span class="o">=</span> <span class="m">1</span><span class="p">)),</span> 
+                 mcmc <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>M <span class="o">=</span> <span class="m">5000</span><span class="p">,</span> burnin <span class="o">=</span> <span class="m">1000</span><span class="p">,</span> msave <span class="o">=</span> <span class="kc">TRUE</span><span class="p">),</span> BVS <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -803,7 +803,7 @@ it = 6000 /--- duration of MCMC (total): 671.58 sec.
 <div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">saveRDS</span><span class="p">(</span><span class="n">res1</span><span class="p">,</span> <span class="nf">paste</span><span class="p">(</span><span class="s">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/logitBvs.block_&quot;</span><span class="p">,</span> <span class="n">block[1]</span><span class="p">,</span> <span class="s">&quot;_&quot;</span><span class="p">,</span> <span class="n">block[2]</span><span class="p">,</span><span class="s">&quot;.omega.rds&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">))</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">saveRDS</span><span class="p">(</span>res1<span class="p">,</span> <span class="kp">paste</span><span class="p">(</span><span class="s">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/logitBvs.block_&quot;</span><span class="p">,</span> block<span class="p">[</span><span class="m">1</span><span class="p">],</span> <span class="s">&quot;_&quot;</span><span class="p">,</span> block<span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="s">&quot;.omega.rds&quot;</span><span class="p">,</span> sep <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -816,7 +816,7 @@ it = 6000 /--- duration of MCMC (total): 671.58 sec.
 <div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">summary</span><span class="p">(</span>res<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -941,7 +941,7 @@ alpha.59       0.057     -1.602      1.870
 <div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">res1</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">names</span><span class="p">(</span>res1<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -985,7 +985,7 @@ alpha.59       0.057     -1.602      1.870
 <div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">res1</span><span class="o">$</span><span class="n">samplesL</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">names</span><span class="p">(</span>res1<span class="o">$</span>samplesL<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1025,7 +1025,7 @@ alpha.59       0.057     -1.602      1.870
 <div class="prompt input_prompt">In&nbsp;[119]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">sum</span><span class="p">(</span><span class="n">res1</span><span class="o">$</span><span class="n">samplesL</span><span class="o">$</span><span class="n">pdeltaAlpha</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">sum</span><span class="p">(</span>res1<span class="o">$</span>samplesL<span class="o">$</span>pdeltaAlpha<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1057,7 +1057,7 @@ alpha.59       0.057     -1.602      1.870
 <div class="prompt input_prompt">In&nbsp;[196]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">aj0_tmp</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">29</span><span class="p">),</span> <span class="m">0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">29</span><span class="p">))</span>
+<div class=" highlight hl-r"><pre><span></span>aj0_tmp <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="kp">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">29</span><span class="p">),</span> <span class="m">0</span><span class="p">,</span> <span class="kp">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">29</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -1070,8 +1070,8 @@ alpha.59       0.057     -1.602      1.870
 <div class="prompt input_prompt">In&nbsp;[202]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">res_mu0</span> <span class="o">&lt;-</span> <span class="nf">logitBvs</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">slab</span> <span class="o">=</span> <span class="s">&quot;Normal&quot;</span><span class="p">,</span> <span class="n">aj0</span> <span class="o">=</span> <span class="n">aj0_tmp</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">var</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">wa0</span> <span class="o">=</span> <span class="m">1.412</span><span class="p">,</span> <span class="n">wb0</span> <span class="o">=</span> <span class="m">10</span><span class="p">),</span> <span class="kc">pi</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">pa0</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">pb0</span> <span class="o">=</span> <span class="m">1</span><span class="p">)),</span> 
-                    <span class="n">mcmc</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">M</span> <span class="o">=</span> <span class="m">6</span><span class="p">,</span> <span class="n">burnin</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">startsel</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">msave</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">),</span> <span class="n">BVS</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>res_mu0 <span class="o">&lt;-</span> logitBvs<span class="p">(</span>y<span class="p">,</span> N<span class="p">,</span> X<span class="p">,</span> prior <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>slab <span class="o">=</span> <span class="s">&quot;Normal&quot;</span><span class="p">,</span> aj0 <span class="o">=</span> aj0_tmp<span class="p">,</span> V <span class="o">=</span> var<span class="p">,</span> w <span class="o">=</span> <span class="kt">c</span><span class="p">(</span>wa0 <span class="o">=</span> <span class="m">1.412</span><span class="p">,</span> wb0 <span class="o">=</span> <span class="m">10</span><span class="p">),</span> <span class="kc">pi</span> <span class="o">=</span> <span class="kt">c</span><span class="p">(</span>pa0 <span class="o">=</span> <span class="m">1</span><span class="p">,</span> pb0 <span class="o">=</span> <span class="m">1</span><span class="p">)),</span> 
+                    mcmc <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>M <span class="o">=</span> <span class="m">6</span><span class="p">,</span> burnin <span class="o">=</span> <span class="m">2</span><span class="p">,</span> startsel <span class="o">=</span> <span class="m">1</span><span class="p">,</span> msave <span class="o">=</span> <span class="kc">FALSE</span><span class="p">),</span> BVS <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1111,7 +1111,7 @@ it = 8 /--- duration of MCMC (total): 44.39 sec.
 <div class="prompt input_prompt">In&nbsp;[203]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">res_mu0</span><span class="o">$</span><span class="n">samplesL</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">names</span><span class="p">(</span>res_mu0<span class="o">$</span>samplesL<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1151,7 +1151,7 @@ it = 8 /--- duration of MCMC (total): 44.39 sec.
 <div class="prompt input_prompt">In&nbsp;[204]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">Filter</span><span class="p">(</span><span class="nf">Negate</span><span class="p">(</span><span class="n">is.null</span><span class="p">),</span> <span class="n">res_mu0</span><span class="o">$</span><span class="n">samplesL</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">Filter</span><span class="p">(</span><span class="kp">Negate</span><span class="p">(</span><span class="kp">is.null</span><span class="p">),</span> res_mu0<span class="o">$</span>samplesL<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1215,7 +1215,7 @@ it = 8 /--- duration of MCMC (total): 44.39 sec.
 <div class="prompt input_prompt">In&nbsp;[200]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">mean</span><span class="p">(</span><span class="n">res_mu0</span><span class="o">$</span><span class="n">samplesL</span><span class="o">$</span><span class="n">pdeltaAlpha[3</span><span class="o">:</span><span class="m">8</span><span class="p">,</span><span class="m">2</span><span class="n">]</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">mean</span><span class="p">(</span>res_mu0<span class="o">$</span>samplesL<span class="o">$</span>pdeltaAlpha<span class="p">[</span><span class="m">3</span><span class="o">:</span><span class="m">8</span><span class="p">,</span><span class="m">2</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -1247,7 +1247,7 @@ it = 8 /--- duration of MCMC (total): 44.39 sec.
 <div class="prompt input_prompt">In&nbsp;[201]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">res_mu0</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">summary</span><span class="p">(</span>res_mu0<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1376,7 +1376,7 @@ alpha.59      -0.221  0.576     -1.886      0.575
 <div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">tmp</span> <span class="o">&lt;-</span> <span class="n">res1</span>
+<div class=" highlight hl-r"><pre><span></span>tmp <span class="o">&lt;-</span> res1
 </pre></div>
 
 </div>
@@ -1389,7 +1389,7 @@ alpha.59      -0.221  0.576     -1.886      0.575
 <div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">names</span><span class="p">(</span>tmp<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1433,7 +1433,7 @@ alpha.59      -0.221  0.576     -1.886      0.575
 <div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">tmp</span><span class="o">$</span><span class="n">samplesL</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">names</span><span class="p">(</span>tmp<span class="o">$</span>samplesL<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1473,8 +1473,8 @@ alpha.59      -0.221  0.576     -1.886      0.575
 <div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">bhat</span> <span class="o">&lt;-</span> <span class="nf">colMeans</span><span class="p">(</span><span class="n">tmp</span><span class="o">$</span><span class="n">samplesL</span><span class="o">$</span><span class="n">alpha[</span><span class="p">,</span><span class="m">-1</span><span class="n">]</span><span class="p">)</span>
-<span class="n">bhat1</span> <span class="o">&lt;-</span> <span class="nf">colMeans</span><span class="p">(</span><span class="n">tmp</span><span class="o">$</span><span class="n">samplesL</span><span class="o">$</span><span class="n">alpha</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>bhat <span class="o">&lt;-</span> <span class="kp">colMeans</span><span class="p">(</span>tmp<span class="o">$</span>samplesL<span class="o">$</span>alpha<span class="p">[,</span><span class="m">-1</span><span class="p">])</span>
+bhat1 <span class="o">&lt;-</span> <span class="kp">colMeans</span><span class="p">(</span>tmp<span class="o">$</span>samplesL<span class="o">$</span>alpha<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1488,9 +1488,9 @@ alpha.59      -0.221  0.576     -1.886      0.575
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># yhat &lt;- exp(X %*% bhat)/(1+exp(X %*% bhat))</span>
-<span class="n">yhat</span> <span class="o">&lt;-</span> <span class="n">X_ori</span> <span class="o">%*%</span> <span class="n">bhat</span>
-<span class="n">yhat1</span> <span class="o">&lt;-</span> <span class="n">X_center</span> <span class="o">%*%</span> <span class="n">bhat</span>
-<span class="n">yhat2</span> <span class="o">&lt;-</span> <span class="n">X_intercept</span> <span class="o">%*%</span> <span class="n">bhat1</span>
+yhat <span class="o">&lt;-</span> X_ori <span class="o">%*%</span> bhat
+yhat1 <span class="o">&lt;-</span> X_center <span class="o">%*%</span> bhat
+yhat2 <span class="o">&lt;-</span> X_intercept <span class="o">%*%</span> bhat1
 </pre></div>
 
 </div>
@@ -1503,7 +1503,7 @@ alpha.59      -0.221  0.576     -1.886      0.575
 <div class="prompt input_prompt">In&nbsp;[57]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">min</span><span class="p">(</span><span class="n">yhat</span><span class="p">);</span> <span class="nf">max</span><span class="p">(</span><span class="n">yhat</span><span class="p">);</span> <span class="nf">mean</span><span class="p">(</span><span class="n">yhat</span><span class="p">);</span> <span class="nf">median</span><span class="p">(</span><span class="n">yhat</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">min</span><span class="p">(</span>yhat<span class="p">);</span> <span class="kp">max</span><span class="p">(</span>yhat<span class="p">);</span> <span class="kp">mean</span><span class="p">(</span>yhat<span class="p">);</span> median<span class="p">(</span>yhat<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1571,8 +1571,8 @@ alpha.59      -0.221  0.576     -1.886      0.575
 <div class="prompt input_prompt">In&nbsp;[58]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">b_all</span> <span class="o">&lt;-</span> <span class="nf">as.matrix</span><span class="p">(</span><span class="n">data.table</span><span class="o">::</span><span class="nf">fread</span><span class="p">(</span><span class="s">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.beta&quot;</span><span class="p">))</span>
-<span class="n">b</span> <span class="o">&lt;-</span> <span class="n">b_all</span><span class="nf">[</span><span class="p">(</span><span class="n">block_simu[1]</span><span class="m">+1</span><span class="p">)</span><span class="o">:</span><span class="p">(</span><span class="n">block_simu[2]</span><span class="m">+1</span><span class="p">)</span><span class="n">]</span>
+<div class=" highlight hl-r"><pre><span></span>b_all <span class="o">&lt;-</span> <span class="kp">as.matrix</span><span class="p">(</span>data.table<span class="o">::</span>fread<span class="p">(</span><span class="s">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.beta&quot;</span><span class="p">))</span>
+b <span class="o">&lt;-</span> b_all<span class="p">[(</span>block_simu<span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="m">+1</span><span class="p">)</span><span class="o">:</span><span class="p">(</span>block_simu<span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="m">+1</span><span class="p">)]</span>
 </pre></div>
 
 </div>
@@ -1586,7 +1586,7 @@ alpha.59      -0.221  0.576     -1.886      0.575
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-r"><pre><span></span><span class="c1"># y &lt;- exp(X %*% b)/(1+exp(X %*% b))</span>
-<span class="n">yb</span> <span class="o">&lt;-</span> <span class="n">X_ori</span> <span class="o">%*%</span> <span class="n">b</span>
+yb <span class="o">&lt;-</span> X_ori <span class="o">%*%</span> b
 </pre></div>
 
 </div>
@@ -1599,7 +1599,7 @@ alpha.59      -0.221  0.576     -1.886      0.575
 <div class="prompt input_prompt">In&nbsp;[60]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">min</span><span class="p">(</span><span class="n">yb</span><span class="p">);</span> <span class="nf">max</span><span class="p">(</span><span class="n">yb</span><span class="p">);</span> <span class="nf">mean</span><span class="p">(</span><span class="n">yb</span><span class="p">);</span> <span class="nf">median</span><span class="p">(</span><span class="n">yb</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">min</span><span class="p">(</span>yb<span class="p">);</span> <span class="kp">max</span><span class="p">(</span>yb<span class="p">);</span> <span class="kp">mean</span><span class="p">(</span>yb<span class="p">);</span> median<span class="p">(</span>yb<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1667,7 +1667,7 @@ alpha.59      -0.221  0.576     -1.886      0.575
 <div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">cor</span><span class="p">(</span><span class="n">yb</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s">&quot;pearson&quot;</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>cor<span class="p">(</span>yb<span class="p">,</span> yhat<span class="p">,</span> method <span class="o">=</span> <span class="s">&quot;pearson&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1704,7 +1704,7 @@ alpha.59      -0.221  0.576     -1.886      0.575
 <div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">min</span><span class="p">(</span><span class="n">yhat1[yhat1</span><span class="o">&lt;</span><span class="m">0</span><span class="n">]</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">min</span><span class="p">(</span>yhat1<span class="p">[</span>yhat1<span class="o">&lt;</span><span class="m">0</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -1736,7 +1736,7 @@ alpha.59      -0.221  0.576     -1.886      0.575
 <div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">cor.test</span><span class="p">(</span><span class="n">yb</span><span class="p">,</span> <span class="n">yhat</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;pearson&quot;</span><span class="p">))</span>
+<div class=" highlight hl-r"><pre><span></span>cor.test<span class="p">(</span>yb<span class="p">,</span> yhat<span class="p">,</span> method<span class="o">=</span><span class="kt">c</span><span class="p">(</span><span class="s">&quot;pearson&quot;</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -1780,7 +1780,7 @@ sample estimates:
 <div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">summary</span><span class="p">(</span>tmp<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1853,12 +1853,12 @@ alpha.14       0.278  0.503     -2.017      3.096
 <div class="prompt input_prompt">In&nbsp;[92]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">pdf</span><span class="p">(</span><span class="n">file</span> <span class="o">=</span> <span class="nf">paste</span><span class="p">(</span><span class="s">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/logitBvs.block_&quot;</span><span class="p">,</span> <span class="n">block[1]</span><span class="p">,</span> <span class="s">&quot;_&quot;</span><span class="p">,</span> <span class="n">block[2]</span><span class="p">,</span><span class="s">&quot;.var.selection.beta.hist.pdf&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">))</span>
-<span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">))</span>
-<span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="nf">seq</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="p">(</span><span class="n">block[2]</span><span class="o">-</span><span class="n">block[1]</span><span class="m">+2</span><span class="p">))){</span>
-    <span class="nf">hist</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">samplesL</span><span class="o">$</span><span class="n">alpha[</span><span class="p">,</span><span class="n">i]</span><span class="p">,</span> <span class="n">breaks</span> <span class="o">=</span> <span class="m">80</span><span class="p">,</span> <span class="n">main</span> <span class="o">=</span> <span class="nf">paste</span><span class="p">(</span><span class="s">&quot;beta&quot;</span><span class="p">,</span> <span class="n">i</span><span class="m">-1</span><span class="p">,</span> <span class="s">&quot;histogram&quot;</span><span class="p">),</span> <span class="n">xlab</span> <span class="o">=</span> <span class="nf">paste</span><span class="p">(</span><span class="s">&quot;beta&quot;</span><span class="p">,</span> <span class="n">i</span><span class="m">-1</span><span class="p">))</span>
+<div class=" highlight hl-r"><pre><span></span>pdf<span class="p">(</span>file <span class="o">=</span> <span class="kp">paste</span><span class="p">(</span><span class="s">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/logitBvs.block_&quot;</span><span class="p">,</span> block<span class="p">[</span><span class="m">1</span><span class="p">],</span> <span class="s">&quot;_&quot;</span><span class="p">,</span> block<span class="p">[</span><span class="m">2</span><span class="p">],</span><span class="s">&quot;.var.selection.beta.hist.pdf&quot;</span><span class="p">,</span> sep <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">))</span>
+par<span class="p">(</span>mfrow <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="m">2</span><span class="p">))</span>
+<span class="kr">for</span> <span class="p">(</span>i <span class="kr">in</span> <span class="kp">seq</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="p">(</span>block<span class="p">[</span><span class="m">2</span><span class="p">]</span><span class="o">-</span>block<span class="p">[</span><span class="m">1</span><span class="p">]</span><span class="m">+2</span><span class="p">))){</span>
+    hist<span class="p">(</span>res<span class="o">$</span>samplesL<span class="o">$</span>alpha<span class="p">[,</span>i<span class="p">],</span> breaks <span class="o">=</span> <span class="m">80</span><span class="p">,</span> main <span class="o">=</span> <span class="kp">paste</span><span class="p">(</span><span class="s">&quot;beta&quot;</span><span class="p">,</span> i<span class="m">-1</span><span class="p">,</span> <span class="s">&quot;histogram&quot;</span><span class="p">),</span> xlab <span class="o">=</span> <span class="kp">paste</span><span class="p">(</span><span class="s">&quot;beta&quot;</span><span class="p">,</span> i<span class="m">-1</span><span class="p">))</span>
 <span class="p">}</span>
-<span class="nf">dev.off</span><span class="p">()</span>
+dev.off<span class="p">()</span>
 </pre></div>
 
 </div>
@@ -1890,7 +1890,7 @@ alpha.14       0.278  0.503     -2.017      3.096
 <div class="prompt input_prompt">In&nbsp;[94]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">samplesL</span><span class="o">$</span><span class="n">alpha</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">dim</span><span class="p">(</span>res<span class="o">$</span>samplesL<span class="o">$</span>alpha<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1939,7 +1939,7 @@ alpha.14       0.278  0.503     -2.017      3.096
 <div class="prompt input_prompt">In&nbsp;[78]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">summary</span><span class="p">(</span>res<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -2064,7 +2064,7 @@ alpha.59       0.051     -1.671      1.762
 <div class="prompt input_prompt">In&nbsp;[70]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">data</span><span class="p">(</span><span class="n">simul_binomial</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>data<span class="p">(</span>simul_binomial<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -2077,9 +2077,9 @@ alpha.59       0.051     -1.671      1.762
 <div class="prompt input_prompt">In&nbsp;[71]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">y</span> <span class="o">&lt;-</span> <span class="n">simul_binomial</span><span class="o">$</span><span class="n">y</span>
-<span class="n">N</span> <span class="o">&lt;-</span> <span class="n">simul_binomial</span><span class="o">$</span><span class="n">N</span>
-<span class="n">X</span> <span class="o">&lt;-</span> <span class="nf">as.matrix</span><span class="p">(</span><span class="n">simul_binomial[</span><span class="p">,</span> <span class="o">-</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">)</span><span class="n">]</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span>y <span class="o">&lt;-</span> simul_binomial<span class="o">$</span>y
+N <span class="o">&lt;-</span> simul_binomial<span class="o">$</span>N
+X <span class="o">&lt;-</span> <span class="kp">as.matrix</span><span class="p">(</span>simul_binomial<span class="p">[,</span> <span class="o">-</span><span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">)])</span>
 </pre></div>
 
 </div>
@@ -2092,7 +2092,7 @@ alpha.59       0.051     -1.671      1.762
 <div class="prompt input_prompt">In&nbsp;[72]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">length</span><span class="p">(</span><span class="n">y</span><span class="p">);</span> <span class="nf">length</span><span class="p">(</span><span class="n">N</span><span class="p">);</span> <span class="nf">dim</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">length</span><span class="p">(</span>y<span class="p">);</span> <span class="kp">length</span><span class="p">(</span>N<span class="p">);</span> <span class="kp">dim</span><span class="p">(</span>X<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -2152,7 +2152,7 @@ alpha.59       0.051     -1.671      1.762
 <div class="prompt input_prompt">In&nbsp;[73]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">head</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">head</span><span class="p">(</span>X<span class="p">)</span>
 </pre></div>
 
 </div>
@@ -2195,7 +2195,7 @@ alpha.59       0.051     -1.671      1.762
 <div class="prompt input_prompt">In&nbsp;[74]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">prior</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">slab</span> <span class="o">=</span> <span class="s">&quot;Normal&quot;</span><span class="p">,</span> <span class="n">aj0</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="n">mu0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X_ori</span><span class="p">)),</span> <span class="n">V</span> <span class="o">=</span> <span class="n">var</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">wa0</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">wb0</span> <span class="o">=</span> <span class="m">1</span><span class="p">),</span> <span class="kc">pi</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="n">pa0</span> <span class="o">=</span> <span class="m">1.412</span><span class="p">,</span> <span class="n">pb0</span> <span class="o">=</span> <span class="m">10</span><span class="p">))</span>
+<div class=" highlight hl-r"><pre><span></span>prior <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>slab <span class="o">=</span> <span class="s">&quot;Normal&quot;</span><span class="p">,</span> aj0 <span class="o">=</span> <span class="kp">rep</span><span class="p">(</span>mu0<span class="p">,</span> <span class="kp">ncol</span><span class="p">(</span>X_ori<span class="p">)),</span> V <span class="o">=</span> var<span class="p">,</span> w <span class="o">=</span> <span class="kt">c</span><span class="p">(</span>wa0 <span class="o">=</span> <span class="m">1</span><span class="p">,</span> wb0 <span class="o">=</span> <span class="m">1</span><span class="p">),</span> <span class="kc">pi</span> <span class="o">=</span> <span class="kt">c</span><span class="p">(</span>pa0 <span class="o">=</span> <span class="m">1.412</span><span class="p">,</span> pb0 <span class="o">=</span> <span class="m">10</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -2227,8 +2227,8 @@ alpha.59       0.051     -1.671      1.762
 <div class="prompt input_prompt">In&nbsp;[87]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">m3</span> <span class="o">&lt;-</span> <span class="nf">logitBvs</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="n">N</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">,</span> <span class="n">mcmc</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">M</span> <span class="o">=</span> <span class="m">4</span><span class="p">,</span> <span class="n">burnin</span> <span class="o">=</span> <span class="m">1</span><span class="p">),</span> <span class="n">prior</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">slab</span> <span class="o">=</span> <span class="s">&quot;Normal&quot;</span><span class="p">,</span> <span class="n">aj0</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="m">-1</span><span class="p">)),</span> 
-               <span class="n">model</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">deltafix</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">)))</span>
+<div class=" highlight hl-r"><pre><span></span>m3 <span class="o">&lt;-</span> logitBvs<span class="p">(</span>y <span class="o">=</span> y<span class="p">,</span> N <span class="o">=</span> N<span class="p">,</span> X <span class="o">=</span> X<span class="p">,</span> mcmc <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>M <span class="o">=</span> <span class="m">4</span><span class="p">,</span> burnin <span class="o">=</span> <span class="m">1</span><span class="p">),</span> prior <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>slab <span class="o">=</span> <span class="s">&quot;Normal&quot;</span><span class="p">,</span> aj0 <span class="o">=</span> <span class="kp">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="kp">ncol</span><span class="p">(</span>X<span class="p">)</span><span class="m">-1</span><span class="p">)),</span> 
+               model <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>deltafix <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">)))</span>
 </pre></div>
 
 </div>
@@ -2278,7 +2278,7 @@ it = 5 /--- duration of MCMC so far: 1.17 sec.,  expected time to end: 0  min.
 <div class="prompt input_prompt">In&nbsp;[88]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">m3</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="kp">summary</span><span class="p">(</span>m3<span class="p">)</span>
 </pre></div>
 
 </div>

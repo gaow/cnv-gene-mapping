@@ -1,0 +1,982 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.7" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=dscDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=dscArray;
+            var docs_map=dscArrayMap;
+            var pos=dscArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  $(".toc #toc-level0").append('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>');
+            }
+            // $("#toc-header").hide(); // comment out because it prevents search bar from displaying
+    });
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Gene Mapping with CNV</title>
+
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+        
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+        
+<li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+        
+<li>
+  <a href="../dsc.html">Dsc</a>
+</li>
+        
+<li>
+  <a href="../setup/index.html">Setup</a>
+</li>
+        
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Logistic-regression-spike-slab-prior-using-PyMC3">Logistic regression spike slab prior using PyMC3<a class="anchor-link" href="#Logistic-regression-spike-slab-prior-using-PyMC3">&#182;</a></h1><p>Previously we have tried BoomSpikeSlab and LogitBVs R packages to fit spike slab model for logistic regression but didn't get anywhere the way we want (FIXME: add link). Now I'm looking at some customized options. According to <a href="https://www.kaggle.com/melondonkey/bayesian-spike-and-slab-in-pymc3">this post</a>, <code>stan</code> cannot handle spike slab model because it is not discrete. The post implements a <code>PyMC3</code> based sampler that looks neat enough so I'm trying to use it for our problem here.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Indeed discrete prior might also be not optimal for <code>PyMC3</code>, as pointed out <a href="https://www.kaggle.com/derekpowll/bayesian-lr-w-cauchy-prior-in-pymc3">in this notebook</a>. I think we can also try a spiky normal plus a slab normal mixture -- at least they will be continous there.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Software-required">Software required<a class="anchor-link" href="#Software-required">&#182;</a></h2>
+<pre><code>pip install pymc3 -U
+conda install mkl-service</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Data">Data<a class="anchor-link" href="#Data">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">X_file</span> <span class="o">=</span> <span class="s1">&#39;deletion.genes.block30.for_simu.sample.genes.block_79_137.gz&#39;</span>
+<span class="n">y_file</span> <span class="o">=</span> <span class="s1">&#39;deletion.genes.block30.for_simu.sample.y&#39;</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">y_file</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[5]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(13412,)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">X_file</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[6]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(13412, 59)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It is 13K samples 59 features for the CNV problem.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Model-specification">Model specification<a class="anchor-link" href="#Model-specification">&#182;</a></h2><p>That is, to specify <strong>how the data is generated</strong>. Specifically it is about setting up the spike slab prior for logistic model, $$b\sim \pi_0 \delta_0 + (1-\pi_0)N(\mu, \sigma^2)$$ where from <code>varbvs</code> analysis, $\pi_0 = 0.043, \mu = 0.77, \sigma = 0.84$.</p>
+<p>For intercept since for centered data it has interpretation of baseline odds ratio, I'm giving it a normal prior $N(0, 1.5)$ to roughly cover the span of baseline odds 0.05 (log odds about -3), for a not so rare disease.</p>
+<p><strong>Question: how should we handle intercept? How did <code>varbvs</code> handle intercept?</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="kn">as</span> <span class="nn">pm</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="kn">as</span> <span class="nn">tt</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">expit</span>
+
+<span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">pi0</span><span class="o">=</span><span class="mf">0.043</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.77</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.84</span><span class="p">,</span> <span class="n">mu_intercept</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma_intercept</span><span class="o">=</span><span class="mf">1.5</span><span class="p">):</span>
+    <span class="n">invlogit</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">tt</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+        <span class="n">xi</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;xi&#39;</span><span class="p">,</span> <span class="n">pi0</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1">#inclusion probability for each variable</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu_intercept</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">sigma_intercept</span><span class="p">)</span> <span class="c1"># Intercept</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">sigma</span> <span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1">#Prior for the non-zero coefficients</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">xi</span> <span class="o">*</span> <span class="n">beta</span><span class="p">)</span> <span class="c1">#Deterministic function to map the stochastics to the output</span>
+        <span class="n">y_obs</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;y_obs&#39;</span><span class="p">,</span> <span class="n">invlogit</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">),</span>  <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>  <span class="c1">#Data likelihood</span>
+    <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">get_model</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Sampling">Sampling<a class="anchor-link" href="#Sampling">&#182;</a></h2><p>Need to read additional <code>PyMC3</code> documentation to do proper sampling diagnostics, but generally it helps to use multiple chains.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># Here I use 20 cores on my 40 core machine, with 10 chains, to generate 2000 samples.</span>
+<span class="c1"># Takes 50min on my desktop</span>
+<span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">random_seed</span> <span class="o">=</span> <span class="mi">999</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">chains</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Multiprocess sampling (10 chains in 20 jobs)
+CompoundStep
+&gt;BinaryGibbsMetropolis: [xi]
+&gt;NUTS: [beta, alpha]
+Sampling 10 chains: 100%|██████████| 25000/25000 [43:20&lt;00:00,  6.37draws/s] 
+There were 6 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 2 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 2 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 3 divergences after tuning. Increase `target_accept` or reparameterize.
+There was 1 divergence after tuning. Increase `target_accept` or reparameterize.
+There were 3 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 4 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 3 divergences after tuning. Increase `target_accept` or reparameterize.
+There were 4 divergences after tuning. Increase `target_accept` or reparameterize.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h2><p>This will summarize samples generated to posterior quantities including PIP, $\tilde{b}$ and $\tilde{\mu}$ ($b$ given inclusion, $\xi=1$).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">]),</span>
+                       <span class="s1">&#39;beta&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">]),</span>
+                       <span class="s1">&#39;beta_given_inclusion&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">trace</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">])</span>
+                       <span class="p">})</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[11]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>inclusion_probability</th>
+      <th>beta</th>
+      <th>beta_given_inclusion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>42</th>
+      <td>0.03150</td>
+      <td>0.757005</td>
+      <td>0.452559</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>0.02910</td>
+      <td>0.755969</td>
+      <td>0.331873</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>0.02855</td>
+      <td>0.764855</td>
+      <td>0.325449</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>0.02830</td>
+      <td>0.757791</td>
+      <td>0.389020</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>0.02820</td>
+      <td>0.759151</td>
+      <td>0.502015</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>0.02810</td>
+      <td>0.757029</td>
+      <td>0.399929</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>0.02805</td>
+      <td>0.751557</td>
+      <td>0.407373</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>0.02655</td>
+      <td>0.767675</td>
+      <td>0.411278</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>0.02625</td>
+      <td>0.758376</td>
+      <td>0.361729</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>0.02535</td>
+      <td>0.764275</td>
+      <td>0.390959</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>0.02525</td>
+      <td>0.762006</td>
+      <td>0.386991</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>0.02485</td>
+      <td>0.762214</td>
+      <td>0.424749</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>0.02470</td>
+      <td>0.769649</td>
+      <td>0.380450</td>
+    </tr>
+    <tr>
+      <th>56</th>
+      <td>0.02400</td>
+      <td>0.745160</td>
+      <td>-0.138141</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.02320</td>
+      <td>0.753159</td>
+      <td>0.231699</td>
+    </tr>
+    <tr>
+      <th>55</th>
+      <td>0.02310</td>
+      <td>0.742319</td>
+      <td>-0.164724</td>
+    </tr>
+    <tr>
+      <th>54</th>
+      <td>0.02200</td>
+      <td>0.744523</td>
+      <td>-0.323563</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>0.02195</td>
+      <td>0.754094</td>
+      <td>0.300765</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>0.02085</td>
+      <td>0.745974</td>
+      <td>-0.360878</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>0.02070</td>
+      <td>0.749918</td>
+      <td>-0.259379</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>0.02000</td>
+      <td>0.750038</td>
+      <td>-0.270924</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.01935</td>
+      <td>0.749993</td>
+      <td>-0.059286</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0.01925</td>
+      <td>0.765921</td>
+      <td>-0.100139</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.01910</td>
+      <td>0.747522</td>
+      <td>-0.069117</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>0.01830</td>
+      <td>0.757533</td>
+      <td>-0.205336</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.01820</td>
+      <td>0.753273</td>
+      <td>-0.054830</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0.01815</td>
+      <td>0.753205</td>
+      <td>-0.077024</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0.01815</td>
+      <td>0.748001</td>
+      <td>-0.103099</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.01815</td>
+      <td>0.746751</td>
+      <td>-0.042893</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>0.01810</td>
+      <td>0.753236</td>
+      <td>0.231776</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>0.01800</td>
+      <td>0.757264</td>
+      <td>0.260432</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>0.01795</td>
+      <td>0.748185</td>
+      <td>-0.169743</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>0.01790</td>
+      <td>0.753713</td>
+      <td>-0.170681</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.01760</td>
+      <td>0.755195</td>
+      <td>-0.077401</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>0.01745</td>
+      <td>0.756614</td>
+      <td>-0.236987</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.01720</td>
+      <td>0.760598</td>
+      <td>-0.072100</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>0.01720</td>
+      <td>0.761993</td>
+      <td>0.294846</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>0.01715</td>
+      <td>0.769173</td>
+      <td>0.106053</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>0.01675</td>
+      <td>0.758404</td>
+      <td>-0.205894</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>0.01675</td>
+      <td>0.745851</td>
+      <td>-0.094079</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.01645</td>
+      <td>0.758816</td>
+      <td>-0.054397</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>0.01645</td>
+      <td>0.753035</td>
+      <td>-0.207222</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>0.01635</td>
+      <td>0.760321</td>
+      <td>-0.270879</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0.01635</td>
+      <td>0.746073</td>
+      <td>-0.251548</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>0.01630</td>
+      <td>0.760809</td>
+      <td>0.123611</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>0.01620</td>
+      <td>0.767337</td>
+      <td>0.017822</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0.01590</td>
+      <td>0.752706</td>
+      <td>-0.072749</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>0.01460</td>
+      <td>0.754795</td>
+      <td>0.090861</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>0.01415</td>
+      <td>0.756668</td>
+      <td>0.070202</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>0.01405</td>
+      <td>0.759994</td>
+      <td>0.056885</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>0.01375</td>
+      <td>0.769638</td>
+      <td>0.203252</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>0.01365</td>
+      <td>0.757168</td>
+      <td>0.051544</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>0.01310</td>
+      <td>0.757963</td>
+      <td>-0.043344</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>0.01300</td>
+      <td>0.759784</td>
+      <td>0.117668</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>0.01220</td>
+      <td>0.760374</td>
+      <td>-0.070914</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>0.01205</td>
+      <td>0.758501</td>
+      <td>-0.056862</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>0.01185</td>
+      <td>0.756312</td>
+      <td>0.131893</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>0.01065</td>
+      <td>0.759993</td>
+      <td>0.090245</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>0.01025</td>
+      <td>0.761029</td>
+      <td>0.115815</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>But the true causal variables are 14 and 31 ... apparently this needs more work.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Some-sanity-check">Some sanity check<a class="anchor-link" href="#Some-sanity-check">&#182;</a></h2><ol>
+<li>Does posterior predictive mean $\tilde{y}$ roughly equal to data mean?</li>
+<li>What's the posterior number of non-zero variables?</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">estimate</span> <span class="o">=</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">]</span> 
+<span class="n">y_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">expit</span><span class="p">(</span><span class="n">trace</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">estimate</span><span class="p">)</span> <span class="p">))</span> <span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_hat</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">inclusion_probability</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.5000008683342422 1.13855
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>So the posterior mean suggests 1 variable involved. The prior is $0.043 \times 50 \approx 2$ expected. <strong>Need to check this with simulated truth; also should run <code>varbvs</code> on this and compare</strong>.</p>
+
+</div>
+</div>
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/5cf1ce12195e5a148a7971ba0be5d05bf449df94/dsc/20191005_PyMC3_SpikeSlab.ipynb"><code>dsc/20191005_PyMC3_SpikeSlab.ipynb</code></a> committed by Gao Wang on Sat Oct 5 21:45:56 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/5cf1ce12195e5a148a7971ba0be5d05bf449df94">revision 1, 5cf1ce1</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>
