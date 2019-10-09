@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -250,16 +249,14 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Toy-example-of-gene-configuration-overlapped-with-CNV">Toy example of gene configuration overlapped with CNV<a class="anchor-link" href="#Toy-example-of-gene-configuration-overlapped-with-CNV">&#182;</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Convergence-of-genes-and-CNV">Convergence of genes and CNV<a class="anchor-link" href="#Convergence-of-genes-and-CNV">&#182;</a></h3><p>Suppose there are three adjacent genes, gene1, gene2 and gene3, on a genomic region. Only gene1 is causal gene. Simulated CNVs overlap with none, soly one, two adjacent or all the three genes.</p>
 <p>For one specific sample, each gene is either overlapped with one CNV or none, denoted as {0,1}. Whether the three genes overlap with CNV are denoted as one of the seven following patterns: {0,0,0}, {1,0,0}, {0,1,0}, {0,0,1}, {1,1,0}, {0,1,1}, {1,1,1}.</p>
@@ -462,8 +459,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="15-adjacent-genes.-CNVs-overlap-with-maximumly-10-genes.">15 adjacent genes. CNVs overlap with maximumly 10 genes.<a class="anchor-link" href="#15-adjacent-genes.-CNVs-overlap-with-maximumly-10-genes.">&#182;</a></h4><p>There are 25 patterns. 8th gene is causal.</p>
 <table>
@@ -657,9 +653,21 @@ body {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h3><p>1) Use R package varbvs to calculate the posterior inclusion probability (PIP) for each gene.</p>
 <p>2) Use DAP to calculate PIP for each gene</p>
@@ -668,9 +676,21 @@ body {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h3><h4 id="4-genes,-extreme-case,-sample-size-2000,-constant-1.0.">4 genes, extreme case, sample size 2000, constant 1.0.<a class="anchor-link" href="#4-genes,-extreme-case,-sample-size-2000,-constant-1.0.">&#182;</a></h4><p>1) varbvs</p>
 
@@ -778,8 +798,7 @@ gene3    0.91492378589152779</code></pre>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="10-genes,-sample-size-1250,-constant-0-(randomly-assign-to-cases-and-controls)">10 genes, sample size 1250, constant 0 (randomly assign to cases and controls)<a class="anchor-link" href="#10-genes,-sample-size-1250,-constant-0-(randomly-assign-to-cases-and-controls)">&#182;</a></h4><p>1) varbvs</p>
 
@@ -883,13 +902,38 @@ pos15   0.024979621 NA  0.2115926   [-0.011,+0.440]
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Issue">Issue<a class="anchor-link" href="#Issue">&#182;</a></h3><h4 id="Constant-added-might-be-too-large">Constant added might be too large<a class="anchor-link" href="#Constant-added-might-be-too-large">&#182;</a></h4><h4 id="Size-for-each-pattern-might-not-accurate">Size for each pattern might not accurate<a class="anchor-link" href="#Size-for-each-pattern-might-not-accurate">&#182;</a></h4>
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-python"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago

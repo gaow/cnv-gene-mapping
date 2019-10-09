@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -250,8 +249,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="DAP-on-simulation-results-for-calcium-pathway">DAP on simulation results for calcium pathway<a class="anchor-link" href="#DAP-on-simulation-results-for-calcium-pathway">&#182;</a></h1>
 </div>
@@ -278,14 +276,13 @@ body {
 <span class="c1"># print(fileout)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Data-transform:-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">Data transform: $y \in \{0,1\}$ to $y \in \{0,t\}$<a class="anchor-link" href="#Data-transform:-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">&#182;</a></h2>
 </div>
@@ -308,7 +305,7 @@ body {
 <span class="nb">print</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">z_mu</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -318,7 +315,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -343,7 +340,7 @@ body {
 <span class="c1">#     i+=1</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -364,7 +361,7 @@ body {
 <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;chr15&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">diff</span><span class="p">)[</span><span class="mi">1</span><span class="p">]]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -379,7 +376,7 @@ body {
 <span class="n">calpath_gene_pos</span><span class="p">[</span><span class="s2">&quot;prior.pr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calpath_gene_pos</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">z_mu</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -393,14 +390,13 @@ body {
 <span class="n">y_tran</span> <span class="o">=</span> <span class="n">t</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Run-TORUS">Run TORUS<a class="anchor-link" href="#Run-TORUS">&#182;</a></h2>
 </div>
@@ -415,7 +411,7 @@ body {
 <span class="kn">import</span> <span class="nn">fisher</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -489,7 +485,7 @@ body {
 <span class="c1">#     return df_cal_bf, df_cal_beta, df_cal_zscore, SNP_anno_cal</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -514,7 +510,7 @@ body {
 <span class="c1"># print (len(cat6))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -524,7 +520,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -545,7 +541,7 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">df_cal</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -555,7 +551,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -765,7 +761,7 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_sum_stats_cal_simu</span><span class="p">(</span><span class="n">gene_df</span> <span class="o">=</span> <span class="n">df_cal</span><span class="p">,</span> <span class="n">causal</span> <span class="o">=</span> <span class="n">pthway_genes</span><span class="p">,</span> <span class="n">cat</span> <span class="o">=</span> <span class="n">cat6</span><span class="p">,</span> <span class="n">multi_cat</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">chrom</span> <span class="o">=</span> <span class="s2">&quot;chr19&quot;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -775,7 +771,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -951,7 +947,7 @@ body {
 <span class="o">!</span>torus.sh -d data/TORUS/calcium/beta_cal.gz -annot data/TORUS/calcium/snp_anno_cal.gz -est &gt; data/TORUS/calcium/cal_block_beta.est
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -961,7 +957,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -982,8 +978,7 @@ Starting EM ...
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Run-DAP">Run DAP<a class="anchor-link" href="#Run-DAP">&#182;</a></h2>
 </div>
@@ -1009,7 +1004,7 @@ Starting EM ...
           <span class="nb">format</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">times</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1019,7 +1014,7 @@ Starting EM ...
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2887,7 +2882,7 @@ Job 1848/1848, elapsed 0.02s prepare &amp; 0.52s DAP
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># dap/dap -d /tmp/F1503014064.6944265.dat -g /tmp/F1503014064.6944265.grid -it 0.05 -prior /tmp/F1503014064.6944265.prior -t 2 &gt; data/calcium_pathway_N4000_shape25_nomask.data.dap </span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2901,7 +2896,7 @@ Job 1848/1848, elapsed 0.02s prepare &amp; 0.52s DAP
 <span class="nb">print</span> <span class="p">(</span><span class="n">cal_pthwy_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2911,7 +2906,7 @@ Job 1848/1848, elapsed 0.02s prepare &amp; 0.52s DAP
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2932,7 +2927,7 @@ Job 1848/1848, elapsed 0.02s prepare &amp; 0.52s DAP
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python ../utils/extract_function.py --from 20170726_Dap_TORUS_on_simulation_for_Calcium_Pathway.ipynb --to get_summary_for_torus.py
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2942,7 +2937,7 @@ Job 1848/1848, elapsed 0.02s prepare &amp; 0.52s DAP
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -2966,7 +2961,7 @@ Done!
 <span class="c1"># print ((chrom))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2983,7 +2978,7 @@ Done!
 <span class="c1"># [I 15:44:57.820 NotebookApp] KernelRestarter: restarting kernel (1/5)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -250,16 +249,14 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Toy-example-of-multi-gene-configuration-overlapped-with-multi-CNV">Toy example of multi-gene configuration overlapped with multi-CNV<a class="anchor-link" href="#Toy-example-of-multi-gene-configuration-overlapped-with-multi-CNV">&#182;</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Simulate-CNVs">Simulate CNVs<a class="anchor-link" href="#Simulate-CNVs">&#182;</a></h4><p>1) Simulate CNV length (number of overlapped genes), following geometric distribution (p=0.5), maximum 10 genes.</p>
 <p>2) Simulate CNV start position according to the corresponding length. For example, if a CNV interrupts 5 genes, then it could only start within the first 6 gene position, and the start position is randomly selected among the 6 genes.</p>
@@ -268,8 +265,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Assign-CNVs-to-cases-and-controls">Assign CNVs to cases and controls<a class="anchor-link" href="#Assign-CNVs-to-cases-and-controls">&#182;</a></h4><p>1) Set the 5th gene as causal gene.</p>
 <p>2) Simulate a random number from standard normal for each CNV. For each CNV interrupts with 5th gene, add a constant 1 to the simulated number.</p>
@@ -280,8 +276,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h3><h4 id="CNV-maximum-length-overlap-with-10-genes;-sample-size-2000;-5th-gene-is-causal">CNV maximum length overlap with 10 genes; sample size 2000; 5th gene is causal<a class="anchor-link" href="#CNV-maximum-length-overlap-with-10-genes;-sample-size-2000;-5th-gene-is-causal">&#182;</a></h4><h4 id="Constant-$0$">Constant $0$<a class="anchor-link" href="#Constant-$0$">&#182;</a></h4><p>1) varbvs</p>
 
@@ -384,8 +379,7 @@ Posterior inclusion probability
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="DAP-results-annotation">DAP results annotation<a class="anchor-link" href="#DAP-results-annotation">&#182;</a></h4><p>The last section of the output is the posterior inclusion probabilities (PIP) for top ranked genes, for example, PIP for gene5 is 0.998</p>
 <p>The last column gives $\text{log}_{10}$ Bayes factor of the corresponding SNP/gene in single-SNP/gene testing.</p>

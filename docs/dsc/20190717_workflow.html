@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -250,8 +249,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Copy-model-simulation-and-analysis-workflow">Copy model simulation and analysis workflow<a class="anchor-link" href="#Copy-model-simulation-and-analysis-workflow">&#182;</a></h1>
 </div>
@@ -265,7 +263,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="err">!</span><span class="n">sos</span> <span class="n">run</span> <span class="mi">20190717</span><span class="n">_workflow</span><span class="o">.</span><span class="n">ipynb</span> <span class="o">-</span><span class="n">h</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -275,7 +273,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -370,8 +368,7 @@ Sections
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Run-this-workflow">Run this workflow<a class="anchor-link" href="#Run-this-workflow">&#182;</a></h2><h3 id="Simulation:">Simulation:<a class="anchor-link" href="#Simulation:">&#182;</a></h3>
 <pre><code>sos run dsc/20190717_workflow.ipynb simulate:1-5 --n_gene_in_block 30 --shape 1 --scale 0.5 -s build</code></pre>
@@ -411,7 +408,7 @@ Sections
     <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -460,7 +457,7 @@ Sections
     <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">bound3</span><span class="p">)</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span><span class="n">r</span><span class="p">},</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -491,7 +488,7 @@ Sections
     <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">:</span><span class="n">r</span><span class="p">},</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">,</span> <span class="s2">&quot;d_c&quot;</span><span class="p">,</span> <span class="s2">&quot;d_nc&quot;</span><span class="p">,</span> <span class="s2">&quot;nd_c&quot;</span><span class="p">,</span> <span class="s2">&quot;nd_nc&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">],</span> <span class="n">index</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -504,7 +501,7 @@ Sections
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">from</span> <span class="nn">fisher</span> <span class="kn">import</span> <span class="n">pvalue</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -517,7 +514,7 @@ Sections
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pvalue</span><span class="p">(</span><span class="mi">603</span><span class="p">,</span><span class="mi">6103</span><span class="p">,</span><span class="mi">76</span><span class="p">,</span><span class="mi">6630</span><span class="p">)</span><span class="o">.</span><span class="n">two_tail</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -527,7 +524,7 @@ Sections
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[27]:</div>
+    <div class="prompt output_prompt">Out[27]:</div>
 
 
 
@@ -550,7 +547,7 @@ Sections
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -563,7 +560,7 @@ Sections
 <div class=" highlight hl-sos"><pre><span></span><span class="n">stats</span><span class="o">.</span><span class="n">fisher_exact</span><span class="p">([[</span><span class="mi">603</span><span class="p">,</span><span class="mi">76</span><span class="p">],</span> <span class="p">[</span><span class="mi">6103</span><span class="p">,</span><span class="mi">6630</span><span class="p">]])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -573,7 +570,7 @@ Sections
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[30]:</div>
+    <div class="prompt output_prompt">Out[30]:</div>
 
 
 
@@ -597,7 +594,7 @@ Sections
 <span class="n">fisher</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.genes.block1.fisher.gz&quot;</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -610,7 +607,7 @@ Sections
 <div class=" highlight hl-sos"><pre><span></span><span class="n">fisher</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -620,7 +617,7 @@ Sections
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[24]:</div>
+    <div class="prompt output_prompt">Out[24]:</div>
 
 
 
@@ -643,7 +640,7 @@ Sections
 <div class=" highlight hl-sos"><pre><span></span><span class="n">fisher</span><span class="p">[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -653,7 +650,7 @@ Sections
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[25]:</div>
+    <div class="prompt output_prompt">Out[25]:</div>
 
 
 
@@ -803,7 +800,7 @@ Sections
     <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="nb">int</span><span class="p">(</span><span class="s1">&#39;${_blocks}&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]):</span><span class="nb">int</span><span class="p">(</span><span class="s1">&#39;${_blocks}&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])]</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">:</span><span class="n">r</span><span class="p">},</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -833,7 +830,7 @@ Sections
     <span class="n">saveRDS</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">:</span><span class="n">r</span><span class="p">})</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -859,7 +856,7 @@ Sections
     <span class="n">saveRDS</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">:</span><span class="n">r</span><span class="p">})</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -882,7 +879,7 @@ Sections
     <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">:</span><span class="n">r</span><span class="p">})</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -906,14 +903,13 @@ Sections
     <span class="n">res</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">:</span><span class="n">r</span><span class="p">},</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The output of this step has two files:</p>
 <ul>
@@ -962,7 +958,7 @@ Sections
     <span class="n">samples_genome_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">:</span><span class="n">r</span><span class="p">},</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -979,7 +975,7 @@ Sections
     <span class="n">zcat</span> <span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">}</span> <span class="o">|</span> <span class="n">gzip</span> <span class="o">&gt;</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">}</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1031,14 +1027,13 @@ Sections
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;1&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">case_index</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">ctrl_index</span><span class="p">)))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Note">Note<a class="anchor-link" href="#Note">&#182;</a></h2>
 <pre><code>cd ~/GIT/cnv-gene-mapping
@@ -1061,6 +1056,19 @@ sos run dsc/20190717_workflow.ipynb analyze:1-2 --genotype_file /home/gaow/GIT/g
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago

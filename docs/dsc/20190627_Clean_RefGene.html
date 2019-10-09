@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -250,8 +249,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Obtain-clean-reference-gene">Obtain clean reference gene<a class="anchor-link" href="#Obtain-clean-reference-gene">&#182;</a></h1><p>Use CNV individual level data (del and dup) and gene data to obtain individual (real, column) by gene (real, row) matrix (ideally two bed files, bedtools) - reference X matrix</p>
 
@@ -271,14 +269,13 @@ body {
 <span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/GIT/cnv-gene-mapping/data&quot;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Import-genes">Import genes<a class="anchor-link" href="#Import-genes">&#182;</a></h2>
 </div>
@@ -292,7 +289,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/refGene.txt.gz&quot;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;tx_name&quot;</span><span class="p">,</span> <span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -305,7 +302,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -315,7 +312,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[3]:</div>
+    <div class="prompt output_prompt">Out[3]:</div>
 
 
 
@@ -338,7 +335,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;chr&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">22</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;chrX&quot;</span><span class="p">])]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -351,7 +348,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -361,7 +358,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[5]:</div>
+    <div class="prompt output_prompt">Out[5]:</div>
 
 
 
@@ -384,7 +381,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;chr&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;chr&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;X&quot;</span> <span class="k">else</span> <span class="mi">23</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -397,7 +394,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -410,7 +407,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">])[[</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">]]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -423,7 +420,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -433,7 +430,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[9]:</div>
+    <div class="prompt output_prompt">Out[9]:</div>
 
 
 
@@ -456,7 +453,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -466,7 +463,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[10]:</div>
+    <div class="prompt output_prompt">Out[10]:</div>
 
 
 
@@ -552,7 +549,7 @@ body {
 <span class="c1"># end = ref_gene[[&quot;CHR&quot;, &quot;gene_name&quot;, &quot;end&quot;]].groupby([&quot;CHR&quot;, &quot;gene_name&quot;]).max().reset_index(drop = False)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -565,7 +562,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># ref_gene[ref_gene[&quot;gene_name&quot;] == &quot;OR4F16&quot;]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -578,7 +575,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;TTLL10&quot;</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -588,7 +585,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[11]:</div>
+    <div class="prompt output_prompt">Out[11]:</div>
 
 
 
@@ -651,7 +648,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;LINC01128&quot;</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -661,7 +658,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[12]:</div>
+    <div class="prompt output_prompt">Out[12]:</div>
 
 
 
@@ -731,7 +728,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;CAMTA1&quot;</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -741,7 +738,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[32]:</div>
+    <div class="prompt output_prompt">Out[32]:</div>
 
 
 
@@ -889,7 +886,7 @@ body {
                     <span class="p">((</span><span class="n">ref_gene</span><span class="o">.</span><span class="n">start</span> <span class="o">&gt;=</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">shift</span><span class="p">())</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ref_gene</span><span class="o">.</span><span class="n">gene_name</span> <span class="o">!=</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">gene_name</span><span class="o">.</span><span class="n">shift</span><span class="p">()))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -912,7 +909,7 @@ body {
 <span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gene</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -926,7 +923,7 @@ body {
 <span class="n">gene_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">unique_everseen</span><span class="p">(</span><span class="n">gene</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -944,7 +941,7 @@ body {
         <span class="n">ref_gene_new</span> <span class="o">=</span> <span class="n">ref_gene_new</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;CHR&quot;</span><span class="p">:</span> <span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]),</span> <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]),</span> <span class="s2">&quot;gene&quot;</span><span class="p">:</span> <span class="n">gn</span><span class="p">},</span> <span class="n">ignore_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -957,7 +954,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene_new</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -967,7 +964,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[83]:</div>
+    <div class="prompt output_prompt">Out[83]:</div>
 
 
 
@@ -1051,7 +1048,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene_new</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1061,7 +1058,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[84]:</div>
+    <div class="prompt output_prompt">Out[84]:</div>
 
 
 
@@ -1084,7 +1081,20 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene_new</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/refGene.clean.gz&quot;</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
 </pre></div>
 
+    </div>
 </div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 

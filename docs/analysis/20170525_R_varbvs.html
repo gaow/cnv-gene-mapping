@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -250,8 +249,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="R:-use-varbvs-for-all-datasets-from-simulation-and-save-as-.RDS">R: use varbvs for all datasets from simulation and save as .RDS<a class="anchor-link" href="#R:-use-varbvs-for-all-datasets-from-simulation-and-save-as-.RDS">&#182;</a></h1>
 </div>
@@ -267,7 +265,7 @@ body {
 <span class="n">library</span><span class="p">(</span><span class="n">feather</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -284,7 +282,7 @@ body {
 <span class="n">fit</span> <span class="o">&lt;-</span> <span class="n">varbvs</span><span class="p">(</span><span class="n">leukemia</span><span class="err">$</span><span class="n">x</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">leukemia</span><span class="err">$</span><span class="n">y</span><span class="p">,</span> <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;binomial&quot;</span><span class="p">,</span> <span class="n">logodds</span> <span class="o">=</span> <span class="n">seq</span><span class="p">(</span><span class="o">-</span><span class="mf">3.5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">sa</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -294,7 +292,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -318,7 +316,7 @@ body {
 <span class="n">varbvscoefcred</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="s2">&quot;X3441&quot;</span><span class="p">,</span> <span class="s2">&quot;X3038&quot;</span><span class="p">,</span> <span class="s2">&quot;X2141&quot;</span><span class="p">,</span> <span class="s2">&quot;X2230&quot;</span><span class="p">,</span> <span class="s2">&quot;X951&quot;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -328,7 +326,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -360,7 +358,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -405,7 +403,7 @@ body {
 <span class="k">print</span> <span class="p">(</span><span class="n">new</span><span class="err">$</span><span class="n">summary</span><span class="err">$</span><span class="n">top</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -415,7 +413,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -450,7 +448,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -476,7 +474,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">dim</span><span class="p">(</span><span class="n">read_feather</span><span class="p">(</span><span class="s2">&quot;data/Sweden_genes_overlap_cnv.feather&quot;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -486,7 +484,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -514,7 +512,7 @@ body {
 <span class="k">print</span> <span class="p">(</span><span class="n">new1</span><span class="err">$</span><span class="n">summary</span><span class="err">$</span><span class="n">top</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -524,7 +522,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -559,7 +557,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -596,7 +594,7 @@ body {
 <span class="c1">#               &quot;data/del_sim_scale5_shape1_N1000_M100_999.varbvs.rds&quot;))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -609,7 +607,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># different prior for each gene, (1-pi)*p + pi*N(0,s^2)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -637,7 +635,7 @@ body {
 <span class="p">}</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -650,7 +648,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">get_varbvs_rds</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="s2">&quot;data/Sweden_cnv_gene_overlap_config.feather&quot;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -674,7 +672,7 @@ body {
                  <span class="s2">&quot;data/del_sim_shape9_scale1_p0.01_N4000_M200_12.data.feather&quot;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -684,7 +682,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -970,7 +968,7 @@ Top 5 variables by inclusion probability:
 <span class="n">dim</span><span class="p">(</span><span class="n">aa</span><span class="err">$</span><span class="n">mu</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -980,7 +978,7 @@ Top 5 variables by inclusion probability:
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 
@@ -1016,7 +1014,7 @@ Top 5 variables by inclusion probability:
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 

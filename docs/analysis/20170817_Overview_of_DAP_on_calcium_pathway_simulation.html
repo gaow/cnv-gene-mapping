@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -250,16 +249,14 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Overview-of-DAP-on-Calcium-Pathway-Simulation">Overview of DAP on Calcium Pathway Simulation<a class="anchor-link" href="#Overview-of-DAP-on-Calcium-Pathway-Simulation">&#182;</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Calcium pathway signaling (KEGG:hsa04020) includes 178 genes:</p>
 
@@ -269,8 +266,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="DAP-for-calcium-pathway-simulation">DAP for calcium pathway simulation<a class="anchor-link" href="#DAP-for-calcium-pathway-simulation">&#182;</a></h3><h4 id="sample-size-=-4000,-gamma-shape-=-5">sample size = 4000, gamma shape = 5<a class="anchor-link" href="#sample-size-=-4000,-gamma-shape-=-5">&#182;</a></h4><p>High-probability association models:</p>
 <p>For example, the posterior probability of the association model for [chr12.P2RX7], [chr9.GNA14] and [chr17.ATP2A3] is $0.26163$.</p>
@@ -303,8 +299,7 @@ Posterior inclusion probability
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="sample-size-=-1000,-gamma-shape-=-25">sample size = 1000, gamma shape = 25<a class="anchor-link" href="#sample-size-=-1000,-gamma-shape-=-25">&#182;</a></h4><p>High-probability association models:</p>
 
@@ -333,8 +328,7 @@ Posterior inclusion probability
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="DAP-greedy:-improved-Adaptive-DAP-Algorithm">DAP-greedy: improved Adaptive DAP Algorithm<a class="anchor-link" href="#DAP-greedy:-improved-Adaptive-DAP-Algorithm">&#182;</a></h3><h4 id="New-features">New features<a class="anchor-link" href="#New-features">&#182;</a></h4><p>1). Automatic signal clustering: the output now automatically identifies potentially multiple independent association signal clusters, and provides information on cluster memberships and the correlation within and between clusters.</p>
 <p>2). Improved efficiency: the adaptive DAP algorithm runs more efficiently by focusing on a relatively smaller set of high-probability models.</p>
@@ -344,8 +338,7 @@ Posterior inclusion probability
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="sample-size-=-4000,-gamma-shape-=-5:-the-PIP-is-slightly-larger-than-DAP">sample size = 4000, gamma shape = 5: the PIP is slightly larger than DAP<a class="anchor-link" href="#sample-size-=-4000,-gamma-shape-=-5:-the-PIP-is-slightly-larger-than-DAP">&#182;</a></h4><p>High-probability association models:</p>
 
@@ -394,8 +387,7 @@ Independent association signal clusters
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="sample-size-=-1000,-gamma-shape-=-25:--the-PIP-is-slightly-larger-than-DAP">sample size = 1000, gamma shape = 25:  the PIP is slightly larger than DAP<a class="anchor-link" href="#sample-size-=-1000,-gamma-shape-=-25:--the-PIP-is-slightly-larger-than-DAP">&#182;</a></h4><p>High-probability association models:</p>
 
@@ -422,8 +414,7 @@ Posterior inclusion probability
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Next-step">Next step<a class="anchor-link" href="#Next-step">&#182;</a></h3><p>For the results listed above, I put the whole genome into DAP instead of the many CNV regions (CNVs in one region do not overlap with any other regions). I will next separate the whole genome into CNV regions. And there is probably many regions on each chromosome. For each region, a multi-gene fine-mapping analysis (DAP) will run.</p>
 

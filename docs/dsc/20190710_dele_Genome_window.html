@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -250,16 +249,14 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Obtain-Genome-Window-(40~100-genes-per-window)">Obtain Genome Window (40~100 genes per window)<a class="anchor-link" href="#Obtain-Genome-Window-(40~100-genes-per-window)">&#182;</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Import X matrix (del or  dup)</p>
 
@@ -280,7 +277,7 @@ body {
 <span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/GIT/cnv-gene-mapping/data&quot;</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -294,7 +291,7 @@ body {
 <span class="n">n_gene_per_block</span> <span class="o">=</span> <span class="mi">52</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -307,7 +304,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">dele</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/deletion.gz&quot;</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -320,7 +317,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">dele</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -330,7 +327,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[4]:</div>
+    <div class="prompt output_prompt">Out[4]:</div>
 
 
 
@@ -876,7 +873,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">dele</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -886,7 +883,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[5]:</div>
+    <div class="prompt output_prompt">Out[5]:</div>
 
 
 
@@ -909,7 +906,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">dele</span> <span class="o">=</span> <span class="n">dele</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Unnamed: 0&quot;</span><span class="p">:</span> <span class="s2">&quot;gene&quot;</span><span class="p">})</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -926,7 +923,7 @@ body {
         <span class="n">all0</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -945,7 +942,7 @@ body {
     <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -958,7 +955,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">bound</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -968,7 +965,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[9]:</div>
+    <div class="prompt output_prompt">Out[9]:</div>
 
 
 
@@ -984,8 +981,7 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>460 gene blocks for each sample.</p>
 
@@ -1000,7 +996,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="nb">sum</span><span class="p">(</span><span class="n">dele</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">1</span><span class="p">:])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1010,7 +1006,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[10]:</div>
+    <div class="prompt output_prompt">Out[10]:</div>
 
 
 
@@ -1033,7 +1029,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">bound</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">bound</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">dele</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1046,7 +1042,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">bound</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1056,7 +1052,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[12]:</div>
+    <div class="prompt output_prompt">Out[12]:</div>
 
 
 
@@ -1079,7 +1075,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">bound</span><span class="p">[:</span><span class="mi">10</span><span class="p">],</span> <span class="n">bound</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">:]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1089,7 +1085,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[13]:</div>
+    <div class="prompt output_prompt">Out[13]:</div>
 
 
 
@@ -1113,7 +1109,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">tmp</span> <span class="o">=</span> <span class="n">dele</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">5</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1126,7 +1122,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">tmp</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1136,7 +1132,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[15]:</div>
+    <div class="prompt output_prompt">Out[15]:</div>
 
 
 
@@ -1226,7 +1222,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">tmp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bound</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1239,7 +1235,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">tmp_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1249,7 +1245,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[17]:</div>
+    <div class="prompt output_prompt">Out[17]:</div>
 
 
 
@@ -1343,7 +1339,7 @@ body {
 <span class="k">print</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">())</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1353,7 +1349,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -1375,7 +1371,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">dele_block</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">fill</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1388,7 +1384,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">dele_block</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1398,7 +1394,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[16]:</div>
+    <div class="prompt output_prompt">Out[16]:</div>
 
 
 
@@ -1421,7 +1417,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># sum([len(i) for i in tmp_df[&quot;PT-L1HP&quot;]])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1434,7 +1430,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># dele_block.to_csv(f&quot;{cwd}/deletion_geneblock.gz&quot;, compression = &quot;gzip&quot;, sep = &quot;\t&quot;, header = False, index = False)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1447,7 +1443,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">dele</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -1457,7 +1453,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[19]:</div>
+    <div class="prompt output_prompt">Out[19]:</div>
 
 
 
@@ -1480,7 +1476,20 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">dele_block</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">10</span><span class="p">,</span> <span class="p">:</span><span class="mi">50</span><span class="p">]</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/minimal_working_example_block1.gz&quot;</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
+    </div>
 </div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 

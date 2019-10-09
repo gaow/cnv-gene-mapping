@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -250,8 +249,7 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Implement-TORUS-by-using-CNV-data-of-Schizophrenia-in-Sweden">Implement TORUS by using CNV data of Schizophrenia in Sweden<a class="anchor-link" href="#Implement-TORUS-by-using-CNV-data-of-Schizophrenia-in-Sweden">&#182;</a></h1><h3 id="1.-Use-Sweden-Schizphrenia-individual-data-to-obtain-gene-and-CNV-overlap-configuration;-columns-represent-genes,-rows-represent-individuals">1. Use Sweden Schizphrenia individual data to obtain gene and CNV overlap configuration; columns represent genes, rows represent individuals<a class="anchor-link" href="#1.-Use-Sweden-Schizphrenia-individual-data-to-obtain-gene-and-CNV-overlap-configuration;-columns-represent-genes,-rows-represent-individuals">&#182;</a></h3><h3 id="2.-Export-data-as-pkl-and-feather-format-to-use-in-varbvs">2. Export data as pkl and feather format to use in varbvs<a class="anchor-link" href="#2.-Export-data-as-pkl-and-feather-format-to-use-in-varbvs">&#182;</a></h3><h3 id="3.-Obtain-CNV-blocks-and-use-it-to-perform-TORUS">3. Obtain CNV blocks and use it to perform TORUS<a class="anchor-link" href="#3.-Obtain-CNV-blocks-and-use-it-to-perform-TORUS">&#182;</a></h3>
 </div>
@@ -272,7 +270,7 @@ body {
 <span class="kn">import</span> <span class="nn">feather</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -289,7 +287,7 @@ body {
 <span class="n">ref_genes</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref_genes</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="mi">23</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -304,7 +302,7 @@ body {
 <span class="n">ref_genes</span> <span class="o">=</span> <span class="n">ref_genes</span><span class="p">[</span><span class="n">ref_genes</span><span class="o">.</span><span class="n">chrom</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -320,7 +318,7 @@ body {
 <span class="n">sw_cnv_indiv</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sw_cnv_indiv</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]</span><span class="o">==</span><span class="mi">2</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -336,7 +334,7 @@ body {
 <span class="n">calpath_genes_pos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">ref_genes</span><span class="p">,</span> <span class="n">calpath_genes</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -355,7 +353,7 @@ body {
 <span class="n">calpath_genes_pos</span> <span class="o">=</span> <span class="n">calpath_genes_pos</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min(tx_start)&quot;</span><span class="p">:</span> <span class="s2">&quot;gene_start&quot;</span><span class="p">,</span> <span class="s2">&quot;max(tx_end)&quot;</span><span class="p">:</span> <span class="s2">&quot;gene_end&quot;</span><span class="p">})</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -372,7 +370,7 @@ body {
                                                    <span class="k">if</span> <span class="ow">not</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="mi">23</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -402,7 +400,7 @@ body {
 <span class="nb">print</span> <span class="p">(</span><span class="n">cnv_gene_overlap_calpath</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -412,7 +410,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -499,7 +497,7 @@ body {
 <span class="c1"># cnv_gene_overlap_calpath = cnv_gene_overlap_calpath.reset_index()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -518,14 +516,13 @@ body {
 <span class="n">ref_genes</span> <span class="o">=</span> <span class="n">ref_genes</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;min(tx_start)&quot;</span><span class="p">:</span> <span class="s2">&quot;gene_start&quot;</span><span class="p">,</span> <span class="s2">&quot;max(tx_end)&quot;</span><span class="p">:</span> <span class="s2">&quot;gene_end&quot;</span><span class="p">})</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="The-table-of-overlap-of-CNVs-(Sweden-data)-and-genes">The table of overlap of CNVs (Sweden data) and genes<a class="anchor-link" href="#The-table-of-overlap-of-CNVs-(Sweden-data)-and-genes">&#182;</a></h4>
 </div>
@@ -554,14 +551,13 @@ body {
 <span class="n">cnv_gene_overlap</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;PHE&quot;</span><span class="p">,</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;BP1&quot;</span><span class="p">,</span> <span class="s2">&quot;BP2&quot;</span><span class="p">,</span> <span class="s2">&quot;TYPE&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">))</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="1.-Get-blocks-of-CNVs,-and-genes">1. Get blocks of CNVs, and genes<a class="anchor-link" href="#1.-Get-blocks-of-CNVs,-and-genes">&#182;</a></h3><h3 id="2.-Export-overlaps-of-CNVs-and-genes-as-.feather-format">2. Export overlaps of CNVs and genes as .feather format<a class="anchor-link" href="#2.-Export-overlaps-of-CNVs-and-genes-as-.feather-format">&#182;</a></h3><p>Each row indicates a sample/subject; the first column represents sample's status (either case or control); each of the rest columns represents one genes (more than 20K genes in total); "1" means the corresponding subject has a CNV that overlaps with the specific gene (column name), "0" means no overlap.</p>
 
@@ -622,7 +618,7 @@ body {
     <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">res</span><span class="p">}</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -635,7 +631,7 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">get_block_matrix</span><span class="p">(</span><span class="n">cnv_gene_overlap</span><span class="p">,</span> <span class="n">ref_genes</span><span class="p">,</span> <span class="n">dup</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">make_block</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -645,7 +641,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -661,8 +657,7 @@ body {
 
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Run-TORUS">Run TORUS<a class="anchor-link" href="#Run-TORUS">&#182;</a></h3>
 </div>
@@ -678,7 +673,7 @@ body {
 <span class="n">causal_genes</span> <span class="o">=</span> <span class="n">cal_pthwy_genes</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -695,7 +690,7 @@ body {
 <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="nb">max</span><span class="p">(</span><span class="n">col</span><span class="p">)]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -705,7 +700,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -716,7 +711,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[22]:</div>
+    <div class="prompt output_prompt">Out[22]:</div>
 
 
 
@@ -739,7 +734,7 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="mi">1169</span><span class="p">]</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -749,7 +744,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[16]:</div>
+    <div class="prompt output_prompt">Out[16]:</div>
 
 
 
@@ -2281,7 +2276,7 @@ body {
     <span class="nb">print</span> <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="p">[</span><span class="n">gene</span> <span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">causal_genes</span> <span class="k">if</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -2291,7 +2286,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3665,7 +3660,7 @@ body {
         <span class="n">pheno</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3675,7 +3670,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3756,7 +3751,7 @@ body {
     <span class="n">SNP_anno_cal</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;data/TORUS/calcium/snp_anno_cal&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3769,7 +3764,7 @@ body {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_sum_Sweden_for_torus</span><span class="p">(</span><span class="n">gene_df</span> <span class="o">=</span> <span class="n">block</span><span class="p">,</span> <span class="n">causal</span> <span class="o">=</span> <span class="n">causal_genes</span><span class="p">,</span> <span class="n">cat</span> <span class="o">=</span> <span class="n">pheno</span><span class="p">,</span> <span class="n">multi_cat</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3784,7 +3779,7 @@ body {
 <span class="o">!</span>torus.sh -d data/TORUS/calcium/beta_cal.gz -annot data/TORUS/calcium/snp_anno_cal.gz -est &gt; data/TORUS/calcium/cal_block_beta.est
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -3794,7 +3789,7 @@ body {
 
 <div class="output_area">
 
-<div class="prompt"></div>
+    <div class="prompt"></div>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
@@ -3810,6 +3805,19 @@ Starting EM ...
 </div>
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
 </div>
 </div>
 

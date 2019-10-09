@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -250,16 +249,14 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="DAP-on-simulation-results">DAP on simulation results<a class="anchor-link" href="#DAP-on-simulation-results">&#182;</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Data-transformation:-transform-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">Data transformation: transform $y \in \{0,1\}$ to $y \in \{0,t\}$<a class="anchor-link" href="#Data-transformation:-transform-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">&#182;</a></h3><p>The area under the original normal curve is $1-\Phi(t)$, the area under the transformed/shifted normal curve is $1-\Phi(t-Z_\mu)$. The mean of the original and transformed normal curve is $0$ and $Z_\mu$.</p>
 <p>$ P(X \geqslant t) = P(X=Z_\mu+X' \geqslant t) = P(X' \geqslant t-Z_\mu) = 1-\Phi(t-Z_\mu) $, in which $Z_\mu$ is the effect size $\beta$, and $1-\Phi(t)$ is prevalence.</p>
@@ -274,8 +271,7 @@ body {
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Prepare-DAP-input">Prepare DAP input<a class="anchor-link" href="#Prepare-DAP-input">&#182;</a></h3><h4 id="Effect-Size-Grid-file:-prior-effect-size-specifications-for-causal-variants.">Effect Size Grid file: prior effect size specifications for causal variants.<a class="anchor-link" href="#Effect-Size-Grid-file:-prior-effect-size-specifications-for-causal-variants.">&#182;</a></h4><p>ω: the average effect size; ϕ: the heterogeneity of a genetic effect across multiple subgroups.</p>
 <p>It is a two-column data matrix: 1st column specifies ϕ, 2nd column specifies ω. Each row provides a unique combination.</p>
@@ -293,8 +289,7 @@ chr1.XXXXX   4.517324e-05
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Run-DAP">Run DAP<a class="anchor-link" href="#Run-DAP">&#182;</a></h4><p>Use feather file generated from simulation, effect size grid file and prior file generated in last step to run DAP.</p>
 <p>For small sample size simulation, there is no PIP generated for any gene, due to the lack of power. And the association model with greatest posterior probability is NULL, which means it is hard to identify the causal genes.</p>
@@ -311,7 +306,7 @@ chr1.XXXXX   4.517324e-05
 <div class=" highlight hl-sos"><pre><span></span><span class="nb">set</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">])</span>
 </pre></div>
 
-</div>
+    </div>
 </div>
 </div>
 
@@ -321,7 +316,7 @@ chr1.XXXXX   4.517324e-05
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[18]:</div>
+    <div class="prompt output_prompt">Out[18]:</div>
 
 
 

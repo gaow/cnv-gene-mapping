@@ -248,32 +248,16 @@ body {
       </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Obtain-X-matrix">Obtain X matrix<a class="anchor-link" href="#Obtain-X-matrix">&#182;</a></h1><p>column: individual</p>
-<p>row: gene</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Import-phenotype">Import phenotype<a class="anchor-link" href="#Import-phenotype">&#182;</a></h2>
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span><span class="o">,</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="o">,</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">pandasql</span> <span class="kn">import</span> <span class="n">sqldf</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
-<span class="kn">from</span> <span class="nn">more_itertools</span> <span class="kn">import</span> <span class="n">unique_everseen</span>
+<span class="kn">from</span> <span class="nn">pandasql</span> <span class="k">import</span> <span class="n">sqldf</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">more_itertools</span> <span class="k">import</span> <span class="n">unique_everseen</span>
 <span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/GIT/cnv-gene-mapping/data&quot;</span><span class="p">)</span>
 </pre></div>
 
@@ -287,7 +271,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">pheno1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/swcnv/swcnv.pheno&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pheno1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/swcnv/swcnv.pheno&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -300,7 +284,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">pheno1</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pheno1</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
@@ -333,7 +317,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">pheno1</span><span class="p">[</span><span class="s2">&quot;BPSCZ&quot;</span><span class="p">]),</span> <span class="n">Counter</span><span class="p">(</span><span class="n">pheno1</span><span class="p">[</span><span class="s2">&quot;SCZ&quot;</span><span class="p">]),</span> <span class="n">Counter</span><span class="p">(</span><span class="n">pheno1</span><span class="p">[</span><span class="s2">&quot;BP&quot;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">pheno1</span><span class="p">[</span><span class="s2">&quot;BPSCZ&quot;</span><span class="p">]),</span> <span class="n">Counter</span><span class="p">(</span><span class="n">pheno1</span><span class="p">[</span><span class="s2">&quot;SCZ&quot;</span><span class="p">]),</span> <span class="n">Counter</span><span class="p">(</span><span class="n">pheno1</span><span class="p">[</span><span class="s2">&quot;BP&quot;</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -368,7 +352,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">pheno2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/swcnv/swcnv.qc6.cnv.indiv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pheno2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/swcnv/swcnv.qc6.cnv.indiv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -381,30 +365,10 @@ body {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">pheno2</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pheno2</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pheno2</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">]]</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[6]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(10636, 2)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -414,7 +378,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">pheno2</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pheno2</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">]]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pheno</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">pheno1</span><span class="p">,</span> <span class="n">pheno2</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s2">&quot;outer&quot;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s2">&quot;FID&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -427,7 +391,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">pheno</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">pheno1</span><span class="p">,</span> <span class="n">pheno2</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s2">&quot;outer&quot;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s2">&quot;FID&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pheno</span><span class="p">[</span><span class="s2">&quot;PHENO&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pheno</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;SCZ&quot;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;SCZ&quot;</span><span class="p">])</span> <span class="o">!=</span> <span class="s2">&quot;nan&quot;</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -440,20 +404,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">pheno</span><span class="p">[</span><span class="s2">&quot;PHENO&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pheno</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;SCZ&quot;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;SCZ&quot;</span><span class="p">])</span> <span class="o">!=</span> <span class="s2">&quot;nan&quot;</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;PHE&quot;</span><span class="p">]),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">pheno</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pheno</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -466,7 +417,7 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[10]:</div>
+    <div class="prompt output_prompt">Out[9]:</div>
 
 
 
@@ -556,10 +507,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">pheno</span><span class="p">[</span><span class="s2">&quot;PHENO&quot;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">pheno</span><span class="p">[</span><span class="s2">&quot;PHENO&quot;</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -572,7 +523,7 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[11]:</div>
+    <div class="prompt output_prompt">Out[10]:</div>
 
 
 
@@ -591,6 +542,7 @@ body {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Import-individual-CNV">Import individual CNV<a class="anchor-link" href="#Import-individual-CNV">&#182;</a></h2><p>TYPE: 1 is deletion, 3 is duplication</p>
+<p>PHENO: 2 is cases, 1 is controls</p>
 
 </div>
 </div>
@@ -600,7 +552,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">cnv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/swcnv/swcnv.qc6.cnv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cnv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/swcnv/swcnv.qc6.cnv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -613,7 +565,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">cnv</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cnv</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
@@ -646,7 +598,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">cnv</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cnv</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">]]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cnv</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cnv</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">]]</span>
 </pre></div>
 
     </div>
@@ -659,7 +611,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">cnv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cnv</span><span class="p">,</span> <span class="n">pheno</span><span class="p">[[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;PHENO&quot;</span><span class="p">]],</span> <span class="n">how</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s2">&quot;FID&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cnv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">cnv</span><span class="p">,</span> <span class="n">pheno</span><span class="p">[[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;PHENO&quot;</span><span class="p">]],</span> <span class="n">how</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s2">&quot;FID&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -672,7 +624,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">cnv</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cnv</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -778,7 +730,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">cnv</span><span class="p">[</span><span class="s2">&quot;PHENO&quot;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">cnv</span><span class="p">[</span><span class="s2">&quot;PHENO&quot;</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -811,7 +763,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">cnv</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;BP2&quot;</span><span class="p">,</span> <span class="s2">&quot;TYPE&quot;</span><span class="p">,</span> <span class="s2">&quot;PHENO&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cnv</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;BP2&quot;</span><span class="p">,</span> <span class="s2">&quot;TYPE&quot;</span><span class="p">,</span> <span class="s2">&quot;PHENO&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
@@ -844,7 +796,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">dele</span> <span class="o">=</span> <span class="n">cnv</span><span class="p">[</span><span class="n">cnv</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dele</span> <span class="o">=</span> <span class="n">cnv</span><span class="p">[</span><span class="n">cnv</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
 <span class="n">dup</span> <span class="o">=</span> <span class="n">cnv</span><span class="p">[</span><span class="n">cnv</span><span class="p">[</span><span class="s2">&quot;TYPE&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">]</span>
 </pre></div>
 
@@ -858,7 +810,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">dele</span> <span class="o">=</span> <span class="n">dele</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;BP1&quot;</span><span class="p">,</span> <span class="s2">&quot;BP2&quot;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dele</span> <span class="o">=</span> <span class="n">dele</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;BP1&quot;</span><span class="p">,</span> <span class="s2">&quot;BP2&quot;</span><span class="p">])</span>
 <span class="n">dup</span> <span class="o">=</span> <span class="n">dup</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;BP1&quot;</span><span class="p">,</span> <span class="s2">&quot;BP2&quot;</span><span class="p">])</span>
 </pre></div>
 
@@ -869,10 +821,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">dup</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dele</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -885,7 +837,7 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[21]:</div>
+    <div class="prompt output_prompt">Out[35]:</div>
 
 
 
@@ -918,49 +870,49 @@ body {
   </thead>
   <tbody>
     <tr>
-      <th>6229</th>
-      <td>PT-ERQ6</td>
+      <th>7081</th>
+      <td>PT-L1HP</td>
       <td>1</td>
-      <td>768448</td>
-      <td>894573</td>
-      <td>3</td>
+      <td>1106784</td>
+      <td>1220136</td>
+      <td>1</td>
       <td>2</td>
     </tr>
     <tr>
-      <th>746</th>
-      <td>PT-8UXN</td>
+      <th>7082</th>
+      <td>PT-L1HP</td>
       <td>1</td>
-      <td>824136</td>
-      <td>1017216</td>
-      <td>3</td>
+      <td>1307872</td>
+      <td>1450947</td>
+      <td>1</td>
       <td>2</td>
     </tr>
     <tr>
-      <th>336</th>
-      <td>PT-8TWI</td>
+      <th>267</th>
+      <td>PT-8TK1</td>
       <td>1</td>
-      <td>1804302</td>
-      <td>2047584</td>
-      <td>3</td>
+      <td>7656503</td>
+      <td>7952404</td>
+      <td>1</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>5258</th>
-      <td>PT-CDFW</td>
+      <th>965</th>
+      <td>PT-8UY5</td>
       <td>1</td>
-      <td>1804302</td>
-      <td>2047584</td>
-      <td>3</td>
+      <td>12841928</td>
+      <td>12998268</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5199</th>
+      <td>PT-BQF5</td>
+      <td>1</td>
+      <td>12841928</td>
+      <td>12998268</td>
+      <td>1</td>
       <td>2</td>
-    </tr>
-    <tr>
-      <th>3231</th>
-      <td>PT-9ZDV</td>
-      <td>1</td>
-      <td>2251160</td>
-      <td>2982621</td>
-      <td>3</td>
-      <td>1</td>
     </tr>
   </tbody>
 </table>
@@ -975,13 +927,66 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="c1"># dele[dele[&quot;FID&quot;].isin(list(set(dele[dele.duplicated(subset = [&quot;FID&quot;, &quot;CHR&quot;])][&quot;FID&quot;].tolist())))]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dele</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">])[[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;PHENO&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[54]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(3086, 2)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">dele</span><span class="p">[</span><span class="s2">&quot;PHENO&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[45]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Counter({1: 1987, 2: 1727})</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -995,10 +1000,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/refGene.clean.gz&quot;</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/refGene.clean.gz&quot;</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1008,10 +1013,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -1024,7 +1029,7 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[23]:</div>
+    <div class="prompt output_prompt">Out[22]:</div>
 
 
 
@@ -1102,10 +1107,147 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[23]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(23343, 4)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_Xmatrix</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">cnv_type</span><span class="p">):</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        SELECT data.FID, data.CHR, data.BP1, data.BP2, data.PHENO, ref_gene.gene, ref_gene.start, ref_gene.end</span>
+<span class="s2">        FROM data LEFT JOIN ref_gene</span>
+<span class="s2">        WHERE data.CHR == ref_gene.CHR</span>
+<span class="s2">        AND (</span>
+<span class="s2">        (data.BP1 &gt;= ref_gene.start AND data.BP1 &lt;= ref_gene.end)</span>
+<span class="s2">        OR</span>
+<span class="s2">        (data.BP2 &gt;= ref_gene.start AND data.BP2 &lt;= ref_gene.end)</span>
+<span class="s2">        OR</span>
+<span class="s2">        (data.BP1 &lt;= ref_gene.start AND data.BP2 &gt;= ref_gene.end)</span>
+<span class="s2">        )</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;PHENO&quot;</span><span class="p">]))</span>
+    <span class="n">fill</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">unique_everseen</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">])):</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">gene</span><span class="p">[</span><span class="mi">4</span><span class="p">:])</span> <span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">res</span><span class="p">[</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">s</span><span class="p">][</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="ow">in</span> <span class="n">tmp</span> <span class="k">else</span> <span class="n">e</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+        <span class="n">fill</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">fill</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">unique_everseen</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">])),</span> <span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">unique_everseen</span><span class="p">(</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">])))</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">X</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">level</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="s2">&quot;FID&quot;</span><span class="p">})</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">X_y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">])[[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;PHENO&quot;</span><span class="p">]],</span> <span class="n">X</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s2">&quot;FID&quot;</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">X_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">X_y</span><span class="p">[</span><span class="s2">&quot;PHENO&quot;</span><span class="p">]))</span>
+    <span class="n">X_y</span><span class="p">[</span><span class="s2">&quot;PHENO&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">X_y</span><span class="p">[</span><span class="s2">&quot;PHENO&quot;</span><span class="p">]]</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">X_y</span><span class="p">[</span><span class="s2">&quot;PHENO&quot;</span><span class="p">]))</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">X_y</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+    <span class="n">X_y</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s2">&quot;gene1&quot;</span><span class="p">:]</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/</span><span class="si">{cnv_type}</span><span class="s2">.X.gz&quot;</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">X_y</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&quot;PHENO&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/</span><span class="si">{cnv_type}</span><span class="s2">.y.gz&quot;</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X_y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Xydel</span> <span class="o">=</span> <span class="n">get_Xmatrix</span><span class="p">(</span><span class="n">dele</span><span class="p">,</span> <span class="s2">&quot;deletion&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Counter({2: 4425, 1: 3962})
+(3086, 23343)
+(3086, 23344)
+(3086, 23345)
+Counter({1: 1664, 2: 1422})
+Counter({0: 1664, 1: 1422})
+       FID  PHENO  gene1  gene2  gene3  gene4  gene5  gene6  gene7  gene8  \
+0  PT-L1HP      1      0      0      0      0      0      0      0      0   
+1  PT-8TK1      0      0      0      0      0      0      0      0      0   
+2  PT-8UY5      0      0      0      0      0      0      0      0      0   
+3  PT-BQF5      1      0      0      0      0      0      0      0      0   
+4  PT-8WFK      0      0      0      0      0      0      0      0      0   
+
+   ...  gene23334  gene23335  gene23336  gene23337  gene23338  gene23339  \
+0  ...          0          0          0          0          0          0   
+1  ...          0          0          0          0          0          0   
+2  ...          0          0          0          0          0          0   
+3  ...          0          0          0          0          0          0   
+4  ...          0          0          0          0          0          0   
+
+   gene23340  gene23341  gene23342  gene23343  
+0          0          0          0          0  
+1          0          0          0          0  
+2          0          0          0          0  
+3          0          0          0          0  
+4          0          0          0          0  
+
+[5 rows x 23345 columns]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[64]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Xydel</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
@@ -1124,7 +1266,7 @@ body {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(23343, 4)</pre>
+<pre>(3086, 23345)</pre>
 </div>
 
 </div>
@@ -1135,70 +1277,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[74]:</div>
+<div class="prompt input_prompt">In&nbsp;[65]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="k">def</span> <span class="nf">get_Xmatrix</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        SELECT data.FID, data.CHR, data.BP1, data.BP2, data.PHENO, ref_gene.gene, ref_gene.start, ref_gene.end</span>
-<span class="s2">        FROM data LEFT JOIN ref_gene</span>
-<span class="s2">        WHERE data.CHR == ref_gene.CHR</span>
-<span class="s2">        AND (</span>
-<span class="s2">        (data.BP1 &gt;= ref_gene.start AND data.BP1 &lt;= ref_gene.end)</span>
-<span class="s2">        OR</span>
-<span class="s2">        (data.BP2 &gt;= ref_gene.start AND data.BP2 &lt;= ref_gene.end)</span>
-<span class="s2">        OR</span>
-<span class="s2">        (data.BP1 &lt;= ref_gene.start AND data.BP2 &gt;= ref_gene.end)</span>
-<span class="s2">        )</span>
-<span class="s2">    &quot;&quot;&quot;</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
-    <span class="n">fill</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">unique_everseen</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">])):</span>
-        <span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">gene</span><span class="p">[</span><span class="mi">4</span><span class="p">:])</span> <span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">res</span><span class="p">[</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">s</span><span class="p">][</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
-        <span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="ow">in</span> <span class="n">tmp</span> <span class="k">else</span> <span class="n">e</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
-        <span class="n">fill</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">fill</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">unique_everseen</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">])),</span> <span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">unique_everseen</span><span class="p">(</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">])))</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span>
-    <span class="k">return</span> <span class="n">X</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[75]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">Xdel</span> <span class="o">=</span> <span class="n">get_Xmatrix</span><span class="p">(</span><span class="n">dele</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[66]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">Xdup</span> <span class="o">=</span> <span class="n">get_Xmatrix</span><span class="p">(</span><span class="n">dup</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[106]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">Xdel</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Xydup</span> <span class="o">=</span> <span class="n">get_Xmatrix</span><span class="p">(</span><span class="n">dup</span><span class="p">,</span> <span class="s2">&quot;duplication&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1211,15 +1293,40 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[106]:</div>
+    <div class="prompt"></div>
 
 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Counter({1: 9984, 2: 9462})
+(4235, 23343)
+(4235, 23344)
+(4235, 23345)
+Counter({1: 2312, 2: 1923})
+Counter({0: 2312, 1: 1923})
+       FID  PHENO  gene1  gene2  gene3  gene4  gene5  gene6  gene7  gene8  \
+0  PT-ERQ6      1      0      0      0      0      0      0      0      0   
+1  PT-8UXN      1      0      0      0      0      0      0      0      0   
+2  PT-8TWI      0      0      0      0      0      0      0      0      0   
+3  PT-CDFW      1      0      0      0      0      0      0      0      0   
+4  PT-9ZDV      0      0      0      0      0      0      0      0      0   
 
+   ...  gene23334  gene23335  gene23336  gene23337  gene23338  gene23339  \
+0  ...          0          0          0          0          0          0   
+1  ...          0          0          0          0          0          0   
+2  ...          0          0          0          0          0          0   
+3  ...          0          0          0          0          0          0   
+4  ...          0          0          0          0          0          0   
 
-<div class="output_text output_subarea output_execute_result">
-<pre>(23343, 3086)</pre>
+   gene23340  gene23341  gene23342  gene23343  
+0          0          0          0          0  
+1          0          0          0          0  
+2          0          0          0          0  
+3          0          0          0          0  
+4          0          0          0          0  
+
+[5 rows x 23345 columns]
+</pre>
 </div>
-
 </div>
 
 </div>
@@ -1228,10 +1335,36 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[107]:</div>
+<div class="prompt input_prompt">In&nbsp;[80]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">Xdup</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">del1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/duplication.X.gz&quot;</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[81]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">del2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/duplication.gz&quot;</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">del1</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
@@ -1244,13 +1377,13 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[107]:</div>
+    <div class="prompt output_prompt">Out[82]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(23343, 4235)</pre>
+<pre>(4235, 23343)</pre>
 </div>
 
 </div>
@@ -1261,14 +1394,66 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[108]:</div>
+<div class="prompt input_prompt">In&nbsp;[83]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="c1"># Xdel.to_csv(f&quot;{cwd}/deletion.gz&quot;, compression = &quot;gzip&quot;, sep = &quot;\t&quot;, header = True, index = True)</span>
-<span class="c1"># Xdup.to_csv(f&quot;{cwd}/duplication.gz&quot;, compression = &quot;gzip&quot;, sep = &quot;\t&quot;, header = True, index = True)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">del2</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[83]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(4235, 23343)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[84]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">del1</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">del2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[84]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -1278,7 +1463,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span>
+<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
     </div>
@@ -1288,7 +1473,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/5e13d2660a8e2737e71d4c23a3a593dae9f50dd2/dsc/20190628_Xmatrix.ipynb"><code>dsc/20190628_Xmatrix.ipynb</code></a> committed by minqiao on Mon Aug 26 18:13:14 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/5e13d2660a8e2737e71d4c23a3a593dae9f50dd2">revision 3, 5e13d26</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob//dsc/20190628_Xmatrix_python_kernel.ipynb"><code>dsc/20190628_Xmatrix_python_kernel.ipynb</code></a> committed by minqiao on Tue Oct 8 19:00:09 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/">revision 0, </a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

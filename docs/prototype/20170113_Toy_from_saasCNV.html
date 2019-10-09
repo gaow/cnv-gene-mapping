@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -250,16 +249,14 @@ body {
   </div><!--/.container -->
 </div><!--/.navbar -->
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Visualize-genome-wide-SCNA-Profile">Visualize genome-wide SCNA Profile<a class="anchor-link" href="#Visualize-genome-wide-SCNA-Profile">&#182;</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
+</div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The figures are generated using R package saasCNV <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4652904/">source of SAAS-CNV</a> and dataset <a href="https://zhangz05.u.hpc.mssm.edu/saasCNV/data/">source of dataset</a>.</p>
 <p><code>analysis/vcfdata.R</code> [R code]
@@ -278,9 +275,7 @@ body {
 </tr>
 <tr>
 <td style="text-align:center">mBAF</td>
-<td>BAF if BAF&gt;=0.5, and = 1-BAF otherwise, or  = \</td>
-<td>BAF − 0.5\</td>
-<td>+0.5</td>
+<td>BAF if BAF&gt;=0.5, and = 1-BAF otherwise, or  = |BAF − 0.5|+0.5</td>
 </tr>
 <tr>
 <td style="text-align:center">log2ratio</td>
