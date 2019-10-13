@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.7" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=dscDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=dscArray;
+            var docs_map=dscArrayMap;
+            var pos=dscArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  $(".toc #toc-level0").append('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>');
+            }
+            // $("#toc-header").hide(); // comment out because it prevents search bar from displaying
+    });
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Gene Mapping with CNV</title>
+
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+        
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+        
+<li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+        
+<li>
+  <a href="../dsc.html">Dsc</a>
+</li>
+        
+<li>
+  <a href="../setup/index.html">Setup</a>
+</li>
+        
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Use-varbvs-result-to-compare">Use <code>varbvs</code> result to compare<a class="anchor-link" href="#Use-varbvs-result-to-compare">&#182;</a></h1><p>plot the varbvs estimates of number of causal genes vs. the true number.</p>
+<p>rank all blocks by the sum of PIPs, and then assess true positive and false positive rates.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span><span class="o">,</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span><span class="o">,</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu&quot;</span><span class="p">)</span>
+<span class="c1"># pipsum = pd.read_csv(f&quot;{cwd}/deletion.genes.block30.for_simu.sample.genes.varbvs.all.blocks.pip.sum.csv&quot;, header = None, names = [pipsum&quot;])</span>
+<span class="n">pipsum</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/deletion.genes.block30.for_simu.sample.genes.block_0_7.SuSiE.L_1.susie.all.blocks.pip.sum.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;pipsum&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">betas_all</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/deletion.genes.block30.for_simu.sample.beta&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/deletion.genes.block30.for_simu.sample.block1.forsimu.index.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">],</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">index</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[58]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>start</th>
+      <th>end</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>14</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>93</td>
+      <td>97</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>164</td>
+      <td>177</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>229</td>
+      <td>236</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>399</td>
+      <td>399</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>785</td>
+      <td>788</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>841</td>
+      <td>841</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>853</td>
+      <td>855</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>891</td>
+      <td>891</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pipsum</span><span class="p">[</span><span class="s2">&quot;real&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">([</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">betas_all</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="n">i</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">index</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">],</span> <span class="n">index</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">])]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pipsum</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[34]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(527, 2)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[108]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pips_varbvs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/deletion.genes.block30.for_simu.sample.genes.varbvs.all.blocks.pip.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;pip_v&quot;</span><span class="p">])</span>
+<span class="n">pips_susie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/deletion.genes.block30.for_simu.sample.genes.block_0_7.SuSiE.L_1.susie.all.blocks.pip.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;pip_s&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[109]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pips</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pips_varbvs</span><span class="p">,</span> <span class="n">pips_susie</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[110]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pips</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[110]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pip_v</th>
+      <th>pip_s</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.072735</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.072734</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.072733</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.072733</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.072732</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[111]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pips</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="p">[</span><span class="n">betas_all</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="n">i</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">index</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">],</span> <span class="n">index</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">])]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]]</span>
+<span class="n">pips</span><span class="p">[</span><span class="s2">&quot;effect&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">item</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="p">[</span><span class="n">betas_all</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="n">i</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">index</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">],</span> <span class="n">index</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">])]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[186]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="mi">1018</span>
+<span class="n">e</span> <span class="o">=</span> <span class="mi">1031</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[187]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">susie</span> <span class="o">=</span> <span class="n">readRDS</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/block_&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="s2">&quot;/deletion.genes.block30.for_simu.sample.genes.block_&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="s2">&quot;.SuSiE.L_1.prior_0p005.susie.rds&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[188]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">susie</span><span class="err">$</span><span class="n">pip</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>0.0414125943017912</li>
+	<li>0.0414125943017912</li>
+	<li>0.289975968087993</li>
+	<li>0.0570180766644023</li>
+	<li>0.0570180766644023</li>
+	<li>0.0570180766644023</li>
+	<li>0.0570180766644023</li>
+	<li>0.0570180766644023</li>
+	<li>0.0570180766644023</li>
+	<li>0.0570180766644023</li>
+	<li>0.0570180766644023</li>
+	<li>0.0570180766644023</li>
+	<li>0.0570180766644023</li>
+	<li>0.0570180766644023</li>
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[190]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">varbvs</span> <span class="o">=</span> <span class="n">readRDS</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/block_&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="s2">&quot;/deletion.genes.block30.for_simu.sample.genes.block_&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="s2">&quot;.varbvs.rds&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[191]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">varbvs</span><span class="err">$</span><span class="n">pip</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<dl class=dl-horizontal>
+	<dt>V1</dt>
+		<dd>0.05000478430492</dd>
+	<dt>V2</dt>
+		<dd>0.050004846862358</dd>
+	<dt>V3</dt>
+		<dd>0.286056673351632</dd>
+	<dt>V4</dt>
+		<dd>0.0616684058224621</dd>
+	<dt>V5</dt>
+		<dd>0.061667427187113</dd>
+	<dt>V6</dt>
+		<dd>0.0616664277804144</dd>
+	<dt>V7</dt>
+		<dd>0.0616654284192911</dd>
+	<dt>V8</dt>
+		<dd>0.0616644489115419</dd>
+	<dt>V9</dt>
+		<dd>0.0616635076210608</dd>
+	<dt>V10</dt>
+		<dd>0.061662621066815</dd>
+	<dt>V11</dt>
+		<dd>0.0616618035457723</dd>
+	<dt>V12</dt>
+		<dd>0.0616610667706282</dd>
+	<dt>V13</dt>
+		<dd>0.0616604195137571</dd>
+	<dt>V14</dt>
+		<dd>0.0616598672492982</dd>
+</dl>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[112]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pips</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">428</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[112]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pip_v</th>
+      <th>pip_s</th>
+      <th>beta</th>
+      <th>effect</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.072735</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.072734</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.072733</td>
+      <td>0.0</td>
+      <td>0.791109</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.072733</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.072732</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <td>423</td>
+      <td>0.223754</td>
+      <td>0.2</td>
+      <td>-0.000000</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>424</td>
+      <td>0.223792</td>
+      <td>0.2</td>
+      <td>0.000000</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>425</td>
+      <td>0.223857</td>
+      <td>0.2</td>
+      <td>1.643100</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>426</td>
+      <td>0.223914</td>
+      <td>0.2</td>
+      <td>0.000000</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>427</td>
+      <td>0.223937</td>
+      <td>0.2</td>
+      <td>0.000000</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>428 rows × 4 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[62]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pips</span><span class="p">[</span><span class="n">pips</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[62]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pip</th>
+      <th>effect</th>
+      <th>beta</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+      <td>0.000000e+00</td>
+      <td>1</td>
+      <td>0.791109</td>
+    </tr>
+    <tr>
+      <td>23</td>
+      <td>3.554002e-11</td>
+      <td>1</td>
+      <td>0.985360</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>2.000000e-01</td>
+      <td>1</td>
+      <td>1.754288</td>
+    </tr>
+    <tr>
+      <td>28</td>
+      <td>2.000000e-01</td>
+      <td>1</td>
+      <td>0.010811</td>
+    </tr>
+    <tr>
+      <td>34</td>
+      <td>0.000000e+00</td>
+      <td>1</td>
+      <td>0.173688</td>
+    </tr>
+    <tr>
+      <td>91</td>
+      <td>0.000000e+00</td>
+      <td>1</td>
+      <td>0.621799</td>
+    </tr>
+    <tr>
+      <td>108</td>
+      <td>0.000000e+00</td>
+      <td>1</td>
+      <td>0.957889</td>
+    </tr>
+    <tr>
+      <td>145</td>
+      <td>0.000000e+00</td>
+      <td>1</td>
+      <td>1.057356</td>
+    </tr>
+    <tr>
+      <td>160</td>
+      <td>0.000000e+00</td>
+      <td>1</td>
+      <td>0.945642</td>
+    </tr>
+    <tr>
+      <td>249</td>
+      <td>0.000000e+00</td>
+      <td>1</td>
+      <td>0.816182</td>
+    </tr>
+    <tr>
+      <td>262</td>
+      <td>1.000000e+00</td>
+      <td>1</td>
+      <td>1.834466</td>
+    </tr>
+    <tr>
+      <td>272</td>
+      <td>8.151442e-02</td>
+      <td>1</td>
+      <td>0.924102</td>
+    </tr>
+    <tr>
+      <td>273</td>
+      <td>8.151442e-02</td>
+      <td>1</td>
+      <td>1.211900</td>
+    </tr>
+    <tr>
+      <td>293</td>
+      <td>5.826409e-02</td>
+      <td>1</td>
+      <td>1.663527</td>
+    </tr>
+    <tr>
+      <td>347</td>
+      <td>0.000000e+00</td>
+      <td>1</td>
+      <td>1.538067</td>
+    </tr>
+    <tr>
+      <td>355</td>
+      <td>0.000000e+00</td>
+      <td>1</td>
+      <td>0.767198</td>
+    </tr>
+    <tr>
+      <td>358</td>
+      <td>1.000000e+00</td>
+      <td>1</td>
+      <td>0.230637</td>
+    </tr>
+    <tr>
+      <td>369</td>
+      <td>1.000000e-01</td>
+      <td>1</td>
+      <td>1.597756</td>
+    </tr>
+    <tr>
+      <td>375</td>
+      <td>0.000000e+00</td>
+      <td>1</td>
+      <td>-0.110630</td>
+    </tr>
+    <tr>
+      <td>397</td>
+      <td>2.666116e-02</td>
+      <td>1</td>
+      <td>0.661771</td>
+    </tr>
+    <tr>
+      <td>417</td>
+      <td>2.666116e-02</td>
+      <td>1</td>
+      <td>0.881230</td>
+    </tr>
+    <tr>
+      <td>425</td>
+      <td>2.000000e-01</td>
+      <td>1</td>
+      <td>1.643100</td>
+    </tr>
+    <tr>
+      <td>449</td>
+      <td>0.000000e+00</td>
+      <td>1</td>
+      <td>0.915124</td>
+    </tr>
+    <tr>
+      <td>517</td>
+      <td>5.000000e-01</td>
+      <td>1</td>
+      <td>1.330594</td>
+    </tr>
+    <tr>
+      <td>564</td>
+      <td>4.999972e-02</td>
+      <td>1</td>
+      <td>2.034686</td>
+    </tr>
+    <tr>
+      <td>570</td>
+      <td>4.999972e-02</td>
+      <td>1</td>
+      <td>0.846691</td>
+    </tr>
+    <tr>
+      <td>576</td>
+      <td>4.999972e-02</td>
+      <td>1</td>
+      <td>0.710309</td>
+    </tr>
+    <tr>
+      <td>596</td>
+      <td>0.000000e+00</td>
+      <td>1</td>
+      <td>0.829328</td>
+    </tr>
+    <tr>
+      <td>612</td>
+      <td>0.000000e+00</td>
+      <td>1</td>
+      <td>1.430204</td>
+    </tr>
+    <tr>
+      <td>635</td>
+      <td>5.000000e-01</td>
+      <td>1</td>
+      <td>1.362473</td>
+    </tr>
+    <tr>
+      <td>670</td>
+      <td>5.000000e-01</td>
+      <td>1</td>
+      <td>1.286499</td>
+    </tr>
+    <tr>
+      <td>671</td>
+      <td>5.000000e-01</td>
+      <td>1</td>
+      <td>0.537448</td>
+    </tr>
+    <tr>
+      <td>677</td>
+      <td>5.275780e-13</td>
+      <td>1</td>
+      <td>0.983327</td>
+    </tr>
+    <tr>
+      <td>741</td>
+      <td>8.172701e-01</td>
+      <td>1</td>
+      <td>0.980605</td>
+    </tr>
+    <tr>
+      <td>758</td>
+      <td>1.428571e-01</td>
+      <td>1</td>
+      <td>0.334135</td>
+    </tr>
+    <tr>
+      <td>759</td>
+      <td>1.428571e-01</td>
+      <td>1</td>
+      <td>1.470975</td>
+    </tr>
+    <tr>
+      <td>762</td>
+      <td>5.000000e-01</td>
+      <td>1</td>
+      <td>0.990921</td>
+    </tr>
+    <tr>
+      <td>780</td>
+      <td>9.005711e-01</td>
+      <td>1</td>
+      <td>1.226331</td>
+    </tr>
+    <tr>
+      <td>795</td>
+      <td>1.000000e-01</td>
+      <td>1</td>
+      <td>1.808548</td>
+    </tr>
+    <tr>
+      <td>825</td>
+      <td>1.000000e+00</td>
+      <td>1</td>
+      <td>1.198930</td>
+    </tr>
+    <tr>
+      <td>845</td>
+      <td>3.333333e-02</td>
+      <td>1</td>
+      <td>0.745585</td>
+    </tr>
+    <tr>
+      <td>858</td>
+      <td>3.333333e-02</td>
+      <td>1</td>
+      <td>1.448067</td>
+    </tr>
+    <tr>
+      <td>877</td>
+      <td>3.333333e-01</td>
+      <td>1</td>
+      <td>0.502539</td>
+    </tr>
+    <tr>
+      <td>904</td>
+      <td>6.226122e-02</td>
+      <td>1</td>
+      <td>1.923951</td>
+    </tr>
+    <tr>
+      <td>908</td>
+      <td>6.226122e-02</td>
+      <td>1</td>
+      <td>1.485713</td>
+    </tr>
+    <tr>
+      <td>932</td>
+      <td>1.250000e-01</td>
+      <td>1</td>
+      <td>0.959896</td>
+    </tr>
+    <tr>
+      <td>962</td>
+      <td>0.000000e+00</td>
+      <td>1</td>
+      <td>0.656905</td>
+    </tr>
+    <tr>
+      <td>980</td>
+      <td>1.000000e+00</td>
+      <td>1</td>
+      <td>1.744738</td>
+    </tr>
+    <tr>
+      <td>1009</td>
+      <td>2.500000e-01</td>
+      <td>1</td>
+      <td>2.174273</td>
+    </tr>
+    <tr>
+      <td>1020</td>
+      <td>2.899760e-01</td>
+      <td>1</td>
+      <td>0.605252</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="FDR">FDR<a class="anchor-link" href="#FDR">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pips_cutoff</span> <span class="o">=</span> <span class="n">pips</span><span class="p">[</span><span class="n">pips</span><span class="p">[</span><span class="s2">&quot;pip&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pips_cutoff</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[28]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pip</th>
+      <th>effect</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>23</td>
+      <td>3.554002e-11</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>24</td>
+      <td>2.000000e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>2.000000e-01</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>26</td>
+      <td>2.000000e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>27</td>
+      <td>2.000000e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>28</td>
+      <td>2.000000e-01</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>50</td>
+      <td>1.000000e+00</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>72</td>
+      <td>3.333333e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>73</td>
+      <td>3.333333e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>74</td>
+      <td>3.333333e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>172</td>
+      <td>1.000000e+00</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>175</td>
+      <td>5.000000e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>176</td>
+      <td>5.000000e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>177</td>
+      <td>1.000000e+00</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>183</td>
+      <td>1.000000e+00</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>207</td>
+      <td>1.823430e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>208</td>
+      <td>6.749375e-02</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>209</td>
+      <td>8.483364e-02</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>210</td>
+      <td>1.030262e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>211</td>
+      <td>1.030262e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>212</td>
+      <td>6.590513e-02</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>213</td>
+      <td>1.311240e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>214</td>
+      <td>1.311240e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>215</td>
+      <td>1.311240e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>216</td>
+      <td>4.517063e-02</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>217</td>
+      <td>4.517063e-02</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>218</td>
+      <td>4.517063e-02</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>219</td>
+      <td>4.517063e-02</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>220</td>
+      <td>4.517063e-02</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>221</td>
+      <td>4.964926e-02</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>222</td>
+      <td>4.964926e-02</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>223</td>
+      <td>4.964926e-02</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>224</td>
+      <td>4.964926e-02</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>225</td>
+      <td>1.136387e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>226</td>
+      <td>1.009196e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>227</td>
+      <td>2.600720e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>228</td>
+      <td>1.009196e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>235</td>
+      <td>3.333333e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>236</td>
+      <td>3.333333e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>237</td>
+      <td>3.333333e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>239</td>
+      <td>2.198043e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>240</td>
+      <td>7.801957e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>241</td>
+      <td>6.550735e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>242</td>
+      <td>2.391489e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>243</td>
+      <td>1.057776e-01</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>253</td>
+      <td>1.000000e+00</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>262</td>
+      <td>1.000000e+00</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>264</td>
+      <td>8.151442e-02</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>265</td>
+      <td>2.332250e-02</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>266</td>
+      <td>2.332250e-02</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pips_cutoff</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[29]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(961, 2)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">sum</span><span class="p">(</span><span class="n">pips_cutoff</span><span class="p">[</span><span class="s2">&quot;effect&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[30]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>86</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">(</span><span class="n">pips_cutoff</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">pips_cutoff</span><span class="p">[</span><span class="s2">&quot;effect&quot;</span><span class="p">]))</span> <span class="o">/</span> <span class="n">pips_cutoff</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[31]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.9105098855359001</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Power">Power<a class="anchor-link" href="#Power">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pips_cutoff</span><span class="p">[</span><span class="n">pips_cutoff</span><span class="p">[</span><span class="s2">&quot;effect&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">pips</span><span class="p">[</span><span class="s2">&quot;effect&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[32]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.7166666666666667</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pips_cutoff</span><span class="p">[</span><span class="n">pips_cutoff</span><span class="p">[</span><span class="s2">&quot;effect&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[33]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(86, 2)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">pipsum</span><span class="p">[</span><span class="s2">&quot;pipsum&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">9</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">counts</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">pipsum</span><span class="p">[</span><span class="s2">&quot;real&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">pipsum</span><span class="p">[</span><span class="s2">&quot;real&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())}</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="nb">list</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Histogram of number of genes in blocks&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[30]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Text(0.5, 1.0, &#39;Histogram of number of genes in blocks&#39;)</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/dccf0934c7bac62baa1b641afd79888f3defc7b2/dsc/20191009_varbvs_gene_block.ipynb"><code>dsc/20191009_varbvs_gene_block.ipynb</code></a> committed by minqiao on Sun Oct 13 15:08:23 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/dccf0934c7bac62baa1b641afd79888f3defc7b2">revision 1, dccf093</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>

@@ -418,7 +418,7 @@ Sections
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">get_hist_1</span><span class="p">,</span> <span class="n">simulate_1</span><span class="p">,</span> <span class="n">susie_1</span><span class="p">,</span> <span class="n">varbvs_1</span><span class="p">,</span> <span class="n">fisher_1</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">get_hist_1</span><span class="p">,</span> <span class="n">simulate_1</span><span class="p">,</span> <span class="n">susie_1</span><span class="p">,</span> <span class="n">varbvs_1</span><span class="p">,</span> <span class="n">fisher_1</span><span class="p">,</span> <span class="n">pymc3_1</span><span class="p">]</span>
 <span class="c1"># For simulation: get real deletion/duplication CNV data and its block</span>
 <span class="c1"># n_gene_in_block: get_hist: 1, simulate: 20~50, analyze: 1</span>
 <span class="kn">parameter:</span> <span class="n">n_gene_in_block</span> <span class="o">=</span> <span class="mi">1</span>
@@ -788,7 +788,7 @@ Sections
 <div class="prompt input_prompt">In&nbsp;[182]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">susie_2</span><span class="p">,</span> <span class="n">varbvs_2</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">susie_2</span><span class="p">,</span> <span class="n">varbvs_2</span><span class="p">,</span> <span class="n">pymc3_2</span><span class="p">]</span>
 <span class="c1">## R: fread(${_input:[0]}, select = ${_blocks.replace(&#39;_&#39;, &#39;:&#39;)})</span>
 <span class="c1">## similar to fine mapping, create 527 folders and save results for each of them</span>
 <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;{_input[2]:a}&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()]</span><span class="c1">#[:5]</span>
@@ -798,6 +798,28 @@ Sections
     <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">r</span><span class="p">},</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span>
     <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="nb">int</span><span class="p">(</span><span class="s1">&#39;${_blocks}&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]):</span><span class="nb">int</span><span class="p">(</span><span class="s1">&#39;${_blocks}&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])]</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">:</span><span class="n">r</span><span class="p">},</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">pymc3_3</span><span class="p">]</span>
+<span class="kn">parameter:</span> <span class="n">iteration</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="kn">parameter:</span> <span class="n">pymc3_seed</span> <span class="o">=</span> <span class="mi">999</span>
+<span class="kn">input:</span> <span class="n">group_by</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="kn">output:</span> <span class="n">f</span><span class="s2">&quot;{_input[0]:n}.pymc3.gz&quot;</span>
+<span class="kn">python:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span><span class="o">,</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span><span class="o">,</span> <span class="nn">pymc3</span> <span class="kn">as</span> <span class="nn">pm</span><span class="o">,</span> <span class="nn">theano.tensor</span> <span class="kn">as</span> <span class="nn">tt</span>
+    <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">expit</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">:</span><span class="n">r</span><span class="p">},</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;${phenotype_file}&quot;</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -840,10 +862,31 @@ Sections
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">susie_4</span><span class="p">]</span>
+<span class="kn">input:</span> <span class="n">group_by</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span>
+<span class="kn">output:</span> <span class="n">f</span><span class="s2">&quot;{_input[0]:dd}/{_input[0]:bnnn}.susie.all.blocks.pip.csv&quot;</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;{_input[0]:dd}/{_input[0]:bnnn}.susie.all.blocks.pip.sum.csv&quot;</span>
+<span class="kn">R:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;{_input[0]:n}.varbvs.stderr&#39;</span><span class="p">,</span> <span class="n">stdout</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;{_input[0]:n}.varbvs.stdout&#39;</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">:</span><span class="n">r</span><span class="p">,})</span>
+    <span class="n">pips</span> <span class="o">=</span> <span class="n">c</span><span class="p">()</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">files</span><span class="p">)){</span><span class="n">pips</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="n">pips</span><span class="p">,</span> <span class="n">readRDS</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="err">$</span><span class="n">pip</span><span class="p">)}</span>
+    <span class="n">write</span><span class="p">(</span><span class="n">pips</span><span class="p">,</span> <span class="nb">file</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">r</span><span class="p">},</span> <span class="n">ncolumns</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">sapply</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">files</span><span class="p">),</span> <span class="n">function</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="nb">sum</span><span class="p">(</span><span class="n">readRDS</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="err">$</span><span class="n">pip</span><span class="p">))</span>
+    <span class="n">write</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="nb">file</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="n">r</span><span class="p">},</span> <span class="n">ncolumns</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">varbvs_3</span><span class="p">]</span>
 <span class="kn">depends:</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;data.table&quot;</span><span class="p">),</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;reticulate&quot;</span><span class="p">),</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;varbvs&quot;</span><span class="p">)</span>
-<span class="kn">input:</span> <span class="n">group_by</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="kn">output:</span> <span class="n">f</span><span class="s2">&quot;{_input[0]:n}.varbvs.rds&quot;</span>
+<span class="kn">output:</span> <span class="n">f</span><span class="s2">&quot;{_input:n}.varbvs.rds&quot;</span>
 <span class="kn">R:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;{_input[0]:n}.varbvs.stderr&#39;</span><span class="p">,</span> <span class="n">stdout</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;{_input[0]:n}.varbvs.stdout&#39;</span>
     <span class="n">library</span><span class="p">(</span><span class="n">varbvs</span><span class="p">)</span>
     <span class="n">library</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">table</span><span class="p">)</span>
@@ -851,9 +894,31 @@ Sections
     <span class="n">y</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">table</span><span class="p">::</span><span class="n">fread</span><span class="p">(</span><span class="s2">&quot;${phenotype_file}&quot;</span><span class="p">))</span>
     <span class="n">storage</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;double&#39;</span>
     <span class="n">storage</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;double&#39;</span>
-    <span class="n">logodds</span> <span class="o">&lt;-</span> <span class="n">seq</span><span class="p">(</span><span class="o">-</span><span class="n">log10</span><span class="p">(</span><span class="n">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
-    <span class="n">fit</span> <span class="o">&lt;-</span> <span class="n">varbvs</span><span class="p">::</span><span class="n">varbvs</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;binomial&quot;</span><span class="p">,</span> <span class="n">logodds</span> <span class="o">=</span> <span class="n">logodds</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">)</span>
+    <span class="c1"># logodds &lt;- seq(-log10(ncol(X)), 0, length.out = 20)</span>
+    <span class="n">fit</span> <span class="o">&lt;-</span> <span class="n">varbvs</span><span class="p">::</span><span class="n">varbvs</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;binomial&quot;</span><span class="p">,</span> <span class="n">update</span><span class="o">.</span><span class="n">b0</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">)</span>
     <span class="n">saveRDS</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">:</span><span class="n">r</span><span class="p">})</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">varbvs_4</span><span class="p">]</span>
+<span class="kn">input:</span> <span class="n">group_by</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span>
+<span class="kn">output:</span> <span class="n">f</span><span class="s2">&quot;{_input[0]:dd}/{_input[0]:bnnn}.varbvs.all.blocks.pip.csv&quot;</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;{_input[0]:dd}/{_input[0]:bnnn}.varbvs.all.blocks.pip.sum.csv&quot;</span>
+<span class="kn">R:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;{_input[0]:n}.varbvs.stderr&#39;</span><span class="p">,</span> <span class="n">stdout</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;{_input[0]:n}.varbvs.stdout&#39;</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">:</span><span class="n">r</span><span class="p">,})</span>
+    <span class="n">pips</span> <span class="o">=</span> <span class="n">c</span><span class="p">()</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">files</span><span class="p">)){</span><span class="n">pips</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="n">pips</span><span class="p">,</span> <span class="n">readRDS</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="err">$</span><span class="n">pip</span><span class="p">)}</span>
+    <span class="n">write</span><span class="p">(</span><span class="n">pips</span><span class="p">,</span> <span class="nb">file</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">r</span><span class="p">},</span> <span class="n">ncolumns</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">sapply</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">length</span><span class="p">(</span><span class="n">files</span><span class="p">),</span> <span class="n">function</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="nb">sum</span><span class="p">(</span><span class="n">readRDS</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="err">$</span><span class="n">pip</span><span class="p">))</span>
+    <span class="n">write</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="nb">file</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="n">r</span><span class="p">},</span> <span class="n">ncolumns</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1072,7 +1137,7 @@ sos run dsc/20190717_workflow.ipynb analyze:1-2 --genotype_file /home/gaow/GIT/g
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/bea7370fe54ff2965e07a1fa0b7c4a16372c0591/dsc/20190717_workflow.ipynb"><code>dsc/20190717_workflow.ipynb</code></a> committed by minqiao on Thu Sep 19 19:03:56 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/bea7370fe54ff2965e07a1fa0b7c4a16372c0591">revision 38, bea7370</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/dccf0934c7bac62baa1b641afd79888f3defc7b2/dsc/20190717_workflow.ipynb"><code>dsc/20190717_workflow.ipynb</code></a> committed by minqiao on Sun Oct 13 15:08:23 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/dccf0934c7bac62baa1b641afd79888f3defc7b2">revision 39, dccf093</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
