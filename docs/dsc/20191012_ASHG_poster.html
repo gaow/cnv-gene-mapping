@@ -267,7 +267,8 @@ body {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Motivation-and-Aim">Motivation and Aim<a class="anchor-link" href="#Motivation-and-Aim">&#182;</a></h2><ol>
 <li>Genome-wide association studies (GWAS) have limitations: (1) Risk alleles are usually at low frequencies and difficult to detect, (2) most loci have small effect sizes, not likely to be deleterious mutations, (3) causal variants or genes in GWAS loci are often unclear;</li>
-<li>Schizophrenia (SCZ) symptoms: (1) early-onset, usually late adolescence and early adulthood, (2) cognitive impairment/dysfunction, a core feature of SCZ, (3) difficulty in social activities, (4) potential to cause disability;</li>
+<li>CNVs are believed to play a critical role in psychiatric disorders, such as schizophrenia (SCZ) [1];</li>
+<li>The prevalence of SCZ ranges between 0.25% and 0.64% in the United States [2]; symptoms of SCZ include: (1) early-onset, usually late adolescence and early adulthood, (2) cognitive impairment/dysfunction, a core feature of SCZ, (3) difficulty in social activities, (4) potential to cause disability;</li>
 <li>Inspired by statistical fine-mapping of causal variants in linkage-disequilibrium blocks from GWAS, we aim to develop a new approach that exploits large-scale genome-wide CNV data in case-control studies to map genes for psychiatric disorders;</li>
 <li>It can be integrated with other gene-level datasets, e.g. results from exome-sequencing studies.</li>
 </ol>
@@ -320,19 +321,54 @@ $$\text{logit P}(y_i = 1) =\log\big[\frac{\pi_{j}}{1 - \pi_{j}} \big] = \alpha_0
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Simulation-results">Simulation results<a class="anchor-link" href="#Simulation-results">&#182;</a></h2><ol>
+<h2 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h2><ol>
 <li>Use R package <code>varbvs</code> to obtain prior parameters for MCMC method, $\pi = 0.0438$, $\mu = 0.777$ and $\sigma = 0.844$.</li>
 <li>Map the genes for susceptibility in one CNV-gene block using R software packages, <code>SuSiE</code> and <code>varbvs</code>, to obtain posterior inclusion probabilities (PIP) and potentially credible set (CS);</li>
-<li><p>Perform Bayesian Logistic Regression using python package <code>PyMC3</code>.</p>
-
-<pre><code> Block sharing CNV-gene pattern: 
- Block not sharing CNV-gene pattern: </code></pre>
-</li>
+<li>Perform Bayesian Logistic Regression using python package <code>PyMC3</code>.</li>
 </ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>Block example 1 (5 genes, 1 positive effect gene): </li>
+<li><p>Block example 1 (5 genes, 1 positive effect gene):</p>
+
+<pre><code>  sample_ID  phenotype    740 741 742 743 744
+  655 1   0   0   1   0   0
+  774 1   0   0   1   0   0
+  826 1   0   0   1   0   0
+  950 1   0   0   1   0   0
+  1006    1   0   0   1   0   0
+  1011    1   0   0   1   0   0
+  1454    1   0   0   1   0   0
+  1678    1   1   1   1   1   1
+  2079    1   0   0   0   1   0
+  2276    1   0   0   1   0   0
+  2691    1   0   0   1   0   0
+  3187    1   1   1   1   1   1
+  3837    1   0   0   1   0   0
+  4900    1   0   0   1   0   0
+  5713    1   0   0   1   0   0
+  6080    1   1   1   1   1   1
+  6278    1   0   0   1   0   0
+  6368    1   0   0   0   1   0
+  7037    0   0   0   0   1   0
+  7891    0   1   1   1   1   1
+  8321    0   0   0   1   0   0
+  11199   0   0   0   1   0   0
+  12311   0   1   1   1   1   1
+
+  gene index  d_c d_nc    nd_c    nd_nc   p
+  gene_742    16   6690   4   6702    0.011757
+  gene_743    5   6701    3   6703    0.726481
+  gene_744    3   6703    2   6704    1.000000
+  gene_741    3   6703    2   6704    1.000000
+  gene_740    3   6703    2   6704    1.000000</code></pre>
+</li>
 </ul>
-<p>Pattern??? 2by2???</p>
 <table>
 <thead><tr>
 <th style="text-align:center">gene index</th>
@@ -344,35 +380,35 @@ $$\text{logit P}(y_i = 1) =\log\big[\frac{\pi_{j}}{1 - \pi_{j}} \big] = \alpha_0
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">1</td>
+<td style="text-align:center">740</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">0.0442</td>
 <td style="text-align:center">0.0913</td>
 <td style="text-align:center">0.0290</td>
 </tr>
 <tr>
-<td style="text-align:center">2</td>
+<td style="text-align:center">741</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">0.0442</td>
 <td style="text-align:center">0.0913</td>
 <td style="text-align:center">0.0370</td>
 </tr>
 <tr>
-<td style="text-align:center">3</td>
+<td style="text-align:center">742</td>
 <td style="text-align:center">0.9806</td>
 <td style="text-align:center"><strong>0.8173</strong></td>
 <td style="text-align:center"><strong>0.6076</strong></td>
 <td style="text-align:center"><strong>0.4680</strong></td>
 </tr>
 <tr>
-<td style="text-align:center">4</td>
+<td style="text-align:center">743</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">0.0501</td>
 <td style="text-align:center">0.0804</td>
 <td style="text-align:center">0.0255</td>
 </tr>
 <tr>
-<td style="text-align:center">5</td>
+<td style="text-align:center">744</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">0.0442</td>
 <td style="text-align:center">0.0913</td>
@@ -380,8 +416,55 @@ $$\text{logit P}(y_i = 1) =\log\big[\frac{\pi_{j}}{1 - \pi_{j}} \big] = \alpha_0
 </tr>
 </tbody>
 </table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>Block example 2 (14 genes, 2 positive effect genes)</li>
+<li><p>Block example 2 (14 genes, 2 positive effect genes)</p>
+
+<pre><code>  sample_ID   phenotype   1019    1020    1021    1022    1023    1024    1025    1026    1027    1028    1029    1030    1031    1032
+  789  1  1   1   1   1   1   1   1   1   1   1   1   1   1   1
+  1198    1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+  1291    1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+  1748    1   0   0   1   0   0   0   0   0   0   0   0   0   0   0
+  2306    1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+  2377    1   0   0   1   0   0   0   0   0   0   0   0   0   0   0
+  2401    1   0   0   1   0   0   0   0   0   0   0   0   0   0   0
+  3285    1   1   1   0   0   0   0   0   0   0   0   0   0   0   0
+  3477    1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+  3550    1   1   1   0   0   0   0   0   0   0   0   0   0   0   0
+  4497    1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+  4555    1   0   0   1   0   0   0   0   0   0   0   0   0   0   0
+  5394    1   0   0   1   0   0   0   0   0   0   0   0   0   0   0
+  5531    1   0   0   1   0   0   0   0   0   0   0   0   0   0   0
+  6230    1   0   0   1   0   0   0   0   0   0   0   0   0   0   0
+  6390    1   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+  9210    0   1   1   0   0   0   0   0   0   0   0   0   0   0   0
+  9488    0   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+  11470   0   1   1   1   1   1   1   1   1   1   1   1   1   1   1
+  11809   0   1   1   0   0   0   0   0   0   0   0   0   0   0   0
+  12698   0   0   0   1   0   0   0   0   0   0   0   0   0   0   0
+
+  gene index  d_c  d_nc   nd_c  nd_nc p
+  gene_1021   14   6692   3   6703    0.012672
+  gene_1023   7   6699    2   6704    0.179541
+  gene_1024   7   6699    2   6704    0.179541
+  gene_1022   7   6699    2   6704    0.179541
+  gene_1025   7   6699    2   6704    0.179541
+  gene_1027   7   6699    2   6704    0.179541
+  gene_1030   7   6699    2   6704    0.179541
+  gene_1031   7   6699    2   6704    0.179541
+  gene_1032   7   6699    2   6704    0.179541
+  gene_1029   7   6699    2   6704    0.179541
+  gene_1026   7   6699    2   6704    0.179541
+  gene_1028   7   6699    2   6704    0.179541
+  gene_1020   9   6697    4   6702    0.266611
+  gene_1019   9   6697    4   6702    0.266611</code></pre>
+</li>
 </ul>
 <table>
 <thead><tr>
@@ -394,98 +477,98 @@ $$\text{logit P}(y_i = 1) =\log\big[\frac{\pi_{j}}{1 - \pi_{j}} \big] = \alpha_0
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">1</td>
+<td style="text-align:center">1019</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">0.0414</td>
 <td style="text-align:center">0.0500</td>
 <td style="text-align:center">0.0385</td>
 </tr>
 <tr>
-<td style="text-align:center">2</td>
+<td style="text-align:center">1020</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">0.0414</td>
 <td style="text-align:center">0.0500</td>
 <td style="text-align:center">0.0365</td>
 </tr>
 <tr>
-<td style="text-align:center">3</td>
+<td style="text-align:center">1021</td>
 <td style="text-align:center">0.60</td>
 <td style="text-align:center">0.2900</td>
 <td style="text-align:center">0.2861</td>
 <td style="text-align:center">0.3040</td>
 </tr>
 <tr>
-<td style="text-align:center">4</td>
+<td style="text-align:center">1022</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">0.0570</td>
 <td style="text-align:center">0.0617</td>
 <td style="text-align:center">0.0580</td>
 </tr>
 <tr>
-<td style="text-align:center">5</td>
+<td style="text-align:center">1023</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">0.0570</td>
 <td style="text-align:center">0.0617</td>
 <td style="text-align:center">0.0505</td>
 </tr>
 <tr>
-<td style="text-align:center">6</td>
+<td style="text-align:center">1024</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">0.0570</td>
 <td style="text-align:center">0.0617</td>
 <td style="text-align:center">0.0650</td>
 </tr>
 <tr>
-<td style="text-align:center">7</td>
+<td style="text-align:center">1025</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">0.0570</td>
 <td style="text-align:center">0.0617</td>
 <td style="text-align:center">0.0495</td>
 </tr>
 <tr>
-<td style="text-align:center">8</td>
+<td style="text-align:center">1026</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">0.0570</td>
 <td style="text-align:center">0.0617</td>
 <td style="text-align:center">0.0475</td>
 </tr>
 <tr>
-<td style="text-align:center">9</td>
+<td style="text-align:center">1027</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">0.0570</td>
 <td style="text-align:center">0.0617</td>
 <td style="text-align:center">0.0640</td>
 </tr>
 <tr>
-<td style="text-align:center">10</td>
+<td style="text-align:center">1028</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">0.0570</td>
 <td style="text-align:center">0.0617</td>
 <td style="text-align:center">0.0635</td>
 </tr>
 <tr>
-<td style="text-align:center">11</td>
+<td style="text-align:center">1029</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">0.0570</td>
 <td style="text-align:center">0.0617</td>
 <td style="text-align:center">0.0585</td>
 </tr>
 <tr>
-<td style="text-align:center">12</td>
+<td style="text-align:center">1030</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">0.0570</td>
 <td style="text-align:center">0.0617</td>
 <td style="text-align:center">0.0485</td>
 </tr>
 <tr>
-<td style="text-align:center">13</td>
+<td style="text-align:center">1031</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">0.0570</td>
 <td style="text-align:center">0.0617</td>
 <td style="text-align:center">0.0580</td>
 </tr>
 <tr>
-<td style="text-align:center">14</td>
+<td style="text-align:center">1032</td>
 <td style="text-align:center">1.07</td>
 <td style="text-align:center">0.0570</td>
 <td style="text-align:center">0.0617</td>
@@ -493,8 +576,30 @@ $$\text{logit P}(y_i = 1) =\log\big[\frac{\pi_{j}}{1 - \pi_{j}} \big] = \alpha_0
 </tr>
 </tbody>
 </table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>Block example 3 (12 genes, 3 positive effect genes):</li>
+<li><p>Block example 3 (12 genes, 3 positive effect genes):</p>
+
+<pre><code>  gene index  d_c d_nc   nd_c  nd_nc   p
+  gene_671    99  6607    9   6697    1.956916e-20
+  gene_672    99  6607    9   6697    1.956916e-20
+  gene_676    20  6686    0   6706    1.880480e-06
+  gene_678    20  6686    0   6706    1.880480e-06
+  gene_677    20  6686    0   6706    1.880480e-06
+  gene_673    23  6683    5   6701    9.016016e-04
+  gene_674    23  6683    5   6701    9.016016e-04
+  gene_675    23  6683    5   6701    9.016016e-04
+  gene_667    12  6694    2   6704    1.289476e-02
+  gene_668    17  6689    6   6700    3.453722e-02
+  gene_670    17  6689    6   6700    3.453722e-02
+  gene_669    17  6689    6   6700    3.453722e-02</code></pre>
+</li>
 </ul>
 <table>
 <thead><tr>
@@ -507,84 +612,84 @@ $$\text{logit P}(y_i = 1) =\log\big[\frac{\pi_{j}}{1 - \pi_{j}} \big] = \alpha_0
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">1</td>
+<td style="text-align:center">667</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">8.8818e-16</td>
 <td style="text-align:center">0.0435</td>
 <td style="text-align:center">0.0240</td>
 </tr>
 <tr>
-<td style="text-align:center">2</td>
+<td style="text-align:center">668</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">3.3307e-16</td>
 <td style="text-align:center">0.0330</td>
 <td style="text-align:center">0.0195</td>
 </tr>
 <tr>
-<td style="text-align:center">3</td>
+<td style="text-align:center">669</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">3.3307e-16</td>
 <td style="text-align:center">0.0330</td>
 <td style="text-align:center">0.0110</td>
 </tr>
 <tr>
-<td style="text-align:center">4</td>
+<td style="text-align:center">670</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">3.3307e-16</td>
 <td style="text-align:center">0.0330</td>
 <td style="text-align:center">0.0150</td>
 </tr>
 <tr>
-<td style="text-align:center">5</td>
+<td style="text-align:center">671</td>
 <td style="text-align:center">1.2865</td>
 <td style="text-align:center"><strong>0.4999</strong></td>
 <td style="text-align:center">1</td>
 <td style="text-align:center">0.5460</td>
 </tr>
 <tr>
-<td style="text-align:center">6</td>
+<td style="text-align:center">672</td>
 <td style="text-align:center">0.5374</td>
 <td style="text-align:center"><strong>0.4999</strong></td>
 <td style="text-align:center">0.0192</td>
 <td style="text-align:center">0.5185</td>
 </tr>
 <tr>
-<td style="text-align:center">7</td>
+<td style="text-align:center">673</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">7.9936e-15</td>
 <td style="text-align:center">0.0338</td>
 <td style="text-align:center">0.0185</td>
 </tr>
 <tr>
-<td style="text-align:center">8</td>
+<td style="text-align:center">674</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">7.9936e-15</td>
 <td style="text-align:center">0.0338</td>
 <td style="text-align:center">0.0230</td>
 </tr>
 <tr>
-<td style="text-align:center">9</td>
+<td style="text-align:center">675</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">7.9936e-15</td>
 <td style="text-align:center">0.0338</td>
 <td style="text-align:center">0.0300</td>
 </tr>
 <tr>
-<td style="text-align:center">10</td>
+<td style="text-align:center">676</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">5.2757e-13</td>
 <td style="text-align:center">0.0614</td>
 <td style="text-align:center">0.1270</td>
 </tr>
 <tr>
-<td style="text-align:center">11</td>
+<td style="text-align:center">677</td>
 <td style="text-align:center">0</td>
 <td style="text-align:center">5.2757e-13</td>
 <td style="text-align:center">0.0614</td>
 <td style="text-align:center">0.1325</td>
 </tr>
 <tr>
-<td style="text-align:center">12</td>
+<td style="text-align:center">678</td>
 <td style="text-align:center">0.9833</td>
 <td style="text-align:center">5.2757e-13</td>
 <td style="text-align:center">0.0614</td>
@@ -599,7 +704,11 @@ $$\text{logit P}(y_i = 1) =\log\big[\frac{\pi_{j}}{1 - \pi_{j}} \big] = \alpha_0
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Real-data">Real data<a class="anchor-link" href="#Real-data">&#182;</a></h2>
+<h2 id="Reference">Reference<a class="anchor-link" href="#Reference">&#182;</a></h2><ol>
+<li>C. Lowther et al., Genomic Disorders in Psychiatry-What Does the Clinician Need to Know? Current Psychiatry Reports 19 (2017).</li>
+<li>E. Q. Wu et al., Annual prevalence of diagnosed schizophrenia in the USA: a claims data analysis approach. Psychol Med (2006).</li>
+</ol>
+
 </div>
 </div>
 </div>
@@ -618,7 +727,7 @@ $$\text{logit P}(y_i = 1) =\log\big[\frac{\pi_{j}}{1 - \pi_{j}} \big] = \alpha_0
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/dccf0934c7bac62baa1b641afd79888f3defc7b2/dsc/20191012_ASHG_poster.ipynb"><code>dsc/20191012_ASHG_poster.ipynb</code></a> committed by minqiao on Sun Oct 13 15:08:23 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/dccf0934c7bac62baa1b641afd79888f3defc7b2">revision 1, dccf093</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/2c8284ea9dd35638170b572e196f0e43c6adf488/dsc/20191012_ASHG_poster.ipynb"><code>dsc/20191012_ASHG_poster.ipynb</code></a> committed by minqiao on Sun Oct 13 19:03:34 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/2c8284ea9dd35638170b572e196f0e43c6adf488">revision 2, 2c8284e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

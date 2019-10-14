@@ -283,14 +283,14 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span><span class="o">,</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data&quot;</span><span class="p">)</span>
-<span class="n">start</span> <span class="o">=</span> <span class="mi">1858</span>
-<span class="n">end</span> <span class="o">=</span> <span class="mi">1875</span>
+<span class="n">start</span> <span class="o">=</span> <span class="mi">666</span>
+<span class="n">end</span> <span class="o">=</span> <span class="mi">677</span>
 </pre></div>
 
     </div>
@@ -300,7 +300,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">X_file</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;{cwd}/deletion_simu/block_{start}_{end}/deletion.genes.block30.for_simu.sample.genes.block_{start}_{end}.gz&#39;</span>
@@ -315,7 +315,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">fisher</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fisher_f</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -328,7 +328,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
@@ -346,7 +346,7 @@ pip install mkl-service</code></pre>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[22]:</div>
+    <div class="prompt output_prompt">Out[26]:</div>
 
 
 
@@ -380,184 +380,124 @@ pip install mkl-service</code></pre>
   </thead>
   <tbody>
     <tr>
-      <td>283</td>
-      <td>gene_1873</td>
-      <td>7</td>
-      <td>6699</td>
-      <td>0</td>
-      <td>6706</td>
-      <td>0.015601</td>
-      <td>14</td>
-    </tr>
-    <tr>
-      <td>284</td>
-      <td>gene_1872</td>
-      <td>7</td>
-      <td>6699</td>
-      <td>0</td>
-      <td>6706</td>
-      <td>0.015601</td>
-      <td>13</td>
-    </tr>
-    <tr>
-      <td>362</td>
-      <td>gene_1859</td>
-      <td>12</td>
-      <td>6694</td>
-      <td>3</td>
-      <td>6703</td>
-      <td>0.035057</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>365</td>
-      <td>gene_1874</td>
-      <td>10</td>
-      <td>6696</td>
-      <td>2</td>
-      <td>6704</td>
-      <td>0.038490</td>
-      <td>15</td>
-    </tr>
-    <tr>
-      <td>370</td>
-      <td>gene_1869</td>
-      <td>8</td>
-      <td>6698</td>
-      <td>1</td>
-      <td>6705</td>
-      <td>0.039000</td>
-      <td>10</td>
-    </tr>
-    <tr>
-      <td>371</td>
-      <td>gene_1868</td>
-      <td>8</td>
-      <td>6698</td>
-      <td>1</td>
-      <td>6705</td>
-      <td>0.039000</td>
+      <td>36</td>
+      <td>gene_671</td>
+      <td>99</td>
+      <td>6607</td>
       <td>9</td>
-    </tr>
-    <tr>
-      <td>372</td>
-      <td>gene_1867</td>
-      <td>8</td>
-      <td>6698</td>
-      <td>1</td>
-      <td>6705</td>
-      <td>0.039000</td>
-      <td>8</td>
-    </tr>
-    <tr>
-      <td>373</td>
-      <td>gene_1866</td>
-      <td>8</td>
-      <td>6698</td>
-      <td>1</td>
-      <td>6705</td>
-      <td>0.039000</td>
-      <td>7</td>
-    </tr>
-    <tr>
-      <td>374</td>
-      <td>gene_1865</td>
-      <td>8</td>
-      <td>6698</td>
-      <td>1</td>
-      <td>6705</td>
-      <td>0.039000</td>
-      <td>6</td>
-    </tr>
-    <tr>
-      <td>375</td>
-      <td>gene_1864</td>
-      <td>8</td>
-      <td>6698</td>
-      <td>1</td>
-      <td>6705</td>
-      <td>0.039000</td>
-      <td>5</td>
-    </tr>
-    <tr>
-      <td>377</td>
-      <td>gene_1863</td>
-      <td>8</td>
-      <td>6698</td>
-      <td>1</td>
-      <td>6705</td>
-      <td>0.039000</td>
+      <td>6697</td>
+      <td>1.956916e-20</td>
       <td>4</td>
     </tr>
     <tr>
-      <td>387</td>
-      <td>gene_1862</td>
-      <td>8</td>
-      <td>6698</td>
-      <td>1</td>
-      <td>6705</td>
-      <td>0.039000</td>
-      <td>3</td>
+      <td>37</td>
+      <td>gene_672</td>
+      <td>99</td>
+      <td>6607</td>
+      <td>9</td>
+      <td>6697</td>
+      <td>1.956916e-20</td>
+      <td>5</td>
     </tr>
     <tr>
-      <td>390</td>
-      <td>gene_1871</td>
-      <td>8</td>
-      <td>6698</td>
-      <td>1</td>
-      <td>6705</td>
-      <td>0.039000</td>
-      <td>12</td>
+      <td>102</td>
+      <td>gene_676</td>
+      <td>20</td>
+      <td>6686</td>
+      <td>0</td>
+      <td>6706</td>
+      <td>1.880480e-06</td>
+      <td>9</td>
     </tr>
     <tr>
-      <td>403</td>
-      <td>gene_1870</td>
-      <td>8</td>
-      <td>6698</td>
-      <td>1</td>
-      <td>6705</td>
-      <td>0.039000</td>
+      <td>103</td>
+      <td>gene_678</td>
+      <td>20</td>
+      <td>6686</td>
+      <td>0</td>
+      <td>6706</td>
+      <td>1.880480e-06</td>
       <td>11</td>
     </tr>
     <tr>
-      <td>1616</td>
-      <td>gene_1860</td>
-      <td>1</td>
-      <td>6705</td>
-      <td>1</td>
-      <td>6705</td>
-      <td>1.000000</td>
-      <td>1</td>
+      <td>104</td>
+      <td>gene_677</td>
+      <td>20</td>
+      <td>6686</td>
+      <td>0</td>
+      <td>6706</td>
+      <td>1.880480e-06</td>
+      <td>10</td>
     </tr>
     <tr>
-      <td>1617</td>
-      <td>gene_1861</td>
-      <td>2</td>
-      <td>6704</td>
-      <td>2</td>
-      <td>6704</td>
-      <td>1.000000</td>
-      <td>2</td>
+      <td>139</td>
+      <td>gene_673</td>
+      <td>23</td>
+      <td>6683</td>
+      <td>5</td>
+      <td>6701</td>
+      <td>9.016016e-04</td>
+      <td>6</td>
     </tr>
     <tr>
-      <td>1618</td>
-      <td>gene_1875</td>
-      <td>3</td>
-      <td>6703</td>
-      <td>2</td>
-      <td>6704</td>
-      <td>1.000000</td>
-      <td>16</td>
+      <td>140</td>
+      <td>gene_674</td>
+      <td>23</td>
+      <td>6683</td>
+      <td>5</td>
+      <td>6701</td>
+      <td>9.016016e-04</td>
+      <td>7</td>
     </tr>
     <tr>
-      <td>1619</td>
-      <td>gene_1876</td>
-      <td>3</td>
-      <td>6703</td>
+      <td>141</td>
+      <td>gene_675</td>
+      <td>23</td>
+      <td>6683</td>
+      <td>5</td>
+      <td>6701</td>
+      <td>9.016016e-04</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>282</td>
+      <td>gene_667</td>
+      <td>12</td>
+      <td>6694</td>
       <td>2</td>
       <td>6704</td>
-      <td>1.000000</td>
+      <td>1.289476e-02</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>345</td>
+      <td>gene_668</td>
       <td>17</td>
+      <td>6689</td>
+      <td>6</td>
+      <td>6700</td>
+      <td>3.453722e-02</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>346</td>
+      <td>gene_670</td>
+      <td>17</td>
+      <td>6689</td>
+      <td>6</td>
+      <td>6700</td>
+      <td>3.453722e-02</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>348</td>
+      <td>gene_669</td>
+      <td>17</td>
+      <td>6689</td>
+      <td>6</td>
+      <td>6700</td>
+      <td>3.453722e-02</td>
+      <td>2</td>
     </tr>
   </tbody>
 </table>
@@ -9890,7 +9830,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/dccf0934c7bac62baa1b641afd79888f3defc7b2/dsc/20191005_PyMC3_SpikeSlab.ipynb"><code>dsc/20191005_PyMC3_SpikeSlab.ipynb</code></a> committed by minqiao on Sun Oct 13 15:08:23 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/dccf0934c7bac62baa1b641afd79888f3defc7b2">revision 3, dccf093</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/2c8284ea9dd35638170b572e196f0e43c6adf488/dsc/20191005_PyMC3_SpikeSlab.ipynb"><code>dsc/20191005_PyMC3_SpikeSlab.ipynb</code></a> committed by minqiao on Sun Oct 13 19:03:34 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/2c8284ea9dd35638170b572e196f0e43c6adf488">revision 4, 2c8284e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
