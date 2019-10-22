@@ -248,130 +248,75 @@ body {
       </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Evaluate-copy-model-simulation">Evaluate copy model simulation<a class="anchor-link" href="#Evaluate-copy-model-simulation">&#182;</a></h1>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">cbind</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="nf">matrix</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="m">900</span><span class="p">),</span> <span class="n">ncol</span> <span class="o">=</span> <span class="m">9</span><span class="p">))</span>
-<span class="n">beta</span> <span class="o">&lt;-</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span>
-<span class="n">beta[1]</span> <span class="o">&lt;-</span> <span class="m">3</span>
-<span class="n">beta[5]</span> <span class="o">&lt;-</span> <span class="m">-4</span>
-<span class="n">beta[8]</span> <span class="o">&lt;-</span> <span class="m">2</span>
-<span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="m">100</span><span class="p">,</span> <span class="n">x</span> <span class="o">%*%</span> <span class="n">beta</span><span class="p">)</span>
-</pre></div>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># A very short script demonstrating the use of bayes.logistic to</span>
+<span class="c1"># compute posterior statistics for a simple &quot;single effect&quot; Bayesian</span>
+<span class="c1"># logistic regression model.</span>
 
-    </div>
-</div>
-</div>
+<span class="c1"># SCRIPT PARAMETERS</span>
+<span class="c1"># -----------------</span>
+<span class="c1"># These are the data simulation parameters: the data are simulated</span>
+<span class="c1"># from a single-effect regression model with intercept b0 and nonzero</span>
+<span class="c1"># effect with regression coefficient b1; that is, the success rate for</span>
+<span class="c1"># outcome Y is sigmoid(b0 + b*X).</span>
+<span class="n">n</span>  <span class="o">&lt;-</span> <span class="mi">75</span>
+<span class="n">p</span>  <span class="o">&lt;-</span> <span class="mi">20</span>
+<span class="n">b0</span> <span class="o">&lt;-</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">b</span>  <span class="o">&lt;-</span> <span class="mf">1.75</span>
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">head</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
+<span class="c1"># These script parameters specify the prior on the regression</span>
+<span class="c1"># coefficient: mu0 is the prior mean, and s0 is the prior standard</span>
+<span class="c1"># deviation. (The intercept is assigned a &quot;flat&quot; prior.)</span>
+<span class="n">p0</span>  <span class="o">&lt;-</span> <span class="n">rep</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">p</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+<span class="n">mu0</span> <span class="o">&lt;-</span> <span class="mi">1</span>
+<span class="n">s0</span>  <span class="o">&lt;-</span> <span class="mi">4</span>
 
-    </div>
-</div>
-</div>
+<span class="c1"># SET UP ENVIRONMENT</span>
+<span class="c1"># ------------------</span>
+<span class="c1"># Load some function definitions.</span>
+<span class="n">source</span><span class="p">(</span><span class="s2">&quot;../code/misc.R&quot;</span><span class="p">)</span>
+<span class="n">source</span><span class="p">(</span><span class="s2">&quot;../code/bayes.R&quot;</span><span class="p">)</span>
 
-<div class="output_wrapper">
-<div class="output">
+<span class="c1"># Initialize the sequence of pseudorandom numbers.</span>
+<span class="nb">set</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
+<span class="c1"># SIMULATE DATA</span>
+<span class="c1"># -------------</span>
+<span class="c1"># Simulate p covariates i.i.d. from the standard normal, then draw</span>
+<span class="c1"># samples y from a logistic regression in which the probability of</span>
+<span class="c1"># success is given by sigmoid(b0 + x*b).</span>
+<span class="n">cat</span><span class="p">(</span><span class="s2">&quot;Simulating data.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">&lt;-</span> <span class="n">matrix</span><span class="p">(</span><span class="n">rnorm</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">p</span><span class="p">),</span><span class="n">n</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">&lt;-</span> <span class="n">scale</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">center</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">,</span><span class="n">scale</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">)</span>
+<span class="n">u</span> <span class="o">&lt;-</span> <span class="n">b0</span> <span class="o">+</span> <span class="n">b</span><span class="o">*</span><span class="n">X</span><span class="p">[,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">numeric</span><span class="p">(</span><span class="n">runif</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
 
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-<table>
-<tbody>
-	<tr><td>1         </td><td>-0.1993719</td><td>-0.3380134</td><td>-0.3718766</td><td>-0.1139068</td><td> 0.2184884</td><td> 0.5202742</td><td> 0.3798534</td><td>-1.0355494</td><td> 1.6067079</td></tr>
-	<tr><td>1         </td><td>-0.7490309</td><td> 0.6765961</td><td>-0.9647809</td><td> 0.3371101</td><td> 0.4808287</td><td> 1.1579994</td><td>-2.1064309</td><td> 0.4074590</td><td> 1.0400015</td></tr>
-	<tr><td>1         </td><td>-1.0260294</td><td> 1.5832566</td><td> 2.0059047</td><td> 0.5978197</td><td> 0.2323485</td><td>-0.6530632</td><td>-0.2954355</td><td> 0.3031091</td><td>-1.1449568</td></tr>
-	<tr><td>1         </td><td> 0.9490308</td><td> 1.4486723</td><td>-0.1787185</td><td> 1.3029096</td><td>-0.4529281</td><td> 0.2118851</td><td>-1.0253368</td><td>-1.5020655</td><td> 0.3976446</td></tr>
-	<tr><td>1         </td><td> 0.2560417</td><td>-0.4478347</td><td> 0.7166044</td><td> 1.1510051</td><td>-3.0569579</td><td>-1.0651925</td><td>-0.2137227</td><td>-0.9616635</td><td>-1.2137978</td></tr>
-	<tr><td>1         </td><td>-0.8251835</td><td> 0.4649516</td><td>-0.6558799</td><td>-0.3858947</td><td> 0.5064666</td><td>-0.3740635</td><td>-1.4468912</td><td> 0.7859481</td><td> 0.5657902</td></tr>
-</tbody>
-</table>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="nf">length</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-<ol class=list-inline>
-	<li>100</li>
-	<li>10</li>
-</ol>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-100
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">reticulate</span><span class="p">)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">susieR</span><span class="p">)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">BoomSpikeSlab</span><span class="p">)</span>
+<span class="c1"># COMPUTE POSTERIOR STATTISTICS</span>
+<span class="c1"># -----------------------------</span>
+<span class="c1"># Compute the posterior inclusion probabilities, and the posterior</span>
+<span class="c1"># means and standard deviations of the coefficients in the logistic</span>
+<span class="c1"># regression.</span>
+<span class="n">cat</span><span class="p">(</span><span class="s2">&quot;Performing Bayesian computations.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">out</span>  <span class="o">&lt;-</span> <span class="n">bayes</span><span class="o">.</span><span class="n">logistic</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">p0</span><span class="p">,</span><span class="n">mu0</span><span class="p">,</span><span class="n">s0</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">&lt;-</span> <span class="n">order</span><span class="p">(</span><span class="n">out</span><span class="err">$</span><span class="n">p1</span><span class="p">,</span><span class="n">decreasing</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">rows</span><span class="p">,],</span><span class="n">digits</span> <span class="o">=</span> <span class="mi">3</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -388,128 +333,23 @@ body {
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>Loading required package: Boom
-Loading required package: MASS
-
-Attaching package: ‘Boom’
-
-The following object is masked from ‘package:stats’:
-
-    rWishart
-
-
-Attaching package: ‘BoomSpikeSlab’
-
-The following object is masked from ‘package:stats’:
-
-    knots
-
-</pre>
+<pre>Warning message in file(filename, &#34;r&#34;, encoding = encoding):
+“cannot open file &#39;../code/misc.R&#39;: No such file or directory”</pre>
 </div>
 </div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">prior</span> <span class="o">&lt;-</span> <span class="nf">SpikeSlabPrior</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
-<span class="n">expected.model.size</span> <span class="o">=</span> <span class="m">3</span><span class="p">,</span> <span class="c1"># expect 3 nonzero predictors</span>
-<span class="n">prior.df</span> <span class="o">=</span> <span class="m">.01</span><span class="p">,</span> <span class="c1"># weaker prior than the default</span>
-<span class="n">prior.information.weight</span> <span class="o">=</span> <span class="m">.01</span><span class="p">,</span>
-<span class="n">diagonal.shrinkage</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> <span class="c1"># use Zellner&#39;s prior</span>
-<span class="n">optional.coefficient.estimate</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span> <span class="c1"># shrink to zero</span>
-<span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">length</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">mu</span><span class="p">)</span> <span class="o">==</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
 
 <div class="output_area">
 
     <div class="prompt"></div>
 
 
+<div class="output_subarea output_text output_error">
+<pre>
+Error in file(filename, &#34;r&#34;, encoding = encoding): cannot open the connection
+Traceback:
 
-<div class="output_html rendered_html output_subarea ">
-TRUE
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="c1"># x &lt;- x[, -1]</span>
-<span class="c1"># length(prior$mu) == ncol(x)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">model</span> <span class="o">&lt;-</span> <span class="nf">lm.spike</span><span class="p">(</span><span class="n">y</span> <span class="o">~</span> <span class="n">x</span><span class="m">-1</span><span class="p">,</span> <span class="n">niter</span> <span class="o">=</span> <span class="m">1000</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="n">prior</span><span class="p">,</span> <span class="n">error.distribution</span> <span class="o">=</span> <span class="s">&quot;gaussian&quot;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>=-=-=-=-= Iteration 0 Wed Sep 18 14:44:08 2019 =-=-=-=-=
-=-=-=-=-= Iteration 100 Wed Sep 18 14:44:08 2019 =-=-=-=-=
-=-=-=-=-= Iteration 200 Wed Sep 18 14:44:08 2019 =-=-=-=-=
-=-=-=-=-= Iteration 300 Wed Sep 18 14:44:08 2019 =-=-=-=-=
-=-=-=-=-= Iteration 400 Wed Sep 18 14:44:09 2019 =-=-=-=-=
-=-=-=-=-= Iteration 500 Wed Sep 18 14:44:09 2019 =-=-=-=-=
-=-=-=-=-= Iteration 600 Wed Sep 18 14:44:09 2019 =-=-=-=-=
-=-=-=-=-= Iteration 700 Wed Sep 18 14:44:09 2019 =-=-=-=-=
-=-=-=-=-= Iteration 800 Wed Sep 18 14:44:09 2019 =-=-=-=-=
-=-=-=-=-= Iteration 900 Wed Sep 18 14:44:09 2019 =-=-=-=-=
-</pre>
+1. source(&#34;../code/misc.R&#34;)
+2. file(filename, &#34;r&#34;, encoding = encoding)</pre>
 </div>
 </div>
 
@@ -522,7 +362,7 @@ TRUE
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>
+<div class=" highlight hl-sos"><pre><span></span>
 </pre></div>
 
     </div>
@@ -532,7 +372,7 @@ TRUE
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob//dsc/20190828_R_test.ipynb"><code>dsc/20190828_R_test.ipynb</code></a> committed by minqiao on Tue Oct 22 14:02:10 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/">revision 0, </a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob//dsc/20191022_logistic_single_effect.ipynb"><code>dsc/20191022_logistic_single_effect.ipynb</code></a> committed by minqiao on Tue Oct 22 14:02:10 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/">revision 0, </a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
