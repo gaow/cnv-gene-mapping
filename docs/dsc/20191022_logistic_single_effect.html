@@ -248,6 +248,229 @@ body {
       </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Single-effect-using-logistic">Single effect using <code>logistic</code><a class="anchor-link" href="#Single-effect-using-logistic">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># library(data.table)</span>
+<span class="n">block</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="mi">2092</span><span class="p">,</span> <span class="mi">2099</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">X</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">table</span><span class="p">::</span><span class="n">fread</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="s2">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/block_&quot;</span><span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;_&quot;</span> <span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> 
+                                       <span class="s2">&quot;/deletion.genes.block30.for_simu.sample.genes.block_&quot;</span><span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;_&quot;</span> <span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;.gz&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">header</span> <span class="o">=</span> <span class="n">F</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">y</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">table</span><span class="p">::</span><span class="n">fread</span><span class="p">(</span><span class="s2">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.y&quot;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">X</span> <span class="o">&lt;-</span> <span class="n">scale</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">center</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">head</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr><th scope=col>V1</th><th scope=col>V2</th><th scope=col>V3</th><th scope=col>V4</th><th scope=col>V5</th><th scope=col>V6</th><th scope=col>V7</th><th scope=col>V8</th></tr></thead>
+<tbody>
+	<tr><td>-0.000745601</td><td>-0.000745601</td><td>-0.003280644</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.002907844</td><td>-0.002907844</td></tr>
+	<tr><td>-0.000745601</td><td>-0.000745601</td><td>-0.003280644</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.002907844</td><td>-0.002907844</td></tr>
+	<tr><td>-0.000745601</td><td>-0.000745601</td><td>-0.003280644</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.002907844</td><td>-0.002907844</td></tr>
+	<tr><td>-0.000745601</td><td>-0.000745601</td><td>-0.003280644</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.002907844</td><td>-0.002907844</td></tr>
+	<tr><td>-0.000745601</td><td>-0.000745601</td><td>-0.003280644</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.002907844</td><td>-0.002907844</td></tr>
+	<tr><td>-0.000745601</td><td>-0.000745601</td><td>-0.003280644</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.002907844</td><td>-0.002907844</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">mu0</span> <span class="o">&lt;-</span> <span class="mf">0.777</span>
+<span class="n">s0</span> <span class="o">&lt;-</span> <span class="mf">0.844</span>
+<span class="n">pi0</span> <span class="o">&lt;-</span> <span class="mf">0.043</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">p</span> <span class="o">&lt;-</span> <span class="n">dim</span><span class="p">(</span><span class="n">X</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">p0</span>  <span class="o">&lt;-</span> <span class="n">rep</span><span class="p">(</span><span class="n">pi0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">source</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/logistic/code/misc.R&quot;</span><span class="p">)</span>
+<span class="n">source</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/logistic/code/bayes.R&quot;</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">&lt;-</span> <span class="n">bayes</span><span class="o">.</span><span class="n">logistic</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">mu0</span><span class="p">,</span> <span class="n">s0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>           p1       mu1        s1
+1 0.002619979 1.4874452 0.5891827
+2 0.002619979 1.4874452 0.5891827
+3 0.840373304 1.4120444 0.3482626
+4 0.049342893 1.1027142 0.3097065
+5 0.049342893 1.1027142 0.3097065
+6 0.049342893 1.1027142 0.3097065
+7 0.003179030 0.9320685 0.3306724
+8 0.003179030 0.9320685 0.3306724
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>          p1       mu1        s1
+1 0.03249232 0.6321483 0.6381504
+2 0.03249232 0.6321483 0.6381504
+3 0.86833204 1.2468894 0.4571144
+4 0.03419099 0.6514828 0.5680370
+5 0.03249232 0.6321483 0.6381504
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
@@ -263,7 +486,33 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># A very short script demonstrating the use of bayes.logistic to</span>
@@ -287,12 +536,23 @@ body {
 <span class="n">p0</span>  <span class="o">&lt;-</span> <span class="n">rep</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">p</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
 <span class="n">mu0</span> <span class="o">&lt;-</span> <span class="mi">1</span>
 <span class="n">s0</span>  <span class="o">&lt;-</span> <span class="mi">4</span>
+</pre></div>
 
-<span class="c1"># SET UP ENVIRONMENT</span>
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># SET UP ENVIRONMENT</span>
 <span class="c1"># ------------------</span>
 <span class="c1"># Load some function definitions.</span>
-<span class="n">source</span><span class="p">(</span><span class="s2">&quot;../code/misc.R&quot;</span><span class="p">)</span>
-<span class="n">source</span><span class="p">(</span><span class="s2">&quot;../code/bayes.R&quot;</span><span class="p">)</span>
+<span class="n">source</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/logistic/code/misc.R&quot;</span><span class="p">)</span>
+<span class="n">source</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/logistic/code/bayes.R&quot;</span><span class="p">)</span>
 
 <span class="c1"># Initialize the sequence of pseudorandom numbers.</span>
 <span class="nb">set</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -307,8 +567,37 @@ body {
 <span class="n">X</span> <span class="o">&lt;-</span> <span class="n">scale</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">center</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">,</span><span class="n">scale</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">)</span>
 <span class="n">u</span> <span class="o">&lt;-</span> <span class="n">b0</span> <span class="o">+</span> <span class="n">b</span><span class="o">*</span><span class="n">X</span><span class="p">[,</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">y</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">numeric</span><span class="p">(</span><span class="n">runif</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+</pre></div>
 
-<span class="c1"># COMPUTE POSTERIOR STATTISTICS</span>
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Simulating data.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># COMPUTE POSTERIOR STATTISTICS</span>
 <span class="c1"># -----------------------------</span>
 <span class="c1"># Compute the posterior inclusion probabilities, and the posterior</span>
 <span class="c1"># means and standard deviations of the coefficients in the logistic</span>
@@ -332,25 +621,141 @@ body {
     <div class="prompt"></div>
 
 
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>Warning message in file(filename, &#34;r&#34;, encoding = encoding):
-“cannot open file &#39;../code/misc.R&#39;: No such file or directory”</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Performing Bayesian computations.
+      p1    mu1    s1
+1  0.989  1.363 0.388
+12 0.003  0.611 0.253
+2  0.002  0.625 0.300
+10 0.001 -0.512 0.240
+6  0.000 -0.365 0.239
+8  0.000  0.386 0.263
+17 0.000 -0.354 0.240
+15 0.000  0.334 0.253
+5  0.000  0.325 0.257
+7  0.000 -0.293 0.229
+16 0.000 -0.286 0.244
+9  0.000 -0.231 0.227
+14 0.000 -0.205 0.275
+19 0.000 -0.197 0.268
+4  0.000  0.208 0.250
+3  0.000 -0.192 0.240
+20 0.000  0.148 0.240
+18 0.000 -0.114 0.249
+11 0.000  0.062 0.232
+13 0.000  0.083 0.218
+</pre>
 </div>
 </div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">-</span><span class="mf">0.748555685834634</span><span class="o">*</span><span class="mf">1.75</span><span class="o">-</span><span class="mi">1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
 
 <div class="output_area">
 
     <div class="prompt"></div>
 
 
-<div class="output_subarea output_text output_error">
-<pre>
-Error in file(filename, &#34;r&#34;, encoding = encoding): cannot open the connection
-Traceback:
 
-1. source(&#34;../code/misc.R&#34;)
-2. file(filename, &#34;r&#34;, encoding = encoding)</pre>
+<div class="output_html rendered_html output_subarea ">
+-2.30997245021061
 </div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">X</span><span class="p">[,</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>-0.748555685834634</li>
+	<li>0.061541449129781</li>
+	<li>-0.957730487502348</li>
+	<li>1.47317892704549</li>
+	<li>0.207405896723059</li>
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>-2.30997245021061</li>
+	<li>-0.892302464022883</li>
+	<li>-2.67602835312911</li>
+	<li>1.57806312232961</li>
+	<li>-0.637039680734646</li>
+</ol>
+
+</div>
+
 </div>
 
 </div>
@@ -372,7 +777,7 @@ Traceback:
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob//dsc/20191022_logistic_single_effect.ipynb"><code>dsc/20191022_logistic_single_effect.ipynb</code></a> committed by minqiao on Tue Oct 22 14:02:10 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/">revision 0, </a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/f40f8dc85962e5c167785f158dfc3eda6ed0fc44/dsc/20191022_logistic_single_effect.ipynb"><code>dsc/20191022_logistic_single_effect.ipynb</code></a> committed by minqiao on Wed Oct 23 18:55:26 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/f40f8dc85962e5c167785f158dfc3eda6ed0fc44">revision 1, f40f8dc</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

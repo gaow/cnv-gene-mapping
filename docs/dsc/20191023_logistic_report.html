@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.7" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=dscDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=dscArray;
+            var docs_map=dscArrayMap;
+            var pos=dscArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  $(".toc #toc-level0").append('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>');
+            }
+            // $("#toc-header").hide(); // comment out because it prevents search bar from displaying
+    });
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Gene Mapping with CNV</title>
+
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+        
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+        
+<li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+        
+<li>
+  <a href="../dsc.html">Dsc</a>
+</li>
+        
+<li>
+  <a href="../setup/index.html">Setup</a>
+</li>
+        
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Result-using-new-logistic">Result using new <code>logistic</code><a class="anchor-link" href="#Result-using-new-logistic">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Single-effect">Single effect<a class="anchor-link" href="#Single-effect">&#182;</a></h2><p>Use whole-genome <code>varbvs</code> results, $\pi_0 = 0.043, \mu = 0.777, \sigma = 0.844$.</p>
+<h3 id="Block-#-739_743">Block # 739_743<a class="anchor-link" href="#Block-#-739_743">&#182;</a></h3><h4 id="Fisher-test">Fisher test<a class="anchor-link" href="#Fisher-test">&#182;</a></h4>
+<pre><code>gene_name   d_c d_nc    nd_c    nd_nc   p   index   effect
+gene_742    16   6690   4   6702    0.011757    3       0.98
+gene_743    5   6701    3   6703    0.726481    4
+gene_744    3   6703    2   6704    1.000000    5
+gene_741    3   6703    2   6704    1.000000    2
+gene_740    3   6703    2   6704    1.000000    1
+
+</code></pre>
+<h4 id="logistic-posterior-inclusion-probabilities,-and-the-posterior,-means-and-standard-deviations"><code>logistic</code> posterior inclusion probabilities, and the posterior, means and standard deviations<a class="anchor-link" href="#logistic-posterior-inclusion-probabilities,-and-the-posterior,-means-and-standard-deviations">&#182;</a></h4>
+<pre><code>index     p1       mu1        s1
+1 0.03261352 0.6320746 0.6381212
+2 0.03261352 0.6320746 0.6381212
+3 0.86784779 1.2459461 0.4570842
+4 0.03431165 0.6513176 0.5679802
+5 0.03261352 0.6320746 0.6381212
+
+</code></pre>
+<h4 id="PyMC3">PyMC3<a class="anchor-link" href="#PyMC3">&#182;</a></h4>
+<pre><code>1st column: gene index in the block
+2nd column: inclusion probability
+3rd column: beta; mean(beta)
+4th column: beta given inclusion probability; sum(beta * inclusion probability) / sum(inclusion probability)
+
+gene_index  inclusion_probability   beta    beta_given_inclusion
+3   0.4930  1.000700    1.232291
+1   0.0360  0.726913    0.263216
+4   0.0350  0.753536    0.516642
+2   0.0295  0.787234    0.411099
+5   0.0260  0.768642    0.450941</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Block-#-2122_2125">Block # 2122_2125<a class="anchor-link" href="#Block-#-2122_2125">&#182;</a></h3><h4 id="Fisher">Fisher<a class="anchor-link" href="#Fisher">&#182;</a></h4>
+<pre><code>gene_name   d_c d_nc    nd_c    nd_nc   p   index   effect
+gene_2124   15  6691    3   6703    0.007500    2       1.07
+gene_2123   94  6612    77  6629    0.218052    1
+gene_2126   15  6691    10  6696    0.423920    4
+gene_2125   57  6649    52  6654    0.700648    3
+
+</code></pre>
+<h4 id="logistic"><code>logistic</code><a class="anchor-link" href="#logistic">&#182;</a></h4>
+<pre><code>index      p1       mu1        s1
+1 0.010014660 0.2219490 0.1527056
+2 0.964694461 1.3725910 0.4854333
+3 0.005392763 0.1274861 0.1886607
+4 0.019898116 0.4899707 0.3751872
+
+</code></pre>
+<h4 id="PyMC3">PyMC3<a class="anchor-link" href="#PyMC3">&#182;</a></h4>
+<pre><code>gene_index  inclusion_probability   beta    beta_given_inclusion
+2   0.6035  1.155986    1.376268
+4   0.0245  0.783276    0.537506
+1   0.0135  0.803832    0.165683
+3   0.0080  0.773949    0.144691</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Block-#-1858_1875">Block # 1858_1875<a class="anchor-link" href="#Block-#-1858_1875">&#182;</a></h3><h4 id="Fisher">Fisher<a class="anchor-link" href="#Fisher">&#182;</a></h4>
+<pre><code>gene_name   d_c d_nc    nd_c    nd_nc   p   index   effect
+gene_1873   7   6699    0   6706    0.015601    15      1.11
+gene_1872   7   6699    0   6706    0.015601    14
+gene_1859   12  6694    3   6703    0.035057    1
+gene_1874   10  6696    2   6704    0.038490    16
+gene_1869   8   6698    1   6705    0.039000    11
+gene_1868   8   6698    1   6705    0.039000    10
+gene_1867   8   6698    1   6705    0.039000    9
+gene_1866   8   6698    1   6705    0.039000    8
+gene_1865   8   6698    1   6705    0.039000    7
+gene_1864   8   6698    1   6705    0.039000    6
+gene_1863   8   6698    1   6705    0.039000    5
+gene_1862   8   6698    1   6705    0.039000    4
+gene_1871   8   6698    1   6705    0.039000    13
+gene_1870   8   6698    1   6705    0.039000    12
+gene_1860   1   6705    1   6705    1.000000    2
+gene_1861   2   6704    2   6704    1.000000    3
+gene_1875   3   6703    2   6704    1.000000    17
+gene_1876   3   6703    2   6704    1.000000    18
+
+</code></pre>
+<h4 id="logistic"><code>logistic</code><a class="anchor-link" href="#logistic">&#182;</a></h4>
+<pre><code>index       p1       mu1        s1
+1  0.060647644 1.2122989 0.5014112
+2  0.005274537 0.5930569 0.7412177
+3  0.004411242 0.4746280 0.6636088
+4  0.063003887 1.4175437 0.5991082
+5  0.063003887 1.4175437 0.5991082
+6  0.063003887 1.4175437 0.5991082
+7  0.063003887 1.4175437 0.5991082
+8  0.063003887 1.4175437 0.5991082
+9  0.063003887 1.4175437 0.5991082
+10 0.063003887 1.4175437 0.5991082
+11 0.063003887 1.4175437 0.5991082
+12 0.063003887 1.4175437 0.5991082
+13 0.063003887 1.4175437 0.5991082
+14 0.114256499 1.6625599 0.6536196
+15 0.114256499 1.6625599 0.6536196
+16 0.060418826 1.2990763 0.5448325
+17 0.005347940 0.6321483 0.6381504
+18 0.005347940 0.6321483 0.6381504
+
+</code></pre>
+<h4 id="PyMC3">PyMC3<a class="anchor-link" href="#PyMC3">&#182;</a></h4>
+<pre><code>gene_index  inclusion_probability   beta    beta_given_inclusion
+15  0.1635  0.885465    1.445334
+14  0.1415  0.873469    1.438782
+4    0.0950 0.808904    1.114097
+12  0.0910  0.799450    1.168663
+1    0.0900 0.805384    1.061036
+10  0.0900  0.806278    1.133716
+13  0.0895  0.811432    1.072543
+11  0.0870  0.809282    1.182747
+16  0.0830  0.776091    1.053188
+9   0.0810  0.827899    1.242092
+6   0.0810  0.806535    1.242010
+7   0.0800  0.811711    1.300500
+8   0.0780  0.798235    1.141132
+5   0.0780  0.798494    1.135631
+2   0.0310  0.750434    0.447150
+18  0.0310  0.777832    0.583112
+17  0.0295  0.782552    0.548759
+3   0.0275  0.775015    0.365444</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Multiple-effects">Multiple effects<a class="anchor-link" href="#Multiple-effects">&#182;</a></h2><h3 id="Block">Block<a class="anchor-link" href="#Block">&#182;</a></h3><h4 id="Fisher">Fisher<a class="anchor-link" href="#Fisher">&#182;</a></h4>
+<pre><code>gene_name   d_c d_nc    nd_c    nd_nc   p    index  effect
+gene_2095   36  6670    8   6698    0.000025    3       1.71
+gene_2096   37  6669    12  6694    0.000459    4
+gene_2097   37  6669    12  6694    0.000459    5
+gene_2098   37  6669    12  6694    0.000459    6
+gene_2100   28  6678    11  6695    0.009374    8
+gene_2099   28  6678    11  6695    0.009374    7       0.47
+gene_2094   9   6697    1   6705    0.021439    2
+gene_2093   9   6697    1   6705    0.021439    1       0.18
+
+</code></pre>
+<h4 id="logistic"><code>logistic</code><a class="anchor-link" href="#logistic">&#182;</a></h4>
+<pre><code>index      p1       mu1        s1
+1 0.002619979 1.4874452 0.5891827
+2 0.002619979 1.4874452 0.5891827
+3 0.840373304 1.4120444 0.3482626
+4 0.049342893 1.1027142 0.3097065
+5 0.049342893 1.1027142 0.3097065
+6 0.049342893 1.1027142 0.3097065
+7 0.003179030 0.9320685 0.3306724
+8 0.003179030 0.9320685 0.3306724
+
+</code></pre>
+<h4 id="PyMC3">PyMC3<a class="anchor-link" href="#PyMC3">&#182;</a></h4>
+<pre><code>gene_index  inclusion_probability   beta    beta_given_inclusion
+3   0.8390  1.290242    1.388613
+5   0.0785  0.789153    0.933225
+1   0.0680  0.799668    1.035229
+2   0.0635  0.784478    0.960614
+6   0.0605  0.784214    0.768279
+4   0.0565  0.780303    0.741498
+8   0.0260  0.747943    0.092032
+7   0.0235  0.761483    0.111491</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/f40f8dc85962e5c167785f158dfc3eda6ed0fc44/dsc/20191023_logistic_report.ipynb"><code>dsc/20191023_logistic_report.ipynb</code></a> committed by minqiao on Wed Oct 23 18:55:26 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/f40f8dc85962e5c167785f158dfc3eda6ed0fc44">revision 1, f40f8dc</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>
