@@ -376,19 +376,21 @@ Sections
 
 <pre><code>sos run dsc/20190717_workflow.ipynb simulate:1-5 --n_gene_in_block 30 --shape 0 --scale 1 -s build</code></pre>
 <h3 id="Get-histogram">Get histogram<a class="anchor-link" href="#Get-histogram">&#182;</a></h3><ul>
-<li>For simulation
+<li>For simulation</li>
+</ul>
+
 <pre><code>sos run dsc/20190717_workflow.ipynb get_hist:1-2 --genotype_file /home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.X.gz \
 --n_gene_in_block 1 -s build</code></pre>
-</li>
-<li>For real data
-<pre><code>sos run dsc/20190717_workflow.ipynb get_hist:1-2 --n_gene_in_block 1 -s build</code></pre>
-</li>
+<ul>
+<li>For real data</li>
 </ul>
+
+<pre><code>sos run dsc/20190717_workflow.ipynb get_hist:1-2 --n_gene_in_block 1 -s build</code></pre>
 <h3 id="Analyze">Analyze<a class="anchor-link" href="#Analyze">&#182;</a></h3>
 <pre><code>sos run dsc/20190717_workflow.ipynb susie:1-3 --genotype_file /home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.X.gz \
 --phenotype_file /home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.y --n_gene_in_block 1 -s build</code></pre>
 
-<pre><code>sos run dsc/20190717_workflow.ipynb fisher:1-2 --genotype_file /home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.X.gz \
+<pre><code>sos run dsc/20190717_workflow.ipynb fisher --genotype_file /home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.X.gz \
 --phenotype_file /home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.y --n_gene_in_block 1 -s build</code></pre>
 
 </div>
@@ -848,7 +850,7 @@ Sections
     <span class="n">y</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">table</span><span class="p">::</span><span class="n">fread</span><span class="p">(</span><span class="s2">&quot;${phenotype_file}&quot;</span><span class="p">))</span>
     <span class="n">storage</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;double&#39;</span>
     <span class="n">storage</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;double&#39;</span>
-    <span class="n">res</span> <span class="o">&lt;-</span> <span class="n">susie</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">L</span><span class="p">},</span> <span class="n">scaled_prior_variance</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">pve</span><span class="p">},</span> <span class="n">estimate_prior_method</span> <span class="o">=</span> <span class="s1">&#39;${method}&#39;</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">&lt;-</span> <span class="n">susie</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">L</span><span class="p">},</span> <span class="n">scaled_prior_variance</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">pve</span><span class="p">},</span> <span class="n">estimate_prior_method</span> <span class="o">=</span> <span class="s1">&#39;${method}&#39;</span><span class="p">,</span> <span class="n">estimate_prior_variance</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">)</span>
     <span class="n">saveRDS</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">:</span><span class="n">r</span><span class="p">})</span>
 </pre></div>
 
@@ -1137,7 +1139,7 @@ sos run dsc/20190717_workflow.ipynb analyze:1-2 --genotype_file /home/gaow/GIT/g
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/dccf0934c7bac62baa1b641afd79888f3defc7b2/dsc/20190717_workflow.ipynb"><code>dsc/20190717_workflow.ipynb</code></a> committed by minqiao on Sun Oct 13 15:08:23 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/dccf0934c7bac62baa1b641afd79888f3defc7b2">revision 39, dccf093</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/0186dcdc3e9febcf31dc38998fbb1744ab3cb9e7/dsc/20190717_workflow.ipynb"><code>dsc/20190717_workflow.ipynb</code></a> committed by minqiao on Thu Oct 24 19:21:36 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/0186dcdc3e9febcf31dc38998fbb1744ab3cb9e7">revision 40, 0186dcd</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

@@ -257,11 +257,11 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># library(data.table)</span>
-<span class="n">block</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="mi">2092</span><span class="p">,</span> <span class="mi">2099</span><span class="p">)</span>
+<span class="n">block</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="mi">739</span><span class="p">,</span> <span class="mi">743</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -271,7 +271,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="prompt input_prompt">In&nbsp;[116]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">X</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">table</span><span class="p">::</span><span class="n">fread</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="s2">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/block_&quot;</span><span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;_&quot;</span> <span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> 
@@ -279,6 +279,48 @@ body {
 </pre></div>
 
     </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[146]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">cor</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr><th></th><th scope=col>V1</th><th scope=col>V2</th><th scope=col>V3</th><th scope=col>V4</th><th scope=col>V5</th></tr></thead>
+<tbody>
+	<tr><th scope=row>V1</th><td>1.0000000</td><td>1.0000000</td><td>0.4997202</td><td>0.7904810</td><td>1.0000000</td></tr>
+	<tr><th scope=row>V2</th><td>1.0000000</td><td>1.0000000</td><td>0.4997202</td><td>0.7904810</td><td>1.0000000</td></tr>
+	<tr><th scope=row>V3</th><td>0.4997202</td><td>0.4997202</td><td>1.0000000</td><td>0.3947537</td><td>0.4997202</td></tr>
+	<tr><th scope=row>V4</th><td>0.7904810</td><td>0.7904810</td><td>0.3947537</td><td>1.0000000</td><td>0.7904810</td></tr>
+	<tr><th scope=row>V5</th><td>1.0000000</td><td>1.0000000</td><td>0.4997202</td><td>0.7904810</td><td>1.0000000</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -298,56 +340,13 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="prompt input_prompt">In&nbsp;[145]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">X</span> <span class="o">&lt;-</span> <span class="n">scale</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">center</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">)</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">head</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-<table>
-<thead><tr><th scope=col>V1</th><th scope=col>V2</th><th scope=col>V3</th><th scope=col>V4</th><th scope=col>V5</th><th scope=col>V6</th><th scope=col>V7</th><th scope=col>V8</th></tr></thead>
-<tbody>
-	<tr><td>-0.000745601</td><td>-0.000745601</td><td>-0.003280644</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.002907844</td><td>-0.002907844</td></tr>
-	<tr><td>-0.000745601</td><td>-0.000745601</td><td>-0.003280644</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.002907844</td><td>-0.002907844</td></tr>
-	<tr><td>-0.000745601</td><td>-0.000745601</td><td>-0.003280644</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.002907844</td><td>-0.002907844</td></tr>
-	<tr><td>-0.000745601</td><td>-0.000745601</td><td>-0.003280644</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.002907844</td><td>-0.002907844</td></tr>
-	<tr><td>-0.000745601</td><td>-0.000745601</td><td>-0.003280644</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.002907844</td><td>-0.002907844</td></tr>
-	<tr><td>-0.000745601</td><td>-0.000745601</td><td>-0.003280644</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.003653445</td><td>-0.002907844</td><td>-0.002907844</td></tr>
-</tbody>
-</table>
-
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -467,6 +466,516 @@ body {
 </div>
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[148]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">library</span><span class="p">(</span><span class="n">susieR</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[149]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">susie2</span> <span class="o">&lt;-</span> <span class="n">susie</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">scaled_prior_variance</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">,</span> <span class="n">estimate_prior_method</span> <span class="o">=</span> <span class="s2">&quot;optim&quot;</span><span class="p">,</span> <span class="n">estimate_prior_variance</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[151]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">cat</span><span class="p">(</span><span class="n">sprintf</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="si">%f</span><span class="se">\&quot;</span><span class="s2"> </span><span class="se">\&quot;</span><span class="si">%f</span><span class="s2">\ </span><span class="se">\&quot;</span><span class="si">%f</span><span class="se">\&quot;\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">susie2</span><span class="err">$</span><span class="n">pip</span><span class="p">,</span> <span class="n">susie2</span><span class="err">$</span><span class="n">mu</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">susie2</span><span class="err">$</span><span class="n">sigma2</span><span class="p">)))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>&#34;0.044212&#34; &#34;0.001606 &#34;0.499908&#34;
+ &#34;0.044212&#34; &#34;0.001606 &#34;0.499908&#34;
+ &#34;0.817270&#34; &#34;0.009644 &#34;0.499908&#34;
+ &#34;0.050094&#34; &#34;0.002540 &#34;0.499908&#34;
+ &#34;0.044212&#34; &#34;0.001606 &#34;0.499908&#34;
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">susie</span> <span class="o">&lt;-</span> <span class="n">readRDS</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="s2">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/block_&quot;</span><span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;_&quot;</span> <span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> 
+                       <span class="s2">&quot;/deletion.genes.block30.for_simu.sample.genes.block_&quot;</span><span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;_&quot;</span> <span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;.SuSiE.L_1.prior_0p005.susie.rds&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">susie</span><span class="err">$</span><span class="n">pip</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>0.0442118535262893</li>
+	<li>0.0442118535262893</li>
+	<li>0.817270053824042</li>
+	<li>0.0500943855970895</li>
+	<li>0.0442118535262893</li>
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">varbvs</span> <span class="o">&lt;-</span> <span class="n">readRDS</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="s2">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/block_&quot;</span><span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;_&quot;</span> <span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> 
+                        <span class="s2">&quot;/deletion.genes.block30.for_simu.sample.genes.block_&quot;</span><span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;_&quot;</span> <span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;.varbvs.rds&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[75]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">susie</span><span class="p">[</span><span class="n">c</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="s2">&quot;pip&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<dl>
+	<dt>$alpha</dt>
+		<dd><table>
+<tbody>
+	<tr><td>0.04421185</td><td>0.04421185</td><td>0.8172701 </td><td>0.05009439</td><td>0.04421185</td></tr>
+</tbody>
+</table>
+</dd>
+	<dt>$pip</dt>
+		<dd><ol class=list-inline>
+	<li>0.0442118535262893</li>
+	<li>0.0442118535262893</li>
+	<li>0.817270053824042</li>
+	<li>0.0500943855970895</li>
+	<li>0.0442118535262893</li>
+</ol>
+</dd>
+</dl>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[114]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">cat</span><span class="p">(</span><span class="n">sprintf</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="si">%f</span><span class="se">\&quot;</span><span class="s2"> </span><span class="se">\&quot;</span><span class="si">%f</span><span class="s2">\ </span><span class="se">\&quot;</span><span class="si">%f</span><span class="se">\&quot;\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">susie</span><span class="err">$</span><span class="n">pip</span><span class="p">,</span> <span class="n">susie</span><span class="err">$</span><span class="n">mu</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">susie</span><span class="err">$</span><span class="n">sigma2</span><span class="p">)))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>&#34;0.044212&#34; &#34;0.001606 &#34;0.499908&#34;
+ &#34;0.044212&#34; &#34;0.001606 &#34;0.499908&#34;
+ &#34;0.817270&#34; &#34;0.009644 &#34;0.499908&#34;
+ &#34;0.050094&#34; &#34;0.002540 &#34;0.499908&#34;
+ &#34;0.044212&#34; &#34;0.001606 &#34;0.499908&#34;
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[112]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">cat</span><span class="p">(</span><span class="n">sprintf</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="si">%f</span><span class="se">\&quot;</span><span class="s2"> </span><span class="se">\&quot;</span><span class="si">%f</span><span class="s2">\ </span><span class="se">\&quot;</span><span class="si">%f</span><span class="se">\&quot;\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">varbvs</span><span class="err">$</span><span class="n">pip</span><span class="p">,</span> <span class="n">varbvs</span><span class="err">$</span><span class="n">mu</span> <span class="o">%*%</span> <span class="n">varbvs</span><span class="err">$</span><span class="n">w</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">varbvs</span><span class="err">$</span><span class="n">s</span> <span class="o">%*%</span> <span class="n">varbvs</span><span class="err">$</span><span class="n">w</span><span class="p">)))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>&#34;0.091284&#34; &#34;-0.086177 &#34;0.679331&#34;
+ &#34;0.091284&#34; &#34;-0.086170 &#34;0.679331&#34;
+ &#34;0.607564&#34; &#34;1.070141 &#34;0.419637&#34;
+ &#34;0.080390&#34; &#34;0.114609 &#34;0.585766&#34;
+ &#34;0.091284&#34; &#34;-0.086189 &#34;0.679331&#34;
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[99]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">sum</span><span class="p">(</span><span class="n">varbvs</span><span class="err">$</span><span class="n">b0</span> <span class="o">*</span> <span class="n">varbvs</span><span class="err">$</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.0578355239420391
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[100]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">varbvs</span><span class="err">$</span><span class="n">mu</span> <span class="o">%*%</span> <span class="n">varbvs</span><span class="err">$</span><span class="n">w</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<tbody>
+	<tr><th scope=row>V1</th><td>-0.08617726</td></tr>
+	<tr><th scope=row>V2</th><td>-0.08617005</td></tr>
+	<tr><th scope=row>V3</th><td> 1.07014141</td></tr>
+	<tr><th scope=row>V4</th><td> 0.11460868</td></tr>
+	<tr><th scope=row>V5</th><td>-0.08618939</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[104]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">varbvs</span><span class="err">$</span><span class="n">s</span> <span class="o">%*%</span> <span class="n">varbvs</span><span class="err">$</span><span class="n">w</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<tbody>
+	<tr><th scope=row>V1</th><td>0.4614906</td></tr>
+	<tr><th scope=row>V2</th><td>0.4614906</td></tr>
+	<tr><th scope=row>V3</th><td>0.1760952</td></tr>
+	<tr><th scope=row>V4</th><td>0.3431223</td></tr>
+	<tr><th scope=row>V5</th><td>0.4614906</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[105]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">varbvs</span><span class="err">$</span><span class="n">s</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr><th></th><th scope=col>theta_1</th><th scope=col>theta_2</th><th scope=col>theta_3</th><th scope=col>theta_4</th><th scope=col>theta_5</th><th scope=col>theta_6</th><th scope=col>theta_7</th><th scope=col>theta_8</th><th scope=col>theta_9</th><th scope=col>theta_10</th><th scope=col>theta_11</th><th scope=col>theta_12</th><th scope=col>theta_13</th><th scope=col>theta_14</th><th scope=col>theta_15</th><th scope=col>theta_16</th><th scope=col>theta_17</th><th scope=col>theta_18</th><th scope=col>theta_19</th><th scope=col>theta_20</th></tr></thead>
+<tbody>
+	<tr><th scope=row>V1</th><td>0.4640006</td><td>0.4637542</td><td>0.4634954</td><td>0.4632318</td><td>0.4629647</td><td>0.4626929</td><td>0.4624166</td><td>0.4621363</td><td>0.4618523</td><td>0.4615649</td><td>0.4612745</td><td>0.4609815</td><td>0.4606842</td><td>0.4603869</td><td>0.4600882</td><td>0.4597883</td><td>0.4594876</td><td>0.4591865</td><td>0.4588853</td><td>0.4585843</td></tr>
+	<tr><th scope=row>V2</th><td>0.4640006</td><td>0.4637542</td><td>0.4634954</td><td>0.4632318</td><td>0.4629647</td><td>0.4626929</td><td>0.4624166</td><td>0.4621363</td><td>0.4618523</td><td>0.4615649</td><td>0.4612745</td><td>0.4609815</td><td>0.4606842</td><td>0.4603869</td><td>0.4600882</td><td>0.4597883</td><td>0.4594876</td><td>0.4591865</td><td>0.4588853</td><td>0.4585843</td></tr>
+	<tr><th scope=row>V3</th><td>0.1776425</td><td>0.1774811</td><td>0.1773148</td><td>0.1771470</td><td>0.1769785</td><td>0.1768087</td><td>0.1766377</td><td>0.1764657</td><td>0.1762927</td><td>0.1761191</td><td>0.1759450</td><td>0.1757705</td><td>0.1755948</td><td>0.1754200</td><td>0.1752454</td><td>0.1750711</td><td>0.1748972</td><td>0.1747240</td><td>0.1745516</td><td>0.1743801</td></tr>
+	<tr><th scope=row>V4</th><td>0.3445726</td><td>0.3444283</td><td>0.3442773</td><td>0.3441240</td><td>0.3439689</td><td>0.3438115</td><td>0.3436518</td><td>0.3434900</td><td>0.3433264</td><td>0.3431611</td><td>0.3429943</td><td>0.3428262</td><td>0.3426560</td><td>0.3424859</td><td>0.3423151</td><td>0.3421438</td><td>0.3419722</td><td>0.3418004</td><td>0.3416287</td><td>0.3414573</td></tr>
+	<tr><th scope=row>V5</th><td>0.4640006</td><td>0.4637542</td><td>0.4634954</td><td>0.4632318</td><td>0.4629647</td><td>0.4626929</td><td>0.4624166</td><td>0.4621363</td><td>0.4618523</td><td>0.4615649</td><td>0.4612745</td><td>0.4609815</td><td>0.4606842</td><td>0.4603869</td><td>0.4600882</td><td>0.4597883</td><td>0.4594876</td><td>0.4591865</td><td>0.4588853</td><td>0.4585843</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[110]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">varbvs</span><span class="err">$</span><span class="n">sa</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>0.99115458757371</li>
+	<li>0.991477758408664</li>
+	<li>0.991778706573653</li>
+	<li>0.992071331769724</li>
+	<li>0.992357636327466</li>
+	<li>0.992635117150219</li>
+	<li>0.992904086177809</li>
+	<li>0.993164838916659</li>
+	<li>0.993417654565726</li>
+	<li>0.993662796290711</li>
+	<li>0.993900511632446</li>
+	<li>0.994131033034551</li>
+	<li>0.994351523116981</li>
+	<li>0.994568311269068</li>
+	<li>0.994778544463095</li>
+	<li>0.994982398492895</li>
+	<li>0.995180038053318</li>
+	<li>0.995371617681734</li>
+	<li>0.995557282707902</li>
+	<li>0.995737170198971</li>
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 
@@ -777,7 +1286,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/f40f8dc85962e5c167785f158dfc3eda6ed0fc44/dsc/20191022_logistic_single_effect.ipynb"><code>dsc/20191022_logistic_single_effect.ipynb</code></a> committed by minqiao on Wed Oct 23 18:55:26 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/f40f8dc85962e5c167785f158dfc3eda6ed0fc44">revision 1, f40f8dc</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/0186dcdc3e9febcf31dc38998fbb1744ab3cb9e7/dsc/20191022_logistic_single_effect.ipynb"><code>dsc/20191022_logistic_single_effect.ipynb</code></a> committed by minqiao on Thu Oct 24 19:21:36 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/0186dcdc3e9febcf31dc38998fbb1744ab3cb9e7">revision 2, 0186dcd</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
