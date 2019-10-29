@@ -276,7 +276,6 @@ body {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Questions">Questions<a class="anchor-link" href="#Questions">&#182;</a></h2><ol>
 <li>PIP for gene 3 obtained by PyMC3 are the smallest (0.493). Use mixture Gaussian instead of spike-and-slab prior?</li>
-<li>posterior variance $\sigma$ for all genes in SuSiE are the same, reason?</li>
 <li>Correlations between genes are relatively large, impact on results?</li>
 </ol>
 
@@ -315,7 +314,29 @@ V5  1.0000000   1.0000000   0.4997202   0.7904810   1.0000000
 5 0.03261352 0.6320746 0.6381212
 
 </code></pre>
-<h4 id="PyMC3--(Table-4)">PyMC3  (Table 4)<a class="anchor-link" href="#PyMC3--(Table-4)">&#182;</a></h4><p>Use whole-genome <code>varbvs</code> results, $\pi_0 = 0.043, \mu = 0.777, \sigma = 0.844$</p>
+<h4 id="SuSiE-(Table-4)">SuSiE (Table 4)<a class="anchor-link" href="#SuSiE-(Table-4)">&#182;</a></h4><p><code>susie(X, y, L = 1, scaled_prior_variance = 0.005, estimate_prior_method = "optim", estimate_prior_variance = TRUE)</code></p>
+<p><code>susie$pip, susie$mu, sqrt(susie$sigma2)</code></p>
+
+<pre><code>index    pip        mu     residual variance
+1    "0.044212" "0.001606 "0.499908"
+2    "0.044212" "0.001606 "0.499908"
+3    "0.817270" "0.009644 "0.499908"
+4    "0.050094" "0.002540 "0.499908"
+5    "0.044212" "0.001606 "0.499908"
+
+</code></pre>
+<h4 id="varbvs-(Table-5)">varbvs (Table 5)<a class="anchor-link" href="#varbvs-(Table-5)">&#182;</a></h4><p><code>varbvs::varbvs(X, NULL, y, family = "binomial", update.b0 = TRUE, verbose = FALSE)</code></p>
+<p><code>varbvs$pip, varbvs$mu %*% varbvs$w, sqrt(varbvs$s %*% varbvs$w))</code></p>
+
+<pre><code>index  pip       mu        sigma
+1   "0.091284" "-0.086177 "0.679331"
+2   "0.091284" "-0.086170 "0.679331"
+3   "0.607564"  "1.070141 "0.419637"
+4   "0.080390"  "0.114609 "0.585766"
+5   "0.091284" "-0.086189 "0.679331"
+
+</code></pre>
+<h4 id="PyMC3-Spike-and-slab-model-(Table-6)">PyMC3 Spike-and-slab model (Table 6)<a class="anchor-link" href="#PyMC3-Spike-and-slab-model-(Table-6)">&#182;</a></h4><p>Use whole-genome <code>varbvs</code> results, $\pi_0 = 0.043, \mu = 0.777, \sigma = 0.844$</p>
 
 <pre><code>1st column: gene index in the block
 2nd column: inclusion probability
@@ -330,26 +351,14 @@ index   inclusion_probability   beta    beta_given_inclusion
 5   0.0260  0.768642    0.450941
 
 </code></pre>
-<h4 id="SuSiE-(Table-5)">SuSiE (Table 5)<a class="anchor-link" href="#SuSiE-(Table-5)">&#182;</a></h4><p><code>susie(X, y, L = 1, scaled_prior_variance = 0.005, estimate_prior_method = "optim", estimate_prior_variance = TRUE)</code></p>
-<p><code>susie$pip, susie$mu, sqrt(susie$sigma2)</code></p>
-
-<pre><code>index    pip        mu       sigma
-1    "0.044212" "0.001606 "0.499908"
-2    "0.044212" "0.001606 "0.499908"
-3    "0.817270" "0.009644 "0.499908"
-4    "0.050094" "0.002540 "0.499908"
-5    "0.044212" "0.001606 "0.499908"
-
-</code></pre>
-<h4 id="varbvs-(Table-6)">varbvs (Table 6)<a class="anchor-link" href="#varbvs-(Table-6)">&#182;</a></h4><p><code>varbvs::varbvs(X, NULL, y, family = "binomial", update.b0 = TRUE, verbose = FALSE)</code></p>
-<p><code>varbvs$pip, varbvs$mu %*% varbvs$w, sqrt(varbvs$s %*% varbvs$w))</code></p>
-
-<pre><code>index  pip       mu        sigma
-1   "0.091284" "-0.086177 "0.679331"
-2   "0.091284" "-0.086170 "0.679331"
-3   "0.607564"  "1.070141 "0.419637"
-4   "0.080390"  "0.114609 "0.585766"
-5   "0.091284" "-0.086189 "0.679331"</code></pre>
+<h4 id="PyMC3-Mixture-normal-model-(Table-7)">PyMC3 Mixture normal model (Table 7)<a class="anchor-link" href="#PyMC3-Mixture-normal-model-(Table-7)">&#182;</a></h4>
+<pre><code>        mean        sd      mc_error        hpd_2.5 hpd_97.5
+alpha   -0.001208   0.017520    0.000436    -0.033342   0.036470
+beta__0 0.025705    0.181715    0.013628    -0.138208   0.129349
+beta__1 -0.000119   0.073514    0.001140    -0.097299   0.092712
+beta__2 0.815089    0.706798    0.063393    -0.114546   1.972868
+beta__3 0.001238    0.101555    0.001842    -0.097665   0.101230
+beta__4 0.004144    0.105738    0.005091    -0.108441   0.102987</code></pre>
 
 </div>
 </div>
@@ -369,7 +378,7 @@ index   inclusion_probability   beta    beta_given_inclusion
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/daa9284732addb5c89917bbfebf72eac2ce370ec/dsc/20191023_logistic_report.ipynb"><code>dsc/20191023_logistic_report.ipynb</code></a> committed by minqiao on Fri Oct 25 01:12:03 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/daa9284732addb5c89917bbfebf72eac2ce370ec">revision 4, daa9284</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/b8fe577e97a7fefa9857636b2eca97e823a5d692/dsc/20191023_logistic_report.ipynb"><code>dsc/20191023_logistic_report.ipynb</code></a> committed by minqiao on Mon Oct 28 20:20:27 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/b8fe577e97a7fefa9857636b2eca97e823a5d692">revision 5, b8fe577</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
