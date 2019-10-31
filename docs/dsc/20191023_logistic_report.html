@@ -263,7 +263,8 @@ body {
 <li>There is only one true effect - gene 3, which is $0.98$.</li>
 <li>Correlations between 5 genes: See Table 1. Correlations are large, probably because some of the genes share the same or similar pattern.</li>
 <li>Parameters: PyMC3 and <code>logistic</code> use priors $\pi_0=0.043, \mu=0.777, \sigma=0.844$ obtained from whole-genome varbvs. SuSiE and varbvs use default.</li>
-<li>Sum of PIP: PyMC3 is 0.6195, not close to 1; varbvs 0.9618, close to 1; susie and <code>logistic</code> is 1.</li>
+<li>PyMC3 Results depends a lot on ;</li>
+<li>Sum of PIP: varbvs 0.9618, close to 1; susie and <code>logistic</code> is 1.</li>
 <li>Largest PIP: gene 3 has largest PIP for all methods. PyMC3 $0.493$, SuSiE $0.817$, <code>logistic</code> $0.868$, varbvs $0.607$.</li>
 <li>Estimates for posterior mean coefficients $\mu$: PyMC3 $1.0$, SuSiE $0.00964$ (smallest), <code>logistic</code> $1.246$, varbvs $1.070$.</li>
 </ol>
@@ -333,9 +334,14 @@ V5  1.0000000   1.0000000   0.4997202   0.7904810   1.0000000
 2   "0.091284" "-0.086170 "0.679331"
 3   "0.607564"  "1.070141 "0.419637"
 4   "0.080390"  "0.114609 "0.585766"
-5   "0.091284" "-0.086189 "0.679331"
+5   "0.091284" "-0.086189 "0.679331"</code></pre>
 
-</code></pre>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="PyMC3-Spike-and-slab-model-(Table-6)">PyMC3 Spike-and-slab model (Table 6)<a class="anchor-link" href="#PyMC3-Spike-and-slab-model-(Table-6)">&#182;</a></h4><p>Use whole-genome <code>varbvs</code> results, $\pi_0 = 0.043, \mu = 0.777, \sigma = 0.844$</p>
 
 <pre><code>1st column: gene index in the block
@@ -343,14 +349,47 @@ V5  1.0000000   1.0000000   0.4997202   0.7904810   1.0000000
 3rd column: beta; mean(beta)
 4th column: beta given inclusion probability; sum(beta * inclusion probability) / sum(inclusion probability)
 
-index   inclusion_probability   beta    beta_given_inclusion
-3   0.4930  1.000700    1.232291
-1   0.0360  0.726913    0.263216
-4   0.0350  0.753536    0.516642
-2   0.0295  0.787234    0.411099
-5   0.0260  0.768642    0.450941
-
 </code></pre>
+<ol>
+<li><p>beta0 = log(0.05/0.95) = -2.94, sigma_beta0 = 1, chain = 2</p>
+
+<pre><code> index    inclusion_probability  beta    beta_given_inclusion</code></pre>
+</li>
+</ol>
+<ol>
+<li><p>beta0 = log(0.05/0.95) = -2.94, sigma_beta0 = 0.1, chain = 10</p>
+
+<pre><code> index   inclusion_probability   beta    beta_given_inclusion
+     2   0.59090 0.768570    1.300677
+     3   0.03010 0.015933    0.529335
+     0   0.03005 0.012272    0.408400
+     4   0.02755 0.010674    0.387456
+     1   0.02620 0.011247    0.429271</code></pre>
+</li>
+</ol>
+<ol>
+<li><p>beta0 = log(0.05/0.95) = -2.94, sigma_beta0 = 0.075, chain = 1</p>
+
+<pre><code> index   inclusion_probability   beta    beta_given_inclusion</code></pre>
+</li>
+</ol>
+<ol>
+<li><p>beta0 = log(0.05/0.95) = -2.94, sigma_beta0 = 0.05, chain = 2</p>
+
+<pre><code> index   inclusion_probability   beta    beta_given_inclusion
+     2   0.85825 1.260122    1.468246
+     3   0.03375 0.018337    0.543320
+     4   0.03025 0.008501    0.281032
+     1   0.03000 0.007361    0.245359
+     0   0.02575 0.006745    0.261948</code></pre>
+</li>
+</ol>
+<ol>
+<li><p>beta0 = log(0.05/0.95) = -2.94, sigma_beta0 = 0.01, chain = 1</p>
+
+<pre><code> index   inclusion_probability   beta    beta_given_inclusion</code></pre>
+</li>
+</ol>
 <h4 id="PyMC3-Mixture-normal-model-(Table-7)">PyMC3 Mixture normal model (Table 7)<a class="anchor-link" href="#PyMC3-Mixture-normal-model-(Table-7)">&#182;</a></h4>
 <pre><code>        mean        sd      mc_error        hpd_2.5 hpd_97.5
 alpha   -0.001208   0.017520    0.000436    -0.033342   0.036470
@@ -378,7 +417,7 @@ beta__4 0.004144    0.105738    0.005091    -0.108441   0.102987</code></pre>
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/b8fe577e97a7fefa9857636b2eca97e823a5d692/dsc/20191023_logistic_report.ipynb"><code>dsc/20191023_logistic_report.ipynb</code></a> committed by minqiao on Mon Oct 28 20:20:27 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/b8fe577e97a7fefa9857636b2eca97e823a5d692">revision 5, b8fe577</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/8db0d3fd369175c13166cb9d6c1d9c1b4d91c8fc/dsc/20191023_logistic_report.ipynb"><code>dsc/20191023_logistic_report.ipynb</code></a> committed by minqiao on Wed Oct 30 22:59:14 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/8db0d3fd369175c13166cb9d6c1d9c1b4d91c8fc">revision 6, 8db0d3f</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

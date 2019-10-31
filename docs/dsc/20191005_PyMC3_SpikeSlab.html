@@ -1083,13 +1083,13 @@ dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[73]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="kn">as</span> <span class="nn">pm</span>
 <span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="kn">as</span> <span class="nn">tt</span>
 
-<span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">pi0</span> <span class="o">=</span> <span class="n">pi_varbvs</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu_varbvs</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">si_varbvs</span><span class="p">,</span> <span class="n">mu_intercept</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma_intercept</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">pi0</span> <span class="o">=</span> <span class="n">pi_varbvs</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu_varbvs</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">si_varbvs</span><span class="p">,</span> <span class="n">mu_intercept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.05</span><span class="o">/</span><span class="mf">0.95</span><span class="p">),</span> <span class="n">sigma_intercept</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">):</span>
     <span class="n">invlogit</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">tt</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
     <span class="k">with</span> <span class="n">model</span><span class="p">:</span>
@@ -1108,7 +1108,7 @@ dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[74]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">get_model</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">X</span><span class="p">)</span>
@@ -1121,7 +1121,7 @@ dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[75]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">model</span>
@@ -1137,7 +1137,7 @@ dtype: float64</pre>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[30]:</div>
+    <div class="prompt output_prompt">Out[75]:</div>
 
 
 
@@ -1145,7 +1145,7 @@ dtype: float64</pre>
 <div class="output_latex output_subarea output_execute_result">
 $$
             \begin{array}{rcl}
-            \text{xi} &\sim & \text{Bernoulli}(\mathit{p}=0.0437754961218526)\\\text{alpha} &\sim & \text{Normal}(\mathit{mu}=0.0,~\mathit{sigma}=1.5)\\\text{beta} &\sim & \text{Normal}(\mathit{mu}=0.777072111580423,~\mathit{sigma}=0.8436501699101251)\\\text{y_obs} &\sim & \text{Bernoulli}(\mathit{p}=f(f(),~f(f(),~f(f(f(f(array,~f(\text{xi},~\text{beta})),~f(\text{alpha})))))))
+            \text{xi} &\sim & \text{Bernoulli}(\mathit{p}=0.0437754961218526)\\\text{alpha} &\sim & \text{Normal}(\mathit{mu}=-2.9444389791664403,~\mathit{sigma}=0.05)\\\text{beta} &\sim & \text{Normal}(\mathit{mu}=0.777072111580423,~\mathit{sigma}=0.8436501699101251)\\\text{y_obs} &\sim & \text{Bernoulli}(\mathit{p}=f(f(),~f(f(),~f(f(f(f(array,~f(\text{xi},~\text{beta})),~f(\text{alpha})))))))
             \end{array}
             $$
 </div>
@@ -1166,13 +1166,13 @@ $$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="prompt input_prompt">In&nbsp;[76]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># Here I use 20 cores on my 40 core machine, with 10 chains, to generate 2000 samples.</span>
 <span class="c1"># Takes 50min on my desktop</span>
 <span class="k">with</span> <span class="n">model</span><span class="p">:</span>
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">random_seed</span> <span class="o">=</span> <span class="mi">999</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">chains</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">random_seed</span> <span class="o">=</span> <span class="mi">999</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">chains</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1189,47 +1189,14 @@ $$
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>Sequential sampling (1 chains in 1 job)
+<pre>Sequential sampling (2 chains in 1 job)
 CompoundStep
 &gt;BinaryGibbsMetropolis: [xi]
 &gt;NUTS: [beta, alpha]
-100%|██████████| 2500/2500 [01:18&lt;00:00, 39.42it/s]
-Only one chain was sampled, this makes it impossible to run some convergence checks
+100%|██████████| 2500/2500 [01:26&lt;00:00, 28.83it/s]
+100%|██████████| 2500/2500 [00:49&lt;00:00, 50.19it/s]
 </pre>
 </div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[65]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">trace</span><span class="p">[</span><span class="s2">&quot;xi&quot;</span><span class="p">]])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[65]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>0.468</pre>
-</div>
-
 </div>
 
 </div>
@@ -1246,12 +1213,12 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[68]:</div>
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">]),</span>
-                        <span class="s1">&#39;beta&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">]),</span>
-                        <span class="s1">&#39;beta_given_inclusion&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">trace</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">])</span>
+                        <span class="s1">&#39;beta&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">trace</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">],</span> <span class="n">trace</span><span class="p">[</span><span class="s2">&quot;xi&quot;</span><span class="p">])),</span>
+                        <span class="s1">&#39;beta_given_inclusion&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">])</span>
                         <span class="p">})</span>
 </pre></div>
 
@@ -1262,7 +1229,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[69]:</div>
+<div class="prompt input_prompt">In&nbsp;[78]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
@@ -1278,7 +1245,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[69]:</div>
+    <div class="prompt output_prompt">Out[78]:</div>
 
 
 
@@ -1309,33 +1276,33 @@ Only one chain was sampled, this makes it impossible to run some convergence che
   <tbody>
     <tr>
       <td>2</td>
-      <td>0.4680</td>
-      <td>0.962874</td>
-      <td>1.245512</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>0.0370</td>
-      <td>0.745848</td>
-      <td>0.378662</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>0.0310</td>
-      <td>0.763524</td>
-      <td>0.558333</td>
-    </tr>
-    <tr>
-      <td>0</td>
-      <td>0.0290</td>
-      <td>0.771480</td>
-      <td>0.524455</td>
+      <td>0.85825</td>
+      <td>1.260122</td>
+      <td>1.468246</td>
     </tr>
     <tr>
       <td>3</td>
-      <td>0.0255</td>
-      <td>0.768557</td>
-      <td>0.495976</td>
+      <td>0.03375</td>
+      <td>0.018337</td>
+      <td>0.543320</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.03025</td>
+      <td>0.008501</td>
+      <td>0.281032</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.03000</td>
+      <td>0.007361</td>
+      <td>0.245359</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>0.02575</td>
+      <td>0.006745</td>
+      <td>0.261948</td>
     </tr>
   </tbody>
 </table>
@@ -1350,7 +1317,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[71]:</div>
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pm</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
@@ -1366,7 +1333,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[71]:</div>
+    <div class="prompt output_prompt">Out[53]:</div>
 
 
 
@@ -1399,140 +1366,95 @@ Only one chain was sampled, this makes it impossible to run some convergence che
   <tbody>
     <tr>
       <td>xi__0</td>
-      <td>0.029000</td>
-      <td>0.167806</td>
-      <td>0.004482</td>
+      <td>0.027000</td>
+      <td>0.162083</td>
+      <td>0.004496</td>
       <td>0.000000</td>
       <td>0.000000</td>
     </tr>
     <tr>
       <td>xi__1</td>
-      <td>0.037000</td>
-      <td>0.188762</td>
-      <td>0.004616</td>
+      <td>0.031000</td>
+      <td>0.173318</td>
+      <td>0.004732</td>
       <td>0.000000</td>
       <td>0.000000</td>
     </tr>
     <tr>
       <td>xi__2</td>
-      <td>0.468000</td>
-      <td>0.498975</td>
-      <td>0.012420</td>
+      <td>0.687500</td>
+      <td>0.463512</td>
+      <td>0.013103</td>
       <td>0.000000</td>
       <td>1.000000</td>
     </tr>
     <tr>
       <td>xi__3</td>
-      <td>0.025500</td>
-      <td>0.157638</td>
-      <td>0.004213</td>
+      <td>0.032500</td>
+      <td>0.177324</td>
+      <td>0.004710</td>
       <td>0.000000</td>
       <td>0.000000</td>
     </tr>
     <tr>
       <td>xi__4</td>
-      <td>0.031000</td>
-      <td>0.173318</td>
-      <td>0.004625</td>
+      <td>0.033000</td>
+      <td>0.178637</td>
+      <td>0.004540</td>
       <td>0.000000</td>
       <td>0.000000</td>
     </tr>
     <tr>
       <td>alpha</td>
-      <td>-0.000876</td>
-      <td>0.017391</td>
-      <td>0.000313</td>
-      <td>-0.033673</td>
-      <td>0.033084</td>
+      <td>-0.149575</td>
+      <td>0.016898</td>
+      <td>0.000331</td>
+      <td>-0.183198</td>
+      <td>-0.117422</td>
     </tr>
     <tr>
       <td>beta__0</td>
-      <td>0.771480</td>
-      <td>0.826793</td>
-      <td>0.016688</td>
-      <td>-0.847549</td>
-      <td>2.363950</td>
+      <td>0.752796</td>
+      <td>0.852872</td>
+      <td>0.016101</td>
+      <td>-0.796280</td>
+      <td>2.438183</td>
     </tr>
     <tr>
       <td>beta__1</td>
-      <td>0.745848</td>
-      <td>0.831538</td>
-      <td>0.017789</td>
-      <td>-0.816660</td>
-      <td>2.397444</td>
+      <td>0.757179</td>
+      <td>0.866683</td>
+      <td>0.016092</td>
+      <td>-0.900559</td>
+      <td>2.438697</td>
     </tr>
     <tr>
       <td>beta__2</td>
-      <td>0.962874</td>
-      <td>0.745203</td>
-      <td>0.019599</td>
-      <td>-0.644839</td>
-      <td>2.303368</td>
+      <td>1.187081</td>
+      <td>0.655195</td>
+      <td>0.016157</td>
+      <td>-0.162830</td>
+      <td>2.464426</td>
     </tr>
     <tr>
       <td>beta__3</td>
-      <td>0.768557</td>
-      <td>0.837842</td>
-      <td>0.018444</td>
-      <td>-0.923781</td>
-      <td>2.350525</td>
+      <td>0.747382</td>
+      <td>0.851044</td>
+      <td>0.019073</td>
+      <td>-0.834163</td>
+      <td>2.461358</td>
     </tr>
     <tr>
       <td>beta__4</td>
-      <td>0.763524</td>
-      <td>0.862749</td>
-      <td>0.020002</td>
-      <td>-0.800691</td>
-      <td>2.519546</td>
+      <td>0.751895</td>
+      <td>0.814837</td>
+      <td>0.014475</td>
+      <td>-0.777799</td>
+      <td>2.388369</td>
     </tr>
   </tbody>
 </table>
 </div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[80]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">trace</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[80]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([[ 1.42213255e+00,  1.15222447e+00,  1.19726550e+00,
-         1.23927806e+00, -1.42013044e-01],
-       [ 1.35082966e-03, -1.82115707e-01,  1.08244025e+00,
-         6.73055031e-01,  7.46355022e-01],
-       [ 1.73067398e+00,  1.08522668e+00,  6.44337550e-01,
-         9.24695773e-01,  1.20149913e+00],
-       ...,
-       [ 1.11240828e+00, -1.54671956e+00, -3.03630626e-01,
-         9.15817378e-01,  7.07312030e-01],
-       [ 7.46652720e-01, -2.17610194e-01, -2.90505389e-01,
-         2.00520595e+00,  1.32679835e+00],
-       [-9.63396468e-05,  1.46716224e+00,  1.12284421e+00,
-         3.85821920e-01, -1.19227152e-01]])</pre>
 </div>
 
 </div>
@@ -1552,13 +1474,13 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[134]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="kn">as</span> <span class="nn">pm</span>
 <span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="kn">as</span> <span class="nn">tt</span>
 <span class="n">mu2</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">sigma2</span> <span class="o">=</span> <span class="mf">1e-6</span>
+<span class="n">sigma2</span> <span class="o">=</span> <span class="mf">1e-8</span>
 <span class="n">w_mix</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">floatX</span><span class="p">([</span><span class="mi">1</span><span class="o">-</span><span class="n">pi_varbvs</span><span class="p">,</span> <span class="n">pi_varbvs</span><span class="p">])</span>
 <span class="n">mu_mix</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">floatX</span><span class="p">([</span><span class="n">mu2</span><span class="p">,</span> <span class="n">mu_varbvs</span><span class="p">])</span>
 <span class="n">sigma_mix</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">floatX</span><span class="p">([</span><span class="n">sigma2</span><span class="p">,</span> <span class="n">si_varbvs</span><span class="p">])</span>
@@ -1581,50 +1503,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[222]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="kn">as</span> <span class="nn">pm</span>
-<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="kn">as</span> <span class="nn">tt</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">bernoulli</span>
-<span class="n">mu2</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">sigma2</span> <span class="o">=</span> <span class="mf">1e-6</span>
-<span class="c1"># w_mix = pm.floatX([1-pi_varbvs, pi_varbvs])</span>
-<span class="c1"># mu_mix = pm.floatX([mu2, mu_varbvs])</span>
-<span class="c1"># sigma_mix = pm.floatX([sigma2, si_varbvs])</span>
-
-<span class="k">def</span> <span class="nf">get_mix_model</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">mu_intercept</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma_intercept</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">):</span>
-    <span class="n">invlogit</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">tt</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
-    <span class="k">with</span> <span class="n">model</span><span class="p">:</span>
-        <span class="c1">#xi = pm.Bernoulli(&#39;xi&#39;, pi_varbvs, shape = X.shape[1])</span>
-        <span class="c1">#beta1 = (1-xi) * pm.Normal(&quot;beta1&quot;, mu2, sigma2, shape = X.shape[1])</span>
-        <span class="c1">#beta2 = xi * pm.Normal(&quot;beta2&quot;, mu_varbvs, si_varbvs, shape = X.shape[1])</span>
-        <span class="c1">#beta = pm.math.sum(beta1, beta2)</span>
-        
-        <span class="c1"># approach 1: use usual methods to obtain alpha and convert to pm</span>
-        <span class="n">xi0_0</span> <span class="o">=</span> <span class="n">bernoulli</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="n">pi_varbvs</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">xi1_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="o">-</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xi0_0</span><span class="p">])</span>
-        <span class="n">xi0</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">floatX</span><span class="p">(</span><span class="n">xi0_0</span><span class="p">)</span>
-        <span class="n">xi1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">floatX</span><span class="p">(</span><span class="n">xi1_0</span><span class="p">)</span>
-        <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu_intercept</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">sigma_intercept</span><span class="p">)</span>
-        <span class="n">beta1_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mu2</span><span class="p">,</span> <span class="n">sigma2</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">beta2_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mu_varbvs</span><span class="p">,</span> <span class="n">si_varbvs</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">beta_0</span> <span class="o">=</span> <span class="n">xi0_0</span> <span class="o">*</span> <span class="n">beta2_0</span> <span class="o">+</span> <span class="n">xi1_0</span> <span class="o">*</span> <span class="n">beta1_0</span>
-        <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">floatX</span><span class="p">(</span><span class="n">beta_0</span><span class="p">)</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
-        <span class="n">y_obs</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;y_obs&#39;</span><span class="p">,</span> <span class="n">invlogit</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">),</span> <span class="n">observed</span> <span class="o">=</span> <span class="n">y</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">model</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[223]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">model1</span> <span class="o">=</span> <span class="n">get_mix_model</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">X</span><span class="p">)</span>
@@ -1637,7 +1516,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[224]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">model1</span>
@@ -1653,7 +1532,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[224]:</div>
+    <div class="prompt output_prompt">Out[36]:</div>
 
 
 
@@ -1661,7 +1540,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="output_latex output_subarea output_execute_result">
 $$
             \begin{array}{rcl}
-            \text{alpha} &\sim & \text{Normal}(\mathit{mu}=0.0,~\mathit{sigma}=1.5)\\\text{y_obs} &\sim & \text{Bernoulli}(\mathit{p}=f(f(),~f(f(),~f(f(f(f(array,~array),~f(\text{alpha})))))))
+            \text{alpha} &\sim & \text{Normal}(\mathit{mu}=0.0,~\mathit{sigma}=1.5)\\\text{beta} &\sim & \text{NormalMixture}(\mathit{w}=array,~\mathit{mu}=array,~\mathit{sigma}=array)\\\text{y_obs} &\sim & \text{Bernoulli}(\mathit{p}=f(f(),~f(f(),~f(f(f(f(array,~\text{beta}),~f(\text{alpha})))))))
             \end{array}
             $$
 </div>
@@ -1681,7 +1560,7 @@ $$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[218]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="k">with</span> <span class="n">model1</span><span class="p">:</span>
@@ -1705,8 +1584,8 @@ $$
 <pre>Auto-assigning NUTS sampler...
 Initializing NUTS using jitter+adapt_diag...
 Sequential sampling (1 chains in 1 job)
-NUTS: [alpha]
-100%|██████████| 2500/2500 [00:13&lt;00:00, 179.18it/s]
+NUTS: [beta, alpha]
+100%|██████████| 2500/2500 [00:47&lt;00:00, 52.42it/s]
 Only one chain was sampled, this makes it impossible to run some convergence checks
 </pre>
 </div>
@@ -1725,7 +1604,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[219]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pm</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace1</span><span class="p">)</span>
@@ -1741,7 +1620,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[219]:</div>
+    <div class="prompt output_prompt">Out[38]:</div>
 
 
 
@@ -1774,11 +1653,51 @@ Only one chain was sampled, this makes it impossible to run some convergence che
   <tbody>
     <tr>
       <td>alpha</td>
-      <td>-0.000525</td>
-      <td>0.017318</td>
-      <td>0.000604</td>
-      <td>-0.036243</td>
-      <td>0.031128</td>
+      <td>-0.001635</td>
+      <td>0.017740</td>
+      <td>0.000338</td>
+      <td>-0.035965</td>
+      <td>0.033394</td>
+    </tr>
+    <tr>
+      <td>beta__0</td>
+      <td>0.036425</td>
+      <td>0.756459</td>
+      <td>0.014511</td>
+      <td>-1.282890</td>
+      <td>1.605263</td>
+    </tr>
+    <tr>
+      <td>beta__1</td>
+      <td>0.058020</td>
+      <td>0.764307</td>
+      <td>0.015561</td>
+      <td>-1.371872</td>
+      <td>1.564398</td>
+    </tr>
+    <tr>
+      <td>beta__2</td>
+      <td>1.201155</td>
+      <td>0.464218</td>
+      <td>0.009858</td>
+      <td>0.368932</td>
+      <td>2.162282</td>
+    </tr>
+    <tr>
+      <td>beta__3</td>
+      <td>0.278193</td>
+      <td>0.639481</td>
+      <td>0.014458</td>
+      <td>-0.983561</td>
+      <td>1.507265</td>
+    </tr>
+    <tr>
+      <td>beta__4</td>
+      <td>0.064904</td>
+      <td>0.756572</td>
+      <td>0.016012</td>
+      <td>-1.443134</td>
+      <td>1.465203</td>
     </tr>
   </tbody>
 </table>
@@ -1793,7 +1712,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[138]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">results1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="c1">#&#39;inclusion_probability&#39;: np.apply_along_axis(np.mean, 0, trace1[&#39;xi&#39;]),</span>
@@ -1808,7 +1727,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[139]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">results1</span>
@@ -1824,7 +1743,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[139]:</div>
+    <div class="prompt output_prompt">Out[40]:</div>
 
 
 
@@ -1853,23 +1772,23 @@ Only one chain was sampled, this makes it impossible to run some convergence che
   <tbody>
     <tr>
       <td>0</td>
-      <td>0.070565</td>
+      <td>0.036425</td>
     </tr>
     <tr>
       <td>1</td>
-      <td>0.058095</td>
+      <td>0.058020</td>
     </tr>
     <tr>
       <td>2</td>
-      <td>1.203170</td>
+      <td>1.201155</td>
     </tr>
     <tr>
       <td>3</td>
-      <td>0.277564</td>
+      <td>0.278193</td>
     </tr>
     <tr>
       <td>4</td>
-      <td>0.055370</td>
+      <td>0.064904</td>
     </tr>
   </tbody>
 </table>
@@ -1884,74 +1803,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[100]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">trace1</span><span class="p">[</span><span class="s2">&quot;beta1&quot;</span><span class="p">][</span><span class="mi">13</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[100]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([ 2.02852689e-07,  1.30664579e-07,  1.53247280e-06, -5.93412712e-07,
-       -7.54745509e-07])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[99]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">trace1</span><span class="p">[</span><span class="s2">&quot;beta2&quot;</span><span class="p">][</span><span class="mi">13</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[99]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([0.42442318, 0.47071739, 0.75316833, 1.03446886, 1.07646009])</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[140]:</div>
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">trace1</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">][:</span><span class="mi">20</span><span class="p">]</span>
@@ -1967,32 +1819,32 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[140]:</div>
+    <div class="prompt output_prompt">Out[46]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([[ 0.08893979,  0.19913788,  0.89801943, -0.21658355,  0.69902072],
-       [-0.06012174,  0.06124922,  1.36712519,  0.81370306, -0.45523509],
-       [ 0.53305116,  0.53710445,  2.17933776,  0.54508019, -0.68004712],
-       [ 0.16484892, -0.25889183,  0.2643351 ,  0.2837832 ,  0.48858103],
-       [-0.40929071, -0.16476189,  2.17017565, -0.00669978, -0.81886836],
-       [ 1.12073524,  0.12131782,  1.40664618, -1.03493596,  0.47595301],
-       [-1.45830755,  0.30368884,  1.22868367,  1.55856437,  1.15981849],
-       [ 1.82102641,  0.26771739,  1.4625565 , -0.73824523, -0.50893968],
-       [-0.08150769,  0.31851248,  1.12364417, -0.4304732 ,  0.3586444 ],
-       [-0.52054195, -0.12308055,  1.38113479,  0.64052263,  0.9195262 ],
-       [ 1.18354572, -0.09803871,  1.02344853,  0.54558728, -1.78481112],
-       [ 0.51579683, -1.48519432,  1.12945115, -0.17330931,  2.09923075],
-       [-0.65394693,  0.7573968 ,  0.31409676, -0.11160252,  0.35649531],
-       [ 0.82856898, -0.76435417,  1.91984864,  0.97309104, -0.58709969],
-       [-0.46201159,  0.08767785,  1.60060677,  1.14567993, -0.1034007 ],
-       [-1.05892661, -0.10423475,  1.22839948,  0.78490753, -0.1959379 ],
-       [ 0.63531583,  0.01355562,  0.75236316, -0.59897028, -0.09150713],
-       [ 0.06995014,  0.03688006,  1.07336147,  1.1856485 , -0.2168693 ],
-       [ 0.33501204, -0.70373257,  1.29223026,  0.02308205, -0.12093287],
-       [-0.27397243,  0.54302374,  0.93168025, -0.2614519 ,  0.44376566]])</pre>
+<pre>array([[ 0.57544786, -0.83577541,  1.00803471,  0.90092193,  0.5007824 ],
+       [ 0.53493692, -0.73696289,  0.74450684,  1.08871973,  0.62139148],
+       [-0.53655792, -1.81085826,  1.56537819,  0.7579375 ,  0.45450664],
+       [ 0.28066971, -0.54830376,  1.47187974,  1.06650231,  0.04784993],
+       [ 1.02154957, -0.34109855,  1.11824843,  0.67996458, -0.32189377],
+       [ 0.07639977,  1.7270387 ,  1.21956114, -0.15765375,  0.93010689],
+       [-0.09135544,  0.93185076,  1.32433051,  0.26501064,  0.613627  ],
+       [-0.09202819, -0.78502477,  0.89406565, -0.18790993,  0.15688979],
+       [ 0.77443531,  0.23094802,  0.91258328,  0.55355652,  0.49466225],
+       [ 1.02393264, -0.116118  ,  1.41482005,  0.82841188, -0.34933298],
+       [ 1.6052633 , -0.46625997,  0.60527141, -0.13718251, -0.6633943 ],
+       [-1.20039427, -0.3512295 ,  1.37466886,  0.82097067, -0.36497798],
+       [ 0.59981736, -0.11575713,  0.95179546, -0.87212803, -0.3211485 ],
+       [-1.21500965, -0.29185475,  1.10558614,  0.91309939, -0.13213086],
+       [-1.21500965, -0.29185475,  1.10558614,  0.91309939, -0.13213086],
+       [-0.6218663 , -0.49760203,  1.14179447,  1.02506239,  1.19065704],
+       [ 0.03419999,  0.83696434,  0.8352372 , -0.1152659 , -0.95230753],
+       [-0.77259998, -1.10411765,  1.28687226,  0.30134796,  0.86205695],
+       [ 0.39350823,  0.46733192,  1.21966051,  0.50812087,  1.1546139 ],
+       [-0.30294045,  0.55414534,  1.01669571,  0.53625888,  0.10938986]])</pre>
 </div>
 
 </div>
@@ -2007,6 +1859,501 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">trace1</span><span class="p">[</span><span class="s2">&quot;xi&quot;</span><span class="p">][:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Mixture-normal-model-2">Mixture normal model 2<a class="anchor-link" href="#Mixture-normal-model-2">&#182;</a></h2><p>Difference between multidimensional Gaussian (multivariate Gaussian) and Mixture normal <a href="https://stats.stackexchange.com/questions/319954/whats-the-difference-between-multivariate-gaussian-and-mixture-of-gaussians">link</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="kn">as</span> <span class="nn">pm</span>
+<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="kn">as</span> <span class="nn">tt</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">bernoulli</span>
+<span class="n">mu2</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">sigma2</span> <span class="o">=</span> <span class="mf">1e-6</span>
+
+<span class="k">def</span> <span class="nf">get_mix_model2</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">mu_intercept</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sigma_intercept</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">):</span>
+    <span class="n">invlogit</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">tt</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu_intercept</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">sigma_intercept</span><span class="p">)</span>
+        <span class="n">xi</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;xi&#39;</span><span class="p">,</span> <span class="n">pi_varbvs</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">beta1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta1&quot;</span><span class="p">,</span> <span class="n">mu2</span><span class="p">,</span> <span class="n">sigma2</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">beta2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s2">&quot;beta2&quot;</span><span class="p">,</span> <span class="n">mu_varbvs</span><span class="p">,</span> <span class="n">si_varbvs</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">xi</span><span class="o">*</span><span class="n">beta1</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">xi</span><span class="p">)</span><span class="o">*</span><span class="n">beta2</span><span class="p">)</span>
+        <span class="n">y_obs</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;y_obs&#39;</span><span class="p">,</span> <span class="n">invlogit</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">),</span> <span class="n">observed</span> <span class="o">=</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">model2</span> <span class="o">=</span> <span class="n">get_mix_model2</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">model2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[55]:</div>
+
+
+
+
+<div class="output_latex output_subarea output_execute_result">
+$$
+            \begin{array}{rcl}
+            \text{alpha} &\sim & \text{Normal}(\mathit{mu}=0.0,~\mathit{sigma}=1.5)\\\text{xi} &\sim & \text{Bernoulli}(\mathit{p}=0.0437754961218526)\\\text{beta1} &\sim & \text{Normal}(\mathit{mu}=0.0,~\mathit{sigma}=1e-06)\\\text{beta2} &\sim & \text{Normal}(\mathit{mu}=0.777072111580423,~\mathit{sigma}=0.8436501699101251)\\\text{y_obs} &\sim & \text{Bernoulli}(\mathit{p}=f(f(),~f(f(),~f(f(f(f(array,~f(f(\text{xi},~\text{beta1}),~f(f(f(),~\text{xi}),~\text{beta2}))),~f(\text{alpha})))))))
+            \end{array}
+            $$
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="k">with</span> <span class="n">model2</span><span class="p">:</span>
+    <span class="n">trace2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">random_seed</span> <span class="o">=</span> <span class="mi">999</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">chains</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Sequential sampling (1 chains in 1 job)
+CompoundStep
+&gt;NUTS: [beta2, beta1, alpha]
+&gt;BinaryGibbsMetropolis: [xi]
+100%|██████████| 2500/2500 [01:43&lt;00:00, 24.23it/s]
+Only one chain was sampled, this makes it impossible to run some convergence checks
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pm</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[57]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>mc_error</th>
+      <th>hpd_2.5</th>
+      <th>hpd_97.5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>alpha</td>
+      <td>-1.792694e-03</td>
+      <td>1.633489e-02</td>
+      <td>2.424184e-04</td>
+      <td>-0.036442</td>
+      <td>0.027095</td>
+    </tr>
+    <tr>
+      <td>xi__0</td>
+      <td>6.050000e-02</td>
+      <td>2.384109e-01</td>
+      <td>6.793195e-03</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <td>xi__1</td>
+      <td>6.850000e-02</td>
+      <td>2.526020e-01</td>
+      <td>6.190921e-03</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <td>xi__2</td>
+      <td>8.000000e-03</td>
+      <td>8.908423e-02</td>
+      <td>2.204541e-03</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <td>xi__3</td>
+      <td>7.850000e-02</td>
+      <td>2.689568e-01</td>
+      <td>7.976685e-03</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <td>xi__4</td>
+      <td>7.550000e-02</td>
+      <td>2.641964e-01</td>
+      <td>7.697240e-03</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <td>beta1__0</td>
+      <td>-2.850403e-08</td>
+      <td>1.001414e-06</td>
+      <td>1.455378e-08</td>
+      <td>-0.000002</td>
+      <td>0.000002</td>
+    </tr>
+    <tr>
+      <td>beta1__1</td>
+      <td>-2.006287e-08</td>
+      <td>9.630560e-07</td>
+      <td>1.521084e-08</td>
+      <td>-0.000002</td>
+      <td>0.000002</td>
+    </tr>
+    <tr>
+      <td>beta1__2</td>
+      <td>-1.046630e-08</td>
+      <td>9.851710e-07</td>
+      <td>1.594965e-08</td>
+      <td>-0.000002</td>
+      <td>0.000002</td>
+    </tr>
+    <tr>
+      <td>beta1__3</td>
+      <td>1.344149e-08</td>
+      <td>1.025941e-06</td>
+      <td>1.511805e-08</td>
+      <td>-0.000002</td>
+      <td>0.000002</td>
+    </tr>
+    <tr>
+      <td>beta1__4</td>
+      <td>-8.524219e-09</td>
+      <td>1.001885e-06</td>
+      <td>1.509703e-08</td>
+      <td>-0.000002</td>
+      <td>0.000002</td>
+    </tr>
+    <tr>
+      <td>beta2__0</td>
+      <td>1.049455e-01</td>
+      <td>8.210894e-01</td>
+      <td>1.448093e-02</td>
+      <td>-1.541178</td>
+      <td>1.705234</td>
+    </tr>
+    <tr>
+      <td>beta2__1</td>
+      <td>9.951122e-02</td>
+      <td>8.312969e-01</td>
+      <td>1.372516e-02</td>
+      <td>-1.397382</td>
+      <td>1.800130</td>
+    </tr>
+    <tr>
+      <td>beta2__2</td>
+      <td>1.211892e+00</td>
+      <td>4.813717e-01</td>
+      <td>7.670829e-03</td>
+      <td>0.260755</td>
+      <td>2.110489</td>
+    </tr>
+    <tr>
+      <td>beta2__3</td>
+      <td>3.359027e-01</td>
+      <td>7.087585e-01</td>
+      <td>1.243311e-02</td>
+      <td>-1.034393</td>
+      <td>1.762568</td>
+    </tr>
+    <tr>
+      <td>beta2__4</td>
+      <td>1.252870e-01</td>
+      <td>8.015261e-01</td>
+      <td>1.482588e-02</td>
+      <td>-1.385974</td>
+      <td>1.769432</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">results2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace2</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">])})</span>
+                         <span class="c1">#&#39;beta&#39;: np.apply_along_axis(np.mean, 0, trace2[&#39;beta&#39;]),})</span>
+                         <span class="c1">#&#39;beta_given_inclusion&#39;: np.apply_along_axis(np.sum, 0, trace2[&#39;xi&#39;]*trace2[&#39;beta&#39;]) / np.apply_along_axis(np.sum, 0, trace2[&#39;xi&#39;])})</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">results2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[61]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>inclusion_probability</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0.0605</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.0685</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.0080</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.0785</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.0755</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">trace2</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[49]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0, 1, 2, 3, 4])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[50]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1., 1., 1., 1., 1.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
 </pre></div>
 
     </div>
@@ -10972,7 +11319,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/cb817c67395aa6d2d320f1c194fb38cfc7dbf702/dsc/20191005_PyMC3_SpikeSlab.ipynb"><code>dsc/20191005_PyMC3_SpikeSlab.ipynb</code></a> committed by minqiao on Tue Oct 29 17:47:40 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/cb817c67395aa6d2d320f1c194fb38cfc7dbf702">revision 6, cb817c6</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/8db0d3fd369175c13166cb9d6c1d9c1b4d91c8fc/dsc/20191005_PyMC3_SpikeSlab.ipynb"><code>dsc/20191005_PyMC3_SpikeSlab.ipynb</code></a> committed by minqiao on Wed Oct 30 22:59:14 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/8db0d3fd369175c13166cb9d6c1d9c1b4d91c8fc">revision 7, 8db0d3f</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
