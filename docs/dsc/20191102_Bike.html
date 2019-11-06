@@ -1,0 +1,2216 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.7" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=dscDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=dscArray;
+            var docs_map=dscArrayMap;
+            var pos=dscArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  $(".toc #toc-level0").append('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>');
+            }
+            // $("#toc-header").hide(); // comment out because it prevents search bar from displaying
+    });
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Gene Mapping with CNV</title>
+
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+        
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+        
+<li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+        
+<li>
+  <a href="../dsc.html">Dsc</a>
+</li>
+        
+<li>
+  <a href="../setup/index.html">Setup</a>
+</li>
+        
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span><span class="o">,</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span><span class="o">,</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;/home/min/Downloads/Divvy_Trips/Divvy_Trips_2018_Q1.csv&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;/home/min/Downloads/Divvy_Trips/Divvy_Trips_2018_Q2.csv&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;/home/min/Downloads/Divvy_Trips/Divvy_Trips_2018_Q3.csv&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data4</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;/home/min/Downloads/Divvy_Trips/Divvy_Trips_2018_Q4.csv&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data1</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data2</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data1</span><span class="p">[</span><span class="s2">&quot;season&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">data2</span><span class="p">[</span><span class="s2">&quot;season&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">data3</span><span class="p">[</span><span class="s2">&quot;season&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">data4</span><span class="p">[</span><span class="s2">&quot;season&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">,</span> <span class="n">data3</span><span class="p">,</span> <span class="n">data4</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[9]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(3603082, 13)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[10]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>trip_id</th>
+      <th>start_time</th>
+      <th>end_time</th>
+      <th>bikeid</th>
+      <th>tripduration</th>
+      <th>from_station_id</th>
+      <th>from_station_name</th>
+      <th>to_station_id</th>
+      <th>to_station_name</th>
+      <th>usertype</th>
+      <th>gender</th>
+      <th>birthyear</th>
+      <th>season</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>17536702</td>
+      <td>2018-01-01 00:12:00</td>
+      <td>2018-01-01 00:17:23</td>
+      <td>3304</td>
+      <td>323.0</td>
+      <td>69</td>
+      <td>Damen Ave &amp; Pierce Ave</td>
+      <td>159</td>
+      <td>Claremont Ave &amp; Hirsch St</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1988.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>17536703</td>
+      <td>2018-01-01 00:41:35</td>
+      <td>2018-01-01 00:47:52</td>
+      <td>5367</td>
+      <td>377.0</td>
+      <td>253</td>
+      <td>Winthrop Ave &amp; Lawrence Ave</td>
+      <td>325</td>
+      <td>Clark St &amp; Winnemac Ave (Temp)</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1984.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>17536704</td>
+      <td>2018-01-01 00:44:46</td>
+      <td>2018-01-01 01:33:10</td>
+      <td>4599</td>
+      <td>2,904.0</td>
+      <td>98</td>
+      <td>LaSalle St &amp; Washington St</td>
+      <td>509</td>
+      <td>Troy St &amp; North Ave</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1989.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>17536705</td>
+      <td>2018-01-01 00:53:10</td>
+      <td>2018-01-01 01:05:37</td>
+      <td>2302</td>
+      <td>747.0</td>
+      <td>125</td>
+      <td>Rush St &amp; Hubbard St</td>
+      <td>364</td>
+      <td>Larrabee St &amp; Oak St</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1983.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>17536706</td>
+      <td>2018-01-01 00:53:37</td>
+      <td>2018-01-01 00:56:40</td>
+      <td>3696</td>
+      <td>183.0</td>
+      <td>129</td>
+      <td>Blue Island Ave &amp; 18th St</td>
+      <td>205</td>
+      <td>Paulina St &amp; 18th St</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1989.0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;tripduration&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;tripduration&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;usertype&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Customer&quot;</span><span class="p">][</span><span class="s2">&quot;gender&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[12]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Counter({nan: 553560, &#39;Male&#39;: 74661, &#39;Female&#39;: 48935})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data11</span> <span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;gender&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">())</span> <span class="o">&amp;</span> <span class="p">(</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;birthyear&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">())]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data11</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2018</span><span class="o">-</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data11</span><span class="p">[</span><span class="s2">&quot;birthyear&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>&lt;string&gt;:1: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data11</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[15]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>trip_id</th>
+      <th>start_time</th>
+      <th>end_time</th>
+      <th>bikeid</th>
+      <th>tripduration</th>
+      <th>from_station_id</th>
+      <th>from_station_name</th>
+      <th>to_station_id</th>
+      <th>to_station_name</th>
+      <th>usertype</th>
+      <th>gender</th>
+      <th>birthyear</th>
+      <th>season</th>
+      <th>age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>17536702</td>
+      <td>2018-01-01 00:12:00</td>
+      <td>2018-01-01 00:17:23</td>
+      <td>3304</td>
+      <td>323.0</td>
+      <td>69</td>
+      <td>Damen Ave &amp; Pierce Ave</td>
+      <td>159</td>
+      <td>Claremont Ave &amp; Hirsch St</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1988.0</td>
+      <td>1</td>
+      <td>30.0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>17536703</td>
+      <td>2018-01-01 00:41:35</td>
+      <td>2018-01-01 00:47:52</td>
+      <td>5367</td>
+      <td>377.0</td>
+      <td>253</td>
+      <td>Winthrop Ave &amp; Lawrence Ave</td>
+      <td>325</td>
+      <td>Clark St &amp; Winnemac Ave (Temp)</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1984.0</td>
+      <td>1</td>
+      <td>34.0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>17536704</td>
+      <td>2018-01-01 00:44:46</td>
+      <td>2018-01-01 01:33:10</td>
+      <td>4599</td>
+      <td>2904.0</td>
+      <td>98</td>
+      <td>LaSalle St &amp; Washington St</td>
+      <td>509</td>
+      <td>Troy St &amp; North Ave</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1989.0</td>
+      <td>1</td>
+      <td>29.0</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>17536705</td>
+      <td>2018-01-01 00:53:10</td>
+      <td>2018-01-01 01:05:37</td>
+      <td>2302</td>
+      <td>747.0</td>
+      <td>125</td>
+      <td>Rush St &amp; Hubbard St</td>
+      <td>364</td>
+      <td>Larrabee St &amp; Oak St</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1983.0</td>
+      <td>1</td>
+      <td>35.0</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>17536706</td>
+      <td>2018-01-01 00:53:37</td>
+      <td>2018-01-01 00:56:40</td>
+      <td>3696</td>
+      <td>183.0</td>
+      <td>129</td>
+      <td>Blue Island Ave &amp; 18th St</td>
+      <td>205</td>
+      <td>Paulina St &amp; 18th St</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1989.0</td>
+      <td>1</td>
+      <td>29.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data11</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[16]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(3040517, 14)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">data11</span><span class="p">[</span><span class="s2">&quot;gender&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[19]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Counter({&#39;Male&#39;: 2281809, &#39;Female&#39;: 758708})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">max</span><span class="p">(</span><span class="n">data11</span><span class="p">[</span><span class="s2">&quot;birthyear&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[20]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2005.0</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">min</span><span class="p">(</span><span class="n">data11</span><span class="p">[</span><span class="s2">&quot;birthyear&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[21]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>1895.0</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[78]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data22</span> <span class="o">=</span> <span class="n">data11</span><span class="p">[(</span><span class="n">data11</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">80</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data11</span><span class="p">[</span><span class="s2">&quot;tripduration&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">10800</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data22</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[79]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(3034899, 14)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[80]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data22</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[80]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>trip_id</th>
+      <th>start_time</th>
+      <th>end_time</th>
+      <th>bikeid</th>
+      <th>tripduration</th>
+      <th>from_station_id</th>
+      <th>from_station_name</th>
+      <th>to_station_id</th>
+      <th>to_station_name</th>
+      <th>usertype</th>
+      <th>gender</th>
+      <th>birthyear</th>
+      <th>season</th>
+      <th>age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>17536702</td>
+      <td>2018-01-01 00:12:00</td>
+      <td>2018-01-01 00:17:23</td>
+      <td>3304</td>
+      <td>323.0</td>
+      <td>69</td>
+      <td>Damen Ave &amp; Pierce Ave</td>
+      <td>159</td>
+      <td>Claremont Ave &amp; Hirsch St</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1988.0</td>
+      <td>1</td>
+      <td>30.0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>17536703</td>
+      <td>2018-01-01 00:41:35</td>
+      <td>2018-01-01 00:47:52</td>
+      <td>5367</td>
+      <td>377.0</td>
+      <td>253</td>
+      <td>Winthrop Ave &amp; Lawrence Ave</td>
+      <td>325</td>
+      <td>Clark St &amp; Winnemac Ave (Temp)</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1984.0</td>
+      <td>1</td>
+      <td>34.0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>17536704</td>
+      <td>2018-01-01 00:44:46</td>
+      <td>2018-01-01 01:33:10</td>
+      <td>4599</td>
+      <td>2904.0</td>
+      <td>98</td>
+      <td>LaSalle St &amp; Washington St</td>
+      <td>509</td>
+      <td>Troy St &amp; North Ave</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1989.0</td>
+      <td>1</td>
+      <td>29.0</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>17536705</td>
+      <td>2018-01-01 00:53:10</td>
+      <td>2018-01-01 01:05:37</td>
+      <td>2302</td>
+      <td>747.0</td>
+      <td>125</td>
+      <td>Rush St &amp; Hubbard St</td>
+      <td>364</td>
+      <td>Larrabee St &amp; Oak St</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1983.0</td>
+      <td>1</td>
+      <td>35.0</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>17536706</td>
+      <td>2018-01-01 00:53:37</td>
+      <td>2018-01-01 00:56:40</td>
+      <td>3696</td>
+      <td>183.0</td>
+      <td>129</td>
+      <td>Blue Island Ave &amp; 18th St</td>
+      <td>205</td>
+      <td>Paulina St &amp; 18th St</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1989.0</td>
+      <td>1</td>
+      <td>29.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[81]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">data22</span><span class="p">[</span><span class="s2">&quot;season&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[81]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Counter({1: 364157, 2: 861590, 3: 1216095, 4: 593057})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data22</span><span class="p">[</span><span class="n">data22</span><span class="p">[</span><span class="s2">&quot;to_station_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;Harper&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[43]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>trip_id</th>
+      <th>start_time</th>
+      <th>end_time</th>
+      <th>bikeid</th>
+      <th>tripduration</th>
+      <th>from_station_id</th>
+      <th>from_station_name</th>
+      <th>to_station_id</th>
+      <th>to_station_name</th>
+      <th>usertype</th>
+      <th>gender</th>
+      <th>birthyear</th>
+      <th>season</th>
+      <th>age</th>
+      <th>month</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1209</td>
+      <td>17538562</td>
+      <td>2018-01-02 14:58:49</td>
+      <td>2018-01-02 15:03:12</td>
+      <td>2875</td>
+      <td>263.0</td>
+      <td>328</td>
+      <td>Ellis Ave &amp; 58th St</td>
+      <td>425</td>
+      <td>Harper Ave &amp; 59th St</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1965.0</td>
+      <td>1</td>
+      <td>53.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>3046</td>
+      <td>17541146</td>
+      <td>2018-01-03 12:45:02</td>
+      <td>2018-01-03 12:51:46</td>
+      <td>3505</td>
+      <td>404.0</td>
+      <td>426</td>
+      <td>Ellis Ave &amp; 60th St</td>
+      <td>425</td>
+      <td>Harper Ave &amp; 59th St</td>
+      <td>Subscriber</td>
+      <td>Female</td>
+      <td>1970.0</td>
+      <td>1</td>
+      <td>48.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>3048</td>
+      <td>17541148</td>
+      <td>2018-01-03 12:46:13</td>
+      <td>2018-01-03 12:52:57</td>
+      <td>2875</td>
+      <td>404.0</td>
+      <td>419</td>
+      <td>Lake Park Ave &amp; 53rd St</td>
+      <td>425</td>
+      <td>Harper Ave &amp; 59th St</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1965.0</td>
+      <td>1</td>
+      <td>53.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>5564</td>
+      <td>17544489</td>
+      <td>2018-01-04 13:04:27</td>
+      <td>2018-01-04 13:11:29</td>
+      <td>1969</td>
+      <td>422.0</td>
+      <td>426</td>
+      <td>Ellis Ave &amp; 60th St</td>
+      <td>425</td>
+      <td>Harper Ave &amp; 59th St</td>
+      <td>Subscriber</td>
+      <td>Female</td>
+      <td>1970.0</td>
+      <td>1</td>
+      <td>48.0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>7839</td>
+      <td>17547555</td>
+      <td>2018-01-05 12:49:10</td>
+      <td>2018-01-05 12:55:54</td>
+      <td>1541</td>
+      <td>404.0</td>
+      <td>426</td>
+      <td>Ellis Ave &amp; 60th St</td>
+      <td>425</td>
+      <td>Harper Ave &amp; 59th St</td>
+      <td>Subscriber</td>
+      <td>Female</td>
+      <td>1970.0</td>
+      <td>1</td>
+      <td>48.0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[87]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">toUchicago</span> <span class="o">=</span> <span class="n">data22</span><span class="p">[</span><span class="n">data22</span><span class="p">[</span><span class="s2">&quot;to_station_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">328</span><span class="p">,</span> <span class="mi">420</span><span class="p">,</span> <span class="mi">423</span><span class="p">,</span> <span class="mi">425</span><span class="p">,</span> <span class="mi">426</span><span class="p">])]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[95]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">toUchicago</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[95]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(33236, 15)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[89]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;usertype&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[89]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Counter({&#39;Subscriber&#39;: 32607, &#39;Customer&#39;: 629})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[243]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">],</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[90]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">max</span><span class="p">(</span><span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[90]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>73.0</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[194]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="s2">&quot;{}{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;start_&quot;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[195]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">toUchicago</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[195]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>trip_id</th>
+      <th>start_time</th>
+      <th>end_time</th>
+      <th>bikeid</th>
+      <th>tripduration</th>
+      <th>from_station_id</th>
+      <th>from_station_name</th>
+      <th>to_station_id</th>
+      <th>to_station_name</th>
+      <th>usertype</th>
+      <th>gender</th>
+      <th>birthyear</th>
+      <th>season</th>
+      <th>age</th>
+      <th>start</th>
+      <th>sex</th>
+      <th>id</th>
+      <th>season1</th>
+      <th>user</th>
+      <th>ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>308</td>
+      <td>17537175</td>
+      <td>2018-01-01 18:34:39</td>
+      <td>2018-01-01 18:46:04</td>
+      <td>3149</td>
+      <td>685.0</td>
+      <td>322</td>
+      <td>Kimbark Ave &amp; 53rd St</td>
+      <td>426</td>
+      <td>Ellis Ave &amp; 60th St</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1982.0</td>
+      <td>1</td>
+      <td>36.0</td>
+      <td>1834</td>
+      <td>0</td>
+      <td>2</td>
+      <td>Spring</td>
+      <td>1</td>
+      <td>ID2</td>
+    </tr>
+    <tr>
+      <td>344</td>
+      <td>17537211</td>
+      <td>2018-01-01 20:43:10</td>
+      <td>2018-01-01 20:45:39</td>
+      <td>2934</td>
+      <td>149.0</td>
+      <td>426</td>
+      <td>Ellis Ave &amp; 60th St</td>
+      <td>328</td>
+      <td>Ellis Ave &amp; 58th St</td>
+      <td>Subscriber</td>
+      <td>Female</td>
+      <td>1995.0</td>
+      <td>1</td>
+      <td>23.0</td>
+      <td>2043</td>
+      <td>1</td>
+      <td>3</td>
+      <td>Spring</td>
+      <td>1</td>
+      <td>ID3</td>
+    </tr>
+    <tr>
+      <td>590</td>
+      <td>17537531</td>
+      <td>2018-01-02 07:43:27</td>
+      <td>2018-01-02 07:55:17</td>
+      <td>1602</td>
+      <td>710.0</td>
+      <td>413</td>
+      <td>Woodlawn Ave &amp; Lake Park Ave</td>
+      <td>420</td>
+      <td>Ellis Ave &amp; 55th St</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1965.0</td>
+      <td>1</td>
+      <td>53.0</td>
+      <td>743</td>
+      <td>0</td>
+      <td>4</td>
+      <td>Spring</td>
+      <td>1</td>
+      <td>ID4</td>
+    </tr>
+    <tr>
+      <td>739</td>
+      <td>17537756</td>
+      <td>2018-01-02 08:24:07</td>
+      <td>2018-01-02 08:37:03</td>
+      <td>4871</td>
+      <td>776.0</td>
+      <td>385</td>
+      <td>Princeton Ave &amp; Garfield Blvd</td>
+      <td>423</td>
+      <td>University Ave &amp; 57th St</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1972.0</td>
+      <td>1</td>
+      <td>46.0</td>
+      <td>824</td>
+      <td>0</td>
+      <td>5</td>
+      <td>Spring</td>
+      <td>1</td>
+      <td>ID5</td>
+    </tr>
+    <tr>
+      <td>828</td>
+      <td>17537860</td>
+      <td>2018-01-02 08:53:31</td>
+      <td>2018-01-02 09:05:19</td>
+      <td>2910</td>
+      <td>708.0</td>
+      <td>252</td>
+      <td>Greenwood Ave &amp; 47th St</td>
+      <td>423</td>
+      <td>University Ave &amp; 57th St</td>
+      <td>Subscriber</td>
+      <td>Male</td>
+      <td>1988.0</td>
+      <td>1</td>
+      <td>30.0</td>
+      <td>853</td>
+      <td>0</td>
+      <td>5</td>
+      <td>Spring</td>
+      <td>1</td>
+      <td>ID5</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[93]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fromUchicago</span> <span class="o">=</span> <span class="n">data22</span><span class="p">[</span><span class="n">data22</span><span class="p">[</span><span class="s2">&quot;from_station_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">328</span><span class="p">,</span> <span class="mi">420</span><span class="p">,</span> <span class="mi">423</span><span class="p">,</span> <span class="mi">425</span><span class="p">,</span> <span class="mi">426</span><span class="p">])]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[94]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fromUchicago</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[94]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(33622, 14)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[97]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fromUchicago</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="s2">&quot;{}{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fromUchicago</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[266]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">],</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Start time to UChicago&#39;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="mi">2000</span><span class="p">]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;12am&quot;</span><span class="p">,</span> <span class="s2">&quot;5am&quot;</span><span class="p">,</span> <span class="s2">&quot;10am&quot;</span><span class="p">,</span> <span class="s2">&quot;3pm&quot;</span><span class="p">,</span> <span class="s2">&quot;8pm&quot;</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Start time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of trips&#39;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;/home/min/toUC.starttime.pdf&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[265]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">],</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Start time from UChicago&#39;</span><span class="p">)</span>
+<span class="n">x1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="mi">2000</span><span class="p">]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;12am&quot;</span><span class="p">,</span> <span class="s2">&quot;5am&quot;</span><span class="p">,</span> <span class="s2">&quot;10am&quot;</span><span class="p">,</span> <span class="s2">&quot;3pm&quot;</span><span class="p">,</span> <span class="s2">&quot;8pm&quot;</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Start time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Number of trips&#39;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;/home/min/toUC.starttime.pdf&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[136]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot;Male&quot;</span> <span class="k">else</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;gender&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>&lt;string&gt;:1: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[137]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">toUchicago</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;to_station_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">425</span> <span class="k">else</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;to_station_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">426</span> <span class="k">else</span> <span class="mi">3</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;to_station_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">328</span> 
+                   <span class="k">else</span> <span class="mi">4</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;to_station_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">420</span> <span class="k">else</span> <span class="mi">5</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>&lt;string&gt;:2: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[193]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="s2">&quot;ID{i}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>&lt;string&gt;:1: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[155]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;season1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">toUchicago</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="s2">&quot;Spring&quot;</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;season&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;Summer&quot;</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;season&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="s2">&quot;Fall&quot;</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;season&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span> <span class="k">else</span> <span class="s2">&quot;Winter&quot;</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>&lt;string&gt;:1: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[157]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;season1&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[157]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Counter({&#39;Spring&#39;: 4220, &#39;Summer&#39;: 7756, &#39;Fall&#39;: 11463, &#39;Winter&#39;: 9797})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[143]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot;Subscriber&quot;</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;usertype&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[158]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pca_class</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Counter</span><span class="p">(</span><span class="n">toUchicago</span><span class="p">[</span><span class="s2">&quot;season1&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[159]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pca_class</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[159]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;Spring&#39;, &#39;Summer&#39;, &#39;Fall&#39;, &#39;Winter&#39;]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[233]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">toUchicago</span><span class="p">[[</span><span class="s2">&quot;ID&quot;</span><span class="p">]]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">toUchicago</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;season&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[234]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">set_index</span><span class="p">([[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[235]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">transformed</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[236]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">tmp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">transformed</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[237]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">tmp</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[237]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ID</th>
+      <th>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>ID2</td>
+      <td>1.807557</td>
+      <td>-0.005995</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>ID3</td>
+      <td>1.807557</td>
+      <td>-0.005995</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>ID4</td>
+      <td>1.807557</td>
+      <td>-0.005995</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>ID5</td>
+      <td>1.807557</td>
+      <td>-0.005995</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>ID5</td>
+      <td>1.807557</td>
+      <td>-0.005995</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[238]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ID1&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ID1&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ID2&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ID2&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;S2&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ID3&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ID3&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;S3&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;limegreen&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ID4&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ID4&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;S4&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;C8&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ID5&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;ID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ID5&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;S5&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="s1">&#39;C9&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Seasons&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+<span class="c1"># pic1 = &quot;/home/min/Documents/Canine/feature_hist/Working, Hound &amp; Herding.png&quot;</span>
+<span class="c1"># plt.savefig(pic1)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob//dsc/20191102_Bike.ipynb"><code>dsc/20191102_Bike.ipynb</code></a> committed by minqiao on Wed Nov 6 10:46:51 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/">revision 0, </a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,2459 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.7" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=dscDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=dscArray;
+            var docs_map=dscArrayMap;
+            var pos=dscArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  $(".toc #toc-level0").append('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>');
+            }
+            // $("#toc-header").hide(); // comment out because it prevents search bar from displaying
+    });
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Gene Mapping with CNV</title>
+
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+        
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+        
+<li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+        
+<li>
+  <a href="../dsc.html">Dsc</a>
+</li>
+        
+<li>
+  <a href="../setup/index.html">Setup</a>
+</li>
+        
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span><span class="o">,</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;/home/min/Downloads/Arrest_Data_from_2010_to_Present.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[2]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Report ID</th>
+      <th>Arrest Date</th>
+      <th>Time</th>
+      <th>Area ID</th>
+      <th>Area Name</th>
+      <th>Reporting District</th>
+      <th>Age</th>
+      <th>Sex Code</th>
+      <th>Descent Code</th>
+      <th>Charge Group Code</th>
+      <th>Charge Group Description</th>
+      <th>Arrest Type Code</th>
+      <th>Charge</th>
+      <th>Charge Description</th>
+      <th>Address</th>
+      <th>Cross Street</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>4248313</td>
+      <td>02/24/2015</td>
+      <td>1310.0</td>
+      <td>20</td>
+      <td>Olympic</td>
+      <td>2022</td>
+      <td>37</td>
+      <td>M</td>
+      <td>H</td>
+      <td>5.0</td>
+      <td>Burglary</td>
+      <td>F</td>
+      <td>459PC</td>
+      <td>BURGLARY</td>
+      <td>5TH</td>
+      <td>WILTON</td>
+      <td>(34.0653, -118.314)</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>191811472</td>
+      <td>05/03/2019</td>
+      <td>1700.0</td>
+      <td>18</td>
+      <td>Southeast</td>
+      <td>1802</td>
+      <td>23</td>
+      <td>F</td>
+      <td>B</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>M</td>
+      <td>653.22 PC</td>
+      <td>NaN</td>
+      <td>91ST</td>
+      <td>FIGUEROA</td>
+      <td>(33.9543, -118.2827)</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>4254777</td>
+      <td>02/26/2015</td>
+      <td>2010.0</td>
+      <td>19</td>
+      <td>Mission</td>
+      <td>1985</td>
+      <td>22</td>
+      <td>M</td>
+      <td>H</td>
+      <td>6.0</td>
+      <td>Larceny</td>
+      <td>M</td>
+      <td>459.5PC</td>
+      <td>SHOPLIFTING</td>
+      <td>8300    VAN NUYS                     BL</td>
+      <td>NaN</td>
+      <td>(34.2216, -118.4488)</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>5614161</td>
+      <td>04/29/2019</td>
+      <td>1040.0</td>
+      <td>8</td>
+      <td>West LA</td>
+      <td>842</td>
+      <td>41</td>
+      <td>M</td>
+      <td>H</td>
+      <td>3.0</td>
+      <td>Robbery</td>
+      <td>F</td>
+      <td>211PC</td>
+      <td>ROBBERY</td>
+      <td>11600    WILSHIRE                     BL</td>
+      <td>NaN</td>
+      <td>(34.0508, -118.4592)</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>5615197</td>
+      <td>04/30/2019</td>
+      <td>615.0</td>
+      <td>6</td>
+      <td>Hollywood</td>
+      <td>663</td>
+      <td>27</td>
+      <td>M</td>
+      <td>O</td>
+      <td>5.0</td>
+      <td>Burglary</td>
+      <td>F</td>
+      <td>459PC</td>
+      <td>BURGLARY</td>
+      <td>LA BREA</td>
+      <td>LEXINGTON</td>
+      <td>(34.0907, -118.3384)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Arrest Type Code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;I&quot;</span><span class="p">][</span><span class="s2">&quot;Charge Group Description&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[9]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Counter({&#39;Liquor Laws&#39;: 14408,
+         nan: 28916,
+         &#39;Moving Traffic Violations&#39;: 725,
+         &#39;Miscellaneous Other Violations&#39;: 622,
+         &#39;Drunkeness&#39;: 8085,
+         &#39;Disturbing the Peace&#39;: 60,
+         &#39;Narcotic Drug Laws&#39;: 1142,
+         &#39;Larceny&#39;: 975,
+         &#39;Disorderly Conduct&#39;: 10,
+         &#39;Fraud/Embezzlement&#39;: 51})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Sex Code&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[4]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Counter({&#39;M&#39;: 1037167, &#39;F&#39;: 272960})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Descent Code&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[6]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Counter({&#39;H&#39;: 610986,
+         &#39;B&#39;: 376778,
+         &#39;O&#39;: 67183,
+         &#39;W&#39;: 246191,
+         &#39;K&#39;: 1110,
+         &#39;F&#39;: 929,
+         &#39;A&#39;: 5289,
+         &#39;V&#39;: 17,
+         &#39;G&#39;: 49,
+         &#39;C&#39;: 832,
+         &#39;X&#39;: 108,
+         &#39;P&#39;: 177,
+         &#39;S&#39;: 11,
+         &#39;J&#39;: 163,
+         &#39;I&#39;: 284,
+         &#39;U&#39;: 6,
+         &#39;L&#39;: 6,
+         &#39;Z&#39;: 6,
+         &#39;D&#39;: 2})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Arrest Date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;/2019&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[4]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(1231627, 17)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data2018</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Arrest Date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;/2018&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data2018</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[6]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Report ID</th>
+      <th>Arrest Date</th>
+      <th>Time</th>
+      <th>Area ID</th>
+      <th>Area Name</th>
+      <th>Reporting District</th>
+      <th>Age</th>
+      <th>Sex Code</th>
+      <th>Descent Code</th>
+      <th>Charge Group Code</th>
+      <th>Charge Group Description</th>
+      <th>Arrest Type Code</th>
+      <th>Charge</th>
+      <th>Charge Description</th>
+      <th>Address</th>
+      <th>Cross Street</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>165</td>
+      <td>5213460</td>
+      <td>01/24/2018</td>
+      <td>1930.0</td>
+      <td>6</td>
+      <td>Hollywood</td>
+      <td>668</td>
+      <td>29</td>
+      <td>M</td>
+      <td>H</td>
+      <td>10.0</td>
+      <td>Fraud/Embezzlement</td>
+      <td>F</td>
+      <td>530.5(A)PC</td>
+      <td>GET CREDIT/ETC OTHER'S ID</td>
+      <td>ST ANDREWS</td>
+      <td>FOUNTAIN</td>
+      <td>(34.0949, -118.3109)</td>
+    </tr>
+    <tr>
+      <td>166</td>
+      <td>5257944</td>
+      <td>03/15/2018</td>
+      <td>310.0</td>
+      <td>7</td>
+      <td>Wilshire</td>
+      <td>743</td>
+      <td>33</td>
+      <td>F</td>
+      <td>O</td>
+      <td>1.0</td>
+      <td>Homicide</td>
+      <td>F</td>
+      <td>191.5(B)PC</td>
+      <td>VEH MANSLAUGHTR/OPER VESSEL DUI &amp; DUR FEL</td>
+      <td>OLYMPIC</td>
+      <td>MASSELIN</td>
+      <td>(34.0574, -118.3547)</td>
+    </tr>
+    <tr>
+      <td>167</td>
+      <td>5328813</td>
+      <td>06/01/2018</td>
+      <td>1800.0</td>
+      <td>3</td>
+      <td>Southwest</td>
+      <td>356</td>
+      <td>44</td>
+      <td>F</td>
+      <td>B</td>
+      <td>16.0</td>
+      <td>Narcotic Drug Laws</td>
+      <td>F</td>
+      <td>11379(A)HS</td>
+      <td>TRANSPORT/SELL CONTROLLED SUBSTANCE</td>
+      <td>1600 W  36TH                         PL</td>
+      <td>NaN</td>
+      <td>(34.0219, -118.3061)</td>
+    </tr>
+    <tr>
+      <td>168</td>
+      <td>5336331</td>
+      <td>06/10/2018</td>
+      <td>200.0</td>
+      <td>13</td>
+      <td>Newton</td>
+      <td>1364</td>
+      <td>23</td>
+      <td>M</td>
+      <td>H</td>
+      <td>12.0</td>
+      <td>Weapon (carry/poss)</td>
+      <td>F</td>
+      <td>25400(A)2PC</td>
+      <td>CARRYING CONCEALED WEAPON UPON PERSON</td>
+      <td>1200 E  50TH                         ST</td>
+      <td>NaN</td>
+      <td>(33.998, -118.2543)</td>
+    </tr>
+    <tr>
+      <td>169</td>
+      <td>5360731</td>
+      <td>07/07/2018</td>
+      <td>2330.0</td>
+      <td>18</td>
+      <td>Southeast</td>
+      <td>1832</td>
+      <td>32</td>
+      <td>M</td>
+      <td>B</td>
+      <td>12.0</td>
+      <td>Weapon (carry/poss)</td>
+      <td>F</td>
+      <td>29800(A)1PC</td>
+      <td>POSS F/ARM BY CONVICTED FELON/ADDICT/ETC</td>
+      <td>10700 S  MAIN                         ST</td>
+      <td>NaN</td>
+      <td>(33.9392, -118.2739)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">data2018</span><span class="p">[</span><span class="s2">&quot;Area Name&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[7]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[(&#39;Central&#39;, 10951)]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data1</span> <span class="o">=</span> <span class="n">data2018</span><span class="p">[</span><span class="n">data2018</span><span class="p">[</span><span class="s2">&quot;Charge Group Description&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;Vehicle Theft&quot;</span><span class="p">,</span> <span class="s2">&quot;Robbery&quot;</span><span class="p">,</span> <span class="s2">&quot;Burglary&quot;</span><span class="p">,</span> <span class="s2">&quot;Receive Stolen Property&quot;</span><span class="p">])]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data1</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[9]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(8457, 17)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">max</span><span class="p">(</span><span class="n">data1</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[10]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>73</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">data1</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">],</span> <span class="mf">0.95</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[11]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>52.0</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">data1</span><span class="p">[</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="mi">95</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[12]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>52.0</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data2</span> <span class="o">=</span> <span class="n">data2018</span><span class="p">[(</span><span class="o">~</span><span class="n">data2018</span><span class="p">[</span><span class="s2">&quot;Charge Group Description&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;Pre-Delinquency&quot;</span><span class="p">,</span> <span class="s2">&quot;Non-Criminal Detention&quot;</span><span class="p">]))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="o">~</span><span class="n">data2018</span><span class="p">[</span><span class="s2">&quot;Charge Group Description&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">())]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data2</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[14]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(91544, 17)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data2</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[15]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Report ID</th>
+      <th>Arrest Date</th>
+      <th>Time</th>
+      <th>Area ID</th>
+      <th>Area Name</th>
+      <th>Reporting District</th>
+      <th>Age</th>
+      <th>Sex Code</th>
+      <th>Descent Code</th>
+      <th>Charge Group Code</th>
+      <th>Charge Group Description</th>
+      <th>Arrest Type Code</th>
+      <th>Charge</th>
+      <th>Charge Description</th>
+      <th>Address</th>
+      <th>Cross Street</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>165</td>
+      <td>5213460</td>
+      <td>01/24/2018</td>
+      <td>1930.0</td>
+      <td>6</td>
+      <td>Hollywood</td>
+      <td>668</td>
+      <td>29</td>
+      <td>M</td>
+      <td>H</td>
+      <td>10.0</td>
+      <td>Fraud/Embezzlement</td>
+      <td>F</td>
+      <td>530.5(A)PC</td>
+      <td>GET CREDIT/ETC OTHER'S ID</td>
+      <td>ST ANDREWS</td>
+      <td>FOUNTAIN</td>
+      <td>(34.0949, -118.3109)</td>
+    </tr>
+    <tr>
+      <td>166</td>
+      <td>5257944</td>
+      <td>03/15/2018</td>
+      <td>310.0</td>
+      <td>7</td>
+      <td>Wilshire</td>
+      <td>743</td>
+      <td>33</td>
+      <td>F</td>
+      <td>O</td>
+      <td>1.0</td>
+      <td>Homicide</td>
+      <td>F</td>
+      <td>191.5(B)PC</td>
+      <td>VEH MANSLAUGHTR/OPER VESSEL DUI &amp; DUR FEL</td>
+      <td>OLYMPIC</td>
+      <td>MASSELIN</td>
+      <td>(34.0574, -118.3547)</td>
+    </tr>
+    <tr>
+      <td>167</td>
+      <td>5328813</td>
+      <td>06/01/2018</td>
+      <td>1800.0</td>
+      <td>3</td>
+      <td>Southwest</td>
+      <td>356</td>
+      <td>44</td>
+      <td>F</td>
+      <td>B</td>
+      <td>16.0</td>
+      <td>Narcotic Drug Laws</td>
+      <td>F</td>
+      <td>11379(A)HS</td>
+      <td>TRANSPORT/SELL CONTROLLED SUBSTANCE</td>
+      <td>1600 W  36TH                         PL</td>
+      <td>NaN</td>
+      <td>(34.0219, -118.3061)</td>
+    </tr>
+    <tr>
+      <td>168</td>
+      <td>5336331</td>
+      <td>06/10/2018</td>
+      <td>200.0</td>
+      <td>13</td>
+      <td>Newton</td>
+      <td>1364</td>
+      <td>23</td>
+      <td>M</td>
+      <td>H</td>
+      <td>12.0</td>
+      <td>Weapon (carry/poss)</td>
+      <td>F</td>
+      <td>25400(A)2PC</td>
+      <td>CARRYING CONCEALED WEAPON UPON PERSON</td>
+      <td>1200 E  50TH                         ST</td>
+      <td>NaN</td>
+      <td>(33.998, -118.2543)</td>
+    </tr>
+    <tr>
+      <td>169</td>
+      <td>5360731</td>
+      <td>07/07/2018</td>
+      <td>2330.0</td>
+      <td>18</td>
+      <td>Southeast</td>
+      <td>1832</td>
+      <td>32</td>
+      <td>M</td>
+      <td>B</td>
+      <td>12.0</td>
+      <td>Weapon (carry/poss)</td>
+      <td>F</td>
+      <td>29800(A)1PC</td>
+      <td>POSS F/ARM BY CONVICTED FELON/ADDICT/ETC</td>
+      <td>10700 S  MAIN                         ST</td>
+      <td>NaN</td>
+      <td>(33.9392, -118.2739)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">zscore</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">zscore</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data2</span><span class="p">[</span><span class="n">data2</span><span class="p">[</span><span class="s2">&quot;Charge Group Description&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">index</span><span class="p">][</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">data2</span><span class="p">[</span><span class="s2">&quot;Charge Group Description&quot;</span><span class="p">])])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[17]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([-0.27034217,  0.51402431, -0.74903519,  1.54571468,  0.01339552,
+       -1.06740082, -0.11167656,  0.17303679,  0.06521076, -0.15256004,
+       -1.08659029,  2.17174816,  0.15473346, -1.17945575, -0.24670122,
+        0.99155085, -0.19718027,  1.8289996 ,  0.15428483, -1.22392779,
+       -1.86013121, -0.19445294,  1.52674355, -1.13888574,  0.33889745])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">zscore</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data2</span><span class="p">[</span><span class="n">data2</span><span class="p">[</span><span class="s2">&quot;Charge Group Description&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">index</span><span class="p">][</span><span class="s2">&quot;Age&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">data2</span><span class="p">[</span><span class="s2">&quot;Charge Group Description&quot;</span><span class="p">])])))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[18]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2.1717481576567237</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Arrest Date&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[20]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Counter({2015: 126154,
+         2016: 118125,
+         2017: 107651,
+         2018: 104277,
+         2012: 163313,
+         2014: 139380,
+         2010: 162416,
+         2011: 157638,
+         2013: 152673})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">round</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2019</span><span class="p">]]))[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[25]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>95230.0</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="n">brad</span> <span class="o">=</span> <span class="p">[</span><span class="mf">34.050536</span><span class="p">,</span> <span class="o">-</span><span class="mf">118.247861</span><span class="p">]</span>
+<span class="n">R_earth</span> <span class="o">=</span> <span class="mi">6371</span>
+<span class="k">def</span> <span class="nf">dist_to_brad</span><span class="p">(</span><span class="n">loc</span><span class="p">):</span>
+    <span class="n">loc</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">loc</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;()&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">R_earth</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(((</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">brad</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">((</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">brad</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">brad</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">dist_to_brad</span><span class="p">(</span><span class="s1">&#39;(33.9392, -118.2739)&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[27]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>12.610589681622365</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data2018</span><span class="p">[</span><span class="s2">&quot;dist&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">dist_to_brad</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data2018</span><span class="p">[</span><span class="s2">&quot;Location&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>&lt;string&gt;:1: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data2018</span><span class="p">[</span><span class="n">data2018</span><span class="p">[</span><span class="s2">&quot;dist&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[29]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>11461</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pico</span> <span class="o">=</span> <span class="n">data2018</span><span class="p">[</span><span class="n">data2018</span><span class="p">[</span><span class="s2">&quot;Address&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;PICO&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">locations</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">loc</span> <span class="ow">in</span> <span class="n">pico</span><span class="p">[</span><span class="s2">&quot;Location&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">loc</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;()&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">locations</span> <span class="o">=</span> <span class="p">[[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">locations</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">locations</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">locations</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[33]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>613</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">latitude</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">locations</span><span class="p">]</span>
+<span class="n">longitude</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">locations</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">statistics</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">upper_lati</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">latitude</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">statistics</span><span class="o">.</span><span class="n">stdev</span><span class="p">(</span><span class="n">latitude</span><span class="p">)</span>
+<span class="n">lower_lati</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">latitude</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">statistics</span><span class="o">.</span><span class="n">stdev</span><span class="p">(</span><span class="n">latitude</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">upper_longi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">longitude</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">statistics</span><span class="o">.</span><span class="n">stdev</span><span class="p">(</span><span class="n">longitude</span><span class="p">)</span>
+<span class="n">lower_longi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">longitude</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">statistics</span><span class="o">.</span><span class="n">stdev</span><span class="p">(</span><span class="n">longitude</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pico</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">latitude</span>
+<span class="n">pico</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">longitude</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>&lt;string&gt;:2: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pico</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[40]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(613, 20)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pico</span><span class="p">[</span><span class="s2">&quot;pico&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pico</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">upper_lati</span> <span class="ow">and</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">lower_lati</span> 
+                          <span class="ow">and</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">upper_longi</span> <span class="ow">and</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">lower_longi</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">pico</span><span class="p">[</span><span class="s2">&quot;pico&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[42]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Counter({1: 605, 0: 8})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pico</span> <span class="o">=</span> <span class="n">pico</span><span class="p">[</span><span class="n">pico</span><span class="p">[</span><span class="s2">&quot;pico&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pico</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[44]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(605, 21)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">min_longi</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">pico</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">max_longi</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">pico</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">min_lati</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">pico</span><span class="p">[</span><span class="n">pico</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="nb">min</span><span class="p">(</span><span class="n">pico</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">])][</span><span class="s2">&quot;latitude&quot;</span><span class="p">]))[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">max_lati</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">pico</span><span class="p">[</span><span class="n">pico</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="nb">max</span><span class="p">(</span><span class="n">pico</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">])][</span><span class="s2">&quot;latitude&quot;</span><span class="p">]))[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="k">print</span> <span class="p">(</span><span class="n">min_longi</span><span class="p">,</span> <span class="n">max_longi</span><span class="p">,</span> <span class="n">min_lati</span><span class="p">,</span> <span class="n">max_lati</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>-118.453 -118.2159 34.0281 34.0188
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">#2018</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">min_longi</span><span class="p">,</span> <span class="n">max_longi</span><span class="p">,</span> <span class="n">min_lati</span><span class="p">,</span> <span class="n">max_lati</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>-118.453 -118.2159 34.0281 34.0188
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pico_len</span> <span class="o">=</span> <span class="n">R_earth</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(((</span><span class="n">max_lati</span> <span class="o">-</span> <span class="n">min_lati</span><span class="p">)</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">((</span><span class="n">max_lati</span> <span class="o">+</span> <span class="n">min_lati</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_longi</span> <span class="o">-</span> <span class="n">min_longi</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pico_len</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[52]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>21.87543009718496</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pico</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">pico_len</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[53]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>27.656599084552603</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[24]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Report ID</th>
+      <th>Arrest Date</th>
+      <th>Time</th>
+      <th>Area ID</th>
+      <th>Area Name</th>
+      <th>Reporting District</th>
+      <th>Age</th>
+      <th>Sex Code</th>
+      <th>Descent Code</th>
+      <th>Charge Group Code</th>
+      <th>Charge Group Description</th>
+      <th>Arrest Type Code</th>
+      <th>Charge</th>
+      <th>Charge Description</th>
+      <th>Address</th>
+      <th>Cross Street</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>4248313</td>
+      <td>02/24/2015</td>
+      <td>1310.0</td>
+      <td>20</td>
+      <td>Olympic</td>
+      <td>2022</td>
+      <td>37</td>
+      <td>M</td>
+      <td>H</td>
+      <td>5.0</td>
+      <td>Burglary</td>
+      <td>F</td>
+      <td>459PC</td>
+      <td>BURGLARY</td>
+      <td>5TH</td>
+      <td>WILTON</td>
+      <td>(34.0653, -118.314)</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>4254777</td>
+      <td>02/26/2015</td>
+      <td>2010.0</td>
+      <td>19</td>
+      <td>Mission</td>
+      <td>1985</td>
+      <td>22</td>
+      <td>M</td>
+      <td>H</td>
+      <td>6.0</td>
+      <td>Larceny</td>
+      <td>M</td>
+      <td>459.5PC</td>
+      <td>SHOPLIFTING</td>
+      <td>8300    VAN NUYS                     BL</td>
+      <td>NaN</td>
+      <td>(34.2216, -118.4488)</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>4256466</td>
+      <td>02/28/2015</td>
+      <td>1430.0</td>
+      <td>18</td>
+      <td>Southeast</td>
+      <td>1824</td>
+      <td>22</td>
+      <td>M</td>
+      <td>B</td>
+      <td>5.0</td>
+      <td>Burglary</td>
+      <td>F</td>
+      <td>459PC</td>
+      <td>BURGLARY</td>
+      <td>103RD</td>
+      <td>HICKORY</td>
+      <td>(33.947, -118.2594)</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>4256564</td>
+      <td>02/28/2015</td>
+      <td>1715.0</td>
+      <td>10</td>
+      <td>West Valley</td>
+      <td>1039</td>
+      <td>16</td>
+      <td>M</td>
+      <td>H</td>
+      <td>3.0</td>
+      <td>Robbery</td>
+      <td>F</td>
+      <td>211PC</td>
+      <td>ROBBERY</td>
+      <td>VANOWEN</td>
+      <td>WOODLEY</td>
+      <td>(34.1939, -118.4836)</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>4256815</td>
+      <td>03/01/2015</td>
+      <td>110.0</td>
+      <td>17</td>
+      <td>Devonshire</td>
+      <td>1794</td>
+      <td>22</td>
+      <td>M</td>
+      <td>H</td>
+      <td>8.0</td>
+      <td>Other Assaults</td>
+      <td>M</td>
+      <td>243(A)PC</td>
+      <td>BATTERY ON PERSON</td>
+      <td>VANALDEN</td>
+      <td>BRYANT</td>
+      <td>(34.2251, -118.5372)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data3</span> <span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Charge Group Code&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">())</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;Charge Group Code&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mf">99.0</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data3</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[36]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(1151713, 17)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data3</span><span class="p">[</span><span class="s2">&quot;Charge Group Code&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data3</span><span class="p">[</span><span class="s2">&quot;Charge Group Code&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">charge_group</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">data3</span><span class="p">[</span><span class="s2">&quot;Charge Group Code&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data3</span><span class="p">[</span><span class="s2">&quot;Area ID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data3</span><span class="p">[</span><span class="s2">&quot;Area ID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">area_id</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">data3</span><span class="p">[</span><span class="s2">&quot;Area ID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">charge_group</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">area_id</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+        <span class="n">prob1</span> <span class="o">=</span> <span class="n">data3</span><span class="p">[(</span><span class="n">data3</span><span class="p">[</span><span class="s2">&quot;Charge Group Code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">c</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data3</span><span class="p">[</span><span class="s2">&quot;Area ID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">a</span><span class="p">)]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">data3</span><span class="p">[</span><span class="n">data3</span><span class="p">[</span><span class="s2">&quot;Area ID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">a</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">prob2</span> <span class="o">=</span> <span class="n">data3</span><span class="p">[</span><span class="n">data3</span><span class="p">[</span><span class="s2">&quot;Charge Group Code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">data3</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prob1</span> <span class="o">/</span> <span class="n">prob2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[0.9703664607561573, 1.1400412475377257, 1.5528455013000897, 1.1655374351130499, 1.1916225453742704, 0.59555792028352, 1.044336732098174, 0.4366198602167488, 0.8800839230035505, 3.012797140885735, 1.3168043920009795, 0.9086559528830667, 2.1457267107262172, 0.729775553906875, 0.5983436304785668, 1.1186322226195076, 1.0002459042828633, 1.2382594224142716, 0.9945734918474257, 0.9727116620898897, 0.8992868313130215, 1.2122812262399048, 0.638230995216527, 1.975634260729956, 1.5231053974227033]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="p">[(</span><span class="n">data3</span><span class="p">[(</span><span class="n">data3</span><span class="p">[</span><span class="s2">&quot;Charge Group Code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">c</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data3</span><span class="p">[</span><span class="s2">&quot;Area ID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">a</span><span class="p">)]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">data3</span><span class="p">[</span><span class="n">data3</span><span class="p">[</span><span class="s2">&quot;Area ID&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">a</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">data3</span><span class="p">[</span><span class="n">data3</span><span class="p">[</span><span class="s2">&quot;Charge Group Code&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">data3</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
+       <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">charge_group</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">area_id</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[54]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>588</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">res</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[58]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>3.515076379865202</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob//dsc/20191031_Data_Incubator.ipynb"><code>dsc/20191031_Data_Incubator.ipynb</code></a> committed by minqiao on Wed Nov 6 10:46:51 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/">revision 0, </a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>

@@ -251,7 +251,7 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Result-using-new-logistic">Result using new <code>logistic</code><a class="anchor-link" href="#Result-using-new-logistic">&#182;</a></h1>
+<h1 id="Single-effect-CNV-gene-pattern-report-using-new-logistic-and-other-methods">Single effect CNV-gene pattern report using new <code>logistic</code> and other methods<a class="anchor-link" href="#Single-effect-CNV-gene-pattern-report-using-new-logistic-and-other-methods">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -353,51 +353,66 @@ V5  1.0000000   1.0000000   0.4997202   0.7904810   1.0000000
 <ol>
 <li><p>beta0 = log(0.05/0.95) = -2.94, sigma_beta0 = 1, chain = 2</p>
 
-<pre><code> index    inclusion_probability  beta    beta_given_inclusion</code></pre>
+<pre><code> index    inclusion_probability  beta    beta_given_inclusion
+     3   0.47625 0.592170    1.243402
+     1   0.03150 0.012665    0.402071
+     5   0.03050 0.014249    0.467167
+     2   0.02925 0.012819    0.438252
+     4   0.02825 0.013742    0.486451</code></pre>
 </li>
 </ol>
 <ol>
 <li><p>beta0 = log(0.05/0.95) = -2.94, sigma_beta0 = 0.1, chain = 10</p>
 
 <pre><code> index   inclusion_probability   beta    beta_given_inclusion
-     2   0.59090 0.768570    1.300677
-     3   0.03010 0.015933    0.529335
-     0   0.03005 0.012272    0.408400
-     4   0.02755 0.010674    0.387456
-     1   0.02620 0.011247    0.429271</code></pre>
+     3   0.59090 0.768570    1.300677
+     4   0.03010 0.015933    0.529335
+     1   0.03005 0.012272    0.408400
+     5   0.02755 0.010674    0.387456
+     2   0.02620 0.011247    0.429271</code></pre>
 </li>
 </ol>
 <ol>
-<li><p>beta0 = log(0.05/0.95) = -2.94, sigma_beta0 = 0.075, chain = 1</p>
+<li><p>beta0 = log(0.05/0.95) = -2.94, sigma_beta0 = 0.075, chain = 2</p>
 
-<pre><code> index   inclusion_probability   beta    beta_given_inclusion</code></pre>
+<pre><code> index   inclusion_probability   beta    beta_given_inclusion
+     3   0.67975 0.917245    1.349385
+     1   0.02825 0.012331    0.436505
+     2   0.02800 0.010168    0.363138
+     4   0.02725 0.011556    0.424060
+     5   0.02650 0.012442    0.469526</code></pre>
 </li>
 </ol>
 <ol>
 <li><p>beta0 = log(0.05/0.95) = -2.94, sigma_beta0 = 0.05, chain = 2</p>
 
 <pre><code> index   inclusion_probability   beta    beta_given_inclusion
-     2   0.85825 1.260122    1.468246
-     3   0.03375 0.018337    0.543320
-     4   0.03025 0.008501    0.281032
-     1   0.03000 0.007361    0.245359
-     0   0.02575 0.006745    0.261948</code></pre>
+     3   0.85825 1.260122    1.468246
+     4   0.03375 0.018337    0.543320
+     5   0.03025 0.008501    0.281032
+     2   0.03000 0.007361    0.245359
+     1   0.02575 0.006745    0.261948</code></pre>
 </li>
 </ol>
 <ol>
-<li><p>beta0 = log(0.05/0.95) = -2.94, sigma_beta0 = 0.01, chain = 1</p>
+<li><p>beta0 = log(0.05/0.95) = -2.94, sigma_beta0 = 0.01, chain = 2</p>
 
-<pre><code> index   inclusion_probability   beta    beta_given_inclusion</code></pre>
+<pre><code> index   inclusion_probability   beta    beta_given_inclusion
+     3   1.00000 2.988192    2.988192
+     4   0.08100 0.078647    0.970953
+     2   0.02650 0.008012    0.302330
+     5   0.02625 0.011186    0.426136
+     1   0.02575 0.009734    0.378034</code></pre>
 </li>
 </ol>
 <h4 id="PyMC3-Mixture-normal-model-(Table-7)">PyMC3 Mixture normal model (Table 7)<a class="anchor-link" href="#PyMC3-Mixture-normal-model-(Table-7)">&#182;</a></h4>
-<pre><code>        mean        sd      mc_error        hpd_2.5 hpd_97.5
-alpha   -0.001208   0.017520    0.000436    -0.033342   0.036470
-beta__0 0.025705    0.181715    0.013628    -0.138208   0.129349
-beta__1 -0.000119   0.073514    0.001140    -0.097299   0.092712
-beta__2 0.815089    0.706798    0.063393    -0.114546   1.972868
-beta__3 0.001238    0.101555    0.001842    -0.097665   0.101230
-beta__4 0.004144    0.105738    0.005091    -0.108441   0.102987</code></pre>
+<pre><code>        mean         sd     mc_error        hpd_2.5 hpd_97.5
+alpha    -0.001208  0.017520    0.000436    -0.033342   0.036470
+beta__1 0.025705    0.181715    0.013628    -0.138208   0.129349
+beta__2 -0.000119   0.073514    0.001140    -0.097299   0.092712
+beta__3 0.815089    0.706798    0.063393    -0.114546   1.972868
+beta__4 0.001238    0.101555    0.001842    -0.097665   0.101230
+beta__5 0.004144    0.105738    0.005091    -0.108441   0.102987</code></pre>
 
 </div>
 </div>
@@ -417,7 +432,7 @@ beta__4 0.004144    0.105738    0.005091    -0.108441   0.102987</code></pre>
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/8db0d3fd369175c13166cb9d6c1d9c1b4d91c8fc/dsc/20191023_logistic_report.ipynb"><code>dsc/20191023_logistic_report.ipynb</code></a> committed by minqiao on Wed Oct 30 22:59:14 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/8db0d3fd369175c13166cb9d6c1d9c1b4d91c8fc">revision 6, 8db0d3f</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/88b8e83230e2c82acce7e2293ca60aa5989a325c/dsc/20191023_logistic_report.ipynb"><code>dsc/20191023_logistic_report.ipynb</code></a> committed by minqiao on Wed Nov 6 10:46:51 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/88b8e83230e2c82acce7e2293ca60aa5989a325c">revision 7, 88b8e83</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

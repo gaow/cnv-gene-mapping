@@ -1083,13 +1083,13 @@ dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[73]:</div>
+<div class="prompt input_prompt">In&nbsp;[95]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="kn">as</span> <span class="nn">pm</span>
 <span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="kn">as</span> <span class="nn">tt</span>
 
-<span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">pi0</span> <span class="o">=</span> <span class="n">pi_varbvs</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu_varbvs</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">si_varbvs</span><span class="p">,</span> <span class="n">mu_intercept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.05</span><span class="o">/</span><span class="mf">0.95</span><span class="p">),</span> <span class="n">sigma_intercept</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">pi0</span> <span class="o">=</span> <span class="n">pi_varbvs</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu_varbvs</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">si_varbvs</span><span class="p">,</span> <span class="n">mu_intercept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.05</span><span class="o">/</span><span class="mf">0.95</span><span class="p">),</span> <span class="n">sigma_intercept</span> <span class="o">=</span> <span class="mf">0.075</span><span class="p">):</span>
     <span class="n">invlogit</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">tt</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
     <span class="k">with</span> <span class="n">model</span><span class="p">:</span>
@@ -1108,7 +1108,7 @@ dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[74]:</div>
+<div class="prompt input_prompt">In&nbsp;[96]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">get_model</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">X</span><span class="p">)</span>
@@ -1121,7 +1121,7 @@ dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[75]:</div>
+<div class="prompt input_prompt">In&nbsp;[97]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">model</span>
@@ -1137,7 +1137,7 @@ dtype: float64</pre>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[75]:</div>
+    <div class="prompt output_prompt">Out[97]:</div>
 
 
 
@@ -1145,7 +1145,7 @@ dtype: float64</pre>
 <div class="output_latex output_subarea output_execute_result">
 $$
             \begin{array}{rcl}
-            \text{xi} &\sim & \text{Bernoulli}(\mathit{p}=0.0437754961218526)\\\text{alpha} &\sim & \text{Normal}(\mathit{mu}=-2.9444389791664403,~\mathit{sigma}=0.05)\\\text{beta} &\sim & \text{Normal}(\mathit{mu}=0.777072111580423,~\mathit{sigma}=0.8436501699101251)\\\text{y_obs} &\sim & \text{Bernoulli}(\mathit{p}=f(f(),~f(f(),~f(f(f(f(array,~f(\text{xi},~\text{beta})),~f(\text{alpha})))))))
+            \text{xi} &\sim & \text{Bernoulli}(\mathit{p}=0.0437754961218526)\\\text{alpha} &\sim & \text{Normal}(\mathit{mu}=-2.9444389791664403,~\mathit{sigma}=0.075)\\\text{beta} &\sim & \text{Normal}(\mathit{mu}=0.777072111580423,~\mathit{sigma}=0.8436501699101251)\\\text{y_obs} &\sim & \text{Bernoulli}(\mathit{p}=f(f(),~f(f(),~f(f(f(f(array,~f(\text{xi},~\text{beta})),~f(\text{alpha})))))))
             \end{array}
             $$
 </div>
@@ -1166,7 +1166,7 @@ $$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[76]:</div>
+<div class="prompt input_prompt">In&nbsp;[98]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># Here I use 20 cores on my 40 core machine, with 10 chains, to generate 2000 samples.</span>
@@ -1193,8 +1193,8 @@ $$
 CompoundStep
 &gt;BinaryGibbsMetropolis: [xi]
 &gt;NUTS: [beta, alpha]
-100%|██████████| 2500/2500 [01:26&lt;00:00, 28.83it/s]
-100%|██████████| 2500/2500 [00:49&lt;00:00, 50.19it/s]
+100%|██████████| 2500/2500 [01:24&lt;00:00, 29.50it/s]
+100%|██████████| 2500/2500 [00:49&lt;00:00, 50.00it/s]
 </pre>
 </div>
 </div>
@@ -1213,7 +1213,7 @@ CompoundStep
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="prompt input_prompt">In&nbsp;[99]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">]),</span>
@@ -1229,7 +1229,7 @@ CompoundStep
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
+<div class="prompt input_prompt">In&nbsp;[100]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
@@ -1245,7 +1245,7 @@ CompoundStep
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[78]:</div>
+    <div class="prompt output_prompt">Out[100]:</div>
 
 
 
@@ -1276,33 +1276,33 @@ CompoundStep
   <tbody>
     <tr>
       <td>2</td>
-      <td>0.85825</td>
-      <td>1.260122</td>
-      <td>1.468246</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>0.03375</td>
-      <td>0.018337</td>
-      <td>0.543320</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>0.03025</td>
-      <td>0.008501</td>
-      <td>0.281032</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>0.03000</td>
-      <td>0.007361</td>
-      <td>0.245359</td>
+      <td>0.67975</td>
+      <td>0.917245</td>
+      <td>1.349385</td>
     </tr>
     <tr>
       <td>0</td>
-      <td>0.02575</td>
-      <td>0.006745</td>
-      <td>0.261948</td>
+      <td>0.02825</td>
+      <td>0.012331</td>
+      <td>0.436505</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.02800</td>
+      <td>0.010168</td>
+      <td>0.363138</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.02725</td>
+      <td>0.011556</td>
+      <td>0.424060</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.02650</td>
+      <td>0.012442</td>
+      <td>0.469526</td>
     </tr>
   </tbody>
 </table>
@@ -11319,7 +11319,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/8db0d3fd369175c13166cb9d6c1d9c1b4d91c8fc/dsc/20191005_PyMC3_SpikeSlab.ipynb"><code>dsc/20191005_PyMC3_SpikeSlab.ipynb</code></a> committed by minqiao on Wed Oct 30 22:59:14 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/8db0d3fd369175c13166cb9d6c1d9c1b4d91c8fc">revision 7, 8db0d3f</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/88b8e83230e2c82acce7e2293ca60aa5989a325c/dsc/20191005_PyMC3_SpikeSlab.ipynb"><code>dsc/20191005_PyMC3_SpikeSlab.ipynb</code></a> committed by minqiao on Wed Nov 6 10:46:51 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/88b8e83230e2c82acce7e2293ca60aa5989a325c">revision 8, 88b8e83</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
