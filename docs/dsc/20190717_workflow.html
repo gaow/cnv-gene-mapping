@@ -396,8 +396,14 @@ Sections
 <pre><code>sos run dsc/20190717_workflow.ipynb logit --genotype_file /home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.X.gz \
 --phenotype_file /home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.y --n_gene_in_block 1 -s build</code></pre>
 
-<pre><code>sos run dsc/20190717_workflow.ipynb pymc3:1-3 --genotype_file /home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.X.gz \
+<pre><code>sos run dsc/20190717_workflow.ipynb pymc3 --genotype_file /home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.X.gz \
 --phenotype_file /home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.y --n_gene_in_block 1 -s build</code></pre>
+<h3 id="midway">midway<a class="anchor-link" href="#midway">&#182;</a></h3>
+<pre><code>cd /home/gaow/GIT/github/cnv-gene-mapping
+JOB_OPT="-q midway2 -c midway2.yml"
+sos run dsc/20190717_workflow.ipynb pymc3 --genotype_file /home/gaow/GIT/github/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.X.gz \
+--phenotype_file /home/gaow/GIT/github/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.y --n_gene_in_block 1 -s build \
+--job_size 10 $JOB_OPT</code></pre>
 
 </div>
 </div>
@@ -412,6 +418,7 @@ Sections
 <span class="kn">parameter:</span> <span class="n">cwd</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="s2">&quot;~/GIT/github/cnv-gene-mapping/data&quot;</span><span class="p">)</span>
 <span class="kn">parameter:</span> <span class="n">genotype_file</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd:a}/{cnv_type}.X.gz&quot;</span><span class="p">)</span>
 <span class="kn">parameter:</span> <span class="n">phenotype_file</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd:a}/{cnv_type}.y&quot;</span><span class="p">)</span> <span class="c1"># real CNV data phenotype</span>
+<span class="kn">parameter:</span> <span class="n">job_size</span> <span class="o">=</span> <span class="mi">80</span>
 <span class="kn">parameter:</span> <span class="n">mu0</span> <span class="o">=</span> <span class="mf">0.777072111580423</span>
 <span class="kn">parameter:</span> <span class="n">s0</span> <span class="o">=</span> <span class="mf">0.8436501699101251</span>
 <span class="kn">parameter:</span> <span class="n">pi0</span> <span class="o">=</span> <span class="mf">0.0437754961218526</span>
@@ -805,6 +812,7 @@ Sections
 <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;{_input[2]:a}&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()]</span><span class="c1">#[:5]</span>
 <span class="kn">input:</span> <span class="n">for_each</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blocks&#39;</span><span class="p">]</span>
 <span class="kn">output:</span> <span class="n">f</span><span class="s2">&quot;{_input[0]:d}/block_{_blocks}/{_input[0]:bnn}.block_{_blocks}.gz&quot;</span>
+<span class="kn">task:</span> <span class="kp">trunk_workers</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kp">trunk_size</span> <span class="o">=</span> <span class="n">job_size</span><span class="p">,</span> <span class="kp">walltime</span> <span class="o">=</span> <span class="s1">&#39;10m&#39;</span><span class="p">,</span> <span class="kp">mem</span> <span class="o">=</span> <span class="s1">&#39;8G&#39;</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kp">tags</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;pymc3_{_output:bn}&#39;</span>
 <span class="kn">python:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span>
     <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">r</span><span class="p">},</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span>
@@ -828,6 +836,7 @@ Sections
 <span class="kn">parameter:</span> <span class="n">sigma_intercept</span> <span class="o">=</span> <span class="mf">0.05</span>
 <span class="kn">input:</span> <span class="n">group_by</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="kn">output:</span> <span class="n">f</span><span class="s2">&quot;{_input[0]:n}.pymc3.gz&quot;</span>
+<span class="kn">task:</span> <span class="kp">trunk_workers</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kp">trunk_size</span> <span class="o">=</span> <span class="n">job_size</span><span class="p">,</span> <span class="kp">walltime</span> <span class="o">=</span> <span class="s1">&#39;10m&#39;</span><span class="p">,</span> <span class="kp">mem</span> <span class="o">=</span> <span class="s1">&#39;8G&#39;</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kp">tags</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;pymc3_{_output:bn}&#39;</span>
 <span class="kn">python:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span>
     <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span><span class="o">,</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span><span class="o">,</span> <span class="nn">pymc3</span> <span class="kn">as</span> <span class="nn">pm</span><span class="o">,</span> <span class="nn">theano.tensor</span> <span class="kn">as</span> <span class="nn">tt</span>
     <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">expit</span>
@@ -1234,7 +1243,7 @@ sos run dsc/20190717_workflow.ipynb analyze:1-2 --genotype_file /home/gaow/GIT/g
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/06b7431656558076017f93d48f8d163668b0319a/dsc/20190717_workflow.ipynb"><code>dsc/20190717_workflow.ipynb</code></a> committed by minqiao on Fri Jan 10 14:40:33 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/06b7431656558076017f93d48f8d163668b0319a">revision 41, 06b7431</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/71c0e9e016dbffa8500887cf44a43805a8bd4cac/dsc/20190717_workflow.ipynb"><code>dsc/20190717_workflow.ipynb</code></a> committed by minqiao on Fri Jan 10 17:15:06 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/71c0e9e016dbffa8500887cf44a43805a8bd4cac">revision 44, 71c0e9e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
