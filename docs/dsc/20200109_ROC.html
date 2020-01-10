@@ -251,7 +251,8 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Evaluate-copy-model-simulation">Evaluate copy model simulation<a class="anchor-link" href="#Evaluate-copy-model-simulation">&#182;</a></h1>
+<h1 id="ROC-curve-comparison-PyMC3,-susie,-varbvs,-logit">ROC curve comparison PyMC3, susie, varbvs, logit<a class="anchor-link" href="#ROC-curve-comparison-PyMC3,-susie,-varbvs,-logit">&#182;</a></h1><p>ROC curve for comparing methods</p>
+
 </div>
 </div>
 </div>
@@ -260,12 +261,9 @@ body {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">cbind</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="nf">matrix</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="m">900</span><span class="p">),</span> <span class="n">ncol</span> <span class="o">=</span> <span class="m">9</span><span class="p">))</span>
-<span class="n">beta</span> <span class="o">&lt;-</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span>
-<span class="n">beta[1]</span> <span class="o">&lt;-</span> <span class="m">3</span>
-<span class="n">beta[5]</span> <span class="o">&lt;-</span> <span class="m">-4</span>
-<span class="n">beta[8]</span> <span class="o">&lt;-</span> <span class="m">2</span>
-<span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">rnorm</span><span class="p">(</span><span class="m">100</span><span class="p">,</span> <span class="n">x</span> <span class="o">%*%</span> <span class="n">beta</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span><span class="o">,</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -278,136 +276,12 @@ body {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">head</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">varbvs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/deletion_simu/deletion.genes.block30.for_simu.sample.genes.varbvs.all.blocks.pip.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;varbvs_pip&quot;</span><span class="p">])</span>
+<span class="n">susie</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/deletion_simu/deletion.genes.block30.for_simu.sample.genes.SuSiE.L_1.susie.all.blocks.pip.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;susie_pip&quot;</span><span class="p">])</span>
+<span class="n">logit</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/deletion_simu/deletion.genes.block30.for_simu.sample.genes.logit.all.blocks.pip.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;logit_pip&quot;</span><span class="p">])</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-<table>
-<tbody>
-	<tr><td>1         </td><td>-0.1993719</td><td>-0.3380134</td><td>-0.3718766</td><td>-0.1139068</td><td> 0.2184884</td><td> 0.5202742</td><td> 0.3798534</td><td>-1.0355494</td><td> 1.6067079</td></tr>
-	<tr><td>1         </td><td>-0.7490309</td><td> 0.6765961</td><td>-0.9647809</td><td> 0.3371101</td><td> 0.4808287</td><td> 1.1579994</td><td>-2.1064309</td><td> 0.4074590</td><td> 1.0400015</td></tr>
-	<tr><td>1         </td><td>-1.0260294</td><td> 1.5832566</td><td> 2.0059047</td><td> 0.5978197</td><td> 0.2323485</td><td>-0.6530632</td><td>-0.2954355</td><td> 0.3031091</td><td>-1.1449568</td></tr>
-	<tr><td>1         </td><td> 0.9490308</td><td> 1.4486723</td><td>-0.1787185</td><td> 1.3029096</td><td>-0.4529281</td><td> 0.2118851</td><td>-1.0253368</td><td>-1.5020655</td><td> 0.3976446</td></tr>
-	<tr><td>1         </td><td> 0.2560417</td><td>-0.4478347</td><td> 0.7166044</td><td> 1.1510051</td><td>-3.0569579</td><td>-1.0651925</td><td>-0.2137227</td><td>-0.9616635</td><td>-1.2137978</td></tr>
-	<tr><td>1         </td><td>-0.8251835</td><td> 0.4649516</td><td>-0.6558799</td><td>-0.3858947</td><td> 0.5064666</td><td>-0.3740635</td><td>-1.4468912</td><td> 0.7859481</td><td> 0.5657902</td></tr>
-</tbody>
-</table>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="nf">length</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-<ol class=list-inline>
-	<li>100</li>
-	<li>10</li>
-</ol>
-
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-100
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">reticulate</span><span class="p">)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">susieR</span><span class="p">)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">BoomSpikeSlab</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>Loading required package: Boom
-Loading required package: MASS
-
-Attaching package: ‘Boom’
-
-The following object is masked from ‘package:stats’:
-
-    rWishart
-
-
-Attaching package: ‘BoomSpikeSlab’
-
-The following object is masked from ‘package:stats’:
-
-    knots
-
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -417,16 +291,59 @@ The following object is masked from ‘package:stats’:
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">prior</span> <span class="o">&lt;-</span> <span class="nf">SpikeSlabPrior</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
-<span class="n">expected.model.size</span> <span class="o">=</span> <span class="m">3</span><span class="p">,</span> <span class="c1"># expect 3 nonzero predictors</span>
-<span class="n">prior.df</span> <span class="o">=</span> <span class="m">.01</span><span class="p">,</span> <span class="c1"># weaker prior than the default</span>
-<span class="n">prior.information.weight</span> <span class="o">=</span> <span class="m">.01</span><span class="p">,</span>
-<span class="n">diagonal.shrinkage</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> <span class="c1"># use Zellner&#39;s prior</span>
-<span class="n">optional.coefficient.estimate</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span> <span class="c1"># shrink to zero</span>
-<span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/deletion_simu/deletion.genes.block30.for_simu.sample.shape0.0.scale1.0.beta&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">])</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{cwd}/deletion_simu/deletion.genes.block30.for_simu.sample.block1.forsimu.index.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">],</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">b1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">index</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">b1</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">j</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;s&quot;</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;e&quot;</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[7]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2285</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -436,7 +353,20 @@ The following object is masked from ‘package:stats’:
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">length</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">mu</span><span class="p">)</span> <span class="o">==</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">b1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">beta</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
@@ -449,30 +379,17 @@ The following object is masked from ‘package:stats’:
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+    <div class="prompt output_prompt">Out[9]:</div>
 
 
 
-<div class="output_html rendered_html output_subarea ">
-TRUE
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(2285, 1)</pre>
 </div>
 
 </div>
 
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="c1"># x &lt;- x[, -1]</span>
-<span class="c1"># length(prior$mu) == ncol(x)</span>
-</pre></div>
-
-    </div>
 </div>
 </div>
 
@@ -482,7 +399,20 @@ TRUE
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">model</span> <span class="o">&lt;-</span> <span class="nf">lm.spike</span><span class="p">(</span><span class="n">y</span> <span class="o">~</span> <span class="n">x</span><span class="m">-1</span><span class="p">,</span> <span class="n">niter</span> <span class="o">=</span> <span class="m">1000</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="n">prior</span><span class="p">,</span> <span class="n">error.distribution</span> <span class="o">=</span> <span class="s">&quot;gaussian&quot;</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">beta</span><span class="p">,</span> <span class="n">varbvs</span><span class="p">,</span> <span class="n">susie</span><span class="p">,</span> <span class="n">logit</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -495,22 +425,76 @@ TRUE
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+    <div class="prompt output_prompt">Out[13]:</div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>=-=-=-=-= Iteration 0 Wed Sep 18 14:44:08 2019 =-=-=-=-=
-=-=-=-=-= Iteration 100 Wed Sep 18 14:44:08 2019 =-=-=-=-=
-=-=-=-=-= Iteration 200 Wed Sep 18 14:44:08 2019 =-=-=-=-=
-=-=-=-=-= Iteration 300 Wed Sep 18 14:44:08 2019 =-=-=-=-=
-=-=-=-=-= Iteration 400 Wed Sep 18 14:44:09 2019 =-=-=-=-=
-=-=-=-=-= Iteration 500 Wed Sep 18 14:44:09 2019 =-=-=-=-=
-=-=-=-=-= Iteration 600 Wed Sep 18 14:44:09 2019 =-=-=-=-=
-=-=-=-=-= Iteration 700 Wed Sep 18 14:44:09 2019 =-=-=-=-=
-=-=-=-=-= Iteration 800 Wed Sep 18 14:44:09 2019 =-=-=-=-=
-=-=-=-=-= Iteration 900 Wed Sep 18 14:44:09 2019 =-=-=-=-=
-</pre>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>beta</th>
+      <th>varbvs_pip</th>
+      <th>susie_pip</th>
+      <th>logit_pip</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>-0.000000</td>
+      <td>0.072735</td>
+      <td>0.0</td>
+      <td>0.125</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>-0.000000</td>
+      <td>0.072734</td>
+      <td>0.0</td>
+      <td>0.125</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>-0.417782</td>
+      <td>0.072733</td>
+      <td>0.0</td>
+      <td>0.125</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.000000</td>
+      <td>0.072733</td>
+      <td>0.0</td>
+      <td>0.125</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.000000</td>
+      <td>0.072732</td>
+      <td>0.0</td>
+      <td>0.125</td>
+    </tr>
+  </tbody>
+</table>
 </div>
+</div>
+
 </div>
 
 </div>
@@ -522,7 +506,7 @@ TRUE
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span>
+<div class=" highlight hl-sos"><pre><span></span>
 </pre></div>
 
     </div>
@@ -532,7 +516,7 @@ TRUE
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob//dsc/20190828_R_test.ipynb"><code>dsc/20190828_R_test.ipynb</code></a> committed by minqiao on Fri Jan 10 14:40:33 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/">revision 0, </a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob//dsc/20200109_ROC.ipynb"><code>dsc/20200109_ROC.ipynb</code></a> committed by minqiao on Fri Jan 10 14:40:33 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/">revision 0, </a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
