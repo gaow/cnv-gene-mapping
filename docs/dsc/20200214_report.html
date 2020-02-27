@@ -258,7 +258,7 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="logistic-model-on-non-signal-block_37_44">logistic model on non-signal block_37_44<a class="anchor-link" href="#logistic-model-on-non-signal-block_37_44">&#182;</a></h2><p>PIPs are approximately equal</p>
+<h2 id="PIPs-of-logistic-method-in-non-signal-blocks-are-expected-to-be-approximately-equal">PIPs of logistic method in non-signal blocks are expected to be approximately equal<a class="anchor-link" href="#PIPs-of-logistic-method-in-non-signal-blocks-are-expected-to-be-approximately-equal">&#182;</a></h2><p>Result of an example: logistic model on non-signal block_37_44</p>
 
 <pre><code>         p1        mu1        s1
 1 0.1187680 0.16859762 0.5349063
@@ -276,25 +276,33 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Compare-logistic-and-pymc3-on-single-causal-gene-block.">Compare logistic and pymc3 on single causal gene block.<a class="anchor-link" href="#Compare-logistic-and-pymc3-on-single-causal-gene-block.">&#182;</a></h2><p>single effect gene results: pymc3 is supposed to be the same with logistic. But they are not.</p>
+<h2 id="Compare-logistic-and-pymc3-on-simulated-single-causal-gene-block.">Compare logistic and pymc3 on simulated single causal gene block.<a class="anchor-link" href="#Compare-logistic-and-pymc3-on-simulated-single-causal-gene-block.">&#182;</a></h2><p>n_gene_in_block = 20, sample_size = $200,000$, Normal(0,1)</p>
+<p>single effect gene results: pymc3 is expected the same with logistic. But they are not.</p>
+<p>pymc3 and logistic parameter?</p>
 
-<pre><code>logit       pymc3   block   susie   beta
-0.115353    0.0275  block0  0.0 0.0
-0.101018    0.0195  block0  0.0 0.0
-0.101018    0.0195  block0  0.0 0.2546776549724981
-0.136522    0.0235  block0  0.0 0.0
-0.136522    0.025   block0  0.0 0.0
-0.136522    0.026   block0  0.0 0.0
-0.136522    0.0255  block0  0.0 0.0
-0.136522    0.0275  block0  0.0 0.0</code></pre>
+<pre><code>block   gene            beta         fisher  logit   pymc3   susie
+block11 gene_433        2.284277     1.0     0.25    0.015   0.25
+block11 gene_434        0.0          1.0     0.25    0.0155  0.25
+block11 gene_435        0.0          1.0     0.25    0.0225  0.25
+block11 gene_436        0.0          1.0     0.25    0.023   0.25
+block14 gene_537        1.936461     0.124964     0.48407 0.1745  0.43986
+block14 gene_538        0.0          0.124964     0.03186 0.0245  0.120279
+block14 gene_539        0.0          0.614118      0.48407 0.1625  0.43986
+block30 gene_1023       0.168515     0.000725   0.009575        0.0255  0.01413
+block30 gene_1024       0.0          0.012910    0.009575        0.027   0.01413
+block30 gene_1025       0.0          0.012910    0.492172        0.591   0.412198
+block30 gene_1026       0.0          0.012910    0.044425        0.048   0.050867
+block30 gene_1027       0.0          0.012910    0.044425        0.0645  0.050867
+block30 gene_1028       0.0          0.012910    0.044425        0.0655  0.050867
+block30 gene_1029       0.0          0.012910    0.044425        0.0755  0.050867
+block30 gene_1030       0.0          0.012910    0.044425        0.0655  0.050867
+block30 gene_1031       0.0          0.012910    0.044425        0.073   0.050867
+block30 gene_1032       0.0          0.012910    0.044425        0.0675  0.050867
+block30 gene_1033       0.0          0.012910    0.044425        0.059   0.050867
+block30 gene_1034       0.0          0.012910    0.044425        0.061   0.050867
+block30 gene_1035       0.0          0.063449     0.044425        0.0655  0.050867
+block30 gene_1036       0.0          0.063449     0.044425        0.0765  0.050867</code></pre>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="ROC-curve-issue">ROC curve issue<a class="anchor-link" href="#ROC-curve-issue">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -302,6 +310,13 @@ body {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Real-deletion-CNV-data">Real deletion CNV data<a class="anchor-link" href="#Real-deletion-CNV-data">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="ROC-curve-issue">ROC curve issue<a class="anchor-link" href="#ROC-curve-issue">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -320,7 +335,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/452c9960e8b861510330343bdca0273c06f42d2f/dsc/20200214_report.ipynb"><code>dsc/20200214_report.ipynb</code></a> committed by Min Qiao on Tue Feb 25 00:08:12 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/452c9960e8b861510330343bdca0273c06f42d2f">revision 2, 452c996</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/f28f4133dbdad1132625c8510609fc5108c1e3b9/dsc/20200214_report.ipynb"><code>dsc/20200214_report.ipynb</code></a> committed by Min Qiao on Thu Feb 27 17:21:22 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/f28f4133dbdad1132625c8510609fc5108c1e3b9">revision 3, f28f413</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

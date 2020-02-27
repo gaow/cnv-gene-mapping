@@ -278,7 +278,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># trial</span>
 <span class="n">data</span><span class="p">(</span><span class="n">leukemia</span><span class="p">)</span>
 <span class="c1"># names(leukemia)</span>
-<span class="k">print</span> <span class="p">(</span><span class="n">leukemia</span><span class="err">$</span><span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">leukemia</span><span class="err">$</span><span class="n">y</span><span class="p">)</span>
 <span class="n">fit</span> <span class="o">&lt;-</span> <span class="n">varbvs</span><span class="p">(</span><span class="n">leukemia</span><span class="err">$</span><span class="n">x</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">leukemia</span><span class="err">$</span><span class="n">y</span><span class="p">,</span> <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;binomial&quot;</span><span class="p">,</span> <span class="n">logodds</span> <span class="o">=</span> <span class="n">seq</span><span class="p">(</span><span class="o">-</span><span class="mf">3.5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">sa</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
@@ -400,7 +400,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># read rds file</span>
 <span class="n">new</span> <span class="o">&lt;-</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;data/Sweden_cnv_gene_overlap_config.feather.RDS&quot;</span><span class="p">)</span>
 <span class="n">names</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
-<span class="k">print</span> <span class="p">(</span><span class="n">new</span><span class="err">$</span><span class="n">summary</span><span class="err">$</span><span class="n">top</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">new</span><span class="err">$</span><span class="n">summary</span><span class="err">$</span><span class="n">top</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -509,7 +509,7 @@ body {
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">new1</span> <span class="o">&lt;-</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;data/Sweden_genes_overlap_cnv.feather.RDS&quot;</span><span class="p">)</span>
 <span class="n">names</span><span class="p">(</span><span class="n">new1</span><span class="p">)</span>
-<span class="k">print</span> <span class="p">(</span><span class="n">new1</span><span class="err">$</span><span class="n">summary</span><span class="err">$</span><span class="n">top</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">new1</span><span class="err">$</span><span class="n">summary</span><span class="err">$</span><span class="n">top</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -620,7 +620,7 @@ body {
 <div class=" highlight hl-sos"><pre><span></span><span class="n">get_varbvs_rds</span> <span class="o">&lt;-</span> <span class="n">function</span><span class="p">(</span><span class="n">datalist</span><span class="p">){</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">dat</span> <span class="ow">in</span> <span class="n">datalist</span><span class="p">){</span>
         <span class="n">newdat</span> <span class="o">=</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">read_feather</span><span class="p">(</span><span class="n">dat</span><span class="p">))</span>
-        <span class="k">print</span> <span class="p">(</span><span class="n">dim</span><span class="p">(</span><span class="n">newdat</span><span class="p">))</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">dim</span><span class="p">(</span><span class="n">newdat</span><span class="p">))</span>
         <span class="n">newfit</span> <span class="o">=</span> <span class="n">varbvs</span><span class="p">(</span><span class="n">newdat</span><span class="p">[,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">newdat</span><span class="p">[,</span><span class="mi">1</span><span class="p">],</span> <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;binomial&quot;</span><span class="p">,</span> 
                         <span class="n">logodds</span> <span class="o">=</span> <span class="n">seq</span><span class="p">(</span><span class="o">-</span><span class="mf">3.0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">sa</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="n">F</span><span class="p">)</span>
         <span class="n">newfit</span><span class="err">$</span><span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span><span class="p">(</span><span class="n">newfit</span><span class="p">)</span>
@@ -628,7 +628,7 @@ body {
         <span class="n">newfit</span><span class="err">$</span><span class="n">pip</span> <span class="o">=</span> <span class="n">newfit</span><span class="err">$</span><span class="n">alpha</span> <span class="o">%*%</span> <span class="n">c</span><span class="p">(</span><span class="n">newfit</span><span class="err">$</span><span class="n">w</span><span class="p">)</span>
         <span class="n">newfit</span><span class="err">$</span><span class="n">beta</span> <span class="o">=</span> <span class="n">newfit</span><span class="err">$</span><span class="n">mu</span> <span class="o">%*%</span> <span class="n">c</span><span class="p">(</span><span class="n">newfit</span><span class="err">$</span><span class="n">w</span><span class="p">)</span>
         <span class="n">newfit</span><span class="err">$</span><span class="n">var_names</span> <span class="o">=</span> <span class="n">colnames</span><span class="p">(</span><span class="n">newdat</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">print</span> <span class="p">(</span><span class="n">newfit</span><span class="err">$</span><span class="n">summary</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">newfit</span><span class="err">$</span><span class="n">summary</span><span class="p">)</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">paste</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="s2">&quot;.RDS&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
         <span class="n">saveRDS</span><span class="p">(</span><span class="n">newfit</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
     <span class="p">}</span>
@@ -1035,8 +1035,6 @@ Top 5 variables by inclusion probability:
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
 <p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/8e1021e7b36132668bec5c090187e4b335b5c8d5/analysis/20170525_R_varbvs.ipynb"><code>analysis/20170525_R_varbvs.ipynb</code></a> committed by Min Qiao on Wed Nov 8 21:35:07 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/8e1021e7b36132668bec5c090187e4b335b5c8d5">revision 6, 8e1021e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/8e1021e7b36132668bec5c090187e4b335b5c8d5/analysis/20170525_R_varbvs.ipynb"><code>analysis/20170525_R_varbvs.ipynb</code></a> committed by Min Qiao on Wed Nov 8 21:35:07 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/8e1021e7b36132668bec5c090187e4b335b5c8d5">revision 6, 8e1021e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/8e1021e7b36132668bec5c090187e4b335b5c8d5/analysis/20170525_R_varbvs.ipynb"><code>analysis/20170525_R_varbvs.ipynb</code></a> committed by Min Qiao on Wed Nov 8 20:35:07 2017 <a href="http://github.com/gaow/cnv-gene-mapping/commit/8e1021e7b36132668bec5c090187e4b335b5c8d5">revision 6, 8e1021e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

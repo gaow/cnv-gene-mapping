@@ -251,31 +251,19 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Single-effect-using-logistic">Single effect using <code>logistic</code><a class="anchor-link" href="#Single-effect-using-logistic">&#182;</a></h1>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="c1"># library(data.table)</span>
-<span class="n">block</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="mi">739</span><span class="p">,</span> <span class="mi">743</span><span class="p">)</span>
-</pre></div>
+<h1 id="Single-effect-using-logistic">Single effect using <code>logistic</code><a class="anchor-link" href="#Single-effect-using-logistic">&#182;</a></h1><p>739_743: single effect</p>
+<p>37_44: no effect</p>
 
-    </div>
 </div>
 </div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">X</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">table</span><span class="p">::</span><span class="n">fread</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="s2">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/block_&quot;</span><span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;_&quot;</span> <span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> 
-                                       <span class="s2">&quot;/deletion.genes.block30.for_simu.sample.genes.block_&quot;</span><span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;_&quot;</span> <span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;.gz&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">header</span> <span class="o">=</span> <span class="n">F</span><span class="p">))</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># library(data.table)</span>
+<span class="n">block</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="mi">1773</span><span class="p">,</span> <span class="mi">1795</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -285,10 +273,24 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">cor</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">X</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">read</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">gzfile</span><span class="p">(</span><span class="n">paste</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/block_&quot;</span><span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;_&quot;</span> <span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> 
+                                       <span class="s2">&quot;/deletion.genes.block30.for_simu.sample.genes.block_&quot;</span><span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;_&quot;</span> <span class="p">,</span> <span class="n">block</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;.gz&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)),</span> <span class="n">header</span> <span class="o">=</span> <span class="n">F</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">head</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -307,13 +309,14 @@ body {
 
 <div class="output_html rendered_html output_subarea ">
 <table>
-<thead><tr><th></th><th scope=col>V1</th><th scope=col>V2</th><th scope=col>V3</th><th scope=col>V4</th><th scope=col>V5</th></tr></thead>
+<thead><tr><th scope=col>V1</th><th scope=col>V2</th><th scope=col>V3</th><th scope=col>V4</th><th scope=col>V5</th><th scope=col>V6</th><th scope=col>V7</th><th scope=col>V8</th><th scope=col>V9</th><th scope=col>V10</th><th scope=col>⋯</th><th scope=col>V14</th><th scope=col>V15</th><th scope=col>V16</th><th scope=col>V17</th><th scope=col>V18</th><th scope=col>V19</th><th scope=col>V20</th><th scope=col>V21</th><th scope=col>V22</th><th scope=col>V23</th></tr></thead>
 <tbody>
-	<tr><th scope=row>V1</th><td>1.0000000</td><td>1.0000000</td><td>0.4997202</td><td>0.7904810</td><td>1.0000000</td></tr>
-	<tr><th scope=row>V2</th><td>1.0000000</td><td>1.0000000</td><td>0.4997202</td><td>0.7904810</td><td>1.0000000</td></tr>
-	<tr><th scope=row>V3</th><td>0.4997202</td><td>0.4997202</td><td>1.0000000</td><td>0.3947537</td><td>0.4997202</td></tr>
-	<tr><th scope=row>V4</th><td>0.7904810</td><td>0.7904810</td><td>0.3947537</td><td>1.0000000</td><td>0.7904810</td></tr>
-	<tr><th scope=row>V5</th><td>1.0000000</td><td>1.0000000</td><td>0.4997202</td><td>0.7904810</td><td>1.0000000</td></tr>
+	<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>⋯</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>⋯</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>⋯</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>⋯</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>⋯</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+	<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>⋯</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
 </tbody>
 </table>
 
@@ -327,10 +330,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">y</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">table</span><span class="p">::</span><span class="n">fread</span><span class="p">(</span><span class="s2">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.y&quot;</span><span class="p">))</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">y</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">read</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;~/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.y&quot;</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -340,7 +343,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">X</span> <span class="o">&lt;-</span> <span class="n">scale</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">center</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">)</span>
@@ -353,7 +356,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">mu0</span> <span class="o">&lt;-</span> <span class="mf">0.777</span>
@@ -368,7 +371,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">p</span> <span class="o">&lt;-</span> <span class="n">dim</span><span class="p">(</span><span class="n">X</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
@@ -382,25 +385,60 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">source</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/logistic/code/misc.R&quot;</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Sys</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">source</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/logistic/code/misc.R&quot;</span><span class="p">)</span>
 <span class="n">source</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/logistic/code/bayes.R&quot;</span><span class="p">)</span>
 <span class="n">out</span> <span class="o">&lt;-</span> <span class="n">bayes</span><span class="o">.</span><span class="n">logistic</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">mu0</span><span class="p">,</span> <span class="n">s0</span><span class="p">)</span>
+<span class="n">Sys</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] &#34;2020-02-13 16:11:53 EST&#34;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>[1] &#34;2020-02-13 16:17:31 EST&#34;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -417,15 +455,15 @@ body {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>           p1       mu1        s1
-1 0.002619979 1.4874452 0.5891827
-2 0.002619979 1.4874452 0.5891827
-3 0.840373304 1.4120444 0.3482626
-4 0.049342893 1.1027142 0.3097065
-5 0.049342893 1.1027142 0.3097065
-6 0.049342893 1.1027142 0.3097065
-7 0.003179030 0.9320685 0.3306724
-8 0.003179030 0.9320685 0.3306724
+<pre>         p1        mu1        s1
+1 0.1187680 0.16859762 0.5349063
+2 0.1029645 0.02141242 0.4856847
+3 0.1143664 0.29242630 0.4309201
+4 0.1327802 0.35716902 0.4770831
+5 0.1327802 0.35716902 0.4770831
+6 0.1327802 0.35716902 0.4770831
+7 0.1327802 0.35716902 0.4770831
+8 0.1327802 0.35716902 0.4770831
 </pre>
 </div>
 </div>
@@ -439,7 +477,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -518,11 +556,14 @@ body {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&#34;0.044212&#34; &#34;0.001606 &#34;0.499908&#34;
- &#34;0.044212&#34; &#34;0.001606 &#34;0.499908&#34;
- &#34;0.817270&#34; &#34;0.009644 &#34;0.499908&#34;
- &#34;0.050094&#34; &#34;0.002540 &#34;0.499908&#34;
- &#34;0.044212&#34; &#34;0.001606 &#34;0.499908&#34;
+<pre>&#34;0.000000&#34; &#34;-0.000000 &#34;0.500000&#34;
+ &#34;0.000000&#34; &#34;-0.000000 &#34;0.500000&#34;
+ &#34;0.000000&#34; &#34;0.000000 &#34;0.500000&#34;
+ &#34;0.000000&#34; &#34;0.000000 &#34;0.500000&#34;
+ &#34;0.000000&#34; &#34;0.000000 &#34;0.500000&#34;
+ &#34;0.000000&#34; &#34;0.000000 &#34;0.500000&#34;
+ &#34;0.000000&#34; &#34;0.000000 &#34;0.500000&#34;
+ &#34;0.000000&#34; &#34;0.000000 &#34;0.500000&#34;
 </pre>
 </div>
 </div>
@@ -1169,7 +1210,7 @@ body {
 <span class="n">cat</span><span class="p">(</span><span class="s2">&quot;Performing Bayesian computations.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">out</span>  <span class="o">&lt;-</span> <span class="n">bayes</span><span class="o">.</span><span class="n">logistic</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">p0</span><span class="p">,</span><span class="n">mu0</span><span class="p">,</span><span class="n">s0</span><span class="p">)</span>
 <span class="n">rows</span> <span class="o">&lt;-</span> <span class="n">order</span><span class="p">(</span><span class="n">out</span><span class="err">$</span><span class="n">p1</span><span class="p">,</span><span class="n">decreasing</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">rows</span><span class="p">,],</span><span class="n">digits</span> <span class="o">=</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">rows</span><span class="p">,],</span><span class="n">digits</span> <span class="o">=</span> <span class="mi">3</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -1342,8 +1383,6 @@ body {
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
 <p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/751e4ee42a924ecd8ab89ed93bd10a613947ad7e/dsc/20191022_logistic_single_effect.ipynb"><code>dsc/20191022_logistic_single_effect.ipynb</code></a> committed by Min Qiao on Tue Feb 25 00:02:46 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/751e4ee42a924ecd8ab89ed93bd10a613947ad7e">revision 4, 751e4ee</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/751e4ee42a924ecd8ab89ed93bd10a613947ad7e/dsc/20191022_logistic_single_effect.ipynb"><code>dsc/20191022_logistic_single_effect.ipynb</code></a> committed by Min Qiao on Tue Feb 25 00:02:46 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/751e4ee42a924ecd8ab89ed93bd10a613947ad7e">revision 4, 751e4ee</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/06b7431656558076017f93d48f8d163668b0319a/dsc/20191022_logistic_single_effect.ipynb"><code>dsc/20191022_logistic_single_effect.ipynb</code></a> committed by minqiao on Fri Jan 10 14:40:33 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/06b7431656558076017f93d48f8d163668b0319a">revision 3, 06b7431</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

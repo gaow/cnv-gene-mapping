@@ -279,7 +279,7 @@ pip install mkl-service</code></pre>
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="n">N</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.65</span><span class="p">])</span>
 <span class="n">MU</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">])</span>
@@ -437,7 +437,7 @@ pip install mkl-service</code></pre>
 <div class="prompt input_prompt">In&nbsp;[50]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span>
 <span class="n">N</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">components</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">])</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -782,7 +782,7 @@ pip install mkl-service</code></pre>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span><span class="o">,</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span><span class="o">,</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data&quot;</span><span class="p">)</span>
 <span class="n">start</span> <span class="o">=</span> <span class="mi">739</span>
 <span class="n">end</span> <span class="o">=</span> <span class="mi">743</span>
@@ -798,9 +798,9 @@ pip install mkl-service</code></pre>
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">X_file</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;{cwd}/deletion_simu/block_{start}_{end}/deletion.genes.block30.for_simu.sample.genes.block_{start}_{end}.gz&#39;</span>
-<span class="n">y_file</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;{cwd}/deletion_simu/deletion.genes.block30.for_simu.sample.y&#39;</span>
-<span class="n">fisher_f</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;{cwd}/deletion_simu/deletion.genes.block30.for_simu.sample.genes.block1.fisher.gz&#39;</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">X_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{cwd}</span><span class="s1">/deletion_simu/block_</span><span class="si">{start}</span><span class="s1">_</span><span class="si">{end}</span><span class="s1">/deletion.genes.block30.for_simu.sample.genes.block_</span><span class="si">{start}</span><span class="s1">_</span><span class="si">{end}</span><span class="s1">.gz&#39;</span>
+<span class="n">y_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{cwd}</span><span class="s1">/deletion_simu/deletion.genes.block30.for_simu.sample.y&#39;</span>
+<span class="n">fisher_f</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{cwd}</span><span class="s1">/deletion_simu/deletion.genes.block30.for_simu.sample.genes.block1.fisher.gz&#39;</span>
 </pre></div>
 
     </div>
@@ -826,7 +826,7 @@ pip install mkl-service</code></pre>
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">start</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -974,7 +974,7 @@ pip install mkl-service</code></pre>
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">X_file</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">X_file</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
 <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
@@ -1086,18 +1086,18 @@ dtype: float64</pre>
 <div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="kn">as</span> <span class="nn">pm</span>
-<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="kn">as</span> <span class="nn">tt</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="k">as</span> <span class="nn">tt</span>
 
 <span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">pi0</span> <span class="o">=</span> <span class="n">pi_varbvs</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu_varbvs</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">si_varbvs</span><span class="p">,</span> <span class="n">mu_intercept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.05</span><span class="o">/</span><span class="mf">0.95</span><span class="p">),</span> <span class="n">sigma_intercept</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">):</span>
     <span class="n">invlogit</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">tt</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
     <span class="k">with</span> <span class="n">model</span><span class="p">:</span>
-        <span class="n">xi</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;xi&#39;</span><span class="p">,</span> <span class="n">pi0</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1">#inclusion probability for each variable</span>
+        <span class="n">xi</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;xi&#39;</span><span class="p">,</span> <span class="n">pi0</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># inclusion probability for each variable</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu_intercept</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">sigma_intercept</span><span class="p">)</span> <span class="c1"># Intercept</span>
-        <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1">#Prior for the non-zero coefficients</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">xi</span> <span class="o">*</span> <span class="n">beta</span><span class="p">)</span> <span class="c1">#Deterministic function to map the stochastics to the output</span>
-        <span class="n">y_obs</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;y_obs&#39;</span><span class="p">,</span> <span class="n">invlogit</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">),</span> <span class="n">observed</span> <span class="o">=</span> <span class="n">y</span><span class="p">)</span>  <span class="c1">#Data likelihood</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># Prior for the non-zero coefficients</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">xi</span> <span class="o">*</span> <span class="n">beta</span><span class="p">)</span> <span class="c1"># Deterministic function to map the stochastics to the output</span>
+        <span class="n">y_obs</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;y_obs&#39;</span><span class="p">,</span> <span class="n">invlogit</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">),</span> <span class="n">observed</span> <span class="o">=</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># Data likelihood</span>
     <span class="k">return</span> <span class="n">model</span>
 </pre></div>
 
@@ -1172,7 +1172,7 @@ $$
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># Here I use 20 cores on my 40 core machine, with 10 chains, to generate 2000 samples.</span>
 <span class="c1"># Takes 50min on my desktop</span>
 <span class="k">with</span> <span class="n">model</span><span class="p">:</span>
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">random_seed</span> <span class="o">=</span> <span class="mi">999</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">chains</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">random_seed</span> <span class="o">=</span> <span class="mi">999</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">chains</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1232,7 +1232,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1477,8 +1477,8 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="kn">as</span> <span class="nn">pm</span>
-<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="kn">as</span> <span class="nn">tt</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="k">as</span> <span class="nn">tt</span>
 <span class="n">mu2</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">sigma2</span> <span class="o">=</span> <span class="mf">1e-8</span>
 <span class="n">w_mix</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">floatX</span><span class="p">([</span><span class="mi">1</span><span class="o">-</span><span class="n">pi_varbvs</span><span class="p">,</span> <span class="n">pi_varbvs</span><span class="p">])</span>
@@ -1564,7 +1564,7 @@ $$
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="k">with</span> <span class="n">model1</span><span class="p">:</span>
-    <span class="n">trace1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">random_seed</span> <span class="o">=</span> <span class="mi">999</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">chains</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">trace1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">random_seed</span> <span class="o">=</span> <span class="mi">999</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">chains</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1879,8 +1879,8 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="kn">as</span> <span class="nn">pm</span>
-<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="kn">as</span> <span class="nn">tt</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="k">as</span> <span class="nn">tt</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">bernoulli</span>
 <span class="n">mu2</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">sigma2</span> <span class="o">=</span> <span class="mf">1e-6</span>
@@ -1959,7 +1959,7 @@ $$
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="k">with</span> <span class="n">model2</span><span class="p">:</span>
-    <span class="n">trace2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">random_seed</span> <span class="o">=</span> <span class="mi">999</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">chains</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">trace2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">random_seed</span> <span class="o">=</span> <span class="mi">999</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">chains</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -2408,7 +2408,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## 2177_2182</span>
 <span class="c1">## 1,2,3</span>
 <span class="c1">## 2.51, 1.78, 0.60</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -2502,7 +2502,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[579]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">start</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -2642,7 +2642,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## 2092_2099</span>
 <span class="c1">## 0,2,6</span>
 <span class="c1">## 0.18, 1.71, 0.47</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -2748,7 +2748,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[557]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">start</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -2907,7 +2907,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 1858_1875</span>
 <span class="c1">## real 14</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -3073,7 +3073,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[514]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">start</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -3333,7 +3333,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 1561_1579</span>
 <span class="c1">## real 13,16</span>
 <span class="c1">## effect 0.23,0.86</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -3505,7 +3505,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[409]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">start</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -3828,7 +3828,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 1430_1453</span>
 <span class="c1">## real 2, 12, 21</span>
 <span class="c1">## effect 1.23, 0.95, 1.15</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -4030,7 +4030,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[615]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">start</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -4350,7 +4350,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 1361_1377</span>
 <span class="c1">## real 1,15</span>
 <span class="c1">## effect 1.18, 0.74</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -4510,7 +4510,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[337]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">start</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -4760,7 +4760,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 1320_1337</span>
 <span class="c1">## real 5,7</span>
 <span class="c1">## effect 1.71, 0.39</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -4926,7 +4926,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[322]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">start</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -5266,7 +5266,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 1109_1141</span>
 <span class="c1">## real 29</span>
 <span class="c1">## effect 2.05</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -5522,7 +5522,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[265]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">start</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -5945,7 +5945,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 1018_1031</span>
 <span class="c1">## real 2, 13</span>
 <span class="c1">## effect 0.60, 1.07</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -6087,7 +6087,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[233]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">start</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -6307,7 +6307,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 930_937</span>
 <span class="c1">## real 2</span>
 <span class="c1">## effect 0.96</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -6413,7 +6413,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[207]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">start</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -6573,7 +6573,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 893_910</span>
 <span class="c1">## real 11, 15</span>
 <span class="c1">## effect 1.92, 1.48</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -6739,7 +6739,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[193]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">start</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -6999,7 +6999,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 841_870</span>
 <span class="c1">## real 4, 17</span>
 <span class="c1">## effect 0.74, 1.45</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -7237,7 +7237,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[179]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">start</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -7674,7 +7674,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 788_797</span>
 <span class="c1">## real 7</span>
 <span class="c1">## effect 1.808</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -7792,7 +7792,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[165]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">start</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -7972,7 +7972,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 739_743</span>
 <span class="c1">## real 2</span>
 <span class="c1">## effect 0.98</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -8060,7 +8060,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[121]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">start</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -8262,7 +8262,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 666_677</span>
 <span class="c1">## real 4, 5, 11</span>
 <span class="c1">## effect 1.28, 0.53, 0.98</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -8392,7 +8392,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[120]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">666</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">677</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">666</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">677</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="mi">666</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -8680,7 +8680,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 556_583</span>
 <span class="c1">## real 8, 14, 20</span>
 <span class="c1">## effect 2.03, 0.84, 0.71</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -8906,7 +8906,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[119]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">556</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">583</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">556</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">583</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="mi">556</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -9266,7 +9266,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 380_417</span>
 <span class="c1">## real 17, 37</span>
 <span class="c1">## effect 0.66, 0.88</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -9552,7 +9552,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[118]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">380</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">417</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">380</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">417</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="mi">380</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -10012,7 +10012,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 365_374</span>
 <span class="c1">## real 4</span>
 <span class="c1">## effect 1.59</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -10130,7 +10130,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[115]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">365</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">374</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">365</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">374</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="mi">365</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -10310,7 +10310,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 264_293</span>
 <span class="c1">## real 8,9,29</span>
 <span class="c1">## effect 0.92, 1.21, 1.66</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -10548,7 +10548,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[117]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">264</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">293</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">264</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">293</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="mi">264</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -10940,7 +10940,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1">## block 23_36</span>
 <span class="c1">## real 0,2,5,11</span>
-<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -11058,7 +11058,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 <div class="prompt input_prompt">In&nbsp;[644]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">f</span><span class="s2">&quot;gene_{x}&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{x}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
 <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">start</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fisher_block</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]]</span>
 <span class="n">fisher_block</span>
 </pre></div>
@@ -11283,7 +11283,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">estimate</span> <span class="o">=</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">]</span> 
 <span class="n">y_hat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">expit</span><span class="p">(</span><span class="n">trace</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">estimate</span><span class="p">)</span> <span class="p">))</span> <span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_hat</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">inclusion_probability</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_hat</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">inclusion_probability</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -11319,9 +11319,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/06b7431656558076017f93d48f8d163668b0319a/dsc/20191005_PyMC3_SpikeSlab.ipynb"><code>dsc/20191005_PyMC3_SpikeSlab.ipynb</code></a> committed by minqiao on Fri Jan 10 15:40:33 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/06b7431656558076017f93d48f8d163668b0319a">revision 9, 06b7431</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/06b7431656558076017f93d48f8d163668b0319a/dsc/20191005_PyMC3_SpikeSlab.ipynb"><code>dsc/20191005_PyMC3_SpikeSlab.ipynb</code></a> committed by minqiao on Fri Jan 10 15:40:33 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/06b7431656558076017f93d48f8d163668b0319a">revision 9, 06b7431</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/06b7431656558076017f93d48f8d163668b0319a/dsc/20191005_PyMC3_SpikeSlab.ipynb"><code>dsc/20191005_PyMC3_SpikeSlab.ipynb</code></a> committed by minqiao on Fri Jan 10 14:40:33 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/06b7431656558076017f93d48f8d163668b0319a">revision 9, 06b7431</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/f28f4133dbdad1132625c8510609fc5108c1e3b9/dsc/20191005_PyMC3_SpikeSlab.ipynb"><code>dsc/20191005_PyMC3_SpikeSlab.ipynb</code></a> committed by Min Qiao on Thu Feb 27 17:21:22 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/f28f4133dbdad1132625c8510609fc5108c1e3b9">revision 10, f28f413</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
