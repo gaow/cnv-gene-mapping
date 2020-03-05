@@ -250,7 +250,7 @@ body {
 </div><!--/.navbar -->
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="o">,</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -268,7 +268,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">fisher</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/</span><span class="si">{folder}</span><span class="s2">/deletion.genes.block1.fisher.gz&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -281,7 +281,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/</span><span class="si">{folder}</span><span class="s2">/deletion.block1.index.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;id1&quot;</span><span class="p">,</span> <span class="s2">&quot;id2&quot;</span><span class="p">])</span>
@@ -294,27 +294,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_in_block</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-<span class="n">gene_in_block</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">index</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-    <span class="n">fisher_in_block</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fisher</span><span class="p">[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_{i+1}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)])][</span><span class="s2">&quot;p&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-    <span class="n">gene_in_block</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_{i+1}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">index</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -327,7 +310,7 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[6]:</div>
+    <div class="prompt output_prompt">Out[5]:</div>
 
 
 
@@ -350,59 +333,35 @@ body {
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>gene</th>
-      <th>d_c</th>
-      <th>d_nc</th>
-      <th>nd_c</th>
-      <th>nd_nc</th>
-      <th>p</th>
+      <th>id1</th>
+      <th>id2</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>gene_2211</td>
-      <td>9</td>
-      <td>1413</td>
       <td>0</td>
-      <td>1664</td>
-      <td>0.000924</td>
+      <td>7</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>gene_2212</td>
-      <td>9</td>
-      <td>1413</td>
-      <td>0</td>
-      <td>1664</td>
-      <td>0.000924</td>
+      <td>8</td>
+      <td>17</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>gene_2213</td>
-      <td>9</td>
-      <td>1413</td>
-      <td>0</td>
-      <td>1664</td>
-      <td>0.000924</td>
+      <td>18</td>
+      <td>22</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>gene_2206</td>
-      <td>9</td>
-      <td>1413</td>
-      <td>0</td>
-      <td>1664</td>
-      <td>0.000924</td>
+      <td>23</td>
+      <td>36</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>gene_2205</td>
-      <td>9</td>
-      <td>1413</td>
-      <td>0</td>
-      <td>1664</td>
-      <td>0.000924</td>
+      <td>37</td>
+      <td>44</td>
     </tr>
   </tbody>
 </table>
@@ -417,7 +376,32 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_in_block</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">gene_in_block</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">d_c</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">d_nc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">nd_c</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">nd_nc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">index</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">fisher_in_block</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fisher</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;gene&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="sa">f</span><span class="s2">&quot;gene_{i+1}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+    <span class="n">gene_in_block</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_{i+1}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span>
+    <span class="n">d_c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fisher</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;gene&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="sa">f</span><span class="s2">&quot;gene_{i+1}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[</span><span class="s2">&quot;d_c&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+    <span class="n">d_nc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fisher</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;gene&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="sa">f</span><span class="s2">&quot;gene_{i+1}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[</span><span class="s2">&quot;d_nc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+    <span class="n">nd_c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fisher</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;gene&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="sa">f</span><span class="s2">&quot;gene_{i+1}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[</span><span class="s2">&quot;nd_c&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+    <span class="n">nd_nc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fisher</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;gene&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="sa">f</span><span class="s2">&quot;gene_{i+1}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[</span><span class="s2">&quot;nd_nc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">index</span><span class="o">.</span><span class="n">shape</span>
@@ -433,7 +417,7 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[11]:</div>
+    <div class="prompt output_prompt">Out[8]:</div>
 
 
 
@@ -450,7 +434,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
@@ -465,6 +449,10 @@ body {
     <span class="n">res</span><span class="p">[</span><span class="s2">&quot;varbvs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">varbvs</span>
     <span class="n">res</span><span class="p">[</span><span class="s2">&quot;fisher&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fisher_in_block</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
     <span class="n">res</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gene_in_block</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">res</span><span class="p">[</span><span class="s2">&quot;d_c&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">d_c</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">res</span><span class="p">[</span><span class="s2">&quot;d_nc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">d_nc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">res</span><span class="p">[</span><span class="s2">&quot;nd_c&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nd_c</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">res</span><span class="p">[</span><span class="s2">&quot;nd_nc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nd_nc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;p1&quot;</span><span class="p">:</span> <span class="s2">&quot;logit&quot;</span><span class="p">,</span> <span class="s2">&quot;inclusion_probability&quot;</span><span class="p">:</span> <span class="s2">&quot;pymc3&quot;</span><span class="p">})</span>
     <span class="n">logit_pymc3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">logit_pymc3</span><span class="p">,</span> <span class="n">res</span><span class="p">])</span>
 </pre></div>
@@ -476,7 +464,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;logit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;logit&quot;</span><span class="p">]]</span>
@@ -493,10 +481,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span> <span class="o">=</span> <span class="n">logit_pymc3</span><span class="p">[[</span><span class="s2">&quot;block&quot;</span><span class="p">,</span> <span class="s2">&quot;gene&quot;</span><span class="p">,</span> <span class="s2">&quot;fisher&quot;</span><span class="p">,</span> <span class="s2">&quot;pymc3&quot;</span><span class="p">,</span> <span class="s2">&quot;logit&quot;</span><span class="p">,</span> <span class="s2">&quot;susie&quot;</span><span class="p">,</span> <span class="s2">&quot;varbvs&quot;</span><span class="p">]]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span> <span class="o">=</span> <span class="n">logit_pymc3</span><span class="p">[[</span><span class="s2">&quot;block&quot;</span><span class="p">,</span> <span class="s2">&quot;gene&quot;</span><span class="p">,</span> <span class="s2">&quot;fisher&quot;</span><span class="p">,</span> <span class="s2">&quot;d_c&quot;</span><span class="p">,</span> <span class="s2">&quot;d_nc&quot;</span><span class="p">,</span> <span class="s2">&quot;nd_c&quot;</span><span class="p">,</span> <span class="s2">&quot;nd_nc&quot;</span><span class="p">,</span> <span class="s2">&quot;pymc3&quot;</span><span class="p">,</span> <span class="s2">&quot;logit&quot;</span><span class="p">,</span> <span class="s2">&quot;susie&quot;</span><span class="p">,</span> <span class="s2">&quot;varbvs&quot;</span><span class="p">]]</span>
 </pre></div>
 
     </div>
@@ -506,10 +494,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -522,7 +510,7 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[29]:</div>
+    <div class="prompt output_prompt">Out[15]:</div>
 
 
 
@@ -548,6 +536,10 @@ body {
       <th>block</th>
       <th>gene</th>
       <th>fisher</th>
+      <th>d_c</th>
+      <th>d_nc</th>
+      <th>nd_c</th>
+      <th>nd_nc</th>
       <th>pymc3</th>
       <th>logit</th>
       <th>susie</th>
@@ -560,8 +552,12 @@ body {
       <td>block1</td>
       <td>gene_1</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0645</td>
-      <td>0.125000</td>
+      <td>0.125</td>
       <td>0.125</td>
       <td>0.100334</td>
     </tr>
@@ -570,8 +566,12 @@ body {
       <td>block1</td>
       <td>gene_2</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0730</td>
-      <td>0.125000</td>
+      <td>0.125</td>
       <td>0.125</td>
       <td>0.100334</td>
     </tr>
@@ -580,8 +580,12 @@ body {
       <td>block1</td>
       <td>gene_3</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0645</td>
-      <td>0.125000</td>
+      <td>0.125</td>
       <td>0.125</td>
       <td>0.100334</td>
     </tr>
@@ -590,8 +594,12 @@ body {
       <td>block1</td>
       <td>gene_4</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0605</td>
-      <td>0.125000</td>
+      <td>0.125</td>
       <td>0.125</td>
       <td>0.100334</td>
     </tr>
@@ -600,8 +608,12 @@ body {
       <td>block1</td>
       <td>gene_5</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0620</td>
-      <td>0.125000</td>
+      <td>0.125</td>
       <td>0.125</td>
       <td>0.100335</td>
     </tr>
@@ -610,8 +622,12 @@ body {
       <td>block1</td>
       <td>gene_6</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0665</td>
-      <td>0.125000</td>
+      <td>0.125</td>
       <td>0.125</td>
       <td>0.100335</td>
     </tr>
@@ -620,8 +636,12 @@ body {
       <td>block1</td>
       <td>gene_7</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0740</td>
-      <td>0.125000</td>
+      <td>0.125</td>
       <td>0.125</td>
       <td>0.100334</td>
     </tr>
@@ -630,8 +650,12 @@ body {
       <td>block1</td>
       <td>gene_8</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0700</td>
-      <td>0.125000</td>
+      <td>0.125</td>
       <td>0.125</td>
       <td>0.100334</td>
     </tr>
@@ -640,8 +664,12 @@ body {
       <td>block2</td>
       <td>gene_9</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0675</td>
-      <td>0.100000</td>
+      <td>0.100</td>
       <td>0.100</td>
       <td>0.090416</td>
     </tr>
@@ -650,8 +678,12 @@ body {
       <td>block2</td>
       <td>gene_10</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0670</td>
-      <td>0.100000</td>
+      <td>0.100</td>
       <td>0.100</td>
       <td>0.090416</td>
     </tr>
@@ -660,8 +692,12 @@ body {
       <td>block2</td>
       <td>gene_11</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0625</td>
-      <td>0.100000</td>
+      <td>0.100</td>
       <td>0.100</td>
       <td>0.090416</td>
     </tr>
@@ -670,8 +706,12 @@ body {
       <td>block2</td>
       <td>gene_12</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0660</td>
-      <td>0.100000</td>
+      <td>0.100</td>
       <td>0.100</td>
       <td>0.090416</td>
     </tr>
@@ -680,8 +720,12 @@ body {
       <td>block2</td>
       <td>gene_13</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0650</td>
-      <td>0.100000</td>
+      <td>0.100</td>
       <td>0.100</td>
       <td>0.090416</td>
     </tr>
@@ -690,8 +734,12 @@ body {
       <td>block2</td>
       <td>gene_14</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0595</td>
-      <td>0.100000</td>
+      <td>0.100</td>
       <td>0.100</td>
       <td>0.090416</td>
     </tr>
@@ -700,8 +748,12 @@ body {
       <td>block2</td>
       <td>gene_15</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0615</td>
-      <td>0.100000</td>
+      <td>0.100</td>
       <td>0.100</td>
       <td>0.090416</td>
     </tr>
@@ -710,8 +762,12 @@ body {
       <td>block2</td>
       <td>gene_16</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0540</td>
-      <td>0.100000</td>
+      <td>0.100</td>
       <td>0.100</td>
       <td>0.090416</td>
     </tr>
@@ -720,8 +776,12 @@ body {
       <td>block2</td>
       <td>gene_17</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0805</td>
-      <td>0.100000</td>
+      <td>0.100</td>
       <td>0.100</td>
       <td>0.090416</td>
     </tr>
@@ -730,8 +790,12 @@ body {
       <td>block2</td>
       <td>gene_18</td>
       <td>0.460791</td>
+      <td>1</td>
+      <td>1421</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0585</td>
-      <td>0.100000</td>
+      <td>0.100</td>
       <td>0.100</td>
       <td>0.090416</td>
     </tr>
@@ -740,8 +804,12 @@ body {
       <td>block3</td>
       <td>gene_19</td>
       <td>1.000000</td>
+      <td>0</td>
+      <td>1422</td>
+      <td>1</td>
+      <td>1663</td>
       <td>0.0270</td>
-      <td>0.200000</td>
+      <td>0.200</td>
       <td>0.000</td>
       <td>0.122729</td>
     </tr>
@@ -750,110 +818,14 @@ body {
       <td>block3</td>
       <td>gene_20</td>
       <td>1.000000</td>
+      <td>0</td>
+      <td>1422</td>
+      <td>1</td>
+      <td>1663</td>
       <td>0.0365</td>
-      <td>0.200000</td>
+      <td>0.200</td>
       <td>0.000</td>
       <td>0.122729</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>block3</td>
-      <td>gene_21</td>
-      <td>1.000000</td>
-      <td>0.0355</td>
-      <td>0.200000</td>
-      <td>0.000</td>
-      <td>0.122728</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>block3</td>
-      <td>gene_22</td>
-      <td>1.000000</td>
-      <td>0.0325</td>
-      <td>0.200000</td>
-      <td>0.000</td>
-      <td>0.122728</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>block3</td>
-      <td>gene_23</td>
-      <td>1.000000</td>
-      <td>0.0355</td>
-      <td>0.200000</td>
-      <td>0.000</td>
-      <td>0.122728</td>
-    </tr>
-    <tr>
-      <th>0</th>
-      <td>block4</td>
-      <td>gene_24</td>
-      <td>0.662096</td>
-      <td>0.1305</td>
-      <td>0.044056</td>
-      <td>0.000</td>
-      <td>0.028421</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>block4</td>
-      <td>gene_25</td>
-      <td>0.861212</td>
-      <td>0.2210</td>
-      <td>0.034923</td>
-      <td>0.000</td>
-      <td>0.024581</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>block4</td>
-      <td>gene_26</td>
-      <td>1.000000</td>
-      <td>0.1780</td>
-      <td>0.034923</td>
-      <td>0.000</td>
-      <td>0.024581</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>block4</td>
-      <td>gene_27</td>
-      <td>1.000000</td>
-      <td>0.2070</td>
-      <td>0.034923</td>
-      <td>0.000</td>
-      <td>0.024581</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>block4</td>
-      <td>gene_28</td>
-      <td>1.000000</td>
-      <td>0.1160</td>
-      <td>0.034923</td>
-      <td>0.000</td>
-      <td>0.024581</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>block4</td>
-      <td>gene_29</td>
-      <td>1.000000</td>
-      <td>0.1670</td>
-      <td>0.034923</td>
-      <td>0.000</td>
-      <td>0.024581</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>block4</td>
-      <td>gene_30</td>
-      <td>1.000000</td>
-      <td>0.0515</td>
-      <td>0.068747</td>
-      <td>0.000</td>
-      <td>0.038022</td>
     </tr>
   </tbody>
 </table>
@@ -868,7 +840,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/</span><span class="si">{folder}</span><span class="s2">/Real_deletion_res.csv&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
@@ -881,7 +853,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="p">[</span><span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;fisher&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.01</span><span class="p">]</span>
@@ -897,7 +869,7 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[35]:</div>
+    <div class="prompt output_prompt">Out[17]:</div>
 
 
 
@@ -923,6 +895,10 @@ body {
       <th>block</th>
       <th>gene</th>
       <th>fisher</th>
+      <th>d_c</th>
+      <th>d_nc</th>
+      <th>nd_c</th>
+      <th>nd_nc</th>
       <th>pymc3</th>
       <th>logit</th>
       <th>susie</th>
@@ -931,70 +907,14 @@ body {
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>block128</td>
-      <td>gene_561</td>
-      <td>0.009518</td>
-      <td>0.0440</td>
-      <td>0.004150</td>
-      <td>0.003494</td>
-      <td>0.059082</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>block128</td>
-      <td>gene_562</td>
-      <td>0.009518</td>
-      <td>0.0760</td>
-      <td>0.025303</td>
-      <td>0.025950</td>
-      <td>0.070215</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>block128</td>
-      <td>gene_563</td>
-      <td>0.009518</td>
-      <td>0.0745</td>
-      <td>0.025303</td>
-      <td>0.025950</td>
-      <td>0.070217</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>block128</td>
-      <td>gene_564</td>
-      <td>0.009518</td>
-      <td>0.0890</td>
-      <td>0.025303</td>
-      <td>0.025950</td>
-      <td>0.070219</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>block128</td>
-      <td>gene_565</td>
-      <td>0.009518</td>
-      <td>0.0965</td>
-      <td>0.025303</td>
-      <td>0.025950</td>
-      <td>0.070221</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>block128</td>
-      <td>gene_566</td>
-      <td>0.009518</td>
-      <td>0.0820</td>
-      <td>0.025303</td>
-      <td>0.025950</td>
-      <td>0.070224</td>
-    </tr>
-    <tr>
       <th>6</th>
       <td>block128</td>
       <td>gene_567</td>
       <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0975</td>
       <td>0.042954</td>
       <td>0.042875</td>
@@ -1005,6 +925,10 @@ body {
       <td>block128</td>
       <td>gene_568</td>
       <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1140</td>
       <td>0.042954</td>
       <td>0.042875</td>
@@ -1015,6 +939,10 @@ body {
       <td>block128</td>
       <td>gene_569</td>
       <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1120</td>
       <td>0.042954</td>
       <td>0.042875</td>
@@ -1025,6 +953,10 @@ body {
       <td>block128</td>
       <td>gene_570</td>
       <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1015</td>
       <td>0.042954</td>
       <td>0.042875</td>
@@ -1035,6 +967,10 @@ body {
       <td>block128</td>
       <td>gene_571</td>
       <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0975</td>
       <td>0.042954</td>
       <td>0.042875</td>
@@ -1045,6 +981,10 @@ body {
       <td>block128</td>
       <td>gene_572</td>
       <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0955</td>
       <td>0.042954</td>
       <td>0.042875</td>
@@ -1055,6 +995,10 @@ body {
       <td>block128</td>
       <td>gene_573</td>
       <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1105</td>
       <td>0.042954</td>
       <td>0.042875</td>
@@ -1065,6 +1009,10 @@ body {
       <td>block128</td>
       <td>gene_574</td>
       <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0985</td>
       <td>0.042954</td>
       <td>0.042875</td>
@@ -1075,6 +1023,10 @@ body {
       <td>block128</td>
       <td>gene_575</td>
       <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0995</td>
       <td>0.042954</td>
       <td>0.042875</td>
@@ -1085,6 +1037,10 @@ body {
       <td>block128</td>
       <td>gene_576</td>
       <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1205</td>
       <td>0.042954</td>
       <td>0.042875</td>
@@ -1095,6 +1051,10 @@ body {
       <td>block128</td>
       <td>gene_577</td>
       <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1060</td>
       <td>0.042954</td>
       <td>0.042875</td>
@@ -1105,6 +1065,10 @@ body {
       <td>block128</td>
       <td>gene_578</td>
       <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1080</td>
       <td>0.042954</td>
       <td>0.042875</td>
@@ -1115,6 +1079,10 @@ body {
       <td>block128</td>
       <td>gene_579</td>
       <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1030</td>
       <td>0.042954</td>
       <td>0.042875</td>
@@ -1125,66 +1093,136 @@ body {
       <td>block128</td>
       <td>gene_580</td>
       <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1015</td>
       <td>0.042954</td>
       <td>0.042875</td>
       <td>0.078226</td>
     </tr>
     <tr>
-      <th>0</th>
+      <th>20</th>
+      <td>block128</td>
+      <td>gene_581</td>
+      <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
+      <td>0.1075</td>
+      <td>0.042954</td>
+      <td>0.042875</td>
+      <td>0.078223</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>block128</td>
+      <td>gene_582</td>
+      <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
+      <td>0.0895</td>
+      <td>0.042954</td>
+      <td>0.042875</td>
+      <td>0.078219</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>block128</td>
+      <td>gene_583</td>
+      <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
+      <td>0.1120</td>
+      <td>0.042954</td>
+      <td>0.042875</td>
+      <td>0.078214</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>block128</td>
+      <td>gene_584</td>
+      <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
+      <td>0.0990</td>
+      <td>0.042954</td>
+      <td>0.042875</td>
+      <td>0.078209</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>block128</td>
+      <td>gene_585</td>
+      <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
+      <td>0.0995</td>
+      <td>0.042954</td>
+      <td>0.042875</td>
+      <td>0.078204</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>block128</td>
+      <td>gene_586</td>
+      <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
+      <td>0.1225</td>
+      <td>0.042954</td>
+      <td>0.042875</td>
+      <td>0.078199</td>
+    </tr>
+    <tr>
+      <th>8</th>
       <td>block314</td>
-      <td>gene_1152</td>
+      <td>gene_1160</td>
       <td>0.007472</td>
-      <td>0.0665</td>
-      <td>0.048493</td>
-      <td>0.052571</td>
-      <td>0.087318</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>1</td>
+      <td>1663</td>
+      <td>0.3715</td>
+      <td>0.308251</td>
+      <td>0.299297</td>
+      <td>0.265347</td>
     </tr>
     <tr>
       <th>0</th>
       <td>block320</td>
       <td>gene_1175</td>
       <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.8905</td>
       <td>1.000000</td>
       <td>1.000000</td>
       <td>0.717086</td>
     </tr>
     <tr>
-      <th>0</th>
-      <td>block523</td>
-      <td>gene_2189</td>
-      <td>0.000924</td>
-      <td>0.0650</td>
-      <td>0.000642</td>
-      <td>0.000522</td>
-      <td>0.051100</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>block523</td>
-      <td>gene_2190</td>
-      <td>0.000924</td>
-      <td>0.0725</td>
-      <td>0.000642</td>
-      <td>0.000522</td>
-      <td>0.051100</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>block523</td>
-      <td>gene_2191</td>
-      <td>0.000924</td>
-      <td>0.0715</td>
-      <td>0.000946</td>
-      <td>0.000884</td>
-      <td>0.052169</td>
-    </tr>
-    <tr>
       <th>3</th>
       <td>block523</td>
       <td>gene_2192</td>
-      <td>0.000924</td>
+      <td>0.004376</td>
+      <td>7</td>
+      <td>1415</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1050</td>
       <td>0.011498</td>
       <td>0.012378</td>
@@ -1194,7 +1232,11 @@ body {
       <th>4</th>
       <td>block523</td>
       <td>gene_2193</td>
-      <td>0.000924</td>
+      <td>0.002011</td>
+      <td>8</td>
+      <td>1414</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1260</td>
       <td>0.020223</td>
       <td>0.021007</td>
@@ -1204,7 +1246,11 @@ body {
       <th>5</th>
       <td>block523</td>
       <td>gene_2194</td>
-      <td>0.000924</td>
+      <td>0.002011</td>
+      <td>8</td>
+      <td>1414</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1245</td>
       <td>0.020223</td>
       <td>0.021007</td>
@@ -1214,7 +1260,11 @@ body {
       <th>6</th>
       <td>block523</td>
       <td>gene_2195</td>
-      <td>0.000924</td>
+      <td>0.004376</td>
+      <td>7</td>
+      <td>1415</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0625</td>
       <td>0.011498</td>
       <td>0.012378</td>
@@ -1224,7 +1274,11 @@ body {
       <th>7</th>
       <td>block523</td>
       <td>gene_2196</td>
-      <td>0.000924</td>
+      <td>0.004376</td>
+      <td>7</td>
+      <td>1415</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0645</td>
       <td>0.011498</td>
       <td>0.012378</td>
@@ -1234,7 +1288,11 @@ body {
       <th>8</th>
       <td>block523</td>
       <td>gene_2197</td>
-      <td>0.000924</td>
+      <td>0.004376</td>
+      <td>7</td>
+      <td>1415</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0655</td>
       <td>0.011498</td>
       <td>0.012378</td>
@@ -1244,7 +1302,11 @@ body {
       <th>9</th>
       <td>block523</td>
       <td>gene_2198</td>
-      <td>0.000924</td>
+      <td>0.004376</td>
+      <td>7</td>
+      <td>1415</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0685</td>
       <td>0.011498</td>
       <td>0.012378</td>
@@ -1254,7 +1316,11 @@ body {
       <th>10</th>
       <td>block523</td>
       <td>gene_2199</td>
-      <td>0.000924</td>
+      <td>0.004376</td>
+      <td>7</td>
+      <td>1415</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0565</td>
       <td>0.011498</td>
       <td>0.012378</td>
@@ -1264,7 +1330,11 @@ body {
       <th>11</th>
       <td>block523</td>
       <td>gene_2200</td>
-      <td>0.000924</td>
+      <td>0.004376</td>
+      <td>7</td>
+      <td>1415</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0605</td>
       <td>0.011498</td>
       <td>0.012378</td>
@@ -1275,6 +1345,10 @@ body {
       <td>block523</td>
       <td>gene_2201</td>
       <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0950</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1285,6 +1359,10 @@ body {
       <td>block523</td>
       <td>gene_2202</td>
       <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0860</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1295,6 +1373,10 @@ body {
       <td>block523</td>
       <td>gene_2203</td>
       <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1105</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1305,6 +1387,10 @@ body {
       <td>block523</td>
       <td>gene_2204</td>
       <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0855</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1315,6 +1401,10 @@ body {
       <td>block523</td>
       <td>gene_2205</td>
       <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0880</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1325,6 +1415,10 @@ body {
       <td>block523</td>
       <td>gene_2206</td>
       <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0895</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1334,7 +1428,11 @@ body {
       <th>18</th>
       <td>block523</td>
       <td>gene_2207</td>
-      <td>0.000924</td>
+      <td>0.002011</td>
+      <td>8</td>
+      <td>1414</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0855</td>
       <td>0.020223</td>
       <td>0.021007</td>
@@ -1345,6 +1443,10 @@ body {
       <td>block523</td>
       <td>gene_2208</td>
       <td>0.002011</td>
+      <td>8</td>
+      <td>1414</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0720</td>
       <td>0.020223</td>
       <td>0.021007</td>
@@ -1354,7 +1456,11 @@ body {
       <th>20</th>
       <td>block523</td>
       <td>gene_2209</td>
-      <td>0.002011</td>
+      <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1045</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1364,7 +1470,11 @@ body {
       <th>21</th>
       <td>block523</td>
       <td>gene_2210</td>
-      <td>0.002011</td>
+      <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1055</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1374,7 +1484,11 @@ body {
       <th>22</th>
       <td>block523</td>
       <td>gene_2211</td>
-      <td>0.002011</td>
+      <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1085</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1384,7 +1498,11 @@ body {
       <th>23</th>
       <td>block523</td>
       <td>gene_2212</td>
-      <td>0.002011</td>
+      <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0985</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1394,7 +1512,11 @@ body {
       <th>24</th>
       <td>block523</td>
       <td>gene_2213</td>
-      <td>0.004376</td>
+      <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1015</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1404,7 +1526,11 @@ body {
       <th>25</th>
       <td>block523</td>
       <td>gene_2214</td>
-      <td>0.004376</td>
+      <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0885</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1414,7 +1540,11 @@ body {
       <th>26</th>
       <td>block523</td>
       <td>gene_2215</td>
-      <td>0.004376</td>
+      <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0900</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1424,7 +1554,11 @@ body {
       <th>27</th>
       <td>block523</td>
       <td>gene_2216</td>
-      <td>0.004376</td>
+      <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0990</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1434,7 +1568,11 @@ body {
       <th>28</th>
       <td>block523</td>
       <td>gene_2217</td>
-      <td>0.004376</td>
+      <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0895</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1444,7 +1582,11 @@ body {
       <th>29</th>
       <td>block523</td>
       <td>gene_2218</td>
-      <td>0.004376</td>
+      <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0935</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1454,7 +1596,11 @@ body {
       <th>30</th>
       <td>block523</td>
       <td>gene_2219</td>
-      <td>0.004376</td>
+      <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1005</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1464,7 +1610,11 @@ body {
       <th>31</th>
       <td>block523</td>
       <td>gene_2220</td>
-      <td>0.004376</td>
+      <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0840</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1474,7 +1624,11 @@ body {
       <th>32</th>
       <td>block523</td>
       <td>gene_2221</td>
-      <td>0.004376</td>
+      <td>0.000924</td>
+      <td>9</td>
+      <td>1413</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.1010</td>
       <td>0.036061</td>
       <td>0.035665</td>
@@ -1484,7 +1638,11 @@ body {
       <th>33</th>
       <td>block523</td>
       <td>gene_2222</td>
-      <td>0.009518</td>
+      <td>0.002011</td>
+      <td>8</td>
+      <td>1414</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0885</td>
       <td>0.020223</td>
       <td>0.021007</td>
@@ -1494,7 +1652,11 @@ body {
       <th>34</th>
       <td>block523</td>
       <td>gene_2223</td>
-      <td>0.009518</td>
+      <td>0.004376</td>
+      <td>7</td>
+      <td>1415</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0700</td>
       <td>0.011498</td>
       <td>0.012378</td>
@@ -1504,7 +1666,11 @@ body {
       <th>35</th>
       <td>block523</td>
       <td>gene_2224</td>
-      <td>0.009518</td>
+      <td>0.004376</td>
+      <td>7</td>
+      <td>1415</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0790</td>
       <td>0.011498</td>
       <td>0.012378</td>
@@ -1515,6 +1681,10 @@ body {
       <td>block523</td>
       <td>gene_2225</td>
       <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0635</td>
       <td>0.006644</td>
       <td>0.007296</td>
@@ -1525,10 +1695,56 @@ body {
       <td>block523</td>
       <td>gene_2226</td>
       <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
       <td>0.0570</td>
       <td>0.006644</td>
       <td>0.007296</td>
       <td>0.052420</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>block523</td>
+      <td>gene_2227</td>
+      <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
+      <td>0.0740</td>
+      <td>0.006644</td>
+      <td>0.007296</td>
+      <td>0.052419</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>block523</td>
+      <td>gene_2228</td>
+      <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
+      <td>0.0510</td>
+      <td>0.006644</td>
+      <td>0.007296</td>
+      <td>0.052417</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>block523</td>
+      <td>gene_2229</td>
+      <td>0.009518</td>
+      <td>6</td>
+      <td>1416</td>
+      <td>0</td>
+      <td>1664</td>
+      <td>0.0555</td>
+      <td>0.006644</td>
+      <td>0.007296</td>
+      <td>0.052416</td>
     </tr>
   </tbody>
 </table>
@@ -1556,7 +1772,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/f28f4133dbdad1132625c8510609fc5108c1e3b9/dsc/20200227_Real_CNV_deletion.ipynb"><code>dsc/20200227_Real_CNV_deletion.ipynb</code></a> committed by Min Qiao on Thu Feb 27 17:21:22 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/f28f4133dbdad1132625c8510609fc5108c1e3b9">revision 1, f28f413</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/9805b65d921db26b625214e2e0deaaa196a5d504/dsc/20200227_Real_CNV_deletion.ipynb"><code>dsc/20200227_Real_CNV_deletion.ipynb</code></a> committed by Min Qiao on Thu Mar 5 00:25:38 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/9805b65d921db26b625214e2e0deaaa196a5d504">revision 2, 9805b65</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

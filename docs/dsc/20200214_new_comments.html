@@ -292,10 +292,133 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[3]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(2290, 7)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/deletion.genes.block20.for_simu.shape0.scale1.beta&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">])</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/</span><span class="si">{folder}</span><span class="s2">/deletion.genes.block20.for_simu.shape0.scale1.beta&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">beta</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[5]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>beta</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>22351</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>22352</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>22353</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>22354</th>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>22355</th>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># index1 = pd.read_csv(f&quot;{cwd}/deletion.block1.index.csv&quot;, header = None, sep = &quot;\t&quot;, names = [&quot;id1&quot;, &quot;id2&quot;])</span>
+<span class="n">index1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/</span><span class="si">{folder}</span><span class="s2">/deletion.genes.block20.for_simu.sample.combined.block1.index.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;id1&quot;</span><span class="p">,</span> <span class="s2">&quot;id2&quot;</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -308,8 +431,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="c1"># index1 = pd.read_csv(f&quot;{cwd}/deletion.block1.index.csv&quot;, header = None, sep = &quot;\t&quot;, names = [&quot;id1&quot;, &quot;id2&quot;])</span>
-<span class="n">index1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/</span><span class="si">{folder}</span><span class="s2">/deletion.block1.index.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;id1&quot;</span><span class="p">,</span> <span class="s2">&quot;id2&quot;</span><span class="p">])</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">index2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/</span><span class="si">{folder}</span><span class="s2">/deletion.genes.block20.for_simu.sample.combined.block1.forsimu.index.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;is1&quot;</span><span class="p">,</span> <span class="s2">&quot;is2&quot;</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -322,11 +444,79 @@ body {
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="c1"># index2 = pd.read_csv(f&quot;{cwd}/deletion.block1.forsimu.index.csv&quot;, header = None, sep = &quot;\t&quot;, names = [&quot;is1&quot;, &quot;is2&quot;])</span>
-<span class="n">index2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/</span><span class="si">{folder}</span><span class="s2">/deletion.block1.forsimu.index.csv&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;is1&quot;</span><span class="p">,</span> <span class="s2">&quot;is2&quot;</span><span class="p">])</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">index2</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[8]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>is1</th>
+      <th>is2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>523</th>
+      <td>21904</td>
+      <td>21905</td>
+    </tr>
+    <tr>
+      <th>524</th>
+      <td>21936</td>
+      <td>21941</td>
+    </tr>
+    <tr>
+      <th>525</th>
+      <td>21979</td>
+      <td>21981</td>
+    </tr>
+    <tr>
+      <th>526</th>
+      <td>22088</td>
+      <td>22097</td>
+    </tr>
+    <tr>
+      <th>527</th>
+      <td>22337</td>
+      <td>22355</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -396,36 +586,36 @@ body {
       <th>523</th>
       <td>2250</td>
       <td>2251</td>
-      <td>21934</td>
-      <td>21935</td>
+      <td>21904</td>
+      <td>21905</td>
     </tr>
     <tr>
       <th>524</th>
       <td>2252</td>
       <td>2257</td>
-      <td>21966</td>
-      <td>21971</td>
+      <td>21936</td>
+      <td>21941</td>
     </tr>
     <tr>
       <th>525</th>
       <td>2258</td>
       <td>2260</td>
-      <td>22009</td>
-      <td>22011</td>
+      <td>21979</td>
+      <td>21981</td>
     </tr>
     <tr>
       <th>526</th>
       <td>2261</td>
       <td>2270</td>
-      <td>22118</td>
-      <td>22127</td>
+      <td>22088</td>
+      <td>22097</td>
     </tr>
     <tr>
       <th>527</th>
       <td>2271</td>
       <td>2289</td>
-      <td>22367</td>
-      <td>22385</td>
+      <td>22337</td>
+      <td>22355</td>
     </tr>
   </tbody>
 </table>
@@ -443,7 +633,74 @@ body {
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">index</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">index</span><span class="p">[</span><span class="s2">&quot;number_effect&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">beta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">index2</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">idx_beta</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="s2">&quot;number_effect&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">][[</span><span class="s2">&quot;is1&quot;</span><span class="p">,</span> <span class="s2">&quot;is2&quot;</span><span class="p">,</span> <span class="s2">&quot;id1&quot;</span><span class="p">,</span> <span class="s2">&quot;id2&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">beta_in_block</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">fisher_in_block</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">d_c</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">d_nc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">nd_c</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">nd_nc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">gene_in_block</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">idx_beta</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">beta_in_block</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">][</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+    <span class="n">fisher_in_block</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fisher</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;gene&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="sa">f</span><span class="s2">&quot;gene_{i+1}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+    <span class="n">d_c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fisher</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;gene&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="sa">f</span><span class="s2">&quot;gene_{i+1}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[</span><span class="s2">&quot;d_c&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+    <span class="n">d_nc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fisher</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;gene&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="sa">f</span><span class="s2">&quot;gene_{i+1}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[</span><span class="s2">&quot;d_nc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+    <span class="n">nd_c</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fisher</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;gene&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="sa">f</span><span class="s2">&quot;gene_{i+1}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[</span><span class="s2">&quot;nd_c&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+    <span class="n">nd_nc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fisher</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;gene&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="sa">f</span><span class="s2">&quot;gene_{i+1}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[</span><span class="s2">&quot;nd_nc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+    <span class="n">gene_in_block</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_{i+1}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="s2">&quot;number_effect&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">][[</span><span class="s2">&quot;id1&quot;</span><span class="p">,</span> <span class="s2">&quot;id2&quot;</span><span class="p">]]</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">set_index</span><span class="p">([[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">index</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
@@ -456,7 +713,40 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[11]:</div>
+    <div class="prompt output_prompt">Out[15]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(69, 2)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">index</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[24]:</div>
 
 
 
@@ -481,178 +771,37 @@ body {
       <th></th>
       <th>id1</th>
       <th>id2</th>
-      <th>is1</th>
-      <th>is2</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>0</td>
-      <td>7</td>
-      <td>30</td>
-      <td>37</td>
+      <th>64</th>
+      <td>2062</td>
+      <td>2067</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>8</td>
-      <td>17</td>
-      <td>44</td>
-      <td>53</td>
+      <th>65</th>
+      <td>2133</td>
+      <td>2137</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>18</td>
-      <td>22</td>
-      <td>123</td>
-      <td>127</td>
+      <th>66</th>
+      <td>2140</td>
+      <td>2141</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>23</td>
-      <td>36</td>
-      <td>194</td>
-      <td>207</td>
+      <th>67</th>
+      <td>2261</td>
+      <td>2270</td>
     </tr>
     <tr>
-      <th>4</th>
-      <td>37</td>
-      <td>44</td>
-      <td>259</td>
-      <td>266</td>
+      <th>68</th>
+      <td>2271</td>
+      <td>2289</td>
     </tr>
   </tbody>
 </table>
 </div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">index</span><span class="p">[</span><span class="s2">&quot;number_effect&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="n">beta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">index2</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">idx_beta</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="s2">&quot;number_effect&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">][[</span><span class="s2">&quot;is1&quot;</span><span class="p">,</span> <span class="s2">&quot;is2&quot;</span><span class="p">,</span> <span class="s2">&quot;id1&quot;</span><span class="p">,</span> <span class="s2">&quot;id2&quot;</span><span class="p">]]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">beta_in_block</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-<span class="n">fisher_in_block</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-<span class="n">gene_in_block</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">idx_beta</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-    <span class="n">beta_in_block</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">][</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-    <span class="n">fisher_in_block</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fisher</span><span class="p">[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_{i+1}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)])][</span><span class="s2">&quot;p_deleterious&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-    <span class="n">gene_in_block</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_{i+1}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_in_block</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[14]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
- [0.6249641277247204, 0.6249641277247204, 0.6249641277247204],
- [0.5799946293546432, 0.7886821920435936, 0.7886821920435936, 1.0],
- [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
- [1.0, 1.0, 1.0]]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="s2">&quot;number_effect&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">][[</span><span class="s2">&quot;id1&quot;</span><span class="p">,</span> <span class="s2">&quot;id2&quot;</span><span class="p">]]</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">set_index</span><span class="p">([[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">index</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[16]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(66, 2)</pre>
 </div>
 
 </div>
@@ -670,13 +819,17 @@ body {
 <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">index</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
     <span class="n">logit</span> <span class="o">=</span> <span class="n">pyreadr</span><span class="o">.</span><span class="n">read_r</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/</span><span class="si">{folder}</span><span class="s2">/block_</span><span class="si">{item[0]}</span><span class="s2">_</span><span class="si">{item[1]}</span><span class="s2">/deletion.genes.block20.for_simu.sample.combined.genes.block_</span><span class="si">{item[0]}</span><span class="s2">_</span><span class="si">{item[1]}</span><span class="s2">.logit.rds&quot;</span><span class="p">)</span>
     <span class="n">pymc3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/</span><span class="si">{folder}</span><span class="s2">/block_</span><span class="si">{item[0]}</span><span class="s2">_</span><span class="si">{item[1]}</span><span class="s2">/deletion.genes.block20.for_simu.sample.combined.genes.block_</span><span class="si">{item[0]}</span><span class="s2">_</span><span class="si">{item[1]}</span><span class="s2">.pymc3.gz&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">pymc3</span><span class="p">[</span><span class="s2">&quot;block&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;block{idx+1}&quot;</span>
+    <span class="n">pymc3</span><span class="p">[</span><span class="s2">&quot;block&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;block</span><span class="si">{idx}</span><span class="s2">&quot;</span>
     <span class="n">susie</span> <span class="o">=</span> <span class="n">load_rds</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/</span><span class="si">{folder}</span><span class="s2">/block_</span><span class="si">{item[0]}</span><span class="s2">_</span><span class="si">{item[1]}</span><span class="s2">/deletion.genes.block20.for_simu.sample.combined.genes.block_</span><span class="si">{item[0]}</span><span class="s2">_</span><span class="si">{item[1]}</span><span class="s2">.SuSiE.L_1.prior_0p005.susie.rds&quot;</span><span class="p">)[</span><span class="s2">&quot;pip&quot;</span><span class="p">]</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">logit</span><span class="p">[</span><span class="kc">None</span><span class="p">][[</span><span class="s2">&quot;p1&quot;</span><span class="p">]],</span> <span class="n">pymc3</span><span class="p">[[</span><span class="s2">&quot;inclusion_probability&quot;</span><span class="p">,</span> <span class="s2">&quot;block&quot;</span><span class="p">]]],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">res</span><span class="p">[</span><span class="s2">&quot;susie&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">susie</span>
     <span class="n">res</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">beta_in_block</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
     <span class="n">res</span><span class="p">[</span><span class="s2">&quot;fisher&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fisher_in_block</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
     <span class="n">res</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gene_in_block</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">res</span><span class="p">[</span><span class="s2">&quot;d_c&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">d_c</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">res</span><span class="p">[</span><span class="s2">&quot;d_nc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">d_nc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">res</span><span class="p">[</span><span class="s2">&quot;nd_c&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nd_c</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">res</span><span class="p">[</span><span class="s2">&quot;nd_nc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nd_nc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;p1&quot;</span><span class="p">:</span> <span class="s2">&quot;logit&quot;</span><span class="p">,</span> <span class="s2">&quot;inclusion_probability&quot;</span><span class="p">:</span> <span class="s2">&quot;pymc3&quot;</span><span class="p">})</span>
     <span class="n">logit_pymc3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">logit_pymc3</span><span class="p">,</span> <span class="n">res</span><span class="p">])</span>
 </pre></div>
@@ -709,10 +862,11 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">logit_pymc3</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">0</span> <span class="k">else</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]]</span>
 <span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;logit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;logit&quot;</span><span class="p">]]</span>
 <span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;pymc3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;pymc3&quot;</span><span class="p">]]</span>
 <span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;susie&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;susie&quot;</span><span class="p">]]</span>
@@ -725,10 +879,131 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span> <span class="o">=</span> <span class="n">logit_pymc3</span><span class="p">[[</span><span class="s2">&quot;block&quot;</span><span class="p">,</span> <span class="s2">&quot;gene&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;fisher&quot;</span><span class="p">,</span> <span class="s2">&quot;d_c&quot;</span><span class="p">,</span> <span class="s2">&quot;d_nc&quot;</span><span class="p">,</span> <span class="s2">&quot;nd_c&quot;</span><span class="p">,</span> <span class="s2">&quot;nd_nc&quot;</span><span class="p">,</span> <span class="s2">&quot;logit&quot;</span><span class="p">,</span> <span class="s2">&quot;pymc3&quot;</span><span class="p">,</span> <span class="s2">&quot;susie&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="p">[</span><span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;block&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;block12&quot;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[21]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>block</th>
+      <th>gene</th>
+      <th>beta</th>
+      <th>fisher</th>
+      <th>d_c</th>
+      <th>d_nc</th>
+      <th>nd_c</th>
+      <th>nd_nc</th>
+      <th>logit</th>
+      <th>pymc3</th>
+      <th>susie</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>block12</td>
+      <td>gene_379</td>
+      <td>-0.587536</td>
+      <td>0.624964</td>
+      <td>3</td>
+      <td>10452</td>
+      <td>1</td>
+      <td>10454</td>
+      <td>0.333333</td>
+      <td>0.0650</td>
+      <td>0.333333</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>block12</td>
+      <td>gene_380</td>
+      <td>0.000000</td>
+      <td>0.624964</td>
+      <td>3</td>
+      <td>10452</td>
+      <td>1</td>
+      <td>10454</td>
+      <td>0.333333</td>
+      <td>0.0575</td>
+      <td>0.333333</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>block12</td>
+      <td>gene_381</td>
+      <td>0.000000</td>
+      <td>0.624964</td>
+      <td>3</td>
+      <td>10452</td>
+      <td>1</td>
+      <td>10454</td>
+      <td>0.333333</td>
+      <td>0.0605</td>
+      <td>0.333333</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span> <span class="o">=</span> <span class="n">logit_pymc3</span><span class="p">[[</span><span class="s2">&quot;block&quot;</span><span class="p">,</span> <span class="s2">&quot;gene&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;fisher&quot;</span><span class="p">,</span> <span class="s2">&quot;logit&quot;</span><span class="p">,</span> <span class="s2">&quot;pymc3&quot;</span><span class="p">,</span> <span class="s2">&quot;susie&quot;</span><span class="p">]]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/</span><span class="si">{folder}</span><span class="s2">/logit_pymc3_comparison_1.csv&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -738,10 +1013,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="p">[</span><span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;fisher&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="p">[</span><span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;block&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;block30&quot;</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -754,7 +1029,7 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[26]:</div>
+    <div class="prompt output_prompt">Out[23]:</div>
 
 
 
@@ -781,6 +1056,10 @@ body {
       <th>gene</th>
       <th>beta</th>
       <th>fisher</th>
+      <th>d_c</th>
+      <th>d_nc</th>
+      <th>nd_c</th>
+      <th>nd_nc</th>
       <th>logit</th>
       <th>pymc3</th>
       <th>susie</th>
@@ -789,797 +1068,59 @@ body {
   <tbody>
     <tr>
       <th>0</th>
-      <td>block28</td>
-      <td>gene_966</td>
-      <td>-1.495750</td>
-      <td>7.026019e-02</td>
-      <td>0.100000</td>
-      <td>0.0930</td>
-      <td>0.100000</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>block28</td>
-      <td>gene_967</td>
-      <td>0.000000</td>
-      <td>7.026019e-02</td>
-      <td>0.100000</td>
-      <td>0.1055</td>
-      <td>0.100000</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>block28</td>
-      <td>gene_968</td>
-      <td>0.000000</td>
-      <td>7.026019e-02</td>
-      <td>0.100000</td>
-      <td>0.1235</td>
-      <td>0.100000</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>block28</td>
-      <td>gene_969</td>
-      <td>0.000000</td>
-      <td>7.026019e-02</td>
-      <td>0.100000</td>
-      <td>0.1025</td>
-      <td>0.100000</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>block28</td>
-      <td>gene_970</td>
-      <td>0.000000</td>
-      <td>7.026019e-02</td>
-      <td>0.100000</td>
-      <td>0.1080</td>
-      <td>0.100000</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>block28</td>
-      <td>gene_971</td>
-      <td>0.000000</td>
-      <td>7.026019e-02</td>
-      <td>0.100000</td>
-      <td>0.0945</td>
-      <td>0.100000</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>block28</td>
-      <td>gene_972</td>
-      <td>0.000000</td>
-      <td>7.026019e-02</td>
-      <td>0.100000</td>
-      <td>0.1305</td>
-      <td>0.100000</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>block28</td>
-      <td>gene_973</td>
-      <td>0.000000</td>
-      <td>7.026019e-02</td>
-      <td>0.100000</td>
-      <td>0.1050</td>
-      <td>0.100000</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>block28</td>
-      <td>gene_974</td>
-      <td>0.000000</td>
-      <td>7.026019e-02</td>
-      <td>0.100000</td>
-      <td>0.1125</td>
-      <td>0.100000</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>block28</td>
-      <td>gene_975</td>
-      <td>0.000000</td>
-      <td>7.026019e-02</td>
-      <td>0.100000</td>
-      <td>0.1195</td>
-      <td>0.100000</td>
-    </tr>
-    <tr>
-      <th>0</th>
       <td>block30</td>
-      <td>gene_1023</td>
-      <td>0.168515</td>
-      <td>7.249010e-04</td>
-      <td>0.009575</td>
-      <td>0.0255</td>
-      <td>0.014130</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>block30</td>
-      <td>gene_1024</td>
-      <td>0.000000</td>
-      <td>1.291078e-02</td>
-      <td>0.009575</td>
-      <td>0.0270</td>
-      <td>0.014130</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>block30</td>
-      <td>gene_1025</td>
-      <td>0.000000</td>
-      <td>1.291078e-02</td>
-      <td>0.492172</td>
-      <td>0.5910</td>
-      <td>0.412198</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>block30</td>
-      <td>gene_1026</td>
-      <td>0.000000</td>
-      <td>1.291078e-02</td>
-      <td>0.044425</td>
-      <td>0.0480</td>
-      <td>0.050867</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>block30</td>
-      <td>gene_1027</td>
-      <td>0.000000</td>
-      <td>1.291078e-02</td>
-      <td>0.044425</td>
-      <td>0.0645</td>
-      <td>0.050867</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>block30</td>
-      <td>gene_1028</td>
-      <td>0.000000</td>
-      <td>1.291078e-02</td>
-      <td>0.044425</td>
-      <td>0.0655</td>
-      <td>0.050867</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>block30</td>
-      <td>gene_1029</td>
-      <td>0.000000</td>
-      <td>1.291078e-02</td>
-      <td>0.044425</td>
-      <td>0.0755</td>
-      <td>0.050867</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>block30</td>
-      <td>gene_1030</td>
-      <td>0.000000</td>
-      <td>1.291078e-02</td>
-      <td>0.044425</td>
-      <td>0.0655</td>
-      <td>0.050867</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>block30</td>
-      <td>gene_1031</td>
-      <td>0.000000</td>
-      <td>1.291078e-02</td>
-      <td>0.044425</td>
-      <td>0.0730</td>
-      <td>0.050867</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>block30</td>
-      <td>gene_1032</td>
-      <td>0.000000</td>
-      <td>1.291078e-02</td>
-      <td>0.044425</td>
-      <td>0.0675</td>
-      <td>0.050867</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>block30</td>
-      <td>gene_1033</td>
-      <td>0.000000</td>
-      <td>1.291078e-02</td>
-      <td>0.044425</td>
-      <td>0.0590</td>
-      <td>0.050867</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>block30</td>
-      <td>gene_1034</td>
-      <td>0.000000</td>
-      <td>1.291078e-02</td>
-      <td>0.044425</td>
-      <td>0.0610</td>
-      <td>0.050867</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>block30</td>
-      <td>gene_1035</td>
-      <td>0.000000</td>
-      <td>6.344933e-02</td>
-      <td>0.044425</td>
-      <td>0.0655</td>
-      <td>0.050867</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>block30</td>
-      <td>gene_1036</td>
-      <td>0.000000</td>
-      <td>6.344933e-02</td>
-      <td>0.044425</td>
-      <td>0.0765</td>
-      <td>0.050867</td>
-    </tr>
-    <tr>
-      <th>0</th>
-      <td>block33</td>
-      <td>gene_1152</td>
-      <td>0.000000</td>
-      <td>8.818833e-02</td>
-      <td>0.289403</td>
-      <td>0.2225</td>
-      <td>0.149502</td>
-    </tr>
-    <tr>
-      <th>0</th>
-      <td>block41</td>
-      <td>gene_1553</td>
-      <td>1.586846</td>
-      <td>3.852029e-02</td>
-      <td>0.500000</td>
-      <td>0.3410</td>
-      <td>0.500000</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>block41</td>
-      <td>gene_1554</td>
-      <td>0.000000</td>
-      <td>3.852029e-02</td>
-      <td>0.500000</td>
-      <td>0.3030</td>
-      <td>0.500000</td>
-    </tr>
-    <tr>
-      <th>0</th>
-      <td>block47</td>
-      <td>gene_1711</td>
-      <td>0.000000</td>
-      <td>5.303153e-02</td>
-      <td>0.062423</td>
-      <td>0.0725</td>
-      <td>0.031275</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>block47</td>
-      <td>gene_1712</td>
-      <td>0.000000</td>
-      <td>5.303153e-02</td>
-      <td>0.012321</td>
-      <td>0.0605</td>
-      <td>0.026029</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>block47</td>
-      <td>gene_1713</td>
-      <td>0.000000</td>
-      <td>5.303153e-02</td>
-      <td>0.012321</td>
-      <td>0.0675</td>
-      <td>0.026029</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>block47</td>
-      <td>gene_1714</td>
-      <td>0.000000</td>
-      <td>6.124995e-02</td>
-      <td>0.012321</td>
-      <td>0.0760</td>
-      <td>0.026029</td>
-    </tr>
-    <tr>
-      <th>0</th>
-      <td>block52</td>
-      <td>gene_1816</td>
-      <td>0.000000</td>
-      <td>1.347818e-18</td>
-      <td>0.000000</td>
-      <td>0.0235</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>block52</td>
-      <td>gene_1817</td>
-      <td>0.000000</td>
-      <td>1.347818e-18</td>
-      <td>0.000000</td>
+      <td>gene_924</td>
+      <td>-0.716931</td>
+      <td>0.048951</td>
+      <td>4</td>
+      <td>10451</td>
+      <td>13</td>
+      <td>10442</td>
+      <td>0.139127</td>
       <td>0.0265</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>block52</td>
-      <td>gene_1818</td>
-      <td>0.000000</td>
-      <td>2.678502e-18</td>
-      <td>0.000000</td>
-      <td>0.0235</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>block52</td>
-      <td>gene_1819</td>
-      <td>0.000000</td>
-      <td>2.678502e-18</td>
-      <td>0.000001</td>
-      <td>0.1715</td>
-      <td>0.000001</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>block52</td>
-      <td>gene_1820</td>
-      <td>0.000000</td>
-      <td>2.678502e-18</td>
-      <td>0.000001</td>
-      <td>0.1520</td>
-      <td>0.000001</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>block52</td>
-      <td>gene_1821</td>
-      <td>0.000000</td>
-      <td>5.474364e-17</td>
-      <td>0.007051</td>
-      <td>0.0305</td>
-      <td>0.012130</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>block52</td>
-      <td>gene_1822</td>
-      <td>0.000000</td>
-      <td>5.594203e-13</td>
-      <td>0.267239</td>
-      <td>0.4590</td>
-      <td>0.339866</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>block52</td>
-      <td>gene_1823</td>
-      <td>0.000000</td>
-      <td>5.594203e-13</td>
-      <td>0.267239</td>
-      <td>0.5470</td>
-      <td>0.339866</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>block52</td>
-      <td>gene_1824</td>
-      <td>0.690018</td>
-      <td>4.536313e-09</td>
-      <td>0.152823</td>
-      <td>0.1100</td>
-      <td>0.102712</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>block52</td>
-      <td>gene_1825</td>
-      <td>0.000000</td>
-      <td>3.917820e-07</td>
-      <td>0.152823</td>
-      <td>0.1210</td>
-      <td>0.102712</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>block52</td>
-      <td>gene_1826</td>
-      <td>0.000000</td>
-      <td>3.917820e-07</td>
-      <td>0.152823</td>
-      <td>0.1315</td>
-      <td>0.102712</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>block52</td>
-      <td>gene_1827</td>
-      <td>0.000000</td>
-      <td>3.917820e-07</td>
-      <td>0.000000</td>
-      <td>0.0460</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>0</th>
-      <td>block59</td>
-      <td>gene_2031</td>
-      <td>0.000000</td>
-      <td>3.509252e-02</td>
-      <td>0.071429</td>
-      <td>0.0990</td>
-      <td>0.071429</td>
+      <td>0.124754</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>block59</td>
-      <td>gene_2032</td>
+      <td>block30</td>
+      <td>gene_925</td>
       <td>0.000000</td>
-      <td>3.509252e-02</td>
-      <td>0.071429</td>
-      <td>0.1025</td>
-      <td>0.071429</td>
+      <td>0.010581</td>
+      <td>5</td>
+      <td>10450</td>
+      <td>18</td>
+      <td>10437</td>
+      <td>0.360873</td>
+      <td>0.0485</td>
+      <td>0.375246</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>block59</td>
-      <td>gene_2033</td>
+      <td>block30</td>
+      <td>gene_926</td>
       <td>0.000000</td>
-      <td>3.509252e-02</td>
-      <td>0.071429</td>
-      <td>0.0920</td>
-      <td>0.071429</td>
+      <td>0.010581</td>
+      <td>5</td>
+      <td>10450</td>
+      <td>18</td>
+      <td>10437</td>
+      <td>0.360873</td>
+      <td>0.0425</td>
+      <td>0.375246</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>block59</td>
-      <td>gene_2034</td>
+      <td>block30</td>
+      <td>gene_927</td>
       <td>0.000000</td>
-      <td>3.509252e-02</td>
-      <td>0.071429</td>
-      <td>0.1000</td>
-      <td>0.071429</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>block59</td>
-      <td>gene_2035</td>
-      <td>0.000000</td>
-      <td>3.509252e-02</td>
-      <td>0.071429</td>
-      <td>0.0805</td>
-      <td>0.071429</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>block59</td>
-      <td>gene_2036</td>
-      <td>0.000000</td>
-      <td>3.509252e-02</td>
-      <td>0.071429</td>
-      <td>0.0910</td>
-      <td>0.071429</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>block59</td>
-      <td>gene_2037</td>
-      <td>0.000000</td>
-      <td>3.509252e-02</td>
-      <td>0.071429</td>
-      <td>0.0785</td>
-      <td>0.071429</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>block59</td>
-      <td>gene_2038</td>
-      <td>0.000000</td>
-      <td>3.509252e-02</td>
-      <td>0.071429</td>
-      <td>0.0855</td>
-      <td>0.071429</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>block59</td>
-      <td>gene_2039</td>
-      <td>0.000000</td>
-      <td>3.509252e-02</td>
-      <td>0.071429</td>
-      <td>0.0860</td>
-      <td>0.071429</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>block59</td>
-      <td>gene_2040</td>
-      <td>-1.324403</td>
-      <td>3.509252e-02</td>
-      <td>0.071429</td>
-      <td>0.0990</td>
-      <td>0.071429</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>block59</td>
-      <td>gene_2041</td>
-      <td>0.000000</td>
-      <td>3.509252e-02</td>
-      <td>0.071429</td>
-      <td>0.0910</td>
-      <td>0.071429</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>block59</td>
-      <td>gene_2042</td>
-      <td>0.000000</td>
-      <td>3.509252e-02</td>
-      <td>0.071429</td>
-      <td>0.0940</td>
-      <td>0.071429</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>block59</td>
-      <td>gene_2043</td>
-      <td>0.000000</td>
-      <td>3.509252e-02</td>
-      <td>0.071429</td>
-      <td>0.0895</td>
-      <td>0.071429</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>block59</td>
-      <td>gene_2044</td>
-      <td>0.000000</td>
-      <td>3.509252e-02</td>
-      <td>0.071429</td>
-      <td>0.0695</td>
-      <td>0.071429</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{cwd}</span><span class="s2">/</span><span class="si">{folder}</span><span class="s2">/logit_pymc3_comparison.csv&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="p">[</span><span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;block&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;block18&quot;</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[42]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>block</th>
-      <th>gene</th>
-      <th>beta</th>
-      <th>fisher</th>
-      <th>logit</th>
-      <th>pymc3</th>
-      <th>susie</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>block18</td>
-      <td>gene_618</td>
-      <td>0.000000</td>
-      <td>1.0</td>
-      <td>0.5</td>
-      <td>0.0225</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>block18</td>
-      <td>gene_619</td>
-      <td>-0.537504</td>
-      <td>1.0</td>
-      <td>0.5</td>
-      <td>0.0350</td>
-      <td>0.0</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">pymc3</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[43]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>inclusion_probability</th>
-      <th>beta</th>
-      <th>beta_given_inclusion</th>
-      <th>block</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0.0270</td>
-      <td>-0.008167</td>
-      <td>-0.302492</td>
-      <td>block65</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>0.0285</td>
-      <td>-0.007865</td>
-      <td>-0.275960</td>
-      <td>block65</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0.0195</td>
-      <td>-0.005697</td>
-      <td>-0.292139</td>
-      <td>block65</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0.0240</td>
-      <td>-0.003135</td>
-      <td>-0.130628</td>
-      <td>block65</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>0.0225</td>
-      <td>-0.007494</td>
-      <td>-0.333062</td>
-      <td>block65</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>0.0195</td>
-      <td>-0.001529</td>
-      <td>-0.078386</td>
-      <td>block65</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>0.0195</td>
-      <td>-0.004695</td>
-      <td>-0.240773</td>
-      <td>block65</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>0.0315</td>
-      <td>-0.011108</td>
-      <td>-0.352644</td>
-      <td>block65</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>0.0275</td>
-      <td>-0.009185</td>
-      <td>-0.334010</td>
-      <td>block65</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>0.0225</td>
-      <td>-0.009203</td>
-      <td>-0.409024</td>
-      <td>block65</td>
+      <td>0.048951</td>
+      <td>4</td>
+      <td>10451</td>
+      <td>13</td>
+      <td>10442</td>
+      <td>0.139127</td>
+      <td>0.0220</td>
+      <td>0.124754</td>
     </tr>
   </tbody>
 </table>
@@ -1607,7 +1148,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/f28f4133dbdad1132625c8510609fc5108c1e3b9/dsc/20200214_new_comments.ipynb"><code>dsc/20200214_new_comments.ipynb</code></a> committed by Min Qiao on Thu Feb 27 17:21:22 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/f28f4133dbdad1132625c8510609fc5108c1e3b9">revision 2, f28f413</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/9805b65d921db26b625214e2e0deaaa196a5d504/dsc/20200214_new_comments.ipynb"><code>dsc/20200214_new_comments.ipynb</code></a> committed by Min Qiao on Thu Mar 5 00:25:38 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/9805b65d921db26b625214e2e0deaaa196a5d504">revision 3, 9805b65</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
