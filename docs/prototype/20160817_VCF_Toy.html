@@ -285,8 +285,8 @@ body {
 <span class="n">seq.cnv</span> <span class="o">&lt;-</span> <span class="nf">cnv.call</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">seq.data</span><span class="p">,</span> <span class="n">sample.id</span><span class="o">=</span><span class="s">&quot;PT116&quot;</span><span class="p">,</span> <span class="n">segs.stat</span><span class="o">=</span><span class="n">seq.segs.merge</span><span class="p">,</span> <span class="n">maxL</span><span class="o">=</span><span class="m">2000</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="m">1000</span><span class="p">,</span> <span class="n">pvalue.cutoff</span><span class="o">=</span><span class="m">0.05</span><span class="p">)</span>
 
 <span class="c1">## the last column is CNV</span>
-<span class="n">seq.cnv[</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">seq.cnv</span><span class="p">)</span><span class="n">]</span>
-<span class="nf">table</span><span class="p">(</span><span class="n">seq.cnv[</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">seq.cnv</span><span class="p">)</span><span class="n">]</span><span class="p">)</span>
+<span class="n">seq.cnv</span><span class="p">[,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">seq.cnv</span><span class="p">)]</span>
+<span class="nf">table</span><span class="p">(</span><span class="n">seq.cnv</span><span class="p">[,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">seq.cnv</span><span class="p">)])</span>
 <span class="c1">## gain       LOH      loss    normal undecided </span>
 <span class="c1">##   14        14        35         4         7 </span>
 <span class="nf">head</span><span class="p">(</span><span class="n">seq.cnv</span><span class="p">)</span>

@@ -363,7 +363,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">pi0</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">((</span><span class="m">10</span><span class="nf">^</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">logodds</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="m">1</span> <span class="o">+</span> <span class="m">10</span><span class="nf">^</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">logodds</span><span class="p">)))</span> <span class="o">*</span> <span class="n">res</span><span class="o">$</span><span class="n">w</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">pi0</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">((</span><span class="m">10</span><span class="o">^</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">logodds</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="m">1</span> <span class="o">+</span> <span class="m">10</span><span class="o">^</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">logodds</span><span class="p">)))</span> <span class="o">*</span> <span class="n">res</span><span class="o">$</span><span class="n">w</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1051,8 +1051,8 @@ XV20         0.000000 0.00000  0.00000 0.0000  0.00000</pre>
 <div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="n">prior1</span><span class="o">$</span><span class="n">prior.inclusion.probabilities</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">prior.inclusion.probabilities[1]</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="n">pi0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)))</span>
-<span class="n">prior1</span><span class="o">$</span><span class="n">mu</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">mu[1]</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">9</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">10</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">10</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">4</span><span class="p">))</span>
+<div class=" highlight hl-r"><pre><span></span><span class="n">prior1</span><span class="o">$</span><span class="n">prior.inclusion.probabilities</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">prior.inclusion.probabilities</span><span class="p">[</span><span class="m">1</span><span class="p">],</span> <span class="nf">rep</span><span class="p">(</span><span class="n">pi0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)))</span>
+<span class="n">prior1</span><span class="o">$</span><span class="n">mu</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">mu</span><span class="p">[</span><span class="m">1</span><span class="p">],</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">9</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">10</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">10</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">4</span><span class="p">))</span>
 <span class="c1"># prior1$mu &lt;- c(prior$mu[1], colSums(X_inter)[2:ncol(X_inter)]*0.001)</span>
 <span class="n">prior1</span><span class="o">$</span><span class="n">sigma.guess</span> <span class="o">&lt;-</span> <span class="n">sd0</span>
 </pre></div>
@@ -1547,7 +1547,7 @@ XV1          0.000000 0.0000   0.0000 0.00000    0.000</pre>
 <span class="n">beta</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">ngood</span><span class="p">),</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">p</span> <span class="o">-</span> <span class="n">ngood</span><span class="p">))</span>
 <span class="n">prob</span> <span class="o">&lt;-</span> <span class="nf">plogis</span><span class="p">(</span><span class="n">x</span> <span class="o">%*%</span> <span class="n">beta</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">runif</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">prob</span>
-<span class="n">x</span> <span class="o">&lt;-</span> <span class="n">x[</span><span class="p">,</span><span class="m">-1</span><span class="n">]</span>
+<span class="n">x</span> <span class="o">&lt;-</span> <span class="n">x</span><span class="p">[,</span><span class="m">-1</span><span class="p">]</span>
 <span class="n">model</span> <span class="o">&lt;-</span> <span class="nf">logit.spike</span><span class="p">(</span><span class="n">y</span> <span class="o">~</span> <span class="n">x</span><span class="p">,</span> <span class="n">niter</span><span class="o">=</span><span class="n">niter</span><span class="p">)</span>
 </pre></div>
 
@@ -1853,7 +1853,7 @@ x4           0.000000 0.00000   0.0000 0.00000    0.000
 <div class="prompt input_prompt">In&nbsp;[98]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">mean</span><span class="p">(</span><span class="n">model</span><span class="o">$</span><span class="n">beta[</span><span class="p">,</span> <span class="m">20</span><span class="n">]</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="nf">mean</span><span class="p">(</span><span class="n">model</span><span class="o">$</span><span class="n">beta</span><span class="p">[,</span> <span class="m">20</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -1885,7 +1885,7 @@ x4           0.000000 0.00000   0.0000 0.00000    0.000
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-r"><pre><span></span><span class="nf">mean</span><span class="p">(</span><span class="n">model</span><span class="o">$</span><span class="n">beta[</span><span class="p">,</span> <span class="m">50</span><span class="n">]</span><span class="p">)</span>
+<div class=" highlight hl-r"><pre><span></span><span class="nf">mean</span><span class="p">(</span><span class="n">model</span><span class="o">$</span><span class="n">beta</span><span class="p">[,</span> <span class="m">50</span><span class="p">])</span>
 </pre></div>
 
     </div>

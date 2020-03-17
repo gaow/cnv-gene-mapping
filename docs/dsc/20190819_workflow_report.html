@@ -269,6 +269,89 @@ body {
   1    30365    30503    MIR1302-2</code></pre>
 </li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Genes-conflict-with-each-other">Genes conflict with each other<a class="anchor-link" href="#Genes-conflict-with-each-other">&#182;</a></h2><ol>
+<li><p>Different gene names share identical chromosome, start and end position.</p>
+
+<pre><code> CHR start   end gene_name
+ 1   17368   17436   MIR6859-1
+ 1   17368   17436   MIR6859-2
+ 1   17368   17436   MIR6859-3
+ 1   17368   17436   MIR6859-4
+
+ 1   34610   36081   FAM138A
+ 1   34610   36081   FAM138F
+ 1   34610   36081   FAM138C
+
+ 1   323891  328581  LOC100132287
+ 1   323891  328581  LOC100132062
+
+ 1   367658  368597  OR4F16
+ 1   367658  368597  OR4F3</code></pre>
+</li>
+</ol>
+<ol>
+<li><p>Different but overlapped positions on one chromosome share same gene names</p>
+
+<pre><code> 1   1109285 1133313 TTLL10
+ 1   1115076 1121243 TTLL10
+
+ 1   6845383 6932107 CAMTA1
+ 1   6845383 6948261 CAMTA1
+ 1   6845383 7829766 CAMTA1
+ 1   6845513 7829766 CAMTA1
+ 1   7729789 7829766 CAMTA1
+ 1   7729803 7829766 CAMTA1
+ 1   7729824 7829766 CAMTA1
+ 1   7740147 7829766 CAMTA1
+ 1   7764864 7829766 CAMTA1
+ 1   7764897 7829766 CAMTA1
+ 1   7764904 7829766 CAMTA1
+ 1   7764912 7829766 CAMTA1
+ 1   7764917 7829766 CAMTA1
+ 1   7764923 7829766 CAMTA1</code></pre>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li><p>Different chromosome, position share the same gene name</p>
+
+<pre><code> 1    17368  17436   MIR6859-1   NR_106918
+ 15  102513726   102513794   MIR6859-1   NR_106918
+ 16  67051   67119   MIR6859-1   NR_106918</code></pre>
+</li>
+</ol>
+<ol>
+<li><p>Different gene names, start, end but overlapped</p>
+
+<pre><code> 1    11868    14362    LOC102725121
+ 1    11873    14409    DDX11L1
+
+ 1   761585  762902  LINC00115   NR_024321
+ 1   762970  778984  LINC01128   NR_047526
+ 1   762970  794826  LINC01128   NR_047519
+ 1   763177  794826  LINC01128   NR_047525</code></pre>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <ul>
 <li>Obtain X matrix of CNVs's overlaps with genes/exons for deletion and duplication: rows are individuals ($3085$ for deletion) and columns are genes/exons ($23343$ genes). It is a binary matrix: 1 indicates CNV overlaps with the particular gene if CNV exists for this individual, 0 indicates no overlaps or no CNVs.</li>
 </ul>
@@ -478,7 +561,7 @@ beta:</p>
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/dccf0934c7bac62baa1b641afd79888f3defc7b2/dsc/20190819_workflow_report.ipynb"><code>dsc/20190819_workflow_report.ipynb</code></a> committed by minqiao on Sun Oct 13 16:08:23 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/dccf0934c7bac62baa1b641afd79888f3defc7b2">revision 5, dccf093</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/ad2b79e9b2411f328145f10d5bc2b648fe9e4117/dsc/20190819_workflow_report.ipynb"><code>dsc/20190819_workflow_report.ipynb</code></a> committed by minqiao on Mon Mar 16 21:25:26 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/ad2b79e9b2411f328145f10d5bc2b648fe9e4117">revision 6, ad2b79e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
