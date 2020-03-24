@@ -269,7 +269,7 @@ body {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Software-required">Software required<a class="anchor-link" href="#Software-required">&#182;</a></h2>
 <pre><code>pip install pymc3 -U
-pip install mkl-service</code></pre>
+conda install -c anaconda mkl-service</code></pre>
 
 </div>
 </div>
@@ -328,7 +328,7 @@ pip install mkl-service</code></pre>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([0, 1, 1, 1, 0, 1, 1, 0, 1, 1])</pre>
+<pre>array([1, 0, 1, 1, 1, 1, 1, 1, 1, 0])</pre>
 </div>
 
 </div>
@@ -339,7 +339,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">MU</span><span class="p">[</span><span class="n">component</span><span class="p">],</span> <span class="n">SIGMA</span><span class="p">[</span><span class="n">component</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
@@ -352,7 +352,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">x</span>
@@ -368,14 +368,14 @@ pip install mkl-service</code></pre>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[6]:</div>
+    <div class="prompt output_prompt">Out[5]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([ 0.76397154,  1.99545767,  2.1173305 ,  2.23544477, -1.28675726,
-        0.39846262,  2.03269792, -0.19665662,  3.33318123,  1.89974938])</pre>
+<pre>array([ 3.4039753 , -0.31527543,  1.46270094,  1.03092931,  2.81120231,
+        3.43326324,  2.47595872,  2.66015286,  2.9430338 , -0.51450195])</pre>
 </div>
 
 </div>
@@ -386,7 +386,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
@@ -402,7 +402,7 @@ pip install mkl-service</code></pre>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[7]:</div>
+    <div class="prompt output_prompt">Out[6]:</div>
 
 
 
@@ -434,7 +434,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -450,7 +450,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">components</span>
@@ -466,13 +466,13 @@ pip install mkl-service</code></pre>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[51]:</div>
+    <div class="prompt output_prompt">Out[8]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[0, 0, 0, 0, 0, 0, 0, 1, 0, 0]</pre>
+<pre>[0, 0, 1, 0, 0, 0, 0, 0, 0, 0]</pre>
 </div>
 
 </div>
@@ -483,7 +483,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">mus</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.777</span><span class="p">]</span>
@@ -497,7 +497,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">norm</span><span class="o">.</span><span class="n">rvs</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.777</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.844</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">components</span><span class="p">]</span>
@@ -513,22 +513,22 @@ pip install mkl-service</code></pre>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[53]:</div>
+    <div class="prompt output_prompt">Out[10]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[array([1.28720023]),
- array([0.64809114]),
- array([-0.3611226]),
- array([-0.45568501]),
- array([1.21371894]),
- array([-1.44743445]),
- array([-0.33758135]),
- array([0.53345844]),
- array([1.1999563]),
- array([-0.07242969])]</pre>
+<pre>[array([0.81503456]),
+ array([1.59741385]),
+ array([0.82577892]),
+ array([1.34766705]),
+ array([-0.39489492]),
+ array([0.69170806]),
+ array([-0.23767606]),
+ array([1.46909949]),
+ array([-0.7560455]),
+ array([0.55327881])]</pre>
 </div>
 
 </div>
@@ -548,7 +548,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">distributions</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="s2">&quot;kwargs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;scale&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}},</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="s2">&quot;kwargs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="mf">0.777</span><span class="p">,</span> <span class="s2">&quot;scale&quot;</span><span class="p">:</span> <span class="mf">0.844</span><span class="p">}}]</span>
@@ -561,7 +561,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[80]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">])</span>
@@ -574,7 +574,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[81]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">coefficients</span>
@@ -590,7 +590,7 @@ pip install mkl-service</code></pre>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[81]:</div>
+    <div class="prompt output_prompt">Out[13]:</div>
 
 
 
@@ -607,7 +607,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">sample_size</span> <span class="o">=</span> <span class="mi">10</span>
@@ -620,7 +620,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">num_distr</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">distributions</span><span class="p">)</span>
@@ -633,7 +633,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[84]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">sample_size</span><span class="p">,</span> <span class="n">num_distr</span><span class="p">))</span>
@@ -646,7 +646,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[90]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">distr</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">distributions</span><span class="p">):</span>
@@ -662,7 +662,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[91]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">data</span>
@@ -678,22 +678,22 @@ pip install mkl-service</code></pre>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[91]:</div>
+    <div class="prompt output_prompt">Out[18]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([[-0.09237664,  0.17136483],
-       [-0.73917917,  0.39410428],
-       [ 0.71290654, -0.27170287],
-       [-1.36621545,  0.42736131],
-       [ 1.78552146,  0.59895483],
-       [ 0.8076554 ,  0.94463695],
-       [ 0.34226721, -1.42798862],
-       [ 0.61487827,  0.02921961],
-       [ 1.84703846,  2.0127458 ],
-       [-0.35777455,  0.22689052]])</pre>
+<pre>array([[-0.27108568,  0.88964344],
+       [ 0.16368067,  0.97006357],
+       [ 1.7953499 , -1.53559879],
+       [ 0.54886108,  1.4787358 ],
+       [-0.33192432,  0.06252585],
+       [-0.37984494,  0.65852646],
+       [-2.41666066,  1.49447456],
+       [-1.41418634,  1.83983833],
+       [ 1.25568105, -0.36999306],
+       [ 0.03977451, -0.0044227 ]])</pre>
 </div>
 
 </div>
@@ -704,7 +704,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[92]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">random_idx</span>
@@ -720,13 +720,13 @@ pip install mkl-service</code></pre>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[92]:</div>
+    <div class="prompt output_prompt">Out[19]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([0, 0, 0, 0, 0, 0, 0, 0, 0, 1])</pre>
+<pre>array([0, 0, 0, 0, 0, 0, 1, 0, 0, 0])</pre>
 </div>
 
 </div>
@@ -737,7 +737,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[93]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">sample</span>
@@ -753,14 +753,14 @@ pip install mkl-service</code></pre>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[93]:</div>
+    <div class="prompt output_prompt">Out[20]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([-0.09237664, -0.73917917,  0.71290654, -1.36621545,  1.78552146,
-        0.8076554 ,  0.34226721,  0.61487827,  1.84703846,  0.22689052])</pre>
+<pre>array([-0.27108568,  0.16368067,  1.7953499 ,  0.54886108, -0.33192432,
+       -0.37984494,  1.49447456, -1.41418634,  1.25568105,  0.03977451])</pre>
 </div>
 
 </div>
@@ -778,7 +778,7 @@ pip install mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -875,7 +875,7 @@ pip install mkl-service</code></pre>
   </thead>
   <tbody>
     <tr>
-      <td>274</td>
+      <th>274</th>
       <td>gene_742</td>
       <td>16</td>
       <td>6690</td>
@@ -885,7 +885,7 @@ pip install mkl-service</code></pre>
       <td>2</td>
     </tr>
     <tr>
-      <td>1384</td>
+      <th>1384</th>
       <td>gene_743</td>
       <td>5</td>
       <td>6701</td>
@@ -895,7 +895,7 @@ pip install mkl-service</code></pre>
       <td>3</td>
     </tr>
     <tr>
-      <td>2184</td>
+      <th>2184</th>
       <td>gene_744</td>
       <td>3</td>
       <td>6703</td>
@@ -905,7 +905,7 @@ pip install mkl-service</code></pre>
       <td>4</td>
     </tr>
     <tr>
-      <td>2185</td>
+      <th>2185</th>
       <td>gene_741</td>
       <td>3</td>
       <td>6703</td>
@@ -915,7 +915,7 @@ pip install mkl-service</code></pre>
       <td>1</td>
     </tr>
     <tr>
-      <td>2186</td>
+      <th>2186</th>
       <td>gene_740</td>
       <td>3</td>
       <td>6703</td>
@@ -1061,7 +1061,7 @@ dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pi_varbvs</span> <span class="o">=</span> <span class="mf">0.0437754961218526</span>
@@ -1083,18 +1083,30 @@ dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
 <span class="kn">import</span> <span class="nn">theano.tensor</span> <span class="k">as</span> <span class="nn">tt</span>
+</pre></div>
 
-<span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">pi0</span> <span class="o">=</span> <span class="n">pi_varbvs</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu_varbvs</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">si_varbvs</span><span class="p">,</span> <span class="n">mu_intercept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.05</span><span class="o">/</span><span class="mf">0.95</span><span class="p">),</span> <span class="n">sigma_intercept</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">):</span>
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">pi0</span> <span class="o">=</span> <span class="n">pi_varbvs</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu_varbvs</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">si_varbvs</span><span class="p">,</span> <span class="n">mu_intercept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.05</span><span class="o">/</span><span class="mf">0.95</span><span class="p">),</span> <span class="n">sigma_intercept</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">):</span>
     <span class="n">invlogit</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">tt</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
     <span class="k">with</span> <span class="n">model</span><span class="p">:</span>
         <span class="n">xi</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;xi&#39;</span><span class="p">,</span> <span class="n">pi0</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># inclusion probability for each variable</span>
-        <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu_intercept</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">sigma_intercept</span><span class="p">)</span> <span class="c1"># Intercept</span>
+        <span class="c1"># alpha = pm.Normal(&#39;alpha&#39;, mu = mu_intercept, sd = sigma_intercept) # Intercept</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">continuous</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">lower</span> <span class="o">=</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># Prior for the non-zero coefficients</span>
         <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">xi</span> <span class="o">*</span> <span class="n">beta</span><span class="p">)</span> <span class="c1"># Deterministic function to map the stochastics to the output</span>
         <span class="n">y_obs</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;y_obs&#39;</span><span class="p">,</span> <span class="n">invlogit</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">),</span> <span class="n">observed</span> <span class="o">=</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># Data likelihood</span>
@@ -1108,7 +1120,7 @@ dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">get_model</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">X</span><span class="p">)</span>
@@ -1121,7 +1133,7 @@ dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">model</span>
@@ -1137,7 +1149,7 @@ dtype: float64</pre>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[27]:</div>
+    <div class="prompt output_prompt">Out[14]:</div>
 
 
 
@@ -1145,7 +1157,7 @@ dtype: float64</pre>
 <div class="output_latex output_subarea output_execute_result">
 $$
             \begin{array}{rcl}
-            \text{xi} &\sim & \text{Bernoulli}(\mathit{p}=0.0437754961218526)\\\text{alpha} &\sim & \text{Normal}(\mathit{mu}=-2.9444389791664403,~\mathit{sigma}=0.01)\\\text{beta} &\sim & \text{Normal}(\mathit{mu}=0.777072111580423,~\mathit{sigma}=0.8436501699101251)\\\text{y_obs} &\sim & \text{Bernoulli}(\mathit{p}=f(f(),~f(f(),~f(f(f(f(array,~f(\text{xi},~\text{beta})),~f(\text{alpha})))))))
+            \text{xi} &\sim & \text{Bernoulli}(\mathit{p}=0.0437754961218526)\\\text{beta} &\sim & \text{Normal}(\mathit{mu}=0.777072111580423,~\mathit{sigma}=0.8436501699101251)\\\text{alpha} &\sim & \text{Uniform}(\mathit{lower}=-6.0,~\mathit{upper}=-2.0)\\\text{y_obs} &\sim & \text{Bernoulli}(\mathit{p}=f(f(),~f(f(),~f(f(f(f(array,~f(\text{xi},~\text{beta})),~f(\text{alpha})))))))
             \end{array}
             $$
 </div>
@@ -1166,7 +1178,7 @@ $$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># Here I use 20 cores on my 40 core machine, with 10 chains, to generate 2000 samples.</span>
@@ -1193,7 +1205,7 @@ $$
 CompoundStep
 &gt;BinaryGibbsMetropolis: [xi]
 &gt;NUTS: [beta, alpha]
-100%|██████████| 2500/2500 [01:17&lt;00:00, 32.11it/s]
+Sampling chain 0, 0 divergences: 100%|██████████| 2500/2500 [00:36&lt;00:00, 68.64it/s]
 Only one chain was sampled, this makes it impossible to run some convergence checks
 </pre>
 </div>
@@ -1213,7 +1225,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">]),</span>
@@ -1223,6 +1235,94 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </pre></div>
 
     </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[17]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>inclusion_probability</th>
+      <th>beta</th>
+      <th>beta_given_inclusion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>1.0000</td>
+      <td>2.684857</td>
+      <td>2.684857</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.0635</td>
+      <td>0.054809</td>
+      <td>0.863141</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.0270</td>
+      <td>0.012716</td>
+      <td>0.470947</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>0.0265</td>
+      <td>0.014420</td>
+      <td>0.544167</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.0220</td>
+      <td>0.010988</td>
+      <td>0.499447</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -11319,7 +11419,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/f28f4133dbdad1132625c8510609fc5108c1e3b9/dsc/20191005_PyMC3_SpikeSlab.ipynb"><code>dsc/20191005_PyMC3_SpikeSlab.ipynb</code></a> committed by Min Qiao on Thu Feb 27 17:21:22 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/f28f4133dbdad1132625c8510609fc5108c1e3b9">revision 10, f28f413</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/d87044f5b91659fb50ecb286a7c6a9a7e29059ce/dsc/20191005_PyMC3_SpikeSlab.ipynb"><code>dsc/20191005_PyMC3_SpikeSlab.ipynb</code></a> committed by minqiao on Tue Mar 24 00:58:56 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/d87044f5b91659fb50ecb286a7c6a9a7e29059ce">revision 11, d87044f</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
