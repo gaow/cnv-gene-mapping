@@ -258,8 +258,10 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Aims">Aims<a class="anchor-link" href="#Aims">&#182;</a></h2><ol>
-<li>Gene discovery in copy number Variations (CNVs) </li>
+<h2 id="Introduction-and-aims">Introduction and aims<a class="anchor-link" href="#Introduction-and-aims">&#182;</a></h2><ol>
+<li>CNVs are large genomic insertion or deletion events, which are a type of structural variation of an organism’s chromosome. The length of CNVs varies to a great extent, often spread from 50 base pairs to kilo- or even mega-bases.</li>
+<li>The challenge is that CNVs often span multiple genes, and it is difficult to distinguish susceptible or causal gene(s) from other genes in the same CNV event.</li>
+<li></li>
 </ol>
 
 </div>
@@ -271,7 +273,7 @@ body {
 <h2 id="Simulation-steps">Simulation steps<a class="anchor-link" href="#Simulation-steps">&#182;</a></h2><ul>
 <li>Step 1: Obtain gene blocks: each gene block contains at least 30 genes/exons. The criteria for boundary gene is that it must not overlap with any CNV events for all individuals. If the 30th gene overlaps with CNV event for at least one individual, we will go for the next gene and see if it satisfies the criteria, till the nearest one does.</li>
 <li>Step 2: Simulate samples (X matrix) for deletion: sample each block from non-repetitive individuals and merge them together as a simulated individual. Repeat this process for $100,000$ times to collect $100,000$ individuals before simulating phenotype.</li>
-<li>Step 3: Simulate phenotype (y matrix): set penetrance/prevalence as $0.05$, prevalence (p) $\approx \frac{e^{\beta_0}}{1-e^{\beta_0}}$, so $\beta_0 \approx \log \frac{p}{1-p}$. Odds ratio (OR) follows $e^{Normal Distribution}$ or Gamma distribution, $\beta_j = \text{log(OR)}$, then use Bernoulli ($0.05$) to decrease $95$% of $\beta_j$'s to 0.  simulate y (1 as case and 0 as control). $\text{logit}(y)=X\boldsymbol{\beta}+\beta_0$, $y=\frac{e^{x\boldsymbol{\beta}+\beta_0}}{1+e^{x\boldsymbol{\beta}+\beta_0}}$ (probabilities). Then use Bernoulli ($y_i$) to multiply $y_i$ itself to generate 1's and 0's. Then select all 1's (about $6700$) as cases and randomly select equal amount of 0's as controls.</li>
+<li>Step 3: Simulate phenotype (y matrix): set penetrance/prevalence as $0.05$, prevalence (p) $\approx \frac{e^{\beta_0}}{1-e^{\beta_0}}$, so $\beta_0 \approx \log \frac{p}{1-p}$. Odds ratio (OR) follows Gamma distribution, $\beta_j = \text{log(OR)}$, then use Bernoulli ($0.05$) to decrease $95$% of $\beta_j$'s to 0.  simulate y (1 as case and 0 as control). $\text{logit}(y)=X\boldsymbol{\beta}+\beta_0$, $y=\frac{e^{x\boldsymbol{\beta}+\beta_0}}{1+e^{x\boldsymbol{\beta}+\beta_0}}$ (probabilities). Then use Bernoulli ($y_i$) to multiply $y_i$ itself to generate 1's and 0's. Then select all 1's (about $6700$) as cases and randomly select equal amount of 0's as controls.</li>
 </ul>
 
 </div>
@@ -306,7 +308,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/be158139f185e3b1b3dbf0317376429abaf2cecd/dsc/20200311_simulation_summary.ipynb"><code>dsc/20200311_simulation_summary.ipynb</code></a> committed by minqiao on Tue Mar 24 12:25:06 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/be158139f185e3b1b3dbf0317376429abaf2cecd">revision 3, be15813</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/d9da70e8c5a532b93219a5303a001483af5e6f3b/dsc/Simulation_summary.ipynb"><code>dsc/Simulation_summary.ipynb</code></a> committed by minqiao on Tue Mar 24 14:47:47 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/d9da70e8c5a532b93219a5303a001483af5e6f3b">revision 1, d9da70e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
