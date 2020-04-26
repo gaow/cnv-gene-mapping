@@ -301,10 +301,10 @@ body {
 <li><p>Apply the following methods in each CNV-gene block</p>
 <ul>
 <li>Fisher's exact test: generate 2 $\times$ 2 table for each block and obtain p-value, four cells are # of cases with CNV event, # of cases without CNV event, # of controls with CNV event, # of controls without CNV event.</li>
-<li>SuSiE (paper <a href="https://www.biorxiv.org/content/10.1101/501114v2">link</a>): Bayesian variable selection and genetic fine-mapping software package.</li>
+<li>SuSiE (paper <a href="https://www.biorxiv.org/content/10.1101/501114v2">link</a>): Bayesian variable selection and genetic fine-mapping software package. It implements a simple new way to perform variable selection in multiple regression. It's a particularly simple and intuitive fitting procedure -- effectively a Bayesian modification of simple forward selection. The output of the fitting procedure is a number of "Credible Sets" (CSs), which are each designed to have high probability to contain a variable with non-zero effect, while at the same time being as small as possible.</li>
 <li>varbvs (paper <a href="https://arxiv.org/pdf/1709.06597.pdf">link</a>): Large-Scale Bayesian Variable Selection Using Variational Methods.</li>
-<li>logit: single implementation of the posterior computations for a "single effect" logistic regression</li>
-<li><p>PyMC3 (github <a href="https://github.com/pymc-devs/pymc3">repository</a>, paper <a href="https://peerj.com/articles/cs-55/">link</a>, Spike-and-Slab Model <a href="https://www.kaggle.com/melondonkey/bayesian-spike-and-slab-in-pymc3">link</a>): Probabilistic Programming in Python; Bayesian Modeling and Probabilistic Machine Learning with Theano; Great flexibility and direct interaction with the model.</p>
+<li>logit: single implementation of the posterior computations for a "single effect" logistic regression with a normal prior on the unknown regression coefficients.</li>
+<li><p>PyMC3 (github <a href="https://github.com/pymc-devs/pymc3">repository</a>, paper <a href="https://peerj.com/articles/cs-55/">link</a>, get started <a href="https://docs.pymc.io/notebooks/getting_started">link</a>, Spike-and-Slab Model <a href="https://www.kaggle.com/melondonkey/bayesian-spike-and-slab-in-pymc3">link</a>): Probabilistic Programming in Python; Bayesian Modeling and Probabilistic Machine Learning with Theano; Great flexibility and direct interaction with the model.</p>
 <ul>
 <li><p>model</p>
 
@@ -472,6 +472,64 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="mi">1</span> <span class="o">-</span> <span class="n">pnorm</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="mi">15</span><span class="p">),</span> <span class="mf">1.4</span><span class="p">,</span><span class="mf">0.6</span><span class="p">)</span> 
+<span class="n">pnorm</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span><span class="mf">0.6</span><span class="p">)</span> 
+<span class="n">exp</span><span class="p">(</span><span class="mf">1.4</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.01462563006054
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.00981532862864534
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+4.05519996684467
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
@@ -485,7 +543,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/02cc10e0c57527567d56d0de07a1255b8a488e9b/dsc/Simulation_summary.ipynb"><code>dsc/Simulation_summary.ipynb</code></a> committed by minqiao on Wed Apr 8 14:33:18 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/02cc10e0c57527567d56d0de07a1255b8a488e9b">revision 6, 02cc10e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/b536d805a837a7e7ff27f99aa0201f63a9373ca5/dsc/Simulation_summary.ipynb"><code>dsc/Simulation_summary.ipynb</code></a> committed by minqiao on Sun Apr 26 00:47:43 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/b536d805a837a7e7ff27f99aa0201f63a9373ca5">revision 7, b536d80</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

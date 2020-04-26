@@ -778,29 +778,14 @@ conda install -c anaconda mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span><span class="o">,</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data&quot;</span><span class="p">)</span>
-<span class="n">start</span> <span class="o">=</span> <span class="mi">739</span>
-<span class="n">end</span> <span class="o">=</span> <span class="mi">743</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">X_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s1">/deletion_simu/block_</span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s1">/deletion.genes.block30.for_simu.sample.genes.block_</span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s1">.gz&#39;</span>
-<span class="n">y_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s1">/deletion_simu/deletion.genes.block30.for_simu.sample.y&#39;</span>
-<span class="n">fisher_f</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s1">/deletion_simu/deletion.genes.block30.for_simu.sample.genes.block1.fisher.gz&#39;</span>
+<span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843&quot;</span><span class="p">)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="mi">140</span> <span class="c1">#1750</span>
+<span class="n">end</span> <span class="o">=</span> <span class="mi">144</span> <span class="c1">#1772</span>
 </pre></div>
 
     </div>
@@ -813,7 +798,9 @@ conda install -c anaconda mkl-service</code></pre>
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fisher_f</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">X_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s1">/block_</span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s1">/deletion.genes.block30.for_simu.sample.combined.genes.block_</span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s1">.gz&#39;</span>
+<span class="n">y_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s1">/deletion.genes.block30.for_simu.sample.combined.y.gz&#39;</span>
+<span class="n">fisher_f</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s1">/deletion.genes.block30.for_simu.sample.combined.genes.block1.fisher.gz&#39;</span>
 </pre></div>
 
     </div>
@@ -824,6 +811,19 @@ conda install -c anaconda mkl-service</code></pre>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fisher_f</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
@@ -841,7 +841,7 @@ conda install -c anaconda mkl-service</code></pre>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[4]:</div>
+    <div class="prompt output_prompt">Out[5]:</div>
 
 
 
@@ -875,54 +875,54 @@ conda install -c anaconda mkl-service</code></pre>
   </thead>
   <tbody>
     <tr>
-      <th>274</th>
-      <td>gene_742</td>
-      <td>16</td>
-      <td>6690</td>
-      <td>4</td>
-      <td>6702</td>
-      <td>0.011757</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th>1384</th>
-      <td>gene_743</td>
-      <td>5</td>
-      <td>6701</td>
-      <td>3</td>
-      <td>6703</td>
-      <td>0.726481</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <th>2184</th>
-      <td>gene_744</td>
-      <td>3</td>
-      <td>6703</td>
-      <td>2</td>
-      <td>6704</td>
-      <td>1.000000</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <th>2185</th>
-      <td>gene_741</td>
-      <td>3</td>
-      <td>6703</td>
-      <td>2</td>
-      <td>6704</td>
-      <td>1.000000</td>
+      <th>57</th>
+      <td>gene_142</td>
+      <td>145</td>
+      <td>11783</td>
+      <td>37</td>
+      <td>11891</td>
+      <td>2.034862e-16</td>
       <td>1</td>
     </tr>
     <tr>
-      <th>2186</th>
-      <td>gene_740</td>
-      <td>3</td>
-      <td>6703</td>
-      <td>2</td>
-      <td>6704</td>
-      <td>1.000000</td>
+      <th>58</th>
+      <td>gene_141</td>
+      <td>145</td>
+      <td>11783</td>
+      <td>37</td>
+      <td>11891</td>
+      <td>2.034862e-16</td>
       <td>0</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>gene_143</td>
+      <td>145</td>
+      <td>11783</td>
+      <td>37</td>
+      <td>11891</td>
+      <td>2.034862e-16</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>gene_144</td>
+      <td>145</td>
+      <td>11783</td>
+      <td>37</td>
+      <td>11891</td>
+      <td>2.034862e-16</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>gene_145</td>
+      <td>97</td>
+      <td>11831</td>
+      <td>25</td>
+      <td>11903</td>
+      <td>2.981444e-11</td>
+      <td>4</td>
     </tr>
   </tbody>
 </table>
@@ -937,45 +937,11 @@ conda install -c anaconda mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">y_file</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 <span class="n">y</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[5]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(13412,)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">X_file</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
-<span class="n">X</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
@@ -994,7 +960,7 @@ conda install -c anaconda mkl-service</code></pre>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(13412, 5)</pre>
+<pre>(23856,)</pre>
 </div>
 
 </div>
@@ -1008,7 +974,8 @@ conda install -c anaconda mkl-service</code></pre>
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">X_file</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+<span class="n">X</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
@@ -1027,11 +994,44 @@ conda install -c anaconda mkl-service</code></pre>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>0     5.0
-1     5.0
-2    20.0
-3     8.0
-4     5.0
+<pre>(23856, 5)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[8]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0    182.0
+1    182.0
+2    182.0
+3    182.0
+4    122.0
 dtype: float64</pre>
 </div>
 
@@ -1083,7 +1083,7 @@ dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
@@ -1105,16 +1105,33 @@ dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">prevalence</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">case_prop</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">iteration</span> <span class="o">=</span> <span class="mi">2000</span>
+<span class="n">seed</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">n_chain</span> <span class="o">=</span> <span class="mi">10</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">pi0</span> <span class="o">=</span> <span class="n">pi_varbvs</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu_varbvs</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">si_varbvs</span><span class="p">,</span> <span class="n">mu_intercept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.05</span><span class="o">/</span><span class="mf">0.95</span><span class="p">),</span> <span class="n">sigma_intercept</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">):</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">pi0</span> <span class="o">=</span> <span class="n">pi_varbvs</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu_varbvs</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">si_varbvs</span><span class="p">):</span>
     <span class="n">invlogit</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">tt</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
     <span class="k">with</span> <span class="n">model</span><span class="p">:</span>
         <span class="n">xi</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;xi&#39;</span><span class="p">,</span> <span class="n">pi0</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># inclusion probability for each variable</span>
         <span class="c1"># alpha = pm.Normal(&#39;alpha&#39;, mu = mu_intercept, sd = sigma_intercept) # Intercept</span>
-        <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">continuous</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">lower</span> <span class="o">=</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">continuous</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">lower</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">prevalence</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">prevalence</span><span class="p">)),</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">case_prop</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">case_prop</span><span class="p">)))</span>
         <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># Prior for the non-zero coefficients</span>
         <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">xi</span> <span class="o">*</span> <span class="n">beta</span><span class="p">)</span> <span class="c1"># Deterministic function to map the stochastics to the output</span>
         <span class="n">y_obs</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;y_obs&#39;</span><span class="p">,</span> <span class="n">invlogit</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">),</span> <span class="n">observed</span> <span class="o">=</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># Data likelihood</span>
@@ -1141,7 +1158,7 @@ dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">model</span>
@@ -1157,7 +1174,7 @@ dtype: float64</pre>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[14]:</div>
+    <div class="prompt output_prompt">Out[15]:</div>
 
 
 
@@ -1165,7 +1182,7 @@ dtype: float64</pre>
 <div class="output_latex output_subarea output_execute_result">
 $$
             \begin{array}{rcl}
-            \text{xi} &\sim & \text{Bernoulli}(\mathit{p}=0.0437754961218526)\\\text{beta} &\sim & \text{Normal}(\mathit{mu}=0.777072111580423,~\mathit{sigma}=0.8436501699101251)\\\text{alpha} &\sim & \text{Uniform}(\mathit{lower}=-6.0,~\mathit{upper}=-2.0)\\\text{y_obs} &\sim & \text{Bernoulli}(\mathit{p}=f(f(),~f(f(),~f(f(f(f(array,~f(\text{xi},~\text{beta})),~f(\text{alpha})))))))
+            \text{xi} &\sim & \text{Bernoulli}(\mathit{p}=0.0437754961218526)\\\text{beta} &\sim & \text{Normal}(\mathit{mu}=0.777072111580423,~\mathit{sigma}=0.8436501699101251)\\\text{alpha} &\sim & \text{Uniform}(\mathit{lower}=-2.9444389791664403,~\mathit{upper}=0.0)\\\text{y_obs} &\sim & \text{Bernoulli}(\mathit{p}=f(f(),~f(f(),~f(f(f(f(array,~f(\text{xi},~\text{beta})),~f(\text{alpha})))))))
             \end{array}
             $$
 </div>
@@ -1186,13 +1203,13 @@ $$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="c1"># Here I use 20 cores on my 40 core machine, with 10 chains, to generate 2000 samples.</span>
 <span class="c1"># Takes 50min on my desktop</span>
 <span class="k">with</span> <span class="n">model</span><span class="p">:</span>
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">random_seed</span> <span class="o">=</span> <span class="mi">999</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">chains</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">trace1</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">iteration</span><span class="p">,</span> <span class="n">random_seed</span> <span class="o">=</span> <span class="n">seed</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">chains</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tune</span> <span class="o">=</span> <span class="mi">500</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1213,7 +1230,9 @@ $$
 CompoundStep
 &gt;BinaryGibbsMetropolis: [xi]
 &gt;NUTS: [beta, alpha]
-Sampling chain 0, 0 divergences: 100%|██████████| 2500/2500 [00:36&lt;00:00, 68.64it/s]
+Sampling chain 0, 40 divergences: 100%|██████████| 2500/2500 [01:09&lt;00:00, 35.91it/s]
+There were 40 divergences after tuning. Increase `target_accept` or reparameterize.
+The acceptance probability does not match the target. It is 0.41453061196241514, but should be close to 0.8. Try to increase the number of tuning steps.
 Only one chain was sampled, this makes it impossible to run some convergence checks
 </pre>
 </div>
@@ -1222,6 +1241,549 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">trace2</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">iteration</span><span class="p">,</span> <span class="n">random_seed</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">chains</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tune</span> <span class="o">=</span> <span class="mi">500</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Sequential sampling (1 chains in 1 job)
+CompoundStep
+&gt;BinaryGibbsMetropolis: [xi]
+&gt;NUTS: [beta, alpha]
+Sampling chain 0, 3 divergences: 100%|██████████| 2500/2500 [01:54&lt;00:00, 21.89it/s]
+There were 3 divergences after tuning. Increase `target_accept` or reparameterize.
+Only one chain was sampled, this makes it impossible to run some convergence checks
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">trace2</span><span class="p">[</span><span class="s2">&quot;xi&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[29]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>numpy.ndarray</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">trace1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">trace2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[23]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(2000, 2000)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[71]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">]])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[72]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]])</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[73]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">a</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[73]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[1, 2, 3],
+       [7, 8, 9],
+       [2, 3, 4],
+       [5, 6, 7]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[80]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;/home/min/Documents/GWAS_ATAC/ATAC-seq/scRNA_seq_SNP_list.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-80-db6d419840d7&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">if</span> <span class="ansi-blue-fg">&#34;/home/min/Documents/GWAS_ATAC/ATAC-seq/&#34;</span><span class="ansi-blue-fg">.</span>is_file<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span>     print <span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;a&#34;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">AttributeError</span>: &#39;str&#39; object has no attribute &#39;is_file&#39;</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;/home/min/Documents/GWAS_ATAC/ATAC-seq/scRNA_seq_SNP_list.txt&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[77]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;/home/min/Documents/GWAS_ATAC/ATAC-seq/scRNA_seq_SNP_list.txt&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[81]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s2">&quot;/home/min/Documents/GWAS_ATAC/ATAC-seq/scRNA_seq_SNP_list.txt&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[81]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">]),</span>
+                        <span class="s1">&#39;beta&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">trace</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">],</span> <span class="n">trace</span><span class="p">[</span><span class="s2">&quot;xi&quot;</span><span class="p">])),</span>
+                        <span class="s1">&#39;beta_given_inclusion&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">])</span>
+                        <span class="p">})</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[27]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>inclusion_probability</th>
+      <th>beta</th>
+      <th>beta_given_inclusion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.470313</td>
+      <td>0.625786</td>
+      <td>1.330574</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.258188</td>
+      <td>0.330091</td>
+      <td>1.278493</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.175187</td>
+      <td>0.217035</td>
+      <td>1.238875</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.157750</td>
+      <td>0.190972</td>
+      <td>1.210597</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.015437</td>
+      <td>0.002756</td>
+      <td>0.178513</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Attributes</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-265a59224f9a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>Attributes<span class="ansi-blue-fg">(</span>trace<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;Attributes&#39; is not defined</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">(</span><span class="n">trace</span><span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[36]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([-0.01582384, -0.01582384, -0.01482289, ..., -0.02639111,
+       -0.01838102, -0.01130768])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">trace</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-30-fb763bd9e95c&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>trace<span class="ansi-blue-fg">.</span>values<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/opt/miniconda3/lib/python3.7/site-packages/pymc3/backends/base.py</span> in <span class="ansi-cyan-fg">__getattr__</span><span class="ansi-blue-fg">(self, name)</span>
+<span class="ansi-green-intense-fg ansi-bold">    351</span>             <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>get_sampler_stats<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    352</span>         raise AttributeError(&#34;&#39;{}&#39; object has no attribute &#39;{}&#39;&#34;.format(
+<span class="ansi-green-fg">--&gt; 353</span><span class="ansi-red-fg">             type(self).__name__, name))
+</span><span class="ansi-green-intense-fg ansi-bold">    354</span> 
+<span class="ansi-green-intense-fg ansi-bold">    355</span>     <span class="ansi-green-fg">def</span> __len__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-red-fg">AttributeError</span>: &#39;MultiTrace&#39; object has no attribute &#39;values&#39;</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>Sequential sampling (1 chains in 1 job)
+CompoundStep
+&gt;BinaryGibbsMetropolis: [xi]
+&gt;NUTS: [beta, alpha]
+Sampling chain 0, 0 divergences: 100%|██████████| 2500/2500 [02:33&lt;00:00, 16.23it/s]
+The acceptance probability does not match the target. It is 0.8961356742718769, but should be close to 0.8. Try to increase the number of tuning steps.
+Only one chain was sampled, this makes it impossible to run some convergence checks</code></pre>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -1233,7 +1795,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">]),</span>
@@ -1247,12 +1809,24 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="https://stackoverflow.com/questions/49825216/what-is-a-chain-in-pymc3">https://stackoverflow.com/questions/49825216/what-is-a-chain-in-pymc3</a></p>
+<p><a href="https://discourse.pymc.io/t/warning-when-nuts-probability-is-greater-than-acceptance-level/594">https://discourse.pymc.io/t/warning-when-nuts-probability-is-greater-than-acceptance-level/594</a></p>
+<p><a href="https://stats.stackexchange.com/questions/388230/pymc3-acceptance-probabilities-and-divergencies-after-tuning">https://stats.stackexchange.com/questions/388230/pymc3-acceptance-probabilities-and-divergencies-after-tuning</a></p>
+<p><a href="https://peerj.com/articles/cs-55/">https://peerj.com/articles/cs-55/</a></p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">## chain = 10, seed = 1, block_140_144, tune = 1500</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1265,7 +1839,185 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[17]:</div>
+    <div class="prompt output_prompt">Out[29]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>inclusion_probability</th>
+      <th>beta</th>
+      <th>beta_given_inclusion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.80370</td>
+      <td>0.677023</td>
+      <td>0.842382</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.72650</td>
+      <td>0.567733</td>
+      <td>0.781463</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.71665</td>
+      <td>0.555855</td>
+      <td>0.775630</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.71040</td>
+      <td>0.550974</td>
+      <td>0.775583</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.18450</td>
+      <td>0.142737</td>
+      <td>0.773640</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">## chain = 1, seed = 1, block_140_144, tune = 1500</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[20]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>inclusion_probability</th>
+      <th>beta</th>
+      <th>beta_given_inclusion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>0.3645</td>
+      <td>0.474191</td>
+      <td>1.300935</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>0.2830</td>
+      <td>0.368025</td>
+      <td>1.300441</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.2550</td>
+      <td>0.329316</td>
+      <td>1.291437</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.1505</td>
+      <td>0.180362</td>
+      <td>1.198416</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.0080</td>
+      <td>0.001532</td>
+      <td>0.191505</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">## chain = 1, seed = 1, block_140_144, normal, tune = 500</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[20]:</div>
 
 
 
@@ -1296,33 +2048,33 @@ Only one chain was sampled, this makes it impossible to run some convergence che
   <tbody>
     <tr>
       <th>2</th>
-      <td>1.0000</td>
-      <td>2.684857</td>
-      <td>2.684857</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0.0635</td>
-      <td>0.054809</td>
-      <td>0.863141</td>
+      <td>0.5675</td>
+      <td>1.263044</td>
+      <td>2.225628</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>0.0270</td>
-      <td>0.012716</td>
-      <td>0.470947</td>
+      <td>0.4285</td>
+      <td>0.963057</td>
+      <td>2.247508</td>
     </tr>
     <tr>
       <th>0</th>
-      <td>0.0265</td>
-      <td>0.014420</td>
-      <td>0.544167</td>
+      <td>0.3840</td>
+      <td>0.790490</td>
+      <td>2.058567</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.1670</td>
+      <td>0.311862</td>
+      <td>1.867439</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>0.0220</td>
-      <td>0.010988</td>
-      <td>0.499447</td>
+      <td>0.0190</td>
+      <td>0.005971</td>
+      <td>0.314271</td>
     </tr>
   </tbody>
 </table>
@@ -1337,10 +2089,11 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">## chain = 1, seed = 1, block_140_144, uniform prior</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1353,7 +2106,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[30]:</div>
+    <div class="prompt output_prompt">Out[18]:</div>
 
 
 
@@ -1383,38 +2136,465 @@ Only one chain was sampled, this makes it impossible to run some convergence che
   </thead>
   <tbody>
     <tr>
-      <td>2</td>
-      <td>1.0000</td>
-      <td>2.985224</td>
-      <td>2.985224</td>
+      <th>3</th>
+      <td>0.3730</td>
+      <td>0.496463</td>
+      <td>1.331001</td>
     </tr>
     <tr>
-      <td>3</td>
-      <td>0.0790</td>
-      <td>0.090412</td>
-      <td>1.144460</td>
+      <th>2</th>
+      <td>0.3475</td>
+      <td>0.445490</td>
+      <td>1.281986</td>
     </tr>
     <tr>
-      <td>1</td>
-      <td>0.0345</td>
-      <td>0.013819</td>
-      <td>0.400536</td>
+      <th>0</th>
+      <td>0.2230</td>
+      <td>0.279563</td>
+      <td>1.253644</td>
     </tr>
     <tr>
-      <td>0</td>
-      <td>0.0325</td>
-      <td>0.011673</td>
-      <td>0.359161</td>
+      <th>1</th>
+      <td>0.1240</td>
+      <td>0.145075</td>
+      <td>1.169956</td>
     </tr>
     <tr>
-      <td>4</td>
-      <td>0.0280</td>
-      <td>0.014475</td>
-      <td>0.516956</td>
+      <th>4</th>
+      <td>0.0130</td>
+      <td>0.001742</td>
+      <td>0.134025</td>
     </tr>
   </tbody>
 </table>
 </div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">## chain = 10, seed = 999, block_1750_1772</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[18]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>inclusion_probability</th>
+      <th>beta</th>
+      <th>beta_given_inclusion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>0.60070</td>
+      <td>0.466190</td>
+      <td>0.776077</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.60060</td>
+      <td>0.466211</td>
+      <td>0.776242</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.58530</td>
+      <td>0.465344</td>
+      <td>0.795052</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.54480</td>
+      <td>0.422856</td>
+      <td>0.776168</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.52755</td>
+      <td>0.409165</td>
+      <td>0.775595</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0.52145</td>
+      <td>0.404821</td>
+      <td>0.776336</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.51605</td>
+      <td>0.402167</td>
+      <td>0.779319</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.50115</td>
+      <td>0.388600</td>
+      <td>0.775416</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>0.15485</td>
+      <td>0.119549</td>
+      <td>0.772028</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>0.15465</td>
+      <td>0.119348</td>
+      <td>0.771728</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0.15400</td>
+      <td>0.118839</td>
+      <td>0.771684</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>0.15155</td>
+      <td>0.117157</td>
+      <td>0.773060</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>0.15105</td>
+      <td>0.116708</td>
+      <td>0.772648</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>0.14960</td>
+      <td>0.115715</td>
+      <td>0.773498</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>0.13790</td>
+      <td>0.106480</td>
+      <td>0.772156</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>0.13575</td>
+      <td>0.104510</td>
+      <td>0.769871</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>0.13450</td>
+      <td>0.103420</td>
+      <td>0.768920</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0.13425</td>
+      <td>0.103414</td>
+      <td>0.770310</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0.05325</td>
+      <td>0.040628</td>
+      <td>0.762969</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0.05230</td>
+      <td>0.039765</td>
+      <td>0.760333</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>0.04800</td>
+      <td>0.036089</td>
+      <td>0.751854</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.00380</td>
+      <td>0.001588</td>
+      <td>0.417906</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>0.00305</td>
+      <td>0.000818</td>
+      <td>0.268068</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">## chain = 10, seed = 1, block_1750_1772</span>
+<span class="n">results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[26]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>inclusion_probability</th>
+      <th>beta</th>
+      <th>beta_given_inclusion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6</th>
+      <td>0.74985</td>
+      <td>0.588339</td>
+      <td>0.784609</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.60195</td>
+      <td>0.467173</td>
+      <td>0.776099</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.54990</td>
+      <td>0.432061</td>
+      <td>0.785709</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.51655</td>
+      <td>0.400206</td>
+      <td>0.774768</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.50120</td>
+      <td>0.388710</td>
+      <td>0.775558</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.48760</td>
+      <td>0.377942</td>
+      <td>0.775107</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.40195</td>
+      <td>0.311290</td>
+      <td>0.774449</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0.32660</td>
+      <td>0.253161</td>
+      <td>0.775139</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>0.16210</td>
+      <td>0.125457</td>
+      <td>0.773948</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>0.16175</td>
+      <td>0.124851</td>
+      <td>0.771877</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0.16040</td>
+      <td>0.123685</td>
+      <td>0.771102</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>0.15830</td>
+      <td>0.122316</td>
+      <td>0.772686</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>0.15715</td>
+      <td>0.121249</td>
+      <td>0.771547</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>0.15140</td>
+      <td>0.116857</td>
+      <td>0.771840</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>0.12980</td>
+      <td>0.099707</td>
+      <td>0.768157</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0.12875</td>
+      <td>0.099744</td>
+      <td>0.774708</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>0.12725</td>
+      <td>0.097807</td>
+      <td>0.768623</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>0.12580</td>
+      <td>0.096785</td>
+      <td>0.769356</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0.05880</td>
+      <td>0.044592</td>
+      <td>0.758369</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0.05425</td>
+      <td>0.041021</td>
+      <td>0.756139</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>0.04610</td>
+      <td>0.034713</td>
+      <td>0.753004</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>0.00335</td>
+      <td>0.000715</td>
+      <td>0.213444</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.00325</td>
+      <td>0.001992</td>
+      <td>0.613073</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">sum</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;inclusion_probability&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[28]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>5.764049999999998</pre>
 </div>
 
 </div>
@@ -11427,7 +12607,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/be158139f185e3b1b3dbf0317376429abaf2cecd/dsc/20191005_PyMC3_SpikeSlab.ipynb"><code>dsc/20191005_PyMC3_SpikeSlab.ipynb</code></a> committed by minqiao on Tue Mar 24 12:25:06 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/be158139f185e3b1b3dbf0317376429abaf2cecd">revision 12, be15813</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/b536d805a837a7e7ff27f99aa0201f63a9373ca5/dsc/20191005_PyMC3_SpikeSlab.ipynb"><code>dsc/20191005_PyMC3_SpikeSlab.ipynb</code></a> committed by minqiao on Sun Apr 26 00:47:43 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/b536d805a837a7e7ff27f99aa0201f63a9373ca5">revision 13, b536d80</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
