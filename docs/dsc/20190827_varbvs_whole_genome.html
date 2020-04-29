@@ -284,33 +284,33 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">X</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">table</span><span class="p">::</span><span class="n">fread</span><span class="p">(</span><span class="s2">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.X.gz&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="n">F</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">y</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">table</span><span class="p">::</span><span class="n">fread</span><span class="p">(</span><span class="s2">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.y&quot;</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">X</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">read</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">gzfile</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.sample.combined.X.gz&quot;</span><span class="p">),</span> <span class="n">header</span> <span class="o">=</span> <span class="n">F</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">y</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">read</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.sample.combined.y.gz&quot;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">storage</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;double&#39;</span>
@@ -324,7 +324,7 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">dim</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
@@ -345,10 +345,12 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 
 
 <div class="output_html rendered_html output_subarea ">
-<ol class=list-inline>
-	<li>13412</li>
-	<li>22356</li>
-</ol>
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>23856</li><li>22356</li></ol>
 
 </div>
 
@@ -360,7 +362,7 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">dim</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
@@ -381,10 +383,12 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 
 
 <div class="output_html rendered_html output_subarea ">
-<ol class=list-inline>
-	<li>13412</li>
-	<li>1</li>
-</ol>
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>23856</li><li>1</li></ol>
 
 </div>
 
@@ -393,6 +397,13 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="zero-centered">zero-centered<a class="anchor-link" href="#zero-centered">&#182;</a></h2>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -433,12 +444,20 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="non-zero-centered">non-zero-centered<a class="anchor-link" href="#non-zero-centered">&#182;</a></h2><p>update.b0 = TRUE</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="c1"># fit1 &lt;- varbvs::varbvs(X, NULL, y, family = &quot;binomial&quot;, update.b0 = TRUE, verbose = FALSE)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">fit1</span> <span class="o">&lt;-</span> <span class="n">varbvs</span><span class="p">::</span><span class="n">varbvs</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;binomial&quot;</span><span class="p">,</span> <span class="n">update</span><span class="o">.</span><span class="n">b0</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -448,10 +467,10 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[106]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="c1"># saveRDS(fit1, &quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.binomial.whole.genome.prior.varbvs.nologodds.updateb0.rds&quot;)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">saveRDS</span><span class="p">(</span><span class="n">fit1</span><span class="p">,</span> <span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.binomial.whole.genome.prior.varbvs.updateb0.rds&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -469,10 +488,10 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">var_w</span> <span class="o">=</span> <span class="n">readRDS</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.for_prior.varbvs.rds&quot;</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># var_w = readRDS(&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.binomial.whole.genome.prior.varbvs.nologodds.updateb0.rds&quot;)</span>
 </pre></div>
 
     </div>
@@ -482,10 +501,10 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[86]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">names</span><span class="p">(</span><span class="n">var_w</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">names</span><span class="p">(</span><span class="n">fit1</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -503,11 +522,12 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 
 
 <div class="output_html rendered_html output_subarea ">
-<ol class=list-inline>
-	<li>'fit'</li>
-	<li>'mu'</li>
-	<li>'beta'</li>
-</ol>
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>'family'</li><li>'mu.cov'</li><li>'n0'</li><li>'sa0'</li><li>'nb0'</li><li>'mub0'</li><li>'update.sigma'</li><li>'update.sa'</li><li>'update.b0'</li><li>'optimize.eta'</li><li>'prior.same'</li><li>'logw'</li><li>'w'</li><li>'sigma'</li><li>'sa'</li><li>'b0'</li><li>'logodds'</li><li>'alpha'</li><li>'mu'</li><li>'s'</li><li>'eta'</li><li>'pip'</li><li>'beta'</li><li>'beta.cov'</li><li>'model.pve'</li><li>'fitted.values'</li><li>'residuals'</li></ol>
 
 </div>
 
@@ -519,10 +539,11 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[87]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">names</span><span class="p">(</span><span class="n">var_w</span><span class="err">$</span><span class="n">fit</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">## pi?</span>
+<span class="nb">sum</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">mu</span> <span class="o">*</span> <span class="n">fit1</span><span class="err">$</span><span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="n">dim</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">mu</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">dim</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">mu</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -540,34 +561,7 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 
 
 <div class="output_html rendered_html output_subarea ">
-<ol class=list-inline>
-	<li>'family'</li>
-	<li>'n0'</li>
-	<li>'sa0'</li>
-	<li>'mu.cov'</li>
-	<li>'update.sigma'</li>
-	<li>'update.sa'</li>
-	<li>'prior.same'</li>
-	<li>'optimize.eta'</li>
-	<li>'logw'</li>
-	<li>'w'</li>
-	<li>'sigma'</li>
-	<li>'sa'</li>
-	<li>'logodds'</li>
-	<li>'alpha'</li>
-	<li>'mu'</li>
-	<li>'s'</li>
-	<li>'eta'</li>
-	<li>'pip'</li>
-	<li>'beta'</li>
-	<li>'beta.cov'</li>
-	<li>'y'</li>
-	<li>'model.pve'</li>
-	<li>'pve'</li>
-	<li>'fitted.values'</li>
-	<li>'residuals'</li>
-</ol>
-
+0.051366009925488
 </div>
 
 </div>
@@ -578,10 +572,10 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[99]:</div>
+<div class="prompt input_prompt">In&nbsp;[88]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="nb">sum</span><span class="p">(</span><span class="n">var_w</span><span class="err">$</span><span class="n">fit</span><span class="err">$</span><span class="n">mu</span> <span class="o">*</span> <span class="n">var_w</span><span class="err">$</span><span class="n">fit</span><span class="err">$</span><span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="mi">22356</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">mean</span><span class="p">(</span><span class="n">rowSums</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">mu</span> <span class="o">*</span> <span class="n">fit1</span><span class="err">$</span><span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="mi">20</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -599,7 +593,7 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 
 
 <div class="output_html rendered_html output_subarea ">
-0.00433522463144482
+0.051366009925488
 </div>
 
 </div>
@@ -610,10 +604,10 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[98]:</div>
+<div class="prompt input_prompt">In&nbsp;[89]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="nb">sum</span><span class="p">(</span><span class="n">var_w</span><span class="err">$</span><span class="n">fit</span><span class="err">$</span><span class="n">s</span> <span class="o">*</span> <span class="n">var_w</span><span class="err">$</span><span class="n">fit</span><span class="err">$</span><span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="mi">22356</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">dim</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">mu</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -631,7 +625,13 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 
 
 <div class="output_html rendered_html output_subarea ">
-0.123129563320352
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>22356</li><li>20</li></ol>
+
 </div>
 
 </div>
@@ -642,10 +642,10 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[62]:</div>
+<div class="prompt input_prompt">In&nbsp;[90]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">dim</span><span class="p">(</span><span class="n">var_w</span><span class="err">$</span><span class="n">fit</span><span class="err">$</span><span class="n">alpha</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">length</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">b0</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -663,11 +663,7 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 
 
 <div class="output_html rendered_html output_subarea ">
-<ol class=list-inline>
-	<li>22356</li>
-	<li>40</li>
-</ol>
-
+20
 </div>
 
 </div>
@@ -678,10 +674,10 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[69]:</div>
+<div class="prompt input_prompt">In&nbsp;[91]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">length</span><span class="p">(</span><span class="n">var_w</span><span class="err">$</span><span class="n">fit</span><span class="err">$</span><span class="n">w</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">length</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">w</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -699,7 +695,72 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 
 
 <div class="output_html rendered_html output_subarea ">
-40
+20
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[92]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">## mu0</span>
+<span class="nb">sum</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">b0</span> <span class="o">*</span> <span class="n">fit1</span><span class="err">$</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.783230896500752
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[93]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">length</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">b0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+20
 </div>
 
 </div>
@@ -713,7 +774,7 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 <div class="prompt input_prompt">In&nbsp;[94]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="nb">sum</span><span class="p">(</span><span class="n">var_w</span><span class="err">$</span><span class="n">fit</span><span class="err">$</span><span class="n">alpha</span><span class="p">[</span><span class="mi">9</span><span class="p">,]</span> <span class="o">*</span> <span class="n">var_w</span><span class="err">$</span><span class="n">fit</span><span class="err">$</span><span class="n">w</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">length</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">w</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -731,7 +792,7 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 
 
 <div class="output_html rendered_html output_subarea ">
-0.0299862734004984
+20
 </div>
 
 </div>
@@ -742,10 +803,11 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="prompt input_prompt">In&nbsp;[95]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">var_w</span><span class="err">$</span><span class="n">fit</span><span class="err">$</span><span class="n">pip</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">## variance, s0^2</span>
+<span class="nb">sum</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">s</span> <span class="o">*</span> <span class="n">fit1</span><span class="err">$</span><span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="n">dim</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">s</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -763,7 +825,7 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 
 
 <div class="output_html rendered_html output_subarea ">
-<strong>V1:</strong> 0.0154798015394543
+0.66748815316811
 </div>
 
 </div>
@@ -774,10 +836,10 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="prompt input_prompt">In&nbsp;[104]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="nb">max</span><span class="p">(</span><span class="n">var_w</span><span class="err">$</span><span class="n">fit</span><span class="err">$</span><span class="n">pip</span><span class="p">);</span> <span class="nb">min</span><span class="p">(</span><span class="n">var_w</span><span class="err">$</span><span class="n">fit</span><span class="err">$</span><span class="n">pip</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">s</span> <span class="o">*</span> <span class="n">fit1</span><span class="err">$</span><span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="n">dim</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">s</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -795,19 +857,7 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 
 
 <div class="output_html rendered_html output_subarea ">
-1
-</div>
-
-</div>
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-0.00154410767982356
+0.816999481742865
 </div>
 
 </div>
@@ -818,10 +868,10 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[96]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="nb">min</span><span class="p">(</span><span class="n">var_w</span><span class="err">$</span><span class="n">beta</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">dim</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">alpha</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -839,7 +889,13 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 
 
 <div class="output_html rendered_html output_subarea ">
--0.0287713179358292
+<style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>22356</li><li>20</li></ol>
+
 </div>
 
 </div>
@@ -850,10 +906,10 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[97]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">mean</span><span class="p">(</span><span class="n">var_w</span><span class="err">$</span><span class="n">beta</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">length</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">w</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -871,7 +927,7 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 
 
 <div class="output_html rendered_html output_subarea ">
-0.000439787241687525
+20
 </div>
 
 </div>
@@ -882,10 +938,39 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[107]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">median</span><span class="p">(</span><span class="n">var_w</span><span class="err">$</span><span class="n">beta</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pi0</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">mu</span> <span class="o">*</span> <span class="n">fit1</span><span class="err">$</span><span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="n">dim</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">mu</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">dim</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">mu</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">mu0</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">b0</span> <span class="o">*</span> <span class="n">fit1</span><span class="err">$</span><span class="n">w</span><span class="p">)</span>
+<span class="n">s0</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">s</span> <span class="o">*</span> <span class="n">fit1</span><span class="err">$</span><span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="n">dim</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">s</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[109]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">write</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">pi0</span><span class="p">,</span> <span class="n">mu0</span><span class="p">,</span> <span class="n">s0</span><span class="p">),</span> <span class="n">file</span> <span class="o">=</span> <span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.varbvs.whole.genome.prior.csv&quot;</span><span class="p">,</span> 
+            <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">col</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[111]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">length</span><span class="p">(</span><span class="n">fit1</span><span class="err">$</span><span class="n">pip</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -903,7 +988,7 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 
 
 <div class="output_html rendered_html output_subarea ">
-0
+22356
 </div>
 
 </div>
@@ -914,32 +999,52 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="nb">sum</span><span class="p">(</span><span class="n">var_w</span><span class="err">$</span><span class="n">beta</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
 
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-
-<div class="output_html rendered_html output_subarea ">
-2285
+    </div>
+</div>
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
 
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 
@@ -1321,7 +1426,7 @@ devtools::install_github("pcarbo/varbvs", subdir = "varbvs-R", ref = "non-zero-c
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/f28f4133dbdad1132625c8510609fc5108c1e3b9/dsc/20190827_varbvs_whole_genome.ipynb"><code>dsc/20190827_varbvs_whole_genome.ipynb</code></a> committed by Min Qiao on Thu Feb 27 17:21:22 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/f28f4133dbdad1132625c8510609fc5108c1e3b9">revision 2, f28f413</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/c8cff373c4924b82d147f2c21a4096190b97b98a/dsc/20190827_varbvs_whole_genome.ipynb"><code>dsc/20190827_varbvs_whole_genome.ipynb</code></a> committed by minqiao on Wed Apr 29 15:19:26 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/c8cff373c4924b82d147f2c21a4096190b97b98a">revision 3, c8cff37</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

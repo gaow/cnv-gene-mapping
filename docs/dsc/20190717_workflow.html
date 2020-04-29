@@ -450,7 +450,7 @@ sos run dsc/20190717_workflow.ipynb pymc3 --genotype_file /home/gaow/GIT/github/
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="new-susie-local-30300331">new susie local 30300331<a class="anchor-link" href="#new-susie-local-30300331">&#182;</a></h3>
+<h3 id="new-susie-local-20200331">new susie local 20200331<a class="anchor-link" href="#new-susie-local-20200331">&#182;</a></h3>
 <pre><code>cd /home/min/GIT/cnv-gene-mapping
 sos run dsc/20190717_workflow.ipynb susie --genotype_file /home/min/GIT/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.sample.combined.X.gz \
 --phenotype_file /home/min/GIT/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.sample.combined.y.gz --n_gene_in_block 1 -s build -j 7</code></pre>
@@ -464,19 +464,21 @@ sos run dsc/20190717_workflow.ipynb susie --genotype_file /home/min/GIT/cnv-gene
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="New-pymc3-04252020-local">New pymc3 04252020 local<a class="anchor-link" href="#New-pymc3-04252020-local">&#182;</a></h3><p>test: iteration=200, n_tune=200, block: 140_144</p>
+<h3 id="New-pymc3-20200425-local">New pymc3 20200425 local<a class="anchor-link" href="#New-pymc3-20200425-local">&#182;</a></h3><p>test: iteration=200, n_tune=200, block: 140_144</p>
 
 <pre><code>cd /home/min/GIT/cnv-gene-mapping
 sos run dsc/20190717_workflow.ipynb pymc3 --genotype_file /home/min/GIT/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.sample.combined.X.gz \
 --phenotype_file /home/min/GIT/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.sample.combined.y.gz \
---blocks_specify /home/min/GIT/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843/block_specify.csv --n_gene_in_block 1 -s build</code></pre>
-<h3 id="midway">midway<a class="anchor-link" href="#midway">&#182;</a></h3>
+--blocks_specify /home/min/GIT/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843/block_specify.csv --n_gene_in_block 1 --n_chain 2 -s build</code></pre>
+<h3 id="midway">midway<a class="anchor-link" href="#midway">&#182;</a></h3><p>max_walltime=56</p>
+
 <pre><code>cd /home/gaow/GIT/github/cnv-gene-mapping
 JOB_OPT="-q midway2 -c midway2.yml"
 wall_time="30m"
+sinteractive --mem-per-cpu=2000 --cpus-per-task=4 --time=24:00:00
 sos run dsc/20190717_workflow.ipynb pymc3 --genotype_file /home/gaow/GIT/github/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.sample.combined.X.gz \
 --phenotype_file /home/gaow/GIT/github/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.sample.combined.y.gz \
---n_gene_in_block 1 --wall_time $wall_time --job_size 8 -s build $JOB_OPT</code></pre>
+--n_gene_in_block 1 --n_chain 5 --wall_time $wall_time --job_size 5 -s build $JOB_OPT</code></pre>
 
 </div>
 </div>
@@ -514,6 +516,93 @@ sos run dsc/20190717_workflow.ipynb susie --genotype_file /home/gaow/GIT/github/
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>INFO: Running logistic_bvsr_1: 
+INFO: Running logistic_bvsr_1: 
+INFO: Running logistic_bvsr_1: 
+INFO: Running logistic_bvsr_1: 
+INFO: Running logistic_bvsr_1: 
+INFO: Running logistic_bvsr_1: 
+INFO: Running logistic_bvsr_1: 
+INFO: Running logistic_bvsr_1: 
+INFO: Running logistic_bvsr_1: 
+--- Logging error ---
+WARNING: Check output of sbatch ~/.sos/tasks/M5_976e784ec992ac4e.sh failed: Command 'sbatch ~/.sos/tasks/M5_976e784ec992ac4e.sh' died with &lt;Signals.SIGTERM: 15&gt;.
+ERROR: Failed to submit task M5_976e784ec992ac4e:
+
+Traceback (most recent call last):
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/logging/__init__.py", line 1034, in emit
+    msg = self.format(record)
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/logging/__init__.py", line 880, in format
+    return fmt.format(record)
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/logging/__init__.py", line 622, in format
+    s = self.formatMessage(record)
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/logging/__init__.py", line 590, in formatMessage
+    def formatMessage(self, record):
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/site-packages/sos/workers.py", line 23, in signal_handler
+    raise ProcessKilled()
+sos.utils.ProcessKilled
+Call stack:
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/threading.py", line 885, in _bootstrap
+    self._bootstrap_inner()
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/threading.py", line 917, in _bootstrap_inner
+    self.run()
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/site-packages/sos/controller.py", line 597, in run
+    decode_msg(self.master_push_socket.recv()))
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/site-packages/sos/controller.py", line 272, in handle_master_push_msg
+    self.workers.add_request(msg[0], msg[1])
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/site-packages/sos/workers.py", line 536, in add_request
+    self.start_worker()
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/site-packages/sos/workers.py", line 662, in start_worker
+    worker.start()
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/multiprocessing/process.py", line 112, in start
+    self._popen = self._Popen(self)
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/multiprocessing/context.py", line 223, in _Popen
+    return _default_context.get_context().Process._Popen(process_obj)
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/multiprocessing/context.py", line 277, in _Popen
+    return Popen(process_obj)
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/multiprocessing/popen_fork.py", line 20, in __init__
+    self._launch(process_obj)
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/multiprocessing/popen_fork.py", line 74, in _launch
+    code = process_obj._bootstrap()
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/site-packages/sos/workers.py", line 286, in run
+    name=self._name_of_work(reply)).run_until_waiting()
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/site-packages/sos/workers.py", line 51, in run_until_waiting
+    self._poller = next(self._runner)
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/site-packages/sos/workers.py", line 368, in run_workflow
+    yreq = next(runner)
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/site-packages/sos/workflow_executor.py", line 1693, in run_as_nested
+    dag = self.initialize_dag(targets=targets)
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/site-packages/sos/workflow_executor.py", line 824, in initialize_dag
+    dag.build()
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/site-packages/sos/dag.py", line 341, in build
+    env.log_to_file('DAG', 'build DAG')
+  File "/scratch/midway2/gaow/miniconda3/lib/python3.7/site-packages/sos/utils.py", line 379, in log_to_file
+    self.logger.debug(topic + ' - ' + str(msg))
+Message: 'DAG - build DAG'
+Arguments: ()
+INFO: M5_8e2451c26fb2e826 submitted to midway2 with job id 631035
+INFO: M5_1f8dd2aeb1230fed submitted to midway2 with job id 631038
+INFO: M5_8c29d57fa29caa48 submitted to midway2 with job id 631039
+INFO: M5_6631bef2bf68d797 submitted to midway2 with job id 631040
+INFO: M5_91f0a69caed74d9f submitted to midway2 with job id 631041
+INFO: M5_69f58c0aa0fe4cc8 submitted to midway2 with job id 631042
+INFO: M5_f5065fbbd827c47d submitted to midway2 with job id 631046
+ERROR: [pymc3]: Too many open files
+[pymc3]: Exits with 1 pending step (pymc3_4)
+INFO: M5_4662f312defc8c82 submitted to midway2 with job id 631048
+INFO: M5_a9d151ff37d67a0c submitted to midway2 with job id 631049
+INFO: M5_775c8893ca5bb1ce submitted to midway2 with job id 631050
+INFO: M5_279e22c2bdf05e46 submitted to midway2 with job id 631051</code></pre>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
@@ -521,7 +610,7 @@ sos run dsc/20190717_workflow.ipynb susie --genotype_file /home/gaow/GIT/github/
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="k">global</span><span class="p">]</span>
 <span class="kn">parameter:</span> <span class="n">cnv_type</span> <span class="o">=</span> <span class="s2">&quot;deletion&quot;</span>
-<span class="kn">parameter:</span> <span class="n">cwd</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="s2">&quot;~/GIT/github/cnv-gene-mapping/data&quot;</span><span class="p">)</span>
+<span class="kn">parameter:</span> <span class="n">cwd</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="s2">&quot;~/GIT/cnv-gene-mapping/data&quot;</span><span class="p">)</span>
 <span class="kn">parameter:</span> <span class="n">genotype_file</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">:</span><span class="s2">a</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">cnv_type</span><span class="si">}</span><span class="s2">.X.gz&quot;</span><span class="p">)</span>
 <span class="kn">parameter:</span> <span class="n">phenotype_file</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">:</span><span class="s2">a</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">cnv_type</span><span class="si">}</span><span class="s2">.y&quot;</span><span class="p">)</span> <span class="c1"># real CNV data phenotype</span>
 <span class="c1"># if greater than 1, say 20 or 30, it&#39;s for simulation block. If equal to 1, for analysis</span>
@@ -539,6 +628,7 @@ sos run dsc/20190717_workflow.ipynb susie --genotype_file /home/gaow/GIT/github/
 <span class="kn">parameter:</span> <span class="n">n_tune</span> <span class="o">=</span> <span class="mi">2000</span>
 <span class="kn">parameter:</span> <span class="n">iteration</span> <span class="o">=</span> <span class="mi">2000</span>
 <span class="kn">parameter:</span> <span class="n">blocks_specify</span> <span class="o">=</span> <span class="n">path</span><span class="p">()</span>
+<span class="kn">parameter:</span> <span class="n">priors_file</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">:</span><span class="s2">a</span><span class="si">}</span><span class="s2">/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.varbvs.whole.genome.prior.csv&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">fmtP</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
 </pre></div>
@@ -553,7 +643,7 @@ sos run dsc/20190717_workflow.ipynb susie --genotype_file /home/gaow/GIT/github/
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">get_hist_1</span><span class="p">,</span> <span class="n">simulate_1</span><span class="p">,</span> <span class="n">susie_1</span><span class="p">,</span> <span class="n">varbvs_1</span><span class="p">,</span> <span class="n">fisher_1</span><span class="p">,</span> <span class="n">pymc3_1</span><span class="p">,</span> <span class="n">logit_1</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">simulate_1</span><span class="p">,</span> <span class="n">get_hist_1</span><span class="p">,</span> <span class="n">susie_1</span><span class="p">,</span> <span class="n">varbvs_1</span><span class="p">,</span> <span class="n">fisher_1</span><span class="p">,</span> <span class="n">pymc3_1</span><span class="p">,</span> <span class="n">logit_1</span><span class="p">]</span>
 <span class="c1"># For simulation: get real deletion/duplication CNV data and its block</span>
 <span class="c1"># n_gene_in_block: get_hist: 1, simulate: 20~50, analyze: 1</span>
 <span class="kn">input:</span> <span class="n">genotype_file</span>
@@ -768,162 +858,10 @@ sos run dsc/20190717_workflow.ipynb susie --genotype_file /home/gaow/GIT/github/
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">fisher</span><span class="p">[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[25]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>gene</th>
-      <th>d_c</th>
-      <th>d_nc</th>
-      <th>nd_c</th>
-      <th>nd_nc</th>
-      <th>p</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>gene_25</td>
-      <td>603</td>
-      <td>6103</td>
-      <td>76</td>
-      <td>6630</td>
-      <td>1.910490e-107</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>gene_28</td>
-      <td>603</td>
-      <td>6103</td>
-      <td>76</td>
-      <td>6630</td>
-      <td>1.910490e-107</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>gene_27</td>
-      <td>603</td>
-      <td>6103</td>
-      <td>76</td>
-      <td>6630</td>
-      <td>1.910490e-107</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>gene_26</td>
-      <td>603</td>
-      <td>6103</td>
-      <td>76</td>
-      <td>6630</td>
-      <td>1.910490e-107</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>gene_29</td>
-      <td>603</td>
-      <td>6103</td>
-      <td>76</td>
-      <td>6630</td>
-      <td>1.910490e-107</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>gene_24</td>
-      <td>528</td>
-      <td>6178</td>
-      <td>61</td>
-      <td>6645</td>
-      <td>1.710063e-97</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>gene_1138</td>
-      <td>502</td>
-      <td>6204</td>
-      <td>79</td>
-      <td>6627</td>
-      <td>2.861096e-79</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>gene_1139</td>
-      <td>502</td>
-      <td>6204</td>
-      <td>79</td>
-      <td>6627</td>
-      <td>2.861096e-79</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>gene_1137</td>
-      <td>502</td>
-      <td>6204</td>
-      <td>79</td>
-      <td>6627</td>
-      <td>2.861096e-79</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>gene_567</td>
-      <td>132</td>
-      <td>6574</td>
-      <td>1</td>
-      <td>6705</td>
-      <td>1.296086e-38</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 <div class="prompt input_prompt">In&nbsp;[182]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">susie_2</span><span class="p">,</span> <span class="n">varbvs_2</span><span class="p">,</span> <span class="n">pymc3_2</span><span class="p">,</span> <span class="n">logit_2</span><span class="p">]</span>
-<span class="c1">## R: fread(${_input:[0]}, select = ${_blocks.replace(&#39;_&#39;, &#39;:&#39;)})</span>
 <span class="c1">## similar to fine mapping, create 527 folders and save results for each of them</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s1">a</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()]</span><span class="c1">#[:5]</span>
@@ -964,13 +902,17 @@ sos run dsc/20190717_workflow.ipynb susie --genotype_file /home/gaow/GIT/github/
     <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">expit</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">:</span><span class="n">r</span><span class="p">},</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;$</span><span class="si">{phenotype_file}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+    <span class="n">priors</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;$</span><span class="si">{priors_file}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">pi0_new</span> <span class="o">=</span> <span class="n">priors</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">mu0_new</span> <span class="o">=</span> <span class="n">priors</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">s0_new</span> <span class="o">=</span> <span class="n">priors</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
     <span class="n">case_prop</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">invlogit</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">tt</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Model</span><span class="p">()</span>
     <span class="k">with</span> <span class="n">model</span><span class="p">:</span>
-        <span class="n">xi</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;xi&#39;</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">pi0</span><span class="p">},</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">xi</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;xi&#39;</span><span class="p">,</span> <span class="n">pi0_new</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">continuous</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="n">lower</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">prevalence</span><span class="p">}</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="err">$</span><span class="p">{</span><span class="n">prevalence</span><span class="p">})),</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">case_prop</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">case_prop</span><span class="p">)))</span>
-        <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">mu0</span><span class="p">},</span> <span class="n">sd</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">s0</span><span class="p">},</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="n">mu</span> <span class="o">=</span> <span class="n">mu0_new</span><span class="p">,</span> <span class="n">sd</span> <span class="o">=</span> <span class="n">s0_new</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">xi</span> <span class="o">*</span> <span class="n">beta</span><span class="p">)</span>
         <span class="n">y_obs</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">Bernoulli</span><span class="p">(</span><span class="s1">&#39;y_obs&#39;</span><span class="p">,</span> <span class="n">invlogit</span><span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">alpha</span><span class="p">),</span> <span class="n">observed</span> <span class="o">=</span> <span class="n">y</span><span class="p">)</span>
         <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">iteration</span><span class="p">},</span> <span class="n">random_seed</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">pymc3_seed</span> <span class="o">+</span> <span class="n">_index</span><span class="p">},</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">chains</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tune</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">n_tune</span><span class="p">})</span>
@@ -1392,10 +1334,36 @@ sos run dsc/20190717_workflow.ipynb susie --genotype_file /home/gaow/GIT/github/
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">simulate_5</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;varbvs&quot;</span><span class="p">),</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;data.table&quot;</span><span class="p">),</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;reticulate&quot;</span><span class="p">)</span>
+<span class="kn">output:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">nnnn</span><span class="si">}</span><span class="s2">.binomial.whole.genome.prior.varbvs.updateb0.rds&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">nnnn</span><span class="si">}</span><span class="s2">.varbvs.whole.genome.prior.csv&quot;</span>
+<span class="kn">R:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span>
+    <span class="n">X</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">read</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">gzfile</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">r</span><span class="p">}),</span> <span class="n">header</span> <span class="o">=</span> <span class="n">F</span><span class="p">))</span>
+    <span class="n">y</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">read</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="n">r</span><span class="p">}))</span>
+    <span class="n">storage</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;double&#39;</span>
+    <span class="n">storage</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="s1">&#39;double&#39;</span>
+    <span class="n">fit</span> <span class="o">&lt;-</span> <span class="n">varbvs</span><span class="p">::</span><span class="n">varbvs</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;binomial&quot;</span><span class="p">,</span> <span class="n">update</span><span class="o">.</span><span class="n">b0</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">)</span>
+    <span class="n">saveRDS</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">r</span><span class="p">})</span>
+    <span class="n">pi0</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">fit</span><span class="err">$</span><span class="n">mu</span> <span class="o">*</span> <span class="n">fit</span><span class="err">$</span><span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="n">dim</span><span class="p">(</span><span class="n">fit</span><span class="err">$</span><span class="n">mu</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">dim</span><span class="p">(</span><span class="n">fit</span><span class="err">$</span><span class="n">mu</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">mu0</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">fit</span><span class="err">$</span><span class="n">b0</span> <span class="o">*</span> <span class="n">fit</span><span class="err">$</span><span class="n">w</span><span class="p">)</span>
+    <span class="n">s0</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">fit</span><span class="err">$</span><span class="n">s</span> <span class="o">*</span> <span class="n">fit</span><span class="err">$</span><span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="n">dim</span><span class="p">(</span><span class="n">fit</span><span class="err">$</span><span class="n">s</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">write</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">pi0</span><span class="p">,</span> <span class="n">mu0</span><span class="p">,</span> <span class="n">s0</span><span class="p">),</span> <span class="n">file</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="n">r</span><span class="p">},</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">col</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="simulate_5-are-not-used-in-updated-pipeline">simulate_5 are not used in updated pipeline<a class="anchor-link" href="#simulate_5-are-not-used-in-updated-pipeline">&#182;</a></h2>
+<h2 id="simulate_6-are-not-used-in-updated-pipeline">simulate_6 are not used in updated pipeline<a class="anchor-link" href="#simulate_6-are-not-used-in-updated-pipeline">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -1404,7 +1372,7 @@ sos run dsc/20190717_workflow.ipynb susie --genotype_file /home/gaow/GIT/github/
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">simulate_5</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">simulate_6</span><span class="p">]</span>
 <span class="c1"># shape = 3; scale = 1 for gamma</span>
 <span class="c1"># shape = 2.191013; scale = 0.2682398 for normal</span>
 <span class="kn">parameter:</span> <span class="n">shape</span> <span class="o">=</span> <span class="mf">3.0</span> <span class="c1"># mean for normal (1), shape for gamma (3)</span>
@@ -1489,7 +1457,7 @@ sos run dsc/20190717_workflow.ipynb analyze:1-2 --genotype_file /home/gaow/GIT/g
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/b536d805a837a7e7ff27f99aa0201f63a9373ca5/dsc/20190717_workflow.ipynb"><code>dsc/20190717_workflow.ipynb</code></a> committed by minqiao on Sun Apr 26 00:47:43 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/b536d805a837a7e7ff27f99aa0201f63a9373ca5">revision 76, b536d80</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/c8cff373c4924b82d147f2c21a4096190b97b98a/dsc/20190717_workflow.ipynb"><code>dsc/20190717_workflow.ipynb</code></a> committed by minqiao on Wed Apr 29 15:19:26 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/c8cff373c4924b82d147f2c21a4096190b97b98a">revision 77, c8cff37</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

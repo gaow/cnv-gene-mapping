@@ -778,14 +778,14 @@ conda install -c anaconda mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span><span class="o">,</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843&quot;</span><span class="p">)</span>
-<span class="n">start</span> <span class="o">=</span> <span class="mi">140</span> <span class="c1">#1750</span>
-<span class="n">end</span> <span class="o">=</span> <span class="mi">144</span> <span class="c1">#1772</span>
+<span class="n">start</span> <span class="o">=</span> <span class="mi">1815</span> <span class="c1">#140 #1750</span>
+<span class="n">end</span> <span class="o">=</span> <span class="mi">1826</span> <span class="c1">#144 #1772</span>
 </pre></div>
 
     </div>
@@ -795,7 +795,7 @@ conda install -c anaconda mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">X_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s1">/block_</span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s1">/deletion.genes.block30.for_simu.sample.combined.genes.block_</span><span class="si">{</span><span class="n">start</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">end</span><span class="si">}</span><span class="s1">.gz&#39;</span>
@@ -810,7 +810,7 @@ conda install -c anaconda mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">fisher</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fisher_f</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -823,7 +823,7 @@ conda install -c anaconda mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">fisher_block</span> <span class="o">=</span> <span class="n">fisher</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">fisher</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;gene_</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">2</span><span class="p">)])]</span>
@@ -841,7 +841,7 @@ conda install -c anaconda mkl-service</code></pre>
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[5]:</div>
+    <div class="prompt output_prompt">Out[4]:</div>
 
 
 
@@ -875,54 +875,124 @@ conda install -c anaconda mkl-service</code></pre>
   </thead>
   <tbody>
     <tr>
-      <th>57</th>
-      <td>gene_142</td>
-      <td>145</td>
-      <td>11783</td>
-      <td>37</td>
-      <td>11891</td>
-      <td>2.034862e-16</td>
-      <td>1</td>
+      <th>0</th>
+      <td>gene_1822</td>
+      <td>329</td>
+      <td>11599</td>
+      <td>31</td>
+      <td>11897</td>
+      <td>8.076649e-65</td>
+      <td>6</td>
     </tr>
     <tr>
-      <th>58</th>
-      <td>gene_141</td>
-      <td>145</td>
-      <td>11783</td>
-      <td>37</td>
-      <td>11891</td>
-      <td>2.034862e-16</td>
-      <td>0</td>
+      <th>1</th>
+      <td>gene_1823</td>
+      <td>329</td>
+      <td>11599</td>
+      <td>31</td>
+      <td>11897</td>
+      <td>8.076649e-65</td>
+      <td>7</td>
     </tr>
     <tr>
-      <th>59</th>
-      <td>gene_143</td>
-      <td>145</td>
-      <td>11783</td>
-      <td>37</td>
-      <td>11891</td>
-      <td>2.034862e-16</td>
-      <td>2</td>
+      <th>2</th>
+      <td>gene_1821</td>
+      <td>310</td>
+      <td>11618</td>
+      <td>35</td>
+      <td>11893</td>
+      <td>6.837438e-57</td>
+      <td>5</td>
     </tr>
     <tr>
-      <th>60</th>
-      <td>gene_144</td>
-      <td>145</td>
-      <td>11783</td>
-      <td>37</td>
-      <td>11891</td>
-      <td>2.034862e-16</td>
+      <th>3</th>
+      <td>gene_1826</td>
+      <td>270</td>
+      <td>11658</td>
+      <td>25</td>
+      <td>11903</td>
+      <td>1.224925e-53</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>gene_1824</td>
+      <td>270</td>
+      <td>11658</td>
+      <td>25</td>
+      <td>11903</td>
+      <td>1.224925e-53</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>gene_1825</td>
+      <td>270</td>
+      <td>11658</td>
+      <td>25</td>
+      <td>11903</td>
+      <td>1.224925e-53</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>gene_1820</td>
+      <td>163</td>
+      <td>11765</td>
+      <td>11</td>
+      <td>11917</td>
+      <td>4.424518e-36</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>gene_1819</td>
+      <td>163</td>
+      <td>11765</td>
+      <td>11</td>
+      <td>11917</td>
+      <td>4.424518e-36</td>
       <td>3</td>
     </tr>
     <tr>
-      <th>149</th>
-      <td>gene_145</td>
-      <td>97</td>
-      <td>11831</td>
-      <td>25</td>
-      <td>11903</td>
-      <td>2.981444e-11</td>
-      <td>4</td>
+      <th>28</th>
+      <td>gene_1818</td>
+      <td>113</td>
+      <td>11815</td>
+      <td>6</td>
+      <td>11922</td>
+      <td>8.673530e-27</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>gene_1816</td>
+      <td>113</td>
+      <td>11815</td>
+      <td>6</td>
+      <td>11922</td>
+      <td>8.673530e-27</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>gene_1817</td>
+      <td>113</td>
+      <td>11815</td>
+      <td>6</td>
+      <td>11922</td>
+      <td>8.673530e-27</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>gene_1827</td>
+      <td>113</td>
+      <td>11815</td>
+      <td>7</td>
+      <td>11921</td>
+      <td>7.536359e-26</td>
+      <td>11</td>
     </tr>
   </tbody>
 </table>
@@ -937,11 +1007,45 @@ conda install -c anaconda mkl-service</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">y_file</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 <span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[5]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(23856,)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">X_file</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+<span class="n">X</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
@@ -960,7 +1064,7 @@ conda install -c anaconda mkl-service</code></pre>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(23856,)</pre>
+<pre>(23856, 12)</pre>
 </div>
 
 </div>
@@ -974,8 +1078,7 @@ conda install -c anaconda mkl-service</code></pre>
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">X_file</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
-<span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -994,44 +1097,18 @@ conda install -c anaconda mkl-service</code></pre>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(23856, 5)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[8]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>0    182.0
-1    182.0
-2    182.0
-3    182.0
-4    122.0
+<pre>0     119.0
+1     119.0
+2     119.0
+3     174.0
+4     174.0
+5     345.0
+6     360.0
+7     360.0
+8     295.0
+9     295.0
+10    295.0
+11    120.0
 dtype: float64</pre>
 </div>
 
@@ -1061,7 +1138,7 @@ dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">pi_varbvs</span> <span class="o">=</span> <span class="mf">0.0437754961218526</span>
@@ -1083,7 +1160,7 @@ dtype: float64</pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span>
@@ -1412,110 +1489,6 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[80]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;/home/min/Documents/GWAS_ATAC/ATAC-seq/scRNA_seq_SNP_list.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-80-db6d419840d7&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">if</span> <span class="ansi-blue-fg">&#34;/home/min/Documents/GWAS_ATAC/ATAC-seq/&#34;</span><span class="ansi-blue-fg">.</span>is_file<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span>     print <span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;a&#34;</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-red-fg">AttributeError</span>: &#39;str&#39; object has no attribute &#39;is_file&#39;</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;/home/min/Documents/GWAS_ATAC/ATAC-seq/scRNA_seq_SNP_list.txt&quot;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[77]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;/home/min/Documents/GWAS_ATAC/ATAC-seq/scRNA_seq_SNP_list.txt&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[81]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s2">&quot;/home/min/Documents/GWAS_ATAC/ATAC-seq/scRNA_seq_SNP_list.txt&quot;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[81]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>True</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
@@ -1659,42 +1632,6 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">Attributes</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-265a59224f9a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>Attributes<span class="ansi-blue-fg">(</span>trace<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-red-fg">NameError</span>: name &#39;Attributes&#39; is not defined</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 <div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
@@ -1721,49 +1658,6 @@ Only one chain was sampled, this makes it impossible to run some convergence che
        -0.01838102, -0.01130768])</pre>
 </div>
 
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">trace</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-30-fb763bd9e95c&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>trace<span class="ansi-blue-fg">.</span>values<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/opt/miniconda3/lib/python3.7/site-packages/pymc3/backends/base.py</span> in <span class="ansi-cyan-fg">__getattr__</span><span class="ansi-blue-fg">(self, name)</span>
-<span class="ansi-green-intense-fg ansi-bold">    351</span>             <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>get_sampler_stats<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    352</span>         raise AttributeError(&#34;&#39;{}&#39; object has no attribute &#39;{}&#39;&#34;.format(
-<span class="ansi-green-fg">--&gt; 353</span><span class="ansi-red-fg">             type(self).__name__, name))
-</span><span class="ansi-green-intense-fg ansi-bold">    354</span> 
-<span class="ansi-green-intense-fg ansi-bold">    355</span>     <span class="ansi-green-fg">def</span> __len__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-red-fg">AttributeError</span>: &#39;MultiTrace&#39; object has no attribute &#39;values&#39;</pre>
-</div>
 </div>
 
 </div>
@@ -12607,7 +12501,7 @@ Only one chain was sampled, this makes it impossible to run some convergence che
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/b536d805a837a7e7ff27f99aa0201f63a9373ca5/dsc/20191005_PyMC3_SpikeSlab.ipynb"><code>dsc/20191005_PyMC3_SpikeSlab.ipynb</code></a> committed by minqiao on Sun Apr 26 00:47:43 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/b536d805a837a7e7ff27f99aa0201f63a9373ca5">revision 13, b536d80</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/c8cff373c4924b82d147f2c21a4096190b97b98a/dsc/20191005_PyMC3_SpikeSlab.ipynb"><code>dsc/20191005_PyMC3_SpikeSlab.ipynb</code></a> committed by minqiao on Wed Apr 29 15:19:26 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/c8cff373c4924b82d147f2c21a4096190b97b98a">revision 14, c8cff37</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
