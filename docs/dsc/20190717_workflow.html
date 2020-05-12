@@ -480,6 +480,10 @@ sos run dsc/20190717_workflow.ipynb pymc3 --genotype_file /home/gaow/GIT/github/
 --phenotype_file /home/gaow/GIT/github/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.sample.combined.y.gz \
 --n_gene_in_block 1 --n_chain 5 --wall_time $wall_time --job_size 5 -s build $JOB_OPT</code></pre>
 
+<pre><code>wall_time="5h"
+JOB_OPT="-q midway2 -c midway2.yml"
+sos run dsc/20190717_workflow.ipynb pymc3 --genotype_file /home/gaow/GIT/github/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.sample.combined.X.gz --phenotype_file /home/gaow/GIT/github/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.sample.combined.y.gz --n_gene_in_block 1 --n_chain 10 --n_core 5 --wall_time $wall_time --job_size 1 -s build $JOB_OPT</code></pre>
+
 </div>
 </div>
 </div>
@@ -512,6 +516,8 @@ sos run dsc/20190717_workflow.ipynb susie --genotype_file /home/gaow/GIT/github/
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="kill-all-jobs-on-midway">kill all jobs on midway<a class="anchor-link" href="#kill-all-jobs-on-midway">&#182;</a></h2>
 <pre><code>scancel -u gaow</code></pre>
+<h2 id="check-task-error">check task error<a class="anchor-link" href="#check-task-error">&#182;</a></h2>
+<pre><code>sos status 80a206cba2a43ed5 -v4</code></pre>
 
 </div>
 </div>
@@ -952,9 +958,9 @@ sos run dsc/20190717_workflow.ipynb susie --genotype_file /home/gaow/GIT/github/
 <span class="kn">parameter:</span> <span class="n">iteration</span> <span class="o">=</span> <span class="mi">2000</span>
 <span class="kn">parameter:</span> <span class="n">tune_prop</span> <span class="o">=</span> <span class="mf">0.25</span>
 <span class="kn">parameter:</span> <span class="n">target_accept</span> <span class="o">=</span> <span class="mf">0.98</span>
-<span class="kn">parameter:</span> <span class="n">n_core</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="kn">parameter:</span> <span class="n">n_core</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="kn">parameter:</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="kn">parameter:</span> <span class="n">wall_time</span> <span class="o">=</span> <span class="s2">&quot;15m&quot;</span>
+<span class="kn">parameter:</span> <span class="n">wall_time</span> <span class="o">=</span> <span class="s2">&quot;15h&quot;</span>
 <span class="c1">## alpha = log(p/1-p) is uniform</span>
 <span class="c1">## lower bound: p = prevalence, when prevalence = 0.05, alpha = -2.94</span>
 <span class="c1">## upper bound: p = case proportion, when case = control, alpha = 0</span>
@@ -962,7 +968,7 @@ sos run dsc/20190717_workflow.ipynb susie --genotype_file /home/gaow/GIT/github/
 <span class="kn">output:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.pymc3.chain_</span><span class="si">{</span><span class="n">n_chain</span><span class="si">}</span><span class="s2">.uniform.chain_</span><span class="si">{</span><span class="n">n_chain</span><span class="si">}</span><span class="s2">.seed_</span><span class="si">{</span><span class="n">pymc3_seed</span><span class="si">}</span><span class="s2">.gz&quot;</span>
 <span class="c1">## when chain = 3: walltime = 3h, max_walltime = 100, jobsize = 8</span>
 <span class="c1">## when chain = 1: walltime = 20m, job = 5, max_walltime = 36</span>
-<span class="kn">task:</span> <span class="kp">trunk_workers</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kp">trunk_size</span> <span class="o">=</span> <span class="n">job_size</span><span class="p">,</span> <span class="kp">walltime</span> <span class="o">=</span> <span class="n">wall_time</span><span class="p">,</span> <span class="kp">mem</span> <span class="o">=</span> <span class="s1">&#39;8G&#39;</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kp">tags</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;pymc3_</span><span class="si">{</span><span class="n">_output</span><span class="si">:</span><span class="s1">bn</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="kn">task:</span> <span class="kp">trunk_workers</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kp">trunk_size</span> <span class="o">=</span> <span class="n">job_size</span><span class="p">,</span> <span class="kp">walltime</span> <span class="o">=</span> <span class="n">wall_time</span><span class="p">,</span> <span class="kp">mem</span> <span class="o">=</span> <span class="s1">&#39;8G&#39;</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="n">n_core</span><span class="p">,</span> <span class="kp">tags</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;pymc3_</span><span class="si">{</span><span class="n">_output</span><span class="si">:</span><span class="s1">bn</span><span class="si">}</span><span class="s1">&#39;</span>
 <span class="kn">python:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span>
     <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span><span class="o">,</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="o">,</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span><span class="o">,</span> <span class="nn">theano.tensor</span> <span class="k">as</span> <span class="nn">tt</span>
     <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">expit</span>
@@ -1443,7 +1449,7 @@ sos run dsc/20190717_workflow.ipynb analyze:1-2 --genotype_file /home/gaow/GIT/g
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/910f5b98fea62e7ee554a3ae772369378636fbcc/dsc/20190717_workflow.ipynb"><code>dsc/20190717_workflow.ipynb</code></a> committed by minqiao on Tue May 5 22:31:05 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/910f5b98fea62e7ee554a3ae772369378636fbcc">revision 78, 910f5b9</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/3ec71ce05dd10ce1eabc759e3dde304ec73c09e0/dsc/20190717_workflow.ipynb"><code>dsc/20190717_workflow.ipynb</code></a> committed by minqiao on Tue May 12 14:35:26 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/3ec71ce05dd10ce1eabc759e3dde304ec73c09e0">revision 80, 3ec71ce</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
