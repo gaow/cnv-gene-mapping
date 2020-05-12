@@ -140,12 +140,12 @@ $( document ).ready(function(){
             st.toc_index=0;
             // fire the main function with these parameters
             table_of_contents(cfg, st);
-            var file=dscDict[$("h1:first").attr("id")];
+            var file=analysisDict[$("h1:first").attr("id")];
             $("#toc-level0 a").css("color","#126dce");
             $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
-            var docs=dscArray;
-            var docs_map=dscArrayMap;
-            var pos=dscArray.indexOf(file);
+            var docs=analysisArray;
+            var docs_map=analysisArrayMap;
+            var pos=analysisArray.indexOf(file);
             for (var a=pos;a>=0;a--){
                   $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
             }
@@ -251,14 +251,21 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Methods-discription">Methods discription<a class="anchor-link" href="#Methods-discription">&#182;</a></h1>
+<h1 id="DAP-on-simulation-results">DAP on simulation results<a class="anchor-link" href="#DAP-on-simulation-results">&#182;</a></h1>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="PyMC3">PyMC3<a class="anchor-link" href="#PyMC3">&#182;</a></h2><p>PyMC3: allows you to write down models using an intuitive syntax to describe a data generating process.</p>
+<h3 id="Data-transformation:-transform-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">Data transformation: transform $y \in \{0,1\}$ to $y \in \{0,t\}$<a class="anchor-link" href="#Data-transformation:-transform-$y-\in-\{0,1\}$-to-$y-\in-\{0,t\}$">&#182;</a></h3><p>The area under the original normal curve is $1-\Phi(t)$, the area under the transformed/shifted normal curve is $1-\Phi(t-Z_\mu)$. The mean of the original and transformed normal curve is $0$ and $Z_\mu$.</p>
+<p>$ P(X \geqslant t) = P(X=Z_\mu+X' \geqslant t) = P(X' \geqslant t-Z_\mu) = 1-\Phi(t-Z_\mu) $, in which $Z_\mu$ is the effect size $\beta$, and $1-\Phi(t)$ is prevalence.</p>
+<p>$t$ is transformed $y$, only depending on the prevalence.</p>
+<p>Relative risk (RR) is the ratio of two areas under two normal curves:</p>
+<p>$ RR = \frac{1-\Phi(t-Z_\mu)}{1-\Phi(t)} $</p>
+<p>The effect size $Z_\mu$ depends on RR and prevalence of disease. Solve $Z_\mu$ from a given RR:</p>
+<p>$ \Phi(t-Z_\mu) = 1-RR*(1-\Phi(t)) $</p>
+<p>For example, if $RR=2.5$ and prevalence=$0.01$, the effect size $Z_\mu$ is $0.366$ and the transformed $y$ is 2.326; if $RR=5$ and prevalence = $0.01$, the effect size is $0.681$.</p>
 
 </div>
 </div>
@@ -266,30 +273,67 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Pymc3-link">Pymc3 link<a class="anchor-link" href="#Pymc3-link">&#182;</a></h2>
-<pre><code>https://ericmjl.github.io/bayesian-stats-talk/
-https://twiecki.io/blog/2017/02/08/bayesian-hierchical-non-centered/
-https://eigenfoo.xyz/bayesian-inference-reading/</code></pre>
+<h3 id="Prepare-DAP-input">Prepare DAP input<a class="anchor-link" href="#Prepare-DAP-input">&#182;</a></h3><h4 id="Effect-Size-Grid-file:-prior-effect-size-specifications-for-causal-variants.">Effect Size Grid file: prior effect size specifications for causal variants.<a class="anchor-link" href="#Effect-Size-Grid-file:-prior-effect-size-specifications-for-causal-variants.">&#182;</a></h4><p>ω: the average effect size; ϕ: the heterogeneity of a genetic effect across multiple subgroups.</p>
+<p>It is a two-column data matrix: 1st column specifies ϕ, 2nd column specifies ω. Each row provides a unique combination.</p>
+<p>For single study, ϕ can be set to $0$ and only ω needs to specify. The prior effect size (ω) for causal genes is $0.366\ (Z_\mu)$. There is only one combination for ϕ and ω, (0,0.366).</p>
+<h4 id="Prior-file:-specifies-SNP-level/gene-level-prior-for-each-candidate-SNP/gene.">Prior file: specifies SNP-level/gene-level prior for each candidate SNP/gene.<a class="anchor-link" href="#Prior-file:-specifies-SNP-level/gene-level-prior-for-each-candidate-SNP/gene.">&#182;</a></h4><p>The 1st column represents the SNP/gene name and the 2nd column represents the prior probability that the SNP/gene is associated.</p>
+<p>Prior probability for causal genes is set to be higher than noncausal genes. I set the prior probability for causal genes in a certain pathway $\textbf{three}$ times as the noncausal genes. Use Calcium Signaling Pathway genes for example. This patyway include 178 causal genes (ADCY1, ADORA2A, ADRB1, etc).</p>
+
+<pre><code>chr6.ADCY1   0.0001355197
+chr8.ADORA2A 0.0001355197
+...
+chr1.XXXXX   4.517324e-05
+...</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Run-DAP">Run DAP<a class="anchor-link" href="#Run-DAP">&#182;</a></h4><p>Use feather file generated from simulation, effect size grid file and prior file generated in last step to run DAP.</p>
+<p>For small sample size simulation, there is no PIP generated for any gene, due to the lack of power. And the association model with greatest posterior probability is NULL, which means it is hard to identify the causal genes.</p>
+<p>For large sample size simulation, for example, 4000 samples,</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span>
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">set</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">])</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[18]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{1, 4, 5, 7}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob//dsc/Methods.ipynb"><code>dsc/Methods.ipynb</code></a> committed by minqiao on Tue May 12 14:46:36 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/">revision 0, </a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/c53ced2584d66708233410d8e479a82becc291a3/analysis/20170806_Overview_of_dap_on_simulation.ipynb"><code>analysis/20170806_Overview_of_dap_on_simulation.ipynb</code></a> committed by minqiao on Tue Jul 23 20:22:35 2019 <a href="http://github.com/gaow/cnv-gene-mapping/commit/c53ced2584d66708233410d8e479a82becc291a3">revision 8, c53ced2</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
