@@ -267,7 +267,6 @@ body {
 <span class="kn">from</span> <span class="nn">dsc.dsc_io</span> <span class="kn">import</span> <span class="n">load_rds</span>
 <span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/GIT/cnv-gene-mapping/data&quot;</span><span class="p">)</span>
 <span class="n">folder</span> <span class="o">=</span> <span class="s2">&quot;deletion_simu_30_shape0.777_scale0.843&quot;</span>
-<span class="c1"># name = &quot;deletion.genes.block20.for_simu.sample.combined.genes.block1&quot;</span>
 </pre></div>
 
     </div>
@@ -885,10 +884,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">index1</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">index1</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -901,7 +900,7 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[28]:</div>
+    <div class="prompt output_prompt">Out[18]:</div>
 
 
 
@@ -929,81 +928,6 @@ body {
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th>445</th>
-      <td>1710</td>
-      <td>1749</td>
-    </tr>
-    <tr>
-      <th>446</th>
-      <td>1750</td>
-      <td>1772</td>
-    </tr>
-    <tr>
-      <th>449</th>
-      <td>1806</td>
-      <td>1814</td>
-    </tr>
-    <tr>
-      <th>450</th>
-      <td>1815</td>
-      <td>1826</td>
-    </tr>
-    <tr>
-      <th>464</th>
-      <td>1895</td>
-      <td>1904</td>
-    </tr>
-    <tr>
-      <th>473</th>
-      <td>1930</td>
-      <td>1939</td>
-    </tr>
-    <tr>
-      <th>479</th>
-      <td>1970</td>
-      <td>1971</td>
-    </tr>
-    <tr>
-      <th>484</th>
-      <td>1979</td>
-      <td>1981</td>
-    </tr>
-    <tr>
-      <th>489</th>
-      <td>1987</td>
-      <td>1987</td>
-    </tr>
-    <tr>
-      <th>491</th>
-      <td>1991</td>
-      <td>2011</td>
-    </tr>
-    <tr>
-      <th>492</th>
-      <td>2012</td>
-      <td>2029</td>
-    </tr>
-    <tr>
-      <th>493</th>
-      <td>2030</td>
-      <td>2043</td>
-    </tr>
-    <tr>
-      <th>494</th>
-      <td>2044</td>
-      <td>2059</td>
-    </tr>
-    <tr>
-      <th>496</th>
-      <td>2062</td>
-      <td>2067</td>
-    </tr>
-    <tr>
-      <th>507</th>
-      <td>2106</td>
-      <td>2124</td>
-    </tr>
     <tr>
       <th>512</th>
       <td>2133</td>
@@ -1045,7 +969,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">index1</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">index1</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">313</span><span class="p">,]</span>
 </pre></div>
 
     </div>
@@ -1064,7 +988,9 @@ body {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(88, 2)</pre>
+<pre>id1    1151
+id2    1159
+Name: 313, dtype: int64</pre>
 </div>
 
 </div>
@@ -1076,6 +1002,39 @@ body {
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">index1</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[20]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(88, 2)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
@@ -1110,7 +1069,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">logit_pymc3</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">0</span> <span class="k">else</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
@@ -1129,7 +1088,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span> <span class="o">=</span> <span class="n">logit_pymc3</span><span class="p">[[</span><span class="s2">&quot;block&quot;</span><span class="p">,</span> <span class="s2">&quot;gene&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">,</span> <span class="s2">&quot;fisher&quot;</span><span class="p">,</span> <span class="s2">&quot;d_c&quot;</span><span class="p">,</span> <span class="s2">&quot;d_nc&quot;</span><span class="p">,</span> <span class="s2">&quot;nd_c&quot;</span><span class="p">,</span> <span class="s2">&quot;nd_nc&quot;</span><span class="p">,</span> <span class="s2">&quot;logit&quot;</span><span class="p">,</span> <span class="s2">&quot;logit1&quot;</span><span class="p">,</span> <span class="s2">&quot;susie&quot;</span><span class="p">,</span> <span class="s2">&quot;pymc3_new&quot;</span><span class="p">]]</span>
@@ -1142,7 +1101,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="o">.</span><span class="n">shape</span>
@@ -1158,7 +1117,7 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[23]:</div>
+    <div class="prompt output_prompt">Out[24]:</div>
 
 
 
@@ -1175,7 +1134,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -1191,7 +1150,7 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[29]:</div>
+    <div class="prompt output_prompt">Out[25]:</div>
 
 
 
@@ -1317,7 +1276,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="p">[</span><span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;block&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;block8&quot;</span><span class="p">]</span>
@@ -1333,7 +1292,7 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[30]:</div>
+    <div class="prompt output_prompt">Out[26]:</div>
 
 
 
@@ -1429,7 +1388,40 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[27]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(985, 12)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">block1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -1445,7 +1437,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3_1</span> <span class="o">=</span> <span class="n">logit_pymc3</span><span class="p">[</span><span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;block&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">block1</span><span class="p">)]</span>
@@ -1458,7 +1450,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3_1</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
@@ -1474,7 +1466,7 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[35]:</div>
+    <div class="prompt output_prompt">Out[31]:</div>
 
 
 
@@ -1600,10 +1592,10 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3_1</span><span class="p">[</span><span class="n">logit_pymc3_1</span><span class="p">[</span><span class="s2">&quot;block&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;block450&quot;</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3_1</span><span class="p">[</span><span class="n">logit_pymc3_1</span><span class="p">[</span><span class="s2">&quot;block&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;block313&quot;</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -1616,7 +1608,7 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[36]:</div>
+    <div class="prompt output_prompt">Out[34]:</div>
 
 
 
@@ -1656,183 +1648,138 @@ body {
   <tbody>
     <tr>
       <th>0</th>
-      <td>block450</td>
-      <td>gene_1816</td>
-      <td>1.230252</td>
-      <td>8.673530e-27</td>
-      <td>113</td>
-      <td>11815</td>
-      <td>6</td>
-      <td>11922</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.1038</td>
+      <td>block313</td>
+      <td>gene_1152</td>
+      <td>0.000000</td>
+      <td>6.051531e-08</td>
+      <td>92</td>
+      <td>11836</td>
+      <td>32</td>
+      <td>11896</td>
+      <td>0.000033</td>
+      <td>0.000033</td>
+      <td>0.000058</td>
+      <td>0.0121</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>block450</td>
-      <td>gene_1817</td>
+      <td>block313</td>
+      <td>gene_1153</td>
       <td>0.000000</td>
-      <td>8.673530e-27</td>
-      <td>113</td>
-      <td>11815</td>
-      <td>6</td>
-      <td>11922</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.1015</td>
+      <td>2.731949e-12</td>
+      <td>133</td>
+      <td>11795</td>
+      <td>42</td>
+      <td>11886</td>
+      <td>0.499975</td>
+      <td>0.499975</td>
+      <td>0.499959</td>
+      <td>0.3286</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>block450</td>
-      <td>gene_1818</td>
-      <td>0.000000</td>
-      <td>8.673530e-27</td>
-      <td>113</td>
-      <td>11815</td>
-      <td>6</td>
-      <td>11922</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.1041</td>
+      <td>block313</td>
+      <td>gene_1154</td>
+      <td>1.077143</td>
+      <td>2.731949e-12</td>
+      <td>133</td>
+      <td>11795</td>
+      <td>42</td>
+      <td>11886</td>
+      <td>0.499975</td>
+      <td>0.499975</td>
+      <td>0.499959</td>
+      <td>0.6919</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>block450</td>
-      <td>gene_1819</td>
+      <td>block313</td>
+      <td>gene_1155</td>
       <td>0.000000</td>
-      <td>4.424518e-36</td>
-      <td>163</td>
-      <td>11765</td>
-      <td>11</td>
-      <td>11917</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0607</td>
+      <td>3.439828e-07</td>
+      <td>62</td>
+      <td>11866</td>
+      <td>17</td>
+      <td>11911</td>
+      <td>0.000008</td>
+      <td>0.000008</td>
+      <td>0.000011</td>
+      <td>0.0226</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>block450</td>
-      <td>gene_1820</td>
+      <td>block313</td>
+      <td>gene_1156</td>
       <td>0.000000</td>
-      <td>4.424518e-36</td>
-      <td>163</td>
-      <td>11765</td>
-      <td>11</td>
-      <td>11917</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0635</td>
+      <td>3.439828e-07</td>
+      <td>62</td>
+      <td>11866</td>
+      <td>17</td>
+      <td>11911</td>
+      <td>0.000008</td>
+      <td>0.000008</td>
+      <td>0.000011</td>
+      <td>0.0214</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>block450</td>
-      <td>gene_1821</td>
+      <td>block313</td>
+      <td>gene_1157</td>
       <td>0.000000</td>
-      <td>6.837438e-57</td>
-      <td>310</td>
-      <td>11618</td>
-      <td>35</td>
-      <td>11893</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0423</td>
+      <td>6.306312e-06</td>
+      <td>64</td>
+      <td>11864</td>
+      <td>22</td>
+      <td>11906</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000001</td>
+      <td>0.0140</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>block450</td>
-      <td>gene_1822</td>
+      <td>block313</td>
+      <td>gene_1158</td>
       <td>0.000000</td>
-      <td>8.076649e-65</td>
-      <td>329</td>
-      <td>11599</td>
-      <td>31</td>
-      <td>11897</td>
-      <td>0.5</td>
-      <td>0.5</td>
-      <td>0.5</td>
-      <td>0.3719</td>
+      <td>6.306312e-06</td>
+      <td>64</td>
+      <td>11864</td>
+      <td>22</td>
+      <td>11906</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000001</td>
+      <td>0.0124</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>block450</td>
-      <td>gene_1823</td>
-      <td>1.813771</td>
-      <td>8.076649e-65</td>
-      <td>329</td>
-      <td>11599</td>
-      <td>31</td>
-      <td>11897</td>
-      <td>0.5</td>
-      <td>0.5</td>
-      <td>0.5</td>
-      <td>0.6827</td>
+      <td>block313</td>
+      <td>gene_1159</td>
+      <td>0.000000</td>
+      <td>2.120715e-05</td>
+      <td>90</td>
+      <td>11838</td>
+      <td>41</td>
+      <td>11887</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.0122</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>block450</td>
-      <td>gene_1824</td>
+      <td>block313</td>
+      <td>gene_1160</td>
       <td>0.000000</td>
-      <td>1.224925e-53</td>
-      <td>270</td>
-      <td>11658</td>
-      <td>25</td>
-      <td>11903</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0187</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>block450</td>
-      <td>gene_1825</td>
-      <td>0.000000</td>
-      <td>1.224925e-53</td>
-      <td>270</td>
-      <td>11658</td>
-      <td>25</td>
-      <td>11903</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0211</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>block450</td>
-      <td>gene_1826</td>
-      <td>0.000000</td>
-      <td>1.224925e-53</td>
-      <td>270</td>
-      <td>11658</td>
-      <td>25</td>
-      <td>11903</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0202</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>block450</td>
-      <td>gene_1827</td>
-      <td>0.000000</td>
-      <td>7.536359e-26</td>
-      <td>113</td>
-      <td>11815</td>
-      <td>7</td>
-      <td>11921</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0734</td>
+      <td>3.203289e-06</td>
+      <td>88</td>
+      <td>11840</td>
+      <td>36</td>
+      <td>11892</td>
+      <td>0.000001</td>
+      <td>0.000001</td>
+      <td>0.000002</td>
+      <td>0.0132</td>
     </tr>
   </tbody>
 </table>
@@ -1850,20 +1797,7 @@ body {
 <div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">folder</span><span class="si">}</span><span class="s2">/PIP_comparison_0430.csv&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="nb">sum</span><span class="p">(</span><span class="n">logit_pymc3</span><span class="p">[</span><span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;block&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;block8&quot;</span><span class="p">][</span><span class="s2">&quot;logit&quot;</span><span class="p">])</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3_1</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 
     </div>
@@ -1876,17 +1810,30 @@ body {
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[39]:</div>
+    <div class="prompt output_prompt">Out[37]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>1.0</pre>
+<pre>(407, 12)</pre>
 </div>
 
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">folder</span><span class="si">}</span><span class="s2">/PIP_comparison_0430.csv&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 
@@ -1990,6 +1937,299 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;is_signal&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span><span class="o">!=</span><span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">logit_pymc3</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">logit_pymc3</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[30]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>block</th>
+      <th>gene</th>
+      <th>beta</th>
+      <th>fisher</th>
+      <th>d_c</th>
+      <th>d_nc</th>
+      <th>nd_c</th>
+      <th>nd_nc</th>
+      <th>logit</th>
+      <th>logit1</th>
+      <th>susie</th>
+      <th>pymc3_new</th>
+      <th>is_signal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>block0</td>
+      <td>gene_1</td>
+      <td>0.000000</td>
+      <td>0.790466</td>
+      <td>6</td>
+      <td>11922</td>
+      <td>8</td>
+      <td>11920</td>
+      <td>0.125</td>
+      <td>0.015036</td>
+      <td>0.0</td>
+      <td>0.0174</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>block0</td>
+      <td>gene_2</td>
+      <td>0.000000</td>
+      <td>0.790466</td>
+      <td>6</td>
+      <td>11922</td>
+      <td>8</td>
+      <td>11920</td>
+      <td>0.125</td>
+      <td>0.015036</td>
+      <td>0.0</td>
+      <td>0.0139</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>block0</td>
+      <td>gene_3</td>
+      <td>0.000000</td>
+      <td>0.790466</td>
+      <td>6</td>
+      <td>11922</td>
+      <td>8</td>
+      <td>11920</td>
+      <td>0.125</td>
+      <td>0.015036</td>
+      <td>0.0</td>
+      <td>0.0174</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>block0</td>
+      <td>gene_4</td>
+      <td>0.000000</td>
+      <td>0.790466</td>
+      <td>6</td>
+      <td>11922</td>
+      <td>8</td>
+      <td>11920</td>
+      <td>0.125</td>
+      <td>0.015036</td>
+      <td>0.0</td>
+      <td>0.0168</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>block0</td>
+      <td>gene_5</td>
+      <td>0.552649</td>
+      <td>0.790466</td>
+      <td>6</td>
+      <td>11922</td>
+      <td>8</td>
+      <td>11920</td>
+      <td>0.125</td>
+      <td>0.015036</td>
+      <td>0.0</td>
+      <td>0.0190</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">logit_pymc3</span><span class="p">[[</span><span class="s2">&quot;logit&quot;</span><span class="p">,</span> <span class="s2">&quot;logit1&quot;</span><span class="p">,</span> <span class="s2">&quot;susie&quot;</span><span class="p">,</span> <span class="s2">&quot;pymc3_new&quot;</span><span class="p">,</span> <span class="s2">&quot;is_signal&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/home/min/Downloads/test.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">set_index</span><span class="p">([[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;is_signal&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[54]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Counter({0: 873, 1: 112})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="nb">sum</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;pymc3_new&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[55]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>73.98540000000001</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">get</span> <span class="n">res</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">saveRDS</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu_30_shape0.777_scale0.843/PIP_calib_block_with_effect.rds&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
@@ -2003,7 +2243,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/3d679e8baa1744029f8f08c9f4ac7cab59b25101/dsc/20200214_Block_summary.ipynb"><code>dsc/20200214_Block_summary.ipynb</code></a> committed by minqiao on Fri May 15 15:14:59 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/3d679e8baa1744029f8f08c9f4ac7cab59b25101">revision 4, 3d679e8</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/970a00db04869012c51d3ee0b2820fcf8f9feed1/dsc/20200214_Block_summary.ipynb"><code>dsc/20200214_Block_summary.ipynb</code></a> committed by minqiao on Thu May 21 15:45:39 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/970a00db04869012c51d3ee0b2820fcf8f9feed1">revision 6, 970a00d</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
