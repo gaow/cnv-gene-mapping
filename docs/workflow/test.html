@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.7" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=workflowDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=workflowArray;
+            var docs_map=workflowArrayMap;
+            var pos=workflowArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  $(".toc #toc-level0").append('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>');
+            }
+            // $("#toc-header").hide(); // comment out because it prevents search bar from displaying
+    });
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Gene Mapping with CNV</title>
+
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+        
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+        
+<li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+        
+<li>
+  <a href="../workflow.html">Workflow</a>
+</li>
+        
+<li>
+  <a href="../setup/index.html">Setup</a>
+</li>
+        
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">cwd</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="s2">&quot;~/GIT/cnv-gene-mapping/data&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s2">/deletion.X.gz&quot;</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">data_clean</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">(</span><span class="n">data</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<div class="sos_logging sos_info">INFO: NumExpr defaulting to 4 threads.</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[4]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(3086, 23343)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">data_clean</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[9]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>30</th>
+      <th>31</th>
+      <th>32</th>
+      <th>33</th>
+      <th>34</th>
+      <th>35</th>
+      <th>36</th>
+      <th>37</th>
+      <th>44</th>
+      <th>45</th>
+      <th>46</th>
+      <th>47</th>
+      <th>48</th>
+      <th>49</th>
+      <th>50</th>
+      <th>51</th>
+      <th>52</th>
+      <th>53</th>
+      <th>123</th>
+      <th>124</th>
+      <th>125</th>
+      <th>126</th>
+      <th>127</th>
+      <th>194</th>
+      <th>195</th>
+      <th>196</th>
+      <th>197</th>
+      <th>198</th>
+      <th>199</th>
+      <th>200</th>
+      <th>201</th>
+      <th>202</th>
+      <th>203</th>
+      <th>204</th>
+      <th>205</th>
+      <th>206</th>
+      <th>207</th>
+      <th>259</th>
+      <th>260</th>
+      <th>261</th>
+      <th>...</th>
+      <th>21934</th>
+      <th>21935</th>
+      <th>21966</th>
+      <th>21967</th>
+      <th>21968</th>
+      <th>21969</th>
+      <th>21970</th>
+      <th>21971</th>
+      <th>22009</th>
+      <th>22010</th>
+      <th>22011</th>
+      <th>22118</th>
+      <th>22119</th>
+      <th>22120</th>
+      <th>22121</th>
+      <th>22122</th>
+      <th>22123</th>
+      <th>22124</th>
+      <th>22125</th>
+      <th>22126</th>
+      <th>22127</th>
+      <th>22367</th>
+      <th>22368</th>
+      <th>22369</th>
+      <th>22370</th>
+      <th>22371</th>
+      <th>22372</th>
+      <th>22373</th>
+      <th>22374</th>
+      <th>22375</th>
+      <th>22376</th>
+      <th>22377</th>
+      <th>22378</th>
+      <th>22379</th>
+      <th>22380</th>
+      <th>22381</th>
+      <th>22382</th>
+      <th>22383</th>
+      <th>22384</th>
+      <th>22385</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 2290 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">n_gene_in_block</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data_clean</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">bound</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">n_0</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">j</span> <span class="o">&lt;</span> <span class="n">n_0</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">indices</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">n_gene_in_block</span> <span class="ow">and</span> <span class="n">indices</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">indices</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">bound</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">indices</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">j</span>
+    <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="n">bound</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">indices</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">bound</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[12]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[[30, 37],
+ [44, 53],
+ [123, 127],
+ [194, 207],
+ [259, 266],
+ [429, 429],
+ [815, 818],
+ [871, 871],
+ [883, 885],
+ [921, 921],
+ [1030, 1030],
+ [1056, 1060],
+ [1062, 1062],
+ [1068, 1068],
+ [1171, 1179],
+ [1184, 1185],
+ [1207, 1209],
+ [1234, 1234],
+ [1241, 1243],
+ [1245, 1303],
+ [1643, 1647],
+ [1766, 1766],
+ [1782, 1800],
+ [1854, 1855],
+ [1857, 1858],
+ [1870, 1870],
+ [1873, 1876],
+ [2073, 2073],
+ [2124, 2124],
+ [2126, 2126],
+ [2139, 2140],
+ [2159, 2159],
+ [2193, 2194],
+ [2244, 2245],
+ [2247, 2247],
+ [2275, 2275],
+ [2302, 2324],
+ [2330, 2338],
+ [2345, 2357],
+ [2360, 2362],
+ [2407, 2409],
+ [2458, 2460],
+ [2574, 2574],
+ [2576, 2577],
+ [2610, 2612],
+ [2627, 2627],
+ [2632, 2633],
+ [2662, 2667],
+ [2672, 2672],
+ [2708, 2710],
+ [2743, 2743],
+ [2840, 2843],
+ [2899, 2899],
+ [2915, 2915],
+ [2930, 2959],
+ [3027, 3035],
+ [3037, 3052],
+ [3055, 3063],
+ [3066, 3076],
+ [3114, 3114],
+ [3140, 3140],
+ [3165, 3170],
+ [3182, 3184],
+ [3204, 3208],
+ [3213, 3214],
+ [3221, 3221],
+ [3228, 3228],
+ [3231, 3231],
+ [3243, 3246],
+ [3259, 3259],
+ [3265, 3274],
+ [3309, 3309],
+ [3319, 3321],
+ [3411, 3411],
+ [3419, 3456],
+ [3560, 3560],
+ [3718, 3721],
+ [3741, 3745],
+ [3748, 3748],
+ [3750, 3750],
+ [3752, 3755],
+ [3820, 3827],
+ [3830, 3835],
+ [3846, 3846],
+ [3850, 3850],
+ [3856, 3856],
+ [3929, 3931],
+ [3940, 3942],
+ [3945, 3945],
+ [3949, 3949],
+ [3952, 3952],
+ [3961, 3961],
+ [3973, 3973],
+ [4044, 4044],
+ [4132, 4139],
+ [4300, 4302],
+ [4318, 4318],
+ [4326, 4327],
+ [4332, 4332],
+ [4344, 4345],
+ [4365, 4365],
+ [4368, 4368],
+ [4370, 4370],
+ [4390, 4390],
+ [4410, 4436],
+ [4462, 4463],
+ [4505, 4505],
+ [4507, 4510],
+ [4563, 4564],
+ [4633, 4635],
+ [4640, 4642],
+ [4645, 4649],
+ [4697, 4697],
+ [4778, 4778],
+ [4806, 4806],
+ [4823, 4825],
+ [4829, 4829],
+ [4859, 4859],
+ [4862, 4862],
+ [4872, 4873],
+ [4902, 4902],
+ [4942, 4943],
+ [4957, 4957],
+ [4984, 4986],
+ [4997, 4999],
+ [5022, 5024],
+ [5027, 5029],
+ [5035, 5062],
+ [5132, 5132],
+ [5144, 5144],
+ [5178, 5180],
+ [5203, 5204],
+ [5211, 5215],
+ [5248, 5249],
+ [5253, 5253],
+ [5341, 5341],
+ [5388, 5389],
+ [5392, 5392],
+ [5405, 5407],
+ [5410, 5412],
+ [5452, 5455],
+ [5525, 5526],
+ [5534, 5534],
+ [5561, 5561],
+ [5591, 5593],
+ [5595, 5595],
+ [5600, 5600],
+ [5605, 5605],
+ [5607, 5608],
+ [5629, 5637],
+ [5645, 5646],
+ [5654, 5655],
+ [5668, 5669],
+ [5691, 5691],
+ [5698, 5698],
+ [5738, 5739],
+ [5764, 5765],
+ [5771, 5772],
+ [5801, 5804],
+ [5863, 5863],
+ [5873, 5873],
+ [5883, 5883],
+ [5890, 5890],
+ [5901, 5901],
+ [5903, 5904],
+ [5919, 5920],
+ [5943, 5943],
+ [5950, 5953],
+ [5993, 6004],
+ [6091, 6093],
+ [6095, 6095],
+ [6115, 6119],
+ [6122, 6122],
+ [6126, 6127],
+ [6134, 6134],
+ [6145, 6145],
+ [6147, 6161],
+ [6174, 6174],
+ [6222, 6223],
+ [6278, 6284],
+ [6308, 6309],
+ [6428, 6428],
+ [6445, 6445],
+ [6456, 6456],
+ [6458, 6459],
+ [6476, 6477],
+ [6482, 6485],
+ [6488, 6489],
+ [6497, 6497],
+ [6502, 6503],
+ [6505, 6505],
+ [6512, 6512],
+ [6542, 6543],
+ [6550, 6554],
+ [6758, 6761],
+ [6797, 6797],
+ [6859, 6859],
+ [6983, 6985],
+ [7014, 7020],
+ [7040, 7040],
+ [7095, 7096],
+ [7101, 7102],
+ [7122, 7122],
+ [7132, 7137],
+ [7151, 7151],
+ [7155, 7156],
+ [7205, 7205],
+ [7312, 7314],
+ [7587, 7588],
+ [7756, 7758],
+ [7773, 7774],
+ [7777, 7777],
+ [7780, 7780],
+ [7817, 7826],
+ [7876, 7884],
+ [7888, 7888],
+ [7913, 7913],
+ [7930, 7931],
+ [7997, 7997],
+ [8005, 8006],
+ [8017, 8017],
+ [8036, 8037],
+ [8046, 8050],
+ [8117, 8117],
+ [8121, 8121],
+ [8124, 8124],
+ [8145, 8145],
+ [8167, 8169],
+ [8231, 8232],
+ [8239, 8239],
+ [8276, 8284],
+ [8295, 8324],
+ [8326, 8326],
+ [8328, 8330],
+ [8341, 8341],
+ [8344, 8346],
+ [8382, 8383],
+ [8400, 8400],
+ [8404, 8404],
+ [8406, 8406],
+ [8409, 8409],
+ [8427, 8427],
+ [8436, 8436],
+ [8493, 8494],
+ [8508, 8511],
+ [8513, 8530],
+ [8535, 8539],
+ [8544, 8544],
+ [8633, 8634],
+ [8672, 8675],
+ [8685, 8688],
+ [8711, 8711],
+ [8714, 8715],
+ [8717, 8724],
+ [8770, 8790],
+ [8796, 8797],
+ [8799, 8808],
+ [8812, 8812],
+ [8836, 8836],
+ [8867, 8867],
+ [9016, 9016],
+ [9029, 9029],
+ [9031, 9034],
+ [9067, 9067],
+ [9076, 9077],
+ [9079, 9079],
+ [9096, 9097],
+ [9167, 9167],
+ [9169, 9169],
+ [9259, 9276],
+ [9356, 9356],
+ [9379, 9379],
+ [9388, 9391],
+ [9403, 9408],
+ [9458, 9471],
+ [9492, 9496],
+ [9499, 9512],
+ [9514, 9514],
+ [9516, 9518],
+ [9520, 9521],
+ [9526, 9527],
+ [9533, 9533],
+ [9718, 9718],
+ [9721, 9721],
+ [9761, 9761],
+ [9790, 9791],
+ [9889, 9889],
+ [9915, 9915],
+ [9931, 9932],
+ [9966, 9967],
+ [9980, 9981],
+ [10025, 10025],
+ [10029, 10029],
+ [10034, 10037],
+ [10137, 10137],
+ [10145, 10146],
+ [10153, 10154],
+ [10271, 10272],
+ [10285, 10289],
+ [10291, 10293],
+ [10308, 10311],
+ [10315, 10315],
+ [10327, 10327],
+ [10339, 10339],
+ [10341, 10341],
+ [10362, 10363],
+ [10368, 10368],
+ [10370, 10370],
+ [10372, 10372],
+ [10382, 10383],
+ [10385, 10385],
+ [10493, 10525],
+ [10529, 10532],
+ [10553, 10561],
+ [10587, 10588],
+ [10685, 10687],
+ [10689, 10690],
+ [10784, 10789],
+ [10875, 10875],
+ [10886, 10886],
+ [10914, 10918],
+ [10960, 10960],
+ [11013, 11017],
+ [11090, 11091],
+ [11190, 11191],
+ [11246, 11249],
+ [11271, 11275],
+ [11320, 11320],
+ [11349, 11350],
+ [11357, 11358],
+ [11362, 11363],
+ [11410, 11412],
+ [11420, 11420],
+ [11486, 11522],
+ [11536, 11536],
+ [11570, 11570],
+ [11573, 11574],
+ [11615, 11617],
+ [11653, 11654],
+ [11761, 11763],
+ [11802, 11803],
+ [12056, 12057],
+ [12109, 12109],
+ [12227, 12231],
+ [12321, 12323],
+ [12374, 12376],
+ [12398, 12398],
+ [12446, 12446],
+ [12456, 12457],
+ [12459, 12460],
+ [12476, 12476],
+ [12522, 12522],
+ [12598, 12602],
+ [12615, 12632],
+ [12637, 12641],
+ [12643, 12649],
+ [12739, 12741],
+ [12814, 12817],
+ [12885, 12902],
+ [12971, 12971],
+ [13115, 13117],
+ [13140, 13150],
+ [13153, 13153],
+ [13177, 13177],
+ [13221, 13221],
+ [13239, 13240],
+ [13244, 13244],
+ [13249, 13250],
+ [13488, 13504],
+ [13559, 13559],
+ [13616, 13617],
+ [13742, 13742],
+ [13757, 13759],
+ [13782, 13783],
+ [13787, 13796],
+ [13827, 13827],
+ [13863, 13863],
+ [14144, 14144],
+ [14222, 14222],
+ [14236, 14255],
+ [14258, 14258],
+ [14261, 14262],
+ [14272, 14272],
+ [14280, 14280],
+ [14600, 14601],
+ [14630, 14631],
+ [14638, 14661],
+ [14663, 14666],
+ [14675, 14677],
+ [14682, 14682],
+ [14701, 14711],
+ [14825, 14845],
+ [14881, 14882],
+ [14938, 14938],
+ [14940, 14941],
+ [14962, 14967],
+ [14977, 14978],
+ [15023, 15025],
+ [15028, 15028],
+ [15070, 15070],
+ [15102, 15102],
+ [15107, 15108],
+ [15127, 15127],
+ [15129, 15129],
+ [15185, 15189],
+ [15191, 15191],
+ [15212, 15222],
+ [15342, 15344],
+ [15393, 15402],
+ [15404, 15405],
+ [15414, 15415],
+ [15478, 15479],
+ [15494, 15494],
+ [15561, 15561],
+ [15669, 15670],
+ [15688, 15689],
+ [15768, 15769],
+ [15998, 16016],
+ [16023, 16027],
+ [16133, 16134],
+ [16145, 16162],
+ [16177, 16180],
+ [16189, 16190],
+ [16195, 16196],
+ [16278, 16282],
+ [16298, 16299],
+ [16313, 16313],
+ [16358, 16358],
+ [16360, 16360],
+ [16397, 16397],
+ [16511, 16513],
+ [16564, 16564],
+ [16732, 16732],
+ [16735, 16735],
+ [16755, 16756],
+ [16760, 16760],
+ [16780, 16782],
+ [16793, 16800],
+ [16820, 16838],
+ [16871, 16897],
+ [16905, 16912],
+ [16987, 16987],
+ [16990, 16990],
+ [17020, 17023],
+ [17029, 17029],
+ [17044, 17083],
+ [17109, 17131],
+ [17175, 17197],
+ [17203, 17212],
+ [17220, 17228],
+ [17288, 17299],
+ [17318, 17318],
+ [17354, 17354],
+ [17411, 17412],
+ [17429, 17430],
+ [17434, 17434],
+ [17511, 17525],
+ [17595, 17603],
+ [17607, 17607],
+ [17612, 17615],
+ [17623, 17640],
+ [17681, 17683],
+ [17735, 17744],
+ [17864, 17864],
+ [17979, 17988],
+ [18044, 18047],
+ [18082, 18083],
+ [18092, 18094],
+ [18104, 18104],
+ [18487, 18495],
+ [18498, 18499],
+ [18608, 18610],
+ [18676, 18676],
+ [18956, 18965],
+ [18981, 18983],
+ [18992, 19011],
+ [19057, 19058],
+ [19084, 19085],
+ [19097, 19099],
+ [19125, 19126],
+ [19140, 19143],
+ [19166, 19166],
+ [19175, 19175],
+ [19232, 19232],
+ [19243, 19245],
+ [19250, 19251],
+ [19285, 19285],
+ [19287, 19287],
+ [19290, 19290],
+ [19298, 19298],
+ [19322, 19324],
+ [19381, 19401],
+ [19409, 19426],
+ [19711, 19724],
+ [19750, 19765],
+ [19930, 19931],
+ [19933, 19938],
+ [19960, 19965],
+ [19967, 19967],
+ [19980, 19980],
+ [20097, 20098],
+ [20206, 20208],
+ [20261, 20266],
+ [20583, 20586],
+ [20723, 20728],
+ [20731, 20738],
+ [20754, 20754],
+ [20756, 20774],
+ [20970, 20970],
+ [20992, 20992],
+ [21017, 21020],
+ [21051, 21052],
+ [21071, 21075],
+ [21079, 21080],
+ [21246, 21247],
+ [21507, 21515],
+ [21540, 21541],
+ [21544, 21545],
+ [21547, 21566],
+ [21663, 21663],
+ [21822, 21827],
+ [21829, 21834],
+ [21856, 21917],
+ [21934, 21935],
+ [21966, 21971],
+ [22009, 22011],
+ [22118, 22127],
+ [22367, 22385]]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">bound</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">bound</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">bound</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">bound</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]:</span>
+    <span class="n">bound</span> <span class="o">=</span> <span class="n">bound</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">bound</span><span class="p">)</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="n">r</span><span class="p">},</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">span</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">bound</span><span class="p">]</span>
+<span class="n">bound2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">span</span><span class="p">:</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">i</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">end</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">bound2</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">end</span><span class="p">,</span> <span class="n">start</span><span class="p">])</span>
+<span class="n">bound2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">bound2</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">bound3</span> <span class="o">=</span> <span class="p">[</span><span class="n">bound2</span><span class="p">[</span><span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bound2</span><span class="p">),</span> <span class="mi">2</span><span class="p">)]</span>
+<span class="c1">## bound3: index start from 0</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">bound3</span><span class="p">)</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span><span class="n">r</span><span class="p">},</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/840f13ef458fdb2a1a562fec4476c730bb613620/workflow/test.ipynb"><code>workflow/test.ipynb</code></a> committed by minqiao on Mon May 25 01:40:10 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/840f13ef458fdb2a1a562fec4476c730bb613620">revision 1, 840f13e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>

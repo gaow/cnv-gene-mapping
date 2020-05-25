@@ -1,0 +1,2146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.7" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=workflowDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=workflowArray;
+            var docs_map=workflowArrayMap;
+            var pos=workflowArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  $(".toc #toc-level0").append('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>');
+            }
+            // $("#toc-header").hide(); // comment out because it prevents search bar from displaying
+    });
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Gene Mapping with CNV</title>
+
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+        
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+        
+<li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+        
+<li>
+  <a href="../workflow.html">Workflow</a>
+</li>
+        
+<li>
+  <a href="../setup/index.html">Setup</a>
+</li>
+        
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Use-BoomSpikeSlab">Use BoomSpikeSlab<a class="anchor-link" href="#Use-BoomSpikeSlab">&#182;</a></h1><h2 id="First-check-the-result-of-varbvs-on-whole-genome">First check the result of varbvs on whole genome<a class="anchor-link" href="#First-check-the-result-of-varbvs-on-whole-genome">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="nf">readRDS</span><span class="p">(</span><span class="s">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.binomial.whole.genome.prior.varbvs.nologodds.updateb0.rds&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mu0</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">b0</span> <span class="o">*</span> <span class="n">res</span><span class="o">$</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">mu0</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.777072111580423
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">sd0</span> <span class="o">=</span> <span class="nf">sqrt</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">sa</span> <span class="o">*</span> <span class="n">res</span><span class="o">$</span><span class="n">w</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">sd0</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.843650169910125
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">pi0</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">((</span><span class="m">10</span><span class="o">^</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">logodds</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="m">1</span> <span class="o">+</span> <span class="m">10</span><span class="o">^</span><span class="p">(</span><span class="n">res</span><span class="o">$</span><span class="n">logodds</span><span class="p">)))</span> <span class="o">*</span> <span class="n">res</span><span class="o">$</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">pi0</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.0437754961218526
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># library(varbvs)</span>
+<span class="c1"># help(varbvs)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># varbvs::varbvs</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">reticulate</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">susieR</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">BoomSpikeSlab</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Loading required package: Boom
+Loading required package: MASS
+
+Attaching package: ‘Boom’
+
+The following object is masked from ‘package:stats’:
+
+    rWishart
+
+
+Attaching package: ‘BoomSpikeSlab’
+
+The following object is masked from ‘package:stats’:
+
+    knots
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="nf">as.matrix</span><span class="p">(</span><span class="n">data.table</span><span class="o">::</span><span class="nf">fread</span><span class="p">(</span><span class="s">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/block_79_137/deletion.genes.block30.for_simu.sample.genes.block_79_137.gz&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="bp">F</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">as.matrix</span><span class="p">(</span><span class="n">data.table</span><span class="o">::</span><span class="nf">fread</span><span class="p">(</span><span class="s">&quot;/data/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.y&quot;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># sampler = c(sample(1:sum(y), sum(y)*0.06), c((sum(y)+1):length(y)))</span>
+<span class="c1"># y = y[sampler, ]</span>
+<span class="c1"># X = X[sampler, ]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">X_inter</span> <span class="o">=</span> <span class="nf">cbind</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">storage.mode</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="s">&#39;double&#39;</span>
+<span class="nf">storage.mode</span><span class="p">(</span><span class="n">X_inter</span><span class="p">)</span> <span class="o">=</span> <span class="s">&#39;double&#39;</span>
+<span class="nf">storage.mode</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="s">&#39;double&#39;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">X_inter</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>13412</li>
+	<li>60</li>
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="nf">length</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">X_center</span> <span class="o">&lt;-</span> <span class="nf">scale</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1"># prior &lt;- LogitZellnerPrior(X_inter, y, N, prior.success.probability = NULL, expected.model.size = 2, prior.information.weight = 0.05, </span>
+<span class="c1">#                            diagonal.shrinkage = 0, optional.coefficient.estimate = NULL, prior.inclusion.probabilities = NULL)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">round</span><span class="p">(</span><span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="m">0.05</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+3
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="c1">#prior &lt;- LogitZellnerPrior(X_inter, y, N, prior.success.probability = NULL, expected.model.size =NULL, </span>
+<span class="c1">#                           diagonal.shrinkage = 0, optional.coefficient.estimate = c(0, rep(mu0, ncol(X))), prior.inclusion.probabilities = c(1, rep(pi0, ncol(X))))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[118]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">prior</span> <span class="o">&lt;-</span> <span class="nf">LogitZellnerPrior</span><span class="p">(</span><span class="n">X_inter</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">optional.coefficient.estimate</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="n">mu0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">))),</span> <span class="n">prior.inclusion.probabilities</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="n">pi0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">))),</span> 
+                           <span class="n">prior.information.weight</span> <span class="o">=</span> <span class="m">1</span><span class="o">/</span><span class="m">0.8</span><span class="p">,</span> <span class="n">diagonal.shrinkage</span> <span class="o">=</span> <span class="m">0.01</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[119]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">prior</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>'prior.inclusion.probabilities'</li>
+	<li>'mu'</li>
+	<li>'sigma.guess'</li>
+	<li>'prior.df'</li>
+	<li>'sigma.upper.limit'</li>
+	<li>'max.flips'</li>
+	<li>'siginv'</li>
+	<li>'prior.success.probability'</li>
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[120]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">head</span><span class="p">(</span><span class="nf">solve</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">siginv</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<table>
+<thead><tr><th></th><th scope=col></th><th scope=col>V1</th><th scope=col>V2</th><th scope=col>V3</th><th scope=col>V4</th><th scope=col>V5</th><th scope=col>V6</th><th scope=col>V7</th><th scope=col>V8</th><th scope=col>V9</th><th scope=col>⋯</th><th scope=col>V50</th><th scope=col>V51</th><th scope=col>V52</th><th scope=col>V53</th><th scope=col>V54</th><th scope=col>V55</th><th scope=col>V56</th><th scope=col>V57</th><th scope=col>V58</th><th scope=col>V59</th></tr></thead>
+<tbody>
+	<tr><th scope=row></th><td> 3.235833e+00</td><td>   -0.5753901</td><td>-1.047838e-05</td><td>-3.876999e-04</td><td>-3.876999e-04</td><td>-3.876999e-04</td><td>-3.876999e-04</td><td>-3.876999e-04</td><td>-3.876999e-04</td><td>-3.876999e-04</td><td>⋯            </td><td>-1.5818714318</td><td>-0.0305459258</td><td>-0.0305459258</td><td>-0.0035004681</td><td>-0.0035004681</td><td>-0.0035004681</td><td> 0.0239386473</td><td> 0.0239386473</td><td>-0.0240657513</td><td>-0.0240657513</td></tr>
+	<tr><th scope=row>V1</th><td>-5.753901e-01</td><td>39289.9836194</td><td>-4.982046e-01</td><td>-1.843357e+01</td><td>-1.843357e+01</td><td>-1.843357e+01</td><td>-1.843357e+01</td><td>-1.843357e+01</td><td>-1.843357e+01</td><td>-1.843357e+01</td><td>⋯            </td><td> 2.7470589556</td><td>-1.0303157310</td><td>-1.0303157310</td><td>-0.9084393290</td><td>-0.9084393290</td><td>-0.9084393291</td><td> 6.4335294197</td><td> 6.4335294197</td><td>-6.4672556734</td><td>-6.4672556734</td></tr>
+	<tr><th scope=row>V2</th><td>-1.047838e-05</td><td>   -0.4982046</td><td> 1.654499e+04</td><td>-9.553717e+02</td><td>-9.553717e+02</td><td>-9.553717e+02</td><td>-9.553717e+02</td><td>-9.553717e+02</td><td>-9.553717e+02</td><td>-9.553717e+02</td><td>⋯            </td><td>-0.0002712555</td><td> 0.0001161914</td><td> 0.0001161914</td><td> 0.0001019042</td><td> 0.0001019042</td><td> 0.0001019042</td><td>-0.0007216614</td><td>-0.0007216614</td><td> 0.0007254446</td><td> 0.0007254446</td></tr>
+	<tr><th scope=row>V3</th><td>-3.876999e-04</td><td>  -18.4335702</td><td>-9.553717e+02</td><td> 3.548185e+05</td><td>-3.534875e+04</td><td>-3.534875e+04</td><td>-3.534875e+04</td><td>-3.534875e+04</td><td>-3.534875e+04</td><td>-3.534875e+04</td><td>⋯            </td><td>-0.0100364537</td><td> 0.0042990817</td><td> 0.0042990817</td><td> 0.0037704544</td><td> 0.0037704544</td><td> 0.0037704544</td><td>-0.0267014708</td><td>-0.0267014708</td><td> 0.0268414484</td><td> 0.0268414484</td></tr>
+	<tr><th scope=row>V4</th><td>-3.876999e-04</td><td>  -18.4335702</td><td>-9.553717e+02</td><td>-3.534875e+04</td><td> 3.548185e+05</td><td>-3.534875e+04</td><td>-3.534875e+04</td><td>-3.534875e+04</td><td>-3.534875e+04</td><td>-3.534875e+04</td><td>⋯            </td><td>-0.0100364537</td><td> 0.0042990817</td><td> 0.0042990817</td><td> 0.0037704544</td><td> 0.0037704544</td><td> 0.0037704544</td><td>-0.0267014708</td><td>-0.0267014708</td><td> 0.0268414484</td><td> 0.0268414484</td></tr>
+	<tr><th scope=row>V5</th><td>-3.876999e-04</td><td>  -18.4335702</td><td>-9.553717e+02</td><td>-3.534875e+04</td><td>-3.534875e+04</td><td> 3.548185e+05</td><td>-3.534875e+04</td><td>-3.534875e+04</td><td>-3.534875e+04</td><td>-3.534875e+04</td><td>⋯            </td><td>-0.0100364537</td><td> 0.0042990817</td><td> 0.0042990817</td><td> 0.0037704544</td><td> 0.0037704544</td><td> 0.0037704544</td><td>-0.0267014708</td><td>-0.0267014708</td><td> 0.0268414484</td><td> 0.0268414484</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[116]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">model</span> <span class="o">&lt;-</span> <span class="nf">logit.spike</span><span class="p">(</span><span class="n">y</span> <span class="o">~</span> <span class="n">X</span><span class="p">,</span> <span class="n">niter</span> <span class="o">=</span> <span class="m">300</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="n">prior</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>=-=-=-=-= Iteration 0 Fri Oct  4 19:44:17 2019 =-=-=-=-=
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+Error in logit.spike(y ~ X, niter = 300, prior = prior): Caught exception with the following error message: 
+BinomialLogitSpikeSlabSampler did not start with a legal configuration.
+Selector vector:  111111111111111111111111111111111111111111111111111111111111
+beta: 0.00134394 0.680317 0.777072 0.777072 -12.7216 0.777728 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072 0.777072
+
+Traceback:
+
+1. logit.spike(y ~ X, niter = 300, prior = prior)</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[105]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>null log likelihood:            -9296.49 
+posterior mean log likelihood:  -9299.616 
+posterior max log likelihood:   -9294.755 
+mean deviance R-sq:             -0.0003362732 
+
+predicted vs observed success rates, by decile:
+            predicted  observed
+(0.488,0.5] 0.4995583 0.4993998
+(0.5,0.529] 0.5192757 0.6133333
+
+summary of coefficients:
+                 mean      sd mean.inc sd.inc inc.prob
+(Intercept) -0.001710 0.01660 -0.00171 0.0166  1.00000
+XV56        -0.008170 0.11400 -0.15300 0.4870  0.05330
+XV5         -0.004680 0.08850 -0.08780 0.3850  0.05330
+XV28         0.035400 0.22400  0.70900 0.7450  0.05000
+XV6          0.026000 0.14100  0.52000 0.3860  0.05000
+XV24         0.017100 0.10400  0.36700 0.3330  0.04670
+XV3         -0.011100 0.21100 -0.23800 0.9830  0.04670
+XV26         0.004630 0.04700  0.11600 0.2140  0.04000
+XV25        -0.008830 0.36900 -0.22100 1.9100  0.04000
+XV16        -0.020000 0.11600 -0.50000 0.3240  0.04000
+XV13         0.006630 0.09410  0.18100 0.4800  0.03670
+XV10        -0.024800 0.17100 -0.67700 0.6240  0.03670
+XV9         -0.010200 0.09700 -0.27700 0.4470  0.03670
+XV58         0.027100 0.18000  0.81200 0.6030  0.03330
+XV51         0.005210 0.09810  0.15600 0.5410  0.03330
+XV30         0.026600 0.27500  0.88600 1.4000  0.03000
+XV29        -0.000150 0.06890 -0.00500 0.4210  0.03000
+XV53        -0.004820 0.09150 -0.18100 0.5670  0.02670
+XV33         0.044400 0.34700  1.67000 1.4400  0.02670
+XV21        -0.011600 0.30900 -0.43500 1.9700  0.02670
+XV18        -0.012700 0.29300 -0.47800 1.8400  0.02670
+XV17        -0.000712 0.26700 -0.02670 1.7400  0.02670
+XV14        -0.002350 0.03010 -0.08810 0.1730  0.02670
+XV7          0.019300 0.20800  0.72300 1.1300  0.02670
+XV2         -0.003080 0.10200 -0.11500 0.6540  0.02670
+XV52        -0.010900 0.08140 -0.46700 0.2860  0.02330
+XV50        -0.003610 0.03020 -0.15500 0.1350  0.02330
+XV40         0.026700 0.21600  1.14000 0.9130  0.02330
+XV38         0.012700 0.09990  0.54400 0.4000  0.02330
+XV34         0.059000 0.49300  2.53000 2.2000  0.02330
+XV31         0.006610 0.06500  0.28300 0.3450  0.02330
+XV27         0.013800 0.10300  0.58900 0.3580  0.02330
+XV12        -0.001140 0.04420 -0.04870 0.3080  0.02330
+XV59         0.013300 0.19900  0.66700 1.3600  0.02000
+XV44         0.022300 0.18600  1.12000 0.7720  0.02000
+XV43         0.025100 0.24600  1.26000 1.3300  0.02000
+XV32        -0.003800 0.04220 -0.19000 0.2530  0.02000
+XV1         -0.006130 0.05280 -0.30700 0.2370  0.02000
+XV49         0.005930 0.14500  0.35600 1.1900  0.01670
+XV45         0.005110 0.09840  0.30600 0.7800  0.01670
+XV36         0.016200 0.15600  0.97300 0.8070  0.01670
+XV55         0.000157 0.01380  0.01180 0.1370  0.01330
+XV19        -0.001660 0.02830 -0.12400 0.2440  0.01330
+XV47        -0.001190 0.03540 -0.11900 0.4080  0.01000
+XV15         0.004600 0.10300  0.46000 1.1300  0.01000
+XV48        -0.002930 0.03810 -0.44000 0.2220  0.00667
+XV39         0.007480 0.12400  1.12000 1.4600  0.00667
+XV23        -0.011400 0.13900 -1.70000 0.0000  0.00667
+XV11        -0.001100 0.01350 -0.16500 0.0000  0.00667
+XV57         0.002840 0.04930  0.85300 0.0000  0.00333
+XV46        -0.004200 0.07270 -1.26000 0.0000  0.00333
+XV41        -0.000620 0.01070 -0.18600 0.0000  0.00333
+XV35         0.000206 0.00356  0.06170 0.0000  0.00333
+XV8         -0.001110 0.01930 -0.33400 0.0000  0.00333
+XV4          0.001680 0.02910  0.50500 0.0000  0.00333
+XV54         0.000000 0.00000  0.00000 0.0000  0.00000
+XV42         0.000000 0.00000  0.00000 0.0000  0.00000
+XV37         0.000000 0.00000  0.00000 0.0000  0.00000
+XV22         0.000000 0.00000  0.00000 0.0000  0.00000
+XV20         0.000000 0.00000  0.00000 0.0000  0.00000</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">prior_glm</span> <span class="o">&lt;-</span> <span class="nf">SpikeSlabGlmPrior</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="o">/</span><span class="nf">nrow</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="nf">nrow</span><span class="p">(</span><span class="n">X</span><span class="p">)),</span> <span class="n">prior.inclusion.probabilities</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="m">1</span><span class="o">/</span><span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)),</span> <span class="n">expected.model.size</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> 
+                               <span class="n">optional.coefficient.estimate</span> <span class="o">=</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)),</span> <span class="n">mean.on.natural.scale</span> <span class="o">=</span> <span class="m">-1</span><span class="p">,</span> <span class="n">max.flips</span> <span class="o">=</span> <span class="m">5</span><span class="p">,</span> <span class="n">diagonal.shrinkage</span> <span class="o">=</span> <span class="m">0</span><span class="p">,</span> <span class="n">prior.information.weight</span> <span class="o">=</span> <span class="m">0.05</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">prior_glm</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>'prior.inclusion.probabilities'</li>
+	<li>'mu'</li>
+	<li>'sigma.guess'</li>
+	<li>'prior.df'</li>
+	<li>'sigma.upper.limit'</li>
+	<li>'max.flips'</li>
+	<li>'siginv'</li>
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">prior1</span> <span class="o">&lt;-</span> <span class="n">prior</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">length</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">mu</span><span class="p">);</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+60
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+59
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">prior1</span><span class="o">$</span><span class="n">prior.inclusion.probabilities</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">prior.inclusion.probabilities</span><span class="p">[</span><span class="m">1</span><span class="p">],</span> <span class="nf">rep</span><span class="p">(</span><span class="n">pi0</span><span class="p">,</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)))</span>
+<span class="n">prior1</span><span class="o">$</span><span class="n">mu</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">mu</span><span class="p">[</span><span class="m">1</span><span class="p">],</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">9</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">10</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">10</span><span class="p">),</span> <span class="n">mu0</span><span class="p">,</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">4</span><span class="p">))</span>
+<span class="c1"># prior1$mu &lt;- c(prior$mu[1], colSums(X_inter)[2:ncol(X_inter)]*0.001)</span>
+<span class="n">prior1</span><span class="o">$</span><span class="n">sigma.guess</span> <span class="o">&lt;-</span> <span class="n">sd0</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[64]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">length</span><span class="p">(</span><span class="n">prior</span><span class="o">$</span><span class="n">mu</span><span class="p">)</span> <span class="o">==</span> <span class="nf">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+FALSE
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[65]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">model1</span> <span class="o">&lt;-</span> <span class="nf">logit.spike</span><span class="p">(</span><span class="n">y</span> <span class="o">~</span> <span class="n">X</span><span class="p">,</span> <span class="n">niter</span> <span class="o">=</span> <span class="m">1000</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="n">prior1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>=-=-=-=-= Iteration 0 Thu Oct  3 22:48:23 2019 =-=-=-=-=
+=-=-=-=-= Iteration 100 Thu Oct  3 22:48:53 2019 =-=-=-=-=
+=-=-=-=-= Iteration 200 Thu Oct  3 22:49:17 2019 =-=-=-=-=
+=-=-=-=-= Iteration 300 Thu Oct  3 22:49:46 2019 =-=-=-=-=
+=-=-=-=-= Iteration 400 Thu Oct  3 22:50:16 2019 =-=-=-=-=
+=-=-=-=-= Iteration 500 Thu Oct  3 22:50:45 2019 =-=-=-=-=
+=-=-=-=-= Iteration 600 Thu Oct  3 22:51:12 2019 =-=-=-=-=
+=-=-=-=-= Iteration 700 Thu Oct  3 22:51:41 2019 =-=-=-=-=
+=-=-=-=-= Iteration 800 Thu Oct  3 22:52:09 2019 =-=-=-=-=
+=-=-=-=-= Iteration 900 Thu Oct  3 22:52:33 2019 =-=-=-=-=
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[76]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">model0</span> <span class="o">&lt;-</span> <span class="nf">logit.spike</span><span class="p">(</span><span class="n">y</span> <span class="o">~</span> <span class="n">X</span><span class="p">,</span> <span class="n">niter</span> <span class="o">=</span> <span class="m">30000</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>=-=-=-=-= Iteration 0 Fri Oct  4 10:31:52 2019 =-=-=-=-=
+=-=-=-=-= Iteration 3000 Fri Oct  4 10:44:58 2019 =-=-=-=-=
+=-=-=-=-= Iteration 6000 Fri Oct  4 10:58:11 2019 =-=-=-=-=
+=-=-=-=-= Iteration 9000 Fri Oct  4 11:11:12 2019 =-=-=-=-=
+=-=-=-=-= Iteration 12000 Fri Oct  4 11:24:44 2019 =-=-=-=-=
+=-=-=-=-= Iteration 15000 Fri Oct  4 11:37:53 2019 =-=-=-=-=
+=-=-=-=-= Iteration 18000 Fri Oct  4 12:01:18 2019 =-=-=-=-=
+=-=-=-=-= Iteration 21000 Fri Oct  4 12:17:17 2019 =-=-=-=-=
+=-=-=-=-= Iteration 24000 Fri Oct  4 12:30:34 2019 =-=-=-=-=
+=-=-=-=-= Iteration 27000 Fri Oct  4 12:48:20 2019 =-=-=-=-=
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">model0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>null log likelihood:            -1545.166 
+posterior mean log likelihood:  -1545.593 
+posterior max log likelihood:   -1543.954 
+mean deviance R-sq:             -0.0002758504 
+
+predicted vs observed success rates, by decile:
+                     predicted   observed
+(0.050313,0.056566] 0.05656074 0.05632411
+(0.056566,0.056569] 0.05656864 0.17647059
+
+summary of coefficients:
+                 mean       sd  mean.inc   sd.inc inc.prob
+(Intercept) -2.82e+00 5.20e-02    -2.820    0.052 1.00e+00
+XV7         -1.79e+01 1.74e+02  -979.000  844.000 1.83e-02
+XV51        -7.26e+00 7.31e+01  -404.000  371.000 1.80e-02
+XV11        -1.67e+01 1.67e+02  -995.000  833.000 1.68e-02
+XV52        -1.02e+01 1.02e+02  -678.000  485.000 1.50e-02
+XV9         -1.57e+01 2.17e+02 -1150.000 1470.000 1.37e-02
+XV53        -1.73e+01 1.78e+02 -1470.000  748.000 1.18e-02
+XV12        -1.06e+01 1.69e+02  -934.000 1290.000 1.13e-02
+XV10        -7.42e+00 9.21e+01  -698.000  562.000 1.06e-02
+XV8         -1.14e+01 1.65e+02 -1100.000 1190.000 1.04e-02
+XV13        -9.62e+00 1.25e+02 -1010.000  796.000 9.57e-03
+XV3         -1.21e+01 1.58e+02 -1310.000 1010.000 9.20e-03
+XV5         -1.22e+01 1.60e+02 -1340.000 1020.000 9.17e-03
+XV4         -9.50e+00 1.50e+02 -1100.000 1190.000 8.63e-03
+XV55        -1.07e+01 1.42e+02 -1560.000  718.000 6.87e-03
+XV54        -1.04e+01 1.47e+02 -1750.000  769.000 5.93e-03
+XV6         -6.63e+00 1.43e+02 -1470.000 1550.000 4.50e-03
+XV21        -4.88e-04 3.57e-02    -2.090    1.120 2.33e-04
+XV58        -4.05e-04 4.98e-02    -6.080    0.664 6.67e-05
+XV44         3.33e-05 5.03e-03     0.499    0.511 6.67e-05
+XV20         3.07e-05 5.31e-03     0.920    0.000 3.33e-05
+XV19        -1.93e-05 3.34e-03    -0.578    0.000 3.33e-05
+XV59         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV57         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV56         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV50         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV49         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV48         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV47         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV46         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV45         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV43         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV42         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV41         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV40         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV39         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV38         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV37         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV36         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV35         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV34         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV33         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV32         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV31         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV30         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV29         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV28         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV27         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV26         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV25         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV24         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV23         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV22         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV18         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV17         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV16         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV15         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV14         0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV2          0.00e+00 0.00e+00     0.000    0.000 0.00e+00
+XV1          0.00e+00 0.00e+00     0.000    0.000 0.00e+00</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">model</span> <span class="o">&lt;-</span> <span class="nf">logit.spike</span><span class="p">(</span><span class="n">y</span> <span class="o">~</span> <span class="n">X</span><span class="p">,</span> <span class="n">niter</span> <span class="o">=</span> <span class="m">300</span><span class="p">,</span> <span class="n">prior</span> <span class="o">=</span> <span class="n">prior</span><span class="p">)</span>
+<span class="c1"># model &lt;- logit.spike(y ~ X_inter, niter = 100)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+Error in logit.spike(y ~ X, niter = 300, prior = prior): Caught exception with the following error message: 
+ToBoomMatrixView called with a non-matrix argument
+Traceback:
+
+1. logit.spike(y ~ X, niter = 300, prior = prior)</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[75]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="c1"># prior 1000</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>null log likelihood:            -1545.166 
+posterior mean log likelihood:  -1545.555 
+posterior max log likelihood:   -1544.175 
+mean deviance R-sq:             -0.0002518388 
+
+predicted vs observed success rates, by decile:
+                 predicted   observed
+(0.0429,0.0566] 0.05661999 0.05611166
+(0.0566,0.0567] 0.05664569 0.36363636
+
+summary of coefficients:
+                 mean       sd  mean.inc   sd.inc inc.prob
+(Intercept) -2.81e+00 5.13e-02   -2.8100 5.13e-02 1.00e+00
+XV2         -3.71e+01 1.89e+02 -671.0000 4.70e+02 5.53e-02
+XV7         -2.88e+01 1.48e+02 -534.0000 3.72e+02 5.40e-02
+XV56        -2.55e+01 1.43e+02 -552.0000 3.91e+02 4.63e-02
+XV10        -2.91e+01 1.75e+02 -694.0000 5.22e+02 4.20e-02
+XV3         -1.67e+01 9.96e+01 -431.0000 2.78e+02 3.88e-02
+XV11        -1.94e+01 1.24e+02 -504.0000 3.94e+02 3.85e-02
+XV13        -9.79e+00 1.02e+02 -720.0000 5.04e+02 1.36e-02
+XV53        -4.28e+00 5.51e+01 -493.0000 3.31e+02 8.67e-03
+XV47        -1.96e+00 2.92e+01 -296.0000 2.05e+02 6.60e-03
+XV51        -1.76e+00 2.76e+01 -298.0000 2.03e+02 5.90e-03
+XV55        -2.47e+00 4.98e+01 -593.0000 4.97e+02 4.17e-03
+XV1         -1.60e-03 5.47e-02   -1.5000 7.60e-01 1.07e-03
+XV35        -1.49e-03 7.00e-02   -2.0400 1.63e+00 7.33e-04
+XV38        -6.18e-04 3.66e-02   -1.3200 1.10e+00 4.67e-04
+XV50         3.92e-04 2.53e-02    1.4700 5.16e-01 2.67e-04
+XV44        -2.22e-04 1.70e-02   -0.8320 6.66e-01 2.67e-04
+XV25         2.66e-05 2.30e-03    0.0999 1.06e-01 2.67e-04
+XV59        -1.21e-03 8.93e-02   -6.0600 1.94e+00 2.00e-04
+XV18         1.68e-05 1.41e-02    0.0842 1.09e+00 2.00e-04
+XV12         5.07e-04 3.59e-02    2.5300 1.27e-01 2.00e-04
+XV33        -1.92e-04 1.54e-02   -1.1500 3.63e-01 1.67e-04
+XV22        -9.29e-05 8.06e-03   -0.6970 4.63e-02 1.33e-04
+XV19         1.02e-04 1.00e-02    0.7640 4.76e-01 1.33e-04
+XV8          7.38e-05 6.60e-03    0.5540 1.64e-01 1.33e-04
+XV36        -3.77e-05 5.09e-03   -0.3770 4.19e-01 1.00e-04
+XV29         3.61e-05 5.64e-03    0.3610 5.31e-01 1.00e-04
+XV26        -1.58e-04 1.59e-02   -1.5800 1.76e-01 1.00e-04
+XV48        -1.15e-04 1.41e-02   -1.7300 1.27e-01 6.67e-05
+XV41        -3.20e-06 4.69e-03   -0.0480 8.09e-01 6.67e-05
+XV37         4.75e-05 5.86e-03    0.7130 1.18e-01 6.67e-05
+XV27         5.43e-05 6.66e-03    0.8150 5.49e-02 6.67e-05
+XV24         2.93e-05 3.59e-03    0.4400 1.45e-03 6.67e-05
+XV14        -3.41e-06 9.89e-04   -0.0511 1.55e-01 6.67e-05
+XV54         1.83e-05 3.17e-03    0.5490 0.00e+00 3.33e-05
+XV52        -1.37e-06 2.38e-04   -0.0412 0.00e+00 3.33e-05
+XV46        -2.60e-05 4.51e-03   -0.7800 0.00e+00 3.33e-05
+XV42        -4.05e-05 7.02e-03   -1.2200 0.00e+00 3.33e-05
+XV40         9.31e-06 1.61e-03    0.2790 0.00e+00 3.33e-05
+XV34        -1.51e-06 2.62e-04   -0.0454 0.00e+00 3.33e-05
+XV32         1.36e-05 2.36e-03    0.4090 0.00e+00 3.33e-05
+XV31         1.85e-05 3.21e-03    0.5560 0.00e+00 3.33e-05
+XV23         3.84e-06 6.64e-04    0.1150 0.00e+00 3.33e-05
+XV5         -8.45e-06 1.46e-03   -0.2540 0.00e+00 3.33e-05
+XV58         0.00e+00 0.00e+00    0.0000 0.00e+00 0.00e+00
+XV57         0.00e+00 0.00e+00    0.0000 0.00e+00 0.00e+00
+XV49         0.00e+00 0.00e+00    0.0000 0.00e+00 0.00e+00
+XV45         0.00e+00 0.00e+00    0.0000 0.00e+00 0.00e+00
+XV43         0.00e+00 0.00e+00    0.0000 0.00e+00 0.00e+00
+XV39         0.00e+00 0.00e+00    0.0000 0.00e+00 0.00e+00
+XV30         0.00e+00 0.00e+00    0.0000 0.00e+00 0.00e+00
+XV28         0.00e+00 0.00e+00    0.0000 0.00e+00 0.00e+00
+XV21         0.00e+00 0.00e+00    0.0000 0.00e+00 0.00e+00
+XV20         0.00e+00 0.00e+00    0.0000 0.00e+00 0.00e+00
+XV17         0.00e+00 0.00e+00    0.0000 0.00e+00 0.00e+00
+XV16         0.00e+00 0.00e+00    0.0000 0.00e+00 0.00e+00
+XV15         0.00e+00 0.00e+00    0.0000 0.00e+00 0.00e+00
+XV9          0.00e+00 0.00e+00    0.0000 0.00e+00 0.00e+00
+XV6          0.00e+00 0.00e+00    0.0000 0.00e+00 0.00e+00
+XV4          0.00e+00 0.00e+00    0.0000 0.00e+00 0.00e+00</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">model1</span><span class="p">)</span> <span class="c1"># prior1 1000</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>null log likelihood:            -1545.166 
+posterior mean log likelihood:  -1545.637 
+posterior max log likelihood:   -1544.987 
+mean deviance R-sq:             -0.0003043409 
+
+predicted vs observed success rates, by decile:
+                 predicted   observed
+(0.0564,0.0582] 0.05739954 0.05128205
+
+summary of coefficients:
+                 mean     sd mean.inc  sd.inc inc.prob
+(Intercept) -2.820000 0.0478  -2.8200 0.04780    1.000
+XV22         0.000816 0.1230   0.0742 1.23000    0.011
+XV55         0.002830 0.0449   0.7070 0.08550    0.004
+XV44         0.001430 0.0243   0.3580 0.16100    0.004
+XV33         0.003210 0.0506   0.8010 0.00488    0.004
+XV23         0.003010 0.0477   0.7540 0.04700    0.004
+XV11         0.004150 0.0664   1.0400 0.20300    0.004
+XV5         -0.000840 0.0266  -0.8400 0.00000    0.001
+XV59         0.000000 0.0000   0.0000 0.00000    0.000
+XV58         0.000000 0.0000   0.0000 0.00000    0.000
+XV57         0.000000 0.0000   0.0000 0.00000    0.000
+XV56         0.000000 0.0000   0.0000 0.00000    0.000
+XV54         0.000000 0.0000   0.0000 0.00000    0.000
+XV53         0.000000 0.0000   0.0000 0.00000    0.000
+XV52         0.000000 0.0000   0.0000 0.00000    0.000
+XV51         0.000000 0.0000   0.0000 0.00000    0.000
+XV50         0.000000 0.0000   0.0000 0.00000    0.000
+XV49         0.000000 0.0000   0.0000 0.00000    0.000
+XV48         0.000000 0.0000   0.0000 0.00000    0.000
+XV47         0.000000 0.0000   0.0000 0.00000    0.000
+XV46         0.000000 0.0000   0.0000 0.00000    0.000
+XV45         0.000000 0.0000   0.0000 0.00000    0.000
+XV43         0.000000 0.0000   0.0000 0.00000    0.000
+XV42         0.000000 0.0000   0.0000 0.00000    0.000
+XV41         0.000000 0.0000   0.0000 0.00000    0.000
+XV40         0.000000 0.0000   0.0000 0.00000    0.000
+XV39         0.000000 0.0000   0.0000 0.00000    0.000
+XV38         0.000000 0.0000   0.0000 0.00000    0.000
+XV37         0.000000 0.0000   0.0000 0.00000    0.000
+XV36         0.000000 0.0000   0.0000 0.00000    0.000
+XV35         0.000000 0.0000   0.0000 0.00000    0.000
+XV34         0.000000 0.0000   0.0000 0.00000    0.000
+XV32         0.000000 0.0000   0.0000 0.00000    0.000
+XV31         0.000000 0.0000   0.0000 0.00000    0.000
+XV30         0.000000 0.0000   0.0000 0.00000    0.000
+XV29         0.000000 0.0000   0.0000 0.00000    0.000
+XV28         0.000000 0.0000   0.0000 0.00000    0.000
+XV27         0.000000 0.0000   0.0000 0.00000    0.000
+XV26         0.000000 0.0000   0.0000 0.00000    0.000
+XV25         0.000000 0.0000   0.0000 0.00000    0.000
+XV24         0.000000 0.0000   0.0000 0.00000    0.000
+XV21         0.000000 0.0000   0.0000 0.00000    0.000
+XV20         0.000000 0.0000   0.0000 0.00000    0.000
+XV19         0.000000 0.0000   0.0000 0.00000    0.000
+XV18         0.000000 0.0000   0.0000 0.00000    0.000
+XV17         0.000000 0.0000   0.0000 0.00000    0.000
+XV16         0.000000 0.0000   0.0000 0.00000    0.000
+XV15         0.000000 0.0000   0.0000 0.00000    0.000
+XV14         0.000000 0.0000   0.0000 0.00000    0.000
+XV13         0.000000 0.0000   0.0000 0.00000    0.000
+XV12         0.000000 0.0000   0.0000 0.00000    0.000
+XV10         0.000000 0.0000   0.0000 0.00000    0.000
+XV9          0.000000 0.0000   0.0000 0.00000    0.000
+XV8          0.000000 0.0000   0.0000 0.00000    0.000
+XV7          0.000000 0.0000   0.0000 0.00000    0.000
+XV6          0.000000 0.0000   0.0000 0.00000    0.000
+XV4          0.000000 0.0000   0.0000 0.00000    0.000
+XV3          0.000000 0.0000   0.0000 0.00000    0.000
+XV2          0.000000 0.0000   0.0000 0.00000    0.000
+XV1          0.000000 0.0000   0.0000 0.00000    0.000</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">n</span> <span class="o">&lt;-</span> <span class="m">100</span>
+<span class="n">p</span> <span class="o">&lt;-</span> <span class="m">10</span>
+<span class="n">ngood</span> <span class="o">&lt;-</span> <span class="m">3</span>
+<span class="n">niter</span> <span class="o">&lt;-</span> <span class="m">1000</span>
+<span class="n">x</span> <span class="o">&lt;-</span> <span class="nf">cbind</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="nf">matrix</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span><span class="m">-1</span><span class="p">)),</span> <span class="n">nrow</span><span class="o">=</span><span class="n">n</span><span class="p">))</span>
+<span class="n">beta</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="n">ngood</span><span class="p">),</span> <span class="nf">rep</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">p</span> <span class="o">-</span> <span class="n">ngood</span><span class="p">))</span>
+<span class="n">prob</span> <span class="o">&lt;-</span> <span class="nf">plogis</span><span class="p">(</span><span class="n">x</span> <span class="o">%*%</span> <span class="n">beta</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">&lt;-</span> <span class="nf">runif</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">prob</span>
+<span class="n">x</span> <span class="o">&lt;-</span> <span class="n">x</span><span class="p">[,</span><span class="m">-1</span><span class="p">]</span>
+<span class="n">model</span> <span class="o">&lt;-</span> <span class="nf">logit.spike</span><span class="p">(</span><span class="n">y</span> <span class="o">~</span> <span class="n">x</span><span class="p">,</span> <span class="n">niter</span><span class="o">=</span><span class="n">niter</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>=-=-=-=-= Iteration 0 Wed Oct  2 22:00:39 2019 =-=-=-=-=
+=-=-=-=-= Iteration 100 Wed Oct  2 22:00:39 2019 =-=-=-=-=
+=-=-=-=-= Iteration 200 Wed Oct  2 22:00:39 2019 =-=-=-=-=
+=-=-=-=-= Iteration 300 Wed Oct  2 22:00:39 2019 =-=-=-=-=
+=-=-=-=-= Iteration 400 Wed Oct  2 22:00:39 2019 =-=-=-=-=
+=-=-=-=-= Iteration 500 Wed Oct  2 22:00:40 2019 =-=-=-=-=
+=-=-=-=-= Iteration 600 Wed Oct  2 22:00:40 2019 =-=-=-=-=
+=-=-=-=-= Iteration 700 Wed Oct  2 22:00:40 2019 =-=-=-=-=
+=-=-=-=-= Iteration 800 Wed Oct  2 22:00:40 2019 =-=-=-=-=
+=-=-=-=-= Iteration 900 Wed Oct  2 22:00:40 2019 =-=-=-=-=
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>null log likelihood:            -57.30569 
+posterior mean log likelihood:  -69.21457 
+posterior max log likelihood:   -67.30182 
+mean deviance R-sq:             -0.2078131 
+
+predicted vs observed success rates, by decile:
+              predicted observed
+(0.49,0.494]  0.4923392      0.0
+(0.494,0.496] 0.4952206      0.1
+(0.496,0.498] 0.4969029      0.2
+(0.498,0.499] 0.4983347      0.2
+(0.499,0.5]   0.4996715      0.4
+(0.5,0.502]   0.5011072      0.3
+(0.502,0.503] 0.5022994      0.0
+(0.503,0.504] 0.5036059      0.4
+(0.504,0.507] 0.5056010      0.3
+(0.507,0.512] 0.5090135      0.7
+
+summary of coefficients:
+        mean     sd mean.inc sd.inc inc.prob
+x5 -0.017700 0.0942   -0.455 0.1720    0.039
+x1 -0.011400 0.0738   -0.394 0.1940    0.029
+x9 -0.000636 0.0142   -0.318 0.0138    0.002
+x2 -0.001020 0.0228   -0.510 0.0000    0.002
+x8  0.000000 0.0000    0.000 0.0000    0.000
+x7  0.000000 0.0000    0.000 0.0000    0.000
+x6  0.000000 0.0000    0.000 0.0000    0.000
+x4  0.000000 0.0000    0.000 0.0000    0.000
+x3  0.000000 0.0000    0.000 0.0000    0.000</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>null log likelihood:            -67.68585 
+posterior mean log likelihood:  -69.297 
+posterior max log likelihood:   -67.94729 
+mean deviance R-sq:             -0.02380324 
+
+predicted vs observed success rates, by decile:
+                predicted  observed
+(0.4974,0.4986] 0.4982661 0.6666667
+(0.4986,0.499]  0.4988171 0.3000000
+(0.499,0.4995]  0.4991941 0.6000000
+(0.4995,0.4999] 0.4996560 0.5000000
+(0.4999,0.5002] 0.5000711 0.4000000
+(0.5002,0.5004] 0.5002891 0.8000000
+(0.5004,0.5007] 0.5005541 0.8000000
+(0.5007,0.501]  0.5009263 0.4000000
+(0.501,0.5014]  0.5011724 0.6000000
+(0.5014,0.5027] 0.5018429 0.9000000
+
+summary of coefficients:
+                 mean      sd mean.inc  sd.inc inc.prob
+x3           0.004290 0.04540   0.4290 0.16300    0.010
+x1           0.001960 0.02430   0.2450 0.12700    0.008
+x9          -0.000974 0.01540  -0.2440 0.00585    0.004
+x2          -0.000161 0.00413  -0.0536 0.06500    0.003
+x7          -0.000214 0.00483  -0.1070 0.01970    0.002
+x5           0.000281 0.00629   0.1410 0.00644    0.002
+x8           0.000000 0.00000   0.0000 0.00000    0.000
+x6           0.000000 0.00000   0.0000 0.00000    0.000
+x4           0.000000 0.00000   0.0000 0.00000    0.000
+(Intercept)  0.000000 0.00000   0.0000 0.00000    0.000</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">colSums</span><span class="p">(</span><span class="n">test</span><span class="o">$</span><span class="n">beta</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<dl class=dl-horizontal>
+	<dt>(Intercept)</dt>
+		<dd>0</dd>
+	<dt>x1</dt>
+		<dd>1.96146004299969</dd>
+	<dt>x2</dt>
+		<dd>-0.16081442311462</dd>
+	<dt>x3</dt>
+		<dd>4.29328535410661</dd>
+	<dt>x4</dt>
+		<dd>0</dd>
+	<dt>x5</dt>
+		<dd>0.281467533823226</dd>
+	<dt>x6</dt>
+		<dd>0</dd>
+	<dt>x7</dt>
+		<dd>-0.214314657350521</dd>
+	<dt>x8</dt>
+		<dd>0</dd>
+	<dt>x9</dt>
+		<dd>-0.974139610722915</dd>
+</dl>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">model</span><span class="o">$</span><span class="n">beta</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>1000</li>
+	<li>60</li>
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[98]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">mean</span><span class="p">(</span><span class="n">model</span><span class="o">$</span><span class="n">beta</span><span class="p">[,</span> <span class="m">20</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.00994830787243098
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">mean</span><span class="p">(</span><span class="n">model</span><span class="o">$</span><span class="n">beta</span><span class="p">[,</span> <span class="m">50</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.00178724383993779
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">res1</span> <span class="o">=</span> <span class="nf">susie</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">L</span> <span class="o">=</span> <span class="m">3</span><span class="p">,</span> <span class="n">scaled_prior_variance</span> <span class="o">=</span> <span class="m">0.005</span><span class="p">,</span> <span class="n">estimate_prior_method</span> <span class="o">=</span> <span class="s">&quot;optim&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">max</span><span class="p">(</span><span class="n">res1</span><span class="o">$</span><span class="n">pip</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">res2</span> <span class="o">=</span> <span class="nf">readRDS</span><span class="p">(</span><span class="s">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/block_79_137/deletion.genes.block30.for_simu.sample.genes.block_79_137.varbvs.rds&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">res2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<ol class=list-inline>
+	<li>'fit'</li>
+	<li>'mu'</li>
+	<li>'beta'</li>
+</ol>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">max</span><span class="p">(</span><span class="n">res2</span><span class="o">$</span><span class="n">fit</span><span class="o">$</span><span class="n">pip</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.0269814805603835
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Make input prior as the format of output of SpikeSlabPrior</strong></p>
+<p>pi: vector of prior.inclusion.probabilities</p>
+<p>b: optional.coefficient.estimate</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>spike.slab.prior Create a spike and slab prior for use with lm.spike.
+SpikeSlabPrior(x,
+y = NULL,
+expected.r2 = .5,
+prior.df = .01,
+expected.model.size = 1,
+prior.information.weight = .01,
+diagonal.shrinkage = .5,
+optional.coefficient.estimate = NULL,
+max.flips = -1,
+mean.y = mean(y, na.rm = TRUE),
+sdy = sd(as.numeric(y), na.rm = TRUE),
+prior.inclusion.probabilities = NULL,
+sigma.upper.limit = Inf)
+
+This object is intended for use with logit.spike.
+LogitZellnerPrior(
+predictors,
+successes = NULL,
+trials = NULL,
+prior.success.probability = NULL,
+expected.model.size = 1,
+prior.information.weight = .01,
+diagonal.shrinkage = .5,
+optional.coefficient.estimate = NULL,
+max.flips = -1,
+prior.inclusion.probabilities = NULL)</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>logit.spike    Spike and slab logistic regression
+logit.spike(formula,
+niter,
+data,
+subset,
+prior = NULL,
+na.action = options("na.action"),
+contrasts = NULL,
+drop.unused.levels = TRUE,
+initial.value = NULL,
+ping = niter / 10,
+nthreads = 0,
+clt.threshold = 2,
+mh.chunk.size = 10,
+proposal.df = 3,
+sampler.weights = c("DA" = .333, "RWM" = .333, "TIM" = .333),
+seed = NULL,
+...)
+
+lm.spike       Spike and slab regression
+lm.spike(formula,
+niter,
+data,
+subset,
+prior = NULL,
+error.distribution = c("gaussian", "student"),
+contrasts = NULL,
+drop.unused.levels = TRUE,
+model.options = SsvsOptions(),
+ping = niter / 10,
+seed = NULL,
+...)</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/840f13ef458fdb2a1a562fec4476c730bb613620/workflow/20190909_Boom_Spike_Slab.ipynb"><code>workflow/20190909_Boom_Spike_Slab.ipynb</code></a> committed by minqiao on Mon May 25 01:40:10 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/840f13ef458fdb2a1a562fec4476c730bb613620">revision 1, 840f13e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>

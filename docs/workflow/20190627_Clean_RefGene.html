@@ -1,0 +1,3427 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.7" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=workflowDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=workflowArray;
+            var docs_map=workflowArrayMap;
+            var pos=workflowArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  $(".toc #toc-level0").append('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>');
+            }
+            // $("#toc-header").hide(); // comment out because it prevents search bar from displaying
+    });
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Gene Mapping with CNV</title>
+
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+        
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+        
+<li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+        
+<li>
+  <a href="../workflow.html">Workflow</a>
+</li>
+        
+<li>
+  <a href="../setup/index.html">Setup</a>
+</li>
+        
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Obtain-clean-reference-gene">Obtain clean reference gene<a class="anchor-link" href="#Obtain-clean-reference-gene">&#182;</a></h1><p>Use CNV individual level data (del and dup) and gene data to obtain individual (real, column) by gene (real, row) matrix (ideally two bed files, bedtools) - reference X matrix</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="o">,</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pandasql</span> <span class="kn">import</span> <span class="n">sqldf</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">more_itertools</span> <span class="kn">import</span> <span class="n">unique_everseen</span>
+<span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/GIT/cnv-gene-mapping/data&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Import-original-genes/exons">Import original genes/exons<a class="anchor-link" href="#Import-original-genes/exons">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s2">/refGene.txt.gz&quot;</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;tx_name&quot;</span><span class="p">,</span> <span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[3]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tx_name</th>
+      <th>chrom</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>NR_148357</td>
+      <td>chr1</td>
+      <td>11868</td>
+      <td>14362</td>
+      <td>LOC102725121</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NR_046018</td>
+      <td>chr1</td>
+      <td>11873</td>
+      <td>14409</td>
+      <td>DDX11L1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NM_012154</td>
+      <td>chr8</td>
+      <td>141530254</td>
+      <td>141645732</td>
+      <td>AGO2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NR_106918</td>
+      <td>chr1</td>
+      <td>17368</td>
+      <td>17436</td>
+      <td>MIR6859-1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>NR_107062</td>
+      <td>chr1</td>
+      <td>17368</td>
+      <td>17436</td>
+      <td>MIR6859-2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[4]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(78288, 5)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;GSTT2&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[5]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tx_name</th>
+      <th>chrom</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>93</th>
+      <td>NR_126445</td>
+      <td>chr22</td>
+      <td>24322324</td>
+      <td>24326106</td>
+      <td>GSTT2</td>
+    </tr>
+    <tr>
+      <th>1279</th>
+      <td>NR_126445</td>
+      <td>chr22</td>
+      <td>24299600</td>
+      <td>24303382</td>
+      <td>GSTT2</td>
+    </tr>
+    <tr>
+      <th>7664</th>
+      <td>NM_001302670</td>
+      <td>chr22</td>
+      <td>24322218</td>
+      <td>24326106</td>
+      <td>GSTT2</td>
+    </tr>
+    <tr>
+      <th>8447</th>
+      <td>NM_001080843</td>
+      <td>chr22</td>
+      <td>24299600</td>
+      <td>24303382</td>
+      <td>GSTT2B</td>
+    </tr>
+    <tr>
+      <th>20162</th>
+      <td>NM_000854</td>
+      <td>chr22</td>
+      <td>24322218</td>
+      <td>24326106</td>
+      <td>GSTT2</td>
+    </tr>
+    <tr>
+      <th>23076</th>
+      <td>NM_001363804</td>
+      <td>chr22</td>
+      <td>24322313</td>
+      <td>24326106</td>
+      <td>GSTT2B</td>
+    </tr>
+    <tr>
+      <th>25695</th>
+      <td>NM_001363804</td>
+      <td>chr22</td>
+      <td>24299600</td>
+      <td>24303393</td>
+      <td>GSTT2B</td>
+    </tr>
+    <tr>
+      <th>39248</th>
+      <td>NM_001080843</td>
+      <td>chr22</td>
+      <td>24322324</td>
+      <td>24326106</td>
+      <td>GSTT2B</td>
+    </tr>
+    <tr>
+      <th>62166</th>
+      <td>NR_126442</td>
+      <td>chr22</td>
+      <td>24322218</td>
+      <td>24326106</td>
+      <td>GSTT2</td>
+    </tr>
+    <tr>
+      <th>62167</th>
+      <td>NR_126446</td>
+      <td>chr22</td>
+      <td>24322218</td>
+      <td>24326106</td>
+      <td>GSTT2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Remove-chromosome-Y,-M-and-unmatched">Remove chromosome Y, M and unmatched<a class="anchor-link" href="#Remove-chromosome-Y,-M-and-unmatched">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;chr&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">22</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;chrX&quot;</span><span class="p">])]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[7]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(74551, 5)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;chrom&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;chr&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;chr&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;X&quot;</span> <span class="k">else</span> <span class="mi">23</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[9]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(74551, 6)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">])[[</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">,</span> <span class="s2">&quot;tx_name&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Drop-genes-that-share-same-chr,-start,-end-and-exon/gene-name-(44322-left)">Drop genes that share same chr, start, end and exon/gene name (44322 left)<a class="anchor-link" href="#Drop-genes-that-share-same-chr,-start,-end-and-exon/gene-name-(44322-left)">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[12]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(44322, 5)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;GSTT2&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[14]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+      <th>tx_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1279</th>
+      <td>22</td>
+      <td>24299600</td>
+      <td>24303382</td>
+      <td>GSTT2</td>
+      <td>NR_126445</td>
+    </tr>
+    <tr>
+      <th>7664</th>
+      <td>22</td>
+      <td>24322218</td>
+      <td>24326106</td>
+      <td>GSTT2</td>
+      <td>NM_001302670</td>
+    </tr>
+    <tr>
+      <th>93</th>
+      <td>22</td>
+      <td>24322324</td>
+      <td>24326106</td>
+      <td>GSTT2</td>
+      <td>NR_126445</td>
+    </tr>
+    <tr>
+      <th>8447</th>
+      <td>22</td>
+      <td>24299600</td>
+      <td>24303382</td>
+      <td>GSTT2B</td>
+      <td>NM_001080843</td>
+    </tr>
+    <tr>
+      <th>25695</th>
+      <td>22</td>
+      <td>24299600</td>
+      <td>24303393</td>
+      <td>GSTT2B</td>
+      <td>NM_001363804</td>
+    </tr>
+    <tr>
+      <th>23076</th>
+      <td>22</td>
+      <td>24322313</td>
+      <td>24326106</td>
+      <td>GSTT2B</td>
+      <td>NM_001363804</td>
+    </tr>
+    <tr>
+      <th>39248</th>
+      <td>22</td>
+      <td>24322324</td>
+      <td>24326106</td>
+      <td>GSTT2B</td>
+      <td>NM_001080843</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Mark-the-genes-and-adjust-gene-names">Mark the genes and adjust gene names<a class="anchor-link" href="#Mark-the-genes-and-adjust-gene-names">&#182;</a></h2><ol>
+<li>If chromosome for a gene (in a row) is different from the previous (previous row), then mark it as new gene;</li>
+<li>If gene name in a row is the same from the previous and start position &gt;= previous end position</li>
+<li>If gene name in a row is different from the previous</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">## shift() or shift(1): previous row</span>
+<span class="c1">## shift(-1): next row</span>
+<span class="c1"># ref_gene[&quot;match&quot;] = (ref_gene.CHR != ref_gene.CHR.shift()) | ((ref_gene.start &gt;= ref_gene.end.shift()) &amp; (ref_gene.gene_name == ref_gene.gene_name.shift())) | \</span>
+<span class="c1">#                     ((ref_gene.start &gt;= ref_gene.end.shift()) &amp; (ref_gene.gene_name != ref_gene.gene_name.shift()))</span>
+<span class="k">while</span> <span class="p">(</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">ref_gene</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">set_index</span><span class="p">([[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ref_gene</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]])</span>
+    <span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;match&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ref_gene</span><span class="o">.</span><span class="n">CHR</span> <span class="o">!=</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">CHR</span><span class="o">.</span><span class="n">shift</span><span class="p">())</span> <span class="o">|</span> <span class="p">((</span><span class="n">ref_gene</span><span class="o">.</span><span class="n">gene_name</span> <span class="o">==</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">gene_name</span><span class="o">.</span><span class="n">shift</span><span class="p">())</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ref_gene</span><span class="o">.</span><span class="n">start</span> <span class="o">&gt;=</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">end</span><span class="o">.</span><span class="n">shift</span><span class="p">()))</span> <span class="o">|</span> \
+                        <span class="p">(</span><span class="n">ref_gene</span><span class="o">.</span><span class="n">gene_name</span> <span class="o">!=</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">gene_name</span><span class="o">.</span><span class="n">shift</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;match&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="k">break</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">gene</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">23</span><span class="p">):</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">tmp</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;match&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">gene</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;gene&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">))</span>
+                    <span class="n">num</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">gene</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;gene&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gene</span>
+        <span class="n">ref_gene_fromlist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">gene_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">unique_everseen</span><span class="p">(</span><span class="n">gene</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">gn</span> <span class="ow">in</span> <span class="n">gene_list</span><span class="p">:</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">gn</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">tmp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">ref_gene_fromlist</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ref_gene_fromlist</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">min</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]),</span> <span class="nb">max</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]),</span> <span class="n">tmp</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="n">ref_gene</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ref_gene_fromlist</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[16]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+      <th>match</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>33772366</td>
+      <td>33786699</td>
+      <td>A3GALT2</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>12776112</td>
+      <td>12788727</td>
+      <td>AADACL3</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>12704565</td>
+      <td>12727097</td>
+      <td>AADACL4</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>94458389</td>
+      <td>94586704</td>
+      <td>ABCA4</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>229652328</td>
+      <td>229694454</td>
+      <td>ABCB10</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;match&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[17]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Counter({True: 29337})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Rename-duplicated-genes">Rename duplicated genes<a class="anchor-link" href="#Rename-duplicated-genes">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">gene_name</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">gene_name_new</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">gene_name</span><span class="p">):</span>
+    <span class="n">totalcount</span> <span class="o">=</span> <span class="n">gene_name</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">gene_name</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="n">gene_name_new</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span> <span class="o">+</span> <span class="s2">&quot;@&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">totalcount</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">v</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gene_name_new</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">select CHR, start, end, group_concat(gene_name) as gene_name</span>
+<span class="s1">from ref_gene</span>
+<span class="s1">group by CHR, start, end</span>
+<span class="s1">&#39;&#39;&#39;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">sqldf</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[24]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(28488, 4)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;OR4F16&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[25]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>9</th>
+      <td>1</td>
+      <td>367658</td>
+      <td>368597</td>
+      <td>OR4F16@1,OR4F29@1,OR4F3@1</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>1</td>
+      <td>621095</td>
+      <td>622034</td>
+      <td>OR4F16@2,OR4F29@2,OR4F3@2</td>
+    </tr>
+    <tr>
+      <th>8646</th>
+      <td>5</td>
+      <td>180794287</td>
+      <td>180795226</td>
+      <td>OR4F16@3,OR4F29@3,OR4F3@3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">ref_gene</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)))</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;[]&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[27]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>11868</td>
+      <td>14362</td>
+      <td>LOC102725121@1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>11873</td>
+      <td>14409</td>
+      <td>DDX11L1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>14361</td>
+      <td>29370</td>
+      <td>WASH7P</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>17368</td>
+      <td>17436</td>
+      <td>MIR6859-1@1,MIR6859-2@1,MIR6859-3@1,MIR6859-4@1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>30365</td>
+      <td>30503</td>
+      <td>MIR1302-10@1,MIR1302-11@1,MIR1302-2@1,MIR1302-9@1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;OR4F16&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[28]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>9</th>
+      <td>1</td>
+      <td>367658</td>
+      <td>368597</td>
+      <td>OR4F16@1,OR4F29@1,OR4F3@1</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>1</td>
+      <td>621095</td>
+      <td>622034</td>
+      <td>OR4F16@2,OR4F29@2,OR4F3@2</td>
+    </tr>
+    <tr>
+      <th>8646</th>
+      <td>5</td>
+      <td>180794287</td>
+      <td>180795226</td>
+      <td>OR4F16@3,OR4F29@3,OR4F3@3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;MIR6859-1&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[29]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>17368</td>
+      <td>17436</td>
+      <td>MIR6859-1@1,MIR6859-2@1,MIR6859-3@1,MIR6859-4@1</td>
+    </tr>
+    <tr>
+      <th>20455</th>
+      <td>15</td>
+      <td>102513726</td>
+      <td>102513794</td>
+      <td>MIR6859-1@2,MIR6859-2@2,MIR6859-3@2,MIR6859-4@2</td>
+    </tr>
+    <tr>
+      <th>20459</th>
+      <td>16</td>
+      <td>67051</td>
+      <td>67119</td>
+      <td>MIR6859-1@3,MIR6859-2@3,MIR6859-3@3,MIR6859-4@3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Drop-genes-that-share-same-chr,-start-and-end-(43442-left)">Drop genes that share same chr, start and end (43442 left)<a class="anchor-link" href="#Drop-genes-that-share-same-chr,-start-and-end-(43442-left)">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1"># ref_gene = ref_gene.drop_duplicates(subset = (&quot;CHR&quot;, &quot;start&quot;, &quot;end&quot;))</span>
+<span class="c1"># ref_gene.shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[26]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(43442, 5)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">## not correct</span>
+<span class="c1"># start = ref_gene[[&quot;CHR&quot;, &quot;gene_name&quot;, &quot;start&quot;]].groupby([&quot;CHR&quot;, &quot;gene_name&quot;]).min().reset_index(drop = False)</span>
+<span class="c1"># end = ref_gene[[&quot;CHR&quot;, &quot;gene_name&quot;, &quot;end&quot;]].groupby([&quot;CHR&quot;, &quot;gene_name&quot;]).max().reset_index(drop = False)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;TTLL10&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[30]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>35</th>
+      <td>1</td>
+      <td>1109259</td>
+      <td>1133315</td>
+      <td>TTLL10</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;LINC01128&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[31]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>17</th>
+      <td>1</td>
+      <td>762970</td>
+      <td>794826</td>
+      <td>LINC01128</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;CAMTA1&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[32]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>149</th>
+      <td>1</td>
+      <td>6843951</td>
+      <td>6845040</td>
+      <td>CAMTA1-DT</td>
+    </tr>
+    <tr>
+      <th>150</th>
+      <td>1</td>
+      <td>6845383</td>
+      <td>7829766</td>
+      <td>CAMTA1</td>
+    </tr>
+    <tr>
+      <th>151</th>
+      <td>1</td>
+      <td>7442547</td>
+      <td>7449814</td>
+      <td>CAMTA1-AS2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">if</span> <span class="n">item</span> <span class="o">!=</span> <span class="mi">23</span> <span class="k">else</span> <span class="s2">&quot;X&quot;</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[35]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>28483</th>
+      <td>X</td>
+      <td>154842225</td>
+      <td>155012119</td>
+      <td>SPRY3</td>
+    </tr>
+    <tr>
+      <th>28484</th>
+      <td>X</td>
+      <td>155111007</td>
+      <td>155173433</td>
+      <td>VAMP7</td>
+    </tr>
+    <tr>
+      <th>28485</th>
+      <td>X</td>
+      <td>155227360</td>
+      <td>155240482</td>
+      <td>IL9R</td>
+    </tr>
+    <tr>
+      <th>28486</th>
+      <td>X</td>
+      <td>155244228</td>
+      <td>155246495</td>
+      <td>WASIR1</td>
+    </tr>
+    <tr>
+      <th>28487</th>
+      <td>X</td>
+      <td>155255322</td>
+      <td>155257848</td>
+      <td>DDX11L16</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;MIR6859-1&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[36]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>17368</td>
+      <td>17436</td>
+      <td>MIR6859-1@1,MIR6859-2@1,MIR6859-3@1,MIR6859-4@1</td>
+    </tr>
+    <tr>
+      <th>20455</th>
+      <td>15</td>
+      <td>102513726</td>
+      <td>102513794</td>
+      <td>MIR6859-1@2,MIR6859-2@2,MIR6859-3@2,MIR6859-4@2</td>
+    </tr>
+    <tr>
+      <th>20459</th>
+      <td>16</td>
+      <td>67051</td>
+      <td>67119</td>
+      <td>MIR6859-1@3,MIR6859-2@3,MIR6859-3@3,MIR6859-4@3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;LOC102725121&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[55]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>11868</td>
+      <td>14362</td>
+      <td>LOC102725121@1</td>
+    </tr>
+    <tr>
+      <th>20457</th>
+      <td>15</td>
+      <td>102516807</td>
+      <td>102519301</td>
+      <td>LOC102725121@2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;MIR1302-10&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[38]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>30365</td>
+      <td>30503</td>
+      <td>MIR1302-10@1,MIR1302-11@1,MIR1302-2@1,MIR1302-9@1</td>
+    </tr>
+    <tr>
+      <th>12533</th>
+      <td>9</td>
+      <td>30143</td>
+      <td>30281</td>
+      <td>MIR1302-10@2,MIR1302-11@2,MIR1302-2@2,MIR1302-9@2</td>
+    </tr>
+    <tr>
+      <th>20453</th>
+      <td>15</td>
+      <td>102500661</td>
+      <td>102500799</td>
+      <td>MIR1302-10@3,MIR1302-11@3,MIR1302-2@3,MIR1302-9@3</td>
+    </tr>
+    <tr>
+      <th>23662</th>
+      <td>19</td>
+      <td>71972</td>
+      <td>72110</td>
+      <td>MIR1302-10@4,MIR1302-11@4,MIR1302-2@4,MIR1302-9@4</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="c1">## 20200317</span>
+<span class="n">ref_gene</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s2">/refGene.clean.gz&quot;</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Check-for-validity">Check for validity<a class="anchor-link" href="#Check-for-validity">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[41]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(28488, 4)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">tmp1</span> <span class="o">=</span> <span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;X&quot;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">tmp1</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[43]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>11868</td>
+      <td>14362</td>
+      <td>LOC102725121@1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>11873</td>
+      <td>14409</td>
+      <td>DDX11L1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>14361</td>
+      <td>29370</td>
+      <td>WASH7P</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>17368</td>
+      <td>17436</td>
+      <td>MIR6859-1@1,MIR6859-2@1,MIR6859-3@1,MIR6859-4@1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>30365</td>
+      <td>30503</td>
+      <td>MIR1302-10@1,MIR1302-11@1,MIR1302-2@1,MIR1302-9@1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">tmp2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s2">/refGene.clean.20200317_3.gz&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="s2">&quot;gene_name&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">tmp2</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[45]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>11868</td>
+      <td>14362</td>
+      <td>LOC102725121@1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>11873</td>
+      <td>14409</td>
+      <td>DDX11L1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>14361</td>
+      <td>29370</td>
+      <td>WASH7P</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>17368</td>
+      <td>17436</td>
+      <td>MIR6859-1@1,MIR6859-2@1,MIR6859-3@1,MIR6859-4@1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>30365</td>
+      <td>30503</td>
+      <td>MIR1302-10@1,MIR1302-11@1,MIR1302-2@1,MIR1302-9@1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">tmp2</span> <span class="o">=</span> <span class="n">tmp2</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;X&quot;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">tmp2</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp2</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">df1</span> <span class="o">=</span> <span class="n">tmp1</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">tmp2</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s1">&#39;outer&#39;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">],</span> <span class="n">indicator</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;_merge&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;left_only&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">df1</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[49]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name_x</th>
+      <th>gene_name_y</th>
+      <th>_merge</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1041</th>
+      <td>1.0</td>
+      <td>65886334</td>
+      <td>66107242</td>
+      <td>LEPR</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>1246</th>
+      <td>1.0</td>
+      <td>97543299</td>
+      <td>98386615</td>
+      <td>DPYD</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>1509</th>
+      <td>1.0</td>
+      <td>144146811</td>
+      <td>148346791</td>
+      <td>NBPF19</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>1564</th>
+      <td>1.0</td>
+      <td>146644325</td>
+      <td>146767447</td>
+      <td>CHD1L</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>1914</th>
+      <td>1.0</td>
+      <td>157090982</td>
+      <td>157108383</td>
+      <td>ETV3</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>1955</th>
+      <td>1.0</td>
+      <td>159367254</td>
+      <td>159410757</td>
+      <td>OR10J1</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>3496</th>
+      <td>2.0</td>
+      <td>85829983</td>
+      <td>85876407</td>
+      <td>USP39</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>3599</th>
+      <td>2.0</td>
+      <td>98081675</td>
+      <td>98094824</td>
+      <td>LOC100506076@2</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>3615</th>
+      <td>2.0</td>
+      <td>99613723</td>
+      <td>99771429</td>
+      <td>TSGA10</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>3783</th>
+      <td>2.0</td>
+      <td>114726898</td>
+      <td>114785659</td>
+      <td>LINC01191</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>3785</th>
+      <td>2.0</td>
+      <td>115200217</td>
+      <td>116603354</td>
+      <td>DPP10</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>3836</th>
+      <td>2.0</td>
+      <td>128458604</td>
+      <td>128568761</td>
+      <td>WDR33</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>3865</th>
+      <td>2.0</td>
+      <td>131294142</td>
+      <td>131307488</td>
+      <td>PRSS40B@1</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>3866</th>
+      <td>2.0</td>
+      <td>131328401</td>
+      <td>131341734</td>
+      <td>PRSS40B@2</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>4228</th>
+      <td>2.0</td>
+      <td>197504438</td>
+      <td>197597530</td>
+      <td>CCDC150</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>4629</th>
+      <td>2.0</td>
+      <td>240831861</td>
+      <td>240964819</td>
+      <td>NDUFA10</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>4729</th>
+      <td>3.0</td>
+      <td>9834178</td>
+      <td>9849408</td>
+      <td>ARPC4</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>5273</th>
+      <td>3.0</td>
+      <td>58291971</td>
+      <td>58305920</td>
+      <td>HTD2</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>5282</th>
+      <td>3.0</td>
+      <td>58727734</td>
+      <td>59035758</td>
+      <td>C3orf67</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>5285</th>
+      <td>3.0</td>
+      <td>59733002</td>
+      <td>61237135</td>
+      <td>FHIT</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>5893</th>
+      <td>3.0</td>
+      <td>156977531</td>
+      <td>157221394</td>
+      <td>VEPH1</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>5914</th>
+      <td>3.0</td>
+      <td>159945240</td>
+      <td>160203535</td>
+      <td>TRIM59-IFT80</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>5970</th>
+      <td>3.0</td>
+      <td>170776202</td>
+      <td>171178197</td>
+      <td>TNIK</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>6494</th>
+      <td>4.0</td>
+      <td>37892704</td>
+      <td>38140796</td>
+      <td>TBC1D1</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>6716</th>
+      <td>4.0</td>
+      <td>75310852</td>
+      <td>75320721</td>
+      <td>AREG@1</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>6717</th>
+      <td>4.0</td>
+      <td>75480628</td>
+      <td>75490480</td>
+      <td>AREG@2</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>7109</th>
+      <td>4.0</td>
+      <td>147175132</td>
+      <td>147443123</td>
+      <td>SLC10A7</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>7220</th>
+      <td>4.0</td>
+      <td>170907752</td>
+      <td>170947546</td>
+      <td>MFAP3L@1</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>7221</th>
+      <td>4.0</td>
+      <td>170952925</td>
+      <td>170954154</td>
+      <td>MFAP3L@2</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>7680</th>
+      <td>5.0</td>
+      <td>64920557</td>
+      <td>64962060</td>
+      <td>TRAPPC13</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>7852</th>
+      <td>5.0</td>
+      <td>86607287</td>
+      <td>86708850</td>
+      <td>CCNH</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>8185</th>
+      <td>5.0</td>
+      <td>139781398</td>
+      <td>139919434</td>
+      <td>ANKHD1</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>8215</th>
+      <td>5.0</td>
+      <td>140247097</td>
+      <td>140391931</td>
+      <td>PCDHA11</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>8755</th>
+      <td>6.0</td>
+      <td>13273325</td>
+      <td>13295818</td>
+      <td>LOC100130357</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>9092</th>
+      <td>6.0</td>
+      <td>31865559</td>
+      <td>31913451</td>
+      <td>C2</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>9317</th>
+      <td>6.0</td>
+      <td>42714724</td>
+      <td>42836298</td>
+      <td>BICRAL</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>9703</th>
+      <td>6.0</td>
+      <td>112429133</td>
+      <td>112575917</td>
+      <td>LAMA4</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>9746</th>
+      <td>6.0</td>
+      <td>119134611</td>
+      <td>119256327</td>
+      <td>MCM9</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>9762</th>
+      <td>6.0</td>
+      <td>123537483</td>
+      <td>123958238</td>
+      <td>TRDN</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>9922</th>
+      <td>6.0</td>
+      <td>149539059</td>
+      <td>149732749</td>
+      <td>TAB2</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>10119</th>
+      <td>7.0</td>
+      <td>1017599</td>
+      <td>1177893</td>
+      <td>C7orf50</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>10394</th>
+      <td>7.0</td>
+      <td>34386123</td>
+      <td>34873943</td>
+      <td>NPSR1-AS1</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>10560</th>
+      <td>7.0</td>
+      <td>62809447</td>
+      <td>62812152</td>
+      <td>LOC100287704,LOC100287834@1</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>10561</th>
+      <td>7.0</td>
+      <td>62856717</td>
+      <td>62859419</td>
+      <td>LOC100287834@2</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>11082</th>
+      <td>7.0</td>
+      <td>116712125</td>
+      <td>116730835</td>
+      <td>ST7-AS2@1</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>11083</th>
+      <td>7.0</td>
+      <td>116752345</td>
+      <td>116785646</td>
+      <td>ST7-AS2@2</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>11184</th>
+      <td>7.0</td>
+      <td>130126015</td>
+      <td>130146306</td>
+      <td>MEST</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>11199</th>
+      <td>7.0</td>
+      <td>131808090</td>
+      <td>132333447</td>
+      <td>PLXNA4</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>11248</th>
+      <td>7.0</td>
+      <td>139025195</td>
+      <td>139031074</td>
+      <td>FMC1</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>11333</th>
+      <td>7.0</td>
+      <td>143892413</td>
+      <td>144052811</td>
+      <td>OR2A1-AS1</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>11376</th>
+      <td>7.0</td>
+      <td>149578447</td>
+      <td>150020758</td>
+      <td>ACTR3C</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>11518</th>
+      <td>8.0</td>
+      <td>7118140</td>
+      <td>7121014</td>
+      <td>LINC00965@1</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>11519</th>
+      <td>8.0</td>
+      <td>7125762</td>
+      <td>7128636</td>
+      <td>LINC00965@2</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>11520</th>
+      <td>8.0</td>
+      <td>7141006</td>
+      <td>7143880</td>
+      <td>LINC00965@3</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>11540</th>
+      <td>8.0</td>
+      <td>7413659</td>
+      <td>7416626</td>
+      <td>FAM90A7P@1</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>11541</th>
+      <td>8.0</td>
+      <td>7421309</td>
+      <td>7431920</td>
+      <td>FAM90A7P@2</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>11790</th>
+      <td>8.0</td>
+      <td>31497267</td>
+      <td>32631562</td>
+      <td>NRG1</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>11804</th>
+      <td>8.0</td>
+      <td>37263981</td>
+      <td>37351431</td>
+      <td>LINC01605@1</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>11805</th>
+      <td>8.0</td>
+      <td>37373923</td>
+      <td>37378904</td>
+      <td>LINC01605@2</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+    <tr>
+      <th>12085</th>
+      <td>8.0</td>
+      <td>86566827</td>
+      <td>86567905</td>
+      <td>REXO1L2P@1</td>
+      <td>NaN</td>
+      <td>left_only</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">tmp1</span><span class="p">[</span><span class="n">tmp1</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;AREG&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[50]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6716</th>
+      <td>4</td>
+      <td>75310852</td>
+      <td>75320721</td>
+      <td>AREG@1</td>
+    </tr>
+    <tr>
+      <th>6717</th>
+      <td>4</td>
+      <td>75480628</td>
+      <td>75490480</td>
+      <td>AREG@2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">tmp2</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;AREG&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[51]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6843</th>
+      <td>4</td>
+      <td>75310852</td>
+      <td>75490480</td>
+      <td>AREG@1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">tmp1</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">3598</span><span class="p">:</span><span class="mi">3602</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[52]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3598</th>
+      <td>2</td>
+      <td>97949671</td>
+      <td>97957533</td>
+      <td>LOC100506123@1</td>
+    </tr>
+    <tr>
+      <th>3599</th>
+      <td>2</td>
+      <td>98081675</td>
+      <td>98094824</td>
+      <td>LOC100506076@2</td>
+    </tr>
+    <tr>
+      <th>3600</th>
+      <td>2</td>
+      <td>98081774</td>
+      <td>98089620</td>
+      <td>LOC100506123@2</td>
+    </tr>
+    <tr>
+      <th>3601</th>
+      <td>2</td>
+      <td>98121260</td>
+      <td>98206428</td>
+      <td>ANKRD36B</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">tmp1</span><span class="p">[</span><span class="n">tmp1</span><span class="p">[</span><span class="s2">&quot;end&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">25223870</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[53]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>19495</th>
+      <td>15</td>
+      <td>25068754</td>
+      <td>25223870</td>
+      <td>SNRPN</td>
+    </tr>
+    <tr>
+      <th>19497</th>
+      <td>15</td>
+      <td>25200039</td>
+      <td>25223870</td>
+      <td>SNURF</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">ref_gene</span><span class="p">[</span><span class="n">ref_gene</span><span class="p">[</span><span class="s2">&quot;gene_name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;SNORD103A@&quot;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[54]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>start</th>
+      <th>end</th>
+      <th>gene_name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>587</th>
+      <td>1</td>
+      <td>31408535</td>
+      <td>31408623</td>
+      <td>SNORD103A@1,SNORD103B@1</td>
+    </tr>
+    <tr>
+      <th>588</th>
+      <td>1</td>
+      <td>31421964</td>
+      <td>31422052</td>
+      <td>SNORD103A@2,SNORD103B@2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/840f13ef458fdb2a1a562fec4476c730bb613620/workflow/20190627_Clean_RefGene.ipynb"><code>workflow/20190627_Clean_RefGene.ipynb</code></a> committed by minqiao on Mon May 25 01:40:10 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/840f13ef458fdb2a1a562fec4476c730bb613620">revision 1, 840f13e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>

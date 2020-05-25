@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.7" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=workflowDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=workflowArray;
+            var docs_map=workflowArrayMap;
+            var pos=workflowArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  $(".toc #toc-level0").append('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>');
+            }
+            // $("#toc-header").hide(); // comment out because it prevents search bar from displaying
+    });
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Gene Mapping with CNV</title>
+
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+        
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+        
+<li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+        
+<li>
+  <a href="../workflow.html">Workflow</a>
+</li>
+        
+<li>
+  <a href="../setup/index.html">Setup</a>
+</li>
+        
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="PyMC3-report:-Logistic-regression-spike-slab-prior">PyMC3 report: Logistic regression spike slab prior<a class="anchor-link" href="#PyMC3-report:-Logistic-regression-spike-slab-prior">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="PyMC3-introduction">PyMC3 introduction<a class="anchor-link" href="#PyMC3-introduction">&#182;</a></h2><p>Indeed discrete prior might also be not optimal for <code>PyMC3</code>, as pointed out <a href="https://www.kaggle.com/derekpowll/bayesian-lr-w-cauchy-prior-in-pymc3">in this notebook</a>.</p>
+<p>Use <code>varbvs</code> results, $\pi_0 = 0.043, \mu = 0.777, \sigma = 0.844$.</p>
+<p>Model</p>
+
+<pre><code>        xi = pm.Bernoulli('xi', pi0, shape = X.shape[1]) #inclusion probability for each variable
+        alpha = pm.Normal('alpha', mu = mu_intercept, sd = sigma_intercept) # Intercept
+        beta = pm.Normal('beta', mu = mu, sd = sigma , shape = X.shape[1]) #Prior for the non-zero coefficients
+        p = pm.math.dot(X, xi * beta) #Deterministic function to map the stochastics to the output
+        y_obs = pm.Bernoulli('y_obs', invlogit(p + alpha),  observed = y)  #Data likelihood</code></pre>
+<p>That is</p>
+
+<pre><code>        xi ∼ Bernoulli(p=0.043)
+        alpha ~ Normal(mu=0.0, sigma=1.5)
+        beta ~ Normal(mu=0.777, sigma=0.844)
+        y_obs ~ Bernoulli(p=𝑓(𝑓(), 𝑓(𝑓(), 𝑓(𝑓(𝑓(𝑓(𝑎𝑟𝑟𝑎𝑦, 𝑓(xi, beta)), 𝑓(alpha)))))))</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="PyMC3-performance">PyMC3 performance<a class="anchor-link" href="#PyMC3-performance">&#182;</a></h2><p>The number of samplers for all gene blocks is 2000.</p>
+<p>Performance is not stable when the causal variables themselves are correlated.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Single-effect-block">Single effect block<a class="anchor-link" href="#Single-effect-block">&#182;</a></h2><p>Only one positive effect gene in the block:</p>
+<ol>
+<li>If this gene is the most significant gene, the inclusion probabilities for this gene is the largest. For example, block # 739_743 and # 2122_2125.</li>
+<li>If this gene is correlated with other genes, share CNV-gene pattern and fisher test results, the inclusion probabilities for each correlated gene is around 1/M, M is the number of genes. For example, block # 423_427 and # 1858_1875.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Block-#-739_743">Block # 739_743<a class="anchor-link" href="#Block-#-739_743">&#182;</a></h3><h4 id="varbvs-summary"><code>varbvs</code> summary<a class="anchor-link" href="#varbvs-summary">&#182;</a></h4><p>Estimate the expected number of causal effects per block (sum of PIP): $0.9618$</p>
+<p>The number of true effect: 1</p>
+<h4 id="Fisher-test-results-and-effect-size-for-simulation">Fisher test results and effect size for simulation<a class="anchor-link" href="#Fisher-test-results-and-effect-size-for-simulation">&#182;</a></h4>
+<pre><code>1st column: simulated gene name
+2nd column: number of cases with CNV
+3rd column: number of cases without CNV
+4th column: number of controls with CNV
+5th column: number of controls without CNV
+6th column: fisher test pvalue
+7th column: gene index in the block
+8th column: simulated effect size. 0 if not shown.
+
+gene_name   d_c d_nc    nd_c    nd_nc   p   index   effect
+gene_742    16   6690   4   6702    0.011757    2       0.98
+gene_743    5   6701    3   6703    0.726481    3
+gene_744    3   6703    2   6704    1.000000    4
+gene_741    3   6703    2   6704    1.000000    1
+gene_740    3   6703    2   6704    1.000000    0</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="PyMC3">PyMC3<a class="anchor-link" href="#PyMC3">&#182;</a></h4>
+<pre><code>1st column: gene index in the block
+2nd column: inclusion probability
+3rd column: beta; mean(beta)
+4th column: beta given inclusion probability; sum(beta * inclusion probability) / sum(inclusion probability)
+
+gene_index  inclusion_probability   beta    beta_given_inclusion
+2   0.4930  1.000700    1.232291
+0   0.0360  0.726913    0.263216
+3   0.0350  0.753536    0.516642
+1   0.0295  0.787234    0.411099
+4   0.0260  0.768642    0.450941</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Block-#-2122_2125">Block # 2122_2125<a class="anchor-link" href="#Block-#-2122_2125">&#182;</a></h3><h4 id="varbvs-summary"><code>varbvs</code> summary<a class="anchor-link" href="#varbvs-summary">&#182;</a></h4><p>Estimate the expected number of causal effects per block (sum of PIP): $0.8734$</p>
+<p>The number of true effect: 1</p>
+<h4 id="Fisher-test-results-and-effect-size-for-simulation">Fisher test results and effect size for simulation<a class="anchor-link" href="#Fisher-test-results-and-effect-size-for-simulation">&#182;</a></h4>
+<pre><code>gene_name   d_c d_nc    nd_c    nd_nc   p   index   effect
+gene_2124   15  6691    3   6703    0.007500    1       1.07
+gene_2123   94  6612    77  6629    0.218052    0
+gene_2126   15  6691    10  6696    0.423920    3
+gene_2125   57  6649    52  6654    0.700648    2</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="PyMC3">PyMC3<a class="anchor-link" href="#PyMC3">&#182;</a></h4>
+<pre><code>gene_index  inclusion_probability   beta    beta_given_inclusion
+1   0.6035  1.155986    1.376268
+3   0.0245  0.783276    0.537506
+0   0.0135  0.803832    0.165683
+2   0.0080  0.773949    0.144691</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Block-#-423_427">Block # 423_427<a class="anchor-link" href="#Block-#-423_427">&#182;</a></h3><h4 id="varbvs-summary"><code>varbvs</code> summary<a class="anchor-link" href="#varbvs-summary">&#182;</a></h4><p>Estimate the expected number of causal effects per block (sum of PIP): $1.1193$</p>
+<p>The number of true effect: 1</p>
+<h4 id="Fisher-test-results-and-effect-size-for-simulation">Fisher test results and effect size for simulation<a class="anchor-link" href="#Fisher-test-results-and-effect-size-for-simulation">&#182;</a></h4>
+<pre><code>gene_name   d_c d_nc    nd_c    nd_nc   p   index   simulated_effect
+gene_428    11  6695    1   6705    0.006326    4
+gene_424    11  6695    1   6705    0.006326    0
+gene_425    11  6695    1   6705    0.006326    1
+gene_426    11  6695    1   6705    0.006326    2       1.64
+gene_427    11  6695    1   6705    0.006326    3</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="PyMC3">PyMC3<a class="anchor-link" href="#PyMC3">&#182;</a></h4>
+<pre><code>gene_index  inclusion_probability   beta    beta_given_inclusion
+2   0.2265  0.915212    1.468117
+4   0.2150  0.901582    1.411006
+3   0.2140  0.914493    1.471716
+1   0.1975  0.909113    1.491242
+0   0.1945  0.920599    1.514025</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Block-1858_1875">Block 1858_1875<a class="anchor-link" href="#Block-1858_1875">&#182;</a></h3><h4 id="varbvs-summary"><code>varbvs</code> summary<a class="anchor-link" href="#varbvs-summary">&#182;</a></h4><p>Estimate the expected number of causal effects per block (sum of PIP): $1.4660$</p>
+<p>The number of true effect: 1</p>
+<h4 id="Fisher-test-results-and-effect-size-for-simulation">Fisher test results and effect size for simulation<a class="anchor-link" href="#Fisher-test-results-and-effect-size-for-simulation">&#182;</a></h4>
+<pre><code>gene_name   d_c d_nc    nd_c    nd_nc   p   index   effect
+gene_1873   7   6699    0   6706    0.015601    14      1.11
+gene_1872   7   6699    0   6706    0.015601    13
+gene_1859   12  6694    3   6703    0.035057    0
+gene_1874   10  6696    2   6704    0.038490    15
+gene_1869   8   6698    1   6705    0.039000    10
+gene_1868   8   6698    1   6705    0.039000    9
+gene_1867   8   6698    1   6705    0.039000    8
+gene_1866   8   6698    1   6705    0.039000    7
+gene_1865   8   6698    1   6705    0.039000    6
+gene_1864   8   6698    1   6705    0.039000    5
+gene_1863   8   6698    1   6705    0.039000    4
+gene_1862   8   6698    1   6705    0.039000    3
+gene_1871   8   6698    1   6705    0.039000    12
+gene_1870   8   6698    1   6705    0.039000    11
+gene_1860   1   6705    1   6705    1.000000    1
+gene_1861   2   6704    2   6704    1.000000    2
+gene_1875   3   6703    2   6704    1.000000    16
+gene_1876   3   6703    2   6704    1.000000    17</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="PyMC3">PyMC3<a class="anchor-link" href="#PyMC3">&#182;</a></h4>
+<pre><code>gene_index  inclusion_probability   beta    beta_given_inclusion
+14  0.1635  0.885465    1.445334
+13  0.1415  0.873469    1.438782
+3   0.0950  0.808904    1.114097
+11  0.0910  0.799450    1.168663
+0   0.0900  0.805384    1.061036
+9   0.0900  0.806278    1.133716
+12  0.0895  0.811432    1.072543
+10  0.0870  0.809282    1.182747
+15  0.0830  0.776091    1.053188
+8   0.0810  0.827899    1.242092
+5   0.0810  0.806535    1.242010
+6   0.0800  0.811711    1.300500
+7   0.0780  0.798235    1.141132
+4   0.0780  0.798494    1.135631
+1   0.0310  0.750434    0.447150
+17  0.0310  0.777832    0.583112
+16  0.0295  0.782552    0.548759
+2   0.0275  0.775015    0.365444</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Multiple-effect-block">Multiple effect block<a class="anchor-link" href="#Multiple-effect-block">&#182;</a></h2><h3 id="Block-#-556_583">Block # 556_583<a class="anchor-link" href="#Block-#-556_583">&#182;</a></h3><p>There are 28 genes in this block. Gene index #8, #14 and #20 are positive effect genes (effect 2.03, 0.84, 0.71). 20 consecutive genes sharing the same 2by2 table and then the same fisher test results (pvalue 1.296e-38). 3 out of 20 showed simulated positive effects. Inclusion probabilities for these 20 genes range from $0.1130$ to $0.1765$, very close to each other, cannot identify the real causal genes.</p>
+<p><code>susie</code> PIP for the 20 consecutive genes are the same, all around 0.05.</p>
+<h4 id="varbvs-summary"><code>varbvs</code> summary<a class="anchor-link" href="#varbvs-summary">&#182;</a></h4><p>Estimate the expected number of causal effects per block (sum of PIP): $2.4298$</p>
+<p>The number of true effect: 3</p>
+<h4 id="Fisher-test-results-and-effect-size-for-simulation">Fisher test results and effect size for simulation<a class="anchor-link" href="#Fisher-test-results-and-effect-size-for-simulation">&#182;</a></h4>
+<pre><code>gene_name   d_c d_nc  nd_c  nd_nc      p    gene_index  simulated_effect_size
+gene_567    132 6574    1   6705    1.296086e-38    10
+gene_582    132 6574    1   6705    1.296086e-38    25
+gene_581    132 6574    1   6705    1.296086e-38    24
+gene_580    132 6574    1   6705    1.296086e-38    23
+gene_577    132 6574    1   6705    1.296086e-38    20  0.71
+gene_579    132 6574    1   6705    1.296086e-38    22
+gene_576    132 6574    1   6705    1.296086e-38    19
+gene_575    132 6574    1   6705    1.296086e-38    18
+gene_574    132 6574    1   6705    1.296086e-38    17
+gene_566    132 6574    1   6705    1.296086e-38    9
+gene_573    132 6574    1   6705    1.296086e-38    16
+gene_571    132 6574    1   6705    1.296086e-38    14  0.84
+gene_570    132 6574    1   6705    1.296086e-38    13
+gene_569    132 6574    1   6705    1.296086e-38    12
+gene_563    132 6574    1   6705    1.296086e-38    6
+gene_564    132 6574    1   6705    1.296086e-38    7
+gene_565    132 6574    1   6705    1.296086e-38    8    2.03
+gene_578    132 6574    1   6705    1.296086e-38    21
+gene_568    132 6574    1   6705    1.296086e-38    11
+gene_572    132 6574    1   6705    1.296086e-38    15
+gene_558    111 6595    1   6705    2.773089e-32    1
+gene_562    111 6595    1   6705    2.773089e-32    5
+gene_559    111 6595    1   6705    2.773089e-32    2
+gene_560    111 6595    1   6705    2.773089e-32    3
+gene_561    111 6595    1   6705    2.773089e-32    4
+gene_583    38   6668   0   6706    6.903390e-12    26
+gene_584    21   6685   0   6706    9.388358e-07    27
+gene_557    24   6682   1   6705    1.520613e-06    0</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="PyMC3-results">PyMC3 results<a class="anchor-link" href="#PyMC3-results">&#182;</a></h4>
+<pre><code>gene_index  inclusion_probability   beta    beta_given_inclusion
+13  0.1765  0.912673    1.541970
+17  0.1680  0.899262    1.533234
+10  0.1565  0.894481    1.473024
+22  0.1450  0.899563    1.550085
+15  0.1400  0.881196    1.520979
+18  0.1390  0.877870    1.524457
+11  0.1365  0.872064    1.475609
+16  0.1355  0.876335    1.551596
+8    0.1335 0.881722    1.562205
+20  0.1325  0.879677    1.423774
+9    0.1325 0.879466    1.524186
+25  0.1320  0.896319    1.445784
+21  0.1315  0.870917    1.529550
+24  0.1315  0.879215    1.536151
+14  0.1315  0.889288    1.498121
+12  0.1300  0.882583    1.529814
+23  0.1280  0.862068    1.457598
+6    0.1225 0.834628    1.497794
+19  0.1190  0.860485    1.423408
+7   0.1130  0.842922    1.405974
+5   0.0695  0.806391    1.038744
+3   0.0615  0.788237    1.092125
+2   0.0585  0.787436    0.997605
+26  0.0570  0.819494    1.083626
+1   0.0540  0.783500    0.949915
+4   0.0535  0.785115    0.938133
+27  0.0500  0.769003    0.961894
+0   0.0245  0.754623    0.167191</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Block-#-2092_2099">Block # 2092_2099<a class="anchor-link" href="#Block-#-2092_2099">&#182;</a></h3><h4 id="varbvs-summary"><code>varbvs</code> summary<a class="anchor-link" href="#varbvs-summary">&#182;</a></h4><p>Estimate the expected number of causal effects per block (sum of PIP): $1.3106$</p>
+<p>The number of true effect: 3</p>
+<h4 id="Fisher-test-results-and-effect-size-for-simulation">Fisher test results and effect size for simulation<a class="anchor-link" href="#Fisher-test-results-and-effect-size-for-simulation">&#182;</a></h4>
+<pre><code>gene_name   d_c d_nc    nd_c    nd_nc   p    index  effect
+gene_2095   36  6670    8   6698    0.000025    2       1.71
+gene_2096   37  6669    12  6694    0.000459    3
+gene_2097   37  6669    12  6694    0.000459    4
+gene_2098   37  6669    12  6694    0.000459    5
+gene_2100   28  6678    11  6695    0.009374    7
+gene_2099   28  6678    11  6695    0.009374    6       0.47
+gene_2094   9   6697    1   6705    0.021439    1
+gene_2093   9   6697    1   6705    0.021439    0       0.18</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="PyMC3">PyMC3<a class="anchor-link" href="#PyMC3">&#182;</a></h4>
+<pre><code>gene_index  inclusion_probability   beta    beta_given_inclusion
+2   0.8390  1.290242    1.388613
+4   0.0785  0.789153    0.933225
+0   0.0680  0.799668    1.035229
+1   0.0635  0.784478    0.960614
+5   0.0605  0.784214    0.768279
+3   0.0565  0.780303    0.741498
+7   0.0260  0.747943    0.092032
+6   0.0235  0.761483    0.111491</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Block-#-666_677">Block # 666_677<a class="anchor-link" href="#Block-#-666_677">&#182;</a></h3><p>There are 12 genes in the block. 3 out of 12 showed positive simulated effect. Gene index #4 and #5 share the same fisher test results and their inclusion probabilities are both around $0.5$. Gene index #9, #10, #11 also share the same fisher test results and their inclusion probabilities are all around $0.10$.</p>
+<h4 id="varbvs-summary"><code>varbvs</code> summary<a class="anchor-link" href="#varbvs-summary">&#182;</a></h4><p>Estimate the expected number of causal effects per block (sum of PIP): $1.4477$</p>
+<p>The number of true effect: 3</p>
+<h4 id="Fisher-test-results-and-effect-size-for-simulation">Fisher test results and effect size for simulation<a class="anchor-link" href="#Fisher-test-results-and-effect-size-for-simulation">&#182;</a></h4>
+<pre><code>gene_name  d_c  d_nc   nd_c  nd_nc   p      gene_index  simulated_effect_size 
+gene_671    99  6607    9   6697    1.956916e-20    4    1.28
+gene_672    99  6607    9   6697    1.956916e-20    5    0.53
+gene_676    20  6686    0   6706    1.880480e-06    9
+gene_678    20  6686    0   6706    1.880480e-06    11   0.98
+gene_677    20  6686    0   6706    1.880480e-06    10
+gene_673    23  6683    5   6701    9.016016e-04    6
+gene_674    23  6683    5   6701    9.016016e-04    7
+gene_675    23  6683    5   6701    9.016016e-04    8
+gene_667    12  6694    2   6704    1.289476e-02    0
+gene_668    17  6689    6   6700    3.453722e-02    1
+gene_670    17  6689    6   6700    3.453722e-02    3
+gene_669    17  6689    6   6700    3.453722e-02    2</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="PyMC3-results">PyMC3 results<a class="anchor-link" href="#PyMC3-results">&#182;</a></h4>
+<pre><code>gene_index  inclusion_probability   beta    beta_given_inclusion
+4   0.5460  1.477352    2.060144
+5   0.5185  1.432267    2.043380
+10  0.1325  0.848880    1.329551
+9   0.1270  0.854411    1.342899
+11  0.1080  0.823739    1.277766
+8   0.0300  0.750469    0.429703
+0   0.0240  0.744307    0.225855
+7   0.0230  0.770120    0.375470
+1   0.0195  0.749606    0.191625
+6   0.0185  0.788487    0.367600
+3   0.0150  0.744767    0.102463
+2   0.0110  0.773154    0.384195</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Block-#-1018_1031">Block # 1018_1031<a class="anchor-link" href="#Block-#-1018_1031">&#182;</a></h3><p>There are 14 genes in the block. Gene index #2 and #13 showed simulated positive effects. Fisher test Pvalue for gene #2 is uniquely smallest, and it inclusion probability (0.3040) is the largest.</p>
+<h4 id="varbvs-summary"><code>varbvs</code> summary<a class="anchor-link" href="#varbvs-summary">&#182;</a></h4><p>Estimate the expected number of causal effects per block (sum of PIP): $1.0644$</p>
+<p>The number of true effect: 2</p>
+<h4 id="Fisher-test-results-and-effect-size-for-simulation">Fisher test results and effect size for simulation<a class="anchor-link" href="#Fisher-test-results-and-effect-size-for-simulation">&#182;</a></h4>
+<pre><code>gene_name   d_c  d_nc   nd_c  nd_nc p   gene_index  simulated_effect_size 
+gene_1021   14   6692   3   6703    0.012672    2       0.60
+gene_1023   7   6699    2   6704    0.179541    4
+gene_1024   7   6699    2   6704    0.179541    5
+gene_1022   7   6699    2   6704    0.179541    3
+gene_1025   7   6699    2   6704    0.179541    6
+gene_1027   7   6699    2   6704    0.179541    8
+gene_1030   7   6699    2   6704    0.179541    11
+gene_1031   7   6699    2   6704    0.179541    12
+gene_1032   7   6699    2   6704    0.179541    13      1.07
+gene_1029   7   6699    2   6704    0.179541    10
+gene_1026   7   6699    2   6704    0.179541    7
+gene_1028   7   6699    2   6704    0.179541    9
+gene_1020   9   6697    4   6702    0.266611    1
+gene_1019   9   6697    4   6702    0.266611    0</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="PyMC3-results">PyMC3 results<a class="anchor-link" href="#PyMC3-results">&#182;</a></h4>
+<pre><code>gene_index  inclusion_probability   beta    beta_given_inclusion
+2   0.3040  0.926048    1.296915
+5   0.0650  0.767650    0.801550
+8   0.0640  0.777537    0.820872
+9   0.0635  0.773069    0.866680
+10  0.0585  0.791200    0.832734
+3   0.0580  0.775015    0.843443
+12  0.0580  0.796682    0.831028
+13  0.0580  0.780965    0.919135
+4   0.0505  0.768463    0.766376
+6   0.0495  0.774164    0.727036
+11  0.0485  0.796748    0.973925
+7   0.0475  0.780096    0.834351
+0   0.0385  0.804297    0.855654
+1   0.0365  0.755608    0.538007</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">s</span> <span class="o">=</span> <span class="mi">666</span>
+<span class="n">e</span> <span class="o">=</span> <span class="mi">677</span>
+<span class="n">x1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/block_</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">/deletion.genes.block30.for_simu.sample.genes.block_</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">.gz&quot;</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.y&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[42]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(13412, 1)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">dat1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">x1</span><span class="p">],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">dat1</span> <span class="o">=</span> <span class="n">dat1</span><span class="p">[(</span><span class="n">dat1</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">T</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">dat1</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[57]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>y</th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>10</th>
+      <th>11</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>64</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>75</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>79</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>104</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>213</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="n">Counter</span><span class="p">(</span><span class="n">dat1</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[55]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Counter({1: 107, 0: 18})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="block-23_36">block 23_36<a class="anchor-link" href="#block-23_36">&#182;</a></h3><p>There are 14 genes in the block. 4 out of 14 have positive effects (0.98, 1.75, 0.01, 0.17). Gene index #1 to #5 share the same fisher test results (1.910e-107). We expect their inclusion probabilities are close. But only #4 and #5 showed larger inclusion probabilities, 0.635 and 0.310. In contrast, inclusion probability for #2 fell to 0.</p>
+<p>When performing 2nd time, gene #1, 2, 4, 5 showed inclusion probabilities greater than 0.20, #3 around 0.09. When consecutive genes share the same CNV overlap situations, they showed randomness with respect to the rank of inclusion probability.</p>
+<h4 id="varbvs-summary"><code>varbvs</code> summary<a class="anchor-link" href="#varbvs-summary">&#182;</a></h4><p>Estimate the expected number of causal effects per block (sum of PIP): $2.3086$</p>
+<p>The number of true effect: 4</p>
+<h4 id="Fisher-test-results-and-effect-size-for-simulation">Fisher test results and effect size for simulation<a class="anchor-link" href="#Fisher-test-results-and-effect-size-for-simulation">&#182;</a></h4>
+<pre><code>gene_name  d_c  d_nc    nd_c  nd_nc p           gene_index  simulated_effect_size
+gene_25 603 6103    76  6630    1.910490e-107   1
+gene_28 603 6103    76  6630    1.910490e-107   4
+gene_27 603 6103    76  6630    1.910490e-107   3
+gene_26 603 6103    76  6630    1.910490e-107   2           1.75
+gene_29 603 6103    76  6630    1.910490e-107   5           0.01
+gene_24 528 6178    61  6645    1.710063e-97     0          0.98
+gene_30 234 6472    41  6665    1.291823e-34     6
+gene_31 162 6544    26  6680    1.641138e-25     7
+gene_32 20   6686   3    6703   4.832617e-04     8
+gene_33 20   6686   3    6703   4.832617e-04     9
+gene_34 20   6686   3    6703   4.832617e-04     10
+gene_37 12   6694   1    6705   3.403787e-03     13
+gene_36 12   6694   1    6705   3.403787e-03     12
+gene_35 12   6694   1    6705   3.403787e-03     11         0.17</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="PyMC3-results">PyMC3 results<a class="anchor-link" href="#PyMC3-results">&#182;</a></h4>
+<pre><code>gene_index  inclusion_probability   beta    beta_given_inclusion
+4   0.635   1.632173    2.081691
+5   0.310   1.125279    1.926215
+3   0.080   0.914193    1.923941
+1   0.060   0.830937    1.141560
+6   0.060   0.648318    -0.450090
+12  0.050   0.841260    0.538263
+0   0.030   0.810724    0.493963
+8   0.025   0.714397    0.013209
+11  0.025   0.820051    0.485907
+13  0.020   0.805907    0.752812
+7   0.010   0.758125    0.016305
+10  0.010   0.823287    0.027814
+9   0.005   0.737005    0.867159
+2   0.000   0.865975    NaN</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="PyMC3-results-(perform-2nd-time)">PyMC3 results (perform 2nd time)<a class="anchor-link" href="#PyMC3-results-(perform-2nd-time)">&#182;</a></h4>
+<pre><code>gene_index  inclusion_probability   beta    beta_given_inclusion
+4   0.3590  1.169565    1.899823
+5   0.2765  1.086049    1.846355
+2   0.2050  0.992402    1.785732
+1   0.2025  1.013238    1.850048
+0   0.1350  0.763805    0.609544
+3   0.0900  0.860466    1.652932
+6   0.0585  0.704812    -0.448460
+11  0.0410  0.792157    0.704093
+12  0.0360  0.784724    0.668371
+13  0.0355  0.792590    0.685245
+10  0.0265  0.755249    0.193445
+9   0.0195  0.760171    0.174600
+8   0.0185  0.733963    0.070547
+7   0.0090  0.762858    -0.069858</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/840f13ef458fdb2a1a562fec4476c730bb613620/workflow/20191008_PyMC3_report.ipynb"><code>workflow/20191008_PyMC3_report.ipynb</code></a> committed by minqiao on Mon May 25 01:40:10 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/840f13ef458fdb2a1a562fec4476c730bb613620">revision 1, 840f13e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>

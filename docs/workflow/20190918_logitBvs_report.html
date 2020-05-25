@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.7" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=workflowDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=workflowArray;
+            var docs_map=workflowArrayMap;
+            var pos=workflowArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  $(".toc #toc-level0").append('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>');
+            }
+            // $("#toc-header").hide(); // comment out because it prevents search bar from displaying
+    });
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Gene Mapping with CNV</title>
+
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+        
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+        
+<li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+        
+<li>
+  <a href="../workflow.html">Workflow</a>
+</li>
+        
+<li>
+  <a href="../setup/index.html">Setup</a>
+</li>
+        
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="The-results-of-varbvs-result-and-logitBvs">The results of <code>varbvs</code> result and <code>logitBvs</code><a class="anchor-link" href="#The-results-of-varbvs-result-and-logitBvs">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Previous-simulation">Previous simulation<a class="anchor-link" href="#Previous-simulation">&#182;</a></h2><ol>
+<li>Simulation report <a href="https://gaow.github.io/cnv-gene-mapping/dsc/20190819_workflow_report.html">link</a></li>
+<li>Simulation sample size: 13412</li>
+<li>Number of natural gene blocks of real deletion CNV data: 528</li>
+<li>Number of natural gene blocks for simulated CVN data: 527</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="The-histogram-for-the-number-of-genes-in-simulated-natural-gene-blocks">The histogram for the number of genes in simulated natural gene blocks<a class="anchor-link" href="#The-histogram-for-the-number-of-genes-in-simulated-natural-gene-blocks">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">preview</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="nb">min</span><span class="o">/</span><span class="n">GIT</span><span class="o">/</span><span class="n">cnv</span><span class="o">-</span><span class="n">gene</span><span class="o">-</span><span class="n">mapping</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">deletion_simu</span><span class="o">/</span><span class="n">deletion</span><span class="o">.</span><span class="n">genes</span><span class="o">.</span><span class="n">block30</span><span class="o">.</span><span class="n">for_simu</span><span class="o">.</span><span class="n">sample</span><span class="o">.</span><span class="n">genes</span><span class="o">.</span><span class="n">block1</span><span class="o">.</span><span class="n">histogram</span><span class="o">.</span><span class="n">pdf</span> <span class="o">-</span><span class="n">s</span> <span class="n">png</span> <span class="o">--</span><span class="n">dpi</span> <span class="mi">90</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<div class="sos_hint">> /home/min/GIT/cnv-gene-mapping/data/deletion_simu/deletion.genes.block30.for_simu.sample.genes.block1.histogram.pdf (11.8 KiB):</div>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="varbvs-results-comparison-with-real-beta"><code>varbvs</code> results comparison with real <code>beta</code><a class="anchor-link" href="#varbvs-results-comparison-with-real-beta">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Simulated $\beta$'s (22356)</p>
+<ol>
+<li>$\mu$: 1</li>
+<li>sd: 0.5</li>
+<li>$\pi$: 0.05</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>varbvs</code>: "Averaged" posterior mean regression coefficients</p>
+<ol>
+<li>$\mu$: 0.777</li>
+<li>sd: 0.84365</li>
+<li>$\pi$: 0.043775</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="logitBvs-result"><code>logitBvs</code> result<a class="anchor-link" href="#logitBvs-result">&#182;</a></h2><p><code>logitBvs</code> <a href="https://rdrr.io/cran/pogit/man/logitBvs.html">link</a>: Bayesian variable selection for the binomial logit model. We use <code>logitBvs</code> to perform MCMC sampling.</p>
+<ol>
+<li><code>logitBvs</code> function and arguments
+<pre><code>mu0 = 0.777; var = 0.84365^2  ## (varbvs result)
+## To fit pi (0.0437): set beta distribution alpha = 1.412, beta = 10, highest density around 0.043
+res = logitBvs(y, N, X, prior = list(slab = "Normal", aj0 = rep(mu0, ncol(X)-1), V = var, w = c(pa0 = 1.412, pb0 = 10), pi = c(wa0 = 1, wb0 = 1)), 
+            mcmc = list(M = 10000, burnin = 2000, msave = TRUE), BVS = FALSE)</code></pre>
+</li>
+<li><p>PIP: only when <code>aj0</code> is set to default 0, PIPs are being calculated.</p>
+<p><strong>If prior information on the regression parameters is available (I guess it means that<code>aj0</code> not 0), this information is encoded in a normal distribution instead of the spike and slab prior (BVS is set to FALSE).</strong> R package <code>pogit</code> <a href="https://cran.r-project.org/web/packages/pogit/pogit.pdf">manual link</a>. The description is on page 7. I doubt I did not use it correctly.</p>
+<p>When <code>aj0</code> != 0, PIPs are calculated and exported as a matrix of all 1's, the dimension is the number of MCMC iteration by the number of $\beta$'s.</p>
+<p>When <code>aj0</code> =0, PIP are calculated and exported as a matrix of numbers between 0 and 1.</p>
+</li>
+<li><p>Arguments $\omega$ and $\pi$: The results for setting either of them not as default does not make much difference.</p>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Two natural blocks were selected for MCMC. For each block, compute Pearson correlation $X*\hat{\beta}$ and $X*\beta_{simu}$</p>
+<ol>
+<li><code>block_1215_1273</code>: correlation $0.3251993$</li>
+<li><code>block_164_177</code>: correlation $0.9919708$</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="BoomSpikeSlab-results"><code>BoomSpikeSlab</code> results<a class="anchor-link" href="#BoomSpikeSlab-results">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Use-function-LogitZellnerPrior-to-obtain-prior">Use function <code>LogitZellnerPrior</code> to obtain prior<a class="anchor-link" href="#Use-function-LogitZellnerPrior-to-obtain-prior">&#182;</a></h3>
+<pre><code>prior &lt;- LogitZellnerPrior(X(with intercept), y, N, prior.success.probability = NULL, expected.model.size = ncol(X) * 0.05, prior.information.weight = NULL, 
+                           diagonal.shrinkage = 0, optional.coefficient.estimate = 0.7, prior.inclusion.probabilities = NULL)</code></pre>
+<p>X should be with intercept (all 1's).</p>
+<p>prior$mu, `prior$mu` will be all 0 except intercept.</p>
+
+<pre><code>-2.81430583840715
+0
+0
+0
+0
+...</code></pre>
+<p>prior$prior.inclusion.probabilities, same for all variables include intercept</p>
+
+<pre><code>0.0333333333333333
+0.0333333333333333
+0.0333333333333333
+0.0333333333333333
+0.0333333333333333
+...</code></pre>
+<p>prior$sigma.guess</p>
+
+<pre><code>0.707106781186548</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Use-function-logit.spike-for-MCMC,-1000-iteration">Use function <code>logit.spike</code> for MCMC, 1000 iteration<a class="anchor-link" href="#Use-function-logit.spike-for-MCMC,-1000-iteration">&#182;</a></h3>
+<pre><code>logit.spike(y ~ X, niter = 1000, prior = prior)</code></pre>
+<p>No intercept for X input. The result depends much on the prior $\mu$ provided. The results are not stable even with the same parameter. May because iteration not enough???</p>
+<p><code>prior.inclusion.probabilities</code> and <code>sigma</code> could be replaced without generating an error.</p>
+<ol>
+<li>No <code>prior</code> provided (If prior is supplied it will be used. Otherwise a prior distribution will constructed by calling <code>LogitZellnerPrior</code>.)</li>
+</ol>
+
+<pre><code>null log likelihood:            -1545.166 
+posterior mean log likelihood:  -1545.639 
+posterior max log likelihood:   -1545.166 
+mean deviance R-sq:             -0.0003057917 
+
+predicted vs observed success rates, by decile:
+                   predicted   observed
+(0.05666,0.05667] 0.05667028 0.05647325
+
+summary of coefficients:
+                mean      sd mean.inc sd.inc inc.prob
+(Intercept) -2.81000 0.05000    -2.81   0.05    1.000
+XV31        -0.00017 0.00539    -0.17   0.00    0.001
+XV59         0.00000 0.00000     0.00   0.00    0.000
+XV58         0.00000 0.00000     0.00   0.00    0.000
+XV57         0.00000 0.00000     0.00   0.00    0.000</code></pre>
+<ol>
+<li>Use prior from <code>LogitZellnerPrior</code></li>
+</ol>
+
+<pre><code>null log likelihood:            -1545.166 
+posterior mean log likelihood:  -1545.705 
+posterior max log likelihood:   -1545.166 
+mean deviance R-sq:             -0.0003486287 
+
+predicted vs observed success rates, by decile:
+                 predicted   observed
+(0.0566,0.0567] 0.05666383 0.04347826
+
+summary of coefficients:
+                 mean     sd mean.inc sd.inc inc.prob
+(Intercept) -2.810000 0.0534   -2.810 0.0534    1.000
+XV23         0.000387 0.0122    0.387 0.0000    0.001
+XV59         0.000000 0.0000    0.000 0.0000    0.000
+XV58         0.000000 0.0000    0.000 0.0000    0.000</code></pre>
+<ol>
+<li>If replace all predictor variables in <code>prior$mu</code> with the same positive number (e.g. mu from <code>varbvs</code>), <code>logit.spike</code> would generate error. </li>
+</ol>
+
+<pre><code>Error in logit.spike(y ~ X, niter = 1000, prior = prior1): Caught exception with the following error message: 
+BinomialLogitSpikeSlabSampler did not start with a legal configuration.
+Selector vector:  111111111111111111111111111111111111111111111111111111111111
+beta: -2.80456 -0.0448699 -105.725 -11.8131 -152.214 169.162 -61.8338 -60.5791 -93.9208 127.14 -121.228 21.1879 -97.2869 141.847 -0.0821741 -0.463076 -0.655192 -0.0626618 0.391438 -0.110333 -0.175838 0.341724 -0.343848 0.16436 -0.181421 0.118219 -0.247901 0.469834 0.639211 -0.00259735 0.0308668 -0.170393 0.533547 0.11682 -0.269742 0.11209 -0.355633 -0.162975 0.0557523 -0.152552 0.329034 0.102837 0.0438444 0.328603 0.0805891 -0.365102 -1.25351 -0.579535 1.57087 0.240165 0.161255 0.0372671 -0.0992332 -0.40193 -0.888907 -0.121898 0.80505 -0.29422 1.26817 0.71773</code></pre>
+<ol>
+<li>If replace a few of them (replacement cannot be greater than 2 consecutively) with mu0, , there would be either error or no error. So predictors cannot be replaced with all non-zero.</li>
+</ol>
+
+<pre><code>null log likelihood:            -1545.166 
+posterior mean log likelihood:  -1545.637 
+posterior max log likelihood:   -1544.987 
+mean deviance R-sq:             -0.0003043409 
+
+predicted vs observed success rates, by decile:
+                 predicted   observed
+(0.0564,0.0582] 0.05739954 0.05128205
+
+summary of coefficients:
+                 mean     sd mean.inc  sd.inc inc.prob
+(Intercept) -2.820000 0.0478  -2.8200 0.04780    1.000
+XV22         0.000816 0.1230   0.0742 1.23000    0.011
+XV55         0.002830 0.0449   0.7070 0.08550    0.004
+XV44         0.001430 0.0243   0.3580 0.16100    0.004
+XV33         0.003210 0.0506   0.8010 0.00488    0.004
+XV23         0.003010 0.0477   0.7540 0.04700    0.004
+XV11         0.004150 0.0664   1.0400 0.20300    0.004
+XV5         -0.000840 0.0266  -0.8400 0.00000    0.001
+XV59         0.000000 0.0000   0.0000 0.00000    0.000
+XV58         0.000000 0.0000   0.0000 0.00000    0.000</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li><p>Interate 30000 times with no prior.</p>
+
+<pre><code> null log likelihood:            -1545.166 
+ posterior mean log likelihood:  -1545.593 
+ posterior max log likelihood:   -1543.954 
+ mean deviance R-sq:             -0.0002758504 
+
+ predicted vs observed success rates, by decile:
+                      predicted   observed
+ (0.050313,0.056566] 0.05656074 0.05632411
+ (0.056566,0.056569] 0.05656864 0.17647059
+
+ summary of coefficients:
+                  mean       sd  mean.inc   sd.inc inc.prob
+ (Intercept) -2.82e+00 5.20e-02    -2.820    0.052 1.00e+00
+ XV7         -1.79e+01 1.74e+02  -979.000  844.000 1.83e-02
+ XV51        -7.26e+00 7.31e+01  -404.000  371.000 1.80e-02
+ XV11        -1.67e+01 1.67e+02  -995.000  833.000 1.68e-02
+ XV52        -1.02e+01 1.02e+02  -678.000  485.000 1.50e-02
+ XV9         -1.57e+01 2.17e+02 -1150.000 1470.000 1.37e-02
+ XV53        -1.73e+01 1.78e+02 -1470.000  748.000 1.18e-02
+ XV12        -1.06e+01 1.69e+02  -934.000 1290.000 1.13e-02
+ XV10        -7.42e+00 9.21e+01  -698.000  562.000 1.06e-02
+ XV8         -1.14e+01 1.65e+02 -1100.000 1190.000 1.04e-02
+ XV13        -9.62e+00 1.25e+02 -1010.000  796.000 9.57e-03
+ XV3         -1.21e+01 1.58e+02 -1310.000 1010.000 9.20e-03
+ XV5         -1.22e+01 1.60e+02 -1340.000 1020.000 9.17e-03
+ XV4         -9.50e+00 1.50e+02 -1100.000 1190.000 8.63e-03
+ XV55        -1.07e+01 1.42e+02 -1560.000  718.000 6.87e-03
+ XV54        -1.04e+01 1.47e+02 -1750.000  769.000 5.93e-03
+ XV6         -6.63e+00 1.43e+02 -1470.000 1550.000 4.50e-03
+ XV21        -4.88e-04 3.57e-02    -2.090    1.120 2.33e-04
+ XV58        -4.05e-04 4.98e-02    -6.080    0.664 6.67e-05
+ XV44         3.33e-05 5.03e-03     0.499    0.511 6.67e-05
+ XV20         3.07e-05 5.31e-03     0.920    0.000 3.33e-05
+ XV19        -1.93e-05 3.34e-03    -0.578    0.000 3.33e-05</code></pre>
+</li>
+</ol>
+<ol>
+<li><p>Interate 30000 times with <code>LogitZellnerPrior</code> prior</p>
+
+<pre><code> null log likelihood:            -1545.166 
+ posterior mean log likelihood:  -1545.555 
+ posterior max log likelihood:   -1544.175 
+ mean deviance R-sq:             -0.0002518388 
+
+ predicted vs observed success rates, by decile:
+                  predicted   observed
+ (0.0429,0.0566] 0.05661999 0.05611166
+ (0.0566,0.0567] 0.05664569 0.36363636
+
+ summary of coefficients:
+                  mean       sd  mean.inc   sd.inc inc.prob
+ (Intercept) -2.81e+00 5.13e-02   -2.8100 5.13e-02 1.00e+00
+ XV2         -3.71e+01 1.89e+02 -671.0000 4.70e+02 5.53e-02
+ XV7         -2.88e+01 1.48e+02 -534.0000 3.72e+02 5.40e-02
+ XV56        -2.55e+01 1.43e+02 -552.0000 3.91e+02 4.63e-02
+ XV10        -2.91e+01 1.75e+02 -694.0000 5.22e+02 4.20e-02
+ XV3         -1.67e+01 9.96e+01 -431.0000 2.78e+02 3.88e-02
+ XV11        -1.94e+01 1.24e+02 -504.0000 3.94e+02 3.85e-02
+ XV13        -9.79e+00 1.02e+02 -720.0000 5.04e+02 1.36e-02
+ XV53        -4.28e+00 5.51e+01 -493.0000 3.31e+02 8.67e-03
+ XV47        -1.96e+00 2.92e+01 -296.0000 2.05e+02 6.60e-03
+ XV51        -1.76e+00 2.76e+01 -298.0000 2.03e+02 5.90e-03
+ XV55        -2.47e+00 4.98e+01 -593.0000 4.97e+02 4.17e-03
+ XV1         -1.60e-03 5.47e-02   -1.5000 7.60e-01 1.07e-03
+ XV35        -1.49e-03 7.00e-02   -2.0400 1.63e+00 7.33e-04
+ XV38        -6.18e-04 3.66e-02   -1.3200 1.10e+00 4.67e-04
+ XV50         3.92e-04 2.53e-02    1.4700 5.16e-01 2.67e-04
+ XV44        -2.22e-04 1.70e-02   -0.8320 6.66e-01 2.67e-04
+ XV25         2.66e-05 2.30e-03    0.0999 1.06e-01 2.67e-04
+ XV59        -1.21e-03 8.93e-02   -6.0600 1.94e+00 2.00e-04
+ XV18         1.68e-05 1.41e-02    0.0842 1.09e+00 2.00e-04
+ XV12         5.07e-04 3.59e-02    2.5300 1.27e-01 2.00e-04</code></pre>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The original simulated samples contain half cases (6706) and half controls. We would obtain <code>prior$prior.success.probability = 0.5</code> for this dataset, instead of 0.05 as we set.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/840f13ef458fdb2a1a562fec4476c730bb613620/workflow/20190918_logitBvs_report.ipynb"><code>workflow/20190918_logitBvs_report.ipynb</code></a> committed by minqiao on Mon May 25 01:40:10 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/840f13ef458fdb2a1a562fec4476c730bb613620">revision 1, 840f13e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>
