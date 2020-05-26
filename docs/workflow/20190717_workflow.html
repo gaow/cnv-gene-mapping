@@ -264,7 +264,7 @@ body {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="mi">20190717</span><span class="n">_workflow</span><span class="o">.</span><span class="n">ipynb</span> <span class="o">-</span><span class="n">h</span>
@@ -304,12 +304,12 @@ Workflows:
   simulate
 
 Global Workflow Options:
-  --cwd /home/min/GIT/cnv-gene-mapping/output (as path)
-  --genotype-file /home/min/GIT/cnv-gene-mapping/data/deletion.X.gz (as path)
-  --phenotype-file /home/min/GIT/cnv-gene-mapping/data/deletion.y.gz (as path)
+  --cwd output (as path)
+  --genotype-file data/deletion.X.gz (as path)
+  --phenotype-file data/deletion.y.gz (as path)
                         phenotype
   --name &#39;&#39;
-  --blocks-specify . (as path)
+  --blocks-file . (as path)
   --iteration 10000 (as int)
                         MCMC number of iterations
   --tune-prop 0.25 (as float)
@@ -327,15 +327,17 @@ Global Workflow Options:
                         prevalence, when prevalence = 0.05, alpha = -2.94 upper
                         bound: p = case proportion, when case = control, alpha =
                         0 MCMC ...
-  --mcmc-seed 999999 (as int)
+  --mcmc-seed 999 (as int)
                         MCMC ...
-  --varbvs-priors  path(f&#34;{cwd:a}/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.varbvs.whole.genome.prior.csv&#34;)
-
+  --hyperparam-file output/deletion.X_b30.simulation_0525.samples.X.varbvs_0525.hyperparams (as path)
                         Hyper-parameters for MCMC and for Single Effect
                         Regression
   --L 10 (as int)
                         SuSiE number of effects
-  --wall-time 30m
+  --varbvs-pip output/deletion.X_b30.simulation_0525.samples.X.varbvs_0525.pip (as path)
+                        Whole genome PIPs obtained by varbvs using `varbvs_wg`
+                        pipeline
+  --mcmc-walltime 30m
                         cluster job configurations
   --job-size 80 (as int)
 
@@ -357,15 +359,11 @@ Sections
   susie_1, varbvs_1, fisher_1, mcmc_1, sier_1, hybrid_1, get_hist_1:
   fisher_2:
   susie_2, varbvs_2, mcmc_2, sier_2, hybrid_2:
-    Workflow Options:
-      --varbvs-pip  path(f&#34;{cwd:a}/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.binomial.whole.genome.prior.varbvs.updateb0.pip&#34;)
-
-                        R: fread(${_input:[0]}, select = ${_blocks.replace(&#39;_&#39;,
-                        &#39;:&#39;)}) similar to fine mapping, create 527 folders and
-                        save results for each of them
   hybrid_3:
   mcmc_3:
   sier_3:
+    Workflow Options:
+      --expected-effects -9 (as int)
   mcmc_4, sier_4, hybrid_4:
   susie_3:
     Workflow Options:
@@ -379,17 +377,18 @@ Sections
     Workflow Options:
       --n-gene-in-block 30 (as int)
   simulate_2:
+  simulate_3:
     Workflow Options:
-      --shape 0.5 (as float)
-      --scale 1.0 (as float)
+      --shape 1.4 (as float)
+      --scale 0.6 (as float)
       --beta-method normal
       --pi0 0.95 (as float)
       --seed 999 (as int)
-  simulate_3:
+  simulate_4:
     Workflow Options:
       --sample-size 100000 (as int)
       --n-batch 200 (as int)
-  simulate_4:
+  simulate_5:
 </pre>
 </div>
 </div>
@@ -404,15 +403,45 @@ Sections
 <h2 id="Minimal-examples">Minimal examples<a class="anchor-link" href="#Minimal-examples">&#182;</a></h2><h3 id="Simulate-data">Simulate data<a class="anchor-link" href="#Simulate-data">&#182;</a></h3>
 <pre><code>sos run 20190717_workflow.ipynb simulate \
     --name simulation_0525 \
-    --genotype_file /home/min/GIT/cnv-gene-mapping/data/deletion.X.gz \
-    --cwd test \
+    --genotype-file /home/min/GIT/cnv-gene-mapping/data/deletion.X.gz \
+    --cwd output \
     --sample-size 500 \
     --n-batch 10</code></pre>
 <h3 id="Whole-genome-analysis-using-varbvs">Whole genome analysis using <code>varbvs</code><a class="anchor-link" href="#Whole-genome-analysis-using-varbvs">&#182;</a></h3>
 <pre><code>sos run 20190717_workflow.ipynb varbvs_wg \
-    --name varbvs_0525 --cwd test \
-    --genotype_file test/deletion.X_b30.simulate.samples.X.gz \
-    --phenotype_file test/deletion.X_b30.simulate.samples.y.gz</code></pre>
+    --name varbvs_0525 --cwd output \
+    --genotype-file output/deletion.X_b30.simulation_0525.samples.X.gz \
+    --phenotype-file output/deletion.X_b30.simulation_0525.samples.y.gz</code></pre>
+<h3 id="Fisher's-exact-test-per-gene">Fisher's exact test per gene<a class="anchor-link" href="#Fisher's-exact-test-per-gene">&#182;</a></h3>
+<pre><code>sos run 20190717_workflow.ipynb fisher \
+    --name fisher_0525 --cwd output \
+    --genotype-file output/deletion.X_b30.simulation_0525.samples.X.gz \
+    --phenotype-file output/deletion.X_b30.simulation_0525.samples.y.gz</code></pre>
+<h3 id="MCMC-analysis">MCMC analysis<a class="anchor-link" href="#MCMC-analysis">&#182;</a></h3>
+<pre><code>sos run 20190717_workflow.ipynb mcmc \
+    --name mcmc_0525 --cwd output \
+    --genotype-file output/deletion.X_b30.simulation_0525.samples.X.gz \
+    --phenotype-file output/deletion.X_b30.simulation_0525.samples.y.gz</code></pre>
+<h3 id="SuSiE-analysis">SuSiE analysis<a class="anchor-link" href="#SuSiE-analysis">&#182;</a></h3>
+<pre><code>sos run 20190717_workflow.ipynb susie \
+    --name susie_0525 --cwd output \
+    --genotype-file output/deletion.X_b30.simulation_0525.samples.X.gz \
+    --phenotype-file output/deletion.X_b30.simulation_0525.samples.y.gz</code></pre>
+<h3 id="Single-Effect-Regression-analysis">Single Effect Regression analysis<a class="anchor-link" href="#Single-Effect-Regression-analysis">&#182;</a></h3>
+<pre><code>sos run 20190717_workflow.ipynb sier \
+    --name sier_0525 --cwd output \
+    --genotype-file output/deletion.X_b30.simulation_0525.samples.X.gz \
+    --phenotype-file output/deletion.X_b30.simulation_0525.samples.y.gz</code></pre>
+<h3 id="varbvs-analysis">varbvs analysis<a class="anchor-link" href="#varbvs-analysis">&#182;</a></h3>
+<pre><code>sos run 20190717_workflow.ipynb varbvs \
+    --name varbvs_0525 --cwd output \
+    --genotype-file output/deletion.X_b30.simulation_0525.samples.X.gz \
+    --phenotype-file output/deletion.X_b30.simulation_0525.samples.y.gz</code></pre>
+<h3 id="Hybrid-approach">Hybrid approach<a class="anchor-link" href="#Hybrid-approach">&#182;</a></h3>
+<pre><code>sos run 20190717_workflow.ipynb hybrid \
+    --name hybrid_0525 --cwd output \
+    --genotype-file output/deletion.X_b30.simulation_0525.samples.X.gz \
+    --phenotype-file output/deletion.X_b30.simulation_0525.samples.y.gz</code></pre>
 
 </div>
 </div>
@@ -430,12 +459,12 @@ Sections
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="k">global</span><span class="p">]</span>
-<span class="kn">parameter:</span> <span class="n">cwd</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="s2">&quot;~/GIT/cnv-gene-mapping/output&quot;</span><span class="p">)</span>
-<span class="kn">parameter:</span> <span class="n">genotype_file</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="s2">&quot;~/GIT/cnv-gene-mapping/data/deletion.X.gz&quot;</span><span class="p">)</span>
+<span class="kn">parameter:</span> <span class="n">cwd</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">)</span>
+<span class="kn">parameter:</span> <span class="n">genotype_file</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="s2">&quot;data/deletion.X.gz&quot;</span><span class="p">)</span>
 <span class="c1"># phenotype</span>
-<span class="kn">parameter:</span> <span class="n">phenotype_file</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="s2">&quot;~/GIT/cnv-gene-mapping/data/deletion.y.gz&quot;</span><span class="p">)</span>
+<span class="kn">parameter:</span> <span class="n">phenotype_file</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="s2">&quot;data/deletion.y.gz&quot;</span><span class="p">)</span>
 <span class="kn">parameter:</span> <span class="kp">name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-<span class="kn">parameter:</span> <span class="n">blocks_specify</span> <span class="o">=</span> <span class="n">path</span><span class="p">()</span>
+<span class="kn">parameter:</span> <span class="n">blocks_file</span> <span class="o">=</span> <span class="n">path</span><span class="p">()</span>
 <span class="c1"># MCMC number of iterations</span>
 <span class="kn">parameter:</span> <span class="n">iteration</span> <span class="o">=</span> <span class="mi">10000</span>
 <span class="c1"># MCMC ...</span>
@@ -454,18 +483,21 @@ Sections
 <span class="c1"># MCMC ...</span>
 <span class="kn">parameter:</span> <span class="n">prevalence</span> <span class="o">=</span> <span class="mf">0.05</span>
 <span class="c1"># MCMC ...</span>
-<span class="kn">parameter:</span> <span class="n">mcmc_seed</span> <span class="o">=</span> <span class="mi">999999</span>
+<span class="kn">parameter:</span> <span class="n">mcmc_seed</span> <span class="o">=</span> <span class="mi">999</span>
 <span class="c1"># Hyper-parameters for MCMC and for Single Effect Regression</span>
-<span class="kn">parameter:</span> <span class="n">varbvs_priors</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">:</span><span class="s2">a</span><span class="si">}</span><span class="s2">/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.varbvs.whole.genome.prior.csv&quot;</span><span class="p">)</span>
+<span class="kn">parameter:</span> <span class="n">hyperparam_file</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="s2">&quot;output/deletion.X_b30.simulation_0525.samples.X.varbvs_0525.hyperparams&quot;</span><span class="p">)</span>
 <span class="c1"># SuSiE number of effects</span>
 <span class="kn">parameter:</span> <span class="n">L</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="c1"># Whole genome PIPs obtained by varbvs using `varbvs_wg` pipeline</span>
+<span class="kn">parameter:</span> <span class="n">varbvs_pip</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="s2">&quot;output/deletion.X_b30.simulation_0525.samples.X.varbvs_0525.pip&quot;</span><span class="p">)</span>
 <span class="c1"># cluster job configurations</span>
-<span class="kn">parameter:</span> <span class="n">wall_time</span> <span class="o">=</span> <span class="s2">&quot;30m&quot;</span>
+<span class="kn">parameter:</span> <span class="n">mcmc_walltime</span> <span class="o">=</span> <span class="s2">&quot;30m&quot;</span>
 <span class="kn">parameter:</span> <span class="n">job_size</span> <span class="o">=</span> <span class="mi">80</span>
 
-<span class="n">fail_if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="kp">name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Please specify a name for this analysis! This will be used in all relevant output files.&#39;</span><span class="p">)</span>
+<span class="n">fail_if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="kp">name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Please specify a name for this analysis using ``--name`` option. This will be used in all relevant output files.&#39;</span><span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 
     </div>
@@ -617,7 +649,7 @@ Sections
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Generate-independent-CNV-blocks">Generate independent CNV blocks<a class="anchor-link" href="#Generate-independent-CNV-blocks">&#182;</a></h2>
+<h2 id="Obtain-independent-CNV-blocks">Obtain independent CNV blocks<a class="anchor-link" href="#Obtain-independent-CNV-blocks">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -629,9 +661,8 @@ Sections
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">susie_2</span><span class="p">,</span> <span class="n">varbvs_2</span><span class="p">,</span> <span class="n">mcmc_2</span><span class="p">,</span> <span class="n">sier_2</span><span class="p">,</span> <span class="n">hybrid_2</span><span class="p">]</span>
 <span class="c1">## R: fread(${_input:[0]}, select = ${_blocks.replace(&#39;_&#39;, &#39;:&#39;)})</span>
 <span class="c1">## similar to fine mapping, create 527 folders and save results for each of them</span>
-<span class="kn">parameter:</span> <span class="n">varbvs_pip</span> <span class="o">=</span> <span class="n">path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">:</span><span class="s2">a</span><span class="si">}</span><span class="s2">/deletion_simu_30_shape0.777_scale0.843/deletion.genes.block30.for_simu.binomial.whole.genome.prior.varbvs.updateb0.pip&quot;</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">blocks_specify</span><span class="si">:</span><span class="s1">a</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">):</span>
-    <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">blocks_specify</span><span class="si">:</span><span class="s1">a</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)]</span>
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">blocks_file</span><span class="si">:</span><span class="s1">a</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">):</span>
+    <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">blocks_file</span><span class="si">:</span><span class="s1">a</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)]</span>
 <span class="kn">else:</span>
     <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">a</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()]</span>
 <span class="kn">input:</span> <span class="n">for_each</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blocks&#39;</span><span class="p">]</span>
@@ -668,11 +699,9 @@ Sections
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">hybrid_3</span><span class="p">]</span>
 <span class="kn">input:</span> <span class="n">group_by</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="kn">output:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="kp">name</span><span class="si">}</span><span class="s2">.gz&quot;</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.varbvs_pip&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
-    <span class="n">sos_run</span><span class="p">(</span><span class="s1">&#39;mcmc:3&#39;</span><span class="p">)</span>
-<span class="kn">else:</span>
-    <span class="n">sos_run</span><span class="p">(</span><span class="s1">&#39;sier:3&#39;</span><span class="p">)</span>
+<span class="n">fail_if</span><span class="p">(</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.varbvs_pip&quot;</span><span class="p">),</span> <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Cannot find ``</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.varbvs_pip`` for use with hybrid pipeline!&quot;</span><span class="p">)</span>
+<span class="n">expected_effects</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.varbvs_pip&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
+<span class="n">sos_run</span><span class="p">(</span><span class="s1">&#39;mcmc:3&#39;</span> <span class="k">if</span> <span class="n">expected_effects</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="k">else</span> <span class="s1">&#39;sier:3&#39;</span><span class="p">,</span> <span class="n">expected_effects</span> <span class="o">=</span> <span class="n">expected_effects</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -693,18 +722,24 @@ Sections
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">mcmc_3</span><span class="p">]</span>
+<span class="kn">depends:</span> <span class="n">hyperparam_file</span>
 <span class="kn">output:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="kp">name</span><span class="si">}</span><span class="s2">.gz&quot;</span>
 <span class="c1">## when chain = 3: walltime = 3h, max_walltime = 100, jobsize = 8</span>
 <span class="c1">## when chain = 1: walltime = 20m, job = 5, max_walltime = 36</span>
-<span class="kn">task:</span> <span class="kp">trunk_workers</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kp">trunk_size</span> <span class="o">=</span> <span class="n">job_size</span><span class="p">,</span> <span class="kp">walltime</span> <span class="o">=</span> <span class="n">wall_time</span><span class="p">,</span> <span class="kp">mem</span> <span class="o">=</span> <span class="s1">&#39;8G&#39;</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="n">n_core</span><span class="p">,</span> <span class="kp">tags</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">step_name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">_output</span><span class="si">:</span><span class="s1">bn</span><span class="si">}</span><span class="s1">&#39;</span>
-<span class="kn">python:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span>
+<span class="kn">task:</span> <span class="kp">trunk_workers</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kp">trunk_size</span> <span class="o">=</span> <span class="n">job_size</span><span class="p">,</span> <span class="kp">walltime</span> <span class="o">=</span> <span class="n">mcmc_walltime</span><span class="p">,</span> <span class="kp">mem</span> <span class="o">=</span> <span class="s1">&#39;8G&#39;</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="n">n_core</span><span class="p">,</span> <span class="kp">tags</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">step_name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">_output</span><span class="si">:</span><span class="s1">bn</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="kn">python:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span><span class="p">,</span> <span class="kp">env</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;THEANO_FLAGS&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;base_compiledir=</span><span class="si">{</span><span class="n">_output</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
     <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span><span class="o">,</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="o">,</span> <span class="nn">pymc3</span> <span class="k">as</span> <span class="nn">pm</span><span class="o">,</span> <span class="nn">theano.tensor</span> <span class="k">as</span> <span class="nn">tt</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;THEANO_FLAGS&quot;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;base_compiledir=${_output:an}_theano_compiledir&quot;</span>
     <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">expit</span>
-    <span class="n">priors</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;$</span><span class="si">{varbvs_priors}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">priors</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;$</span><span class="si">{hyperparam_file}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
     <span class="n">pi0</span> <span class="o">=</span> <span class="n">priors</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">mu0</span> <span class="o">=</span> <span class="n">priors</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">s0</span> <span class="o">=</span> <span class="n">priors</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">:</span><span class="n">r</span><span class="p">},</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="n">X_complete</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">:</span><span class="n">r</span><span class="p">},</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="c1"># remove duplicated columns in X but still keep track of the number of occurance and index removed </span>
+    <span class="c1"># in order to reconstruct results later</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">index_reconstruct</span><span class="p">,</span> <span class="n">dup_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">X_complete</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">return_inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;$</span><span class="si">{phenotype_file}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
     <span class="n">case_prop</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">invlogit</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">tt</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
@@ -726,10 +761,15 @@ Sections
     <span class="k">with</span> <span class="n">model</span><span class="p">:</span>
         <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">draws</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">iteration</span><span class="p">},</span> <span class="n">random_seed</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">mcmc_seed</span><span class="p">},</span> <span class="kp">cores</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">n_core</span><span class="p">},</span> <span class="err">$</span><span class="p">{</span><span class="n">n_chain</span><span class="p">}),</span> <span class="n">progressbar</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">chains</span> <span class="o">=</span> <span class="err">$</span><span class="p">{</span><span class="n">n_chain</span><span class="p">},</span> 
                           <span class="n">tune</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">tune_prop</span><span class="p">}</span> <span class="o">*</span> <span class="err">$</span><span class="p">{</span><span class="n">iteration</span><span class="p">}),</span> <span class="n">nuts</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;target_accept&quot;</span><span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="n">target_accept</span><span class="p">}})</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">]),</span>
-                            <span class="s1">&#39;beta&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">trace</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">],</span> <span class="n">trace</span><span class="p">[</span><span class="s2">&quot;xi&quot;</span><span class="p">])),</span>
-                            <span class="s1">&#39;beta_given_inclusion&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">])</span>
-                            <span class="p">})</span>
+    <span class="c1"># results</span>
+    <span class="n">pip</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">])</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">trace</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">],</span> <span class="n">trace</span><span class="p">[</span><span class="s2">&quot;xi&quot;</span><span class="p">]))</span>
+    <span class="n">beta_given_inclusion</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;beta&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">trace</span><span class="p">[</span><span class="s1">&#39;xi&#39;</span><span class="p">])</span>
+    <span class="c1"># reconstruct original results adding back duplicated variables</span>
+    <span class="n">pip</span> <span class="o">=</span> <span class="n">pip</span> <span class="o">/</span> <span class="n">dup_counts</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span> <span class="o">/</span> <span class="n">dup_counts</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">pip</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">beta_given_inclusion</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">index_reconstruct</span><span class="p">,:]</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;inclusion_probability&#39;</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="s1">&#39;beta_given_inclusion&#39;</span><span class="p">])</span>
     <span class="n">results</span><span class="p">[[</span><span class="s2">&quot;inclusion_probability&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">:</span><span class="n">r</span><span class="p">},</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
     <span class="n">results</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;$</span><span class="si">{_output:n}</span><span class="s2">.pip_beta.gz&quot;</span><span class="p">,</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;intercept: uniform</span><span class="se">\n</span><span class="s2">n_chain: $</span><span class="si">{n_chain}</span><span class="se">\n</span><span class="s2">n_iter: $</span><span class="si">{iteration}</span><span class="se">\n</span><span class="s2">tune_prop: $</span><span class="si">{tune_prop}</span><span class="se">\n</span><span class="s2">seed: $</span><span class="si">{mcmc_seed}</span><span class="se">\n</span><span class="s2">target_accept: $</span><span class="si">{target_accept}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;$</span><span class="si">{_output:n}</span><span class="s2">.yml&quot;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">))</span>
@@ -743,7 +783,8 @@ Sections
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Method-sier-(single-effect-regression)">Method <code>sier</code> (single effect regression)<a class="anchor-link" href="#Method-sier-(single-effect-regression)">&#182;</a></h2>
+<h2 id="Method-sier-(single-effect-regression)">Method <code>sier</code> (single effect regression)<a class="anchor-link" href="#Method-sier-(single-effect-regression)">&#182;</a></h2><p>Set <code>--expected-effects</code> to <code>1</code> to use the original single effect model. Otherwise based on input <code>--expected-effects</code> and availablility of <code>varbvs</code> based regional PIP information, the output PIP will be weighted by expected number of effects.</p>
+
 </div>
 </div>
 </div>
@@ -753,22 +794,131 @@ Sections
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">sier_3</span><span class="p">]</span>
-<span class="kn">depends:</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;data.table&quot;</span><span class="p">)</span>
+<span class="kn">depends:</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;data.table&quot;</span><span class="p">),</span> <span class="n">hyperparam_file</span>
+<span class="kn">parameter:</span> <span class="n">expected_effects</span> <span class="o">=</span> <span class="o">-</span><span class="mi">9</span>
+<span class="k">if</span> <span class="n">expected_effects</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">expected_effects</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.varbvs_pip&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.varbvs_pip&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="mi">1</span>
 <span class="kn">output:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="kp">name</span><span class="si">}</span><span class="s2">.gz&quot;</span>
 <span class="kn">task:</span> <span class="kp">trunk_workers</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kp">trunk_size</span> <span class="o">=</span> <span class="n">job_size</span><span class="p">,</span> <span class="kp">walltime</span> <span class="o">=</span> <span class="s1">&#39;10m&#39;</span><span class="p">,</span> <span class="kp">mem</span> <span class="o">=</span> <span class="s1">&#39;8G&#39;</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kp">tags</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">step_name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">_output</span><span class="si">:</span><span class="s1">bn</span><span class="si">}</span><span class="s1">&#39;</span>
 <span class="kn">R:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_output</span><span class="si">:</span><span class="s1">n</span><span class="si">}</span><span class="s1">.stderr&#39;</span><span class="p">,</span> <span class="n">stdout</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_output</span><span class="si">:</span><span class="s1">n</span><span class="si">}</span><span class="s1">.stdout&#39;</span>
-    <span class="n">source</span><span class="p">(</span><span class="s2">&quot;${cwd:dd}/logistic/code/misc.R&quot;</span><span class="p">)</span>  
-    <span class="n">source</span><span class="p">(</span><span class="s2">&quot;${cwd:dd}/logistic/code/bayes.R&quot;</span><span class="p">)</span>
+    <span class="c1"># Compute useful posterior statistics in a simple &quot;single effect&quot;</span>
+    <span class="c1"># Bayesian logistic regression, in which y ~ sigmoid(b0 + x*b) and b ~</span>
+    <span class="c1"># N(mu0,s0), where b0 is the intercept, b is the regression</span>
+    <span class="c1"># coefficient, and mu0, s0 are the the prior mean and standard</span>
+    <span class="c1"># deviation of b. (The intercept is assigned a &quot;flat&quot; prior.)</span>
+    <span class="c1">#</span>
+    <span class="c1"># Input X is the n x p &quot;data matrix&quot;, where n is the number of samples</span>
+    <span class="c1"># and p is the number of candidate predictors, and input y is the</span>
+    <span class="c1"># vector of n observed outcomes.</span>
+    <span class="c1">#</span>
+    <span class="c1"># Input argument p1 specifies the prior inclusion probabilities; it</span>
+    <span class="c1"># should be a vector of length p in which p1[i]/sum(p1) gives the</span>
+    <span class="c1"># prior probability that the jth candidate predictor has a nonzero</span>
+    <span class="c1"># effect on the outcome, Y.</span>
+    <span class="c1">#</span>
+    <span class="c1"># Note that these computations could probably be made faster and more</span>
+    <span class="c1"># accurate using a fast 2-d numerical integration (quadrature) method.</span>
+    <span class="n">bayes</span><span class="o">.</span><span class="n">logistic</span> <span class="o">&lt;-</span> <span class="n">function</span> <span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">mu0</span><span class="p">,</span> <span class="n">s0</span><span class="p">)</span> <span class="p">{</span>
+
+      <span class="c1"># These two variables define the 2-d grid used to compute the Monte</span>
+      <span class="c1"># Carlo (importance sampling) estimates.</span>
+      <span class="n">b0</span>  <span class="o">&lt;-</span> <span class="n">seq</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)</span> 
+      <span class="n">b</span>   <span class="o">&lt;-</span> <span class="n">seq</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)</span>
+
+      <span class="c1"># Create the 2-d grid.</span>
+      <span class="n">out</span> <span class="o">&lt;-</span> <span class="n">expand</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">b0</span> <span class="o">=</span> <span class="n">b0</span><span class="p">,</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">)</span>
+      <span class="n">b0</span>  <span class="o">&lt;-</span> <span class="n">out</span><span class="err">$</span><span class="n">b0</span>
+      <span class="n">b</span>   <span class="o">&lt;-</span> <span class="n">out</span><span class="err">$</span><span class="n">b</span>
+      <span class="n">rm</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+      <span class="c1"># Get the number of candidate predictors (p) and importance weights (n).</span>
+      <span class="n">p</span> <span class="o">&lt;-</span> <span class="n">ncol</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+      <span class="n">n</span> <span class="o">&lt;-</span> <span class="n">length</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+      <span class="c1"># Initialize storage for the marginal log-likelihoods (logZ) and the</span>
+      <span class="c1"># posterior means (mu1) and standard deviations (s1) of the</span>
+      <span class="c1"># coefficients.</span>
+      <span class="n">logZ</span> <span class="o">&lt;-</span> <span class="n">rep</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+      <span class="n">mu1</span>  <span class="o">&lt;-</span> <span class="n">rep</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+      <span class="n">s1</span>   <span class="o">&lt;-</span> <span class="n">rep</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+
+      <span class="c1"># Repeat for each candidate predictor.</span>
+      <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">p</span><span class="p">)</span>  <span class="p">{</span>
+
+        <span class="c1"># Compute the log-importance weights, ignoring constant terms. The</span>
+        <span class="c1"># important weight is a product of the (logistic) likelihood and</span>
+        <span class="c1"># the (normal) prior. This is the step that requires the most</span>
+        <span class="c1"># effort.</span>
+        <span class="n">logw</span> <span class="o">&lt;-</span> <span class="n">rep</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">x</span>    <span class="o">&lt;-</span> <span class="n">X</span><span class="p">[,</span><span class="n">j</span><span class="p">]</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+          <span class="n">u</span>       <span class="o">&lt;-</span> <span class="n">b0</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+          <span class="n">logw</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="nb">sum</span><span class="p">((</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">u</span> <span class="o">+</span> <span class="n">logsigmoid</span><span class="p">(</span><span class="n">u</span><span class="p">))</span> <span class="o">-</span> <span class="p">((</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu0</span><span class="p">)</span><span class="o">/</span><span class="n">s0</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Compute the importance sampling estimate of the marginal</span>
+        <span class="c1"># log-likelihood (up to a constant of proportionality).</span>
+        <span class="n">u</span>       <span class="o">&lt;-</span> <span class="nb">max</span><span class="p">(</span><span class="n">logw</span><span class="p">)</span>
+        <span class="n">logZ</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="n">log</span><span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="n">logw</span> <span class="o">-</span> <span class="n">u</span><span class="p">)))</span> <span class="o">+</span> <span class="n">u</span>
+
+        <span class="c1"># Compute the normalized importance weights.</span>
+        <span class="n">w</span> <span class="o">&lt;-</span> <span class="n">softmax</span><span class="p">(</span><span class="n">logw</span><span class="p">)</span>
+
+        <span class="c1"># Compute the mean and standard deviation of the coefficient.</span>
+        <span class="n">mu1</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span><span class="o">*</span><span class="n">b</span><span class="p">)</span>
+        <span class="n">s1</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>  <span class="o">&lt;-</span> <span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">w</span><span class="o">*</span><span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="n">mu1</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="o">^</span><span class="mi">2</span><span class="p">))</span>
+      <span class="p">}</span>
+
+      <span class="c1"># Compute the posterior inclusion probabilities.</span>
+      <span class="n">p1</span> <span class="o">&lt;-</span> <span class="n">softmax</span><span class="p">(</span><span class="n">logZ</span> <span class="o">+</span> <span class="n">log</span><span class="p">(</span><span class="n">p0</span><span class="p">))</span>
+
+      <span class="c1"># Output the data frame containing the computed posterior</span>
+      <span class="c1"># statistics.</span>
+      <span class="k">return</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">p1</span> <span class="o">=</span> <span class="n">p1</span><span class="p">,</span><span class="n">mu1</span> <span class="o">=</span> <span class="n">mu1</span><span class="p">,</span><span class="n">s1</span> <span class="o">=</span> <span class="n">s1</span><span class="p">))</span>
+    <span class="p">}</span>
+    <span class="c1"># sigmoid(x) returns the sigmoid of the elements of x. The sigmoid</span>
+    <span class="c1"># function is also known as the logistic link function. It is the</span>
+    <span class="c1"># inverse of logit(x).</span>
+    <span class="n">sigmoid</span> <span class="o">&lt;-</span> <span class="n">function</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">y</span>   <span class="o">&lt;-</span> <span class="n">x</span>
+      <span class="n">y</span><span class="p">[]</span> <span class="o">&lt;-</span> <span class="mi">0</span>
+      <span class="n">y</span><span class="p">[</span><span class="n">x</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">500</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
+      <span class="k">return</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="c1"># logpexp(x) returns log(1 + exp(x)). The computation is performed in a</span>
+    <span class="c1"># numerically stable manner. For large entries of x, log(1 + exp(x)) is</span>
+    <span class="c1"># effectively the same as x.</span>
+    <span class="n">logpexp</span> <span class="o">&lt;-</span> <span class="n">function</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">y</span>    <span class="o">&lt;-</span> <span class="n">x</span>
+      <span class="n">i</span>    <span class="o">&lt;-</span> <span class="n">which</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">16</span><span class="p">)</span>
+      <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+      <span class="k">return</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Use this instead of log(sigmoid(x)) to avoid loss of numerical precision.</span>
+    <span class="n">logsigmoid</span> <span class="o">&lt;-</span> <span class="n">function</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span>
+      <span class="o">-</span><span class="n">logpexp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Compute the softmax of vector x in a more numerically prudent manner</span>
+    <span class="c1"># that avoids overflow or underflow.</span>
+    <span class="n">softmax</span> <span class="o">&lt;-</span> <span class="n">function</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">y</span> <span class="o">&lt;-</span> <span class="n">exp</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+      <span class="k">return</span><span class="p">(</span><span class="n">y</span><span class="o">/</span><span class="nb">sum</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+    <span class="p">}</span>
+    <span class="c1">###</span>
+    <span class="c1">###</span>
+    <span class="c1">###</span>
     <span class="n">X</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">read</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">gzfile</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">:</span><span class="n">r</span><span class="p">}),</span> <span class="n">header</span> <span class="o">=</span> <span class="n">F</span><span class="p">))</span>
     <span class="n">X</span> <span class="o">&lt;-</span> <span class="n">scale</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">center</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">read</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;$</span><span class="si">{phenotype_file}</span><span class="s2">&quot;</span><span class="p">))</span>
     <span class="n">p</span> <span class="o">&lt;-</span> <span class="n">dim</span><span class="p">(</span><span class="n">X</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">priors</span> <span class="o">&lt;-</span> <span class="n">read</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;$</span><span class="si">{varbvs_priors}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">priors</span> <span class="o">&lt;-</span> <span class="n">read</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;$</span><span class="si">{hyperparam_file}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">p0</span> <span class="o">&lt;-</span> <span class="n">rep</span><span class="p">(</span><span class="n">priors</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
     <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Fitting Bayesian logistic regression model ...&quot;</span><span class="p">)</span>
     <span class="n">out</span> <span class="o">&lt;-</span> <span class="n">bayes</span><span class="o">.</span><span class="n">logistic</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">priors</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">priors</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
     <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Model fitting completed!&quot;</span><span class="p">)</span>
-    <span class="n">data</span><span class="o">.</span><span class="n">table</span><span class="p">::</span><span class="n">fwrite</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">out</span><span class="err">$</span><span class="n">p1</span><span class="p">),</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">:</span><span class="n">r</span><span class="p">},</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">col</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">compress</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">)</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">table</span><span class="p">::</span><span class="n">fwrite</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">out</span><span class="err">$</span><span class="n">p1</span> <span class="o">*</span> <span class="err">$</span><span class="p">{</span><span class="n">expected_effects</span><span class="p">}),</span> <span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">:</span><span class="n">r</span><span class="p">},</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">col</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">compress</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -810,6 +960,7 @@ Sections
 <span class="kn">parameter:</span> <span class="n">pve</span> <span class="o">=</span> <span class="mf">0.005</span>
 <span class="kn">parameter:</span> <span class="n">estimate_prior_method</span> <span class="o">=</span> <span class="s2">&quot;optim&quot;</span>
 <span class="kn">output:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="kp">name</span><span class="si">}</span><span class="s2">.rds&quot;</span>
+<span class="kn">task:</span> <span class="kp">trunk_workers</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kp">trunk_size</span> <span class="o">=</span> <span class="n">job_size</span><span class="p">,</span> <span class="kp">walltime</span> <span class="o">=</span> <span class="s1">&#39;2m&#39;</span><span class="p">,</span> <span class="kp">mem</span> <span class="o">=</span> <span class="s1">&#39;8G&#39;</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kp">tags</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">step_name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">_output</span><span class="si">:</span><span class="s1">bn</span><span class="si">}</span><span class="s1">&#39;</span>
 <span class="kn">R:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_output</span><span class="si">:</span><span class="s1">n</span><span class="si">}</span><span class="s1">.stderr&#39;</span><span class="p">,</span> <span class="n">stdout</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_output</span><span class="si">:</span><span class="s1">n</span><span class="si">}</span><span class="s1">.stdout&#39;</span>
     <span class="n">library</span><span class="p">(</span><span class="n">susieR</span><span class="p">)</span>
     <span class="n">X</span> <span class="o">&lt;-</span> <span class="k">as</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">read</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">gzfile</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">:</span><span class="n">r</span><span class="p">}),</span> <span class="n">header</span> <span class="o">=</span> <span class="n">F</span><span class="p">))</span>
@@ -893,7 +1044,6 @@ Sections
 <span class="kn">depends:</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;varbvs&quot;</span><span class="p">),</span> <span class="n">R_library</span><span class="p">(</span><span class="s2">&quot;data.table&quot;</span><span class="p">)</span>
 <span class="kn">input:</span> <span class="n">genotype_file</span><span class="p">,</span> <span class="n">phenotype_file</span>
 <span class="kn">output:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">:</span><span class="s2">a</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">bn</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="kp">name</span><span class="si">}</span><span class="s2">.rds&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">:</span><span class="s2">a</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">bn</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="kp">name</span><span class="si">}</span><span class="s2">.pip&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">:</span><span class="s2">a</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">bn</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="kp">name</span><span class="si">}</span><span class="s2">.hyperparams&quot;</span>
-
 <span class="kn">python:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s2">&quot;${ }&quot;</span>
     <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">r</span><span class="p">},</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
@@ -955,7 +1105,7 @@ Sections
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Generate-CNV-blocks">Generate CNV blocks<a class="anchor-link" href="#Generate-CNV-blocks">&#182;</a></h2><p>For numerical studies in the manuscript. Input has to use all genotypes including zeros, because in copy model based simulation we have to use actual genome positions, and genotype data without removing any genes is a proxy for genotype positions. Here it is not exactly copy model in the context of SNPs where block size can be based on knowledge of human LD block size -- at least 30 genes per CNV block is based on empirical experiences.</p>
+<h2 id="Simulate-CNV-blocks">Simulate CNV blocks<a class="anchor-link" href="#Simulate-CNV-blocks">&#182;</a></h2><p>For numerical studies in the manuscript. Input has to use all genotypes including zeros, because in copy model based simulation we have to use actual genome positions, and genotype data without removing any genes is a proxy for genotype positions. Here it is not exactly copy model in the context of SNPs where block size can be based on knowledge of human LD block size -- at least 30 genes per CNV block is based on empirical experiences.</p>
 
 </div>
 </div>
@@ -970,22 +1120,34 @@ Sections
 <span class="kn">input:</span> <span class="n">genotype_file</span>
 <span class="kn">output:</span> <span class="n">data</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">:</span><span class="s2">a</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s2">bn</span><span class="si">}</span><span class="s2">.cleaned.gz&quot;</span><span class="p">,</span> 
         <span class="n">boundary</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">:</span><span class="s2">a</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s2">bn</span><span class="si">}</span><span class="s2">_b</span><span class="si">{</span><span class="n">n_gene_in_block</span><span class="si">}</span><span class="s2">.block_index.csv&quot;</span><span class="p">,</span> 
-        <span class="n">original_boundary</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">:</span><span class="s2">a</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s2">bn</span><span class="si">}</span><span class="s2">_b</span><span class="si">{</span><span class="n">n_gene_in_block</span><span class="si">}</span><span class="s2">.block_index_original.csv&quot;</span><span class="p">,</span>
-        <span class="n">partitioned_data</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">:</span><span class="s2">a</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s2">bn</span><span class="si">}</span><span class="s2">_b</span><span class="si">{</span><span class="n">n_gene_in_block</span><span class="si">}</span><span class="s2">.gz&quot;</span>
+        <span class="n">original_boundary</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">:</span><span class="s2">a</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s2">bn</span><span class="si">}</span><span class="s2">_b</span><span class="si">{</span><span class="n">n_gene_in_block</span><span class="si">}</span><span class="s2">.block_index_original.csv&quot;</span>
+<span class="n">sos_run</span><span class="p">(</span><span class="s1">&#39;genome_partition&#39;</span><span class="p">,</span> <span class="n">input_file</span> <span class="o">=</span> <span class="n">_input</span><span class="p">,</span> <span class="n">output_files</span> <span class="o">=</span> <span class="n">_output</span><span class="p">,</span> <span class="n">n_gene_in_block</span> <span class="o">=</span> <span class="n">n_gene_in_block</span><span class="p">)</span>
+</pre></div>
 
-<span class="n">sos_run</span><span class="p">(</span><span class="s1">&#39;genome_partition&#39;</span><span class="p">,</span> <span class="n">input_file</span> <span class="o">=</span> <span class="n">_input</span><span class="p">,</span> <span class="n">output_files</span> <span class="o">=</span> <span class="n">_output</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="n">n_gene_in_block</span> <span class="o">=</span> <span class="n">n_gene_in_block</span><span class="p">)</span>
+    </div>
+</div>
+</div>
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">simulate_2</span><span class="p">]</span>
+<span class="kn">input:</span> <span class="n">genotype_file</span><span class="p">,</span> <span class="n">output_from</span><span class="p">(</span><span class="s1">&#39;simulate_1&#39;</span><span class="p">)[</span><span class="s1">&#39;original_boundary&#39;</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">nn</span><span class="si">}</span><span class="s2">.gz&quot;</span>
 <span class="kn">python:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span>
     <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">:</span><span class="n">r</span><span class="p">},</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">bound</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">[</span><span class="s2">&quot;original_boundary&quot;</span><span class="p">]:</span><span class="n">r</span><span class="p">},</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">r</span><span class="p">},</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">bound</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="n">r</span><span class="p">},</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">bound2</span> <span class="o">=</span> <span class="p">[[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">bound</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bound</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bound</span><span class="o">.</span><span class="n">values</span><span class="p">)]</span>
     <span class="n">fill</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
         <span class="n">fill</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">l</span><span class="p">,</span> <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">bound2</span><span class="p">])</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">fill</span><span class="p">)</span>
     <span class="c1"># save original data by partitions</span>
-    <span class="n">res</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">[</span><span class="s2">&quot;partitioned_data&quot;</span><span class="p">]:</span><span class="n">r</span><span class="p">},</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_output</span><span class="p">:</span><span class="n">r</span><span class="p">},</span> <span class="n">compression</span> <span class="o">=</span> <span class="s2">&quot;gzip&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1005,17 +1167,18 @@ Sections
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">simulate_2</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">simulate_3</span><span class="p">]</span>
 <span class="kn">parameter:</span> <span class="n">shape</span> <span class="o">=</span> <span class="mf">1.4</span>
 <span class="kn">parameter:</span> <span class="n">scale</span> <span class="o">=</span> <span class="mf">0.6</span>
 <span class="kn">parameter:</span> <span class="n">beta_method</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span>
 <span class="kn">parameter:</span> <span class="n">pi0</span> <span class="o">=</span> <span class="mf">0.95</span>
 <span class="kn">parameter:</span> <span class="n">seed</span> <span class="o">=</span> <span class="mi">999</span>
-<span class="kn">output:</span> <span class="n">coef</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;original_boundary&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">nn</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="kp">name</span><span class="si">}</span><span class="s2">.beta&quot;</span>
+<span class="kn">input:</span> <span class="n">output_from</span><span class="p">(</span><span class="s1">&#39;simulate_1&#39;</span><span class="p">)[</span><span class="s1">&#39;original_boundary&#39;</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="si">:</span><span class="s2">nn</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="kp">name</span><span class="si">}</span><span class="s2">.beta&quot;</span>
 <span class="kn">python:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span>
     <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="o">,</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-    <span class="n">bound</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">[</span><span class="s2">&quot;original_boundary&quot;</span><span class="p">]:</span><span class="n">r</span><span class="p">},</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">bound2</span> <span class="o">=</span> <span class="p">[[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">bound</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bound</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bound</span><span class="o">.</span><span class="n">values</span><span class="p">)]</span>    
+    <span class="n">bound</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="n">_input</span><span class="p">:</span><span class="n">r</span><span class="p">},</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">bound2</span> <span class="o">=</span> <span class="p">[[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">bound</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bound</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bound</span><span class="o">.</span><span class="n">values</span><span class="p">)]</span>
     <span class="k">def</span> <span class="nf">logor_gamma</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
     <span class="k">def</span> <span class="nf">logor_normal</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">se</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
@@ -1045,16 +1208,16 @@ Sections
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">simulate_3</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">simulate_4</span><span class="p">]</span>
 <span class="kn">parameter:</span> <span class="n">sample_size</span> <span class="o">=</span> <span class="mi">100000</span> <span class="c1"># sample size: default 100000, test: 1000</span>
 <span class="kn">parameter:</span> <span class="n">n_batch</span> <span class="o">=</span> <span class="mi">200</span> <span class="c1"># number of simulated sample for each job, default: 200, test: 20</span>
 <span class="k">assert</span> <span class="n">sample_size</span> <span class="o">%</span> <span class="n">n_batch</span> <span class="o">==</span> <span class="mi">0</span>
 <span class="n">batches</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_batch</span><span class="p">)]</span>
-<span class="kn">input:</span> <span class="n">output_from</span><span class="p">(</span><span class="s1">&#39;simulate_1&#39;</span><span class="p">)[</span><span class="s1">&#39;partitioned_data&#39;</span><span class="p">],</span> <span class="n">output_from</span><span class="p">(</span><span class="s1">&#39;simulate_2&#39;</span><span class="p">)[</span><span class="s2">&quot;coef&quot;</span><span class="p">],</span> <span class="n">for_each</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;batches&#39;</span><span class="p">]</span>
-<span class="kn">output:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;coef&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.batch_</span><span class="si">{</span><span class="n">_batches</span><span class="si">}</span><span class="s2">.X.gz&quot;</span><span class="p">,</span> 
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;coef&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.batch_</span><span class="si">{</span><span class="n">_batches</span><span class="si">}</span><span class="s2">.y&quot;</span><span class="p">,</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;coef&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.batch_</span><span class="si">{</span><span class="n">_batches</span><span class="si">}</span><span class="s2">.case_matched.X.gz&quot;</span><span class="p">,</span> 
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;coef&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.batch_</span><span class="si">{</span><span class="n">_batches</span><span class="si">}</span><span class="s2">.case_matched.y&quot;</span>
+<span class="kn">input:</span> <span class="n">output_from</span><span class="p">(</span><span class="s1">&#39;simulate_2&#39;</span><span class="p">),</span> <span class="n">output_from</span><span class="p">(</span><span class="s1">&#39;simulate_3&#39;</span><span class="p">),</span> <span class="n">for_each</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;batches&#39;</span><span class="p">]</span>
+<span class="kn">output:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.batch_</span><span class="si">{</span><span class="n">_batches</span><span class="si">}</span><span class="s2">.X.gz&quot;</span><span class="p">,</span> 
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.batch_</span><span class="si">{</span><span class="n">_batches</span><span class="si">}</span><span class="s2">.y&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.batch_</span><span class="si">{</span><span class="n">_batches</span><span class="si">}</span><span class="s2">.case_matched.X.gz&quot;</span><span class="p">,</span> 
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">n</span><span class="si">}</span><span class="s2">.batch_</span><span class="si">{</span><span class="n">_batches</span><span class="si">}</span><span class="s2">.case_matched.y&quot;</span>
 <span class="kn">task:</span> <span class="kp">trunk_workers</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kp">trunk_size</span> <span class="o">=</span> <span class="n">job_size</span><span class="p">,</span> <span class="kp">walltime</span> <span class="o">=</span> <span class="s1">&#39;10m&#39;</span><span class="p">,</span> <span class="kp">mem</span> <span class="o">=</span> <span class="s1">&#39;8G&#39;</span><span class="p">,</span> <span class="kp">cores</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="kp">tags</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">step_name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">_output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">bn</span><span class="si">}</span><span class="s1">&#39;</span>
 <span class="kn">python:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s1">&#39;${ }&#39;</span>
     <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="o">,</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -1091,7 +1254,7 @@ Sections
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">simulate_4</span><span class="p">]</span>
+<div class=" highlight hl-sos"><pre><span></span><span class="p">[</span><span class="n">simulate_5</span><span class="p">]</span>
 <span class="kn">input:</span> <span class="n">group_by</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span>
 <span class="kn">output:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">nnn</span><span class="si">}</span><span class="s1">.samples.X.gz&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_input</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">nnn</span><span class="si">}</span><span class="s1">.samples.y.gz&#39;</span>
 <span class="kn">bash:</span> <span class="n">expand</span> <span class="o">=</span> <span class="s2">&quot;${ }&quot;</span>
@@ -1106,7 +1269,7 @@ Sections
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/840f13ef458fdb2a1a562fec4476c730bb613620/workflow/20190717_workflow.ipynb"><code>workflow/20190717_workflow.ipynb</code></a> committed by minqiao on Mon May 25 01:40:10 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/840f13ef458fdb2a1a562fec4476c730bb613620">revision 1, 840f13e</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/77e7b8286ddb6ad2413b080690782449821d3f8c/workflow/20190717_workflow.ipynb"><code>workflow/20190717_workflow.ipynb</code></a> committed by minqiao on Tue May 26 00:58:22 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/77e7b8286ddb6ad2413b080690782449821d3f8c">revision 2, 77e7b82</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
