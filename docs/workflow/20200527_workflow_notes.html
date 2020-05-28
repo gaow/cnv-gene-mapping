@@ -304,6 +304,11 @@ body {
     --cwd output/simu_dele_30_0528 \
     --sample-size 200000 \
     --n-batch 200</code></pre>
+<h3 id="varbvs_wg">varbvs_wg<a class="anchor-link" href="#varbvs_wg">&#182;</a></h3>
+<pre><code>sos run workflow/20190717_workflow.ipynb varbvs_wg \
+    --name varbvs_wg --cwd output/simu_dele_30_0528 \
+    --genotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.gz \
+    --phenotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.y.gz</code></pre>
 <h3 id="fisher">fisher<a class="anchor-link" href="#fisher">&#182;</a></h3>
 <pre><code>sos run workflow/20190717_workflow.ipynb fisher \
     --name fisher \
@@ -312,14 +317,26 @@ body {
     --phenotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.y.gz</code></pre>
 <h3 id="SuSiE">SuSiE<a class="anchor-link" href="#SuSiE">&#182;</a></h3>
 <pre><code>sos run workflow/20190717_workflow.ipynb susie \
-    --name simulation_dele --cwd output/simulation_dele \
-    --genotype-file output/simulation_dele/deletion.X.no_colrownames_b30.simulation_dele.samples.X.gz \
-    --phenotype-file output/simulation_dele/deletion.X.no_colrownames_b30.simulation_dele.samples.y.gz</code></pre>
+    --name susie --cwd output/simu_dele_30_0528 \
+    --genotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.gz \
+    --phenotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.y.gz</code></pre>
 <h3 id="varbvs">varbvs<a class="anchor-link" href="#varbvs">&#182;</a></h3>
 <pre><code>sos run workflow/20190717_workflow.ipynb varbvs \
-    --name simulation_dele --cwd output/simulation_dele \
-    --genotype-file output/simulation_dele/deletion.X.no_colrownames_b30.simulation_dele.samples.X.gz \
-    --phenotype-file output/simulation_dele/deletion.X.no_colrownames_b30.simulation_dele.samples.y.gz</code></pre>
+    --name varbvs --cwd output/simu_dele_30_0528 \
+    --genotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.gz \
+    --phenotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.y.gz</code></pre>
+<h3 id="sier,-need---hyperparam_file">sier, need <strong>--hyperparam_file</strong><a class="anchor-link" href="#sier,-need---hyperparam_file">&#182;</a></h3>
+<pre><code>sos run workflow/20190717_workflow.ipynb sier \
+    --name sier --cwd output/simu_dele_30_0528 \
+    --genotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.gz \
+    --phenotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.y.gz \
+    --hyperparam_file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.varbvs_wg.hyperparams</code></pre>
+<h3 id="hybrid,-need---varbvs_pip">hybrid, need <strong>--varbvs_pip</strong><a class="anchor-link" href="#hybrid,-need---varbvs_pip">&#182;</a></h3>
+<pre><code>sos run workflow/20190717_workflow.ipynb hybrid \
+    --name hybrid --cwd output/simu_dele_30_0528 \
+    --genotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.gz \
+    --phenotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.y.gz \
+    --varbvs_pip output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.varbvs_wg.genename.pip</code></pre>
 
 </div>
 </div>
@@ -329,7 +346,12 @@ body {
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">sos</span> <span class="n">run</span> <span class="n">workflow</span><span class="o">/</span><span class="mi">20190717</span><span class="n">_workflow</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">sier</span>     \
+<span class="o">--</span><span class="kp">name</span> <span class="n">sier</span> <span class="o">--</span><span class="n">cwd</span> <span class="n">output</span><span class="o">/</span><span class="n">simu_dele_30_0528</span>     \
+<span class="o">--</span><span class="n">genotype</span><span class="o">-</span><span class="n">file</span> <span class="n">output</span><span class="o">/</span><span class="n">simu_dele_30_0528</span><span class="o">/</span><span class="n">deletion</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">colnames_b30</span><span class="o">.</span><span class="n">simu_dele_30_0528</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">X_genename</span><span class="o">.</span><span class="n">gz</span>     \
+<span class="o">--</span><span class="n">phenotype</span><span class="o">-</span><span class="n">file</span> <span class="n">output</span><span class="o">/</span><span class="n">simu_dele_30_0528</span><span class="o">/</span><span class="n">deletion</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">colnames_b30</span><span class="o">.</span><span class="n">simu_dele_30_0528</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">gz</span>     \
+<span class="o">--</span><span class="n">hyperparam_file</span> <span class="n">output</span><span class="o">/</span><span class="n">simu_dele_30_0528</span><span class="o">/</span><span class="n">deletion</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">colnames_b30</span><span class="o">.</span><span class="n">simu_dele_30_0528</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">X_genename</span><span class="o">.</span><span class="n">varbvs_wg</span><span class="o">.</span><span class="n">hyperparams</span>  \
+<span class="o">-</span><span class="n">j</span> <span class="mi">7</span>  <span class="o">-</span><span class="n">s</span> <span class="n">build</span>
 </pre></div>
 
     </div>
@@ -339,7 +361,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/56ce93212703ee5dc843e010cf9b20e6749e085f/workflow/20200527_workflow_notes.ipynb"><code>workflow/20200527_workflow_notes.ipynb</code></a> committed by minqiao on Thu May 28 11:11:11 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/56ce93212703ee5dc843e010cf9b20e6749e085f">revision 2, 56ce932</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/2b50bd972aed30a88ab5dd67cdb469152b542459/workflow/20200527_workflow_notes.ipynb"><code>workflow/20200527_workflow_notes.ipynb</code></a> committed by minqiao on Thu May 28 14:13:34 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/2b50bd972aed30a88ab5dd67cdb469152b542459">revision 3, 2b50bd9</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
