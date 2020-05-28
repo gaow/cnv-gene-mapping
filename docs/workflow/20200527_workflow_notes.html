@@ -251,6 +251,45 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Simulation-and-analysis-process">Simulation and analysis process<a class="anchor-link" href="#Simulation-and-analysis-process">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="20200527-test-with-header-names">20200527 test with header names<a class="anchor-link" href="#20200527-test-with-header-names">&#182;</a></h2><h3 id="Simulation">Simulation<a class="anchor-link" href="#Simulation">&#182;</a></h3>
+<pre><code>sos run workflow/20190717_workflow.ipynb simulate \
+    --name test_simu_dele_header \
+    --genotype-file data/deletion.X.colnames.gz \
+    --cwd output/test_simu_dele_header \
+    --sample-size 200 \
+    --n-batch 5 \
+    -s build</code></pre>
+<h3 id="varbvs_wg">varbvs_wg<a class="anchor-link" href="#varbvs_wg">&#182;</a></h3>
+<pre><code>sos run workflow/20190717_workflow.ipynb varbvs_wg \
+    --name test_simu_dele_header \
+    --genotype-file output/test_simu_dele_header/deletion.X.colnames_b30.test_simu_dele_header.samples.X_genename.gz \
+    --phenotype-file output/test_simu_dele_header/deletion.X.colnames_b30.test_simu_dele_header.samples.y.gz \
+    --cwd output/test_simu_dele_header</code></pre>
+<h3 id="fisher">fisher<a class="anchor-link" href="#fisher">&#182;</a></h3>
+<pre><code>sos run workflow/20190717_workflow.ipynb fisher \
+    --name fisher \
+    --genotype-file output/test_simu_dele_header/deletion.X.colnames_b30.test_simu_dele_header.samples.X_genename.gz \
+    --phenotype-file output/test_simu_dele_header/deletion.X.colnames_b30.test_simu_dele_header.samples.y.gz \
+    --cwd output/test_simu_dele_header</code></pre>
+<h3 id="SuSiE">SuSiE<a class="anchor-link" href="#SuSiE">&#182;</a></h3>
+<pre><code>sos run workflow/20190717_workflow.ipynb susie \
+    --name susie \
+    --genotype-file output/test_simu_dele_header/deletion.X.colnames_b30.test_simu_dele_header.samples.X_genename.gz \
+    --phenotype-file output/test_simu_dele_header/deletion.X.colnames_b30.test_simu_dele_header.samples.y.gz \
+    --cwd output/test_simu_dele_header</code></pre>
+<h3 id="varbvs">varbvs<a class="anchor-link" href="#varbvs">&#182;</a></h3>
+<pre><code>sos run workflow/20190717_workflow.ipynb varbvs \
+    --name varbvs \
+    --genotype-file output/test_simu_dele_header/deletion.X.colnames_b30.test_simu_dele_header.samples.X_genename.gz \
+    --phenotype-file output/test_simu_dele_header/deletion.X.colnames_b30.test_simu_dele_header.samples.y.gz \
+    --cwd output/test_simu_dele_header</code></pre>
 
 </div>
 </div>
@@ -260,16 +299,17 @@ body {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="20200527-deletion-CNV,-no-header-and-index">20200527 deletion CNV, no header and index<a class="anchor-link" href="#20200527-deletion-CNV,-no-header-and-index">&#182;</a></h2><h3 id="Simulation">Simulation<a class="anchor-link" href="#Simulation">&#182;</a></h3>
 <pre><code>sos run workflow/20190717_workflow.ipynb simulate \
-    --name simulation_dele \
-    --genotype-file /home/min/GIT/cnv-gene-mapping/data/deletion.X.no_colrownames.gz \
-    --cwd output/simulation_dele \
+    --name simu_dele_30_0528 \
+    --genotype-file /home/min/GIT/cnv-gene-mapping/data/deletion.X.colnames.gz \
+    --cwd output/simu_dele_30_0528 \
     --sample-size 200000 \
     --n-batch 200</code></pre>
 <h3 id="fisher">fisher<a class="anchor-link" href="#fisher">&#182;</a></h3>
 <pre><code>sos run workflow/20190717_workflow.ipynb fisher \
-    --name simulation_dele --cwd output/simulation_dele \
-    --genotype-file output/simulation_dele/deletion.X.no_colrownames_b30.simulation_dele.samples.X.gz \
-    --phenotype-file output/simulation_dele/deletion.X.no_colrownames_b30.simulation_dele.samples.y.gz</code></pre>
+    --name fisher \
+    --cwd output/simu_dele_30_0528 \
+    --genotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.gz \
+    --phenotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.y.gz</code></pre>
 <h3 id="SuSiE">SuSiE<a class="anchor-link" href="#SuSiE">&#182;</a></h3>
 <pre><code>sos run workflow/20190717_workflow.ipynb susie \
     --name simulation_dele --cwd output/simulation_dele \
@@ -299,7 +339,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/64fcabb86b0f9d0b417883e8963561d1855d6410/workflow/20200527_workflow_notes.ipynb"><code>workflow/20200527_workflow_notes.ipynb</code></a> committed by minqiao on Wed May 27 13:38:32 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/64fcabb86b0f9d0b417883e8963561d1855d6410">revision 1, 64fcabb</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/56ce93212703ee5dc843e010cf9b20e6749e085f/workflow/20200527_workflow_notes.ipynb"><code>workflow/20200527_workflow_notes.ipynb</code></a> committed by minqiao on Thu May 28 11:11:11 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/56ce93212703ee5dc843e010cf9b20e6749e085f">revision 2, 56ce932</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
