@@ -289,6 +289,7 @@ body {
     --name susie \
     --genotype-file output/test_simu_dele_header/deletion.X.colnames_b30.test_simu_dele_header.samples.X_genename.gz \
     --phenotype-file output/test_simu_dele_header/deletion.X.colnames_b30.test_simu_dele_header.samples.y.gz \
+    --hyperparam_file output/test_simu_dele_header/deletion.X.colnames_b30.test_simu_dele_header.samples.X_genename.varbvs_wg.hyperparams \
     --cwd output/test_simu_dele_header</code></pre>
 <h3 id="MCMC">MCMC<a class="anchor-link" href="#MCMC">&#182;</a></h3>
 <pre><code>sos run workflow/20190717_workflow.ipynb mcmc \
@@ -297,17 +298,17 @@ body {
     --phenotype-file output/test_simu_dele_header/deletion.X.colnames_b30.test_simu_dele_header.samples.y.gz \
     --cwd output/test_simu_dele_header \
     --hyperparam_file output/test_simu_dele_header/deletion.X.colnames_b30.test_simu_dele_header.samples.X_genename.varbvs_wg.hyperparams \
-    --iteration 100 \
-    -s build</code></pre>
-<h3 id="hybird">hybird<a class="anchor-link" href="#hybird">&#182;</a></h3>
-<pre><code>sos run workflow/20190717_workflow.ipynb hybird \
-    --name hybird \
+    --iteration 100</code></pre>
+<h3 id="hybird">hybird<a class="anchor-link" href="#hybird">&#182;</a></h3><p>(this should also test both <code>mcmc</code> and <code>sier</code>)</p>
+
+<pre><code>sos run workflow/20190717_workflow.ipynb hybrid \
+    --name hybrid \
     --genotype-file output/test_simu_dele_header/deletion.X.colnames_b30.test_simu_dele_header.samples.X_genename.gz \
     --phenotype-file output/test_simu_dele_header/deletion.X.colnames_b30.test_simu_dele_header.samples.y.gz \
     --cwd output/test_simu_dele_header \
     --varbvs_wg_pip output/test_simu_dele_header/deletion.X.colnames_b30.test_simu_dele_header.samples.X_genename.varbvs_wg.genename.pip \
     --hyperparam_file output/test_simu_dele_header/deletion.X.colnames_b30.test_simu_dele_header.samples.X_genename.varbvs_wg.hyperparams \
-    -s build</code></pre>
+    --iteration 100</code></pre>
 
 </div>
 </div>
@@ -333,11 +334,12 @@ body {
     --cwd output/simu_dele_30_0528 \
     --genotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.gz \
     --phenotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.y.gz</code></pre>
-<h3 id="SuSiE">SuSiE<a class="anchor-link" href="#SuSiE">&#182;</a></h3>
+<h3 id="SuSiE,-need---hyperparam_file">SuSiE, need <strong>--hyperparam_file</strong><a class="anchor-link" href="#SuSiE,-need---hyperparam_file">&#182;</a></h3>
 <pre><code>sos run workflow/20190717_workflow.ipynb susie \
     --name susie --cwd output/simu_dele_30_0528 \
     --genotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.gz \
-    --phenotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.y.gz</code></pre>
+    --phenotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.y.gz \
+    --hyperparam_file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.varbvs_wg.hyperparams</code></pre>
 <h3 id="varbvs">varbvs<a class="anchor-link" href="#varbvs">&#182;</a></h3>
 <pre><code>sos run workflow/20190717_workflow.ipynb varbvs \
     --name varbvs --cwd output/simu_dele_30_0528 \
@@ -367,10 +369,10 @@ body {
 JOB_OPT="-q midway2 -c midway2.yml"
 sos run workflow/20190717_workflow.ipynb sier \
     --name sier --cwd output/simu_dele_30_0528 \
-    --genotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.gz \
+    --genotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X.gz \
     --phenotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.y.gz \
-    --hyperparam_file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.varbvs_wg.hyperparams \
-    --varbvs_wg_pip output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.varbvs_wg.genename.pip \
+    --hyperparam_file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X.varbvs_wg.hyperparams \
+    --varbvs_wg_pip output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X.varbvs_wg.pip \
     --job_size 10 -s build \
     $JOB_OPT</code></pre>
 <h3 id="3-pipeline-in-a-batch">3 pipeline in a batch<a class="anchor-link" href="#3-pipeline-in-a-batch">&#182;</a></h3>
@@ -382,37 +384,42 @@ sos run workflow/20190717_workflow.ipynb sier \
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="20200529-deletion-CNV,-with-header,-no-index,-use-different-seed">20200529 deletion CNV, with header, no index, use different seed<a class="anchor-link" href="#20200529-deletion-CNV,-with-header,-no-index,-use-different-seed">&#182;</a></h2><h3 id="Simulation">Simulation<a class="anchor-link" href="#Simulation">&#182;</a></h3>
+<h2 id="20200529-deletion-CNV,-with-header,-no-index,-use-different-seed">20200529 deletion CNV, with header, no index, use different seed<a class="anchor-link" href="#20200529-deletion-CNV,-with-header,-no-index,-use-different-seed">&#182;</a></h2>
+<pre><code>cd /home/gaow/GIT/github/cnv-gene-mapping
+JOB_OPT="-q midway2 -c midway2.yml"
+dataset=simu_dele_30_0529</code></pre>
+<h3 id="Simulation">Simulation<a class="anchor-link" href="#Simulation">&#182;</a></h3>
 <pre><code>sos run workflow/20190717_workflow.ipynb simulate \
-    --name simu_dele_30_0529 \
+    --name $dataset \
     --genotype-file /home/min/GIT/cnv-gene-mapping/data/deletion.X.colnames.gz \
-    --cwd output/simu_dele_30_0529 \
+    --cwd output/$dataset \
     --sample-size 200000 \
     --n-batch 200 \
     --seed 999999</code></pre>
 <h3 id="fisher">fisher<a class="anchor-link" href="#fisher">&#182;</a></h3>
 <pre><code>sos run workflow/20190717_workflow.ipynb fisher \
     --name fisher \
-    --cwd output/simu_dele_30_0529 \
-    --genotype-file output/simu_dele_30_0529/deletion.X.colnames_b30.simu_dele_30_0529.samples.X_genename.gz \
-    --phenotype-file output/simu_dele_30_0529/deletion.X.colnames_b30.simu_dele_30_0529.samples.y.gz</code></pre>
+    --cwd output/$dataset \
+    --genotype-file output/$dataset/deletion.X.colnames_b30.$dataset.X.gz \
+    --phenotype-file output/$dataset/deletion.X.colnames_b30.$dataset.y.gz</code></pre>
 <h3 id="varbvs_wg">varbvs_wg<a class="anchor-link" href="#varbvs_wg">&#182;</a></h3>
 <pre><code>sos run workflow/20190717_workflow.ipynb varbvs_wg \
-    --name varbvs_wg --cwd output/simu_dele_30_0529 \
-    --genotype-file output/simu_dele_30_0529/deletion.X.colnames_b30.simu_dele_30_0529.samples.X_genename.gz \
-    --phenotype-file output/simu_dele_30_0529/deletion.X.colnames_b30.simu_dele_30_0529.samples.y.gz</code></pre>
+    --name varbvs_wg --cwd output/$dataset \
+    --genotype-file output/$dataset/deletion.X.colnames_b30.$dataset.X.gz \
+    --phenotype-file output/$dataset/deletion.X.colnames_b30.$dataset.y.gz</code></pre>
 <h3 id="SuSiE">SuSiE<a class="anchor-link" href="#SuSiE">&#182;</a></h3>
 <pre><code>sos run workflow/20190717_workflow.ipynb susie \
-    --name susie --cwd output/simu_dele_30_0529 \
-    --genotype-file output/simu_dele_30_0529/deletion.X.colnames_b30.simu_dele_30_0529.samples.X_genename.gz \
-    --phenotype-file output/simu_dele_30_0529/deletion.X.colnames_b30.simu_dele_30_0529.samples.y.gz \
-    --varbvs_wg_pip output/simu_dele_30_0529/deletion.X.colnames_b30.simu_dele_30_0529.samples.X_genename.varbvs_wg.genename.pip \
+    --name susie --cwd output/$dataset \
+    --genotype-file output/$dataset/deletion.X.colnames_b30.$dataset.X.gz \
+    --phenotype-file output/$dataset/deletion.X.colnames_b30.$dataset.y.gz \
+    --varbvs_wg_pip output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.pip \
+    --hyperparam_file output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.hyperparams
     -s build</code></pre>
 <h3 id="varbvs">varbvs<a class="anchor-link" href="#varbvs">&#182;</a></h3>
 <pre><code>sos run workflow/20190717_workflow.ipynb varbvs \
-    --name varbvs --cwd output/simu_dele_30_0529 \
-    --genotype-file output/simu_dele_30_0529/deletion.X.colnames_b30.simu_dele_30_0529.samples.X_genename.gz \
-    --phenotype-file output/simu_dele_30_0529/deletion.X.colnames_b30.simu_dele_30_0529.samples.y.gz \
+    --name varbvs --cwd output/$dataset \
+    --genotype-file output/$dataset/deletion.X.colnames_b30.$dataset.X.gz \
+    --phenotype-file output/$dataset/deletion.X.colnames_b30.$dataset.y.gz \
     -s build</code></pre>
 
 </div>
@@ -444,14 +451,14 @@ python monitor.py python tmp.py</code></pre>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-
+<h2 id="Check-err-message-when-a-job-is-completed">Check err message when a job is completed<a class="anchor-link" href="#Check-err-message-when-a-job-is-completed">&#182;</a></h2>
 <pre><code>[MW] cd /home/gaow/GIT/github/cnv-gene-mapping
 [MW] cat M2_10b7fc5e3ad94584.err
 INFO: M2_10b7fc5e3ad94584 started
 INFO: All 2 tasks in M2_10b7fc5e3ad94584 failed
 slurmstepd-midway2-0133: error: Detected 2 oom-kill event(s) in step 2021055.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
 [MW] sos status M2_10b7fc5e3ad94584 -v4
-...
+......
 standard error:
 ================
 &gt; 10b7fc5e3ad94584  mcmc_3 e70e0097446ac6da cnv-gene-mapping mcmc_3_block_1028_1028.mcmc    failed
@@ -465,7 +472,7 @@ Failed to execute ``python .sos/mcmc_3_251_5a76b60b.py``
 exitcode=-9, workdir=``/scratch/midway2/gaow/GIT/github/cnv-gene-mapping``, task=41336b78dc1bea66, stderr=/scratch/midway2/gaow/GIT/github/cnv-gene-mapping/output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename_block_1029_1032/block_1029_1032.mcmc.stderr
 ---------------------------------------------------------------------------
 Task M2_10b7fc5e3ad94584 exits with code 2
-...</code></pre>
+......</code></pre>
 
 </div>
 </div>
@@ -475,6 +482,21 @@ Task M2_10b7fc5e3ad94584 exits with code 2
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="unzip-tar.gz">unzip tar.gz<a class="anchor-link" href="#unzip-tar.gz">&#182;</a></h2>
 <pre><code>tar zxvf issue_247.tar.gz</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="check-status-of-one-job">check status of one job<a class="anchor-link" href="#check-status-of-one-job">&#182;</a></h2>
+<pre><code>[MW] showq
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+           2031441   broadwl M3_f9a16     gaow  R    2:01:12      1 midway2-0006
+           2031271   broadwl sos-subm     gaow  R    2:11:19      1 midway2-0002
+
+[MW] ssh midway2-0006
+[MW] top -u gaow</code></pre>
 
 </div>
 </div>
@@ -494,7 +516,7 @@ Task M2_10b7fc5e3ad94584 exits with code 2
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/4f0db4ad79b0decb84d995e27a3c992a1b444a91/workflow/20200527_workflow_notes.ipynb"><code>workflow/20200527_workflow_notes.ipynb</code></a> committed by minqiao on Sat May 30 13:53:35 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/4f0db4ad79b0decb84d995e27a3c992a1b444a91">revision 7, 4f0db4a</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/08d6d9d5d38fd8f670de62ee396086bd13291371/workflow/20200527_workflow_notes.ipynb"><code>workflow/20200527_workflow_notes.ipynb</code></a> committed by minqiao on Sun May 31 11:16:59 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/08d6d9d5d38fd8f670de62ee396086bd13291371">revision 10, 08d6d9d</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
