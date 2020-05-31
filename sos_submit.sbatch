@@ -9,7 +9,47 @@
 #SBATCH --output=sos-log-%J.out
 #SBATCH --error=sos-log-%J.err
 
-wall_time="2h"
-sos run workflow/20190717_workflow.ipynb sier     --name sier --cwd output/simu_dele_30_0528     --genotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.gz     --phenotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.y.gz     --hyperparam_file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.varbvs_wg.hyperparams     --varbvs_wg_pip output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.varbvs_wg.genename.pip --job_size 5 -s build  -q midway2 -c midway2.yml &> sier.log
-sos run workflow/20190717_workflow.ipynb hybrid     --name hybrid --cwd output/simu_dele_30_0528     --genotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.gz     --phenotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.y.gz     --hyperparam_file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.varbvs_wg.hyperparams     --varbvs_wg_pip output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.varbvs_wg.genename.pip --mcmc_walltime $wall_time --job_size 5 -s build  -q midway2 -c midway2.yml &> hybrid.log
-sos run workflow/20190717_workflow.ipynb mcmc     --name mcmc --cwd output/simu_dele_30_0528     --genotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.gz     --phenotype-file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.y.gz     --hyperparam_file output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.varbvs_wg.hyperparams     --varbvs_wg_pip output/simu_dele_30_0528/deletion.X.colnames_b30.simu_dele_30_0528.samples.X_genename.varbvs_wg.genename.pip --mcmc_walltime $wall_time --job_size 2 -s build  -q midway2 -c midway2.yml &> mcmc.log
+cd /home/gaow/GIT/github/cnv-gene-mapping
+JOB_OPT="-q midway2 -c midway2.yml"
+
+for dataset in simu_dele_30_0528 simu_dele_30_0529; do
+
+sos run workflow/20190717_workflow.ipynb susie \
+    --name susie --cwd output/$dataset \
+    --genotype-file output/$dataset/deletion.X.colnames_b30.$dataset.X.gz \
+    --phenotype-file output/$dataset/deletion.X.colnames_b30.$dataset.y.gz \
+    --varbvs_wg_pip output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.pip \
+    --hyperparam_file output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.hyperparams \
+    -s build --job-size 100 $JOB_OPT &> susie_$dataset.log
+
+sos run workflow/20190717_workflow.ipynb varbvs \
+    --name varbvs --cwd output/$dataset \
+    --genotype-file output/$dataset/deletion.X.colnames_b30.$dataset.X.gz \
+    --phenotype-file output/$dataset/deletion.X.colnames_b30.$dataset.y.gz \
+    -s build --job-size 100 $JOB_OPT &> varbvs_$dataset.log
+    
+sos run workflow/20190717_workflow.ipynb sier \
+    --name sier --cwd output/$dataset \
+    --genotype-file output/$dataset/deletion.X.colnames_b30.$dataset.X.gz \
+    --phenotype-file output/$dataset/deletion.X.colnames_b30.$dataset.y.gz \
+    --varbvs_wg_pip output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.pip \
+    --hyperparam_file output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.hyperparams \
+    -s build --job-size 1 $JOB_OPT &> sier_$dataset.log
+    
+sos run workflow/20190717_workflow.ipynb hybrid \
+    --name hybrid --cwd output/$dataset \
+    --genotype-file output/$dataset/deletion.X.colnames_b30.$dataset.X.gz \
+    --phenotype-file output/$dataset/deletion.X.colnames_b30.$dataset.y.gz \
+    --varbvs_wg_pip output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.pip \
+    --hyperparam_file output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.hyperparams \
+    -s build --job-size 1 $JOB_OPT &> hybrid_$dataset.log
+    
+sos run workflow/20190717_workflow.ipynb mcmc \
+    --name mcmc --cwd output/$dataset \
+    --genotype-file output/$dataset/deletion.X.colnames_b30.$dataset.X.gz \
+    --phenotype-file output/$dataset/deletion.X.colnames_b30.$dataset.y.gz \
+    --varbvs_wg_pip output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.pip \
+    --hyperparam_file output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.hyperparams \
+    -s build --job-size 1 $JOB_OPT &> mcmc_$dataset.log
+
+done
