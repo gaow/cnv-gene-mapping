@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.7" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=workflowDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=workflowArray;
+            var docs_map=workflowArrayMap;
+            var pos=workflowArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  $(".toc #toc-level0").append('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>');
+            }
+            // $("#toc-header").hide(); // comment out because it prevents search bar from displaying
+    });
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Gene Mapping with CNV</title>
+
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+        
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+        
+<li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+        
+<li>
+  <a href="../workflow.html">Workflow</a>
+</li>
+        
+<li>
+  <a href="../setup/index.html">Setup</a>
+</li>
+        
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Determine-possible-confounder-effects">Determine possible confounder effects<a class="anchor-link" href="#Determine-possible-confounder-effects">&#182;</a></h1><p>There are 3 possible confounders</p>
+<ul>
+<li>Batch effect - region: "scz_s234_eur", "scz_swe1_eur", "scz_swe5_eur", "scz_swe6_eur"</li>
+<li>Gender</li>
+<li>PCA</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="o">,</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span><span class="o">,</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pandasql</span> <span class="kn">import</span> <span class="n">sqldf</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">more_itertools</span> <span class="kn">import</span> <span class="n">unique_everseen</span>
+<span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~/GIT/cnv-gene-mapping/data/swcnv&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Import phenotype.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">pheno</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s2">/swcnv.pheno&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">pheno</span> <span class="o">=</span> <span class="n">pheno</span><span class="p">[</span><span class="n">pheno</span><span class="p">[</span><span class="s2">&quot;SCZ&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">9</span><span class="p">]</span>
+<span class="n">pheno</span><span class="p">[</span><span class="s2">&quot;SCZ&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pheno</span><span class="p">[</span><span class="s2">&quot;SCZ&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">pheno</span><span class="p">[</span><span class="s2">&quot;SCZ&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[3]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Counter({0: 6256, 1: 4978})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Batch-effect:-region">Batch effect: region<a class="anchor-link" href="#Batch-effect:-region">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">batch</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s2">/swcnv.clusters&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">header</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;batch&quot;</span><span class="p">])</span>
+<span class="n">batch</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">pheno</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s2">&quot;FID&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Samples from the Swedish Schizophrenia Study were collected in a multi-year project and genotypes in six batches (sw1-6), paper <a href="https://www.sciencedirect.com/science/article/pii/S0092867418306585">description</a></p>
+
+<pre><code>     'scz_swe1_eur': 417
+     'scz_s234_eur': 4299
+     'scz_swe5_eur': 4376
+     'scz_swe6_eur': 1999</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s2">&quot;batch&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[5]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Counter({&#39;scz_swe1_eur&#39;: 417,
+         &#39;scz_s234_eur&#39;: 4299,
+         &#39;scz_swe6_eur&#39;: 1999,
+         &#39;scz_swe5_eur&#39;: 4376})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Create a dummy categorical variable "batch_n" to stand for batches:</p>
+
+<pre><code>    sw1: 0
+    sw234: 1
+    sw5: 2
+    sw6: 3</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">batch</span><span class="p">[</span><span class="s2">&quot;batch_n&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;batch&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot;scz_s234_eur&quot;</span> <span class="k">else</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot;scz_swe1_eur&quot;</span> <span class="k">else</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot;scz_swe5_eur&quot;</span> <span class="k">else</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Create 4 dummy variables "batch1" to "batch4" to stand for sw1, sw234, sw5, sw6.</p>
+
+<pre><code>      batch1    batch2    batch3    batch4
+sw1        1         0         0         0
+sw234      0         1         0         0
+sw5        0         0         1         0
+sw6        0         0         0         1</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">batch</span><span class="p">[</span><span class="s2">&quot;batch1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot;scz_swe1_eur&quot;</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;batch&quot;</span><span class="p">]]</span>
+<span class="n">batch</span><span class="p">[</span><span class="s2">&quot;batch2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot;scz_s234_eur&quot;</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;batch&quot;</span><span class="p">]]</span>
+<span class="n">batch</span><span class="p">[</span><span class="s2">&quot;batch3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot;scz_swe5_eur&quot;</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;batch&quot;</span><span class="p">]]</span>
+<span class="n">batch</span><span class="p">[</span><span class="s2">&quot;batch4&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot;scz_swe6_eur&quot;</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;batch&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">batch</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[17]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>FID</th>
+      <th>SCZ</th>
+      <th>batch</th>
+      <th>batch_n</th>
+      <th>batch1</th>
+      <th>batch2</th>
+      <th>batch3</th>
+      <th>batch4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>PT-1RTW</td>
+      <td>0</td>
+      <td>scz_swe1_eur</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>PT-1RTX</td>
+      <td>0</td>
+      <td>scz_swe1_eur</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>PT-1RTY</td>
+      <td>0</td>
+      <td>scz_swe1_eur</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>PT-1RTZ</td>
+      <td>1</td>
+      <td>scz_swe1_eur</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>PT-1RU1</td>
+      <td>0</td>
+      <td>scz_swe1_eur</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Use R package glm for logistic regression of possible confounders.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">get</span> <span class="n">batch</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Use-dummy-categorical-varible-&quot;batch_n&quot;-for-covariate.">Use dummy categorical varible "batch_n" for covariate.<a class="anchor-link" href="#Use-dummy-categorical-varible-&quot;batch_n&quot;-for-covariate.">&#182;</a></h3><ul>
+<li>z score: -2.278</li>
+<li>p-value: 0.0227</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">glm</span><span class="p">(</span><span class="n">batch</span><span class="err">$</span><span class="n">SCZ</span> <span class="o">~</span> <span class="n">batch</span><span class="err">$</span><span class="n">batch_n</span><span class="p">,</span> <span class="n">family</span> <span class="o">=</span> <span class="n">binomial</span><span class="p">())</span>
+<span class="n">summary</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+Call:
+glm(formula = batch$SCZ ~ batch$batch_n, family = binomial())
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+-1.107  -1.077  -1.062   1.265   1.298  
+
+Coefficients:
+              Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)   -0.16700    0.02933  -5.695 1.24e-08 ***
+batch$batch_n -0.03721    0.01634  -2.278   0.0227 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 15245  on 11090  degrees of freedom
+Residual deviance: 15239  on 11089  degrees of freedom
+AIC: 15243
+
+Number of Fisher Scoring iterations: 3
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Use-4-dummy-variables-&quot;batch1&quot;-to-&quot;batch4&quot;-for-covariates.">Use 4 dummy variables "batch1" to "batch4" for covariates.<a class="anchor-link" href="#Use-4-dummy-variables-&quot;batch1&quot;-to-&quot;batch4&quot;-for-covariates.">&#182;</a></h3><ul>
+<li>One of the p-values is 5.41e-07.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res1</span> <span class="o">=</span> <span class="n">glm</span><span class="p">(</span><span class="n">batch</span><span class="err">$</span><span class="n">SCZ</span> <span class="o">~</span> <span class="n">batch</span><span class="err">$</span><span class="n">batch1</span> <span class="o">+</span> <span class="n">batch</span><span class="err">$</span><span class="n">batch2</span> <span class="o">+</span> <span class="n">batch</span><span class="err">$</span><span class="n">batch3</span> <span class="o">+</span> <span class="n">batch</span><span class="err">$</span><span class="n">batch4</span><span class="p">,</span> <span class="n">family</span> <span class="o">=</span> <span class="n">binomial</span><span class="p">())</span>
+<span class="n">summary</span><span class="p">(</span><span class="n">res1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+Call:
+glm(formula = batch$SCZ ~ batch$batch1 + batch$batch2 + batch$batch3 + 
+    batch$batch4, family = binomial())
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+-1.196  -1.119  -1.023   1.237   1.340  
+
+Coefficients: (1 not defined because of singularities)
+             Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  -0.10314    0.04479  -2.303   0.0213 *  
+batch$batch1  0.14632    0.10772   1.358   0.1744    
+batch$batch2 -0.03525    0.05423  -0.650   0.5157    
+batch$batch3 -0.27232    0.05434  -5.011 5.41e-07 ***
+batch$batch4       NA         NA      NA       NA    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 15245  on 11090  degrees of freedom
+Residual deviance: 15198  on 11087  degrees of freedom
+AIC: 15206
+
+Number of Fisher Scoring iterations: 4
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Gender">Gender<a class="anchor-link" href="#Gender">&#182;</a></h2><ul>
+<li>Male: 5697</li>
+<li>Female: 4629</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">gender</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s2">/swcnv.qc6.fam&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">,</span> <span class="s2">&quot;pheno&quot;</span><span class="p">])</span>
+<span class="n">gender</span><span class="p">[</span><span class="s2">&quot;pheno&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">gender</span><span class="p">[</span><span class="s2">&quot;pheno&quot;</span><span class="p">]]</span>
+<span class="n">gender</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">gender</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">gender</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">pheno</span><span class="p">,</span> <span class="n">gender</span><span class="p">[[</span><span class="s2">&quot;FID&quot;</span><span class="p">,</span> <span class="s2">&quot;sex&quot;</span><span class="p">]],</span> <span class="n">how</span> <span class="o">=</span> <span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s2">&quot;FID&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">Counter</span><span class="p">(</span><span class="n">gender</span><span class="p">[</span><span class="s2">&quot;sex&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[23]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Counter({0: 5697, 1: 4629})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Use-covariate-&quot;gender&quot;">Use covariate "gender"<a class="anchor-link" href="#Use-covariate-&quot;gender&quot;">&#182;</a></h3><ul>
+<li>z score: -8.801</li>
+<li>p-value: &lt; 2e-16</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">get</span> <span class="n">gender</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res2</span> <span class="o">=</span> <span class="n">glm</span><span class="p">(</span><span class="n">gender</span><span class="err">$</span><span class="n">SCZ</span> <span class="o">~</span> <span class="n">gender</span><span class="err">$</span><span class="n">sex</span><span class="p">,</span> <span class="n">family</span> <span class="o">=</span> <span class="n">binomial</span><span class="p">())</span>
+<span class="n">summary</span><span class="p">(</span><span class="n">res2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+Call:
+glm(formula = gender$SCZ ~ gender$sex, family = binomial())
+
+Deviance Residuals: 
+   Min      1Q  Median      3Q     Max  
+-1.146  -1.146  -1.002   1.209   1.364  
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept) -0.07481    0.02652  -2.821  0.00478 ** 
+gender$sex  -0.35285    0.04009  -8.801  &lt; 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 14178  on 10325  degrees of freedom
+Residual deviance: 14100  on 10324  degrees of freedom
+AIC: 14104
+
+Number of Fisher Scoring iterations: 4
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="PCA">PCA<a class="anchor-link" href="#PCA">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">mds</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s2">/swcnv.mds&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">])</span>
+<span class="n">mds</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">pheno</span><span class="p">,</span> <span class="n">mds</span><span class="p">,</span> <span class="n">how</span> <span class="o">=</span> <span class="s2">&quot;inner&quot;</span><span class="p">,</span> <span class="n">on</span> <span class="o">=</span> <span class="s2">&quot;FID&quot;</span><span class="p">)</span>
+<span class="n">mds</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[28]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>FID</th>
+      <th>SCZ</th>
+      <th>C1</th>
+      <th>C2</th>
+      <th>C3</th>
+      <th>C4</th>
+      <th>C5</th>
+      <th>C6</th>
+      <th>C7</th>
+      <th>C8</th>
+      <th>C9</th>
+      <th>C10</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>PT-1RTW</td>
+      <td>0</td>
+      <td>-0.008445</td>
+      <td>0.005512</td>
+      <td>0.001230</td>
+      <td>0.002499</td>
+      <td>0.009046</td>
+      <td>0.000775</td>
+      <td>0.002276</td>
+      <td>-0.001839</td>
+      <td>0.003567</td>
+      <td>-0.004050</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>PT-1RTX</td>
+      <td>0</td>
+      <td>0.002004</td>
+      <td>-0.004334</td>
+      <td>-0.001712</td>
+      <td>0.003688</td>
+      <td>0.000497</td>
+      <td>0.006221</td>
+      <td>-0.009228</td>
+      <td>-0.001324</td>
+      <td>-0.002098</td>
+      <td>0.000272</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>PT-1RTY</td>
+      <td>0</td>
+      <td>0.015069</td>
+      <td>0.001424</td>
+      <td>-0.002671</td>
+      <td>0.001604</td>
+      <td>0.000752</td>
+      <td>0.003769</td>
+      <td>-0.001655</td>
+      <td>-0.000050</td>
+      <td>-0.000774</td>
+      <td>-0.000185</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>PT-1RTZ</td>
+      <td>1</td>
+      <td>0.001040</td>
+      <td>-0.005950</td>
+      <td>-0.001848</td>
+      <td>-0.004309</td>
+      <td>-0.007455</td>
+      <td>0.002835</td>
+      <td>-0.012960</td>
+      <td>-0.005529</td>
+      <td>0.004817</td>
+      <td>-0.011632</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>PT-1RU1</td>
+      <td>0</td>
+      <td>-0.002875</td>
+      <td>-0.001082</td>
+      <td>-0.002621</td>
+      <td>0.002374</td>
+      <td>-0.000494</td>
+      <td>0.004072</td>
+      <td>-0.003412</td>
+      <td>-0.000758</td>
+      <td>-0.003522</td>
+      <td>0.002001</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Use-all-10-eigenvectors">Use all 10 eigenvectors<a class="anchor-link" href="#Use-all-10-eigenvectors">&#182;</a></h3><p>There first 4 are significant by p-value threhold of 0.001.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="o">%</span><span class="n">get</span> <span class="n">mds</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">res3</span> <span class="o">=</span> <span class="n">glm</span><span class="p">(</span><span class="n">mds</span><span class="err">$</span><span class="n">SCZ</span> <span class="o">~</span> <span class="n">mds</span><span class="err">$</span><span class="n">C1</span> <span class="o">+</span> <span class="n">mds</span><span class="err">$</span><span class="n">C2</span> <span class="o">+</span> <span class="n">mds</span><span class="err">$</span><span class="n">C3</span> <span class="o">+</span> <span class="n">mds</span><span class="err">$</span><span class="n">C4</span> <span class="o">+</span> <span class="n">mds</span><span class="err">$</span><span class="n">C5</span> <span class="o">+</span> <span class="n">mds</span><span class="err">$</span><span class="n">C6</span> <span class="o">+</span> <span class="n">mds</span><span class="err">$</span><span class="n">C7</span> <span class="o">+</span> <span class="n">mds</span><span class="err">$</span><span class="n">C8</span> <span class="o">+</span> <span class="n">mds</span><span class="err">$</span><span class="n">C9</span> <span class="o">+</span> <span class="n">mds</span><span class="err">$</span><span class="n">C10</span><span class="p">,</span> <span class="n">family</span> <span class="o">=</span> <span class="n">binomial</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">summary</span><span class="p">(</span><span class="n">res3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+Call:
+glm(formula = mds$SCZ ~ mds$C1 + mds$C2 + mds$C3 + mds$C4 + mds$C5 + 
+    mds$C6 + mds$C7 + mds$C8 + mds$C9 + mds$C10, family = binomial())
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.6544  -1.0548  -0.9341   1.2707   1.6321  
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  -0.2244     0.0194 -11.571  &lt; 2e-16 ***
+mds$C1       36.0621     2.2357  16.130  &lt; 2e-16 ***
+mds$C2      -13.6085     3.2043  -4.247 2.17e-05 ***
+mds$C3      -13.6412     3.3294  -4.097 4.18e-05 ***
+mds$C4       16.7767     4.1443   4.048 5.16e-05 ***
+mds$C5        3.7912     3.8056   0.996    0.319    
+mds$C6       -8.6163     4.0418  -2.132    0.033 *  
+mds$C7        0.7361     4.1746   0.176    0.860    
+mds$C8        6.2205     4.2996   1.447    0.148    
+mds$C9        1.3255     4.4080   0.301    0.764    
+mds$C10      -0.1356     4.5557  -0.030    0.976    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 15265  on 11111  degrees of freedom
+Residual deviance: 14930  on 11101  degrees of freedom
+AIC: 14952
+
+Number of Fisher Scoring iterations: 4
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/e074d1253478cf7a5db4d667b1e2d7ac1a3b868f/workflow/20200531_Confounder_effects.ipynb"><code>workflow/20200531_Confounder_effects.ipynb</code></a> committed by minqiao on Mon Jun 1 15:34:05 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/e074d1253478cf7a5db4d667b1e2d7ac1a3b868f">revision 1, e074d12</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>
