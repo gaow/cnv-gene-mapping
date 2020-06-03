@@ -364,6 +364,22 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>dataset=simu_dele_30_0528
+sos run workflow/20190717_workflow.ipynb sier \
+    --name sier --cwd output/$dataset \
+    --genotype-file output/$dataset/deletion.X.colnames_b30.$dataset.X.gz \
+    --phenotype-file output/$dataset/deletion.X.colnames_b30.$dataset.y.gz \
+    --varbvs_wg_pip output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.pip \
+    --hyperparam_file output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.hyperparams \
+    -s build</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="20200528-deletion-CNV,-with-header,-no-index,-midway2">20200528 deletion CNV, with header, no index, <strong>midway2</strong><a class="anchor-link" href="#20200528-deletion-CNV,-with-header,-no-index,-midway2">&#182;</a></h2><h3 id="sier">sier<a class="anchor-link" href="#sier">&#182;</a></h3>
 <pre><code>cd /home/gaow/GIT/github/cnv-gene-mapping
 JOB_OPT="-q midway2 -c midway2.yml"
@@ -421,6 +437,16 @@ dataset=simu_dele_30_0529</code></pre>
     --genotype-file output/$dataset/deletion.X.colnames_b30.$dataset.X.gz \
     --phenotype-file output/$dataset/deletion.X.colnames_b30.$dataset.y.gz \
     -s build</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="rsync">rsync<a class="anchor-link" href="#rsync">&#182;</a></h2>
+<pre><code>cd ~/GIT/cnv-gene-mapping/output/simu_dele_30_0529
+rsync -auzP --exclude="*/compiledir_Linux-3.10-el7.x86_64-x86_64-with-redhat-7.4-Nitrogen-x86_64-3.7.3-64/*" mw:GIT/github/cnv-gene-mapping/output/simu_dele_30_0529/* ./</code></pre>
 
 </div>
 </div>
@@ -516,7 +542,7 @@ Task M2_10b7fc5e3ad94584 exits with code 2
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/08d6d9d5d38fd8f670de62ee396086bd13291371/workflow/20200527_workflow_notes.ipynb"><code>workflow/20200527_workflow_notes.ipynb</code></a> committed by minqiao on Sun May 31 11:16:59 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/08d6d9d5d38fd8f670de62ee396086bd13291371">revision 10, 08d6d9d</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/4cec5f18f5dc53d36661a47af3d5df69f2e427c6/workflow/20200527_workflow_notes.ipynb"><code>workflow/20200527_workflow_notes.ipynb</code></a> committed by minqiao on Wed Jun 3 15:29:32 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/4cec5f18f5dc53d36661a47af3d5df69f2e427c6">revision 11, 4cec5f1</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
