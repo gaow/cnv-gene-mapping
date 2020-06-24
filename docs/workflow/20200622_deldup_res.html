@@ -251,112 +251,82 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h1>
-<pre><code>5.1, 5.2, 5.3
-6.1, 6.2, 6.3
+<h1 id="Real-deletion-and-duplication-results">Real deletion and duplication results<a class="anchor-link" href="#Real-deletion-and-duplication-results">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="o">,</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;/home/min/GIT/cnv-gene-mapping/output&quot;</span><span class="p">)</span>
+<span class="kp">name</span> <span class="o">=</span> <span class="s2">&quot;deldup&quot;</span>
+<span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;del_dup&quot;</span>
+</pre></div>
 
-</code></pre>
-<p>intersected the list with the ASoC SNP table (FDR &lt; 0.05) from iN-Glut-20 as well as all heterozygous SNPs found (n = 5,590 and n = 106,030) respectively</p>
-
+    </div>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Neuron-ATAC-seq">Neuron ATAC-seq<a class="anchor-link" href="#Neuron-ATAC-seq">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Parameterize-fine-mapping-model-with-functional-enrichment-information">Parameterize fine-mapping model with functional enrichment information<a class="anchor-link" href="#Parameterize-fine-mapping-model-with-functional-enrichment-information">&#182;</a></h3><p>The statistical model to combine functional annotation with genetic fine-mapping is</p>
-$$\beta_{j} = (1 - \pi_{j})\delta_0 + \pi_{j}g(\cdot) (1)$$$$\log\big[\frac{\pi_{j}}{1 - \pi_{j}} \big] = \alpha_0 + \sum_{k=1}^m \alpha_k d_{jk} (2)$$<p>where $\pi_{j}$ is prior inclusion probability of $\textit{j}$th SNP in a certain locus, thus $1-\pi_j$ denotes the probability of the coefficient to be zero; $\delta_0$ is usually designated to be zero; $\alpha_k$ is enrichment of annotation $\textit{k}$ in causal variants; $d_{jk}$ is the annotation $\textit{k}$ of $\textit{j}$th SNP, which is often binary.</p>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="kp">name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">.X.colnames.block_index.csv&quot;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="CNV">CNV<a class="anchor-link" href="#CNV">&#182;</a></h2>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="n">index</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[3]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(1182, 2)</pre>
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Model">Model<a class="anchor-link" href="#Model">&#182;</a></h3>
+
 </div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Software">Software<a class="anchor-link" href="#Software">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Vocabulary">Vocabulary<a class="anchor-link" href="#Vocabulary">&#182;</a></h2><p>verb</p>
-<ul>
-<li>quantify uncertainty</li>
-<li>introduce a new approach</li>
-<li>remain</li>
-<li>pose an obvious challenge</li>
-<li>satisfactorily address this problem</li>
-<li>These shortcomings motivate our work.</li>
-<li>identify</li>
-<li>causally affect the trait</li>
-<li>assess uncertainty</li>
-<li>narrow down</li>
-<li>attempt to assess</li>
-<li>address uncerntainty</li>
-<li>declare </li>
-</ul>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>adv</p>
-<ul>
-<li>considerable</li>
-<li>crucial</li>
-<li>interpretable</li>
-<li>In contrast</li>
-<li>precisely</li>
-<li>analytically tractable</li>
-<li></li>
-</ul>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>noun</p>
-<ul>
-<li>ambiguity</li>
-<li>For brevity</li>
-<li></li>
-</ul>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">index</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">sumpip_block</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cwd</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="kp">name</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">.X_block_</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">/block_</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.varbvs_pip&quot;</span><span class="p">,</span> <span class="n">usecols</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
 </pre></div>
 
     </div>
@@ -366,7 +336,7 @@ $$\beta_{j} = (1 - \pi_{j})\delta_0 + \pi_{j}g(\cdot) (1)$$$$\log\big[\frac{\pi_
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/ac8651d76301bdd859c9174b13902bb54c663d0f/workflow/20200518_Manuscripts_Methods.ipynb"><code>workflow/20200518_Manuscripts_Methods.ipynb</code></a> committed by minqiao on Wed Jun 24 14:37:21 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/ac8651d76301bdd859c9174b13902bb54c663d0f">revision 5, ac8651d</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/ac8651d76301bdd859c9174b13902bb54c663d0f/workflow/20200622_deldup_res.ipynb"><code>workflow/20200622_deldup_res.ipynb</code></a> committed by minqiao on Wed Jun 24 14:37:21 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/ac8651d76301bdd859c9174b13902bb54c663d0f">revision 1, ac8651d</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
