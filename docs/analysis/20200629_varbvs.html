@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="ipynb_website:version" content="0.9.7" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css" href="../css/jt.css">
+
+<link rel="stylesheet" type="text/css" href="../css/toc2.css">
+
+<link href="../site_libs/jqueryui-1.11.4/jquery-ui.css">
+<link rel="stylesheet" href="../site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+<link rel="stylesheet"
+      href="../site_libs/highlightjs/null.min.css"
+      type="text/css" />
+
+<script src="../site_libs/highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+<script src="../js/doc_toc.js"></script>
+<script src="../js/docs.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        },
+        "HTML-CSS": {
+            preferredFont: "TeX",
+            availableFonts: ["TeX"],
+            styles: {
+                scale: 110,
+                ".MathJax_Display": {
+                    "font-size": "110%",
+                }
+            }
+        }
+    });
+</script>
+<script>
+function filterDataFrame(id) {
+    var input = document.getElementById("search_" + id);
+    var filter = input.value.toUpperCase();
+    var table = document.getElementById("dataframe_" + id);
+    var tr = table.getElementsByTagName("tr");
+    // Loop through all table rows, and hide those who don't match the search query
+    for (var i = 1; i < tr.length; i++) {
+        for (var j = 0; j < tr[i].cells.length; ++j) {
+            var matched = false;
+            if (tr[i].cells[j].innerHTML.toUpperCase().indexOf(filter) != -1) {
+                tr[i].style.display = "";
+                matched = true
+                break;
+            }
+            if (!matched)
+                tr[i].style.display = "none";
+        }
+    }
+}
+function sortDataFrame(id, n, dtype) {
+    var table = document.getElementById("dataframe_" + id);
+    var tb = table.tBodies[0]; // use `<tbody>` to ignore `<thead>` and `<tfoot>` rows
+    var tr = Array.prototype.slice.call(tb.rows, 0); // put rows into array
+    if (dtype === 'numeric') {
+        var fn = function(a, b) { 
+            return parseFloat(a.cells[n].textContent) <= parseFloat(b.cells[n].textContent) ? -1 : 1;
+        }
+    } else {
+        var fn = function(a, b) {
+            var c = a.cells[n].textContent.trim().localeCompare(b.cells[n].textContent.trim()); 
+            return c > 0 ? 1 : (c < 0 ? -1 : 0) }
+    }
+    var isSorted = function(array, fn) {
+        if (array.length < 2)
+            return 1;
+        var direction = fn(array[0], array[1]); 
+        for (var i = 1; i < array.length - 1; ++i) {
+            var d = fn(array[i], array[i+1]);
+            if (d == 0)
+                continue;
+            else if (direction == 0)
+                direction = d;
+            else if (direction != d)
+                return 0;
+            }
+        return direction;
+    }
+    var sorted = isSorted(tr, fn);
+    if (sorted == 1 || sorted == -1) {
+        // if sorted already, reverse it
+        for(var i = tr.length - 1; i >= 0; --i)
+            tb.appendChild(tr[i]); // append each row in order
+    } else {
+        tr = tr.sort(fn);
+        for(var i = 0; i < tr.length; ++i)
+            tb.appendChild(tr[i]); // append each row in order
+    }
+}
+</script>
+
+<script>
+$( document ).ready(function(){
+            var cfg={'threshold':3,     // depth of toc (number of levels)
+             'number_sections': false,
+             'toc_cell': false,          // useless here
+             'toc_window_display': true, // display the toc window
+             "toc_section_display": "block", // display toc contents in the window
+             'sideBar':true,       // sidebar or floating window
+             'navigate_menu':false       // navigation menu (only in liveNotebook -- do not change)
+            }
+            var st={};                  // some variables used in the script
+            st.rendering_toc_cell = false;
+            st.config_loaded = false;
+            st.extension_initialized=false;
+            st.nbcontainer_marginleft = $('#notebook-container').css('margin-left')
+            st.nbcontainer_marginright = $('#notebook-container').css('margin-right')
+            st.nbcontainer_width = $('#notebook-container').css('width')
+            st.oldTocHeight = undefined
+            st.cell_toc = undefined;
+            st.toc_index=0;
+            // fire the main function with these parameters
+            table_of_contents(cfg, st);
+            var file=analysisDict[$("h1:first").attr("id")];
+            $("#toc-level0 a").css("color","#126dce");
+            $('a[href="#'+$("h1:first").attr("id")+'"]').hide()
+            var docs=analysisArray;
+            var docs_map=analysisArrayMap;
+            var pos=analysisArray.indexOf(file);
+            for (var a=pos;a>=0;a--){
+                  $('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>').insertBefore("#toc-level0 li:eq(0)");
+            }
+            $('a[href="'+file+'.html'+'"]').css("color","#126dce");
+            for (var a=pos+1;a<docs.length;a++){
+                  $(".toc #toc-level0").append('<li><a href="'+docs[a]+'.html"><font color="#073642"><b>'+docs_map[docs[a]].replace(/_/g," ")+'</b></font></a></li>');
+            }
+            // $("#toc-header").hide(); // comment out because it prevents search bar from displaying
+    });
+</script>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+  // mark it active
+  menuAnchor.parent().addClass('active');
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+<div class="container-fluid main-container">
+<!-- tabsets -->
+<script src="../site_libs/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+
+
+<title>Gene Mapping with CNV</title>
+
+<style type = "text/css">
+body {
+  font-family: "Droid Sans";
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+</style>
+</head>
+
+<body>
+<div tabindex="-1" id="notebook" class="border-box-sizing">
+<div class="container" id="notebook-container">
+
+<!-- code folding -->
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">Gene Mapping with CNV</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+<li>
+  <a href="../index.html">Overview</a>
+</li>
+        
+<li>
+  <a href="../analysis.html">Analysis</a>
+</li>
+        
+<li>
+  <a href="../prototype.html">Prototype</a>
+</li>
+        
+<li>
+  <a href="../workflow.html">Workflow</a>
+</li>
+        
+<li>
+  <a href="../setup/index.html">Setup</a>
+</li>
+        
+<li>
+  <a href="../writeup.html">Writeup</a>
+</li>
+        
+      </ul>
+        
+<ul class="nav navbar-nav navbar-right">
+<li>
+   <a href="http://github.com/gaow/cnv-gene-mapping"> <span class="fa fa-github"></span> </a>
+</li>
+</ul>
+        
+      </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="varbvs:-A-Software-Toolkit-for-Fast-Variable-Selection-in-Genome-wide-Association-Studies-and-Other-Large-scale-Regression-Applications">varbvs: A Software Toolkit for Fast Variable Selection in Genome-wide Association Studies and Other Large-scale Regression Applications<a class="anchor-link" href="#varbvs:-A-Software-Toolkit-for-Fast-Variable-Selection-in-Genome-wide-Association-Studies-and-Other-Large-scale-Regression-Applications">&#182;</a></h1><p>Peter Carbonetto, Xiang Zhou, Matthew Stephens</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Variational Bayesian variable selection (varbvs):</p>
+<ol>
+<li>An software toolkit for the analysis of large-scale data sets using Bayesian variable selection methods; </li>
+<li>Builds on Bayesian models for variable selection in regression and variational approximation techniques.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h2><p>Bayesian variable selection (BVS) applications:</p>
+<ul>
+<li>mapping of complex disease and trait loci</li>
+<li>enrichment analysis</li>
+<li>estimate the proportion of variance in phenotypes explained by available genotypes</li>
+<li>fine-mapping</li>
+</ul>
+<p>BVS not widely used for GWAS:, reasons include:</p>
+<ul>
+<li>difficult to use</li>
+<li>appropriate specification of priors</li>
+<li>efficient computation of posterior probabilities</li>
+</ul>
+<p>Aims in developing varbvs software:</p>
+<ul>
+<li>make BVS methods accessible to practitioners</li>
+<li>provide an alternative to commonly used toolkits for penalized sparse regression</li>
+</ul>
+<p>Advantages of BVS (over penalized sparse regression):</p>
+<ul>
+<li>computes the probabilities that each variable is included in the regression model - posterior inclusion probability (PIP)</li>
+<li>no cross-validation or false positive rates are required to determine significance levels</li>
+<li>allows for the possibility of model comparison through approximate computation of Bayes factors</li>
+</ul>
+<p>Limitations of BVS:</p>
+<ul>
+<li>computing exact posterior probabilities is intractable except in very small data sets</li>
+<li>the choice of priors requires considerable expertise in Bayesian data analysis</li>
+</ul>
+<p>varbvs remedies these two limitations above by:</p>
+<ol>
+<li>implement fast posterior computation using variational approximation techniques</li>
+<li>provide default priors that are suitable, and also allow for extensive prior customization</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Example-illustrating-features-of-varbvs">Example illustrating features of varbvs<a class="anchor-link" href="#Example-illustrating-features-of-varbvs">&#182;</a></h2><p>Introduce an exchangeable prior (spike-and-slab prior) on the coefficients</p>
+<ul>
+<li>The complexity of model is controlled by the prior, which is determined by two parameters:<ul>
+<li>$\pi$: the prior log-odds $\log_{10}(\frac{\pi}{1-\pi})$ that a variable is included in the regression model</li>
+<li>$\sigma_a^2$: the prior variance of the regression coefficients (sa).</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>compute results for different settings of logodds, and keep sa constant to simplify the example.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Bayesian-variable-selection,-and-the-varbvs-R-interface">Bayesian variable selection, and the varbvs R interface<a class="anchor-link" href="#Bayesian-variable-selection,-and-the-varbvs-R-interface">&#182;</a></h2><h3 id="Regression-model">Regression model<a class="anchor-link" href="#Regression-model">&#182;</a></h3><p>When Y is continuous: assume a basic linear regression by setting <code>family = "gaussian"</code></p>
+<p>$Y=\sum^m_{i=1}Z_i\mu_i + \sum_{i=1}^pX_i\beta_i+\epsilon$, where $Z$ is covariates and $\epsilon \sim N(0,\sigma^2)$</p>
+<p>When Y is binary: an additive model for the log-odds of $Y = 1$ by setting <code>family = "binomial"</code></p>
+<p>$\log{\frac{\Pr(Y=1)}{\Pr(Y=0)}} = \sum_{i=1}^mZ_i\mu_i + \sum_{i=1}^p X_i\beta_i$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Variable-selection-prior">Variable selection prior<a class="anchor-link" href="#Variable-selection-prior">&#182;</a></h3><ul>
+<li>Adopt "spike-and-slab" prior to frame the vriable selection problem<ul>
+<li>with probability π, coefficient $β_i$ is drawn from the "slab"</li>
+<li>slab distribution: normal density with zero mean and variance $σ^2σ_a^2$</li>
+<li>with probability 1 − π, $β_i$ equals zero, the "spike"</li>
+<li>small value of π encourage "sparse" regression models, indicates only a small proportion of variable in X help predict Y</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Hyperparameters-in-varbvs-argument-settings">Hyperparameters in varbvs argument settings<a class="anchor-link" href="#Hyperparameters-in-varbvs-argument-settings">&#182;</a></h3><p>Hyperparameters:</p>
+<ul>
+<li><code>sa</code>: the prior variance of the regression coefficients</li>
+<li><code>sigma</code>: the residual variance for linear regression</li>
+<li><code>logodds</code>: the prior log-odds of inclusion, $\log_{10}\{\frac{\pi}{1-\pi}\}$</li>
+</ul>
+<p>varbvs can encode preferences of hyperparameters</p>
+<ul>
+<li>non-exchangeable prior $\boldsymbol{\pi}$: set input logodds to a matrix, the rows correspond to variables and the columns correspond to hyperparameter settings.</li>
+<li>fit one or more of the hyperparameters to the data: <code>update.sigma = TRUE</code> and/or <code>update.sa = TRUE</code> in varbvs arguments</li>
+<li>if <code>sigma</code> and/or <code>sa</code> are not provided, varbvs will use the default</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Fast-posterior-computation">Fast posterior computation<a class="anchor-link" href="#Fast-posterior-computation">&#182;</a></h3><p>Computing posterior probabilities is often an intractable, high-dimensional integration problem</p>
+<ul>
+<li>sulution in varbvs: introduce a class of approximating distributions, then optimizing a criterion (the Kullback-Leibler divergence) to find the distribution within this class that best matches the posterior.</li>
+</ul>
+<p>The algorithm for fitting the variational approximation consists of an inner loop and an outer loop</p>
+<ul>
+<li>outer loop: iterates over the hyperparameter settings</li>
+<li>inner loop: cycles through co-ordinate ascent updates to tighten the lower bound on the marginal likelihood given a setting of the hyperparameters</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Averaging-over-the-hyperparameter-settings">Averaging over the hyperparameter settings<a class="anchor-link" href="#Averaging-over-the-hyperparameter-settings">&#182;</a></h3><p>Since different settings are allowed for hyperparameters, they also implement the Bayesian model averaging strategy, in which averaging over settings of the hyperparameters, weighted by the posterior probability of each setting.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="varbvs-function">varbvs function<a class="anchor-link" href="#varbvs-function">&#182;</a></h3>
+<pre><code>varbvs(X, Z, y, family,                              # Data.
+sigma, sa, logodds,                                  # Hyperparameters.
+alpha, mu, eta,                                      # Variational parameters.
+update.sigma, update.sa, optimize.eta,               # Optimization and model
+initialize.params, nr, sa0, n0, tol, maxiter,        # fitting settings.
+verbose)                                             # Other settings.</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Example:-mapping-Crohn&#8217;s-disease-risk-loc">Example: mapping Crohn&#8217;s disease risk loc<a class="anchor-link" href="#Example:-mapping-Crohn&#8217;s-disease-risk-loc">&#182;</a></h2><p>Large data set:</p>
+<ul>
+<li>4,686 samples: 1,748 Crohn’s disease cases and 2,938 controls</li>
+<li>442,001 SNPs</li>
+<li>binary outcome</li>
+</ul>
+<p>varbvs results:</p>
+<ul>
+<li>the fitted regression model is very sparse: only 8 out of the 442,001 candidate variables are included in the model with probability 0.5 or greater</li>
+<li>Top 9 variables by inclusion probability:</li>
+</ul>
+
+<pre><code>  index variable   prob  PVE coef* Pr(coef.&gt;0.95)
+1 71850 rs10210302 1.000 NA -0.313 [-0.397,-0.236]
+2 10067 rs11805303 1.000 NA 0.291 [+0.207,+0.377]
+3 140044 rs17234657 1.000 NA 0.370 [+0.255,+0.484]
+4 381590 rs17221417 1.000 NA 0.279 [+0.192,+0.371]
+5 402183 rs2542151 0.992 NA 0.290 [+0.186,+0.392]
+6 271787 rs10995271 0.987 NA 0.236 [+0.151,+0.323]
+7 278438 rs7095491 0.969 NA 0.222 [+0.141,+0.303]
+8 168677 rs9469220 0.586 NA -0.194 [-0.269,-0.118]
+9 22989 rs12035082 0.485 NA 0.195 [+0.111,+0.277]</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Summary-and-discussion">Summary and discussion<a class="anchor-link" href="#Summary-and-discussion">&#182;</a></h2><p>Benefits of BVS</p>
+<ul>
+<li>account for uncertainty in hyperparameter</li>
+<li>fast computation if all coefficients are conditionally independent</li>
+</ul>
+<p>Disadvantages</p>
+<ul>
+<li>require careful selection of an additional set of priors for the hyperparameters</li>
+<li>does not offer complete flexibility: does not include other types of prior, such as g-prior</li>
+<li>when variables are completely correlated, each of them are expected to have equal PIP, but varbvs may get this wrong by calculating PIP equal to 1 for only one variable while the other equal to 0.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<hr>
+&copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/0df82bd8c37212bf420cbe90870990a9ddaf432c/analysis/20200629_varbvs.ipynb"><code>analysis/20200629_varbvs.ipynb</code></a> committed by minqiao on Wed Jul 1 05:28:48 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/0df82bd8c37212bf420cbe90870990a9ddaf432c">revision 1, 0df82bd</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+</div>
+</div>
+</body>
+</html>
