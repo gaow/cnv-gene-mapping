@@ -11,39 +11,45 @@
 
 cd /home/gaow/GIT/github/cnv-gene-mapping
 JOB_OPT="-q midway2 -c midway2.yml"
-dataset="simu_dele_30_0625"
+dataset="simu_dele_30_0707"
 walltime="5h"
 
 #sos run workflow/20190717_workflow.ipynb simulate \
-#    --name simu_dele_30_0625 \
+#    --name simu_dele_30_0707 \
 #    --genotype-file data/deletion.X.colnames.gz \
-#    --cwd output/simu_dele_30_0625 \
+#    --cwd output/simu_dele_30_0707 \
 #    --sample-size 500000 \
 #    --n-batch 500 \
-#    --seed 0615 \
+#    --seed 0707 \
 #    --job-size 200 $JOB_OPT &> simulate_$dataset.log
 
-#sos run workflow/20190717_workflow.ipynb susie \
-#    --name susie --cwd output/$dataset \
+#sos run workflow/20190717_workflow.ipynb varbvs_wg \
+#    --name varbvs_wg --cwd output/$dataset \
 #    --genotype-file output/$dataset/deletion.X.colnames_b30.$dataset.X.gz \
 #    --phenotype-file output/$dataset/deletion.X.colnames_b30.$dataset.y.gz \
-#    --varbvs_wg_pip output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.pip \
-#    --hyperparam_file output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.hyperparams \
-#    -s build --job-size 100 $JOB_OPT &> susie_$dataset.log
+#    -s build &> varbvs_wg_$dataset.log
 
-#sos run workflow/20190717_workflow.ipynb varbvs \
-#    --name varbvs --cwd output/$dataset \
-#    --genotype-file output/$dataset/deletion.X.colnames_b30.$dataset.X.gz \
-#    --phenotype-file output/$dataset/deletion.X.colnames_b30.$dataset.y.gz \
-#    -s build --job-size 100 $JOB_OPT &> varbvs_$dataset.log
+sos run workflow/20190717_workflow.ipynb susie \
+    --name susie --cwd output/$dataset \
+    --genotype-file output/$dataset/deletion.X.colnames_b30.$dataset.X.gz \
+    --phenotype-file output/$dataset/deletion.X.colnames_b30.$dataset.y.gz \
+    --varbvs_wg_pip output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.pip \
+    --hyperparam_file output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.hyperparams \
+    -s build --job-size 100 $JOB_OPT &> susie_$dataset.log
+
+sos run workflow/20190717_workflow.ipynb varbvs \
+    --name varbvs --cwd output/$dataset \
+    --genotype-file output/$dataset/deletion.X.colnames_b30.$dataset.X.gz \
+    --phenotype-file output/$dataset/deletion.X.colnames_b30.$dataset.y.gz \
+    -s build --job-size 100 $JOB_OPT &> varbvs_$dataset.log
     
-#sos run workflow/20190717_workflow.ipynb sier \
-#    --name sier --cwd output/$dataset \
-#    --genotype-file output/$dataset/deletion.X.colnames_b30.$dataset.X.gz \
-#    --phenotype-file output/$dataset/deletion.X.colnames_b30.$dataset.y.gz \
-#    --varbvs_wg_pip output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.pip \
-#    --hyperparam_file output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.hyperparams \
-#    -s build --job-size 5 $JOB_OPT &> sier_$dataset.log
+sos run workflow/20190717_workflow.ipynb sier \
+    --name sier --cwd output/$dataset \
+    --genotype-file output/$dataset/deletion.X.colnames_b30.$dataset.X.gz \
+    --phenotype-file output/$dataset/deletion.X.colnames_b30.$dataset.y.gz \
+    --varbvs_wg_pip output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.pip \
+    --hyperparam_file output/$dataset/deletion.X.colnames_b30.$dataset.varbvs_wg.hyperparams \
+    -s build --job-size 5 $JOB_OPT &> sier_$dataset.log
     
 sos run workflow/20190717_workflow.ipynb mcmc \
     --name mcmc --cwd output/$dataset \
