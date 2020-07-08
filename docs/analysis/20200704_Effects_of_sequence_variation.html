@@ -251,7 +251,171 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Transcriptome-wide-association-analysis-(TWAS)">Transcriptome-wide association analysis (TWAS)<a class="anchor-link" href="#Transcriptome-wide-association-analysis-(TWAS)">&#182;</a></h1>
+<h1 id="Effects-of-sequence-variation-on-differential-allelic-transcription-factor-occupancy-and-gene-expression">Effects of sequence variation on differential allelic transcription factor occupancy and gene expression<a class="anchor-link" href="#Effects-of-sequence-variation-on-differential-allelic-transcription-factor-occupancy-and-gene-expression">&#182;</a></h1><p>Timothy E Reddy, Jason Gertz, Florencia Pauli, Katerina S Kucera, Katherine E Varley, Kimberly M Newberry, Georgi K Marinov, Ali Mortazavi, Brian A Williams, Lingyun Song, Gregory E Crawford, Barbara Wold, Huntington F Willard, Richard M Myers</p>
+<p>Genome Res.</p>
+<p>Online paper <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3337432/">link</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h2><h3 id="Concepts">Concepts<a class="anchor-link" href="#Concepts">&#182;</a></h3><ul>
+<li>Transcription factors: Bind specific DNA motif, and control gene expression</li>
+<li>Chromatin Immunoprecipitation Sequencing (ChIP-seq): a method used to analyze protein interactions with DNA, combines ChIP with DNA sequencing to identify the binding sites of DNA-associated proteins.</li>
+<li>Differential allelic: Alleles are different of the same gene. To focus on allelic imbalance means to focus on heterozygotes</li>
+<li>Differential allelic TF occupancy (DATO): preference to bind one allele over another, within the same cell type</li>
+<li>Allele-specific expression (ASE): Explained in part as functional consequence of differential allelic TF binding</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Background-and-aim">Background and aim<a class="anchor-link" href="#Background-and-aim">&#182;</a></h2><p>Variant discovery and annotation</p>
+<ul>
+<li>variant -&gt; disease: GWAS, exome sequencing</li>
+<li>variant -&gt; expression: eQTL, TWAS</li>
+<li>variant -&gt; TF occupancy imbalance: expression</li>
+</ul>
+<p>This paper aims to detect the impact of genetic variation on gene regulation, specifically aims to identify DATO sites and understand their properties with respect to gene expression and disease.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h2><p>Measure allelic differences in expression in the same cells, RNA-Seq + Chip-Seq</p>
+<ul>
+<li>Genome-wide RNA-Seq</li>
+<li>TF occupancy of RNA Pol2 of EP300 and of 24 sequences specific TFs</li>
+<li>1000 Genomes female LCL</li>
+<li>Aligned sequence reads to both the maternal and paternal versions of the genome</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h2><p>TF hubs</p>
+<ul>
+<li>TF cluster on the same alleles in regions of open chromatin</li>
+<li>DATO evenly distributed across autosomes</li>
+<li>30% are in hubs, compared to 15% non-DATO as hubs<ul>
+<li>Sites are cooperative</li>
+<li>hubs are sensitive to variation</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>DATO in hubs often reside on the same allele, a pattern non-exist in non-DATO<ul>
+<li>Existence of coordinated differential allelic gene regulation</li>
+<li>Except for co-occupancy in a few cases such as EP300, these (novel) hubs are generally not explained by known PPI</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>Variants in hubs are more conserved</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>DATO variants</p>
+<ul>
+<li>Strong enrichment of DATO variants within 50bp of maximal ChIP signal</li>
+<li>Heterozygous variants in motif are 3 times more likely to occur in DATO sites</li>
+<li>Variants in DNA binding motif (of strong effects) explains only 12% DATO</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>DATO and allele specific expression (ASE)</p>
+<ul>
+<li>Using RNA-Seq alone, 9% genes with exonic heterozygous variants (4194 transcripts) have ASE<ul>
+<li>Effect sizes are small for autosomal genes</li>
+<li>4194 transcripts represents only 39% of transcripts in sample</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>Using RNA Pol2 ChIP-Seq, 6.3% (out of 10,353) with variants in RNA Pol2 sites have ASE<ul>
+<li>Cross clone variations: strong concordance in ASE on autosomes</li>
+<li>These variants significantly but imperfectly explains variations in expression</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>Combined results: 910 genes in sample have ASE</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Heritibility: DATO vs ASE</p>
+<ul>
+<li>The stronger allele in DATO sites has greater ChIP-Seq signal in corresponding parent in 81% of the cases, compared to 60% for ASE</li>
+<li>DATO is more strongly determined by local sequences</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>TF occupancy explains variation in gene expression</p>
+<ul>
+<li>DATO are significantly closer to genes with ASE than without<ul>
+<li>6.8% sites within 100kb of ASE genes has DATO</li>
+<li>3.9% sites within non-ASE genes has DATO</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>non-DATO no closer to genes with ASE</li>
+<li>Strong positive DATO and ASE correlation observed within 100bp of TSS, i.e, highly predictive</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Disease significance of DATO</p>
+<ul>
+<li>155 autosomal variants in TF binding sites associated with disease</li>
+<li>21 of them are DATO variants</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2><ul>
+<li>Variation in core TF binding motifs: small in fraction, large in effects with respect to DATO</li>
+<li>DATO sites significantly enriched disease variants particularly auto-immune disease</li>
+</ul>
+
 </div>
 </div>
 </div>
@@ -270,7 +434,7 @@ body {
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/cce8f7b487fc61dfaa7216888c287a94f2cf6fe7/analysis/20200630_TWAS.ipynb"><code>analysis/20200630_TWAS.ipynb</code></a> committed by minqiao on Wed Jul 1 15:00:16 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/cce8f7b487fc61dfaa7216888c287a94f2cf6fe7">revision 1, cce8f7b</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob//analysis/20200704_Effects_of_sequence_variation.ipynb"><code>analysis/20200704_Effects_of_sequence_variation.ipynb</code></a> committed by minqiao on Wed Jul 8 15:22:52 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/">revision 0, </a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

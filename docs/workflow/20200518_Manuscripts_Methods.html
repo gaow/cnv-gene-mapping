@@ -252,12 +252,6 @@ body {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h1>
-<pre><code>5.1, 5.2, 5.3
-6.1, 6.2, 6.3
-
-</code></pre>
-<p>intersected the list with the ASoC SNP table (FDR &lt; 0.05) from iN-Glut-20 as well as all heterozygous SNPs found (n = 5,590 and n = 106,030) respectively</p>
-
 </div>
 </div>
 </div>
@@ -271,8 +265,7 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Parameterize-fine-mapping-model-with-functional-enrichment-information">Parameterize fine-mapping model with functional enrichment information<a class="anchor-link" href="#Parameterize-fine-mapping-model-with-functional-enrichment-information">&#182;</a></h3><p>The statistical model to combine functional annotation with genetic fine-mapping is</p>
-$$\beta_{j} = (1 - \pi_{j})\delta_0 + \pi_{j}g(\cdot) (1)$$$$\log\big[\frac{\pi_{j}}{1 - \pi_{j}} \big] = \alpha_0 + \sum_{k=1}^m \alpha_k d_{jk} (2)$$<p>where $\pi_{j}$ is prior inclusion probability of $\textit{j}$th SNP in a certain locus, thus $1-\pi_j$ denotes the probability of the coefficient to be zero; $\delta_0$ is usually designated to be zero; $\alpha_k$ is enrichment of annotation $\textit{k}$ in causal variants; $d_{jk}$ is the annotation $\textit{k}$ of $\textit{j}$th SNP, which is often binary.</p>
+<h3 id="Parameterize-fine-mapping-model-with-functional-enrichment-information">Parameterize fine-mapping model with functional enrichment information<a class="anchor-link" href="#Parameterize-fine-mapping-model-with-functional-enrichment-information">&#182;</a></h3><p>In order to examine whether SCZ associated variants are enriched in our ASoC SNP list, we first compiled a list of SCZ GWAS index SNPs (at 108 loci) and all their LD proxies (r2 ≥ 0.8; n = 3,507) (10). We then intersected the list with the ASoC SNP table (FDR &lt; 0.05) from iN-Glut as well as all heterozygous SNPs found (n = 5,590 and n = 106,030) respectively. The enrichment of ASoC SNPs (vs. non-ASoC SNPs) for SCZ GWAS index SNPs was calculated using Fisher’s exact test.</p>
 
 </div>
 </div>
@@ -280,14 +273,189 @@ $$\beta_{j} = (1 - \pi_{j})\delta_0 + \pi_{j}g(\cdot) (1)$$$$\log\big[\frac{\pi_
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="CNV">CNV<a class="anchor-link" href="#CNV">&#182;</a></h2>
+<p>We applied a Bayesian hierarchical model, TORUS (59), to perform a SNP-based enrichment analysis, evaluating whether risk variants from GWAS are enriched in given functional genomic regions, e.g. OCRs and ASoC SNPs in our case. TORUS assumes that every variant is a risk variant or not, represented by a binary indicator variable (1 or 0). The prior probability of the indicator of a variant being 1 depends on its annotations. TORUS links GWAS effect sizes of SNPs and their annotations by</p>
+$$\beta_{j} = (1 - \pi_{j})\delta_0 + \pi_{j}g(\cdot) (1)$$$$\log\big[\frac{\pi_{j}}{1 - \pi_{j}} \big] = \alpha_0 + \sum_{k=1}^m \alpha_k d_{jk} (2)$$<p>where GWAS effect size $\beta_j$ follows a spike-and-slab distribution $\textit{a priori}$; $\pi_{j}$ denotes prior inclusion probability of $\textit{j}$th SNP in a certain locus, in other words, with probability $\pi_j$, coefficient $\beta_j$ is from the "slab"; and with probability $1-\pi_j$, $\beta_i$ equals zero, i.e. the "spike". $\pi_j$ is modeled by a logistic link with binary annotation $d_{jk}$ (for the $\textit{k}$-th annotation) for SNP $\textit{j}$; $\delta_0$ is designated to be zero, indicating a particular coefficient in the model to be zero; $g(\cdot)$ is the normal prior distribution for the regression coefficient values; $\alpha_k$ is the log odds ratio of $\textit{k}$-th annotation, measuring the enrichment of risk variants in the $\textit{k}$-th annotation, relative to all SNPs in the genome that do not locate in a particular genomic region or overlap with an annotated SNP.</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Model">Model<a class="anchor-link" href="#Model">&#182;</a></h3>
+<p>We implemented the proposed statistical framework in the software package TORUS, QTL discovery incorporating genomic annotations. TORUS uses the summary statistics of the entire genome to estimate the enrichment parameters. We performed single-annotation (univariate) enrichment analysis for 15 genomic features: 5 types of OCRs from different neuron cell types, 2 types of identified ASoC variants from iN-Glut and NPC cells, and another 8 commonly known generic genomic feature types, including coding, intron, promoter, conserved sequence, 3’ UTR, 5’ UTR, DNase I hypersensitive (DHS) site, and repressed regions (2), then compare the enrichment magnitude and significance among 15 annotations. All the annotations are encoded as binary (1 if a SNP resides in a particular genetic region, and 0 otherwise).</p>
+<p>Furthermore, we also conducted joint enrichment analysis by using multiple (joint) annotations together, where $m &gt; 1$ in (2), to evaluate their joint contributions. There are 4 different groups annotation combinations: 1) 5 OCRs, 2) 2 ASoC variants and 5 OCRs, 3) 8 commonly known genomic regions, 4) all 15 aforementioned genomic features. In both univariate and joint analysis, we obtained obtain odds ratios and credible intervals for each type and combination of genomic regions. Additionally, we obtained prior inclusion probabilities of SCZ GWAS SNPs from joint enrichment analysis for subsequent fine-mapping process.</p>
+<p>To illustrate the contributions of our specific ASoC SNPs and OCRs annotations in other brain disorders and traits, we expanded single enrichment analysis to 9 other neurodevelopmental GWAS data sets (7), including attention deficit hyperactivity disorder (ADHD), Alzheimer’s disease, autism spectrum disorder (ASD), bipolar disorder (BP), educational attainment, intelligence, major depressive disorder (MDD), neuroticism, and Parkinson's disease.</p>
+<p>In order to compare the contributions of neuronal ASoC SNPs and OCRs in neuropsychiatric versus non-neuropsychiatric disorders and traits, we subsequently performed enrichment analysis for 12 control GWAS data sets — body mass index (BMI), height, inflammatory bowel disease (IBD), head circumference, low-density lipoproteins (LDL), high-density lipoproteins (HDL), type 2 diabetes (T2D), total cholesterol, Crohn's disease, lupus, asthma, and ulcerative colitis.</p>
+<p>The GWAS datasets used for enrichment/TORUS analysis were from multiple sources, including both neuropsychiatric disorders and control disorders/traits, as listed in Table S21.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>H. K. Finucane et al., Partitioning heritability by functional annotation using genome-wide association summary statistics. Nat Genet 47, 1228-1235 (2015).</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Fine-mapping">Fine-mapping<a class="anchor-link" href="#Fine-mapping">&#182;</a></h3><p>Ripke et al identified 108 independent and significant genome-wide loci associated with SCZ [10]. Each locus harbors tens to thousands of GWAS SNPs. We employed SuSiE  (www.biorxiv.org/content/10.1101/501114v1), a newly developed Bayesian variable selection and genetic fine-mapping software package, to conduct fine-mapping analysis within each of the 108 SCZ significant genome-wide loci. SuSiE incorporated multiple functional genomic features as informative priors to favor SNPs likely to be functionally important (non-zero effect) based on posterior inclusion probabilities (PIP), quantifies the evidence of a SNP being a non-zero effect SCZ variant from 0 to 1, as well as to assess uncerntainty based on credible sets, defined as a minimum set of variants with 95% probability to capture one non-zero effect variant.</p>
+<p>Specifically, we modeled prior inclusion probabilities as functions of annotations of the SNPs. These prior inclusion probabilities were obtained from the results of TORUS using 4 types of aforementioned joint annotations, as described above. We compared fine-mapping results integrated the 4 groups of informative priors. In order to compare with the contribution of informative genomic features, we also implemented fine-mapping without incorporating any priors, which is called uninformative priors or uniform priors. We used the summary statistics version of SuSiE, with the external LD from the 1000 Genomes Project.</p>
+<p>To further detect the importance of ASoC SNPs in fine-mapping, we selected particular candidate loci from 108 SCZ associated loci for the top 20 SCZ associated ASoC SNPs as reported in Table S30, and for 3 SNPs that were not annotated in the Table S30, we used the genome-wide LD blocks from the European population (60). Specifically, the genome was partitioned into 1,703 roughly independent genomic regions based on European samples from the 1000 Genomes Project.</p>
+<p>Considering that fine-mapping using summary statistics can be sensitive to mismatch of external LD and in-sample LD, which is generally not available for large meta-analysis, we performed SuSiE with L = 1, i.e., a maximum number of causal variants in a genomic region is 1, which ensured that the results were not dependent on LD.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="CNV">CNV<a class="anchor-link" href="#CNV">&#182;</a></h2><h3 id="Integrated-analysis-of-case-control-schizophrenia-CNV-data">Integrated analysis of case-control schizophrenia CNV data<a class="anchor-link" href="#Integrated-analysis-of-case-control-schizophrenia-CNV-data">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To address the challenges mentioned in Aim 2 above, we developed a new approach that exploits large-scale genome-wide CNV data in case-control studies to map susceptibility genes. It is inspired by statistical fine-mapping of causal variants in linkage-disequilibrium blocks from GWAS. Unlike existing approaches that directly test for association signals between CNV and disorders, our method seeks to identify true susceptibility genes in CNV events in a rigorous statistical framework. Genome-wide CNV events are first divided into disjoint CNV-gene genomic regions or blocks to ensure no CNV events span more than one block, i.e. no CNVs in common between different regions. For genes located in a certain block, we test for their associations with SCZ while accounting for correlations between genes induced by CNV in the same block. We accomplish this by 3 existing and 2 newly developed approaches as follows.</p>
+<p>First we use 3 existing methods as follows.</p>
+<p>1). Variational Bayesian variable selection (varbvs) [varbvs]: a Bayesian variable selection methods for the analysis of large-scale data sets built on Bayesian models for variable selection in regression and variational approximation techniques.</p>
+<p>2). Sum of Single Effect (SuSiE): a recently developed Bayesian variable selection method, which select a small number of putative risk genes among multiple correlated genes that best explain the data. SuSiE estimates posterior inclusion probabilities (PIPs) of all putative risk genes as well as 95% credible sets (i.e. the set of genes that cover all risk genes with high probability).</p>
+<p>3). Fisher's p-value:</p>
+<p>Then we compare the results with 2 newly developed approaches as follows.</p>
+<p>1). Markov Chain Monte Carlo (MCMC): We use Monte Carlo strategy to sample from the posterior distribution.</p>
+<p>2). Two-step hybrid framework: single effect logistic model and</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Model">Model<a class="anchor-link" href="#Model">&#182;</a></h3><p>To infer CNV configuration B(Z) from case-control data, we leverage the statistical machinery of Bayesian regression. Specifically, let βj be the effect size of the j-th gene. We assume a spike-andslab prior for βj and logistic regression model for the phenotype:</p>
+$$\beta_{j} = (1 - \pi_{j})\delta_0 + \pi_{j}N(\mu,\sigma^2) (1)$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Simulation-study-design">Simulation study design<a class="anchor-link" href="#Simulation-study-design">&#182;</a></h3><p>We first use simulations to assess our methods. Since the simulated locations of CNVs need to match the sizes and frequencies of CNVs in real data, we start by partitioning real data of CNV events and genes from SCZ case-control study into CNV-gene genomic regions that harbor at least a pre-selected number of genes, for example, 30, in a region (figure or table). Next we generate a large number of simulated samples in parallel then concatenate them into whole genome X matrix. Subsequently, we sample risk genes by simulating effect size for each gene and sort simulated samples into cases and controls by logistic model. Finally, we partition the X matrix into "natural CNV-gene block" for gene-level fine-mapping and method evaluation. The detailed simulation process is as follows:</p>
+<ul>
+<li>Step 1: Partition real data of CNV-gene into genomic regions to ensure each CNV-gene block contains at least 30 genes. The criteria for boundary gene of a particular region is that it must not overlap with any CNV events for all individuals. If the 30th gene overlaps with any CNV event for at least one individual, we check the next gene and see if it satisfies the criteria, till the nearest one does.</li>
+<li>Step 2: Simulate samples (X matrix) for deletion: sample each block from non-repetitive individuals and merge them together as a simulated individual. Repeat this process for $100,000$ times to collect $100,000$ individuals before simulating phenotype.</li>
+<li>Step 3: Simulate phenotype (y matrix): set prevalence as $0.05$, prevalence (p) $\approx \frac{e^{\beta_0}}{1-e^{\beta_0}}$, so $\beta_0 \approx \log \frac{p}{1-p}$. Odds ratio (OR) follows $e^{Normal(\mu,\sigma)}$ or Gamma distribution, and $\beta_j = \text{log(OR)} \sim Normal(\mu,\sigma)$, then use Bernoulli ($\pi$) to decrease $95$% of $\beta_j$'s to 0. </li>
+<li>Step 4: Simulate y: $\text{logit}(y_i)=X_i\boldsymbol{\beta}+\beta_0$, $y_i=\frac{e^{x\boldsymbol{\beta}+\beta_0}}{1+e^{x\boldsymbol{\beta}+\beta_0}}$ ($0&lt;y_i&lt;1$). Larger $y_i$ indicates higher probability that it will be assigned as case. Then use Bernoulli ($y_i$) (will obtain 0 or 1) to classify $y_i$ to either case (1) or control (0). Then select all 1's (about $5\%$) as cases and randomly select equal number of 0's as controls.</li>
+<li>Step 5: Partition the X matrix into "natural CNV-gene block" by the criteria in Step 1 without setting minimum number of genes in a block.</li>
+</ul>
+<p>We usually use 20 or 30 as the pre-selected minimum number of genes per genomic regions based on empirical experiences. Since it does not make obvious difference between 20 and 30, we choose 30 considering computational effort.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Simulation-parameters">Simulation parameters<a class="anchor-link" href="#Simulation-parameters">&#182;</a></h3><ol>
+<li>$\beta_j$ ~ Normal ($1.4,0.6$). $0.77\ (\mu)$ and $0.84\ (\sigma)$ are calculated by <code>varbvs</code> over the whole genome.</li>
+<li>penetrance = $0.05$</li>
+<li>$\pi = 0.043$</li>
+<li>Simulated sample size: $200,000$</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Justification-of-simulation-parameters">Justification of simulation parameters<a class="anchor-link" href="#Justification-of-simulation-parameters">&#182;</a></h3><p>CNV 99% deleterious, 98.5% OR &lt; 15, mean(OR) $\approx$ 4</p>
+<p>The lower value $\log\frac{0.05}{0.95} = -2.94$</p>
+<p>The highest value $\log\frac{\text{# of cases}}{\text{# of controls}} = 0$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-sos"><pre><span></span><span class="mi">1</span> <span class="o">-</span> <span class="n">pnorm</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="mi">15</span><span class="p">),</span> <span class="mf">1.4</span><span class="p">,</span><span class="mf">0.6</span><span class="p">)</span> 
+<span class="n">pnorm</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span><span class="mf">0.6</span><span class="p">)</span> 
+<span class="n">exp</span><span class="p">(</span><span class="mf">1.4</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.01462563006054
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+0.00981532862864534
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+4.05519996684467
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The data we have</p>
+<p>merge deletion and duplication</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h3><p>sparse regression</p>
+<p>important analytic challenges</p>
+<p>In all these cases, the results are candidate CNVs or regions, not genes.</p>
+<p>Figure 1,2,3</p>
+
 </div>
 </div>
 </div>
@@ -356,7 +524,7 @@ $$\beta_{j} = (1 - \pi_{j})\delta_0 + \pi_{j}g(\cdot) (1)$$$$\log\big[\frac{\pi_
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-sos"><pre><span></span>
+<div class=" highlight hl-sos"><pre><span></span><span class="n">An</span> <span class="n">software</span> <span class="n">toolkit</span> <span class="k">for</span> <span class="n">the</span> <span class="n">analysis</span> <span class="n">of</span> <span class="n">large</span><span class="o">-</span><span class="n">scale</span> <span class="n">data</span> <span class="n">sets</span> <span class="n">using</span> <span class="n">Bayesian</span> <span class="n">variable</span> <span class="n">selection</span> <span class="n">methodsBuilds</span> <span class="n">on</span> <span class="n">Bayesian</span> <span class="n">models</span> <span class="k">for</span> <span class="n">variable</span> <span class="n">selection</span> <span class="ow">in</span> <span class="n">regression</span> <span class="ow">and</span> <span class="n">variational</span> <span class="n">approximation</span> <span class="n">techniques</span><span class="o">.</span>
 </pre></div>
 
     </div>
@@ -366,7 +534,7 @@ $$\beta_{j} = (1 - \pi_{j})\delta_0 + \pi_{j}g(\cdot) (1)$$$$\log\big[\frac{\pi_
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/ac8651d76301bdd859c9174b13902bb54c663d0f/workflow/20200518_Manuscripts_Methods.ipynb"><code>workflow/20200518_Manuscripts_Methods.ipynb</code></a> committed by minqiao on Wed Jun 24 14:37:21 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/ac8651d76301bdd859c9174b13902bb54c663d0f">revision 5, ac8651d</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/345d6d20740960ff008d470162dca36910d6b8ab/workflow/20200518_Manuscripts_Methods.ipynb"><code>workflow/20200518_Manuscripts_Methods.ipynb</code></a> committed by minqiao on Wed Jul 8 15:22:52 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/345d6d20740960ff008d470162dca36910d6b8ab">revision 6, 345d6d2</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

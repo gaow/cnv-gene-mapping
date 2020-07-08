@@ -341,7 +341,7 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We expanded similar enrichment analysis to 12 other complex diseases and traits (Fig. 2 A-L). As a result, we observed enrichment of GWAS variants for bipolar disorder (BP), educational attainment, height, intelligence, and neuroticism in ASoC SNPs — both iN-Glut and NPC (Fig. 2 EFGIJK). Enrichment in iN-Glut SNPs was also observed for Alzheimer’s disease (AD) and major depressive disorder (MDD) GWAS variants (Fig. 2 BJ). There were no enrichment of GWAS variants for attention deficit hyperactivity disorder (ADHD), autism spectrum disorder (ASD), body mass index (BMI), inflammatory bowel disease (IBD) and Parkinson's disease in neither iN-Glut or NPC ASoC SNPs (Fig. 2 ACDHL).</p>
+<p>By expanding single annotation enrichment analysis to 9 other brain disorders and traits (Fig. 2 A-L), we observed enrichment of GWAS variants of BP, educational attainment, height, intelligence, and neuroticism in ASoC SNPs — both iN-Glut and NPC (Fig. 2 EFGIJK). Enrichment in iN-Glut SNPs was also observed for Alzheimer’s disease and MDD GWAS variants (Fig. 2 BJ). There were no enrichment of GWAS variants for ADHD, ASD, BMI, IBD and Parkinson's disease in neither iN-Glut or NPC ASoC SNPs (Fig. 2 ACDHL).</p>
 <p>To improve visuality and comparability, we made bubble heatmap plots (Fig. 3 and 4) with size and color attributes for 13 GWAS traits and 15 genomic annotations in Figures 1 and 2. The color of the bubbles indicated the magnitude of enrichment (log2 odds ratio), while the size of the bubbles indicated the significance level. By default, the bubble with darker color and larger size denotes the enrichment result of larger magnitude and higher significance level.</p>
 
 </div>
@@ -513,7 +513,7 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In order to compare the enrichment of neuropsychiatric risk variants versus non-neuropsychiatric variants in neuronal ASoC SNPs and OCRs, we subsequently performed enrichment analysis for 9 control disorders or traits — head circumference, low-density lipoproteins (LDL), high-density lipoproteins (HDL), type 2 diabetes (T2D), total cholesterol, Crohn's disease, lupus, asthma and ulcerative colitis. As expected, control disorders or traits showed little or no enrichment in ASoC SNPs and OCRs (Fig. 5). For instance, the dots for LDL and T2D are light and small, indicating inconsiderable enrichment magnitude, or even slightly negative enrichment, as well as weak statistical significance. These results suggest that risk variants in neuropsychiatric disorders are likely to be linked to neuronal ASoC SNPs and OCRs, and highlight the advantage to utilize ASoC SNPs and OCRs in prioritizing non-coding region risk variant studies.</p>
+<p>For control disorders and traits, it showed little or no enrichment in ASoC SNPs and OCRs as expected (Fig. 5). For instance, the dots for LDL and T2D are light and small, indicating inconsiderable enrichment magnitude, or even slightly negative enrichment, as well as weak statistical significance. These results suggest that risk variants in neuropsychiatric disorders are likely to be linked to neuronal ASoC SNPs and OCRs, and highlight the advantage to utilize ASoC SNPs and OCRs in prioritizing non-coding region risk variant studies.</p>
 
 </div>
 </div>
@@ -814,8 +814,7 @@ B. 2 ASoC SNPs, 5 OCRs as well as conserved, coding and promoter regions.</code>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We used SuSiE to conduct fine-mapping analysis in each of the 108 SCZ significant genome-wide loci by incorporating functional genomic features, making certain SNPs more likely to be functionally important. Each locus harbors tens to nearly two thousand GWAS SNPs. We compared fine-mapping results taking advantage of 3 different informative priors from multivariate enrichment analysis using 3 different joint functional genomic annotations — 1) uninformative priors, also called uniform priors, 2) informative priors from 8 joint commonly known genomic annotations in Figure 4, 3) informative priors from ASoC SNPs and OCRs. The differences are illustrated by 2 genomic loci, harboring ~80 and ~500 GWAS SNPs, respectively.</p>
-<p>The smaller locus locates on chromosome 8, spanning 21 kilobase pairs. Fine-mapping using uniform priors produced one credible set containing 32 SNPs, of which the largest PIP was ~0.30. Fine-mapping using commonly known genomic features gave similar results with uniform priors. While fine-mapping with ASoC SNPs and OCRs priors yielded one credible set of 23 SNPs, and the largest PIP was over 0.50, and the corresponding SNP was not the one with largest PIP using uniform priors (Fig. 8).</p>
+<p>Fine-mapping results incorporating differences informative or uninformative priors are illustrated by 2 SCZ genomic loci, harboring ~80 and ~500 GWAS SNPs, respectively. The smaller locus locates on chromosome 8, spanning 21 kilobase pairs. Fine-mapping using uniform priors produced one credible set containing 32 SNPs, of which the largest PIP was ~0.30. Fine-mapping using commonly known genomic features gave similar results with uniform priors. While fine-mapping with ASoC SNPs and OCRs priors yielded one credible set of 23 SNPs, and the largest PIP was over 0.50, and the corresponding SNP was not the one with largest PIP using uniform priors (Fig. 8).</p>
 
 </div>
 </div>
@@ -1510,7 +1509,29 @@ B. 2 ASoC SNPs, 5 OCRs as well as conserved, coding and promoter regions.</code>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>rs2027349 at the VPS45 locus showed the strongest ASoC in NPC4 20 (Table S20), exhibited a repressive effect on VPS45 in CROP-seq (p=0.008, permutation; Fig. 4B), and was the only local SNP with a high PIP (0.45, Fig. 4C). rs2027349 is within a TF-binding footprint, with the G allele predicted to disrupt the motif of EGR3/4 (Fig. 15), a TF involved in neurodevelopment and SCZ (24). rs2027349 was thus prioritized for CRISPR/Cas9 editing.</p>
+<p>Of the top 20 ASoC SNPs, rs2027349 (chr1:150,039,678, GRCh37/hg19. All genomic positions are based on hg19) showed the strongest ASoC in NPC (Table S1) and second strongest ASoC in Glut (Table S2). rs2027349 locates at the VPS45 gene (chr1:150,039,342-150,117,505) that potentially relevant to SCZ given its involvement in neurotransmitter release (1). We explored the SCZ-associated genetic locus (chr1:149,998,890-150,242,490) where VPS45 gene resides. rs2027349 is the only local SNP with a high PIP (0.477, Fig. 15), while PIPs for all the other SNPs are constrained to almost 0. rs2027349, reference and alternative alleles are A and G, locates in a transcription factor (TF)-binding footprint, with the G allele disrupts the EGR3 binding motif, a TF involved in neurodevelopment and SCZ (2). Therefore, rs2027349 is prioritized for CRISPR/Cas9 editing. Our collaborators implemented CRISPR/Cas9 editing for ASoC SNP rs2027349 at VPS45 gene, and identified it as a highly likely SCZ risk SNP that affects VPS45 expression.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ol>
+<li>I. Dulubova et al., How Tlg2p/syntaxin 16 'snares' Vps45. EMBO J 21, 3620-3631 (2002).</li>
+<li>K. K. Marballi, A. L. Gallitano, Immediate Early Genes Anchor a Biological Pathway of Proteins Required for Memory Formation, Long-Term Depression and Risk for Schizophrenia. Front Behav Neurosci 12, 23 (2018).</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Table S1 and S2. ASoC SNPs and non-ASoC heterozygous SNPs that overlap with SZ genome-wide significant SNPs and credible SNPs iN-NPC and iN-Glut.</p>
+<ul>
+<li>Table S20 and S19</li>
+</ul>
 
 </div>
 </div>
@@ -1584,7 +1605,7 @@ B. 2 ASoC SNPs, 5 OCRs as well as conserved, coding and promoter regions.</code>
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/0df82bd8c37212bf420cbe90870990a9ddaf432c/workflow/20200518_Manuscripts_Results.ipynb"><code>workflow/20200518_Manuscripts_Results.ipynb</code></a> committed by minqiao on Wed Jul 1 05:28:48 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/0df82bd8c37212bf420cbe90870990a9ddaf432c">revision 5, 0df82bd</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/345d6d20740960ff008d470162dca36910d6b8ab/workflow/20200518_Manuscripts_Results.ipynb"><code>workflow/20200518_Manuscripts_Results.ipynb</code></a> committed by minqiao on Wed Jul 8 15:22:52 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/345d6d20740960ff008d470162dca36910d6b8ab">revision 6, 345d6d2</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>

@@ -251,7 +251,9 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="varbvs:-A-Software-Toolkit-for-Fast-Variable-Selection-in-Genome-wide-Association-Studies-and-Other-Large-scale-Regression-Applications">varbvs: A Software Toolkit for Fast Variable Selection in Genome-wide Association Studies and Other Large-scale Regression Applications<a class="anchor-link" href="#varbvs:-A-Software-Toolkit-for-Fast-Variable-Selection-in-Genome-wide-Association-Studies-and-Other-Large-scale-Regression-Applications">&#182;</a></h1><p>Peter Carbonetto, Xiang Zhou, Matthew Stephens</p>
+<h1 id="Integrated-genome-wide-analysis-of-expression-quantitative-trait-loci-aids-interpretation-of-genomic-association-studies">Integrated genome-wide analysis of expression quantitative trait loci aids interpretation of genomic association studies<a class="anchor-link" href="#Integrated-genome-wide-analysis-of-expression-quantitative-trait-loci-aids-interpretation-of-genomic-association-studies">&#182;</a></h1><p>Roby Joehanes, Xiaoling Zhang, Tianxiao Huan, Chen Yao, Sai-xia Ying, Quang Tri Nguyen, Cumhur Yusuf Demirkale, Michael L. Feolo, Nataliya R. Sharopova, Anne Sturcke, Alejandro A. Schäffer, Nancy Heard-Costa, Han Chen, Po-ching Liu, Richard Wang, Kimberly A. Woodhouse, Kahraman Tanriverdi, Jane E. Freedman, Nalini Raghavachari, Josée Dupuis, Andrew D. Johnson, Christopher J. O’Donnell, Daniel Levy &amp; Peter J. Munson</p>
+<p>Genome Biology volume 18, Article number: 16 (2017)</p>
+<p>Online paper <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-1142-6#article-info">link</a></p>
 
 </div>
 </div>
@@ -259,69 +261,10 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Variational Bayesian variable selection (varbvs):</p>
-<ol>
-<li>A software toolkit for the analysis of large-scale data sets using Bayesian variable selection methods; </li>
-<li>Builds on Bayesian models for variable selection in regression and variational approximation techniques.</li>
-</ol>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h2><p>Bayesian variable selection (BVS) applications:</p>
-<ul>
-<li>mapping of complex disease and trait loci</li>
-<li>enrichment analysis</li>
-<li>estimate the proportion of variance in phenotypes explained by available genotypes</li>
-<li>fine-mapping</li>
-</ul>
-<p>BVS not widely used for GWAS, reasons include:</p>
-<ul>
-<li>difficult to use</li>
-<li>appropriate specification of priors</li>
-<li>efficient computation of posterior probabilities</li>
-</ul>
-<p>Aims in developing varbvs software:</p>
-<ul>
-<li>make BVS methods accessible to practitioners</li>
-<li>provide an alternative to commonly used toolkits for penalized sparse regression</li>
-</ul>
-<p>Advantages of BVS (over penalized sparse regression):</p>
-<ul>
-<li>computes the probabilities that each variable is included in the regression model - posterior inclusion probability (PIP)</li>
-<li>no cross-validation or false positive rates are required to determine significance levels</li>
-<li>allows for the possibility of model comparison through approximate computation of Bayes factors</li>
-</ul>
-<p>Limitations of BVS:</p>
-<ul>
-<li>computing exact posterior probabilities is intractable except in very small data sets</li>
-<li>the choice of priors requires considerable expertise in Bayesian data analysis</li>
-</ul>
-<p>varbvs remedies these two limitations above by:</p>
-<ol>
-<li>implement fast posterior computation using variational approximation techniques</li>
-<li>provide default priors that are suitable, and also allow for extensive prior customization</li>
-</ol>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Example-illustrating-features-of-varbvs">Example illustrating features of varbvs<a class="anchor-link" href="#Example-illustrating-features-of-varbvs">&#182;</a></h2><p>Introduce an exchangeable prior (spike-and-slab prior) on the coefficients</p>
-<ul>
-<li>The complexity of model is controlled by the prior, which is determined by two parameters:<ul>
-<li>$\pi$: the prior log-odds $\log_{10}(\frac{\pi}{1-\pi})$ that a variable is included in the regression model</li>
-<li>$\sigma_a^2$: the prior variance of the regression coefficients (sa).</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>compute results for different settings of logodds, and keep sa constant to simplify the example.</li>
+<h2 id="Background">Background<a class="anchor-link" href="#Background">&#182;</a></h2><ul>
+<li>The vast majority of the SNPs from GWAS reside in non-coding regions - most disease-associated SNPs do not directly influence protein structure or function.</li>
+<li>Identification of SNPs associated with gene expression levels, known as eQTLs, may improve understanding of the functional role of phenotype-associated SNPs in GWAS.</li>
+<li>Previous eQTL studies: the small sample sizes limited their statistical power.</li>
 </ul>
 
 </div>
@@ -330,44 +273,21 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Bayesian-variable-selection,-and-the-varbvs-R-interface">Bayesian variable selection, and the varbvs R interface<a class="anchor-link" href="#Bayesian-variable-selection,-and-the-varbvs-R-interface">&#182;</a></h2><h3 id="Regression-model">Regression model<a class="anchor-link" href="#Regression-model">&#182;</a></h3><p>When Y is continuous: assume a basic linear regression by setting <code>family = "gaussian"</code></p>
-<p>$Y=\sum^m_{i=1}Z_i\mu_i + \sum_{i=1}^pX_i\beta_i+\epsilon$, where $Z$ is covariates and $\epsilon \sim N(0,\sigma^2)$</p>
-<p>When Y is binary: an additive model for the log-odds of $Y = 1$ by setting <code>family = "binomial"</code></p>
-<p>$\log{\frac{\Pr(Y=1)}{\Pr(Y=0)}} = \sum_{i=1}^mZ_i\mu_i + \sum_{i=1}^p X_i\beta_i$</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Variable-selection-prior">Variable selection prior<a class="anchor-link" href="#Variable-selection-prior">&#182;</a></h3><ul>
-<li>Adopt "spike-and-slab" prior to frame the vriable selection problem<ul>
-<li>with probability π, coefficient $β_i$ is drawn from the "slab"</li>
-<li>slab distribution: normal density with zero mean and variance $σ^2σ_a^2$</li>
-<li>with probability 1 − π, $β_i$ equals zero, the "spike"</li>
-<li>small value of π encourage "sparse" regression models, indicates only a small proportion of variable in X help predict Y</li>
-</ul>
-</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Hyperparameters-in-varbvs-argument-settings">Hyperparameters in varbvs argument settings<a class="anchor-link" href="#Hyperparameters-in-varbvs-argument-settings">&#182;</a></h3><p>Hyperparameters:</p>
+<h2 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h2><h3 id="Study-participants">Study participants<a class="anchor-link" href="#Study-participants">&#182;</a></h3><p>Whole blood eQTL from over 5000 samples in Framingham Heart Study (FHS) cohorts</p>
 <ul>
-<li><code>sa</code>: the prior variance of the regression coefficients</li>
-<li><code>sigma</code>: the residual variance for linear regression</li>
-<li><code>logodds</code>: the prior log-odds of inclusion, $\log_{10}\{\frac{\pi}{1-\pi}\}$</li>
+<li>2770 individuals of eighth offspring cohort examination cycle (2005–2008)</li>
+<li>3341 indicudials of second examination cycle (2006–2009)</li>
 </ul>
-<p>varbvs can encode preferences of hyperparameters</p>
-<ul>
-<li>non-exchangeable prior $\boldsymbol{\pi}$: set input logodds to a matrix, the rows correspond to variables and the columns correspond to hyperparameter settings.</li>
-<li>fit one or more of the hyperparameters to the data: <code>update.sigma = TRUE</code> and/or <code>update.sa = TRUE</code> in varbvs arguments</li>
-<li>if <code>sigma</code> and/or <code>sa</code> are not provided, varbvs will use the default</li>
+<h3 id="Quality-control">Quality control<a class="anchor-link" href="#Quality-control">&#182;</a></h3><ul>
+<li>It is detected that polymorphism-in-probe effects were generally minor</li>
+</ul>
+<h3 id="eQTL-Discovery">eQTL Discovery<a class="anchor-link" href="#eQTL-Discovery">&#182;</a></h3><ul>
+<li>Use stepwise linear regression procedure to identify independent "lead-eQTLs" for each genetic region, and found over 19,000 independent, lead cis-eQTLs and almost 6,000 independent, lead trans-eQTLs</li>
+</ul>
+<h3 id="eQTL-Validation">eQTL Validation<a class="anchor-link" href="#eQTL-Validation">&#182;</a></h3><ul>
+<li>Internal: 75% cis and 41% trans-eQTL are validated.</li>
+<li>With previous studies: 50-70% previous cis-eQTL and 30-60% trans-eQTL are replicated</li>
+<li>The replication in the other way is low due to lower power in previous work and different sequencing platforms, etc; but still 90% of cases the directions are consistent.</li>
 </ul>
 
 </div>
@@ -376,14 +296,9 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Fast-posterior-computation">Fast posterior computation<a class="anchor-link" href="#Fast-posterior-computation">&#182;</a></h3><p>Computing posterior probabilities is often an intractable, high-dimensional integration problem</p>
-<ul>
-<li>sulution in varbvs: introduce a class of approximating distributions, then optimizing a criterion (the Kullback-Leibler divergence) to find the distribution within this class that best matches the posterior.</li>
-</ul>
-<p>The algorithm for fitting the variational approximation consists of an inner loop and an outer loop</p>
-<ul>
-<li>outer loop: iterates over the hyperparameter settings</li>
-<li>inner loop: cycles through co-ordinate ascent updates to tighten the lower bound on the marginal likelihood given a setting of the hyperparameters</li>
+<h3 id="Statistical-analysis">Statistical analysis<a class="anchor-link" href="#Statistical-analysis">&#182;</a></h3><ul>
+<li>Accounting for reported familial relationships, they removed the effects of sex, age, platelet count, white blood cell whole count, etc, from the expression data.</li>
+<li>To infer hidden confounding factors, they use a Bayesian framework on the residualized gene expression data.</li>
 </ul>
 
 </div>
@@ -392,7 +307,11 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Averaging-over-the-hyperparameter-settings">Averaging over the hyperparameter settings<a class="anchor-link" href="#Averaging-over-the-hyperparameter-settings">&#182;</a></h3><p>Since different settings are allowed for hyperparameters, they also implement the Bayesian model averaging strategy, in which averaging over settings of the hyperparameters, weighted by the posterior probability of each setting.</p>
+<h3 id="Enrichment-P-value-calculation">Enrichment P value calculation<a class="anchor-link" href="#Enrichment-P-value-calculation">&#182;</a></h3><ul>
+<li>Enrichment: observed number divided by expected number, accounting for the LD structure of the available 8.5 million SNPs.</li>
+<li>Expected numbers were obtained from the relevant 2 × 2 contingency tables.</li>
+<li>The LD was computed between pairwise SNPs within the FHS dataset. </li>
+</ul>
 
 </div>
 </div>
@@ -400,13 +319,11 @@ body {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="varbvs-function">varbvs function<a class="anchor-link" href="#varbvs-function">&#182;</a></h3>
-<pre><code>varbvs(X, Z, y, family,                              # Data.
-sigma, sa, logodds,                                  # Hyperparameters.
-alpha, mu, eta,                                      # Variational parameters.
-update.sigma, update.sa, optimize.eta,               # Optimization and model
-initialize.params, nr, sa0, n0, tol, maxiter,        # fitting settings.
-verbose)                                             # Other settings.</code></pre>
+<h3 id="cis-eQTL,-trans-eQTL,-primary-lead-eQTL-definition">cis-eQTL, trans-eQTL, primary lead eQTL definition<a class="anchor-link" href="#cis-eQTL,-trans-eQTL,-primary-lead-eQTL-definition">&#182;</a></h3><ul>
+<li>cis: An SNP-transcript cluster pair is considered cis if the SNP resides within 1 Mb of the TSS on the same chromosome</li>
+<li>trans: eQTLs that fall in blocks which did not contain the TSS for its target transcript cluster</li>
+<li>primary lead eQTL:  the strongest eQTL, judged by P value for association, in its block</li>
+</ul>
 
 </div>
 </div>
@@ -414,28 +331,10 @@ verbose)                                             # Other settings.</code></p
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Example:-mapping-Crohn&#8217;s-disease-risk-loc">Example: mapping Crohn&#8217;s disease risk loc<a class="anchor-link" href="#Example:-mapping-Crohn&#8217;s-disease-risk-loc">&#182;</a></h2><p>Large data set:</p>
-<ul>
-<li>4,686 samples: 1,748 Crohn’s disease cases and 2,938 controls</li>
-<li>442,001 SNPs</li>
-<li>binary outcome</li>
+<h2 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h2><h3 id="eQTL-discoveries">eQTL discoveries<a class="anchor-link" href="#eQTL-discoveries">&#182;</a></h3><ul>
+<li>over 19,000 independent lead cis-eQTLs and over 6000 independent lead trans-eQTLs, with a false discovery rate (FDR) &lt; 5%.</li>
+<li>48% are identified to be significant eQTLs</li>
 </ul>
-<p>varbvs results:</p>
-<ul>
-<li>the fitted regression model is very sparse: only 8 out of the 442,001 candidate variables are included in the model with probability 0.5 or greater</li>
-<li>Top 9 variables by inclusion probability:</li>
-</ul>
-
-<pre><code>  index variable   prob  PVE coef* Pr(coef.&gt;0.95)
-1 71850 rs10210302 1.000 NA -0.313 [-0.397,-0.236]
-2 10067 rs11805303 1.000 NA 0.291 [+0.207,+0.377]
-3 140044 rs17234657 1.000 NA 0.370 [+0.255,+0.484]
-4 381590 rs17221417 1.000 NA 0.279 [+0.192,+0.371]
-5 402183 rs2542151 0.992 NA 0.290 [+0.186,+0.392]
-6 271787 rs10995271 0.987 NA 0.236 [+0.151,+0.323]
-7 278438 rs7095491 0.969 NA 0.222 [+0.141,+0.303]
-8 168677 rs9469220 0.586 NA -0.194 [-0.269,-0.118]
-9 22989 rs12035082 0.485 NA 0.195 [+0.111,+0.277]</code></pre>
 
 </div>
 </div>
@@ -443,16 +342,64 @@ verbose)                                             # Other settings.</code></p
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Summary-and-discussion">Summary and discussion<a class="anchor-link" href="#Summary-and-discussion">&#182;</a></h2><p>Benefits of BVS</p>
-<ul>
-<li>account for uncertainty in hyperparameter</li>
-<li>fast computation if all coefficients are conditionally independent</li>
+<h3 id="Enrichment-of-lead-eQTL-to-gene-structure">Enrichment of lead eQTL to gene structure<a class="anchor-link" href="#Enrichment-of-lead-eQTL-to-gene-structure">&#182;</a></h3><ul>
+<li>Lead eQTLs are highly enriched in exonic locations (25-fold) within the transcribed region, more so than for intronic locations (12-fold)</li>
+<li>Lead eQTLs are highly enriched in first exons and 5’ UTRs, especially, of transcribed regions (45 fold).</li>
+<li>Other exons, the 3’-UTR, the first intron and subsequent introns showed less degrees of enrichment (21-fold, 20-fold, 11-fold, and 8-fold)</li>
+<li>cis-eQTLs act preferentially through regulatory elements within the first exon, within the 5’-UTR or near the transcription start site (TSS).</li>
 </ul>
-<p>Disadvantages</p>
-<ul>
-<li>require careful selection of an additional set of priors for the hyperparameters</li>
-<li>does not offer complete flexibility: does not include other types of prior, such as g-prior</li>
-<li>when variables are completely correlated, each of them are expected to have equal PIP, but varbvs may get this wrong by calculating PIP equal to 1 for only one variable while the other equal to 0.</li>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Enrichment-of-lead-eQTLs-at-regulator-sites">Enrichment of lead eQTLs at regulator sites<a class="anchor-link" href="#Enrichment-of-lead-eQTLs-at-regulator-sites">&#182;</a></h3><ul>
+<li>Regulator sites include DNAase hypersensitivity, transcription factor binding sites, and biochemically characterized regulatory promoter regions</li>
+<li>It showed strong enrichment of regulatory evidence for primary and secondary lead cis-eQTLs (7-fold, P &lt; 1E-89).</li>
+<li>The primary lead cis-eQTLs alone showed a stronger enrichment (8-fold, P &lt; 1E-69).</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Clusters-of-trans-eQTL">Clusters of trans-eQTL<a class="anchor-link" href="#Clusters-of-trans-eQTL">&#182;</a></h3><ul>
+<li>Some trans-eQTLs are associated with multiple distant transcripts and can be grouped into compact genomic blocks or clusters.</li>
+<li>At gene level, we identified 59 distinct clusters of trans-eQTLs, each targeting a set of 6 to 141 distant transcripts.</li>
+<li>The most prominent trans-eQTL clusters are on chromosomes 3 and 17, and are associated with expression of plateletspecific genes.</li>
+<li>They found 13 platelet-related GWAS clusters, many of which also had target gene sets enriched with platelet specific genes.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="GWAS-analysis">GWAS analysis<a class="anchor-link" href="#GWAS-analysis">&#182;</a></h3><ul>
+<li>Among the 58 GWAS SNPs for  coronary artery disease or myocardial infarction (CAD/MI), 21 loci or 36% are lead cis-eQTL.</li>
+<li>The strongest eQTL (P &lt; 1E-455), rs1412445, is in the 3rd intron of LIPA transcript variant 1 and was a cis-eQTL for LIPA expression.</li>
+<li>We also identified potentially novel, strong cis-eQTLs at UBE2Z locus and SH2B3 locus, where the CAD/MI GWAS risk SNP was in very strong LD with our lead eQTL.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2><h3 id="Advantages">Advantages<a class="anchor-link" href="#Advantages">&#182;</a></h3><ul>
+<li>The study has large sample size, providing obvious benefits in terms of greater statistical power for discovery.</li>
+<li>Expression measurement was carried out in a single laboratory with rigorous quality control.</li>
+<li>The results provide an extensive resource of cis-eQTLs and trans-eQTLs at the gene and exon level, and this information may be useful for elucidating the biological underpinnings of many GWAS SNPs.</li>
+</ul>
+<h3 id="Limitations">Limitations<a class="anchor-link" href="#Limitations">&#182;</a></h3><ul>
+<li>The homogeneity of the FHS population may limit the applicability of their results to populations of different ancestries.</li>
+<li>Lack of population diversity might also increase the size of LD blocks and thereby limit the resolution.</li>
 </ul>
 
 </div>
@@ -473,7 +420,7 @@ verbose)                                             # Other settings.</code></p
 </div>
 <hr>
 &copy 2016-2017 Min Qiao at <a href="http://xinhelab.org">Xin He lab</a>, The University of Chicago
-<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/345d6d20740960ff008d470162dca36910d6b8ab/analysis/20200629_varbvs.ipynb"><code>analysis/20200629_varbvs.ipynb</code></a> committed by minqiao on Wed Jul 8 15:22:52 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/345d6d20740960ff008d470162dca36910d6b8ab">revision 2, 345d6d2</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
+<p><small>Exported from <a href="http://github.com/gaow/cnv-gene-mapping/blob/345d6d20740960ff008d470162dca36910d6b8ab/analysis/20200702_eQTL_association.ipynb"><code>analysis/20200702_eQTL_association.ipynb</code></a> committed by minqiao on Wed Jul 8 15:22:52 2020 <a href="http://github.com/gaow/cnv-gene-mapping/commit/345d6d20740960ff008d470162dca36910d6b8ab">revision 1, 345d6d2</a> <a href="https://stephenslab.github.io/ipynb-website/notes.html#Note-about-commit-ids"><span class="fa fa-question-circle"></span></a></small></p>
 </div>
 </div>
 </body>
